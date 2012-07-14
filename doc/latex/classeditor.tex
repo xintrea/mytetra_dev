@@ -1,0 +1,491 @@
+\section{editor Class Reference}
+\label{classeditor}\index{editor@{editor}}
+{\tt \#include $<$editor.h$>$}
+
+Inheritance diagram for editor:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=106pt]{classeditor__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+{\bf editor} (int mode, QWidget $\ast$parent=0)
+\item 
+{\bf $\sim$editor} (void)
+\item 
+void {\bf set\_\-textarea} (QString text)
+\item 
+void {\bf set\_\-textarea\_\-editable} (bool editable)
+\item 
+QString {\bf get\_\-textarea} (void)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+QTool\-Button $\ast$ {\bf bold}
+\item 
+QTool\-Button $\ast$ {\bf italic}
+\item 
+QTool\-Button $\ast$ {\bf underline}
+\item 
+QTool\-Button $\ast$ {\bf numericlist}
+\item 
+QTool\-Button $\ast$ {\bf dotlist}
+\item 
+QTool\-Button $\ast$ {\bf indentplus}
+\item 
+QTool\-Button $\ast$ {\bf indentminus}
+\item 
+QFont\-Combo\-Box $\ast$ {\bf fontselect}
+\item 
+QSpin\-Box $\ast$ {\bf fontsize}
+\item 
+QTool\-Button $\ast$ {\bf showhtml}
+\item 
+QLabel $\ast$ {\bf infoarea}
+\item 
+QText\-Edit $\ast$ {\bf textarea}
+\item 
+QHBox\-Layout $\ast$ {\bf textformat\_\-buttons\_\-layout}
+\item 
+QVBox\-Layout $\ast$ {\bf buttons\_\-and\_\-edit\_\-layout}
+\end{CompactItemize}
+\subsection*{Private Slots}
+\begin{CompactItemize}
+\item 
+void {\bf on\_\-bold\_\-clicked} (void)
+\item 
+void {\bf on\_\-italic\_\-clicked} (void)
+\item 
+void {\bf on\_\-underline\_\-clicked} (void)
+\item 
+void {\bf on\_\-numericlist\_\-clicked} (void)
+\item 
+void {\bf on\_\-dotlist\_\-clicked} (void)
+\item 
+void {\bf on\_\-indentplus\_\-clicked} (void)
+\item 
+void {\bf on\_\-indentminus\_\-clicked} (void)
+\item 
+void {\bf on\_\-showhtml\_\-clicked} (void)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf setup\_\-signals} (void)
+\item 
+void {\bf setup\_\-buttons} (void)
+\item 
+void {\bf setup\_\-editor\_\-area} (void)
+\item 
+void {\bf assembly\_\-buttons} (void)
+\item 
+void {\bf assembly} (void)
+\item 
+void {\bf format\_\-to\_\-list} (QText\-List\-Format::Style setformat)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 16 of file editor.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\index{editor@{editor}!editor@{editor}}
+\index{editor@{editor}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}editor::editor (int {\em mode}, QWidget $\ast$ {\em parent} = {\tt 0})}\label{classeditor_03b21bef6caff60e20b8fe753b7625a9}
+
+
+
+
+Definition at line 11 of file editor.cpp.
+
+References assembly(), assembly\_\-buttons(), ENABLE\_\-ASSEMBLY, setup\_\-buttons(), setup\_\-editor\_\-area(), and setup\_\-signals().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{classeditor_03b21bef6caff60e20b8fe753b7625a9_cgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!~editor@{$\sim$editor}}
+\index{~editor@{$\sim$editor}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}editor::$\sim$editor (void)}\label{classeditor_79ad38324605307813b62f8db6aa3c1e}
+
+
+
+
+Definition at line 25 of file editor.cpp.
+
+\subsection{Member Function Documentation}
+\index{editor@{editor}!set_textarea@{set\_\-textarea}}
+\index{set_textarea@{set\_\-textarea}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::set\_\-textarea (QString {\em text})}\label{classeditor_f106cccf403b250d3356757f8c2e00b3}
+
+
+
+
+Definition at line 187 of file editor.cpp.
+
+References textarea.
+
+Referenced by metaeditor::clear\_\-all(), and recordtablescreen::select().\index{editor@{editor}!set_textarea_editable@{set\_\-textarea\_\-editable}}
+\index{set_textarea_editable@{set\_\-textarea\_\-editable}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::set\_\-textarea\_\-editable (bool {\em editable})}\label{classeditor_5f319c5f3e4c72967401e1f2bc68e416}
+
+
+
+
+Definition at line 194 of file editor.cpp.
+
+References textarea.\index{editor@{editor}!get_textarea@{get\_\-textarea}}
+\index{get_textarea@{get\_\-textarea}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QString editor::get\_\-textarea (void)}\label{classeditor_70e34d0e46bb865b58303fe86e6bfea6}
+
+
+
+
+Definition at line 222 of file editor.cpp.
+
+References textarea.
+
+Referenced by addnewrecord::get\_\-field().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{classeditor_70e34d0e46bb865b58303fe86e6bfea6_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!on_bold_clicked@{on\_\-bold\_\-clicked}}
+\index{on_bold_clicked@{on\_\-bold\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-bold\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_4051836a755e85274e7bbf9899ae9623}
+
+
+
+
+Definition at line 232 of file editor.cpp.
+
+References textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_italic_clicked@{on\_\-italic\_\-clicked}}
+\index{on_italic_clicked@{on\_\-italic\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-italic\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_f755873ab14fc7493a40ac25f71bd1ff}
+
+
+
+
+Definition at line 241 of file editor.cpp.
+
+References textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_underline_clicked@{on\_\-underline\_\-clicked}}
+\index{on_underline_clicked@{on\_\-underline\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-underline\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_91aac348722136b605a5811b759786be}
+
+
+
+
+Definition at line 250 of file editor.cpp.
+
+References textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_numericlist_clicked@{on\_\-numericlist\_\-clicked}}
+\index{on_numericlist_clicked@{on\_\-numericlist\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-numericlist\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_d380e96950128ea7c6f23dc527be9baa}
+
+
+
+
+Definition at line 282 of file editor.cpp.
+
+References format\_\-to\_\-list().
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_dotlist_clicked@{on\_\-dotlist\_\-clicked}}
+\index{on_dotlist_clicked@{on\_\-dotlist\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-dotlist\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_3227cb19825b4ba137bd9af1029d859f}
+
+
+
+
+Definition at line 289 of file editor.cpp.
+
+References format\_\-to\_\-list().
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_indentplus_clicked@{on\_\-indentplus\_\-clicked}}
+\index{on_indentplus_clicked@{on\_\-indentplus\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-indentplus\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_e6c6ddf82cb30dd9ab8dee71ffc6e8c7}
+
+
+
+
+Definition at line 296 of file editor.cpp.
+
+References textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_indentminus_clicked@{on\_\-indentminus\_\-clicked}}
+\index{on_indentminus_clicked@{on\_\-indentminus\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-indentminus\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_352da706a98d5d7534c6ed588a7b93f8}
+
+
+
+
+Definition at line 313 of file editor.cpp.
+
+References textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!on_showhtml_clicked@{on\_\-showhtml\_\-clicked}}
+\index{on_showhtml_clicked@{on\_\-showhtml\_\-clicked}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::on\_\-showhtml\_\-clicked (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classeditor_767295f5130a950cdc31aa98745edcf3}
+
+
+
+
+Definition at line 333 of file editor.cpp.
+
+References info\_\-window(), and textarea.
+
+Referenced by setup\_\-signals().\index{editor@{editor}!setup_signals@{setup\_\-signals}}
+\index{setup_signals@{setup\_\-signals}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::setup\_\-signals (void)\hspace{0.3cm}{\tt  [private]}}\label{classeditor_edcd49dcab7abf1cef20b89e5a3442b5}
+
+
+
+
+Definition at line 32 of file editor.cpp.
+
+References bold, dotlist, indentminus, indentplus, italic, numericlist, on\_\-bold\_\-clicked(), on\_\-dotlist\_\-clicked(), on\_\-indentminus\_\-clicked(), on\_\-indentplus\_\-clicked(), on\_\-italic\_\-clicked(), on\_\-numericlist\_\-clicked(), on\_\-showhtml\_\-clicked(), on\_\-underline\_\-clicked(), showhtml, and underline.
+
+Referenced by editor().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=143pt]{classeditor_edcd49dcab7abf1cef20b89e5a3442b5_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!setup_buttons@{setup\_\-buttons}}
+\index{setup_buttons@{setup\_\-buttons}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::setup\_\-buttons (void)\hspace{0.3cm}{\tt  [private]}}\label{classeditor_f03caf9e95f6e6472095a90f1d287f00}
+
+
+
+
+Definition at line 46 of file editor.cpp.
+
+References bold, dotlist, fontselect, fontsize, indentminus, indentplus, italic, numericlist, showhtml, and underline.
+
+Referenced by editor().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{classeditor_f03caf9e95f6e6472095a90f1d287f00_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!setup_editor_area@{setup\_\-editor\_\-area}}
+\index{setup_editor_area@{setup\_\-editor\_\-area}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::setup\_\-editor\_\-area (void)\hspace{0.3cm}{\tt  [private]}}\label{classeditor_f271b46f48848e7f103aa14a98101cd8}
+
+
+
+
+Definition at line 134 of file editor.cpp.
+
+References textarea.
+
+Referenced by editor().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{classeditor_f271b46f48848e7f103aa14a98101cd8_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!assembly_buttons@{assembly\_\-buttons}}
+\index{assembly_buttons@{assembly\_\-buttons}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::assembly\_\-buttons (void)\hspace{0.3cm}{\tt  [private]}}\label{classeditor_7081d0026bcf72ba5529fb2d29639310}
+
+
+
+
+Definition at line 143 of file editor.cpp.
+
+References bold, dotlist, fontselect, fontsize, indentminus, indentplus, italic, numericlist, showhtml, textformat\_\-buttons\_\-layout, and underline.
+
+Referenced by editor().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=155pt]{classeditor_7081d0026bcf72ba5529fb2d29639310_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!assembly@{assembly}}
+\index{assembly@{assembly}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::assembly (void)\hspace{0.3cm}{\tt  [private]}}\label{classeditor_a6f6ba120332d49db5f73006c8fe0d67}
+
+
+
+
+Definition at line 163 of file editor.cpp.
+
+References buttons\_\-and\_\-edit\_\-layout, textarea, and textformat\_\-buttons\_\-layout.
+
+Referenced by editor().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=133pt]{classeditor_a6f6ba120332d49db5f73006c8fe0d67_icgraph}
+\end{center}
+\end{figure}
+\index{editor@{editor}!format_to_list@{format\_\-to\_\-list}}
+\index{format_to_list@{format\_\-to\_\-list}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void editor::format\_\-to\_\-list (QText\-List\-Format::Style {\em setformat})\hspace{0.3cm}{\tt  [private]}}\label{classeditor_b520554f03b1f30053a221a9a4e7a543}
+
+
+
+
+Definition at line 258 of file editor.cpp.
+
+References textarea.
+
+Referenced by on\_\-dotlist\_\-clicked(), and on\_\-numericlist\_\-clicked().
+
+\subsection{Member Data Documentation}
+\index{editor@{editor}!bold@{bold}}
+\index{bold@{bold}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::bold}}\label{classeditor_58d14c003be79c0536f89dd79489c688}
+
+
+
+
+Definition at line 25 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!italic@{italic}}
+\index{italic@{italic}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::italic}}\label{classeditor_0202c2b3b324f636b746e90a073bbc77}
+
+
+
+
+Definition at line 26 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!underline@{underline}}
+\index{underline@{underline}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::underline}}\label{classeditor_8be5b2324c4165e42da1979d0dbed35a}
+
+
+
+
+Definition at line 27 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!numericlist@{numericlist}}
+\index{numericlist@{numericlist}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::numericlist}}\label{classeditor_0e36743d04041b7ee6143b9fae871be0}
+
+
+
+
+Definition at line 28 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!dotlist@{dotlist}}
+\index{dotlist@{dotlist}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::dotlist}}\label{classeditor_85198ec3010adef3456a436469c4fe68}
+
+
+
+
+Definition at line 29 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!indentplus@{indentplus}}
+\index{indentplus@{indentplus}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::indentplus}}\label{classeditor_c29b42abeb9d03b1b301fce862455d43}
+
+
+
+
+Definition at line 30 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!indentminus@{indentminus}}
+\index{indentminus@{indentminus}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::indentminus}}\label{classeditor_4c1e7061b3b7c9b164a5d0274a7bf213}
+
+
+
+
+Definition at line 31 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!fontselect@{fontselect}}
+\index{fontselect@{fontselect}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QFont\-Combo\-Box$\ast$ {\bf editor::fontselect}}\label{classeditor_0ba3d8ff00e569fa4facdf27df93448d}
+
+
+
+
+Definition at line 32 of file editor.h.
+
+Referenced by assembly\_\-buttons(), and setup\_\-buttons().\index{editor@{editor}!fontsize@{fontsize}}
+\index{fontsize@{fontsize}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QSpin\-Box$\ast$ {\bf editor::fontsize}}\label{classeditor_069a22f3f70c9663478d7d3c70ea990b}
+
+
+
+
+Definition at line 33 of file editor.h.
+
+Referenced by assembly\_\-buttons(), and setup\_\-buttons().\index{editor@{editor}!showhtml@{showhtml}}
+\index{showhtml@{showhtml}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Button$\ast$ {\bf editor::showhtml}}\label{classeditor_8a785c3a546016d6e2ce87f1ea4a606a}
+
+
+
+
+Definition at line 34 of file editor.h.
+
+Referenced by assembly\_\-buttons(), setup\_\-buttons(), and setup\_\-signals().\index{editor@{editor}!infoarea@{infoarea}}
+\index{infoarea@{infoarea}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QLabel$\ast$ {\bf editor::infoarea}}\label{classeditor_fe9011c96ac0dcaad15f477fdd5313c2}
+
+
+
+
+Definition at line 35 of file editor.h.\index{editor@{editor}!textarea@{textarea}}
+\index{textarea@{textarea}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QText\-Edit$\ast$ {\bf editor::textarea}}\label{classeditor_13ad1d8df79f15c932df792f02cd3506}
+
+
+
+
+Definition at line 38 of file editor.h.
+
+Referenced by assembly(), mainwindow::file\-Print(), mainwindow::file\-Print\-Pdf(), mainwindow::file\-Print\-Preview(), format\_\-to\_\-list(), get\_\-textarea(), metaeditor::meta\_\-assembly(), on\_\-bold\_\-clicked(), on\_\-indentminus\_\-clicked(), on\_\-indentplus\_\-clicked(), on\_\-italic\_\-clicked(), on\_\-showhtml\_\-clicked(), on\_\-underline\_\-clicked(), mainwindow::save\_\-current\_\-record\_\-text(), set\_\-textarea(), set\_\-textarea\_\-editable(), and setup\_\-editor\_\-area().\index{editor@{editor}!textformat_buttons_layout@{textformat\_\-buttons\_\-layout}}
+\index{textformat_buttons_layout@{textformat\_\-buttons\_\-layout}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QHBox\-Layout$\ast$ {\bf editor::textformat\_\-buttons\_\-layout}}\label{classeditor_1fce99ff90b16ab5ee4419d0f7891901}
+
+
+
+
+Definition at line 41 of file editor.h.
+
+Referenced by assembly(), assembly\_\-buttons(), and metaeditor::meta\_\-assembly().\index{editor@{editor}!buttons_and_edit_layout@{buttons\_\-and\_\-edit\_\-layout}}
+\index{buttons_and_edit_layout@{buttons\_\-and\_\-edit\_\-layout}!editor@{editor}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QVBox\-Layout$\ast$ {\bf editor::buttons\_\-and\_\-edit\_\-layout}}\label{classeditor_9cde454ac1e5e51f76f4833b15cc6b7b}
+
+
+
+
+Definition at line 44 of file editor.h.
+
+Referenced by assembly().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+{\bf editor.h}\item 
+{\bf editor.cpp}\end{CompactItemize}

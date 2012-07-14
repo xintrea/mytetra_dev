@@ -1,0 +1,856 @@
+\section{treescreen Class Reference}
+\label{classtreescreen}\index{treescreen@{treescreen}}
+{\tt \#include $<$treescreen.h$>$}
+
+Collaboration diagram for treescreen:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=121pt]{classtreescreen__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+{\bf treescreen} (QWidget $\ast$parent=0)
+\item 
+virtual {\bf $\sim$treescreen} ()
+\item 
+void {\bf save\_\-knowtree} (void)
+\item 
+void {\bf update\_\-selected\_\-branch} (void)
+\item 
+int {\bf get\_\-first\_\-selected\_\-item\_\-index} (void)
+\item 
+QModel\-Index {\bf get\_\-current\_\-item\_\-index} (void)
+\item 
+QItem\-Selection\-Model $\ast$ {\bf get\_\-selection\_\-model} (void)
+\item 
+void {\bf set\_\-cursor\_\-to\_\-index} (QModel\-Index index)
+\item 
+{\bf treescreen} (QWidget $\ast$parent=0)
+\item 
+virtual {\bf $\sim$treescreen} ()
+\item 
+void {\bf save\_\-knowtree} (void)
+\item 
+void {\bf update\_\-selected\_\-branch} (void)
+\item 
+QItem\-Selection\-Model $\ast$ {\bf get\_\-selection\_\-model} (void)
+\end{CompactItemize}
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+{\bf knowtreemodel} $\ast$ {\bf kntrmodel}
+\item 
+{\bf knowtreemodel} $\ast$ {\bf kntrmodel}
+\end{CompactItemize}
+\subsection*{Private Slots}
+\begin{CompactItemize}
+\item 
+void {\bf expand\_\-all\_\-subbranch} (void)
+\item 
+void {\bf collapse\_\-all\_\-subbranch} (void)
+\item 
+void {\bf expand\_\-or\_\-collapse\_\-recurse} (QModel\-Index index, bool mode)
+\item 
+void {\bf ins\_\-subbranch} (void)
+\item 
+void {\bf ins\_\-branch} (void)
+\item 
+void {\bf edit\_\-branch} (void)
+\item 
+void {\bf del\_\-branch} (void)
+\item 
+void {\bf move\_\-up\_\-branch} (void)
+\item 
+void {\bf move\_\-dn\_\-branch} (void)
+\item 
+void {\bf on\_\-knowtree\_\-clicked} (const QModel\-Index \&index)
+\item 
+void {\bf on\_\-custom\-Context\-Menu\-Requested} (const QPoint \&pos)
+\item 
+void {\bf expand\_\-all\_\-subbranch} (void)
+\item 
+void {\bf collapse\_\-all\_\-subbranch} (void)
+\item 
+void {\bf expand\_\-or\_\-collapse\_\-recurse} (QModel\-Index index, bool mode)
+\item 
+void {\bf ins\_\-subbranch} (void)
+\item 
+void {\bf ins\_\-branch} (void)
+\item 
+void {\bf edit\_\-branch} (void)
+\item 
+void {\bf del\_\-branch} (void)
+\item 
+void {\bf on\_\-knowtree\_\-clicked} (const QModel\-Index \&index)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf setup\_\-ui} (void)
+\item 
+void {\bf setup\_\-signals} (void)
+\item 
+void {\bf setup\_\-actions} (void)
+\item 
+void {\bf assembly} (void)
+\item 
+void {\bf init\_\-knowtree} (void)
+\item 
+void {\bf insert\_\-new\_\-branch} (void)
+\item 
+void {\bf move\_\-updn\_\-branch} (int direction)
+\item 
+bool {\bf move\_\-check\_\-enable} (void)
+\item 
+void {\bf setup\_\-ui} (void)
+\item 
+void {\bf setup\_\-signals} (void)
+\item 
+void {\bf setup\_\-actions} (void)
+\item 
+void {\bf assembly} (void)
+\item 
+void {\bf init\_\-knowtree} (void)
+\item 
+void {\bf insert\_\-new\_\-branch} (void)
+\item 
+int {\bf get\_\-first\_\-selected\_\-item\_\-index} (void)
+\item 
+QModel\-Index {\bf get\_\-current\_\-item\_\-index} (void)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+QTool\-Bar $\ast$ {\bf tools\_\-line}
+\item 
+QTree\-View $\ast$ {\bf knowtree}
+\item 
+QVBox\-Layout $\ast$ {\bf treescreen\_\-layout}
+\item 
+QAction $\ast$ {\bf action\_\-expand\_\-all\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-collapse\_\-all\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-ins\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-ins\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-edit\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-del\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-move\_\-up\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-move\_\-dn\_\-branch}
+\item 
+QTool\-Bar $\ast$ {\bf tools\_\-line}
+\item 
+QTree\-View $\ast$ {\bf knowtree}
+\item 
+QVBox\-Layout $\ast$ {\bf treescreen\_\-layout}
+\item 
+QAction $\ast$ {\bf action\_\-expand\_\-all\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-collapse\_\-all\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-ins\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-ins\_\-subbranch}
+\item 
+QAction $\ast$ {\bf action\_\-edit\_\-branch}
+\item 
+QAction $\ast$ {\bf action\_\-del\_\-branch}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 16 of file treescreen.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\index{treescreen@{treescreen}!treescreen@{treescreen}}
+\index{treescreen@{treescreen}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}treescreen::treescreen (QWidget $\ast$ {\em parent} = {\tt 0})}\label{classtreescreen_7c86707d7c256b918f528e2a89bc2a9b}
+
+
+
+
+Definition at line 11 of file treescreen.cpp.
+
+References assembly(), init\_\-knowtree(), knowtree, setup\_\-actions(), setup\_\-signals(), and setup\_\-ui().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=358pt]{classtreescreen_7c86707d7c256b918f528e2a89bc2a9b_cgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!~treescreen@{$\sim$treescreen}}
+\index{~treescreen@{$\sim$treescreen}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}treescreen::$\sim$treescreen ()\hspace{0.3cm}{\tt  [virtual]}}\label{classtreescreen_4e63676f90a8bb091bf5253f61467be3}
+
+
+
+
+Definition at line 27 of file treescreen.cpp.\index{treescreen@{treescreen}!treescreen@{treescreen}}
+\index{treescreen@{treescreen}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}treescreen::treescreen (QWidget $\ast$ {\em parent} = {\tt 0})}\label{classtreescreen_7c86707d7c256b918f528e2a89bc2a9b}
+
+
+\index{treescreen@{treescreen}!~treescreen@{$\sim$treescreen}}
+\index{~treescreen@{$\sim$treescreen}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}virtual treescreen::$\sim$treescreen ()\hspace{0.3cm}{\tt  [virtual]}}\label{classtreescreen_2da908325cdc8c114ed66ba0513765aa}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{treescreen@{treescreen}!save_knowtree@{save\_\-knowtree}}
+\index{save_knowtree@{save\_\-knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::save\_\-knowtree (void)}\label{classtreescreen_5ecf27898d34e891ee560e25d28e8ffa}
+
+
+
+
+Definition at line 600 of file treescreen.cpp.
+
+References CURRENT\_\-FORMAT\_\-SUBVERSION, CURRENT\_\-FORMAT\_\-VERSION, knowtreemodel::export\_\-fullmodeldata\_\-to\_\-dom(), appconfig::get\_\-lastprefixnum\_\-as\_\-line(), appconfig::get\_\-tetradir(), appconfig::get\_\-trashdir(), appconfig::inc\_\-lastprefixnum(), kntrmodel, mytetraconfig, and Tree\-Model::root\-Item.
+
+Referenced by del\_\-branch(), edit\_\-branch(), ins\_\-branch(), ins\_\-subbranch(), and move\_\-updn\_\-branch().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{classtreescreen_5ecf27898d34e891ee560e25d28e8ffa_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{classtreescreen_5ecf27898d34e891ee560e25d28e8ffa_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!update_selected_branch@{update\_\-selected\_\-branch}}
+\index{update_selected_branch@{update\_\-selected\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::update\_\-selected\_\-branch (void)}\label{classtreescreen_acc87cede1cb206189394835bda06d3e}
+
+
+
+
+Definition at line 650 of file treescreen.cpp.
+
+References knowtree.\index{treescreen@{treescreen}!get_first_selected_item_index@{get\_\-first\_\-selected\_\-item\_\-index}}
+\index{get_first_selected_item_index@{get\_\-first\_\-selected\_\-item\_\-index}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int treescreen::get\_\-first\_\-selected\_\-item\_\-index (void)}\label{classtreescreen_c6214468c6db4e7aeada7a38ad51e727}
+
+
+
+
+Definition at line 674 of file treescreen.cpp.
+
+References knowtree.\index{treescreen@{treescreen}!get_current_item_index@{get\_\-current\_\-item\_\-index}}
+\index{get_current_item_index@{get\_\-current\_\-item\_\-index}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QModel\-Index treescreen::get\_\-current\_\-item\_\-index (void)}\label{classtreescreen_8b56108409028dc2c0996ac573fa7ff9}
+
+
+
+
+Definition at line 687 of file treescreen.cpp.
+
+References knowtree.
+
+Referenced by del\_\-branch(), edit\_\-branch(), ins\_\-branch(), ins\_\-subbranch(), move\_\-updn\_\-branch(), and mainwindow::save\_\-tree\_\-position().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{classtreescreen_8b56108409028dc2c0996ac573fa7ff9_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!get_selection_model@{get\_\-selection\_\-model}}
+\index{get_selection_model@{get\_\-selection\_\-model}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QItem\-Selection\-Model $\ast$ treescreen::get\_\-selection\_\-model (void)}\label{classtreescreen_4319d9040f7721bd11f6defed0c3fbac}
+
+
+
+
+Definition at line 661 of file treescreen.cpp.
+
+References knowtree.\index{treescreen@{treescreen}!set_cursor_to_index@{set\_\-cursor\_\-to\_\-index}}
+\index{set_cursor_to_index@{set\_\-cursor\_\-to\_\-index}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::set\_\-cursor\_\-to\_\-index (QModel\-Index {\em index})}\label{classtreescreen_c492316dfc6b272f474b267761962368}
+
+
+
+
+Definition at line 667 of file treescreen.cpp.
+
+References knowtree.
+
+Referenced by mainwindow::set\_\-tree\_\-position().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=370pt]{classtreescreen_c492316dfc6b272f474b267761962368_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!expand_all_subbranch@{expand\_\-all\_\-subbranch}}
+\index{expand_all_subbranch@{expand\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::expand\_\-all\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_4fe3c8329879acf9f25b1f7c4751ff20}
+
+
+
+
+Definition at line 170 of file treescreen.cpp.
+
+References expand\_\-or\_\-collapse\_\-recurse(), and knowtree.
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!collapse_all_subbranch@{collapse\_\-all\_\-subbranch}}
+\index{collapse_all_subbranch@{collapse\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::collapse\_\-all\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_c8bae82f6fd32b8af4f5a1c574e968e9}
+
+
+
+
+Definition at line 180 of file treescreen.cpp.
+
+References expand\_\-or\_\-collapse\_\-recurse(), and knowtree.
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!expand_or_collapse_recurse@{expand\_\-or\_\-collapse\_\-recurse}}
+\index{expand_or_collapse_recurse@{expand\_\-or\_\-collapse\_\-recurse}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::expand\_\-or\_\-collapse\_\-recurse (QModel\-Index {\em index}, bool {\em mode})\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_bc30a814c261100adbc6a7d21acae930}
+
+
+
+
+Definition at line 190 of file treescreen.cpp.
+
+References knowtree.
+
+Referenced by collapse\_\-all\_\-subbranch(), and expand\_\-all\_\-subbranch().\index{treescreen@{treescreen}!ins_subbranch@{ins\_\-subbranch}}
+\index{ins_subbranch@{ins\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::ins\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_cd15b2918f7168a1d3417049897cb4a0}
+
+
+
+
+Definition at line 261 of file treescreen.cpp.
+
+References knowtreemodel::add\_\-new\_\-child\_\-branch(), Tree\-Item::child\-Count(), get\_\-current\_\-item\_\-index(), appconfig::get\_\-lastidnum(), Tree\-Model::get\-Item(), appconfig::inc\_\-lastidnum(), knowtreemodel::index\-Children(), knowtree, kntrmodel, mytetraconfig, and save\_\-knowtree().
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!ins_branch@{ins\_\-branch}}
+\index{ins_branch@{ins\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::ins\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_e848a61138838b217020dbf3cc5abb59}
+
+
+
+
+Definition at line 339 of file treescreen.cpp.
+
+References knowtreemodel::add\_\-new\_\-sibling\_\-branch(), Tree\-Item::child\-Count(), get\_\-current\_\-item\_\-index(), appconfig::get\_\-lastidnum(), Tree\-Model::get\-Item(), appconfig::inc\_\-lastidnum(), Tree\-Model::index(), knowtree, kntrmodel, mytetraconfig, Tree\-Item::parent(), and save\_\-knowtree().
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!edit_branch@{edit\_\-branch}}
+\index{edit_branch@{edit\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::edit\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_85bc8eddf559b57cc4def353d10e72c2}
+
+
+
+
+Definition at line 414 of file treescreen.cpp.
+
+References Tree\-Item::data(), get\_\-current\_\-item\_\-index(), Tree\-Model::get\-Item(), knowtree, kntrmodel, save\_\-knowtree(), and Tree\-Item::set\-Data().
+
+Referenced by setup\_\-actions(), and setup\_\-signals().\index{treescreen@{treescreen}!del_branch@{del\_\-branch}}
+\index{del_branch@{del\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::del\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_885306bda7c974cee638bbd06bfb8502}
+
+
+
+
+Definition at line 465 of file treescreen.cpp.
+
+References Tree\-Item::data(), get\_\-current\_\-item\_\-index(), Tree\-Model::get\-Item(), knowtree, kntrmodel, and save\_\-knowtree().
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!move_up_branch@{move\_\-up\_\-branch}}
+\index{move_up_branch@{move\_\-up\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::move\_\-up\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_c26f6cf14a9f7affadf7f3bcf878276c}
+
+
+
+
+Definition at line 204 of file treescreen.cpp.
+
+References move\_\-updn\_\-branch().
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!move_dn_branch@{move\_\-dn\_\-branch}}
+\index{move_dn_branch@{move\_\-dn\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::move\_\-dn\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_d8c480504601e4479ea60b7829965c83}
+
+
+
+
+Definition at line 210 of file treescreen.cpp.
+
+References move\_\-updn\_\-branch().
+
+Referenced by setup\_\-actions().\index{treescreen@{treescreen}!on_knowtree_clicked@{on\_\-knowtree\_\-clicked}}
+\index{on_knowtree_clicked@{on\_\-knowtree\_\-clicked}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::on\_\-knowtree\_\-clicked (const QModel\-Index \& {\em index})\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_5ebfb6607ec8ad14d44ec1e6c3dd2389}
+
+
+
+
+Definition at line 549 of file treescreen.cpp.
+
+References Tree\-Model::get\-Item(), knowtree, kntrmodel, and Tree\-Item::recordtable\_\-gettabledata().
+
+Referenced by setup\_\-signals().\index{treescreen@{treescreen}!on_customContextMenuRequested@{on\_\-customContextMenuRequested}}
+\index{on_customContextMenuRequested@{on\_\-customContextMenuRequested}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::on\_\-custom\-Context\-Menu\-Requested (const QPoint \& {\em pos})\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_be096223f04da6a625e2ed143b983997}
+
+
+
+
+Definition at line 113 of file treescreen.cpp.
+
+References action\_\-collapse\_\-all\_\-subbranch, action\_\-del\_\-branch, action\_\-edit\_\-branch, action\_\-expand\_\-all\_\-subbranch, action\_\-ins\_\-branch, action\_\-ins\_\-subbranch, and knowtree.
+
+Referenced by setup\_\-signals().\index{treescreen@{treescreen}!setup_ui@{setup\_\-ui}}
+\index{setup_ui@{setup\_\-ui}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-ui (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_428e0d2e2f10be1761f2d30343259910}
+
+
+
+
+Definition at line 87 of file treescreen.cpp.
+
+References action\_\-collapse\_\-all\_\-subbranch, action\_\-del\_\-branch, action\_\-edit\_\-branch, action\_\-expand\_\-all\_\-subbranch, action\_\-ins\_\-branch, action\_\-ins\_\-subbranch, action\_\-move\_\-dn\_\-branch, action\_\-move\_\-up\_\-branch, knowtree, and tools\_\-line.
+
+Referenced by treescreen().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{classtreescreen_428e0d2e2f10be1761f2d30343259910_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!setup_signals@{setup\_\-signals}}
+\index{setup_signals@{setup\_\-signals}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-signals (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_b08b4831cde1a5b3065ea9d400eea67d}
+
+
+
+
+Definition at line 133 of file treescreen.cpp.
+
+References edit\_\-branch(), knowtree, on\_\-custom\-Context\-Menu\-Requested(), and on\_\-knowtree\_\-clicked().
+
+Referenced by treescreen().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classtreescreen_b08b4831cde1a5b3065ea9d400eea67d_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!setup_actions@{setup\_\-actions}}
+\index{setup_actions@{setup\_\-actions}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-actions (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_a6e4728a4524289c2e933abc51d9cb20}
+
+
+
+
+Definition at line 33 of file treescreen.cpp.
+
+References action\_\-collapse\_\-all\_\-subbranch, action\_\-del\_\-branch, action\_\-edit\_\-branch, action\_\-expand\_\-all\_\-subbranch, action\_\-ins\_\-branch, action\_\-ins\_\-subbranch, action\_\-move\_\-dn\_\-branch, action\_\-move\_\-up\_\-branch, collapse\_\-all\_\-subbranch(), del\_\-branch(), edit\_\-branch(), expand\_\-all\_\-subbranch(), ins\_\-branch(), ins\_\-subbranch(), move\_\-dn\_\-branch(), and move\_\-up\_\-branch().
+
+Referenced by treescreen().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classtreescreen_a6e4728a4524289c2e933abc51d9cb20_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!assembly@{assembly}}
+\index{assembly@{assembly}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::assembly (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_8e899dee280df6b59f982726e4bed7d9}
+
+
+
+
+Definition at line 153 of file treescreen.cpp.
+
+References knowtree, tools\_\-line, and treescreen\_\-layout.
+
+Referenced by treescreen().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=169pt]{classtreescreen_8e899dee280df6b59f982726e4bed7d9_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!init_knowtree@{init\_\-knowtree}}
+\index{init_knowtree@{init\_\-knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::init\_\-knowtree (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_d325ba7cf9bd91d3e511aa2a5374293c}
+
+
+
+
+Definition at line 579 of file treescreen.cpp.
+
+References xmltree::dommodel, appconfig::get\_\-tetradir(), knowtree, kntrmodel, xmltree::load(), and mytetraconfig.
+
+Referenced by treescreen().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=331pt]{classtreescreen_d325ba7cf9bd91d3e511aa2a5374293c_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classtreescreen_d325ba7cf9bd91d3e511aa2a5374293c_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!insert_new_branch@{insert\_\-new\_\-branch}}
+\index{insert_new_branch@{insert\_\-new\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::insert\_\-new\_\-branch (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_b41c15b069309faebf37cb1b0ad245f1}
+
+
+
+
+Definition at line 407 of file treescreen.cpp.\index{treescreen@{treescreen}!move_updn_branch@{move\_\-updn\_\-branch}}
+\index{move_updn_branch@{move\_\-updn\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::move\_\-updn\_\-branch (int {\em direction})\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_773a34b2a15964d0101b142b54da3986}
+
+
+
+
+Definition at line 216 of file treescreen.cpp.
+
+References get\_\-current\_\-item\_\-index(), knowtree, kntrmodel, move\_\-check\_\-enable(), knowtreemodel::move\_\-dn\_\-branch(), knowtreemodel::move\_\-up\_\-branch(), and save\_\-knowtree().
+
+Referenced by move\_\-dn\_\-branch(), and move\_\-up\_\-branch().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=372pt]{classtreescreen_773a34b2a15964d0101b142b54da3986_cgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!move_check_enable@{move\_\-check\_\-enable}}
+\index{move_check_enable@{move\_\-check\_\-enable}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool treescreen::move\_\-check\_\-enable (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_66dff8576eca276e70d0d778a283eff7}
+
+
+
+
+Definition at line 241 of file treescreen.cpp.
+
+References knowtree.
+
+Referenced by move\_\-updn\_\-branch().
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classtreescreen_66dff8576eca276e70d0d778a283eff7_icgraph}
+\end{center}
+\end{figure}
+\index{treescreen@{treescreen}!save_knowtree@{save\_\-knowtree}}
+\index{save_knowtree@{save\_\-knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::save\_\-knowtree (void)}\label{classtreescreen_5ecf27898d34e891ee560e25d28e8ffa}
+
+
+\index{treescreen@{treescreen}!update_selected_branch@{update\_\-selected\_\-branch}}
+\index{update_selected_branch@{update\_\-selected\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::update\_\-selected\_\-branch (void)}\label{classtreescreen_acc87cede1cb206189394835bda06d3e}
+
+
+\index{treescreen@{treescreen}!get_selection_model@{get\_\-selection\_\-model}}
+\index{get_selection_model@{get\_\-selection\_\-model}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QItem\-Selection\-Model$\ast$ treescreen::get\_\-selection\_\-model (void)}\label{classtreescreen_f5c8eeed13c3068e1962ce3410d1e3b6}
+
+
+\index{treescreen@{treescreen}!expand_all_subbranch@{expand\_\-all\_\-subbranch}}
+\index{expand_all_subbranch@{expand\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::expand\_\-all\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_4fe3c8329879acf9f25b1f7c4751ff20}
+
+
+\index{treescreen@{treescreen}!collapse_all_subbranch@{collapse\_\-all\_\-subbranch}}
+\index{collapse_all_subbranch@{collapse\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::collapse\_\-all\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_c8bae82f6fd32b8af4f5a1c574e968e9}
+
+
+\index{treescreen@{treescreen}!expand_or_collapse_recurse@{expand\_\-or\_\-collapse\_\-recurse}}
+\index{expand_or_collapse_recurse@{expand\_\-or\_\-collapse\_\-recurse}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::expand\_\-or\_\-collapse\_\-recurse (QModel\-Index {\em index}, bool {\em mode})\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_bc30a814c261100adbc6a7d21acae930}
+
+
+\index{treescreen@{treescreen}!ins_subbranch@{ins\_\-subbranch}}
+\index{ins_subbranch@{ins\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::ins\_\-subbranch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_cd15b2918f7168a1d3417049897cb4a0}
+
+
+\index{treescreen@{treescreen}!ins_branch@{ins\_\-branch}}
+\index{ins_branch@{ins\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::ins\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_e848a61138838b217020dbf3cc5abb59}
+
+
+\index{treescreen@{treescreen}!edit_branch@{edit\_\-branch}}
+\index{edit_branch@{edit\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::edit\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_85bc8eddf559b57cc4def353d10e72c2}
+
+
+\index{treescreen@{treescreen}!del_branch@{del\_\-branch}}
+\index{del_branch@{del\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::del\_\-branch (void)\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_885306bda7c974cee638bbd06bfb8502}
+
+
+\index{treescreen@{treescreen}!on_knowtree_clicked@{on\_\-knowtree\_\-clicked}}
+\index{on_knowtree_clicked@{on\_\-knowtree\_\-clicked}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::on\_\-knowtree\_\-clicked (const QModel\-Index \& {\em index})\hspace{0.3cm}{\tt  [private, slot]}}\label{classtreescreen_5ebfb6607ec8ad14d44ec1e6c3dd2389}
+
+
+\index{treescreen@{treescreen}!setup_ui@{setup\_\-ui}}
+\index{setup_ui@{setup\_\-ui}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-ui (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_428e0d2e2f10be1761f2d30343259910}
+
+
+\index{treescreen@{treescreen}!setup_signals@{setup\_\-signals}}
+\index{setup_signals@{setup\_\-signals}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-signals (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_b08b4831cde1a5b3065ea9d400eea67d}
+
+
+\index{treescreen@{treescreen}!setup_actions@{setup\_\-actions}}
+\index{setup_actions@{setup\_\-actions}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::setup\_\-actions (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_a6e4728a4524289c2e933abc51d9cb20}
+
+
+\index{treescreen@{treescreen}!assembly@{assembly}}
+\index{assembly@{assembly}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::assembly (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_8e899dee280df6b59f982726e4bed7d9}
+
+
+\index{treescreen@{treescreen}!init_knowtree@{init\_\-knowtree}}
+\index{init_knowtree@{init\_\-knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::init\_\-knowtree (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_d325ba7cf9bd91d3e511aa2a5374293c}
+
+
+\index{treescreen@{treescreen}!insert_new_branch@{insert\_\-new\_\-branch}}
+\index{insert_new_branch@{insert\_\-new\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void treescreen::insert\_\-new\_\-branch (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_b41c15b069309faebf37cb1b0ad245f1}
+
+
+\index{treescreen@{treescreen}!get_first_selected_item_index@{get\_\-first\_\-selected\_\-item\_\-index}}
+\index{get_first_selected_item_index@{get\_\-first\_\-selected\_\-item\_\-index}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int treescreen::get\_\-first\_\-selected\_\-item\_\-index (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_c6214468c6db4e7aeada7a38ad51e727}
+
+
+\index{treescreen@{treescreen}!get_current_item_index@{get\_\-current\_\-item\_\-index}}
+\index{get_current_item_index@{get\_\-current\_\-item\_\-index}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QModel\-Index treescreen::get\_\-current\_\-item\_\-index (void)\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_8b56108409028dc2c0996ac573fa7ff9}
+
+
+
+
+\subsection{Member Data Documentation}
+\index{treescreen@{treescreen}!kntrmodel@{kntrmodel}}
+\index{kntrmodel@{kntrmodel}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf knowtreemodel}$\ast$ {\bf treescreen::kntrmodel}}\label{classtreescreen_9af96a0df5b4e075dd4fc01e0bd8e31d}
+
+
+
+
+Definition at line 24 of file treescreen.h.
+
+Referenced by del\_\-branch(), edit\_\-branch(), init\_\-knowtree(), ins\_\-branch(), ins\_\-subbranch(), move\_\-updn\_\-branch(), on\_\-knowtree\_\-clicked(), save\_\-knowtree(), mainwindow::save\_\-tree\_\-position(), and mainwindow::set\_\-tree\_\-position().\index{treescreen@{treescreen}!tools_line@{tools\_\-line}}
+\index{tools_line@{tools\_\-line}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Bar$\ast$ {\bf treescreen::tools\_\-line}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_4b1c78bd36c3ce2a67c4aa082320b2f9}
+
+
+
+
+Definition at line 56 of file treescreen.h.
+
+Referenced by assembly(), and setup\_\-ui().\index{treescreen@{treescreen}!knowtree@{knowtree}}
+\index{knowtree@{knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTree\-View$\ast$ {\bf treescreen::knowtree}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_784ae7066fc0dbbaea54f68ce648e3fe}
+
+
+
+
+Definition at line 58 of file treescreen.h.
+
+Referenced by assembly(), collapse\_\-all\_\-subbranch(), del\_\-branch(), edit\_\-branch(), expand\_\-all\_\-subbranch(), expand\_\-or\_\-collapse\_\-recurse(), get\_\-current\_\-item\_\-index(), get\_\-first\_\-selected\_\-item\_\-index(), get\_\-selection\_\-model(), init\_\-knowtree(), ins\_\-branch(), ins\_\-subbranch(), move\_\-check\_\-enable(), move\_\-updn\_\-branch(), on\_\-custom\-Context\-Menu\-Requested(), on\_\-knowtree\_\-clicked(), set\_\-cursor\_\-to\_\-index(), setup\_\-signals(), setup\_\-ui(), treescreen(), and update\_\-selected\_\-branch().\index{treescreen@{treescreen}!treescreen_layout@{treescreen\_\-layout}}
+\index{treescreen_layout@{treescreen\_\-layout}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QVBox\-Layout$\ast$ {\bf treescreen::treescreen\_\-layout}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_87613c12a99430668ea2b3e2d3575b06}
+
+
+
+
+Definition at line 60 of file treescreen.h.
+
+Referenced by assembly().\index{treescreen@{treescreen}!action_expand_all_subbranch@{action\_\-expand\_\-all\_\-subbranch}}
+\index{action_expand_all_subbranch@{action\_\-expand\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-expand\_\-all\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_159b44d763e2e9570a67a638938e8ded}
+
+
+
+
+Definition at line 62 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_collapse_all_subbranch@{action\_\-collapse\_\-all\_\-subbranch}}
+\index{action_collapse_all_subbranch@{action\_\-collapse\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-collapse\_\-all\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_823165521f9f5b521324d9cf4fced89b}
+
+
+
+
+Definition at line 63 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_ins_branch@{action\_\-ins\_\-branch}}
+\index{action_ins_branch@{action\_\-ins\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-ins\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_ab5ee2502a63997e608205efaeb79225}
+
+
+
+
+Definition at line 64 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_ins_subbranch@{action\_\-ins\_\-subbranch}}
+\index{action_ins_subbranch@{action\_\-ins\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-ins\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_90bf91aa0d3b10da86514f53d8b826b1}
+
+
+
+
+Definition at line 65 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_edit_branch@{action\_\-edit\_\-branch}}
+\index{action_edit_branch@{action\_\-edit\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-edit\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_5b276116c7d715ff363b3ff93279e26d}
+
+
+
+
+Definition at line 66 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_del_branch@{action\_\-del\_\-branch}}
+\index{action_del_branch@{action\_\-del\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-del\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_723ef6926d4df31046a826ba3463546c}
+
+
+
+
+Definition at line 67 of file treescreen.h.
+
+Referenced by on\_\-custom\-Context\-Menu\-Requested(), setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_move_up_branch@{action\_\-move\_\-up\_\-branch}}
+\index{action_move_up_branch@{action\_\-move\_\-up\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-move\_\-up\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_449dbf929f24f5d7053a44f466ad949c}
+
+
+
+
+Definition at line 68 of file treescreen.h.
+
+Referenced by setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!action_move_dn_branch@{action\_\-move\_\-dn\_\-branch}}
+\index{action_move_dn_branch@{action\_\-move\_\-dn\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-move\_\-dn\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_726867917db47c0873f1e3e05c7101be}
+
+
+
+
+Definition at line 69 of file treescreen.h.
+
+Referenced by setup\_\-actions(), and setup\_\-ui().\index{treescreen@{treescreen}!kntrmodel@{kntrmodel}}
+\index{kntrmodel@{kntrmodel}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf knowtreemodel}$\ast$ {\bf treescreen::kntrmodel}}\label{classtreescreen_9af96a0df5b4e075dd4fc01e0bd8e31d}
+
+
+
+
+Definition at line 24 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!tools_line@{tools\_\-line}}
+\index{tools_line@{tools\_\-line}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTool\-Bar$\ast$ {\bf treescreen::tools\_\-line}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_4b1c78bd36c3ce2a67c4aa082320b2f9}
+
+
+
+
+Definition at line 47 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!knowtree@{knowtree}}
+\index{knowtree@{knowtree}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QTree\-View$\ast$ {\bf treescreen::knowtree}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_784ae7066fc0dbbaea54f68ce648e3fe}
+
+
+
+
+Definition at line 49 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!treescreen_layout@{treescreen\_\-layout}}
+\index{treescreen_layout@{treescreen\_\-layout}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QVBox\-Layout$\ast$ {\bf treescreen::treescreen\_\-layout}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_87613c12a99430668ea2b3e2d3575b06}
+
+
+
+
+Definition at line 51 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_expand_all_subbranch@{action\_\-expand\_\-all\_\-subbranch}}
+\index{action_expand_all_subbranch@{action\_\-expand\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-expand\_\-all\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_159b44d763e2e9570a67a638938e8ded}
+
+
+
+
+Definition at line 53 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_collapse_all_subbranch@{action\_\-collapse\_\-all\_\-subbranch}}
+\index{action_collapse_all_subbranch@{action\_\-collapse\_\-all\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-collapse\_\-all\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_823165521f9f5b521324d9cf4fced89b}
+
+
+
+
+Definition at line 54 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_ins_branch@{action\_\-ins\_\-branch}}
+\index{action_ins_branch@{action\_\-ins\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-ins\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_ab5ee2502a63997e608205efaeb79225}
+
+
+
+
+Definition at line 55 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_ins_subbranch@{action\_\-ins\_\-subbranch}}
+\index{action_ins_subbranch@{action\_\-ins\_\-subbranch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-ins\_\-subbranch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_90bf91aa0d3b10da86514f53d8b826b1}
+
+
+
+
+Definition at line 56 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_edit_branch@{action\_\-edit\_\-branch}}
+\index{action_edit_branch@{action\_\-edit\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-edit\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_5b276116c7d715ff363b3ff93279e26d}
+
+
+
+
+Definition at line 57 of file treescreen\_\-old.h.\index{treescreen@{treescreen}!action_del_branch@{action\_\-del\_\-branch}}
+\index{action_del_branch@{action\_\-del\_\-branch}!treescreen@{treescreen}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QAction$\ast$ {\bf treescreen::action\_\-del\_\-branch}\hspace{0.3cm}{\tt  [private]}}\label{classtreescreen_723ef6926d4df31046a826ba3463546c}
+
+
+
+
+Definition at line 58 of file treescreen\_\-old.h.
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+{\bf treescreen.h}\item 
+{\bf treescreen\_\-old.h}\item 
+{\bf treescreen.cpp}\end{CompactItemize}

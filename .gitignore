@@ -1,0 +1,27 @@
+# Ignore directories
+/build
+/qtc-gdbmacros
+Makefile
+qdevelop-settings.db
+qrc_mytetra.cpp
+mytetra.pro.user*
+
+/bin/*
+!/bin/resource
+!/bin/resource/*
+!/bin/mytetra.qrc
+
+
+# Ignore compiled Object files
+*.slo
+*.lo
+*.o
+
+# Ignore compiled Dynamic libraries
+*.so
+
+# Ignore compiled Static libraries
+*.lai
+*.la
+*.a
+

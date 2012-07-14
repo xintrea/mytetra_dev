@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=MyTetra
+Comment=Smart manager for information collecting
+Comment[ru]=Менеджер накопления осмысленной информации
+Exec=mytetra
+Icon=mytetra
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Qt;Utility;

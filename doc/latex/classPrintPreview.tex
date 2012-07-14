@@ -1,0 +1,162 @@
+\section{Print\-Preview Class Reference}
+\label{classPrintPreview}\index{PrintPreview@{PrintPreview}}
+{\tt \#include $<$printpreview.h$>$}
+
+Collaboration diagram for Print\-Preview:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=109pt]{classPrintPreview__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+{\bf Print\-Preview} (const QText\-Document $\ast$document, QWidget $\ast$parent)
+\item 
+virtual {\bf $\sim$Print\-Preview} ()
+\end{CompactItemize}
+\subsection*{Private Slots}
+\begin{CompactItemize}
+\item 
+void {\bf print} ()
+\item 
+void {\bf page\-Setup} ()
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf setup} ()
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+QText\-Document $\ast$ {\bf doc}
+\item 
+{\bf Preview\-View} $\ast$ {\bf view}
+\item 
+QPrinter {\bf printer}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 33 of file printpreview.h.
+
+\subsection{Constructor \& Destructor Documentation}
+\index{PrintPreview@{Print\-Preview}!PrintPreview@{PrintPreview}}
+\index{PrintPreview@{PrintPreview}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Print\-Preview::Print\-Preview (const QText\-Document $\ast$ {\em document}, QWidget $\ast$ {\em parent})}\label{classPrintPreview_63a9c66336e4b066d7a85867f48bdf19}
+
+
+
+
+Definition at line 206 of file printpreview.cpp.
+
+References doc, inches\-To\-Pixels(), mm\-To\-Inches(), page\-Setup(), print(), printer, setup(), and view.
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{classPrintPreview_63a9c66336e4b066d7a85867f48bdf19_cgraph}
+\end{center}
+\end{figure}
+\index{PrintPreview@{Print\-Preview}!~PrintPreview@{$\sim$PrintPreview}}
+\index{~PrintPreview@{$\sim$PrintPreview}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Print\-Preview::$\sim$Print\-Preview ()\hspace{0.3cm}{\tt  [virtual]}}\label{classPrintPreview_7620c66982952f0a2eb6a90c5365c749}
+
+
+
+
+Definition at line 282 of file printpreview.cpp.
+
+References doc.
+
+\subsection{Member Function Documentation}
+\index{PrintPreview@{Print\-Preview}!print@{print}}
+\index{print@{print}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Print\-Preview::print ()\hspace{0.3cm}{\tt  [private, slot]}}\label{classPrintPreview_9a73167bed277aa998936f959e0cf598}
+
+
+
+
+Definition at line 287 of file printpreview.cpp.
+
+References doc, and printer.
+
+Referenced by Print\-Preview().\index{PrintPreview@{Print\-Preview}!pageSetup@{pageSetup}}
+\index{pageSetup@{pageSetup}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Print\-Preview::page\-Setup ()\hspace{0.3cm}{\tt  [private, slot]}}\label{classPrintPreview_4f5333b436359e1663bb9fd5b5e1838e}
+
+
+
+
+Definition at line 296 of file printpreview.cpp.
+
+References printer, setup(), Preview\-View::update\-Layout(), and view.
+
+Referenced by Print\-Preview().\index{PrintPreview@{Print\-Preview}!setup@{setup}}
+\index{setup@{setup}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Print\-Preview::setup ()\hspace{0.3cm}{\tt  [private]}}\label{classPrintPreview_040afcf971a6697122e68ad30ff1a6b2}
+
+
+
+
+Definition at line 267 of file printpreview.cpp.
+
+References doc, inches\-To\-Pixels(), mm\-To\-Inches(), printer, and view.
+
+Referenced by page\-Setup(), and Print\-Preview().
+
+Here is the call graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{classPrintPreview_040afcf971a6697122e68ad30ff1a6b2_cgraph}
+\end{center}
+\end{figure}
+
+
+Here is the caller graph for this function:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=171pt]{classPrintPreview_040afcf971a6697122e68ad30ff1a6b2_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\index{PrintPreview@{Print\-Preview}!doc@{doc}}
+\index{doc@{doc}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QText\-Document$\ast$ {\bf Print\-Preview::doc}\hspace{0.3cm}{\tt  [private]}}\label{classPrintPreview_3570ca427426716c40edafcbf4e5d11a}
+
+
+
+
+Definition at line 47 of file printpreview.h.
+
+Referenced by print(), Print\-Preview(), setup(), and $\sim$Print\-Preview().\index{PrintPreview@{Print\-Preview}!view@{view}}
+\index{view@{view}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Preview\-View}$\ast$ {\bf Print\-Preview::view}\hspace{0.3cm}{\tt  [private]}}\label{classPrintPreview_53a172954bc17804de86086563ddf1e4}
+
+
+
+
+Definition at line 48 of file printpreview.h.
+
+Referenced by page\-Setup(), Print\-Preview(), and setup().\index{PrintPreview@{Print\-Preview}!printer@{printer}}
+\index{printer@{printer}!PrintPreview@{Print\-Preview}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}QPrinter {\bf Print\-Preview::printer}\hspace{0.3cm}{\tt  [private]}}\label{classPrintPreview_0d23d4460eeae8054a8498f6e0892727}
+
+
+
+
+Definition at line 49 of file printpreview.h.
+
+Referenced by page\-Setup(), print(), Print\-Preview(), and setup().
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+{\bf printpreview.h}\item 
+{\bf printpreview.cpp}\end{CompactItemize}

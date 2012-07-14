@@ -1,0 +1,5 @@
+base referer
+rect $editor_8h.html 639,256 711,280
+rect $metaeditor_8h.html 465,11 572,35
+rect $main_8h.html 179,377 248,401
+rect $mainwindow_8h.html 297,257 415,281

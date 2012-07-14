@@ -1,0 +1,5 @@
+base referer
+rect $appconfig_8h.html 484,120 585,144
+rect $main_8h.html 189,429 259,453
+rect $mainwindow_8h.html 308,597 425,621
+rect $printpreview_8h.html 308,747 425,771

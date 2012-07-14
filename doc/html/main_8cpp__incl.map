@@ -1,0 +1,5 @@
+base referer
+rect $main_8h.html 139,379 208,403
+rect $mainwindow_8h.html 257,203 375,227
+rect $appconfig_8h.html 428,792 529,816
+rect $clipbrecords_8h.html 257,53 375,77
