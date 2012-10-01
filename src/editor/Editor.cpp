@@ -1914,6 +1914,7 @@ void Editor::on_showhtml_clicked(void)
   return;
 
  textArea->setHtml(dialog.get_text());
+ if(dialog.isModified()) textArea->document()->setModified(true);
 }
 
 

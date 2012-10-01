@@ -18,7 +18,7 @@ public:
 
  void set_text(QString text);
  QString get_text();
-
+ bool isModified();
  void set_window_title(QString title);
 
 private:
