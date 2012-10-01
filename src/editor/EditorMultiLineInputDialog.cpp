@@ -82,7 +82,12 @@ void EditorMultiLineInputDialog::set_text(QString text)
 
 QString EditorMultiLineInputDialog::get_text()
 {
- return textArea->toPlainText();
+    return textArea->toPlainText();
+}
+
+bool EditorMultiLineInputDialog::isModified()
+{
+ return textArea->document()->isModified();
 }
 
 

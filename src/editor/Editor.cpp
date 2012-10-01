@@ -483,8 +483,8 @@ void Editor::insert_button_to_tools_line(QString toolName, QToolBar *line)
 
        line->addWidget(tool); // Инструмент добавляется на панель инструментов
 
-       QToolButton *tb=qobject_cast<QToolButton*>(tool);
-       if(tb!=0) tb->setAutoRaise(false);
+       //QToolButton *tb=qobject_cast<QToolButton*>(tool);
+       //if(tb!=0) tb->setAutoRaise(false);
       }
      else
       {
@@ -777,8 +777,7 @@ bool Editor::save_textarea_images(int mode=SAVE_IMAGES_SIMPLE)
 void Editor::save_textarea(void)
 {
  // Если запись была открыта на просмотр и изменена
- if(get_work_directory().length()!=0 &&
-    get_file_name().length()!=0 &&
+ if(QFileInfo(get_work_directory()+"/"+get_file_name()).exists() &&
     get_textarea_modified()==true)
   {
    // Перенос текущего файла записи в корзину
@@ -1915,6 +1914,7 @@ void Editor::on_showhtml_clicked(void)
   return;
 
  textArea->setHtml(dialog.get_text());
+ if(dialog.isModified()) textArea->document()->setModified(true);
 }
 
 
