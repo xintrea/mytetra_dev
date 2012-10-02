@@ -518,11 +518,18 @@ using namespace std;
 //          cannot call constructor QString::QString directly
 //        - Библиотека RC5Simple заменена на Ver. 1.23 / 16.07.2011
 
+// 1.30.2 - Основана на версии 1.30.1
+//        - В файле qtlocalpeer.cpp внесены исправления, чтобы проходила
+//          сборка на Qt 4.8.2 и новых gcc
+//        - Добавлена обработка события потери фокуса окном, при котором
+//          происходит сохранение данных. Это необходимо чтобы данные
+//          всегда автоматически записывались при выходе из системы.
+	
 
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     30
-#define APPLICATION_RELEASE_MICROVERSION    1
+#define APPLICATION_RELEASE_MICROVERSION    2
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1

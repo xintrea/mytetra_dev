@@ -30,6 +30,8 @@ MainWindow::MainWindow() : QMainWindow()
  pMainWindow=this;
  setObjectName("mainwindow");
 
+ installEventFilter(this);
+
  setupUI();
  setupSignals();
  assembly();
@@ -704,6 +706,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
   }
 }
+
+
+bool MainWindow::eventFilter( QObject * o, QEvent * e )
+{
+  Q_UNUSED(o);  
+
+  // Отлавливание потери фокуса
+  // QEvent::ActivationChange
+  if( e->type() == QEvent::WindowDeactivate)
+  {
+   qDebug() << "Main window focus decativate, save text area.";
+   saveTextarea();
+  }
+
+  return false; // Продолжать оработку событий дальше
+}    
 
 
 void MainWindow::goWalkHistoryPrevious(void)

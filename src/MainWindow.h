@@ -144,6 +144,8 @@ protected:
  
  void closeEvent(QCloseEvent *event);
 
+ bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
+
  void goWalkHistory(void);
 
  bool enableRealClose;
