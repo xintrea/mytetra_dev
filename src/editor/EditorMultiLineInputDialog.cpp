@@ -86,3 +86,8 @@ QString EditorMultiLineInputDialog::get_text()
 }
 
 
+// Выясняется, был ли изменен текст, показанный в диалоге
+bool EditorMultiLineInputDialog::isModified() 
+{ 
+ return textArea->document()->isModified(); 
+}

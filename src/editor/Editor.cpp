@@ -1915,6 +1915,10 @@ void Editor::on_showhtml_clicked(void)
   return;
 
  textArea->setHtml(dialog.get_text());
+
+ // Если в диалоговом окне был иземен HTML код
+ if(dialog.isModified()) 
+  textArea->document()->setModified(true);
 }
 
 

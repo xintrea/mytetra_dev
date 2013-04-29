@@ -18,6 +18,7 @@ public:
 
  void set_text(QString text);
  QString get_text();
+ bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
 
  void set_window_title(QString title);
 
