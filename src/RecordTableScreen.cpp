@@ -623,7 +623,7 @@ void RecordTableScreen::deleteContext(void)
 void RecordTableScreen::deleteRecords(void)
 {
  qDebug() << "recordtablescreen::delete_records()";
-
+ 
  // Запоминание позиции, на которой стоит курсор списка
  int beforeIndex=(recordView->selectionModel()->currentIndex()).row();
 
@@ -632,6 +632,13 @@ void RecordTableScreen::deleteRecords(void)
  
  // Получение списка Item-элементов, подлежащих удалению
  QModelIndexList itemsForDelete=recordView->selectionModel()->selectedIndexes();
+
+ // Проверка, выбраны ли записи
+ if(itemsForDelete.count()==0)
+ {
+   qDebug() << "Records for delete not selected.";
+   return;
+ }
 
  // Сбор в массив всех индексов, которые нужно удалить
  // Напрямую пробегать массив item-элементов и удалять из него нельзя
@@ -666,6 +673,9 @@ void RecordTableScreen::deleteRecords(void)
   }
  qDebug() << "After delete cursor set to" << selectionIndex << "row";
 
+ // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
+ find_object<MetaEditor>("editorview")->clearAll();
+ 
  // Вызывается удаление отмеченных записей
  recordModel->removeRowsByList(delIdx);
 

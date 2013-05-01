@@ -10,6 +10,7 @@
 #include <QtGlobal>
 #include <QDateTime>
 #include <QTextCursor>
+#include <QDebug>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -776,13 +777,22 @@ bool Editor::save_textarea_images(int mode=SAVE_IMAGES_SIMPLE)
 
 void Editor::save_textarea(void)
 {
+ qDebug() << "Save textarea...";
+ 
  // Если запись была открыта на просмотр и изменена
  if(get_work_directory().length()!=0 &&
     get_file_name().length()!=0 &&
     get_textarea_modified()==true)
   {
    // Перенос текущего файла записи в корзину
-   remove_file_to_trash(get_work_directory()+"/"+get_file_name());
+   qDebug() << "Try remove file " << get_file_name() << " from directory " << get_work_directory();
+   if( QFileInfo( get_work_directory()+"/"+get_file_name() ).exists() )
+    {
+     qDebug() << "File exists. Remove it.";
+     remove_file_to_trash(get_work_directory()+"/"+get_file_name());
+    }
+   else
+    qDebug() << "Cant remove file. File not exists.";
 
    // Если происходит прямая работа с файлом текста
    if(load_callback_func==NULL)

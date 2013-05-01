@@ -438,7 +438,8 @@ if(!mytetraconfig.is_init())
  }
 
  // Если в конфигурации запрещен вывод отладочных сообщений
- if(!mytetraconfig.get_printdebugmessages()) return;
+ if(!mytetraconfig.get_printdebugmessages()) 
+  return;
 
  switch (type) {
    case QtDebugMsg:
