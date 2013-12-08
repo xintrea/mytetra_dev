@@ -10,7 +10,7 @@ Contact: xintrea@gmail.com, www.webhamster.ru
 
 License: GPL v.3 and BSD
 
-Volgodonsk, 2011
+Volgodonsk, 2011-2013
 */
 
 #include "RC5Simple.h"
@@ -59,6 +59,34 @@ Volgodonsk, 2011
 //        разрядности микропроцессора, получившаяся вследствие копирования
 //        из окна терминала виртуальной машины с другой кодировкой
 
+// 1.27 - Основана на версиях 1.24 - 1.26
+//      - Сделана поддержка форматов хранения данных.
+//        Формат 1 - это первый формат, использующийся вплоть до версии 1.23
+//        Формат 2 - это новый формат с усиленным форматом шифрования
+//      - В формате 2 (и всех последующих) присутсвует сигнатура RC5SIMP
+//        после которой следует один байт версии формата данных
+//      - По умолчанию идет шифрация в формат 2
+//      - В формате 2, помимо вектора инициализации, добавлен дополнительный
+//        блок случайных данных, размещаемый в шифрованном тексте. Данная
+//        мера предотвращает атаку при наличии нескольких образцов шифрованного 
+//        текста по заранее известному началу открытого текста. Пользоваться 
+//        устаревшей версией формата 1 строго не рекомендуется
+//      - Сделана возможность принудительного выбора формата шифрации/дешифрации
+//        для сохранения совместимости с предыдущей версией. Выбор формата
+//        осуществляется функцией
+//        void RC5_SetFormatVersionForce(unsigned char formatVersion);
+//      - Добавлено несколько дополнительных отладочных сообщений
+
+// 1.28 - Основана на версии 1.27
+//      - Проведены тесты упаковки-распаковки форматов 1 и 2
+//      - Прописаны правильные смещения для корректной распаковки формата 1
+//      - Добавлено свойство, хранящее последнюю ошибку
+//      - Добавлен метод получения последней ошибки RC5_GetErrorCode()
+//      - Вывод сообщения в консоль при возникновении ошибки заменен запоминанием
+//        кода последней ошибки
+//      - В заголовочном файле прописаны коды ошибок RC5_ERROR_CODE_X и
+//        их описания
+
 
 RC5Simple::RC5Simple(bool enableRandomInit)
 { 
@@ -69,6 +97,11 @@ RC5Simple::RC5Simple(bool enableRandomInit)
  // Cleaning user key
  for(int i=0; i<RC5_B; i++)
   rc5_key[i]=0;
+
+ rc5_formatVersion=RC5_FORMAT_VERSION_CURRENT;
+ rc5_isSetFormatVersionForce=false;
+
+ errorCode=0;
 
  // Init random generator
  if(enableRandomInit)
@@ -88,6 +121,13 @@ const char *RC5Simple::RC5_GetVersion(void)
 {
  static const char *lib_version=RC5_SIMPLE_VERSION;
  return(lib_version);
+}
+
+
+void RC5Simple::RC5_SetFormatVersionForce(unsigned char formatVersionForce)
+{ 
+ rc5_formatVersion=formatVersionForce;
+ rc5_isSetFormatVersionForce=true;
 }
 
 
@@ -184,7 +224,11 @@ void RC5Simple::RC5_Setup(unsigned char *key)
 void RC5Simple::RC5_SetKey(vector<unsigned char> &key)
 {
  if(key.size()!=RC5_B)
-  printf("RC5 error! The RC5 key length %d bytes, but necessary %d bytes", (int) key.size(), (int) RC5_B);
+  {
+   // printf("RC5 error! The RC5 key length %d bytes, but necessary %d bytes", (int) key.size(), (int) RC5_B);
+   errorCode=RC5_ERROR_CODE_1;
+   return;
+  }
   
  for(int i=0; i<RC5_B; i++)
   rc5_key[i]=key[i];
@@ -196,7 +240,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 {
  // Clear output vector
  out.clear();
-
+ 
 
  // No crypt null data
  if(in.size()==0) return;
@@ -229,6 +273,15 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
   in[i]=data_size[i];
 
 
+ // At start at format version 2, in begin data add one block with random data
+ if(rc5_formatVersion>=RC5_FORMAT_VERSION_2)
+  {
+   in.insert( in.begin(), RC5_BLOCK_LEN, 0);
+   for(int i=0; i<RC5_BLOCK_LEN; i++)
+    in[i]=(unsigned char)RC5_Rand(0, 0xFF);
+  }
+
+
  // Align end of data to block size
  int last_unalign_len=clean_data_size%RC5_BLOCK_LEN;
  RC5_LOG(( "Last unalign len: %d\n", last_unalign_len ));
@@ -256,13 +309,41 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  // Encode
  // ------  
 
- // Create cell in output vector
- out.resize(in.size()+RC5_BLOCK_LEN, 0);
+ // Create and fill cell in output vector
 
+ unsigned int notCryptDataSize=0;
 
- // Save start IV to first block in output data
- for(int i=0; i<RC5_BLOCK_LEN; i++)
-  out[i]=iv[i];
+ // In format version 1 save only IV as open data in block 0
+ if(rc5_formatVersion==RC5_FORMAT_VERSION_1)
+  {
+   out.resize(in.size()+RC5_BLOCK_LEN, 0); 
+
+   // Save start IV to block 0 in output data
+   for(int i=0; i<RC5_BLOCK_LEN; i++)
+    out[i]=iv[i];
+
+   notCryptDataSize=RC5_BLOCK_LEN;
+  }
+
+ // In format version 2 or higth save format header (block 0) and IV (block 1)
+ if(rc5_formatVersion>=RC5_FORMAT_VERSION_2)
+  {
+   out.resize(in.size()+RC5_BLOCK_LEN*2, 0);
+
+   // Signature bytes in header
+   const char *signature=RC5_SIMPLE_SIGNATURE;
+   for(int i=0; i<(RC5_BLOCK_LEN-1); i++)
+    out[i]=signature[i];
+
+   // Format version byte in header
+   out[RC5_BLOCK_LEN-1]=RC5_FORMAT_VERSION_CURRENT;
+
+   // Save start IV to second block in output data
+   for(int i=0; i<RC5_BLOCK_LEN; i++)
+    out[i+RC5_BLOCK_LEN]=iv[i];
+
+   notCryptDataSize=RC5_BLOCK_LEN*2;
+  }
 
 
  // Set secret key for encrypt
@@ -317,14 +398,14 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
     {
      // Save crypt data with shift to RC5_BLOCK_LEN
      // btw. in first block putted IV 
-     out[RC5_BLOCK_LEN+shift+i]=RC5_GetByteFromWord(ct[0], i);
-     out[RC5_BLOCK_LEN+shift+RC5_WORD_LEN+i]=RC5_GetByteFromWord(ct[1], i);
+     out[notCryptDataSize+shift+i]=RC5_GetByteFromWord(ct[0], i);
+     out[notCryptDataSize+shift+RC5_WORD_LEN+i]=RC5_GetByteFromWord(ct[1], i);
     }
 
 
    // Generate next IV for Cipher Block Chaining (CBC)
    for(int i=0; i<RC5_BLOCK_LEN; i++)
-    iv[i]=out[RC5_BLOCK_LEN+shift+i];
+    iv[i]=out[notCryptDataSize+shift+i];
 
 
    block++;
@@ -340,8 +421,17 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  // Return input vector to firsted data
  // -----------------------------------
 
- // Clear input vector from service data
- in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN);
+ if(rc5_formatVersion==RC5_FORMAT_VERSION_1)
+  {
+   // Remove size block
+   in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN);
+  }
+
+ if(rc5_formatVersion==RC5_FORMAT_VERSION_2)
+  {
+   // Remove random data block and size block
+   in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN*2);
+  }
 
  // Remove from input vector last random byte for aligning
  if(in.size()>clean_data_size)
@@ -365,19 +455,70 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
   return;
 
 
+ // Detect format version
+ unsigned int formatVersion=0;
+ if(rc5_isSetFormatVersionForce==true)
+  formatVersion=rc5_formatVersion; // If format set force, format not autodetected
+ else
+  {
+   // Signature bytes
+   const char *signature=RC5_SIMPLE_SIGNATURE;
+
+   // Detect signature
+   bool isSignatureCorrect=true;
+   for(int i=0; i<(RC5_BLOCK_LEN-1); i++)
+    if(in[i]!=signature[i])
+     isSignatureCorrect=false;
+
+   // If not detect signature
+   if(isSignatureCorrect==false)
+    formatVersion=RC5_FORMAT_VERSION_1; // In first version can't signature
+   else
+    {
+     // Get format version
+     unsigned char readFormatVersion=in[RC5_BLOCK_LEN-1];
+
+     // If format version correct
+     if(readFormatVersion>=RC5_FORMAT_VERSION_2 && readFormatVersion<=RC5_FORMAT_VERSION_CURRENT)
+      formatVersion=readFormatVersion;
+     else
+      formatVersion=RC5_FORMAT_VERSION_1; // If version not correct, may be it first format ( probability 0.[hrendesyatih]1 )
+    }
+  }
+
+
+ unsigned int ivShift=0;
+ unsigned int firstDataBlock=0;
+ unsigned int removeBlocksFromOutput=0;
+
+ if(formatVersion==RC5_FORMAT_VERSION_1)
+  {
+   ivShift=0;
+   firstDataBlock=1; // Start decode from block with index 1 (from block 0 read IV)
+   removeBlocksFromOutput=1;
+  }
+
+ if(formatVersion==RC5_FORMAT_VERSION_2)
+  {
+   ivShift=RC5_BLOCK_LEN;
+   firstDataBlock=2; // Start decode from block with index 2 (0 - signature and version, 1 - IV)
+   removeBlocksFromOutput=2;
+  }
+
+
  // Get IV
  unsigned char iv[RC5_BLOCK_LEN];
  for(int i=0; i<RC5_BLOCK_LEN; i++)
-  iv[i]=in[i];
+  iv[i]=in[i+ivShift];
 
 
  // Set secret key for decrypt
  RC5_Setup(rc5_key);
 
 
- // Decode by blocks from block with index 1 (from 0 block already read IV)
+ // Decode by blocks from started data block
  unsigned int data_size=0;
- unsigned int block=1;
+ unsigned int block=firstDataBlock;
  while( (RC5_BLOCK_LEN*(block+1))<=in.size() )
   {
    unsigned int shift=block*RC5_BLOCK_LEN;
@@ -402,6 +543,8 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    pt[0]=temp_word_1; 
    pt[1]=temp_word_2;
 
+   RC5_LOG(( "Block data. Word 1: %.2X, Word 2: %.2X\n", temp_word_1, temp_word_2 ));
+
 
    // Decode
    RC5_DecryptBlock(pt, ct);
@@ -424,7 +567,8 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    for(int i=0; i<RC5_BLOCK_LEN; i++)
     ct_part[i]^=iv[i];  
 
-   if(block==1)
+   if( (formatVersion==RC5_FORMAT_VERSION_1 && block==1) ||
+       (formatVersion>=RC5_FORMAT_VERSION_2 && block==3) )
     {
      data_size=RC5_GetIntFromByte(ct_part[0], ct_part[1], ct_part[2], ct_part[3]);
 
@@ -432,7 +576,10 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
      // Uncorrect decrypt data size
      if((unsigned int)data_size>(unsigned int)in.size()) 
-      return;
+      {
+       RC5_LOG(( "Incorrect data size. Decrypt data size: %d, estimate data size: ~%d\n", data_size,  in.size() ));
+       return;
+      }
     }
 
    #if RC5_ENABLE_DEBUG_PRINT==1
@@ -448,7 +595,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    // Save decrypt data
    for(int i=0; i<RC5_BLOCK_LEN; i++)
-    out[shift-RC5_BLOCK_LEN+i]=ct_part[i]; 
+    out[shift-(removeBlocksFromOutput*RC5_BLOCK_LEN)+i]=ct_part[i]; 
 
    block++;
   }
@@ -458,11 +605,14 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  for(int i=0; i<RC5_BLOCK_LEN; i++)
   iv[i]=0;
 
+ // Remove from output a block with random data (for format version >=2)
+ if(formatVersion>=RC5_FORMAT_VERSION_2)
+  out.erase(out.begin(), out.begin()+RC5_BLOCK_LEN);
 
- // Remove from output first byte with length
+ // Remove from output a block with length
  out.erase(out.begin(), out.begin()+RC5_BLOCK_LEN);
 
- // Remove from output last byte with random byte for aligning
+ // Remove from output a last byte with random byte for aligning
  if(out.size()>data_size)
   out.erase(out.begin()+data_size, out.end());
 }
@@ -499,7 +649,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 
  if((in_file=fopen( (const char*)in_name, "rb") )==NULL)
   {
-   printf("RC5 error! Can not read file %s.\n", in_name);
+   // printf("RC5 error! Can not read file %s.\n", in_name);
+   errorCode=RC5_ERROR_CODE_2;
    return;
   }
 
@@ -510,7 +661,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 
  if(in_file_length==0)
   {
-   printf("RC5 error! File %s empty.\n", in_name);
+   // printf("RC5 error! File %s empty.\n", in_name);
+   errorCode=RC5_ERROR_CODE_3;
    return;
   }
 
@@ -536,7 +688,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
  // Create output file
  if((out_file=fopen( (const char*)out_name, "wb") )==NULL)
   {
-   printf("RC5 error! Can not create output file %s.\n", out_name);
+   // printf("RC5 error! Can not create output file %s.\n", out_name);
+   errorCode=RC5_ERROR_CODE_4;
    return;
   }
 
@@ -626,6 +779,12 @@ unsigned int RC5Simple::RC5_Rand(unsigned int from, unsigned int to)
  unsigned int len=to-from+1;
 
  return (rand()%len)+from;
+}
+
+
+unsigned int RC5Simple::RC5_GetErrorCode()
+{
+ return errorCode;
 }
 
 

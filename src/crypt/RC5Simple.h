@@ -12,8 +12,13 @@
 
 using namespace std;
 
-#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.23 / 16.07.2011"
+#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.28 / 08.12.2013"
 
+#define RC5_FORMAT_VERSION_1 1
+#define RC5_FORMAT_VERSION_2 2
+#define RC5_FORMAT_VERSION_CURRENT RC5_FORMAT_VERSION_2
+
+#define RC5_SIMPLE_SIGNATURE "RC5SIMP" // Strong 7 bytes
 
 #if LONG_BIT==32
 typedef unsigned long int RC5_TWORD;
@@ -47,7 +52,10 @@ typedef unsigned int RC5_TWORD;
 #define RC5_MODE_ENCODE 0
 #define RC5_MODE_DECODE 1
 
-#define RC5_ENCODE_OVERHEAD 3*RC5_BLOCK_LEN
+#define RC5_ERROR_CODE_1 1 // Bad RC5 key length
+#define RC5_ERROR_CODE_2 2 // Can't read input file
+#define RC5_ERROR_CODE_3 3 // Input file is empty
+#define RC5_ERROR_CODE_4 4 // Can't create output file
 
 // Debugging log to console
 // 0 - disable debug print
@@ -75,6 +83,7 @@ public:
  void RC5_Setup(unsigned char *key);
 
  void RC5_SetKey(vector<unsigned char> &key);
+ void RC5_SetFormatVersionForce(unsigned char formatVersion);
  void RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out);
  void RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out);
 
@@ -86,6 +95,8 @@ public:
 
  void RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, int mode);
 
+ unsigned int RC5_GetErrorCode();
+
 private:
 
  RC5_TWORD rc5_s[RC5_T]; // Expanded key table
@@ -93,6 +104,10 @@ private:
  RC5_TWORD rc5_q; // Magic constants two
 
  unsigned char rc5_key[RC5_B];
+ unsigned char rc5_formatVersion;
+ bool rc5_isSetFormatVersionForce; 
+
+ unsigned int errorCode;
 
  inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
  inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
