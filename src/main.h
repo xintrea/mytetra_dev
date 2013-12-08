@@ -524,12 +524,15 @@ using namespace std;
 //        - Добавлена обработка события потери фокуса окном, при котором
 //          происходит сохранение данных. Это необходимо чтобы данные
 //          всегда автоматически записывались при выходе из системы.
+
+// 1.31.0 - Основана на версии 1.30.2
+//        - Заменена библиотека шифрования RC5Simple на версию 1.28
 	
 
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
-#define APPLICATION_RELEASE_SUBVERSION     30
-#define APPLICATION_RELEASE_MICROVERSION    2
+#define APPLICATION_RELEASE_SUBVERSION     31
+#define APPLICATION_RELEASE_MICROVERSION    0
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
