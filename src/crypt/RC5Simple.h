@@ -12,13 +12,30 @@
 
 using namespace std;
 
-#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.28 / 08.12.2013"
+#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.30 / 11.12.2013"
 
 #define RC5_FORMAT_VERSION_1 1
 #define RC5_FORMAT_VERSION_2 2
-#define RC5_FORMAT_VERSION_CURRENT RC5_FORMAT_VERSION_2
+#define RC5_FORMAT_VERSION_3 3
+#define RC5_FORMAT_VERSION_CURRENT RC5_FORMAT_VERSION_3
 
 #define RC5_SIMPLE_SIGNATURE "RC5SIMP" // Strong 7 bytes
+
+// For detect 32 or 64 architecture, this code checked LONG_BIT definition.
+// In *NIX GCC this definition is present.
+// In Windows is uncertain. 
+// Try, if need, set this definition at this place.
+// Sample:
+// #define LONG_BIT 64
+
+// If undestand enviroments
+#ifndef LONG_BIT
+
+typedef unsigned long int RC5_TWORD;
+#define RC5_ARCHITECTURE 32
+
+#else
+// Else definition LONG_BIT is presents
 
 #if LONG_BIT==32
 typedef unsigned long int RC5_TWORD;
@@ -28,6 +45,8 @@ typedef unsigned long int RC5_TWORD;
 #if LONG_BIT==64
 typedef unsigned int RC5_TWORD;
 #define RC5_ARCHITECTURE 64
+#endif
+
 #endif
 
 #ifndef RC5_ARCHITECTURE
@@ -56,6 +75,9 @@ typedef unsigned int RC5_TWORD;
 #define RC5_ERROR_CODE_2 2 // Can't read input file
 #define RC5_ERROR_CODE_3 3 // Input file is empty
 #define RC5_ERROR_CODE_4 4 // Can't create output file
+#define RC5_ERROR_CODE_5 5 // Can't encrypt null data
+#define RC5_ERROR_CODE_6 6 // Can't decrypt null data
+#define RC5_ERROR_CODE_7 7 // Incorrect data size for decrypt data
 
 // Debugging log to console
 // 0 - disable debug print

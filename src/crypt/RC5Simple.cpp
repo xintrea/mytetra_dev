@@ -87,6 +87,33 @@ Volgodonsk, 2011-2013
 //      - В заголовочном файле прописаны коды ошибок RC5_ERROR_CODE_X и
 //        их описания
 
+// 1.29 - Основана на версии 1.28
+//      - Внесены исправления для правильной компиляции под Windows, в которой
+//        отсутсвует предустановленное определение LONG_BIT. Теперь, в случае 
+//        отсутсвия данного определения, компиляция произвдится на 32-х битную
+//        платформу
+
+// Отвлекли: когда будешь ложиться спать, закрой у ребенка окно
+
+// 1.30 - Основана на версии 1.29
+//      - Добавлен формат 3. В предыдущем формате 2 обнаружено
+//        необоснованное занижение количества первичных случайных данных
+//        на половину длинны ключа шифрования. В формате 3 первичные
+//        случайные данные имеют полную ширину ключа шифрования
+//      - По умолчанию идет шифрация в формат 3
+//      - В метод RC5_Encrypt добавлена установка кода ошибки при попытке
+//        зашифровать пустые данные
+//      - В метод RC5_Decrypt добавлена установка кода ошибки при попытке
+//        расшифровать пустые данные
+//      - В метод RC5_Decrypt добавлена установка кода ошибки при попытке
+//        расшифровать данные с некорректной длинной
+//      - В методах расшифровки проставлены правильные константы для 
+//        смещений данных в разных форматах хранения
+//      - Произведена проверка через valgrind упаковки/распаковки в каждом
+//        из форматов. Везде имеем отчет
+//        ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+//      - Фиксация номера версии
+
 
 RC5Simple::RC5Simple(bool enableRandomInit)
 { 
@@ -131,6 +158,9 @@ void RC5Simple::RC5_SetFormatVersionForce(unsigned char formatVersionForce)
 }
 
 
+// Отвлекли: папа, бабушка нам дала адрес бабушки Люды
+// Отвлекли: таймер, готовить макароны
+// Отвлекли: сканируй письмо
 // Encrypt data block
 // Parameters: 
 // pt - input data
@@ -187,6 +217,7 @@ void RC5Simple::RC5_Setup(unsigned char *key)
    int i, j, k;
    RC5_TWORD u=RC5_W/8, a, b, l[RC5_C]; 
 
+   // Отвлекли: потренируй мне складку
    // Initialize l[], then rc5_s[], then mix key into rc5_s[]
    for(i=RC5_B-1, l[RC5_C-1]=0; i!=-1; i--)
     l[i/u] = (l[i/u]<<8)+key[i];
@@ -220,12 +251,12 @@ void RC5Simple::RC5_Setup(unsigned char *key)
 }
 
 
+// Отвлекли: смотри как я кувыркаюсь
 // Set secret key
 void RC5Simple::RC5_SetKey(vector<unsigned char> &key)
 {
  if(key.size()!=RC5_B)
   {
-   // printf("RC5 error! The RC5 key length %d bytes, but necessary %d bytes", (int) key.size(), (int) RC5_B);
    errorCode=RC5_ERROR_CODE_1;
    return;
   }
@@ -241,9 +272,14 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  // Clear output vector
  out.clear();
  
-
+ // Отвлекли: помой ребенка, потри его мочалкой а то он сам не может
+ // Отвлекли: смотри какое платье на кукле
  // No crypt null data
- if(in.size()==0) return;
+ if(in.size()==0) 
+  {
+   errorCode=RC5_ERROR_CODE_5;
+   return;
+  }
 
  
  // Save input data size
@@ -272,14 +308,22 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  for(int i=0; i<RC5_BLOCK_LEN; i++)
   in[i]=data_size[i];
 
+ // Отвлекли: почисть ребенку зубы
+ // Add firsted random data
+ unsigned int firsRandomDataBlocks=0;
+ if(rc5_formatVersion==RC5_FORMAT_VERSION_2)
+  firsRandomDataBlocks=1; // At start at format version 2, in begin data add one block with random data
 
- // At start at format version 2, in begin data add one block with random data
- if(rc5_formatVersion>=RC5_FORMAT_VERSION_2)
-  {
-   in.insert( in.begin(), RC5_BLOCK_LEN, 0);
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
-    in[i]=(unsigned char)RC5_Rand(0, 0xFF);
-  }
+ if(rc5_formatVersion==RC5_FORMAT_VERSION_3)
+  firsRandomDataBlocks=2; // At start at format version 3, in begin data add two blocks with random data (full width is 128 bit)
+
+ if(firsRandomDataBlocks>0) 
+  for(unsigned int n=1; n<=firsRandomDataBlocks; n++)
+   {
+    in.insert( in.begin(), RC5_BLOCK_LEN, 0);
+    for(int i=0; i<RC5_BLOCK_LEN; i++)
+     in[i]=(unsigned char)RC5_Rand(0, 0xFF);
+   }
 
 
  // Align end of data to block size
@@ -325,6 +369,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    notCryptDataSize=RC5_BLOCK_LEN;
   }
 
+ // Отвлекли: иди поешь
  // In format version 2 or higth save format header (block 0) and IV (block 1)
  if(rc5_formatVersion>=RC5_FORMAT_VERSION_2)
   {
@@ -336,7 +381,10 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
     out[i]=signature[i];
 
    // Format version byte in header
-   out[RC5_BLOCK_LEN-1]=RC5_FORMAT_VERSION_CURRENT;
+   if(rc5_isSetFormatVersionForce)
+    out[RC5_BLOCK_LEN-1]=rc5_formatVersion;
+   else
+    out[RC5_BLOCK_LEN-1]=RC5_FORMAT_VERSION_CURRENT;
 
    // Save start IV to second block in output data
    for(int i=0; i<RC5_BLOCK_LEN; i++)
@@ -393,6 +441,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
     RC5_LOG(( "Ct %.8X, %.8X\n", ct[0], ct[1] ));
    #endif
 
+   // Отвлекли: надо покушать, кончай питаться йогуртами
    // Save crypt data
    for(int i=0; i<RC5_WORD_LEN; i++)
     {
@@ -421,18 +470,20 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  // Return input vector to firsted data
  // -----------------------------------
 
- if(rc5_formatVersion==RC5_FORMAT_VERSION_1)
-  {
-   // Remove size block
+ // Отвлекли: сходи в магазин Магнит, у нас есть нечего
+ // Отвлекли: почитай ребенку
+ // Remove size block (for all formats)
+ in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN);
+
+ // Отвлекли: давай поиграем в Shatter
+ // Remove random data blocks
+ if(firsRandomDataBlocks>0) 
+  for(unsigned int n=1; n<=firsRandomDataBlocks; n++)
    in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN);
-  }
 
- if(rc5_formatVersion==RC5_FORMAT_VERSION_2)
-  {
-   // Remove random data block and size block
-   in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN*2);
-  }
-
+ // Отвлекли: звонок, проверь ребенку зрение
+ // Отвлекли: напечатай таблицу проверки зрения
+ // Отвлекли: проверь зрение у ребенка и у себя
  // Remove from input vector last random byte for aligning
  if(in.size()>clean_data_size)
   in.erase(in.begin()+clean_data_size, in.end());
@@ -445,14 +496,15 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 { 
  RC5_LOG(( "\nDecrypt\n" ));
 
- // Cleaning output vector
- out.clear();
- out.resize(in.size(), 0);
+ RC5_LOG(( "\nInput data size: %d\n", in.size() ));
 
-
+ // Отвлекли: иди покушай
  // No decrypt null data
  if(in.size()==0) 
-  return;
+  {
+   errorCode=RC5_ERROR_CODE_6;
+   return;
+  }
 
 
  // Detect format version
@@ -482,7 +534,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
      if(readFormatVersion>=RC5_FORMAT_VERSION_2 && readFormatVersion<=RC5_FORMAT_VERSION_CURRENT)
       formatVersion=readFormatVersion;
      else
-      formatVersion=RC5_FORMAT_VERSION_1; // If version not correct, may be it first format ( probability 0.[hrendesyatih]1 )
+      formatVersion=RC5_FORMAT_VERSION_1; // If version not correct, may be it format 1 ( probability 0.[hrendesyatih]1 )
     }
   }
 
@@ -490,19 +542,31 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  unsigned int ivShift=0;
  unsigned int firstDataBlock=0;
  unsigned int removeBlocksFromOutput=0;
+ unsigned int blockWithDataSize=0;
+
 
  if(formatVersion==RC5_FORMAT_VERSION_1)
   {
    ivShift=0;
    firstDataBlock=1; // Start decode from block with index 1 (from block 0 read IV)
    removeBlocksFromOutput=1;
+   blockWithDataSize=1;
   }
 
  if(formatVersion==RC5_FORMAT_VERSION_2)
   {
    ivShift=RC5_BLOCK_LEN;
    firstDataBlock=2; // Start decode from block with index 2 (0 - signature and version, 1 - IV)
-   removeBlocksFromOutput=2;
+   removeBlocksFromOutput=2; // Random data block and size data block
+   blockWithDataSize=3;
+  }
+
+ if(formatVersion==RC5_FORMAT_VERSION_3)
+  {
+   ivShift=RC5_BLOCK_LEN;
+   firstDataBlock=2; // Start decode from block with index 2 (0 - signature and version, 1 - IV)
+   removeBlocksFromOutput=3; // Two random data block and size data block
+   blockWithDataSize=4;
   }
 
 
@@ -514,6 +578,11 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
  // Set secret key for decrypt
  RC5_Setup(rc5_key);
+
+
+ // Cleaning output vector
+ out.clear();
+ out.resize(in.size(), 0);
 
 
  // Decode by blocks from started data block
@@ -567,8 +636,8 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    for(int i=0; i<RC5_BLOCK_LEN; i++)
     ct_part[i]^=iv[i];  
 
-   if( (formatVersion==RC5_FORMAT_VERSION_1 && block==1) ||
-       (formatVersion>=RC5_FORMAT_VERSION_2 && block==3) )
+   // Отвлекли: попугаи наверно голодные, кто бы их кормил, надо покормить
+   if(block==blockWithDataSize)
     {
      data_size=RC5_GetIntFromByte(ct_part[0], ct_part[1], ct_part[2], ct_part[3]);
 
@@ -577,7 +646,8 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
      // Uncorrect decrypt data size
      if((unsigned int)data_size>(unsigned int)in.size()) 
       {
-       RC5_LOG(( "Incorrect data size. Decrypt data size: %d, estimate data size: ~%d\n", data_size,  in.size() ));
+       // RC5_LOG(( "Incorrect data size. Decrypt data size: %d, estimate data size: ~%d\n", data_size,  in.size() ));
+       errorCode=RC5_ERROR_CODE_7;
        return;
       }
     }
@@ -595,7 +665,10 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    // Save decrypt data
    for(int i=0; i<RC5_BLOCK_LEN; i++)
-    out[shift-(removeBlocksFromOutput*RC5_BLOCK_LEN)+i]=ct_part[i]; 
+    {
+     RC5_LOG(( "Put decrypt data to vector out[%d] = %.2X\n", shift-(removeBlocksFromOutput*RC5_BLOCK_LEN)+i, ct_part[i] ));
+     out[shift-(firstDataBlock*RC5_BLOCK_LEN)+i]=ct_part[i]; 
+    }
 
    block++;
   }
@@ -605,12 +678,9 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  for(int i=0; i<RC5_BLOCK_LEN; i++)
   iv[i]=0;
 
- // Remove from output a block with random data (for format version >=2)
- if(formatVersion>=RC5_FORMAT_VERSION_2)
-  out.erase(out.begin(), out.begin()+RC5_BLOCK_LEN);
-
- // Remove from output a block with length
- out.erase(out.begin(), out.begin()+RC5_BLOCK_LEN);
+ // Отвлекли: Пошли за ребенком
+ // Remove from output a blocks with technical data (random blocks, size, etc...)
+ out.erase(out.begin(), out.begin()+removeBlocksFromOutput*RC5_BLOCK_LEN);
 
  // Remove from output a last byte with random byte for aligning
  if(out.size()>data_size)
@@ -624,8 +694,11 @@ void RC5Simple::RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name)
 }
 
 
+// Отвлекли: что это за пакет? Кухня, Бюджетный вариант?
+// Отвлекли: позвонил дедушка
 void RC5Simple::RC5_EncryptFile(const char *in_name, const char *out_name)
 {
+ // Отвлекли: виниловая наклейка как мечь, смотри
  RC5_EncDecFile((unsigned char *)in_name, (unsigned char *)out_name, RC5_MODE_ENCODE);
 }
 
@@ -649,7 +722,6 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 
  if((in_file=fopen( (const char*)in_name, "rb") )==NULL)
   {
-   // printf("RC5 error! Can not read file %s.\n", in_name);
    errorCode=RC5_ERROR_CODE_2;
    return;
   }
@@ -661,7 +733,6 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 
  if(in_file_length==0)
   {
-   // printf("RC5 error! File %s empty.\n", in_name);
    errorCode=RC5_ERROR_CODE_3;
    return;
   }
@@ -688,16 +759,19 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
  // Create output file
  if((out_file=fopen( (const char*)out_name, "wb") )==NULL)
   {
-   // printf("RC5 error! Can not create output file %s.\n", out_name);
    errorCode=RC5_ERROR_CODE_4;
    return;
   }
 
  // Fill output file
  for(unsigned int i=0; i<out.size(); i++)
-  fputc(out[i], out_file);
+  {
+   RC5_LOG(( "File byte %d : %.2X \n", i, out[i] )); 
+   fputc(out[i], out_file);
+  } 
 
  fclose(out_file);
+
 }
 
 

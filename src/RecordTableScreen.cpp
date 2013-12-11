@@ -715,6 +715,11 @@ void RecordTableScreen::deleteRecords(void)
 // из таблицы конечных записей
 void RecordTableScreen::cut(void)
 {
+ // Надо сохранить запись, так как перед копированием в буфер обмена запись 
+ // обязательно должна быть сохранена, иначе редактирование, 
+ // которое было после открытия записи и до нажатия Cut, потеряется
+ find_object<MetaEditor>("editorview")->save_textarea();
+
  copy();
  deleteRecords();
 }

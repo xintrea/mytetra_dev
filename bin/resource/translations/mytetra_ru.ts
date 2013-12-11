@@ -327,57 +327,57 @@ Stored password will be cleared if uncheck this checkbox.</source>
 <context>
     <name>Editor</name>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="233"/>
+        <location filename="../../../src/editor/Editor.cpp" line="234"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="240"/>
+        <location filename="../../../src/editor/Editor.cpp" line="241"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="247"/>
+        <location filename="../../../src/editor/Editor.cpp" line="248"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="255"/>
+        <location filename="../../../src/editor/Editor.cpp" line="256"/>
         <source>Numeric list</source>
         <translation>Нумерованный список</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="261"/>
+        <location filename="../../../src/editor/Editor.cpp" line="262"/>
         <source>Marked list</source>
         <translation>Маркированный список</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="281"/>
+        <location filename="../../../src/editor/Editor.cpp" line="282"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="288"/>
+        <location filename="../../../src/editor/Editor.cpp" line="289"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="295"/>
+        <location filename="../../../src/editor/Editor.cpp" line="296"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="302"/>
+        <location filename="../../../src/editor/Editor.cpp" line="303"/>
         <source>Ctrl+J</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="344"/>
+        <location filename="../../../src/editor/Editor.cpp" line="345"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="345"/>
+        <location filename="../../../src/editor/Editor.cpp" line="346"/>
         <source>Find text (Ctrl+F)</source>
         <translation>Поиск текста (Ctrl+F)</translation>
     </message>
@@ -386,178 +386,178 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="obsolete">Просмотр HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="213"/>
+        <location filename="../../../src/editor/Editor.cpp" line="214"/>
         <source>Bold (Ctrl+B)</source>
         <translation>Полужирный (Ctrl+B)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="220"/>
+        <location filename="../../../src/editor/Editor.cpp" line="221"/>
         <source>Italic (Ctrl+I)</source>
         <translation>Курсив (Ctrl+I)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="227"/>
+        <location filename="../../../src/editor/Editor.cpp" line="228"/>
         <source>Underline (Ctrl+U)</source>
         <translation>Подчёркнутый (Ctrl+U)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="234"/>
+        <location filename="../../../src/editor/Editor.cpp" line="235"/>
         <source>Monospace (Ctrl+T)</source>
         <translation>Моноширинный (Ctrl+T)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="241"/>
+        <location filename="../../../src/editor/Editor.cpp" line="242"/>
         <source>Code (Ctrl+M). Select a whole paragraphs to format text as code.</source>
         <translation>Код (Ctrl+M). Для форматирования в код необходимо целеком выделить абзац(ы).</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="248"/>
+        <location filename="../../../src/editor/Editor.cpp" line="249"/>
         <source>Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case.</source>
         <translation>Сброс форматирования к стандартному (Ctrl+K). Если выбрана часть строки, очищается начертание. Если выбран абзац, очищается всё форматирование.</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="268"/>
+        <location filename="../../../src/editor/Editor.cpp" line="269"/>
         <source>Increase indent</source>
         <translation>Увеличить отступ</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="274"/>
+        <location filename="../../../src/editor/Editor.cpp" line="275"/>
         <source>Decrease indent</source>
         <translation>Уменьшить отступ</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="282"/>
+        <location filename="../../../src/editor/Editor.cpp" line="283"/>
         <source>Align left (Ctrl+L)</source>
         <translation>По левому краю (Ctrl+L)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="289"/>
+        <location filename="../../../src/editor/Editor.cpp" line="290"/>
         <source>Align center (Ctrl+E)</source>
         <translation>По центру (Ctrl+E)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="296"/>
+        <location filename="../../../src/editor/Editor.cpp" line="297"/>
         <source>Align right (Ctrl+R)</source>
         <translation>По правому краю (Ctrl+R)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="303"/>
+        <location filename="../../../src/editor/Editor.cpp" line="304"/>
         <source>Align width (Ctrl+J)</source>
         <translation>По ширине (Ctrl+J)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="337"/>
+        <location filename="../../../src/editor/Editor.cpp" line="338"/>
         <source>Text color</source>
         <translation>Цвет текста</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="351"/>
+        <location filename="../../../src/editor/Editor.cpp" line="352"/>
         <source>Editor settings</source>
         <translation>Настройки редактора</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="357"/>
+        <location filename="../../../src/editor/Editor.cpp" line="358"/>
         <source>Edit HTML code</source>
         <translation>Редактирование HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="363"/>
+        <location filename="../../../src/editor/Editor.cpp" line="364"/>
         <source>Show special chars</source>
         <translation>Показать символы форматирования</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="369"/>
+        <location filename="../../../src/editor/Editor.cpp" line="370"/>
         <source>Create a new table</source>
         <translation>Создать новую таблицу</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="374"/>
+        <location filename="../../../src/editor/Editor.cpp" line="375"/>
         <source>Remove row(s)</source>
         <translation>Удалить строку</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="379"/>
+        <location filename="../../../src/editor/Editor.cpp" line="380"/>
         <source>Remove column(s)</source>
         <translation>Удалить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="384"/>
+        <location filename="../../../src/editor/Editor.cpp" line="385"/>
         <source>Add row(s)</source>
         <translation>Добавить строки</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="389"/>
+        <location filename="../../../src/editor/Editor.cpp" line="390"/>
         <source>Add column(s)</source>
         <translation>Добавить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="394"/>
+        <location filename="../../../src/editor/Editor.cpp" line="395"/>
         <source>Merge cells</source>
         <translation>Объединить ячейки</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="399"/>
-        <location filename="../../../src/editor/Editor.cpp" line="2219"/>
+        <location filename="../../../src/editor/Editor.cpp" line="400"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2258"/>
         <source>Split cell</source>
         <translation>Разделить ячейку</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="404"/>
+        <location filename="../../../src/editor/Editor.cpp" line="405"/>
         <source>Insert image from file / edit image properties of selected image</source>
         <translation>Вставка картинки из файла / Редактирование свойств картинки</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="409"/>
+        <location filename="../../../src/editor/Editor.cpp" line="410"/>
         <source>Expand edit area</source>
         <translation>Распахнуть область редактирования</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="414"/>
+        <location filename="../../../src/editor/Editor.cpp" line="415"/>
         <source>Expand tools</source>
         <translation>Развернуть панель инструментов</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="419"/>
+        <location filename="../../../src/editor/Editor.cpp" line="420"/>
         <source>Save (Ctrl+S)</source>
         <translation>Сохранить (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="420"/>
+        <location filename="../../../src/editor/Editor.cpp" line="421"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="1887"/>
+        <location filename="../../../src/editor/Editor.cpp" line="1922"/>
         <source>Edit HTML source</source>
         <translation>Редактирование исходного HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="1912"/>
+        <location filename="../../../src/editor/Editor.cpp" line="1951"/>
         <source>Search result</source>
         <translation>Результат поиска</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="1913"/>
+        <location filename="../../../src/editor/Editor.cpp" line="1952"/>
         <source>String &apos;&lt;b&gt;</source>
         <translation>Строка &apos;&lt;b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="1913"/>
+        <location filename="../../../src/editor/Editor.cpp" line="1952"/>
         <source>&lt;/b&gt;&apos; not found</source>
         <translation>&lt;/b&gt;&apos; не найдена</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2529"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2568"/>
         <source>Real image size </source>
         <translation>Истинный размер изображения </translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2533"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2572"/>
         <source> pixels</source>
         <translation> точек</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2460"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2499"/>
         <source>Insert image</source>
         <translation>Вставка изображения</translation>
     </message>
@@ -570,27 +570,27 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="obsolete">&lt;/b&gt;&quot; не найдена</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2162"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2201"/>
         <source>Append rows to table</source>
         <translation>Добавление строк в таблицу</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2162"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2201"/>
         <source>Append rows:</source>
         <translation>Количество строк:</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2181"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2220"/>
         <source>Append columns to table</source>
         <translation>Добавление столбцов в таблицу</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2181"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2220"/>
         <source>Append columns:</source>
         <translation>Количество столбцов:</translation>
     </message>
     <message>
-        <location filename="../../../src/editor/Editor.cpp" line="2220"/>
+        <location filename="../../../src/editor/Editor.cpp" line="2259"/>
         <source>Select a single cell.</source>
         <translation>Необходимо выбрать только одну ячейку.</translation>
     </message>
@@ -1153,73 +1153,73 @@ in current directory  &quot;%1&quot;.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="308"/>
+        <location filename="../../../src/MainWindow.cpp" line="310"/>
         <source>&amp;File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="348"/>
+        <location filename="../../../src/MainWindow.cpp" line="350"/>
         <source>&amp;Print...</source>
         <translation>Печать...</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="354"/>
+        <location filename="../../../src/MainWindow.cpp" line="356"/>
         <source>Print Preview...</source>
         <translation>Предварительный просмотр</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="358"/>
+        <location filename="../../../src/MainWindow.cpp" line="360"/>
         <source>&amp;Export PDF...</source>
         <translation>Экспорт в PDF...</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="366"/>
-        <location filename="../../../src/MainWindow.cpp" line="634"/>
+        <location filename="../../../src/MainWindow.cpp" line="368"/>
+        <location filename="../../../src/MainWindow.cpp" line="636"/>
         <source>&amp;Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="377"/>
+        <location filename="../../../src/MainWindow.cpp" line="379"/>
         <source>&amp;Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="382"/>
+        <location filename="../../../src/MainWindow.cpp" line="384"/>
         <source>Find in ba&amp;se</source>
         <translation>Поиск в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="388"/>
+        <location filename="../../../src/MainWindow.cpp" line="390"/>
         <source>&amp;Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="398"/>
+        <location filename="../../../src/MainWindow.cpp" line="400"/>
         <source>&amp;Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="403"/>
+        <location filename="../../../src/MainWindow.cpp" line="405"/>
         <source>About MyTetra</source>
         <translation>О программе MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="407"/>
+        <location filename="../../../src/MainWindow.cpp" line="409"/>
         <source>About Qt</source>
         <translation>О фреймворке Qt</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="445"/>
+        <location filename="../../../src/MainWindow.cpp" line="447"/>
         <source>Print Document</source>
         <translation>Печать документа</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="586"/>
+        <location filename="../../../src/MainWindow.cpp" line="588"/>
         <source>MyTetra: can&apos;t synchronization</source>
         <translation>MyTetra: Синхронизация невозможна</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="587"/>
+        <location filename="../../../src/MainWindow.cpp" line="589"/>
         <source>Do not set synchronization command.&lt;br&gt;Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</source>
         <translation>Не задана команда синхронизации.&lt;br&gt;Проверьте меню &quot;Инструменты&quot;, &quot;Настройки&quot;, раздел &quot;Синхронизация&quot;.</translation>
     </message>
@@ -1229,27 +1229,27 @@ Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</sourc
         <translation type="obsolete">Не задана команда синхронизации.\nПроверьте меню \&quot;Инструменты\&quot;, \&quot;Настройки\&quot;, раздел \&quot;Синхронизация\&quot;.</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="602"/>
+        <location filename="../../../src/MainWindow.cpp" line="604"/>
         <source>MyTetra synchronization</source>
         <translation>Синхронизация MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="603"/>
+        <location filename="../../../src/MainWindow.cpp" line="605"/>
         <source>Synchronization in progress, please wait...</source>
         <translation>Происходит синхронизация. Пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="625"/>
+        <location filename="../../../src/MainWindow.cpp" line="627"/>
         <source>&amp;Restore window</source>
         <translation>Показать окно</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="628"/>
+        <location filename="../../../src/MainWindow.cpp" line="630"/>
         <source>Ma&amp;ximize window</source>
         <translation>Развернуть окно</translation>
     </message>
     <message>
-        <location filename="../../../src/MainWindow.cpp" line="631"/>
+        <location filename="../../../src/MainWindow.cpp" line="633"/>
         <source>Mi&amp;nimize window</source>
         <translation>Свернуть окно</translation>
     </message>
@@ -1622,7 +1622,7 @@ Please select single item for enabling insert operation.</source>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="107"/>
         <source>Delete item</source>
-        <translation>Удалить</translation>
+        <translation>Удалить ветку</translation>
     </message>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="108"/>
@@ -1633,7 +1633,7 @@ Please select single item for enabling insert operation.</source>
         <location filename="../../../src/TreeScreen.cpp" line="114"/>
         <location filename="../../../src/TreeScreen.cpp" line="671"/>
         <source>Cut item</source>
-        <translation>Вырезать</translation>
+        <translation>Вырезать ветку</translation>
     </message>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="115"/>
@@ -1643,7 +1643,7 @@ Please select single item for enabling insert operation.</source>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="121"/>
         <source>Copy item</source>
-        <translation>Копировать</translation>
+        <translation>Копировать ветку</translation>
     </message>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="122"/>
@@ -1653,7 +1653,7 @@ Please select single item for enabling insert operation.</source>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="128"/>
         <source>Paste item</source>
-        <translation>Вставить</translation>
+        <translation>Вставить ветку</translation>
     </message>
     <message>
         <location filename="../../../src/TreeScreen.cpp" line="129"/>
