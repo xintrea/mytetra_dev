@@ -352,6 +352,18 @@ void AppConfig::set_findscreen_howextract(int pos)
 }
 
 
+int AppConfig::getFindScreenTreeSearchArea(void)
+{
+ return conf->value("findScreenTreeSearchArea",0).toInt();
+}
+
+
+void AppConfig::setFindScreenTreeSearchArea(int pos)
+{
+ conf->setValue("findScreenTreeSearchArea",pos);
+}
+
+
 bool AppConfig::get_findscreen_find_in_field(QString fieldName)
 {
  return conf->value("findscreen_find_in"+fieldName,0).toBool();
@@ -604,7 +616,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 8
+ // Последняя версия на данный момент - 14
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -629,6 +641,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(11, 12, get_parameter_table_11(), get_parameter_table_12());
  if(fromVersion<=12)
   updater.update_version(12, 13, get_parameter_table_12(), get_parameter_table_13());
+ if(fromVersion<=13)
+  updater.update_version(13, 14, get_parameter_table_13(), get_parameter_table_14());
 }
 
 
@@ -897,6 +911,25 @@ QStringList AppConfig::get_parameter_table_13(bool withEndSignature)
  // Новые параметры
  table << "rememberCursorAtHistoryNavigation" << "bool" << "true";
  table << "rememberCursorAtOrdinarySelection" << "bool" << "true";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_14(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 13
+ table << get_parameter_table_13(false);
+
+ // Новые параметры
+ table << "findScreenTreeSearchArea" << "int" << "0"; // Область поиска. Искать во всем дереве - 0, искать в текущей ветке - 1
 
  if(withEndSignature)
   table << "0" << "0" << "0";

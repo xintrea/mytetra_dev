@@ -23,6 +23,7 @@
 #include "TreeItem.h"
 #include "MetaEditor.h"
 #include "GlobalParameters.h"
+#include "TreeScreen.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;
@@ -67,6 +68,11 @@ void FindScreen::setupToolsLine(void)
  howExtract->addItem(QIcon(":/resource/pic/find_in_base_substring.svg"), tr("Substring"));
  howExtract->setCurrentIndex(mytetraconfig.get_findscreen_howextract());
 
+ treeSearchArea=new QComboBox();
+ treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
+ treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
+ treeSearchArea->setCurrentIndex(mytetraconfig.getFindScreenTreeSearchArea());
+ 
  closeButton=new QToolButton(this);
  closeButton->setVisible(true);
  int w=closeButton->geometry().width();
@@ -91,6 +97,7 @@ void FindScreen::assemblyToolsLine(void)
  toolsLine->addWidget(findStartButton);
  toolsLine->addWidget(wordRegard);
  toolsLine->addWidget(howExtract);
+ toolsLine->addWidget(treeSearchArea);
  toolsLine->addStretch();
  
  // Вертикальная область с кнопкой закрытия и распоркой 
@@ -178,6 +185,9 @@ void FindScreen::setupSignals(void)
 
  connect(howExtract,SIGNAL(currentIndexChanged(int)),
          this,SLOT(changedHowExtract(int)));
+ 
+ connect(treeSearchArea,SIGNAL(currentIndexChanged(int)),
+         this,SLOT(changedTreeSearchArea(int)));
 
  connect(findInName,SIGNAL(stateChanged(int)),
          this,SLOT(changedFindInName(int)));
@@ -290,6 +300,29 @@ void FindScreen::findStart(void)
  // Выясняется ссылка на модель дерева данных
  KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
  
+ // Выясняется стартовый элемент в дереве, с которого будет начат поиск
+ TreeItem *startItem=0;
+ if(mytetraconfig.getFindScreenTreeSearchArea()==0) // Если нужен поиск во всем дереве
+  startItem=searchModel->rootItem; // Корневой элемент дерева
+ else if (mytetraconfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
+ {
+  // Индекс текущей выбранной ветки
+  QModelIndex currentItemIndex=find_object<TreeScreen>("treeview")->getCurrentItemIndex();
+
+  startItem=searchModel->getItem(currentItemIndex); // Текущая ветка
+ }
+
+ // Если старотовый элемент не был установлен
+ if(startItem==0)
+  {
+   QMessageBox messageBox(this);
+   messageBox.setWindowTitle(tr("Cannot start find process"));
+   messageBox.setText(tr("Cant set start search element in tree."));
+   messageBox.addButton(tr("OK"),QMessageBox::AcceptRole);
+   messageBox.exec();
+   return; 
+  }
+ 
  // Выясняется сколько всего конечных записей
  int total_rec=searchModel->getAllRecordCount();
  qDebug() << "Start finding in " << total_rec << " records";
@@ -306,8 +339,8 @@ void FindScreen::findStart(void)
  totalProgressCounter=0;
  cancelFlag=0;
  
- //Вызывается рекурсивный поиск в дереве, начиная с корневого элемента
- findRecurse(searchModel->rootItem);
+ //Вызывается рекурсивный поиск в дереве
+ findRecurse( startItem ); 
  
  // После вставки всех данных подгоняется ширина колонок
  findTable->updateColumnsWidth();
@@ -478,6 +511,12 @@ void FindScreen::changedWordRegard(int pos)
 void FindScreen::changedHowExtract(int pos)
 {
  mytetraconfig.set_findscreen_howextract(pos);
+}
+
+
+void FindScreen::changedTreeSearchArea(int pos)
+{
+ mytetraconfig.setFindScreenTreeSearchArea(pos);
 }
 
 

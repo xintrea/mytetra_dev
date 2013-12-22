@@ -45,6 +45,7 @@ private slots:
  
  void changedWordRegard(int pos);
  void changedHowExtract(int pos);
+ void changedTreeSearchArea(int pos);
  
  void changedFindInName(int state);
  void changedFindInAuthor(int state);
@@ -65,6 +66,7 @@ private:
  QPushButton *findStartButton;
  QComboBox *wordRegard;
  QComboBox *howExtract;
+ QComboBox *treeSearchArea;
  QToolButton *closeButton;
  
  QLabel *whereFindLabel;

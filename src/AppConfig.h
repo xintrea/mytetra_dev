@@ -87,6 +87,9 @@ public:
 
     int get_findscreen_howextract(void);
     void set_findscreen_howextract(int pos);
+    
+    int getFindScreenTreeSearchArea(void);
+    void setFindScreenTreeSearchArea(int pos);
 
     bool get_findscreen_find_in_field(QString fieldName);
     void set_findscreen_find_in_field(QString fieldName, bool isChecked);
@@ -160,6 +163,7 @@ private:
     QStringList get_parameter_table_11(bool withEndSignature=true);
     QStringList get_parameter_table_12(bool withEndSignature=true);
     QStringList get_parameter_table_13(bool withEndSignature=true);
+    QStringList get_parameter_table_14(bool withEndSignature=true);
     
     bool is_init_flag;
 };
