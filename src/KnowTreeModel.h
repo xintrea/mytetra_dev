@@ -49,6 +49,9 @@ public:
 
     // Возвращает общее количество записей, хранимых в дереве
     int getAllRecordCount(void);
+    
+    // Возвращает количество записей в ветке и всех подветках
+    int getRecordCountForItem(TreeItem *item);
 
     QString pasteNewChildBranch(const QModelIndex &index, ClipboardBranch *subbranch);
     QString pasteNewSiblingBranch(const QModelIndex &index, ClipboardBranch *subbranch);

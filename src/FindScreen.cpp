@@ -300,19 +300,35 @@ void FindScreen::findStart(void)
  // Выясняется ссылка на модель дерева данных
  KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
  
+ 
  // Выясняется стартовый элемент в дереве, с которого будет начат поиск
+ // Выясняется сколько всего конечных записей
  TreeItem *startItem=0;
+ int totalRec=0;
  if(mytetraconfig.getFindScreenTreeSearchArea()==0) // Если нужен поиск во всем дереве
-  startItem=searchModel->rootItem; // Корневой элемент дерева
+ {
+  // Корневой элемент дерева
+  startItem=searchModel->rootItem;
+  
+  // Количество элементов (веток) во всем дереве
+  totalRec=searchModel->getAllRecordCount();
+ }
  else if (mytetraconfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
  {
   // Индекс текущей выбранной ветки
   QModelIndex currentItemIndex=find_object<TreeScreen>("treeview")->getCurrentItemIndex();
 
-  startItem=searchModel->getItem(currentItemIndex); // Текущая ветка
+  // Текущая ветка
+  startItem=searchModel->getItem(currentItemIndex);
+
+  // Количество элементов (веток) в текущей ветке и всех подветках
+  totalRec=searchModel->getRecordCountForItem(startItem);
  }
 
- // Если старотовый элемент не был установлен
+ qDebug() << "Start finding in " << totalRec << " records";
+ 
+ 
+ // Если стартовый элемент не был установлен
  if(startItem==0)
   {
    QMessageBox messageBox(this);
@@ -323,14 +339,11 @@ void FindScreen::findStart(void)
    return; 
   }
  
- // Выясняется сколько всего конечных записей
- int total_rec=searchModel->getAllRecordCount();
- qDebug() << "Start finding in " << total_rec << " records";
  
  // Показывается виджет линейки наполняемости
  progress->reset();
  progress->setLabelText(tr("Search..."));
- progress->setRange(0,total_rec);
+ progress->setRange(0,totalRec);
  progress->setModal(true);
  progress->setMinimumDuration(0);
  progress->show();

@@ -406,6 +406,16 @@ int KnowTreeModel::getAllRecordCount(void)
 }
 
 
+// Возвращает количество записей в ветке и всех подветках
+int KnowTreeModel::getRecordCountForItem(TreeItem *item)
+{
+ // Обнуление счетчика
+ getAllRecordCountRecurse(rootItem, 0);
+
+ return getAllRecordCountRecurse(item, 1);
+}
+
+
 int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
 {
  static int n=0;
