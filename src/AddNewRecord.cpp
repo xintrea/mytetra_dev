@@ -49,6 +49,12 @@ void AddNewRecord::setupUI(void)
  buttonBox=new QDialogButtonBox();
  buttonBox->setOrientation(Qt::Horizontal);
  buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::NoButton|QDialogButtonBox::Cancel);
+ 
+ // На кнопку OK назначается комбинация клавиш Ctrl+Enter
+ QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+ OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
+ OkButton->setToolTip(tr("Ctrl+Enter"));
+ qDebug() << "Ok button shortcut set to Ctrl+Enter."; 
 }
 
 

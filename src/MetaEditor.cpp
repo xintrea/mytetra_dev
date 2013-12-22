@@ -87,15 +87,15 @@ void MetaEditor::metaAssembly(void)
  metaEditorAssemblyLayout->setObjectName("metaeditor_assembly_layout");
 
  metaEditorAssemblyLayout->addLayout(textformatButtonsLayout, 0,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordName,                1,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordAuthor,              2,0, 1,2);
- metaEditorAssemblyLayout->addWidget(textArea,                  3,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(recordName,              1,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(recordAuthor,            2,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(textArea,                3,0, 1,2);
 
- metaEditorAssemblyLayout->addWidget(labelUrl,                 4,0);
- metaEditorAssemblyLayout->addWidget(recordUrl,                4,1);
+ metaEditorAssemblyLayout->addWidget(labelUrl,                4,0);
+ metaEditorAssemblyLayout->addWidget(recordUrl,               4,1);
 
- metaEditorAssemblyLayout->addWidget(labelTags,                5,0);
- metaEditorAssemblyLayout->addLayout(recordTagsLayout,         5,1);
+ metaEditorAssemblyLayout->addWidget(labelTags,               5,0);
+ metaEditorAssemblyLayout->addLayout(recordTagsLayout,        5,1);
 
  metaEditorAssemblyLayout->setColumnStretch(1,1);
 
