@@ -10,7 +10,8 @@
 #include <QPushButton>
 #include <QToolButton>
 
-#include "../../ConfigPage.h"
+#include "views/appConfigWindow/ConfigPage.h"
+
 
 class EditorConfig;
 

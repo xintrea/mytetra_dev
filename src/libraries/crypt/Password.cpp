@@ -4,14 +4,15 @@
 #include <QByteArray>
 #include <QString>
 
-#include "../KnowTreeModel.h"
+#include "main.h"
 #include "Password.h"
 #include "Pbkdf2Qt.h"
-#include "../main.h"
-#include "../AppConfig.h"
-#include "../GlobalParameters.h"
-#include "../EnterPassword.h"
-#include "../DataBaseConfig.h"
+
+#include "models/tree/KnowTreeModel.h"
+#include "models/appConfig/AppConfig.h"
+#include "libraries/GlobalParameters.h"
+#include "views/enterPassword/EnterPassword.h"
+#include "models/dataBaseConfig/DataBaseConfig.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;

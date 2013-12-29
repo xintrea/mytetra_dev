@@ -3,14 +3,14 @@
 #include <QTranslator>
 
 #include "main.h"
-#include "MainWindow.h"
-#include "AppConfig.h"
-#include "ClipboardRecords.h"
-#include "TrashMonitoring.h"
-#include "GlobalParameters.h"
-#include "libraries/qtsingleapplication/qtsingleapplication.h"
-#include "DataBaseConfig.h"
-#include "WalkHistory.h"
+#include "views/mainWindow/MainWindow.h"
+#include "models/appConfig/AppConfig.h"
+#include "libraries/ClipboardRecords.h"
+#include "libraries/TrashMonitoring.h"
+#include "libraries/GlobalParameters.h"
+#include "libraries/qtSingleApplication/qtsingleapplication.h"
+#include "models/dataBaseConfig/DataBaseConfig.h"
+#include "libraries/WalkHistory.h"
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 

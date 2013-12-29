@@ -19,6 +19,7 @@ MOC_DIR = build
 UI_DIR = build
 FORMS = 
 QMAKE_LFLAGS += -L/usr/lib/qt4/lib
+INCLUDEPATH += $${_PRO_FILE_PWD_}/src
 
 !contains(TARGET_OS_IS_MEEGO, 1) {
  message(Building the any OS version...)
@@ -56,41 +57,40 @@ icon_48_file.files=desktop/mytetra.png
 INSTALLS+=icon_48_file
 
 
-HEADERS = src/SaveLoad.h \
-    src/RecordTableScreen.h \
-    src/RecordInfoFieldsEditor.h \
-    src/InfoFieldEnter.h \
-    src/MetaEditor.h \
+HEADERS = src/main.h \
+    src/views/recordTable/RecordTableScreen.h \
+    src/views/record/RecordInfoFieldsEditor.h \
+    src/views/record/InfoFieldEnter.h \
+    src/views/record/MetaEditor.h \
     src/libraries/wyedit/Editor.h \
     src/libraries/wyedit/EditorConfig.h \
     src/libraries/wyedit/EditorConfigDialog.h \
     src/libraries/wyedit/EditorConfigFont.h \
     src/libraries/wyedit/EditorConfigMisc.h \
     src/libraries/wyedit/EditorFindDialog.h \
-    src/MainWindow.h \
-    src/PrintPreview.h \
-    src/main.h \
-    src/XmlTree.h \
-    src/TreeModel.h \
-    src/TreeItem.h \
-    src/KnowTreeModel.h \
-    src/RecordTableData.h \
-    src/RecordTableModel.h \
-    src/AppConfig.h \
-    src/AddNewRecord.h \
-    src/ClipboardRecords.h \
-    src/TreeScreen.h \
-    src/FindScreen.h \
-    src/FindTableWidget.h \
-    src/AppConfigDialog.h \
-    src/ConfigDialog.h \
-    src/ConfigPage.h \
-    src/AppConfigPage_Main.h \
-    src/AppConfigPage_Misc.h \
-    src/AppConfigPage_Crypt.h \
-    src/AppConfigPage_Synchro.h \
-    src/AppConfigUpdater.h \
-    src/TrashMonitoring.h \
+    src/views/mainWindow/MainWindow.h \
+    src/views/printPreview/PrintPreview.h \
+    src/models/tree/XmlTree.h \
+    src/models/tree/TreeModel.h \
+    src/models/tree/TreeItem.h \
+    src/models/tree/KnowTreeModel.h \
+    src/models/recordTable/RecordTableData.h \
+    src/models/recordTable/RecordTableModel.h \
+    src/models/appConfig/AppConfig.h \
+    src/views/record/AddNewRecord.h \
+    src/libraries/ClipboardRecords.h \
+    src/views/tree/TreeScreen.h \
+    src/views/findInBaseScreen/FindScreen.h \
+    src/views/findInBaseScreen/FindTableWidget.h \
+    src/views/appConfigWindow/AppConfigDialog.h \
+    src/views/appConfigWindow/ConfigDialog.h \
+    src/views/appConfigWindow/ConfigPage.h \
+    src/views/appConfigWindow/AppConfigPage_Main.h \
+    src/views/appConfigWindow/AppConfigPage_Misc.h \
+    src/views/appConfigWindow/AppConfigPage_Crypt.h \
+    src/views/appConfigWindow/AppConfigPage_Synchro.h \
+    src/models/appConfig/AppConfigUpdater.h \
+    src/libraries/TrashMonitoring.h \
     src/libraries/wyedit/EditorContextMenu.h \
     src/libraries/wyedit/EditorTextArea.h \
     src/libraries/wyedit/indentslider/IndentSlider.h \
@@ -100,57 +100,56 @@ HEADERS = src/SaveLoad.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
-    src/libraries/qtsingleapplication/qtsingleapplication.h \
-    src/libraries/qtsingleapplication/qtlockedfile.h \
-    src/libraries/qtsingleapplication/qtlocalpeer.h \
-    src/libraries/qtsingleapplication/qtsinglecoreapplication.h \
-    src/RecordListScreen.h \
-    src/ClipboardBranch.h \
-    src/GlobalParameters.h \
-    src/DataBaseConfig.h \
-    src/EnterPassword.h \
-    src/ExecuteCommand.h \
-    src/ConsoleEmulator.h \
-    src/WaitClock.h \
-    src/WalkHistory.h \
+    src/libraries/qtSingleApplication/qtsingleapplication.h \
+    src/libraries/qtSingleApplication/qtlockedfile.h \
+    src/libraries/qtSingleApplication/qtlocalpeer.h \
+    src/libraries/qtSingleApplication/qtsinglecoreapplication.h \
+    src/views/recordTable/RecordListScreen.h \
+    src/libraries/ClipboardBranch.h \
+    src/libraries/GlobalParameters.h \
+    src/models/dataBaseConfig/DataBaseConfig.h \
+    src/views/enterPassword/EnterPassword.h \
+    src/views/consoleEmulator/ExecuteCommand.h \
+    src/views/consoleEmulator/ConsoleEmulator.h \
+    src/views/waitClock/WaitClock.h \
+    src/libraries/WalkHistory.h \
     src/libraries/crypt/Pbkdf2Qt.h \
     src/libraries/crypt/RC5Simple.h \
     src/libraries/crypt/Password.h
-SOURCES = src/SaveLoad.cpp \
-    src/RecordTableScreen.cpp \
-    src/RecordInfoFieldsEditor.cpp \
-    src/InfoFieldEnter.cpp \
-    src/MetaEditor.cpp \
+SOURCES = src/main.cpp \
+    src/views/recordTable/RecordTableScreen.cpp \
+    src/views/record/RecordInfoFieldsEditor.cpp \
+    src/views/record/InfoFieldEnter.cpp \
+    src/views/record/MetaEditor.cpp \
     src/libraries/wyedit/Editor.cpp \
     src/libraries/wyedit/EditorConfig.cpp \
     src/libraries/wyedit/EditorConfigDialog.cpp \
     src/libraries/wyedit/EditorConfigFont.cpp \
     src/libraries/wyedit/EditorConfigMisc.cpp \
     src/libraries/wyedit/EditorFindDialog.cpp \
-    src/MainWindow.cpp \
-    src/PrintPreview.cpp \
-    src/main.cpp \
-    src/XmlTree.cpp \
-    src/TreeModel.cpp \
-    src/TreeItem.cpp \
-    src/KnowTreeModel.cpp \
-    src/RecordTableData.cpp \
-    src/RecordTableModel.cpp \
-    src/AppConfig.cpp \
-    src/AddNewRecord.cpp \
-    src/ClipboardRecords.cpp \
-    src/TreeScreen.cpp \
-    src/FindScreen.cpp \
-    src/FindTableWidget.cpp \
-    src/AppConfigDialog.cpp \
-    src/ConfigDialog.cpp \
-    src/ConfigPage.cpp \
-    src/AppConfigPage_Main.cpp \
-    src/AppConfigPage_Misc.cpp \
-    src/AppConfigPage_Crypt.cpp \
-    src/AppConfigPage_Synchro.cpp \
-    src/AppConfigUpdater.cpp \
-    src/TrashMonitoring.cpp \
+    src/views/mainWindow/MainWindow.cpp \
+    src/views/printPreview/PrintPreview.cpp \
+    src/models/tree/XmlTree.cpp \
+    src/models/tree/TreeModel.cpp \
+    src/models/tree/TreeItem.cpp \
+    src/models/tree/KnowTreeModel.cpp \
+    src/models/recordTable/RecordTableData.cpp \
+    src/models/recordTable/RecordTableModel.cpp \
+    src/models/appConfig/AppConfig.cpp \
+    src/views/record/AddNewRecord.cpp \
+    src/libraries/ClipboardRecords.cpp \
+    src/views/tree/TreeScreen.cpp \
+    src/views/findInBaseScreen/FindScreen.cpp \
+    src/views/findInBaseScreen/FindTableWidget.cpp \
+    src/views/appConfigWindow/AppConfigDialog.cpp \
+    src/views/appConfigWindow/ConfigDialog.cpp \
+    src/views/appConfigWindow/ConfigPage.cpp \
+    src/views/appConfigWindow/AppConfigPage_Main.cpp \
+    src/views/appConfigWindow/AppConfigPage_Misc.cpp \
+    src/views/appConfigWindow/AppConfigPage_Crypt.cpp \
+    src/views/appConfigWindow/AppConfigPage_Synchro.cpp \
+    src/models/appConfig/AppConfigUpdater.cpp \
+    src/libraries/TrashMonitoring.cpp \
     src/libraries/wyedit/EditorContextMenu.cpp \
     src/libraries/wyedit/EditorTextArea.cpp \
     src/libraries/wyedit/indentslider/IndentSlider.cpp \
@@ -160,19 +159,19 @@ SOURCES = src/SaveLoad.cpp \
     src/libraries/wyedit/EditorAddTableForm.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
     src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
-    src/libraries/qtsingleapplication/qtsingleapplication.cpp \
-    src/libraries/qtsingleapplication/qtlockedfile.cpp \
-    src/libraries/qtsingleapplication/qtlocalpeer.cpp \
-    src/libraries/qtsingleapplication/qtsinglecoreapplication.cpp \
-    src/RecordListScreen.cpp \
-    src/ClipboardBranch.cpp \
-    src/GlobalParameters.cpp \
-    src/DataBaseConfig.cpp \
-    src/EnterPassword.cpp \
-    src/ExecuteCommand.cpp \
-    src/ConsoleEmulator.cpp \
-    src/WaitClock.cpp \
-    src/WalkHistory.cpp \
+    src/libraries/qtSingleApplication/qtsingleapplication.cpp \
+    src/libraries/qtSingleApplication/qtlockedfile.cpp \
+    src/libraries/qtSingleApplication/qtlocalpeer.cpp \
+    src/libraries/qtSingleApplication/qtsinglecoreapplication.cpp \
+    src/views/recordTable/RecordListScreen.cpp \
+    src/libraries/ClipboardBranch.cpp \
+    src/libraries/GlobalParameters.cpp \
+    src/models/dataBaseConfig/DataBaseConfig.cpp \
+    src/views/enterPassword/EnterPassword.cpp \
+    src/views/consoleEmulator/ExecuteCommand.cpp \
+    src/views/consoleEmulator/ConsoleEmulator.cpp \
+    src/views/waitClock/WaitClock.cpp \
+    src/libraries/WalkHistory.cpp \
     src/libraries/crypt/Pbkdf2Qt.cpp \
     src/libraries/crypt/RC5Simple.cpp \
     src/libraries/crypt/Password.cpp

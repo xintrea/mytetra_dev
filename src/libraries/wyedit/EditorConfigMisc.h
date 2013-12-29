@@ -6,7 +6,7 @@
 #include <QFontComboBox>
 #include <QSpinBox>
 
-#include "../../ConfigPage.h"
+#include "views/appConfigWindow/ConfigPage.h"
 
 class EditorConfig;
 
