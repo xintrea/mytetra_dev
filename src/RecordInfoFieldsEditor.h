@@ -1,5 +1,5 @@
-#ifndef __EDITRECORD_H__
-#define __EDITRECORD_H__
+#ifndef __RECORDINFOFIELDSEDITOR_H__
+#define __RECORDINFOFIELDSEDITOR_H__
 
 #include <QDialog>
 #include <QLabel>
@@ -9,16 +9,15 @@
 
 class InfoFieldEnter;
 
-// Окно редактирования записи
-// В данный момент редактирутся только инфополя
+// Окно редактирования инфополей записи
 
-class EditRecord : public QDialog
+class RecordInfoFieldsEditor : public QDialog
 {
 Q_OBJECT
 
 public:
- EditRecord( QWidget * parent = 0, Qt::WFlags f = 0 );
- ~EditRecord();
+ RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WFlags f = 0 );
+ ~RecordInfoFieldsEditor();
 
  QString getField(QString name);
  void setField(QString name, QString value);
@@ -29,7 +28,7 @@ private slots:
 
 private:
 
- // Ввод инфополей записи
+ // Виджет ввода инфополей записи
  InfoFieldEnter *infoField;
 
  QDialogButtonBox *buttonBox;
@@ -39,4 +38,4 @@ private:
  void assembly(void);
 };
 
-#endif // _EDITRECORD_H__
+#endif // __RECORDINFOFIELDSEDITOR_H__

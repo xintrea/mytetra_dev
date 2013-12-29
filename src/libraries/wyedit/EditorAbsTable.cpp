@@ -8,7 +8,8 @@
 
 #include "EditorAbsTable.h"
 #include "EditorAbsTableCell.h"
-#include "../main.h"
+
+#include "../../main.h"
 
 
 // Конструктор пустой таблицы

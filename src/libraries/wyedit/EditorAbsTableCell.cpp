@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 #include "EditorAbsTableCell.h"
-#include "../main.h"
+
+#include "../../main.h"
 
 
 // Конструктор по умолчанию пустой ячейки

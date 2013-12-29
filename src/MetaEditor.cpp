@@ -1,6 +1,6 @@
-#include "editor/Editor.h"
+#include "libraries/wyedit/Editor.h"
+#include "libraries/wyedit/EditorTextArea.h"
 #include "MetaEditor.h"
-#include "editor/EditorTextArea.h"
 #include "main.h"
 #include "GlobalParameters.h"
 #include "FindScreen.h"

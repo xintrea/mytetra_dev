@@ -15,7 +15,7 @@
 #include "MetaEditor.h"
 #include "AppConfig.h"
 #include "AddNewRecord.h"
-#include "EditRecord.h"
+#include "RecordInfoFieldsEditor.h"
 #include "FindScreen.h"
 #include "WalkHistory.h"
 
@@ -174,7 +174,6 @@ void RecordTableScreen::setupUI(void)
 
  recordView=new RecordListScreen(this);
  recordView->setObjectName("recordview");
- recordView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 
@@ -373,8 +372,8 @@ void RecordTableScreen::onClickToRecord(const QModelIndex &index)
 
  
  // Для новой выбраной записи выясняется директория и основной файл
- QString currentDir =table->getField("dir", index.row());
- QString currentFile=table->getField("file", index.row());
+ QString currentDir =table->getInfoField("dir", index.row());
+ QString currentFile=table->getInfoField("file", index.row());
  QString fullDir=mytetraconfig.get_tetradir()+"/base/"+currentDir;
  QString fullFileName=fullDir+"/"+currentFile;
  qDebug() << " File " << fullFileName << "\n";
@@ -392,15 +391,15 @@ void RecordTableScreen::onClickToRecord(const QModelIndex &index)
  // И если имя директории или имя файла пусты, то это означает что
  // запись не была расшифрована, и редактор должен просто показывать пустой текст
  // ничего не сохранять и не считывать
- qDebug() << "RecordTableScreen::onClickToRecord() : id " << table->getField("id", index.row());
- qDebug() << "RecordTableScreen::onClickToRecord() : name " << table->getField("name", index.row());
- qDebug() << "RecordTableScreen::onClickToRecord() : crypt " << table->getField("crypt", index.row());
- if(table->getField("crypt", index.row())=="1")
+ qDebug() << "RecordTableScreen::onClickToRecord() : id " << table->getInfoField("id", index.row());
+ qDebug() << "RecordTableScreen::onClickToRecord() : name " << table->getInfoField("name", index.row());
+ qDebug() << "RecordTableScreen::onClickToRecord() : crypt " << table->getInfoField("crypt", index.row());
+ if(table->getInfoField("crypt", index.row())=="1")
   if(fullDir.length()==0 || currentFile.length()==0)
    edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
 
  // В редактор заносится информация, идет ли работа с зашифрованным текстом
- edView->setMiscField("crypt", table->getField("crypt", index.row()));
+ edView->setMiscField("crypt", table->getInfoField("crypt", index.row()));
 
  // В редакторе устанавливается функция обратного вызова для чтения данных
  edView->set_load_callback(table->editorLoadCallback);
@@ -409,12 +408,12 @@ void RecordTableScreen::onClickToRecord(const QModelIndex &index)
  // edView->set_textarea(table->get_text(index.row()));
 
  // Заполняются прочие инфо-поля
- edView->setName  ( table->getField("name", index.row()) );
- edView->setAuthor( table->getField("author",index.row()) );
- edView->setUrl   ( table->getField("url", index.row()) );
- edView->setTags  ( table->getField("tags", index.row()) );
+ edView->setName  ( table->getInfoField("name", index.row()) );
+ edView->setAuthor( table->getInfoField("author",index.row()) );
+ edView->setUrl   ( table->getInfoField("url", index.row()) );
+ edView->setTags  ( table->getInfoField("tags", index.row()) );
 
- QString id=table->getField("id", index.row());
+ QString id=table->getInfoField("id", index.row());
  edView->setMiscField("id", id);
 
 
@@ -536,16 +535,16 @@ void RecordTableScreen::editFieldContext(void)
  int pos=(selectItems.at(0)).row();
 
  // Создается окно ввода данных, после выхода из этой функции окно должно удалиться
- EditRecord editRecordWin;
+ RecordInfoFieldsEditor editRecordWin;
 
   // Выясняется ссылка на таблицу конечных данных
  RecordTableData *table=recordModel->getTableData();
 
  // Поля окна заполняются начальными значениями
- editRecordWin.setField("name",  table->getField("name",index.row()) );
- editRecordWin.setField("author",table->getField("author",index.row()) );
- editRecordWin.setField("url",   table->getField("url",index.row()) );
- editRecordWin.setField("tags",  table->getField("tags",index.row()) );
+ editRecordWin.setField("name",  table->getInfoField("name",index.row()) );
+ editRecordWin.setField("author",table->getInfoField("author",index.row()) );
+ editRecordWin.setField("url",   table->getInfoField("url",index.row()) );
+ editRecordWin.setField("tags",  table->getInfoField("tags",index.row()) );
 
 
  int i=editRecordWin.exec();

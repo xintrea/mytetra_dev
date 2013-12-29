@@ -41,7 +41,7 @@ QVariant RecordTableModel::data(const QModelIndex &index, int nRole) const
  
  // Если запрашивается текст строки для отрисовки или для редактирования
  if(nRole==Qt::DisplayRole || nRole==Qt::EditRole)
-  return table->getField("name",index.row());
+  return table->getInfoField("name",index.row());
    
  // Во всех остальных случаях
  return QVariant();

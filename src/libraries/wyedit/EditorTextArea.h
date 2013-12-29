@@ -5,7 +5,6 @@
 #include <QPaintEvent>
 #include <QMimeData>
 
-
 class EditorTextArea : public QTextEdit
 {
  Q_OBJECT

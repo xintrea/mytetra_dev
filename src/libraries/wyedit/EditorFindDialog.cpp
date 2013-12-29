@@ -7,7 +7,6 @@
 #include <QtDebug>
 #include <QShowEvent>
 
-#include "../main.h"
 #include "Editor.h"
 #include "EditorConfig.h"
 #include "EditorFindDialog.h"

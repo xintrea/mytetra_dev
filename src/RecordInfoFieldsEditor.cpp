@@ -7,14 +7,14 @@
 #include <QTextDocumentFragment>
 
 #include "InfoFieldEnter.h"
-#include "EditRecord.h"
+#include "RecordInfoFieldsEditor.h"
 #include "main.h"
 
 
 // Окно редактирования информационных полей записи (не текста записи!)
 // Оно появляется при двойном клике на записи или при клике на кнопку редактирования полей записи
 
-EditRecord::EditRecord( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
+RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
 {
  setupUI();
  setupSignals();
@@ -22,13 +22,13 @@ EditRecord::EditRecord( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
 }
 
 
-EditRecord::~EditRecord()
+RecordInfoFieldsEditor::~RecordInfoFieldsEditor()
 {
 
 }
 
 
-void EditRecord::setupUI(void)
+void RecordInfoFieldsEditor::setupUI(void)
 {
  // Ввод инфополей записи
  infoField=new InfoFieldEnter();
@@ -42,18 +42,17 @@ void EditRecord::setupUI(void)
  QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
  OkButton->setToolTip(tr("Ctrl+Enter"));
- qDebug() << "Ok button shortcut set to Ctrl+Enter.";
 }
 
 
-void EditRecord::setupSignals(void)
+void RecordInfoFieldsEditor::setupSignals(void)
 {
  connect(buttonBox, SIGNAL(accepted()), this, SLOT(okClick(void)));
  connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
-void EditRecord::assembly(void)
+void RecordInfoFieldsEditor::assembly(void)
 {
  // Размещалка элементов
  QVBoxLayout *layout=new QVBoxLayout();
@@ -72,15 +71,10 @@ void EditRecord::assembly(void)
 
  // Фокус устанавливается на поле ввода названия записи
  infoField->setFocusToStart();
-
-
- // QWidget *wdgt=new QWidget;
- // wdgt->setLayout(vbl);
- // setCentralWidget(wdgt);
 }
 
 
-void EditRecord::okClick(void)
+void RecordInfoFieldsEditor::okClick(void)
 {
  QString message="";
 
@@ -102,7 +96,7 @@ void EditRecord::okClick(void)
 }
 
 
-QString EditRecord::getField(QString name)
+QString RecordInfoFieldsEditor::getField(QString name)
 {
  if(infoField->checkFieldName(name)==true)
   return infoField->getField(name);
@@ -113,7 +107,7 @@ QString EditRecord::getField(QString name)
 }
 
 
-void EditRecord::setField(QString name, QString value)
+void RecordInfoFieldsEditor::setField(QString name, QString value)
 {
  if(infoField->checkFieldName(name)==true)
   infoField->setField(name,value);

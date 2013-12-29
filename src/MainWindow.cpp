@@ -8,7 +8,6 @@
 #include "PrintPreview.h"
 #include "AppConfigDialog.h"
 #include "TrashMonitoring.h"
-#include "editor/EditorTextArea.h"
 #include "TreeScreen.h"
 #include "MetaEditor.h"
 #include "RecordTableScreen.h"
@@ -18,6 +17,8 @@
 #include "GlobalParameters.h"
 #include "ExecuteCommand.h"
 #include "WalkHistory.h"
+
+#include "libraries/wyedit/EditorTextArea.h"
 
 extern AppConfig mytetraconfig;
 extern TrashMonitoring trashmonitoring;

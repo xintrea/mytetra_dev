@@ -10,7 +10,8 @@
 
 #include "EditorConfigFont.h"
 #include "EditorConfig.h"
-#include "../main.h"
+
+#include "../../main.h"
 
 
 EditorConfigFont::EditorConfigFont(QWidget *parent) : ConfigPage(parent)

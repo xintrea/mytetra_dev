@@ -3,7 +3,7 @@
 #include <QtDebug>
 
 #include "EditorConfig.h"
-#include "../main.h"
+#include "../../main.h"
 
 
 // Конструктор объекта хранения настроек редактора

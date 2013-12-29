@@ -10,7 +10,7 @@
 #include "main.h"
 #include "AppConfig.h"
 #include "TreeScreen.h"
-#include "crypt/Password.h"
+#include "libraries/crypt/Password.h"
 
 extern AppConfig mytetraconfig;
 

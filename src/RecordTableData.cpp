@@ -8,9 +8,10 @@
 #include "MainWindow.h"
 #include "RecordTableData.h"
 #include "GlobalParameters.h"
-#include "editor/Editor.h"
 #include "TreeItem.h"
 #include "WalkHistory.h"
+
+#include "libraries/wyedit/Editor.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;
@@ -41,7 +42,7 @@ RecordTableData::~RecordTableData()
 
 
 // Получение значения указанного поля для указанного элемента
-QString RecordTableData::getField(QString name, int pos) const
+QString RecordTableData::getInfoField(QString name, int pos) const
 {
  // Если индекс недопустимый
  if(pos<0 || pos>=fieldsTable.size())
@@ -158,14 +159,14 @@ QString RecordTableData::getText(int pos) const
 
  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
  // то расшифровка невозможна
- if(getField("crypt", pos)=="1" &&
+ if(getInfoField("crypt", pos)=="1" &&
     globalParameters.getCryptKey().length()==0)
   return QString();
 
 
  // Выясняются значения инфополей записи
  QMap<QString, QString> lineTmp;
- lineTmp=getFields(pos); // Раньше было index.row()
+ lineTmp=getInfoFields(pos); // Раньше было index.row()
 
  // Выясняется путь к файлу с текстом записи
  QString fileName;
@@ -182,7 +183,7 @@ QString RecordTableData::getText(int pos) const
   critical_error("File "+fileName+" not readable. Check permission.");
 
  // Если незашифровано
- if(getField("crypt", pos)=="" || getField("crypt", pos)=="0")
+ if(getInfoField("crypt", pos)=="" || getInfoField("crypt", pos)=="0")
   {
    qDebug() << "RecordTableData::get_text() : return data direct";
    return QString::fromUtf8( f.readAll() );
@@ -245,7 +246,7 @@ void RecordTableData::setText(int pos,
 
  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
  // то зашифровать текст невозможно
- if(getField("crypt", pos)=="1" &&
+ if(getInfoField("crypt", pos)=="1" &&
     globalParameters.getCryptKey().length()==0)
   critical_error("RecordTableData::set_text() : Try save text for crypt record while password not setted.");
 
@@ -257,7 +258,7 @@ void RecordTableData::setText(int pos,
   critical_error("RecordTableData::set_text() as String : For record "+QString::number(pos)+" can not set field \"dir\" or \"file\"");
 
  // Если шифровать ненужно
- if(getField("crypt", pos)=="" || getField("crypt", pos)=="0")
+ if(getInfoField("crypt", pos)=="" || getInfoField("crypt", pos)=="0")
   {
    // Текст сохраняется в файл
    QFile wfile(nameFileFull);
@@ -269,7 +270,7 @@ void RecordTableData::setText(int pos,
    out.setCodec("UTF-8");
    out << text;
   }
- else if(getField("crypt", pos)=="1")
+ else if(getInfoField("crypt", pos)=="1")
   {
    // Текст шифруется
    QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), text);
@@ -283,7 +284,7 @@ void RecordTableData::setText(int pos,
    wfile.write(encryptData);
   }
  else
-  critical_error("RecordTableData::set_text() : Unavailable crypt field value \""+getField("crypt", pos)+"\"");
+  critical_error("RecordTableData::set_text() : Unavailable crypt field value \""+getInfoField("crypt", pos)+"\"");
 
  // Если есть какие-то файлы, сопровождащие запись,
  // они вставляются в конечную директорию
@@ -486,8 +487,8 @@ void RecordTableData::set_text_smart(int pos,
 bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull)
 {
   // Если у записи не установлены поля dir и file
- if(getFields(pos).contains("dir")==false ||
-    getFields(pos).contains("file")==false)
+ if(getInfoFields(pos).contains("dir")==false ||
+    getInfoFields(pos).contains("file")==false)
   {
    nameDirFull="";
    nameFileFull="";
@@ -495,8 +496,8 @@ bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString
   }
 
  // Выясняются имена директории и файла
- QString nameDir=(getFields(pos))["dir"];
- QString nameFile=(getFields(pos))["file"];
+ QString nameDir=(getInfoFields(pos))["dir"];
+ QString nameFile=(getInfoFields(pos))["file"];
 
  // Полные имена директории и файла
  nameDirFull=mytetraconfig.get_tetradir()+"/base/"+nameDir;
@@ -518,7 +519,7 @@ bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString
 // Получение значений всех инфополей
 // Поля, которые могут быть у записи, но не заданы, не передаются
 // Поля, которые зашифрованы, расшифровываются
-QMap<QString, QString> RecordTableData::getFields(int pos) const
+QMap<QString, QString> RecordTableData::getInfoFields(int pos) const
 {
  // Если индекс недопустимый, возвращается пустой список полей
  if(pos<0 || pos>=fieldsTable.size()) return QMap<QString, QString>();
@@ -590,7 +591,7 @@ QMap<QString, QString> RecordTableData::getRecordExemplar(int pos) const
 
  QMap<QString, QString> record;
  
- record=getFields(pos);  // Все инфополя
+ record=getInfoFields(pos);  // Все инфополя
  record["text"]=getText(pos); // Текст записи
 
  return record;
@@ -829,13 +830,13 @@ void RecordTableData::deleteRecord(int i)
  if(i>=fieldsTable.size())return;
 
  // Удаление директории и файлов внутри, с сохранением в резервной директории
- QString dirForDelete=mytetraconfig.get_tetradir()+"/base/"+getField("dir",i);
+ QString dirForDelete=mytetraconfig.get_tetradir()+"/base/"+getInfoField("dir",i);
  qDebug() << "Remove dir " << dirForDelete;
  remove_directory_to_trash( dirForDelete );
 
 
  // Удаление позиции курсора из истории
- QString id=getField("id", i);
+ QString id=getInfoField("id", i);
  if(id.length()>0)
   walkHistory.removeHistoryData(id);
 
@@ -915,7 +916,7 @@ void RecordTableData::switchToEncrypt(void)
  for(int i=0; i<size(); i++)
   {
    // Если запись уже зашифрована, ее шифровать ненужно
-   if(getField("crypt", i)=="1")
+   if(getInfoField("crypt", i)=="1")
     continue;
 
    // ---------------------
@@ -924,7 +925,7 @@ void RecordTableData::switchToEncrypt(void)
 
 
    // Поля записей, незашифрованные
-   QMap<QString, QString> recordFields=getFields(i);
+   QMap<QString, QString> recordFields=getInfoFields(i);
 
    // Устанавливается поле что запись зашифрована
    setField("crypt", "1", i);
@@ -970,7 +971,7 @@ void RecordTableData::switchToDecrypt(void)
  for(int i=0; i<size(); i++)
   {
    // Если запись не зашифрована, ее не нужно расшифровывать
-   if(getField("crypt", i)=="" || getField("crypt", i)=="0")
+   if(getInfoField("crypt", i)=="" || getInfoField("crypt", i)=="0")
     continue;
 
    // ------------------------
@@ -978,7 +979,7 @@ void RecordTableData::switchToDecrypt(void)
    // ------------------------
 
    // Поля записей, расшифрованные
-   QMap<QString, QString> recordFields=getFields(i);
+   QMap<QString, QString> recordFields=getInfoFields(i);
 
    // Затем устанавливается флаг что шифрации нет
    setField("crypt", "0", i);
@@ -1086,8 +1087,8 @@ QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QS
      // Иначе в переданном списке нет поля с текущим допустимым именем
 
      // Проверяется, есть ли уже поле с таким именем в таблице сущаствующих полей
-     if((getFields(pos)).contains(currentName))
-      resultFields[currentName]=getField(currentName, pos); // Запоминается значение
+     if((getInfoFields(pos)).contains(currentName))
+      resultFields[currentName]=getInfoField(currentName, pos); // Запоминается значение
     }
   }
 

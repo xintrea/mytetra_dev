@@ -7,9 +7,10 @@
 #include <QtDebug>
 #include <QLabel>
 
+#include "../../main.h"
+
 #include "EditorConfigMisc.h"
 #include "EditorConfig.h"
-#include "../main.h"
 
 
 EditorConfigMisc::EditorConfigMisc(QWidget *parent) : ConfigPage(parent)

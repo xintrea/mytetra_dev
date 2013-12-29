@@ -12,7 +12,14 @@ extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;
 
 
-// Конструктор объекта настройки хранилища данных
+// Объект для работы с конфигурацией (с настройками) базы данных
+// Конфигурация базы данных хранится в файле database.ini
+
+// Под базой данных понимается совокупность файлов - корневой mytetra.xml 
+// и все директории и файлы с записями
+
+
+// Конструктор объекта настройки БД
 DataBaseConfig::DataBaseConfig(QObject *pobj)
 {
  Q_UNUSED(pobj);
@@ -21,7 +28,7 @@ DataBaseConfig::DataBaseConfig(QObject *pobj)
 }
 
 
-// Деструктор объекта настройки хранилища данных
+// Деструктор объекта настройки БД
 DataBaseConfig::~DataBaseConfig()
 {
  if(is_init_flag)

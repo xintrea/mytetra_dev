@@ -5,9 +5,10 @@
 #include <QScrollBar>
 #include <QUrl>
 
+#include "../../main.h"
+
 #include "Editor.h"
 #include "EditorTextArea.h"
-#include "../main.h"
 
 
 EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)

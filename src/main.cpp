@@ -8,11 +8,11 @@
 #include "ClipboardRecords.h"
 #include "TrashMonitoring.h"
 #include "GlobalParameters.h"
-#include "qtsingleapplication/qtsingleapplication.h"
+#include "libraries/qtsingleapplication/qtsingleapplication.h"
 #include "DataBaseConfig.h"
 #include "WalkHistory.h"
-#include "crypt/RC5Simple.h"
-#include "crypt/Password.h"
+#include "libraries/crypt/RC5Simple.h"
+#include "libraries/crypt/Password.h"
 
 using namespace std;
 

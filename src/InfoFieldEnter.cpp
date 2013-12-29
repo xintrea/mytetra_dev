@@ -6,6 +6,8 @@
 
 extern AppConfig mytetraconfig;
 
+// Виджет ввода инфополей
+
 
 InfoFieldEnter::InfoFieldEnter(QWidget *parent) : QWidget(parent)
 {

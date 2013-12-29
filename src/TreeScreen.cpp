@@ -19,7 +19,7 @@
 #include "ClipboardBranch.h"
 #include "MetaEditor.h"
 #include "GlobalParameters.h"
-#include "crypt/Password.h"
+#include "libraries/crypt/Password.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;

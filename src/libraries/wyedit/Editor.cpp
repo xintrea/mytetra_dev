@@ -22,9 +22,9 @@
 #include "EditorAbsTable.h"
 #include "EditorAddTableForm.h"
 #include "EditorImageProperties.h"
-#include "../main.h"
 #include "EditorMultiLineInputDialog.h"
 
+#include "../../main.h"
 
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {

@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QTextCodec>
 
-#include "editor/Editor.h"
+#include "libraries/wyedit/Editor.h"
 
 
 class MetaEditor: public Editor

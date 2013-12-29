@@ -58,15 +58,15 @@ INSTALLS+=icon_48_file
 
 HEADERS = src/SaveLoad.h \
     src/RecordTableScreen.h \
-    src/EditRecord.h \
+    src/RecordInfoFieldsEditor.h \
     src/InfoFieldEnter.h \
     src/MetaEditor.h \
-    src/editor/Editor.h \
-    src/editor/EditorConfig.h \
-    src/editor/EditorConfigDialog.h \
-    src/editor/EditorConfigFont.h \
-    src/editor/EditorConfigMisc.h \
-    src/editor/EditorFindDialog.h \
+    src/libraries/wyedit/Editor.h \
+    src/libraries/wyedit/EditorConfig.h \
+    src/libraries/wyedit/EditorConfigDialog.h \
+    src/libraries/wyedit/EditorConfigFont.h \
+    src/libraries/wyedit/EditorConfigMisc.h \
+    src/libraries/wyedit/EditorFindDialog.h \
     src/MainWindow.h \
     src/PrintPreview.h \
     src/main.h \
@@ -91,19 +91,19 @@ HEADERS = src/SaveLoad.h \
     src/AppConfigPage_Synchro.h \
     src/AppConfigUpdater.h \
     src/TrashMonitoring.h \
-    src/editor/EditorContextMenu.h \
-    src/editor/EditorTextArea.h \
-    src/editor/indentslider/IndentSlider.h \
-    src/editor/EditorSplitCellForm.h \
-    src/editor/EditorAbsTableCell.h \
-    src/editor/EditorAbsTable.h \
-    src/editor/EditorAddTableForm.h \
-    src/editor/EditorImageProperties.h \
-    src/editor/EditorMultiLineInputDialog.h \
-    src/qtsingleapplication/qtsingleapplication.h \
-    src/qtsingleapplication/qtlockedfile.h \
-    src/qtsingleapplication/qtlocalpeer.h \
-    src/qtsingleapplication/qtsinglecoreapplication.h \
+    src/libraries/wyedit/EditorContextMenu.h \
+    src/libraries/wyedit/EditorTextArea.h \
+    src/libraries/wyedit/indentslider/IndentSlider.h \
+    src/libraries/wyedit/EditorSplitCellForm.h \
+    src/libraries/wyedit/EditorAbsTableCell.h \
+    src/libraries/wyedit/EditorAbsTable.h \
+    src/libraries/wyedit/EditorAddTableForm.h \
+    src/libraries/wyedit/EditorImageProperties.h \
+    src/libraries/wyedit/EditorMultiLineInputDialog.h \
+    src/libraries/qtsingleapplication/qtsingleapplication.h \
+    src/libraries/qtsingleapplication/qtlockedfile.h \
+    src/libraries/qtsingleapplication/qtlocalpeer.h \
+    src/libraries/qtsingleapplication/qtsinglecoreapplication.h \
     src/RecordListScreen.h \
     src/ClipboardBranch.h \
     src/GlobalParameters.h \
@@ -113,20 +113,20 @@ HEADERS = src/SaveLoad.h \
     src/ConsoleEmulator.h \
     src/WaitClock.h \
     src/WalkHistory.h \
-    src/crypt/Pbkdf2Qt.h \
-    src/crypt/RC5Simple.h \
-    src/crypt/Password.h
+    src/libraries/crypt/Pbkdf2Qt.h \
+    src/libraries/crypt/RC5Simple.h \
+    src/libraries/crypt/Password.h
 SOURCES = src/SaveLoad.cpp \
     src/RecordTableScreen.cpp \
-    src/EditRecord.cpp \
+    src/RecordInfoFieldsEditor.cpp \
     src/InfoFieldEnter.cpp \
     src/MetaEditor.cpp \
-    src/editor/Editor.cpp \
-    src/editor/EditorConfig.cpp \
-    src/editor/EditorConfigDialog.cpp \
-    src/editor/EditorConfigFont.cpp \
-    src/editor/EditorConfigMisc.cpp \
-    src/editor/EditorFindDialog.cpp \
+    src/libraries/wyedit/Editor.cpp \
+    src/libraries/wyedit/EditorConfig.cpp \
+    src/libraries/wyedit/EditorConfigDialog.cpp \
+    src/libraries/wyedit/EditorConfigFont.cpp \
+    src/libraries/wyedit/EditorConfigMisc.cpp \
+    src/libraries/wyedit/EditorFindDialog.cpp \
     src/MainWindow.cpp \
     src/PrintPreview.cpp \
     src/main.cpp \
@@ -151,19 +151,19 @@ SOURCES = src/SaveLoad.cpp \
     src/AppConfigPage_Synchro.cpp \
     src/AppConfigUpdater.cpp \
     src/TrashMonitoring.cpp \
-    src/editor/EditorContextMenu.cpp \
-    src/editor/EditorTextArea.cpp \
-    src/editor/indentslider/IndentSlider.cpp \
-    src/editor/EditorSplitCellForm.cpp \
-    src/editor/EditorAbsTableCell.cpp \
-    src/editor/EditorAbsTable.cpp \
-    src/editor/EditorAddTableForm.cpp \
-    src/editor/EditorImageProperties.cpp \
-    src/editor/EditorMultiLineInputDialog.cpp \
-    src/qtsingleapplication/qtsingleapplication.cpp \
-    src/qtsingleapplication/qtlockedfile.cpp \
-    src/qtsingleapplication/qtlocalpeer.cpp \
-    src/qtsingleapplication/qtsinglecoreapplication.cpp \
+    src/libraries/wyedit/EditorContextMenu.cpp \
+    src/libraries/wyedit/EditorTextArea.cpp \
+    src/libraries/wyedit/indentslider/IndentSlider.cpp \
+    src/libraries/wyedit/EditorSplitCellForm.cpp \
+    src/libraries/wyedit/EditorAbsTableCell.cpp \
+    src/libraries/wyedit/EditorAbsTable.cpp \
+    src/libraries/wyedit/EditorAddTableForm.cpp \
+    src/libraries/wyedit/EditorImageProperties.cpp \
+    src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
+    src/libraries/qtsingleapplication/qtsingleapplication.cpp \
+    src/libraries/qtsingleapplication/qtlockedfile.cpp \
+    src/libraries/qtsingleapplication/qtlocalpeer.cpp \
+    src/libraries/qtsingleapplication/qtsinglecoreapplication.cpp \
     src/RecordListScreen.cpp \
     src/ClipboardBranch.cpp \
     src/GlobalParameters.cpp \
@@ -173,9 +173,9 @@ SOURCES = src/SaveLoad.cpp \
     src/ConsoleEmulator.cpp \
     src/WaitClock.cpp \
     src/WalkHistory.cpp \
-    src/crypt/Pbkdf2Qt.cpp \
-    src/crypt/RC5Simple.cpp \
-    src/crypt/Password.cpp
+    src/libraries/crypt/Pbkdf2Qt.cpp \
+    src/libraries/crypt/RC5Simple.cpp \
+    src/libraries/crypt/Password.cpp
 
 wince* { 
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll

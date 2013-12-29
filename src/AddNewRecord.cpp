@@ -9,9 +9,10 @@
 
 #include "AddNewRecord.h"
 #include "main.h"
-#include "editor/Editor.h"
 #include "InfoFieldEnter.h"
 #include "GlobalParameters.h"
+
+#include "libraries/wyedit/Editor.h"
 
 extern GlobalParameters globalParameters;
 
@@ -54,7 +55,6 @@ void AddNewRecord::setupUI(void)
  QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
  OkButton->setToolTip(tr("Ctrl+Enter"));
- qDebug() << "Ok button shortcut set to Ctrl+Enter."; 
 }
 
 
