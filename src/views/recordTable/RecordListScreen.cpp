@@ -22,7 +22,7 @@ extern AppConfig mytetraconfig;
 
 RecordListScreen::RecordListScreen(QWidget *parent) : QListView(parent)
 {
- this->setSelectionMode(QAbstractItemView::MultiSelection);
+ this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
  isStartDrag=false;
 }
