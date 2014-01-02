@@ -1,5 +1,5 @@
-#ifndef PRINTPREVIEW_H
-#define PRINTPREVIEW_H
+#ifndef _PRINTPREVIEW_H_
+#define _PRINTPREVIEW_H_
 
 #include <QMainWindow>
 #include <QPrinter>
@@ -30,4 +30,4 @@ private:
     QVBoxLayout *centralLayout;
 };
 
-#endif // PRINTPREVIEW_H
+#endif // _PRINTPREVIEW_H_
