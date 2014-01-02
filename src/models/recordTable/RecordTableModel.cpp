@@ -98,10 +98,11 @@ QAbstractListModel *RecordTableModel::getModel(void)
 
 void RecordTableModel::setTableData(RecordTableData *rtData)
 {
+ beginResetModel();
+
  table=rtData;
- 
- // Модель информирует о том, что данные были кардинально изменены
- reset();
+
+ endResetModel();
 }
 
 
@@ -112,13 +113,27 @@ RecordTableData *RecordTableModel::getTableData(void)
 }
 
 
-void RecordTableModel::update(void)
+// Добавление данных
+// Функция возвращает позицию нового добавленного элемента
+int RecordTableModel::addTableData(int mode,
+                                   int pos,
+                                   QMap<QString, QString> fields,
+                                   QString text,
+                                   QMap<QString, QByteArray> files)
 {
- qDebug() << "recordtablemodel::update() : Reset";
- 
- // Модель информирует о том, что данные были изменены
- // При этом перестроится весь список на экране
- reset();
+ beginResetModel(); // Подумать, возможно нужно заменить на beginInsertRows
+
+ // Вставка новых данных в таблицу конечных записей
+ int selPos=table->insertNewRecord(mode,
+                                   pos,
+                                   fields,
+                                   text,
+                                   files);
+
+
+ endResetModel(); // Подумать, возможно нужно заменить на endInsertRows
+
+ return selPos;
 }
 
 

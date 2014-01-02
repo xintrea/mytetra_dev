@@ -136,7 +136,7 @@ void EditorAbsTableCell::print_cell(void)
                              htmlProperty["rowspan"].toInt(),
                              refSuperCellX,
                              refSuperCellY,
-                             val.toAscii().data());
+                             val.toUtf8().data()); // Ранее было toAscii, но в Qt 5.2 toAscii уже не поддерживается
 }
 
 

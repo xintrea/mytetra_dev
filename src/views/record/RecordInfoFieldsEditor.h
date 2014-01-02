@@ -16,7 +16,12 @@ class RecordInfoFieldsEditor : public QDialog
 Q_OBJECT
 
 public:
+ #if QT_VERSION < 0x050000
  RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WFlags f = 0 );
+ #else
+ RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WindowFlags f = 0 );
+ #endif
+
  ~RecordInfoFieldsEditor();
 
  QString getField(QString name);

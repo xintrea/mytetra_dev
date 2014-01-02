@@ -36,8 +36,12 @@ public:
     // Ссылка на данные, с которыми работает модель
     RecordTableData *getTableData(void);
     
-    // Обновление данных на экране после их изменения
-    void update(void);
+    // Добавление записей
+    int addTableData(int mode,
+                     int pos,
+                     QMap<QString, QString> fields,
+                     QString text,
+                     QMap<QString, QByteArray> files);
 
     // Удаление записей
     void removeRowsByList(QVector<int> delIdx);

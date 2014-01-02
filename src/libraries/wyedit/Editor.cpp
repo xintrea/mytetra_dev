@@ -2,6 +2,7 @@
 #include <QLayout>
 #include <QMessageBox>
 #include <QColor>
+#include <QColorDialog>
 #include <QStyle>
 #include <QPalette>
 #include <QStringList>
@@ -11,6 +12,9 @@
 #include <QDateTime>
 #include <QTextCursor>
 #include <QDebug>
+#include <QInputDialog>
+#include <QFileDialog>
+#include <QScrollBar>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -2198,7 +2202,7 @@ void Editor::on_table_add_row_clicked(void)
    int cellRowCursor=cell.row(); // Текущий номер строки (счет с нуля)
 
    bool ok=false;
-   int addNum=QInputDialog::getInteger(this, tr("Append rows to table"),tr("Append rows:"), 1, 1, 100, 1, &ok);
+   int addNum=QInputDialog::getInt(this, tr("Append rows to table"),tr("Append rows:"), 1, 1, 100, 1, &ok);
 
    if(ok && addNum > 0)
     table->insertRows(cellRowCursor + 1,addNum);
@@ -2217,7 +2221,7 @@ void Editor::on_table_add_col_clicked(void)
    int cellColCursor=cell.column(); // Текущий номер столбца (счет с нуля)
 
    bool ok=false;
-   int addNum=QInputDialog::getInteger(this, tr("Append columns to table"),tr("Append columns:"), 1, 1, 100, 1, &ok);
+   int addNum=QInputDialog::getInt(this, tr("Append columns to table"),tr("Append columns:"), 1, 1, 100, 1, &ok);
 
    if(ok && addNum > 0)
     table->insertColumns(cellColCursor + 1,addNum);

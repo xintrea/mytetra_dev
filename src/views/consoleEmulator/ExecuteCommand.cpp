@@ -86,7 +86,9 @@ void ExecuteCommand::run(void)
   critical_error("ExecuteCommand::run() : Not detect available shell");
 
  // Выясняется полная команда, которая будет запущена в QProcess
- QString commandLine=shell.toAscii()+" \""+command.toAscii()+"\"";
+ // QString commandLine=shell.toAscii()+" \""+command.toAscii()+"\"";
+ QString commandLine=shell+" \""+command+"\"";
+
 
  // Создается виджет эмулятора консоли
  ConsoleEmulator console;
@@ -124,7 +126,7 @@ void ExecuteCommand::run(void)
    if(readBytes>=1)
     {
      // Преобразование в QString, необходимо чтобы исключать строки с нулями
-     QString output=QString::fromAscii(buf);
+     QString output=QString::fromLatin1(buf); // Ранее было fromAscii
 
      if(output.length()>0)
       {

@@ -18,7 +18,11 @@ extern GlobalParameters globalParameters;
 
 // Окно добавления новой записи
 
+#if QT_VERSION < 0x050000
 AddNewRecord::AddNewRecord( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
+#else
+AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
+#endif
 {
  setupUI();
  setupSignals();

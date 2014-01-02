@@ -156,7 +156,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
 
   // Выясняется текущий обрабатываемый символ
   QChar c=document()->characterAt(cur.position());
-  char c_ansi=c.toAscii();
+  char c_ansi=c.toLatin1(); // Ранее было toAscii(), но этот метод теперь не поддерживается в Qt 5.2
 
   if(c_ansi==' ') // Пробел
    {

@@ -503,19 +503,13 @@ void RecordTableScreen::addNew(int mode,
  int pos=getFirstSelectionPos();
  if(pos<0)pos=0; // Если ничего небыло выбрано
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ // Вставка новых данных
+ int selPos=recordModel->addTableData(mode,
+                                      pos,
+                                      fields,
+                                      text,
+                                      files);
 
- // Вставка новых данных в модель таблицы конечных записей
- int selPos=table->insertNewRecord(mode,
-                                     pos,
-                                     fields,
-                                     text,
-                                     files);
-
- // Обновление данных на экране после их изменения
- recordModel->update();
- 
  // Установка курсора на только что созданную позицию
  QModelIndex selIdx=recordModel->index(selPos); // Создание индекса из номера
  recordView->selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
@@ -627,8 +621,8 @@ void RecordTableScreen::deleteRecords(void)
  // Запоминание позиции, на которой стоит курсор списка
  int beforeIndex=(recordView->selectionModel()->currentIndex()).row();
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ // Выясняется количество элементов в таблице
+ int totalRowCount=recordModel->rowCount();
  
  // Получение списка Item-элементов, подлежащих удалению
  QModelIndexList itemsForDelete=recordView->selectionModel()->selectedIndexes();
@@ -659,7 +653,7 @@ void RecordTableScreen::deleteRecords(void)
  
  // Поиск индекса, на который надо установить засветку после удаления
  int i=0,selectionIndex=-1;
- for(i=0;i<table->size();i++)
+ for(i=0;i<totalRowCount;i++)
   {
    // Если позиция не помечена на удаление, она считается
    if(!delIdx.contains(i))
@@ -685,9 +679,6 @@ void RecordTableScreen::deleteRecords(void)
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
  find_object<TreeScreen>("treeview")->updateSelectedBranch();
- 
- // Обновление данных на экране для таблицы конечных записей
- recordModel->update();
  
  // Установка курсора на нужную позицию
  if(selectionIndex>=0)

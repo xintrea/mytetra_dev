@@ -14,7 +14,11 @@
 // Окно редактирования информационных полей записи (не текста записи!)
 // Оно появляется при двойном клике на записи или при клике на кнопку редактирования полей записи
 
+#if QT_VERSION < 0x050000
 RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
+#else
+RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
+#endif
 {
  setupUI();
  setupSignals();

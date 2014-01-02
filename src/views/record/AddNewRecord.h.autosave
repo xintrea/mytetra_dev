@@ -1,6 +1,7 @@
 #ifndef __ADDNEWRECORD_H__
 #define __ADDNEWRECORD_H__
 
+#include <QtCore>
 #include <QDialog>
 #include <QLabel>
 #include <QLineEdit>
@@ -21,9 +22,7 @@ public:
  #if QT_VERSION < 0x050000
   AddNewRecord( QWidget * parent = 0, Qt::WFlags f = 0 );
  #else
-  AddNewRecord( QWidget * parent = 0, Qt::WindowFlags f = 0 );
- #endif
-
+    
  ~AddNewRecord();
 
  QString getField(QString name);

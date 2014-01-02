@@ -189,7 +189,7 @@ void Password::setCryptKeyToMemory(QString password)
 void Password::setCryptKeyToMemoryFromMiddleHash(void)
 {
  // Из общего конфига считывается промежуточный хеш
- QByteArray middleHash=QByteArray::fromBase64( mytetraconfig.getPasswordMiddleHash().toAscii() );
+ QByteArray middleHash=QByteArray::fromBase64( mytetraconfig.getPasswordMiddleHash().toLatin1() );
 
  // Ключ в виде MD5
  QByteArray key=QCryptographicHash::hash(middleHash, QCryptographicHash::Md5);
@@ -204,7 +204,7 @@ void Password::setCryptKeyToMemoryFromMiddleHash(void)
 bool Password::checkMiddleHash(void)
 {
  // Из общего конфига считывается промежуточный хеш
- QByteArray middleHash=QByteArray::fromBase64( mytetraconfig.getPasswordMiddleHash().toAscii() );
+ QByteArray middleHash=QByteArray::fromBase64( mytetraconfig.getPasswordMiddleHash().toLatin1() );
  // qDebug() << "Password::checkMiddleHash() : middleHash :" << middleHash.toHex();
 
  // Промежуточный хеш преобразуется в ключ (MD5 сумма)
@@ -212,7 +212,7 @@ bool Password::checkMiddleHash(void)
  // qDebug() << "Password::checkMiddleHash() : Crypt key :" << key.toHex();
 
  // Из конфига базы данных считываются проверочные данные
- QByteArray checkData=QByteArray::fromBase64( dataBaseConfig.get_middle_hash_check_data().toAscii() );
+ QByteArray checkData=QByteArray::fromBase64( dataBaseConfig.get_middle_hash_check_data().toLatin1() );
 
  // Проверочные данные расшифровыватся с помощью ключа
  QString line=decryptStringFromByteArray(key, checkData);
@@ -303,7 +303,7 @@ QByteArray Password::calculateMiddleHashCheckData(QByteArray middleHash)
  QString encrypt=encryptString(key, stringForCheck);
 
  // Base64 преобразуется в набор байт
- QByteArray checkData=QByteArray::fromBase64(encrypt.toAscii());
+ QByteArray checkData=QByteArray::fromBase64(encrypt.toLatin1());
 
  return checkData;
 }
@@ -414,8 +414,8 @@ void Password::resetPassword(void)
 bool Password::checkPasswordWithExists(QString password)
 {
  // Из конфига хранилища даннных считывается соль и хеш пароля
- QByteArray hash=QByteArray::fromBase64( dataBaseConfig.get_crypt_check_hash().toAscii() );
- QByteArray salt=QByteArray::fromBase64( dataBaseConfig.get_crypt_check_salt().toAscii() );
+ QByteArray hash=QByteArray::fromBase64( dataBaseConfig.get_crypt_check_hash().toLatin1() );
+ QByteArray salt=QByteArray::fromBase64( dataBaseConfig.get_crypt_check_salt().toLatin1() );
 
 
  // Вычисляется хеш пароля с использованием считанной соли

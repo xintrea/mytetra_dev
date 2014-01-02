@@ -48,6 +48,8 @@ void KnowTreeModel::init(QDomDocument domModel)
   rootData["id"]="0";
   rootData["name"]="";
 
+  beginResetModel();
+
   // Создание корневого Item объекта
   if(rootItem!=NULL) delete rootItem;
   rootItem = new TreeItem(rootData);
@@ -55,8 +57,7 @@ void KnowTreeModel::init(QDomDocument domModel)
   // Динамическое создание дерева из Item объектов на основе DOM модели
   setupModelData(domModel, rootItem);
 
-  // Вызывается метод, который должен известить view о том что данные обновились
-  reset();
+  endResetModel();
 }
 
 

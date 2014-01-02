@@ -1,6 +1,7 @@
 #include <sys/timeb.h>
 
 #include <QTranslator>
+#include <QToolButton>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -345,6 +346,7 @@ bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList
 // Преобразование из QString в обычный char
 char* fromQStringToChar( const QString& str )
 {
+ /*
  char *tmpC=new char [str.size() + 1];
  QVariant var;
 
@@ -357,6 +359,9 @@ char* fromQStringToChar( const QString& str )
  tmpC[str.size()] = 0;
 
  return tmpC;
+ */
+
+ return str.toLocal8Bit().data();
 }
 
 
@@ -425,13 +430,23 @@ int imin(int x1, int x2)
  else return x2;
 }
 
-
+#if QT_VERSION < 0x050000
 void myMessageOutput(QtMsgType type, const char *msg)
+#else
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msgText)
+#endif
 {
+ #if QT_VERSION >= 0x050000
+ Q_UNUSED(context);
+ #endif
+
  // #if DEBUG_PRINT==1
 
+ #if QT_VERSION >= 0x050000
+  const char *msg=msgText.toLocal8Bit();
+ #endif
 
-if(!mytetraconfig.is_init())
+ if(!mytetraconfig.is_init())
  {
   fprintf(stderr, "%s\n", msg);
   return;
@@ -625,7 +640,10 @@ QString decryptString(QByteArray key, QString line)
  */
 
  vector<unsigned char> vectorLineIn;
- convertByteArrayToVector(QByteArray::fromBase64( line.toAscii() ), vectorLineIn);
+
+ // Заменен вызов line.toAscii на line.toLatin1 чтобы шла компиляция в Qt 5.2.
+ // Эта замена допустима, так как в Base64 используются только символы латиницы и ограниченный набор прочих символов
+ convertByteArrayToVector(QByteArray::fromBase64( line.toLatin1() ), vectorLineIn);
 
  /*
  printf("Decrypt vector source HEX ");
@@ -762,14 +780,20 @@ int main(int argc, char ** argv)
  // Начальные инициализации основных объектов
 
  // Файл запущенной программы (нулевой аргумент функции main)
- QString mainProgramFile=QString::fromAscii( argv[0] );
+ // QString mainProgramFile=QString::fromAscii( argv[0] );
+ QString mainProgramFile=QString::fromLatin1( argv[0] );
  qDebug() << "Set main program file to " << mainProgramFile;
 
  // Запоминается имя файла запущенного бинарника
  globalParameters.setMainProgramFile(mainProgramFile);
 
 
- qInstallMsgHandler(myMessageOutput);
+ #if QT_VERSION < 0x050000
+  qInstallMsgHandler(myMessageOutput);
+ #else
+  qInstallMessageHandler(myMessageOutput);
+ #endif
+
 
  QtSingleApplication app(argc, argv);
 
@@ -780,9 +804,10 @@ int main(int argc, char ** argv)
    exit(0);
   }
 
- // Установка кодека текстов
- QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-
+ #if QT_VERSION < 0x050000
+  // Установка кодека текстов
+  QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+ #endif
 
  // Инициализация глобальных параметров,
  // внутри происходит установка рабочей директории

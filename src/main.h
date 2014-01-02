@@ -32,7 +32,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION    3
+#define APPLICATION_RELEASE_MICROVERSION    4
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -82,14 +82,14 @@ void encDecFileSmart(QByteArray key, QString fileName, int mode);
 
 
 // Поиск объекта от корня по имени
-template <class X> inline X *find_object(QString n)
+template <class X> inline X *find_object(QString objectName)
 {
  QObject *findObj;
 
  extern QObject *pMainWindow;
 
  // Если запрошен сам корень
- if(n=="mainwindow")
+ if(objectName=="mainwindow")
   {
    QObject *mvp=qobject_cast<X *>(pMainWindow);
 
@@ -105,13 +105,14 @@ template <class X> inline X *find_object(QString n)
   }
 
  // Запрошен обычный объект, надо его найти
- findObj=qFindChild<X *>(pMainWindow,n);
+ // findObj=qFindChild<X *>(pMainWindow, objectName);
+ findObj=pMainWindow->findChild<X *>(objectName);
 
  if(findObj==NULL)
   {
    // Если объекта с указанным именем не найдено
    // print_object_tree();
-   printf("find_object(): Can't find object with name %s\n",qPrintable(n));
+   printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
    exit(1);
    return NULL;
   }
@@ -124,7 +125,7 @@ template <class X> inline X *find_object(QString n)
    if(obj==0)
     {
      // Если найденный объект не может быть преобразован к заданному в шаблоне типу
-     printf("find_object(): Object %s find, but can't convert type. Check <type> in function call\n",qPrintable(n));
+     printf("find_object(): Object %s find, but can't convert type. Check <type> in function call\n",qPrintable(objectName));
      exit(1);
      return NULL;
     }

@@ -72,7 +72,10 @@ class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QApplication
 public:
     QtSingleApplication(int &argc, char **argv, bool GUIenabled = true);
     QtSingleApplication(const QString &id, int &argc, char **argv);
-    QtSingleApplication(int &argc, char **argv, Type type);
+
+    // This constructor dont compile under Qt 5.2.0 (Type is undeclared)
+    // This constructor dont use in this program and commented
+    // QtSingleApplication(int &argc, char **argv, Type type);
 #if defined(Q_WS_X11)
     QtSingleApplication(Display* dpy, Qt::HANDLE visual = 0, Qt::HANDLE colormap = 0);
     QtSingleApplication(Display *dpy, int &argc, char **argv, Qt::HANDLE visual = 0, Qt::HANDLE cmap= 0);
