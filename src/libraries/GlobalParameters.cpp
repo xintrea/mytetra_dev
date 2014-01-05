@@ -47,11 +47,15 @@ void GlobalParameters::init(void)
 }
 
 
-
+// Инициализация рабочей директории
+// Если рабочая директория уже существует, она будет установлена как рабочая
+// Если ребочая директория не будет найдена, будут создана новая рабочая директория
+// с начальными файлами и она будет установлена как рабочая
 void GlobalParameters::initWorkDirectory(void)
 {
  // Если рабочая директория найдена автоматически
- if(findWorkDirectory()) return;
+ if(findWorkDirectory())
+  return;
 
  // Рабочая директория не найдена, и нужно создать начальные данные
 
@@ -88,6 +92,8 @@ void GlobalParameters::initWorkDirectory(void)
  // Если возможно создать только стандартную версию файлового окружения
  if(enablePortable==false)
   {
+   qDebug() << "Cant create portable version - cant write data to mytetra bin-file directory";
+
    QString infoText=tr("The following actions will be performed before running this application: \n\n")+
                     standartText+"\n\n"+
                     tr("Do you agree to perform these?");
@@ -159,7 +165,9 @@ void GlobalParameters::createStandartProgramFiles(void)
  QString dataDirName=".config/"+getApplicationName();
  if(userDir.mkpath(dataDirName))
   {
-   QString createFilePath=QDir::homePath()+"/"+dataDirName;
+   qDebug() << "Successfull create subdirectory " << dataDirName << " in directory " << userDir.absolutePath();
+
+   QString createFilePath=userDir.absolutePath()+"/"+dataDirName; // Ранее использовался QDir::homePath()
 
    createFirstProgramFiles(createFilePath);
   }
@@ -195,7 +203,7 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  dir.mkdir("trash");
 
  // Создаются файлы конфигурации
- QString targetOs=getTargetOs(); // "any" или "meego"
+ QString targetOs=getTargetOs(); // "any" или "meego" или "android"
 
  QFile::copy(":/resource/standartconfig/"+targetOs+"/conf.ini", dirName+"/conf.ini");
  QFile::setPermissions(dirName+"/conf.ini", QFile::ReadUser | QFile::WriteUser);
@@ -249,24 +257,35 @@ bool GlobalParameters::findWorkDirectory(void)
 
    // Если директория существует и в ней есть настоящий файл конфигурации
    if(isMytetraIniConfig(dir+"/conf.ini")==true)
-    workDirectory=dir;
+    {
+     qDebug() << "Config.ini success find in home directory " << dir;
+     workDirectory=dir;
+    }
    else
     {
      // Иначе директории "~/.имя_программы" нет
      // и нужно пробовать найти данные в "~/.config/имя_программы"
+     qDebug() << "File conf.ini can't' find in home directory " << dir;
+
      dir=QDir::homePath()+"/.config/"+getApplicationName();
 
-     qDebug() << "Detect home directory " << dir;
+     qDebug() << "Try find conf.ini in home subdirectory " << dir;
 
      // Если директория существует и в ней есть настоящий файл конфигурации
      if(isMytetraIniConfig(dir+"/conf.ini")==true)
-      workDirectory=dir;
+      {
+       qDebug() << "Config.ini success find in home subdirectory " << dir;
+       workDirectory=dir;
+      }
+     else
+      qDebug() << "File conf.ini can't' find in home subdirectory " << dir;
     }
   }
 
  // Если рабочая директория не определена
  if(workDirectory.length()==0)
   {
+   qDebug() << "Cant find work directory with mytetra data";
    return false;
   }
  else
@@ -352,10 +371,16 @@ QString GlobalParameters::getWorkDirectory(void)
 
 QString GlobalParameters::getTargetOs(void)
 {
-#ifndef TARGET_OS_MEEGO
+#if TARGET_OS==ANY_OS
  return "any";
-#else
+#endif
+
+#if TARGET_OS==MEEGO_OS
  return "meego";
+#endif
+
+#if TARGET_OS==ANDROID_OS
+ return "android";
 #endif
 }
 
@@ -364,18 +389,21 @@ QString GlobalParameters::getTargetOs(void)
 // Используется для создания и поиска каталога с данными пользователя
 QString GlobalParameters::getApplicationName(void)
 {
- qDebug() << "In getApplicationName() call getTargetOs() return " << getTargetOs();
- 
- if(getTargetOs()!="meego")
-  {
-   qDebug() << "In getApplicationName() return \"mytetra\"";
-   return "mytetra";
-  }
- else
-  {
-   qDebug() << "In getApplicationName() return \"ru.webhamster.mytetra\"";
-   return "ru.webhamster.mytetra";
-  }
+ // todo: Подумать и заменить этот код на значения, полученные из PRO-файла
+ QString appName="";
+
+ if(getTargetOs()=="any")
+  appName="mytetra";
+
+ if(getTargetOs()=="meego")
+  appName="ru.webhamster.mytetra";
+
+ if(getTargetOs()=="android")
+   appName="ru.webhamster.mytetra";
+
+ // qDebug() << "In getApplicationName() return \"" << appName << "\"";
+
+ return appName;
 }
 
 

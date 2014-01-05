@@ -235,7 +235,7 @@ QByteArray Password::calculateMiddleHash(QString password)
   QByteArray salt("^1*My2$Tetra3%_4[5]");
   QByteArray middleHash;
 
-  // Хеш PBKDF2 от парля и соли
+  // Хеш PBKDF2 от пароля и соли
   Pbkdf2Qt hashAlgorythm;
   middleHash=hashAlgorythm.Pbkdf2(password.toUtf8(),
                                   salt,

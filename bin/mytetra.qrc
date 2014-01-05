@@ -70,6 +70,8 @@
    <file>resource/standartconfig/any/editorconf.ini</file>
    <file>resource/standartconfig/meego/conf.ini</file>
    <file>resource/standartconfig/meego/editorconf.ini</file>
+   <file>resource/standartconfig/android/conf.ini</file>
+   <file>resource/standartconfig/android/editorconf.ini</file>
    <file>resource/standartdata/mytetra.xml</file>
    <file>resource/standartdata/base/0000000001/text.html</file>
 </qresource>

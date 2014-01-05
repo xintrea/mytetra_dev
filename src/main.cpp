@@ -430,6 +430,23 @@ int imin(int x1, int x2)
  else return x2;
 }
 
+
+void smartPrintDebugMessage(QString msg)
+{
+ if(globalParameters.getTargetOs()=="any" ||
+    globalParameters.getTargetOs()=="meego")
+  {
+   unsigned int messageLen=msg.toLocal8Bit().size();
+   // printf("Len of line: %d\n", messageLen);
+   fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
+  }
+ 
+ // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется
+}
+
+
+// Обработчик (хендлер) вызовов qDebug()
+// Внутри этого обработчика нельзя использовать вызовы qDebug(), т. к. получится рекурсия
 #if QT_VERSION < 0x050000
 void myMessageOutput(QtMsgType type, const char *msg)
 #else
@@ -442,13 +459,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
  // #if DEBUG_PRINT==1
 
- #if QT_VERSION >= 0x050000
-  const char *msg=msgText.toLocal8Bit();
+ #if QT_VERSION < 0x050000
+  QString msgText( QString::fromUtf8(msg) );
  #endif
+
 
  if(!mytetraconfig.is_init())
  {
-  fprintf(stderr, "%s\n", msg);
+  smartPrintDebugMessage("[INF] "+msgText+"\n");
   return;
  }
 
@@ -458,20 +476,42 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
  switch (type) {
    case QtDebugMsg:
-       fprintf(stderr, "[DBG] %s\n", msg);
+       smartPrintDebugMessage("[DBG] "+msgText+"\n");
        break;
    case QtWarningMsg:
-       fprintf(stderr, "[WRN] %s\n", msg);
+       smartPrintDebugMessage("[WRN] "+msgText+"\n");
        break;
    case QtCriticalMsg:
-       fprintf(stderr, "[CRERR] %s\n", msg);
+       smartPrintDebugMessage("[CRERR] "+msgText+"\n");
        break;
    case QtFatalMsg:
-       fprintf(stderr, "[FTERR] %s\n", msg);
+       smartPrintDebugMessage("[FTERR] "+msgText+"\n");
        abort();
  }
 
  // #endif
+}
+
+
+void setDebugMessageHandler()
+{
+ qDebug() << "Debug message before set message handler for target OS: " << globalParameters.getTargetOs();
+
+ // Для десктопных операционок можно переустановить обработчик qDebug()
+ // Для Андроида переустановка qDebug() приводит к невозможности получения отладочных сообщений в удаленном отладчике
+ if(globalParameters.getTargetOs()=="any" ||
+    globalParameters.getTargetOs()=="meego")
+  {
+   qDebug() << "Set alternative handler myMessageOutput() for debug message";
+
+   #if QT_VERSION < 0x050000
+    qInstallMsgHandler(myMessageOutput);
+   #else
+    qInstallMessageHandler(myMessageOutput);
+   #endif
+  }
+
+ qDebug() << "Debug message after set message handler";
 }
 
 
@@ -787,13 +827,7 @@ int main(int argc, char ** argv)
  // Запоминается имя файла запущенного бинарника
  globalParameters.setMainProgramFile(mainProgramFile);
 
-
- #if QT_VERSION < 0x050000
-  qInstallMsgHandler(myMessageOutput);
- #else
-  qInstallMessageHandler(myMessageOutput);
- #endif
-
+ setDebugMessageHandler();
 
  QtSingleApplication app(argc, argv);
 

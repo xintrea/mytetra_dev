@@ -1,3 +1,16 @@
+# Please, set manual your target OS
+# ANY_OS - for desktop Windows and Linux
+# MEEGO_OS - for MEEGO
+# ANDROID_OS - for Android
+TARGET_OS=ANDROID_OS
+
+
+# Create define variable in C++ code
+DEFINES+="ANY_OS=1"
+DEFINES+="MEEGO_OS=2"
+DEFINES+="ANDROID_OS=3"
+DEFINES+="TARGET_OS=$${TARGET_OS}"
+
 message(Building running in Qt major version: $${QT_MAJOR_VERSION})
 
 TEMPLATE = app
@@ -23,19 +36,27 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 FORMS = 
-QMAKE_LFLAGS += -L/usr/lib/qt4/lib
+# QMAKE_LFLAGS += -L/usr/lib/qt4/lib
 INCLUDEPATH += $${_PRO_FILE_PWD_}/src
 
-!contains(TARGET_OS_IS_MEEGO, 1) {
+contains(TARGET_OS, ANY_OS) {
  message(Building the any OS version...)
  SYSTEM_PROGRAM_NAME=mytetra
  BINARY_INSTALL_PATH=/usr/local/bin
-} else {
+}
+
+contains(TARGET_OS, MEEGO_OS){
  message(Building the MeeGo OS version...)
  SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
  BINARY_INSTALL_PATH=/opt/$${SYSTEM_PROGRAM_NAME}/bin
- DEFINES+=TARGET_OS_MEEGO
 }
+
+contains(TARGET_OS, ANDROID_OS){
+ message(Building the Android OS version...)
+ SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
+ BINARY_INSTALL_PATH=/
+}
+
 
 message(Set installation directory for binary file to $${BINARY_INSTALL_PATH})
 
@@ -46,10 +67,14 @@ target.path=$${BINARY_INSTALL_PATH}
 INSTALLS+=target
 
 desktop_file.path=/usr/share/applications
-!contains(TARGET_OS_IS_MEEGO, 1) {
+contains(TARGET_OS, ANY_OS) {
  desktop_file.files=desktop/any/mytetra.desktop
-} else {
+}
+contains(TARGET_OS, MEEGO_OS) {
  desktop_file.files=desktop/meego/mytetra.desktop
+}
+contains(TARGET_OS, ANDROID_OS) {
+ desktop_file.files=desktop/any/mytetra.desktop
 }
 INSTALLS+=desktop_file
 

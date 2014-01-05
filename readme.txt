@@ -2,6 +2,15 @@
 MyTetra v.1.x 
 
 
+Before compile, please, set your terget OS in mytetra.pro:
+
+# Please, set manual your target OS
+# ANY_OS - for desktop Windows and Linux
+# MEEGO_OS - for MEEGO
+# ANDROID_OS - for Android
+TARGET_OS=ANY_OS
+
+
 For compile run commands:
 
  qmake mytetra.pro
