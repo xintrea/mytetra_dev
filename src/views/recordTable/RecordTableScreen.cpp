@@ -772,7 +772,10 @@ void RecordTableScreen::copy(void)
 void RecordTableScreen::paste(void)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
- if(!(QApplication::clipboard()->mimeData()->hasFormat("mytetra/records"))) 
+ const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+ if(mimeData==NULL)
+  return;
+ if( ! (mimeData->hasFormat("mytetra/records")) )
   return;
 
  // Создается ссылка на буфер обмена
@@ -899,8 +902,12 @@ void RecordTableScreen::toolsUpdate(void)
  if((recordView->selectionModel()->hasSelection() && (recordView->selectionModel()->selectedRows()).size()==1) ||
      recordView->selectionModel()->hasSelection()==false ||
      recordView->model()->rowCount()==0)
-  if(QApplication::clipboard()->mimeData()->hasFormat("mytetra/records")) 
-   actionPaste->setEnabled(true);
+  {
+   const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+   if(mimeData!=NULL)
+    if(mimeData->hasFormat("mytetra/records"))
+     actionPaste->setEnabled(true);
+  }
 
  // Перемещение записи вверх
  // Пункт возможен только когда выбрана одна строка

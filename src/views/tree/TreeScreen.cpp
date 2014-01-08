@@ -239,7 +239,13 @@ void TreeScreen::on_customContextMenuRequested(const QPoint &pos)
    {
 
     // Если в буфере есть ветки, соответсвующие пункты становятся активными
-    if( QApplication::clipboard()->mimeData()->hasFormat("mytetra/branch") )
+    bool isBranch=false;
+    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+     if(mimeData!=NULL)
+      if(mimeData->hasFormat("mytetra/branch"))
+        isBranch=true;
+
+     if( isBranch )
      {
       actionList["pasteBranch"]->setEnabled(true);
       actionList["pasteSubbranch"]->setEnabled(true);
@@ -976,7 +982,10 @@ void TreeScreen::paste_subbranch(void)
 void TreeScreen::pasteBranchSmart(bool is_branch)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
- if(!(QApplication::clipboard()->mimeData()->hasFormat("mytetra/branch")))
+ const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+ if(mimeData==NULL)
+  return;
+ if( ! (mimeData->hasFormat("mytetra/branch")) )
   return;
 
  // Получение списка индексов QModelIndex выделенных элементов

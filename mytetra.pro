@@ -2,7 +2,7 @@
 # ANY_OS - for desktop Windows and Linux
 # MEEGO_OS - for MEEGO
 # ANDROID_OS - for Android
-TARGET_OS=ANDROID_OS
+TARGET_OS=ANY_OS
 
 
 # Create define variable in C++ code
@@ -27,15 +27,19 @@ CONFIG += qt \
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
                                         printsupport
 
-TARGET = mytetra
-RESOURCES = bin/mytetra.qrc
-TRANSLATIONS = bin/resource/translations/mytetra_ru.ts
-CODECFORTR  = utf8
+contains(TARGET_OS, ANY_OS) {
 DESTDIR = bin
 OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
-FORMS = 
+}
+
+
+TARGET = mytetra
+RESOURCES = bin/mytetra.qrc
+TRANSLATIONS = bin/resource/translations/mytetra_ru.ts
+CODECFORTR  = utf8
+
 # QMAKE_LFLAGS += -L/usr/lib/qt4/lib
 INCLUDEPATH += $${_PRO_FILE_PWD_}/src
 
@@ -53,7 +57,7 @@ contains(TARGET_OS, MEEGO_OS){
 
 contains(TARGET_OS, ANDROID_OS){
  message(Building the Android OS version...)
- SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
+ SYSTEM_PROGRAM_NAME=mytetra
  BINARY_INSTALL_PATH=/
 }
 
@@ -214,3 +218,8 @@ wince* {
     addPlugins.path = imageformats
     DEPLOYMENT += addPlugins
 }
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+OTHER_FILES += \
+    android/AndroidManifest.xml

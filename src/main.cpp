@@ -515,6 +515,24 @@ void setDebugMessageHandler()
 }
 
 
+void setCssStyle()
+{
+ QString csspath = globalParameters.getWorkDirectory()+"/stylesheet.css";
+
+ QFile css(csspath);
+ if (css.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+   qDebug() << "Stylesheet success loaded from" << csspath;
+   QString style = QTextStream(&css).readAll();
+   qApp->setStyleSheet(style);
+  } 
+ else 
+  {
+   qDebug() << "Stylesheet not found in " << csspath << ". Use standert forms.";
+  }
+}
+ 
+
 QStringList text_delimiter_decompose(QString text)
 {
  text.replace('"',' ');
@@ -589,14 +607,7 @@ void init_random(void)
  unsigned int seed3=seed1+seed2;
  unsigned int seed=seed3;
 
- // qDebug() << "Random seed1" << seed1;
- // qDebug() << "Random seed2" << seed2;
- // qDebug() << "Random seed3" << seed3;
- // qDebug() << "Random seed" << seed;
-
  srand( seed );
-
- // qDebug() << "Random number" << rand();
 }
 
 
@@ -852,6 +863,10 @@ int main(int argc, char ** argv)
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
+
+ // Установка CSS-оформления
+ setCssStyle();
+
 
  // Подключение перевода интерфейса
  // QString langFileName=globalParameters.getWorkDirectory()+"/resource/translations/mytetra_"+mytetraconfig.get_interfacelanguage()+".qm";
