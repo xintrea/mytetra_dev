@@ -45,6 +45,7 @@ public:
     
     QModelIndex getIndexByItem(TreeItem *item);
 
+    // Поиск ветки с указанным ID
     TreeItem *getItemById(QString id);
 
     // Возвращает общее количество записей, хранимых в дереве
@@ -61,6 +62,12 @@ public:
     bool isContainsCryptBranches(void);
 
     QStringList getRecordPath(QString recordId);
+
+    // Проверка наличия идентификатора ветки во всем дереве
+    bool isItemIdExists(QString findId);
+
+    // Проверка наличия идентификатора записи во всем дереве
+    bool isRecordIdExists(QString findId);
 
 private:
     // Функция заполнения дерева из DOM-документа
@@ -92,6 +99,10 @@ private:
                                      QStringList currentPath,
                                      QString recordId,
                                      int mode);
+
+    bool isItemIdExistsRecurse(TreeItem *item, QString findId, int mode);
+
+    bool isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode);
 
     // QModelIndex get_item_index_recurse(QModelIndex currindex, TreeItem *finditem, int mode);
 };

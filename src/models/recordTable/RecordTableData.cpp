@@ -11,6 +11,7 @@
 #include "libraries/GlobalParameters.h"
 #include "models/tree/TreeItem.h"
 #include "libraries/WalkHistory.h"
+#include "models/tree/KnowTreeModel.h"
 
 #include "libraries/wyedit/Editor.h"
 
@@ -720,7 +721,7 @@ int RecordTableData::insertNewRecord(int mode,
                                        QString text,
                                        QMap<QString, QByteArray> files)
 {
-  // qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
+  qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
 
   // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
   bool isCrypt=false;
@@ -735,18 +736,31 @@ int RecordTableData::insertNewRecord(int mode,
 
 
   // В список переданных полей добавляются вычислимые в данном месте поля
-  
+
   // Наличие шифрации
   if(isCrypt) fields["crypt"]="1";
   else fields["crypt"]="0";
 
-  // Директория хранения записи и файл
-  fields["dir"]=get_unical_id();
-  fields["file"]="text.html";
+  // Выясняется, есть ли в дереве запись с указанным ID
+  // Если есть, то генерируются новые ID для записи и новая директория хранения
+  // Если нет, то это значит что запись была вырезана, но хранится в буфере,
+  // и ее желательно вставить с прежним ID и прежнии именем директории
+  KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
+  if(fields["id"].length()==0 ||
+     dataModel->isRecordIdExists( fields["id"] ) )
+   {
+    // Создается новая запись (ID был пустой) или
+    // Запись с таким ID в дереве есть, поэтому выделяются новый ID и новая директория хранения (чтобы не затереть существующие)
 
-  // Уникальный идентификатор XML записи
-  QString id=get_unical_id();
-  fields["id"]=id;
+    // Директория хранения записи и файл
+    fields["dir"]=get_unical_id();
+    fields["file"]="text.html";
+
+    // Уникальный идентификатор XML записи
+    QString id=get_unical_id();
+    fields["id"]=id;
+   }
+
 
   // Время создания данной записи
   QDateTime ctime_dt=QDateTime::currentDateTime();

@@ -437,6 +437,87 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
 }
 
 
+// Проверка наличия идентификатора ветки во всем дереве
+bool KnowTreeModel::isItemIdExists(QString findId)
+{
+ // Обнуление счетчика
+ isItemIdExistsRecurse(rootItem, findId, 0);
+
+ return isItemIdExistsRecurse(rootItem, findId, 1);
+}
+
+
+bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mode)
+{
+ static bool isExists=false;
+
+ // Инициализация
+ if(mode==0)
+  {
+   isExists=false;
+   return false;
+  }
+
+ // Если ветка найдена, дальше проверять не имеет смысла. Это условие ускоряет возврат из рекурсии.
+ if(isExists)
+  return true;
+
+ // Если текущая ветка содержит искомый идетнификатор
+ if(item->getField("id")==findId)
+  {
+   isExists=true;
+   return true;
+  }
+
+ // Перебираются подветки
+ for(int i=0; i < item->childCount(); i++)
+  isItemIdExistsRecurse(item->child(i), findId, 1);
+
+ return isExists;
+}
+
+
+// Проверка наличия идентификатора записи во всем дереве
+bool KnowTreeModel::isRecordIdExists(QString findId)
+{
+ // Обнуление счетчика
+ isRecordIdExistsRecurse(rootItem, findId, 0);
+
+ return isRecordIdExistsRecurse(rootItem, findId, 1);
+}
+
+
+bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode)
+{
+ static bool isExists=false;
+
+ // Инициализация
+ if(mode==0)
+  {
+   isExists=false;
+   return false;
+  }
+
+ // Если запись найдена, дальше проверять не имеет смысла. Это условие ускоряет возврат из рекурсии.
+ if(isExists)
+  return true;
+
+ // Если таблица записей текущей ветки содержит искомый идентификатор
+ if(item->getRecordPos(findId)!=-1)
+  {
+   isExists=true;
+   return true;
+  }
+
+ // Перебираются подветки
+ for(int i=0; i < item->childCount(); i++)
+  isRecordIdExistsRecurse(item->child(i), findId, 1);
+
+ return isExists;
+}
+
+
+
 // Добавление подветки из буфера обмена относительно указанного элемента
 // Функция возвращает новый идентификатор стартовой добавленной подветки
 QString KnowTreeModel::pasteSubbranch(TreeItem *item, ClipboardBranch *subbranch)
@@ -570,10 +651,14 @@ void KnowTreeModel::reEncrypt(QString previousPassword, QString currentPassword)
 }
 
 
+// Функция ищет ветку с указанным ID и возвращает ссылку не неё в виде TreeItem *
+// Если ветка с указанным ID не будет найдена, возвращается NULL
 TreeItem *KnowTreeModel::getItemById(QString id)
 {
+ // Инициализация поиска
  getItemByIdRecurse(rootItem, 0, 0);
 
+ // Запуск поиска и возврат результата
  return getItemByIdRecurse(rootItem, id, 1);
 }
 

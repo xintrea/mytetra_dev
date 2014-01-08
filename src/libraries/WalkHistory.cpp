@@ -34,10 +34,10 @@ void WalkHistory::add(QString id,
                       int scrollBarPosition,
                       int mode)
 {
- qDebug() << "WalkHistory::add() : id " << id;
- qDebug() << "WalkHistory::add() : mode " << mode;
- qDebug() << "WalkHistory::add() start status:";
- print();
+ // qDebug() << "WalkHistory::add() : id " << id;
+ // qDebug() << "WalkHistory::add() : mode " << mode;
+ // qDebug() << "WalkHistory::add() start status:";
+ // print();
 
  if(id.length()==0)
   return;
@@ -47,7 +47,7 @@ void WalkHistory::add(QString id,
 
  if(dropFlag)
   {
-   qDebug() << "WalkHistory::add() : Dropping adding.";
+   // qDebug() << "WalkHistory::add() : Dropping adding.";
    return;
   }
 
@@ -72,7 +72,7 @@ void WalkHistory::add(QString id,
    if(historyId.size()>0)
     if(historyId.last()==id)
      {
-      print();
+      // print();
       return;
      }
 
@@ -99,7 +99,7 @@ void WalkHistory::add(QString id,
      historyId << id;
      historyPoint=0;
 
-     print();
+     // print();
      return;
     }
 
@@ -162,7 +162,7 @@ void WalkHistory::add(QString id,
      historyId << id;
      historyPoint=0;
 
-     print();
+     // print();
      return;
     }
 
@@ -187,7 +187,7 @@ void WalkHistory::add(QString id,
         }
       }
 
-     print();
+     // print();
      return;
     }
    else
@@ -217,7 +217,7 @@ void WalkHistory::add(QString id,
   } // Закончилось условие что происходит запоминание с движением вперед по истории
 
 
- print();
+ // print();
 }
 
 
@@ -227,7 +227,7 @@ void WalkHistory::switchToPrevious(void)
   historyPoint--;
 
  qDebug() << "WalkHistory::switchToPrevious() :";
- print();
+ // print();
 }
 
 
@@ -237,7 +237,7 @@ void WalkHistory::switchToNext(void)
   historyPoint++;
 
  qDebug() << "WalkHistory::switchToNext() :";
- print();
+ // print();
 }
 
 
