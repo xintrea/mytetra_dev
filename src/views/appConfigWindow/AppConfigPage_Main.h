@@ -4,9 +4,9 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QSpinBox>
-#include <QComboBox>
 
 #include "ConfigPage.h"
+#include "libraries/MtComboBox.h"
 
 
 class AppConfigPage_Main : public ConfigPage
@@ -26,7 +26,7 @@ private:
   QLineEdit *trashdirInput;
   QSpinBox  *trashsizeInput;
   QSpinBox  *trashmaxfilecountInput;
-  QComboBox *interfaceLanguage;
+  MtComboBox *interfaceLanguage;
 
 };
 

@@ -21,7 +21,6 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QColorDialog>
-#include <QComboBox>
 #include <QFontComboBox>
 #include <QFile>
 #include <QFileDialog>

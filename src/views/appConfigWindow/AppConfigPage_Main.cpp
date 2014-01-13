@@ -90,7 +90,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  QLabel *interfaceLanguageLabel=new QLabel(this);
  interfaceLanguageLabel->setText(tr("Language"));
 
- interfaceLanguage=new QComboBox(this);
+ interfaceLanguage=new MtComboBox(this);
  interfaceLanguage->setMinimumContentsLength(2);
  interfaceLanguage->addItem("en");
  interfaceLanguage->addItem("ru");

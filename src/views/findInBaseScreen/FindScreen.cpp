@@ -1,6 +1,5 @@
 #include <QLineEdit>
 #include <QPushButton>
-#include <QComboBox>
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QSplitter>
@@ -24,6 +23,7 @@
 #include "views/record/MetaEditor.h"
 #include "libraries/GlobalParameters.h"
 #include "views/tree/TreeScreen.h"
+#include "libraries/MtComboBox.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;
@@ -58,17 +58,17 @@ void FindScreen::setupToolsLine(void)
  findStartButton->setDefault(true);
  findStartButton->setEnabled(false);
  
- wordRegard=new QComboBox();
+ wordRegard=new MtComboBox();
  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_any.svg"), tr("Any word"));
  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_all.svg"), tr("All words"));
  wordRegard->setCurrentIndex(mytetraconfig.get_findscreen_wordregard());
  
- howExtract=new QComboBox();
+ howExtract=new MtComboBox();
  howExtract->addItem(QIcon(":/resource/pic/find_in_base_separate.svg"), tr("Whole words"));
  howExtract->addItem(QIcon(":/resource/pic/find_in_base_substring.svg"), tr("Substring"));
  howExtract->setCurrentIndex(mytetraconfig.get_findscreen_howextract());
 
- treeSearchArea=new QComboBox();
+ treeSearchArea=new MtComboBox();
  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
  treeSearchArea->setCurrentIndex(mytetraconfig.getFindScreenTreeSearchArea());

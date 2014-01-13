@@ -321,7 +321,7 @@ void Editor::setup_buttons(void)
 
 
  // Выбор размера шрифта
- fontSize=new QComboBox(this);
+ fontSize=new MtComboBox(this);
  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++) 
   fontSize->addItem(QString("%1").arg(i),i);
  fontSize->setCurrentIndex(fontSize->findData(10));

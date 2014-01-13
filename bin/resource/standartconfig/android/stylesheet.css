@@ -1,3 +1,82 @@
-background: blue; 
-color: red;
 
+QPushButton, QToolButton {
+/*    border: 1px solid #8f8f91; */
+/*    padding: 8px; */
+/*    border-radius: 5px; */
+    font: 14px;
+
+    min-width: 32px;
+    min-height: 32px;
+    
+    /* min-width: 32px; */
+}
+
+
+QPushButton {
+    padding: 0px 5px 0px 5px;
+}
+
+
+/*
+QTreeView {
+     background:  solid #777777;
+     margin: 6px;
+     height: 12px;
+     width:  12px;
+ }
+*/
+
+
+QScrollBar:vertical {
+    border: none; /* С этим свойством включается планарный плоский стиль без закруглений, разобраться */
+    width: 40px;
+    margin: 40px 0px 40px 0px;
+}
+QScrollBar::handle:vertical {
+    min-height: 20px;
+}
+QScrollBar::add-line:vertical {
+    height: 40px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical {
+    height: 40px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+
+
+QScrollBar:horizontal {
+    border: none; /* С этим свойством включается планарный плоский стиль без закруглений */
+    height: 40px;
+    margin: 0px 40px 0px 40px;
+}
+QScrollBar::handle:horizontal {
+    min-width: 20px;
+}
+QScrollBar::add-line:horizontal {
+    width: 40px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:horizontal {
+    width: 40px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+
+QTreeView::item, QListView::item {
+        margin: 8px 0px 8px 0px;
+}
+
+
+QComboBox {
+    height: 32px;
+ }
+
+/* Для выпадающего списка*/
+QComboBox QAbstractItemView::item {
+        margin: 8px 0px 8px 0px;
+ }

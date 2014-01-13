@@ -6,7 +6,6 @@
 
 class QLineEdit;
 class QPushButton;
-class QComboBox;
 class QToolButton;
 class QHBoxLayout;
 class QVBoxLayout;
@@ -19,6 +18,7 @@ class TreeItem;
 
 class FindTableWidget;
 
+class MtComboBox;
 
 // Виджет поиска по базе
 
@@ -64,9 +64,9 @@ signals:
 private:
  QLineEdit *findText;
  QPushButton *findStartButton;
- QComboBox *wordRegard;
- QComboBox *howExtract;
- QComboBox *treeSearchArea;
+ MtComboBox *wordRegard;
+ MtComboBox *howExtract;
+ MtComboBox *treeSearchArea;
  QToolButton *closeButton;
  
  QLabel *whereFindLabel;

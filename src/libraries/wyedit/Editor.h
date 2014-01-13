@@ -15,6 +15,10 @@
 
 #include "EditorFindDialog.h"
 
+// Fix ugly Qt QSS bug
+#include "libraries/MtComboBox.h"
+
+
 // ----------------------------------------------------------
 // WyEdit - встраиваемый визуальный редактор
 // Волгодонск, 2010 г.
@@ -114,7 +118,7 @@ public:
  QToolButton   *settings;
  
  QFontComboBox *fontSelect;
- QComboBox     *fontSize;
+ MtComboBox     *fontSize;
  QToolButton   *fontColor;
  
  QToolButton   *showHtml;
