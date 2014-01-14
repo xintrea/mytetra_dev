@@ -12,6 +12,7 @@
 #include "FindTableWidget.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/MtTableWidget.h"
 
 FindTableWidget::FindTableWidget(QWidget *parent) : QWidget(parent)
 {
@@ -30,7 +31,7 @@ FindTableWidget::~FindTableWidget(void)
 
 void FindTableWidget::setupUI(void)
 {
- findTableView=new QTableWidget();
+ findTableView=new MtTableWidget();
  findTableView->setObjectName("findtableview");
  findTableView->setMinimumSize(1,1);
  findTableView->horizontalHeader()->hide();

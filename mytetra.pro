@@ -151,7 +151,8 @@ HEADERS = src/main.h \
     src/libraries/crypt/Pbkdf2Qt.h \
     src/libraries/crypt/RC5Simple.h \
     src/libraries/crypt/Password.h \
-    src/libraries/MtComboBox.h 
+    src/libraries/MtComboBox.h \ 
+    src/libraries/MtTableWidget.h
 SOURCES = src/main.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
@@ -212,7 +213,8 @@ SOURCES = src/main.cpp \
     src/libraries/crypt/Pbkdf2Qt.cpp \
     src/libraries/crypt/RC5Simple.cpp \
     src/libraries/crypt/Password.cpp \
-    src/libraries/MtComboBox.cpp
+    src/libraries/MtComboBox.cpp \
+    src/libraries/MtTableWidget.cpp
 
 wince* { 
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll

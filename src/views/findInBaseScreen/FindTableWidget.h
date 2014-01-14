@@ -2,8 +2,8 @@
 #define	_FINDTABLEWIDGET_H_
 
 #include <QWidget>
+#include <libraries/MtTableWidget.h>
 
-class QTableWidget;
 class QModelIndex;
 
 
@@ -26,7 +26,7 @@ private slots:
 
 private:
 
-    QTableWidget *findTableView;
+    MtTableWidget *findTableView;
  
  void setupUI(void);
  void setupSignals(void);

@@ -22,7 +22,7 @@ extern AppConfig mytetraconfig;
 
 RecordListScreen::RecordListScreen(QWidget *parent) : QListView(parent)
 {
- this->setSelectionMode(QAbstractItemView::ExtendedSelection);
+ this->setSelectionMode(QAbstractItemView::SingleSelection); // ExtendedSelection
 
  isStartDrag=false;
 }
@@ -81,12 +81,16 @@ void RecordListScreen::mouseReleaseEvent(QMouseEvent *event)
 
 void RecordListScreen::startDrag()
 {
- return; // Drag&Drop не работает как хотелось бы, отключен
+ // return; // Drag&Drop не работает как хотелось бы, отключен
 
  qDebug() << "Start record drag\n";
 
  // Копирование выделенных строк в буфер обмена
  qobject_cast<RecordTableScreen *>(parent())->copy();
+
+ // Запуск операции перетаскивания объекта, доделать
+ // if(drag->start(Qt::MoveAction)==Qt:MoveAtion)
+
 }
 
 
