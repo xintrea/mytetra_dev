@@ -9,6 +9,7 @@
 #include "Pbkdf2Qt.h"
 
 #include "models/tree/KnowTreeModel.h"
+#include "views/tree/KnowTreeView.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "views/enterPassword/EnterPassword.h"
@@ -149,7 +150,7 @@ bool Password::replacePassword(void)
  // ------------------------
 
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
+ KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowtreeview")->model());
 
  // Перешифрация
  dataModel->reEncrypt(previousPassword, password);

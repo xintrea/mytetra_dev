@@ -30,6 +30,10 @@ class ClipboardRecords : public QMimeData
  
 public:
  ClipboardRecords(void);
+
+ // Конструктор копирования
+ // ClipboardRecords(ClipboardRecords& r);
+
  ~ClipboardRecords(void);
 
  void init(void);

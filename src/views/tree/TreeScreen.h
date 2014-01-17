@@ -7,11 +7,11 @@
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QTreeView>
 #include <QToolBar>
 #include <QInputDialog>
 
 class KnowTreeModel;
+class KnowTreeView;
 class ClipboardBranch;
 
 
@@ -70,7 +70,7 @@ private slots:
 private:
  QToolBar *toolsLine;
 
- QTreeView  *knowTree;
+ KnowTreeView  *knowTree;
 
  QVBoxLayout *treeScreenLayout;
 

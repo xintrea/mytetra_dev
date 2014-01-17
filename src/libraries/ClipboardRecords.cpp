@@ -21,12 +21,22 @@ ClipboardRecords::~ClipboardRecords(void)
 }
 
 
+// Подготовка объекта для загрузки данных
 void ClipboardRecords::init(void)
 {
- records.table.clear();
+ if(records.table.size()>0)
+  records.table.clear();
 
  clipbRecordsFormat.clear();
  clipbRecordsFormat << "mytetra/records";
+}
+
+
+// Очистка объекта
+void ClipboardRecords::clear(void)
+{
+ init();
+ clipbRecordsFormat << "";
 }
 
 

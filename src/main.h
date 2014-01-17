@@ -11,7 +11,6 @@
 #include <QtGlobal>
 
 #include <QDomNode>
-#include <QTreeView>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -32,7 +31,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   10
+#define APPLICATION_RELEASE_MICROVERSION   11
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1

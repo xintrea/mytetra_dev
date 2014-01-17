@@ -9,6 +9,7 @@
 
 #include "main.h"
 #include "TreeScreen.h"
+#include "KnowTreeView.h"
 
 #include "models/recordTable/RecordTableData.h"
 #include "views/recordTable/RecordTableScreen.h"
@@ -177,9 +178,8 @@ void TreeScreen::setupUI(void)
  insert_action_as_button(toolsLine, actionList["moveUpBranch"]);
  insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
 
-
- knowTree=new QTreeView(this);
- knowTree->setObjectName("knowtree");
+ knowTree=new KnowTreeView(this);
+ knowTree->setObjectName("knowtreeview");
  knowTree->setMinimumSize(150,250);
  knowTree->setWordWrap(true);
 

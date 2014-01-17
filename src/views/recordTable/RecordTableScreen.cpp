@@ -702,6 +702,43 @@ void RecordTableScreen::deleteRecords(void)
 }
 
 
+ClipboardRecords *RecordTableScreen::getSelectedRecords(void)
+{
+ // Объект с данными для заполнения буфера обмена
+ ClipboardRecords *clipboardRecords=new ClipboardRecords();
+
+ clipboardRecords->clear();
+
+ // Получение списка Item-элементов, подлежащих копированию
+ QModelIndexList itemsForCopy=recordView->selectionModel()->selectedIndexes();
+
+ // Список возвращается в произвольном порядке, не в таком как на экране
+ // поэтому его нужно отсортировать по QModelIndex
+ qSort(itemsForCopy.begin(),itemsForCopy.end());
+
+ qDebug() << "Get selected records";
+ for(int i=0; i<itemsForCopy.size(); ++i)
+  qDebug() << itemsForCopy.at(i).data().toString();
+
+ // Выясняется ссылка на таблицу конечных данных
+ RecordTableData *table=recordModel->getTableData();
+
+ // Перебираются записи и вносятся в буфер обмена
+ for(int i=0; i<itemsForCopy.size(); ++i)
+  {
+   // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
+   QMap<QString, QString> exemplar=table->getRecordExemplar( (itemsForCopy.at(i)).row() );
+
+   // Имя директории, в которой расположена запись и ее файлы
+   QString directory=mytetraconfig.get_tetradir()+"/base/"+exemplar["dir"];
+
+   clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
+  }
+
+ return clipboardRecords;
+}
+
+
 // Копирование отмеченных записей в буфер обмена с удалением 
 // из таблицы конечных записей
 void RecordTableScreen::cut(void)
@@ -719,52 +756,8 @@ void RecordTableScreen::cut(void)
 // Копирование отмеченных записей в буфер обмена
 void RecordTableScreen::copy(void)
 {
- // Получение списка Item-элементов, подлежащих копированию
- QModelIndexList itemsForCopy=recordView->selectionModel()->selectedIndexes();
-
- // Список возвращается в произвольном порядке, не в таком как на экране
- // поэтому его нужно отсортировать по QModelIndex
- qSort(itemsForCopy.begin(),itemsForCopy.end());
-
- qDebug() << "Copy to buffer records";
- for(int i=0; i<itemsForCopy.size(); ++i)
-  qDebug() << itemsForCopy.at(i).data().toString();
- 
-  // Создается ссылка на буфер обмена
- QClipboard *clipboardBuf=QApplication::clipboard();
-
- // Создается объект с данными для заполнения буфера обмена
- static int fillFlag=0;
- if(fillFlag==1)
-  {
-   const ClipboardRecords *clipboardRecordsPrevios;
-   clipboardRecordsPrevios=qobject_cast<const ClipboardRecords *>(clipboardBuf->mimeData());
-   if(clipboardRecordsPrevios!=NULL)delete clipboardRecordsPrevios;
-   fillFlag=0;
-  } 
- ClipboardRecords *clipboardRecords=new ClipboardRecords();
- fillFlag=1;
-
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
-
- // Перебираются записи и вносятся в буфер обмена
- for(int i=0; i<itemsForCopy.size(); ++i)
-  {
-   // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-   QMap<QString, QString> exemplar=table->getRecordExemplar( (itemsForCopy.at(i)).row() );
-
-   // Имя директории, в которой расположена запись и ее файлы
-   QString directory=mytetraconfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-   clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
-  }
-
- // Печатается содержимое буфера в консоль
- // rcd->print();
-
  // Объект с записями помещается в буфер обмена
- clipboardBuf->setMimeData(clipboardRecords);
+ QApplication::clipboard() -> setMimeData( getSelectedRecords() );
 }
 
 

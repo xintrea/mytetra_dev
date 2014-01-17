@@ -16,6 +16,7 @@
 class RecordListScreen;
 class RecordTableData;
 class RecordTableModel;
+class ClipboardRecords ;
 
 class RecordTableScreen : public QWidget
 {
@@ -35,6 +36,7 @@ public:
  bool isSelectedSetToTop(void);
  bool isSelectedSetToBottom(void);
 
+ ClipboardRecords *getSelectedRecords(void);
 
 public slots:
 
@@ -133,7 +135,6 @@ private:
 
  // Реакия на выбор записи мышкой или клавишами
  void onClickToRecord(const QModelIndex &index);
-
 };
 
 #endif /* RECORDTABLESCREEN_H_ */

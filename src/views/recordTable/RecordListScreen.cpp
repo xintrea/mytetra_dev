@@ -1,5 +1,6 @@
 #include <QObject>
 #include <QMimeData>
+#include <QDrag>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -73,7 +74,8 @@ void RecordListScreen::mouseMoveEvent(QMouseEvent *event)
 // Реакция на отпускание клавиши мышки
 void RecordListScreen::mouseReleaseEvent(QMouseEvent *event)
 {
- if(isStartDrag==true) isStartDrag=false;
+ if(isStartDrag==true)
+     isStartDrag=false;
 
  QListView::mouseReleaseEvent(event);
 }
@@ -85,13 +87,24 @@ void RecordListScreen::startDrag()
 
  qDebug() << "Start record drag\n";
 
- // Копирование выделенных строк в буфер обмена
- qobject_cast<RecordTableScreen *>(parent())->copy();
+ // Если действительно выбрана строка
+ if( currentIndex().isValid() )
+  {
+   // Копирование выделенных строк в объект переноса
+   QDrag *drag=new QDrag(this);
+   drag->setMimeData( qobject_cast<RecordTableScreen *>( parent())->getSelectedRecords() );
 
- // Запуск операции перетаскивания объекта, доделать
- // if(drag->start(Qt::MoveAction)==Qt:MoveAtion)
+   // Запуск операции перетаскивания объекта (start - запуск перетаскивания)
+   if(drag->start(Qt::MoveAction)==Qt::MoveAction)
+    {
+     // Сюда код дойдет после того, как перетаскивание будет закончено
 
+     // Здесь сделать удаление переносимой записи
+
+    }
+  }
 }
+
 
 
 // Переопределенный слот (virtual protected slot)

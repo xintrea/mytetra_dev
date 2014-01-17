@@ -43,8 +43,6 @@
 #include <QSplitter>
 #include <QSystemTrayIcon>
 
-#include <QTreeView>
-#include <QListView>
 #include <QStatusBar>
 
 class TreeScreen;

@@ -24,6 +24,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/MtComboBox.h"
+#include "views/tree/KnowTreeView.h"
 
 extern AppConfig mytetraconfig;
 extern GlobalParameters globalParameters;
@@ -298,7 +299,7 @@ void FindScreen::findStart(void)
  findTable->clearAll();
  
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
+ KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowtreeview")->model());
  
  
  // Выясняется стартовый элемент в дереве, с которого будет начат поиск

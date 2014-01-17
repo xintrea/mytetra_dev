@@ -12,6 +12,7 @@
 #include "models/tree/TreeItem.h"
 #include "libraries/WalkHistory.h"
 #include "models/tree/KnowTreeModel.h"
+#include "views/tree/KnowTreeView.h"
 
 #include "libraries/wyedit/Editor.h"
 
@@ -745,7 +746,7 @@ int RecordTableData::insertNewRecord(int mode,
   // Если есть, то генерируются новые ID для записи и новая директория хранения
   // Если нет, то это значит что запись была вырезана, но хранится в буфере,
   // и ее желательно вставить с прежним ID и прежнии именем директории
-  KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<QTreeView>("knowtree")->model());
+  KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowtreeview")->model());
   if(fields["id"].length()==0 ||
      dataModel->isRecordIdExists( fields["id"] ) )
    {

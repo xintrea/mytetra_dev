@@ -9,6 +9,7 @@
 #include <QString>
 #include <QShowEvent>
 #include <QString>
+#include <QStyle>
 
 #include "main.h"
 #include "EnterPassword.h"
