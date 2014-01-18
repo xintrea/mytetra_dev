@@ -20,32 +20,42 @@ KnowTreeView::~KnowTreeView()
 
 void KnowTreeView::dragEnterEvent(QDragEnterEvent *event)
 {
- qDebug() << "dragEnterEvent() - Start";
-
  // Проверяется, содержит ли объект переноса данные нужного формата
  const QMimeData *mimeData=event->mimeData();
  if(mimeData==NULL)
-  {
-   qDebug() << "dragEnterEvent() - mime data is NULL";
-   return;
-  }
+  return;
  if( ! (mimeData->hasFormat("mytetra/records")) )
-  {
-   qDebug() << "dragEnterEvent() - format not have mytetra records";
-   return;
-  }
-
+  return;
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
  if( sourceObject->objectName()=="recordview" )
   {
    event->setDropAction(Qt::MoveAction);
-   event->accept(true);
-   // event->acceptProposedAction();
-
+   event->accept();
    qDebug() << "Accept in dragEnterEvent()";
   }
+}
+
+
+void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
+{
+ // Проверяется, содержит ли объект переноса данные нужного формата
+ const QMimeData *mimeData=event->mimeData();
+ if(mimeData==NULL)
+  return;
+ if( ! (mimeData->hasFormat("mytetra/records")) )
+  return;
+
+ QObject *sourceObject=qobject_cast<QObject *>( event->source() );
+
+ if( sourceObject->objectName()=="recordview" )
+  {
+   event->acceptProposedAction();
+   qDebug() << "Accept in dragMoveEvent()";
+  }
+ else
+  event->ignore();
 }
 
 
@@ -60,7 +70,6 @@ void KnowTreeView::dropEvent(QDropEvent *event)
  if( ! (mimeData->hasFormat("mytetra/records")) )
   return;
 
-
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
  qDebug() << "dropEvent() - source object name is " << sourceObject->objectName();
@@ -70,7 +79,6 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    qDebug() << "Try move record by drag and drop";
 
    // Извлечение объекта
-   // const clipboardrecords *rcd=new clipboardrecords();
    const ClipboardRecords *clipboardRecords;
    clipboardRecords=qobject_cast<const ClipboardRecords *>(event->mimeData());
    clipboardRecords->print();
