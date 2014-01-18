@@ -29,7 +29,7 @@ void KnowTreeView::dragEnterEvent(QDragEnterEvent *event)
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
- if( sourceObject->objectName()=="recordview" )
+ if( sourceObject->objectName()=="RecordListScreen" )
   {
    event->setDropAction(Qt::MoveAction);
    event->accept();
@@ -49,7 +49,7 @@ void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
- if( sourceObject->objectName()=="recordview" )
+ if( sourceObject->objectName()=="RecordListScreen" )
   {
    event->acceptProposedAction();
    qDebug() << "Accept in dragMoveEvent()";
@@ -74,14 +74,18 @@ void KnowTreeView::dropEvent(QDropEvent *event)
 
  qDebug() << "dropEvent() - source object name is " << sourceObject->objectName();
 
- if( sourceObject->objectName()=="recordview" )
+ if( sourceObject->objectName()=="RecordListScreen" )
   {
    qDebug() << "Try move record by drag and drop";
 
    // Извлечение объекта
    const ClipboardRecords *clipboardRecords;
    clipboardRecords=qobject_cast<const ClipboardRecords *>(event->mimeData());
+
+   // Печать содержимого перетаскиваемого объекта
    clipboardRecords->print();
+
+
   }
 }
 

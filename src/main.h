@@ -27,12 +27,10 @@ using namespace std;
 // © Степанов С. М. и товарищи 2010 - 2014
 // ----------------------------------------------------------
 
-
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   12
-
+#define APPLICATION_RELEASE_MICROVERSION   13
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
