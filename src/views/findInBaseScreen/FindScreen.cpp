@@ -299,7 +299,7 @@ void FindScreen::findStart(void)
  findTable->clearAll();
  
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowtreeview")->model());
+ KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("KnowTreeView")->model());
  
  
  // Выясняется стартовый элемент в дереве, с которого будет начат поиск

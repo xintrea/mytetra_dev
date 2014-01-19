@@ -41,7 +41,7 @@ TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
  
  // Нужно установить правила показа контекстного самодельного меню
  // чтобы оно могло вызываться
- knowTree->setContextMenuPolicy(Qt::CustomContextMenu);
+ knowTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 
@@ -178,20 +178,20 @@ void TreeScreen::setupUI(void)
  insert_action_as_button(toolsLine, actionList["moveUpBranch"]);
  insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
 
- knowTree=new KnowTreeView(this);
- knowTree->setObjectName("knowtreeview");
- knowTree->setMinimumSize(150,250);
- knowTree->setWordWrap(true);
+ knowTreeView=new KnowTreeView(this);
+ knowTreeView->setObjectName("KnowTreeView");
+ knowTreeView->setMinimumSize(150,250);
+ knowTreeView->setWordWrap(true);
 
  // Временно сделан одинарный режим выбора пунктов
  // todo: Множественный режим надо выставить тогда, когда
  // станет ясно, как удалять несколько произвольных веток так, чтобы
  // в процессе удаления QModelIndex нижестоящих еще не удаленных
  // веток не менялся
- // knowtree->setSelectionMode(QAbstractItemView::ExtendedSelection);
- knowTree->setSelectionMode(QAbstractItemView::SingleSelection);
+ // knowTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+ knowTreeView->setSelectionMode(QAbstractItemView::SingleSelection);
 
- knowTree->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+ knowTreeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
  
  // setHeader ( QHeaderView * header )
 }
@@ -287,29 +287,29 @@ void TreeScreen::on_customContextMenuRequested(const QPoint &pos)
   
   // Включение отображения меню на экране
   // menu.exec(event->globalPos());
-  menu.exec(knowTree->viewport()->mapToGlobal(pos));
+  menu.exec(knowTreeView->viewport()->mapToGlobal(pos));
 }
 
 
 void TreeScreen::setupSignals(void)
 {
  // Сигнал чтобы показать контекстное меню по правому клику на ветке
- connect(knowTree,SIGNAL(customContextMenuRequested(const QPoint &)),
+ connect(knowTreeView,SIGNAL(customContextMenuRequested(const QPoint &)),
          this,SLOT(on_customContextMenuRequested(const QPoint &)));
 
  // Сигнал что ветка выбрана мышкой или стрелками на клавиатуре
- connect(knowTree->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
+ connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
          this, SLOT(on_knowtree_clicked(const QModelIndex&)));
  
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
- // connect(knowTree, SIGNAL(doubleClicked(const QModelIndex &)),
+ // connect(knowTreeView, SIGNAL(doubleClicked(const QModelIndex &)),
  //         actionList["editBranch"], SLOT(trigger(void)));
 
  // Сигнал что ветка выбрана мышкой
- // connect(knowTree,SIGNAL(pressed(const QModelIndex &)),
- //         this,SLOT(on_knowtree_clicked(const QModelIndex &)));
- // connect(knowTree, SIGNAL(clicked(const QModelIndex &)),
- //         this, SLOT(on_knowtree_clicked(const QModelIndex &)));
+ // connect(knowTreeView,SIGNAL(pressed(const QModelIndex &)),
+ //         this,SLOT(on_knowTreeView_clicked(const QModelIndex &)));
+ // connect(knowTreeView, SIGNAL(clicked(const QModelIndex &)),
+ //         this, SLOT(on_knowTreeView_clicked(const QModelIndex &)));
 
 }
 
@@ -320,7 +320,7 @@ void TreeScreen::assembly(void)
  treeScreenLayout->setObjectName("treescreen_QVBoxLayout");
 
  treeScreenLayout->addWidget(toolsLine);
- treeScreenLayout->addWidget(knowTree);
+ treeScreenLayout->addWidget(knowTreeView);
 
  setLayout(treeScreenLayout);
 
@@ -334,7 +334,7 @@ void TreeScreen::assembly(void)
 void TreeScreen::expand_all_subbranch(void)
 {
  // Получение индексов выделенных строк
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  for(int i = 0; i < selectitems.size(); ++i) 
   expand_or_collapse_recurse(selectitems.at(i), true);
@@ -344,7 +344,7 @@ void TreeScreen::expand_all_subbranch(void)
 void TreeScreen::collapse_all_subbranch(void)
 {
  // Получение индексов выделенных строк
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  for(int i = 0; i < selectitems.size(); ++i) 
   expand_or_collapse_recurse(selectitems.at(i), false);
@@ -353,7 +353,7 @@ void TreeScreen::collapse_all_subbranch(void)
 
 void TreeScreen::expand_or_collapse_recurse(QModelIndex index, bool mode)
 {
- knowTree->setExpanded(index, mode);
+ knowTreeView->setExpanded(index, mode);
 
  int i=0;
  while( (index.child(i,0)).isValid() )  
@@ -393,8 +393,8 @@ void TreeScreen::moveUpDnBranch(int direction)
  // Установка курсора на позицию, куда была перенесена ветка
  if(index_after_move.isValid())
   {
-   knowTree->selectionModel()->setCurrentIndex(index_after_move,QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
-   knowTree->selectionModel()->select(index_after_move,QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
+   knowTreeView->selectionModel()->setCurrentIndex(index_after_move,QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
+   knowTreeView->selectionModel()->select(index_after_move,QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
   } 
  
  // Сохранение дерева веток
@@ -405,7 +405,7 @@ void TreeScreen::moveUpDnBranch(int direction)
 bool TreeScreen::moveCheckEnable(void)
 {
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
  
  // Если выбрано более одной ветки
  if(selectitems.size()>1)
@@ -444,7 +444,7 @@ void TreeScreen::ins_subbranch(void)
 void TreeScreen::insBranchSmart(bool is_branch)
 {
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Если выбрано более одной ветки
  if(selectitems.size()>1)
@@ -506,7 +506,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
    // Затем у объекта Item выяснить количество элементов, и установить
    // засветку через метод index() относительно parent в виде QModelIndex
    QModelIndex setto=knowTreeModel->index(item->parent()->childCount()-1,0,index.parent());
-   knowTree->selectionModel()->setCurrentIndex(setto, QItemSelectionModel::ClearAndSelect);
+   knowTreeView->selectionModel()->setCurrentIndex(setto, QItemSelectionModel::ClearAndSelect);
   }
  else
   {
@@ -517,10 +517,10 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
 
    // Установка курсора на только что созданную позицию
    QModelIndex setto=knowTreeModel->indexChildren(index,item->childCount()-1);
-   knowTree->selectionModel()->setCurrentIndex(setto, QItemSelectionModel::ClearAndSelect);
+   knowTreeView->selectionModel()->setCurrentIndex(setto, QItemSelectionModel::ClearAndSelect);
 
    // А можно было установить курсор на нужную позицию и так
-   // knowtree->selectionModel()->setCurrentIndex(kntrmodel->index(item->childCount()-1,0,index),
+   // knowTreeView->selectionModel()->setCurrentIndex(kntrmodel->index(item->childCount()-1,0,index),
    //                                             QItemSelectionModel::ClearAndSelect);
   }
 
@@ -536,7 +536,7 @@ void TreeScreen::edit_branch(void)
  qDebug() << "In edit_branch()";
 
   // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
  
  // Если выбрано более одной ветки
  if(selectitems.size()>1)
@@ -598,7 +598,7 @@ void TreeScreen::del_branch(QString mode)
 
 
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Список имен веток, которые нужно удалить
  QStringList branches_name;
@@ -830,7 +830,7 @@ bool TreeScreen::copy_branch(void)
  find_object<MainWindow>("mainwindow")->saveTextarea();
 
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Если выбрано более одной ветки
  if(selectitems.size()>1)
@@ -989,7 +989,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
   return;
 
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Если выбрано более одной ветки
  if(selectitems.size()>1)
@@ -1194,15 +1194,15 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
  find_object<RecordListScreen>("RecordListScreen")->setTableData(rtdata);
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
- knowTree->resizeColumnToContents(0);
+ knowTreeView->resizeColumnToContents(0);
 }
 
 
 /*
-void treescreen::on_knowtree_repaint(void)
+void treescreen::on_knowTreeView_repaint(void)
 {
  // Попытка расширить нулевую колонку с деревом, если содержимое слишком широкое
- knowtree->resizeColumnToContents(0);
+ knowTreeView->resizeColumnToContents(0);
 }
 */
 
@@ -1223,7 +1223,7 @@ void TreeScreen::initKnowTree(void)
    // Первое обращение к модели
    knowTreeModel = new KnowTreeModel(headers, xmlt.domModel); // Создается модель с данными
 
-   knowTree->setModel(knowTreeModel); // Модель подключется к виду
+   knowTreeView->setModel(knowTreeModel); // Модель подключется к виду
   }
  else
   {
@@ -1232,16 +1232,16 @@ void TreeScreen::initKnowTree(void)
  
  // Загрузка Item модели в представление
 
- // QItemSelectionModel *m = knowTree->selectionModel();
- // knowTree->setModel(knowTreeModel);
+ // QItemSelectionModel *m = knowTreeView->selectionModel();
+ // knowTreeView->setModel(knowTreeModel);
  // if(m!=NULL) delete m;
 
- // knowTree->selectionModel()->clear();
+ // knowTreeView->selectionModel()->clear();
 
- // knowTree->reset();
+ // knowTreeView->reset();
 
  // Представление не должно позволять редактировать элементы обычным путем
- knowTree->setEditTriggers(QAbstractItemView::NoEditTriggers);
+ knowTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 
@@ -1295,23 +1295,23 @@ void TreeScreen::saveKnowTree(void)
 void TreeScreen::updateSelectedBranch(void)
 {
  // Получение списка выделенных Item-элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Обновление на экране
  for (int i = 0; i < selectitems.size(); ++i) 
-  knowTree->update(selectitems.at(i));
+  knowTreeView->update(selectitems.at(i));
 }
 
 
 QItemSelectionModel * TreeScreen::getSelectionModel(void)
 {
- return knowTree->selectionModel();
+ return knowTreeView->selectionModel();
 }
 
 
 void TreeScreen::setCursorToIndex(QModelIndex index)
 {
- knowTree->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
+ knowTreeView->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
 }
 
  
@@ -1319,7 +1319,7 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
 int TreeScreen::getFirstSelectedItemIndex(void)
 {
  // Получение списка выделенных Item-элементов
- QModelIndexList selectitems=knowTree->selectionModel()->selectedIndexes();
+ QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  if(selectitems.isEmpty())
   return -1; // Если ничего не выделено
@@ -1331,7 +1331,7 @@ int TreeScreen::getFirstSelectedItemIndex(void)
 // Получение индекса текущего элемента на котором стоит курсор
 QModelIndex TreeScreen::getCurrentItemIndex(void)
 {
- return knowTree->selectionModel()->currentIndex();
+ return knowTreeView->selectionModel()->currentIndex();
 }
 
 

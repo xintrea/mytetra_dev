@@ -70,7 +70,7 @@ private slots:
 private:
  QToolBar *toolsLine;
 
- KnowTreeView  *knowTree;
+ KnowTreeView  *knowTreeView;
 
  QVBoxLayout *treeScreenLayout;
 
