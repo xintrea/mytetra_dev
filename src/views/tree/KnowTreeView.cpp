@@ -8,6 +8,8 @@
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
+#include "models/recordTable/RecordTableModel.h"
+#include "views/recordTable/RecordListScreen.h"
 
 KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
 {
@@ -107,17 +109,30 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    QString text=exemplar["text"]; // Текст записи
    exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
+   // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
+   // Исходная ветка в момент Drop - это выделенная курсором ветка
+   QModelIndex indexFrom = find_object<TreeScreen>("treeview")->getCurrentItemIndex();
+   TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
+   unsigned int recordPos=treeItemFrom->recordtableGetTableData()->getWorkPos(); // Или можно сделать через getRecordPos(QString recordId)
+   RecordListScreen *recordListScreen=find_object<RecordListScreen>("RecordListScreen");
+   recordListScreen->deleteRecordByPos(recordPos);
+
+   // Добавление записи в базу
    recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                     0,
                                     exemplar,
                                     text,
                                     clipboardRecords->getRecordFiles(0) );
 
-   // todo: Сделать удаление записи из исходной ветки
+   // Сохранение дерева веток
+   find_object<TreeScreen>("treeview")->saveKnowTree();
 
-   // todo: Сделать обновлении исходной ветки чтобы было видно что записей убавилось
+   // Обновление исходной ветки чтобы было видно что записей убавилось
+   parentPointer->updateBranchOnScreen(indexFrom);
 
-   // todo: Сделать обновлении конечной ветки чтобы было видно что записей прибавилось
+   // Обновлении конечной ветки чтобы было видно что записей прибавилось
+   parentPointer->updateBranchOnScreen(index);
+
   }
 }
 

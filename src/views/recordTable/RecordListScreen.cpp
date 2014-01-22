@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QMimeData>
 #include <QDrag>
+#include <QVector>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -34,7 +35,7 @@ RecordListScreen::RecordListScreen(QWidget *parent) : QListView(parent)
 
 RecordListScreen::~RecordListScreen()
 {
-
+ delete recordModel;
 }
 
 
@@ -45,7 +46,7 @@ void RecordListScreen::init(void)
 {
  setupSignals();
 
- this->setSelectionMode(QAbstractItemView::SingleSelection); // ExtendedSelection
+ this->setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
  isStartDrag=false;
 
  // Нужно установить правила показа контекстного самодельного меню
@@ -384,6 +385,22 @@ void RecordListScreen::deleteContext(void)
 }
 
 
+// Удаление записи с указанным номером (счет с нуля)
+void RecordListScreen::deleteRecordByPos(int pos)
+{
+ QVector<int> vectorPos;
+ vectorPos.append(pos);
+ recordModel->removeRowsByList( vectorPos ); // Удаление
+}
+
+
+// Удаление записей с указанным номером (счет с нуля)
+void RecordListScreen::deleteRecordsByPos(QVector<int> vectorPos)
+{
+ recordModel->removeRowsByList( vectorPos ); // Удаление
+}
+
+
 // Удаление отмеченных записей
 void RecordListScreen::deleteRecords(void)
 {
@@ -711,8 +728,6 @@ void RecordListScreen::mouseReleaseEvent(QMouseEvent *event)
 
 void RecordListScreen::startDrag()
 {
- // return; // Drag&Drop не работает как хотелось бы, отключен
-
  qDebug() << "Start record drag\n";
 
  // Если действительно выбрана строка
@@ -723,9 +738,13 @@ void RecordListScreen::startDrag()
    drag->setMimeData( getSelectedRecords() );
 
    // Запуск операции перетаскивания объекта (start - запуск перетаскивания)
-   if(drag->start(Qt::MoveAction)==Qt::MoveAction)
+   unsigned int result=drag->exec(Qt::MoveAction);
+
+   if(result) // ==Qt::MoveAction
     {
      // Сюда код дойдет после того, как перетаскивание будет закончено
+
+     qDebug() << "Success drag and drop move record";
 
      // Здесь сделать удаление переносимой записи
 

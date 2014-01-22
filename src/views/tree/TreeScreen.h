@@ -39,6 +39,8 @@ public:
  // Установка курсора на указанный элемент
  void setCursorToIndex(QModelIndex index);
  
+ void updateBranchOnScreen(const QModelIndex &index);
+
 private slots:
 
  void expand_all_subbranch(void);
@@ -96,8 +98,6 @@ private:
 
  void encryptBranchItem(void);
  void decryptBranchItem(void);
-
- void updateBranchOnScreen(const QModelIndex &index);
 };
 
 

@@ -37,6 +37,9 @@ public:
 
  int getRowCount(void);
 
+ void deleteRecordByPos(int pos);
+ void deleteRecordsByPos(QVector<int> vectorPos);
+
 signals:
 
  void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
