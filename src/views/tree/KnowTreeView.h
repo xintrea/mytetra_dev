@@ -23,6 +23,9 @@ protected:
  void dragEnterEvent(QDragEnterEvent *event);
  void dragMoveEvent(QDragMoveEvent *event);
  void dropEvent(QDropEvent *event);
+
+ template <class X> bool isDragableData(X *event);
+
 };
 
 #endif // __KNOWTREEVIEW_H__

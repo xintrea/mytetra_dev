@@ -111,7 +111,6 @@ protected:
  void onClickToRecord(const QModelIndex &index);
 
  QPoint mouseStartPos;
- bool isStartDrag;
  void mousePressEvent(QMouseEvent *event);
  void mouseMoveEvent(QMouseEvent *event);
  void mouseReleaseEvent(QMouseEvent *event);

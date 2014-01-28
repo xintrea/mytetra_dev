@@ -47,7 +47,6 @@ void RecordListScreen::init(void)
  setupSignals();
 
  this->setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
- isStartDrag=false;
 
  // Нужно установить правила показа контекстного самодельного меню
  // чтобы оно могло вызываться
@@ -704,11 +703,7 @@ void RecordListScreen::mouseMoveEvent(QMouseEvent *event)
 
    if(distance >= QApplication::startDragDistance()*2)
     {
-     if(isStartDrag==false)
-      {
-       isStartDrag=true;
        startDrag();
-      }
     }
   }
 
@@ -719,9 +714,6 @@ void RecordListScreen::mouseMoveEvent(QMouseEvent *event)
 // Реакция на отпускание клавиши мышки
 void RecordListScreen::mouseReleaseEvent(QMouseEvent *event)
 {
- if(isStartDrag==true)
-     isStartDrag=false;
-
  QListView::mouseReleaseEvent(event);
 }
 

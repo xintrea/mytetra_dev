@@ -44,7 +44,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
      if(item->recordtableGetRowCount()>0)
       return QColor(Qt::black);// Если узел содержит таблицу конечных записей
      else
-      return QColor(Qt::darkGray); // Обычная ветка
+      return QColor(Qt::darkGray); // Ветка без таблицы конечных записей
     }
 
     // Если запрашивается содержимое текста элемента

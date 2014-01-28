@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QMimeData>
+#include <QAbstractItemModel>
 
 #include "main.h"
 #include "KnowTreeView.h"
@@ -27,16 +28,7 @@ KnowTreeView::~KnowTreeView()
 
 void KnowTreeView::dragEnterEvent(QDragEnterEvent *event)
 {
- // Проверяется, содержит ли объект переноса данные нужного формата
- const QMimeData *mimeData=event->mimeData();
- if(mimeData==NULL)
-  return;
- if( ! (mimeData->hasFormat("mytetra/records")) )
-  return;
-
- QObject *sourceObject=qobject_cast<QObject *>( event->source() );
-
- if( sourceObject->objectName()=="RecordListScreen" )
+ if( isDragableData(event) )
   {
    event->setDropAction(Qt::MoveAction);
    event->accept();
@@ -47,22 +39,46 @@ void KnowTreeView::dragEnterEvent(QDragEnterEvent *event)
 
 void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
 {
+ if( isDragableData(event) )
+  {
+   event->acceptProposedAction();
+   qDebug() << "Accept in dragMoveEvent()";
+
+   // Выясняется элемент дерева, над которым находится курсор
+   // QModelIndex index=indexAt(event->pos());
+   // QAbstractItemDelegate *item=itemDelegate(index);
+
+
+   // todo: ... доделать подсветку элемента над которым находится мышка ...
+
+
+   // item->setEditorData();
+   // setBackground(0, Qt::red);
+   // this->setMouseTracking(true);
+
+   // Подсвечивается данный элемент
+   // index.model()->setData(&index, QColor(Qt::darkGray), Qt::BackgroundRole);
+  }
+ else
+  event->ignore();
+}
+
+
+template <class X> bool KnowTreeView::isDragableData(X *event)
+{
  // Проверяется, содержит ли объект переноса данные нужного формата
  const QMimeData *mimeData=event->mimeData();
  if(mimeData==NULL)
-  return;
+  return false;
  if( ! (mimeData->hasFormat("mytetra/records")) )
-  return;
+  return false;
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
  if( sourceObject->objectName()=="RecordListScreen" )
-  {
-   event->acceptProposedAction();
-   qDebug() << "Accept in dragMoveEvent()";
-  }
+  return true;
  else
-  event->ignore();
+  return false;
 }
 
 
@@ -70,18 +86,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
 {
  qDebug() << "dropEvent() - Start";
 
- // Проверяется, содержит ли объект переноса данные нужного формата
- const QMimeData *mimeData=event->mimeData();
- if(mimeData==NULL)
-  return;
- if( ! (mimeData->hasFormat("mytetra/records")) )
-  return;
-
- QObject *sourceObject=qobject_cast<QObject *>( event->source() );
-
- qDebug() << "dropEvent() - source object name is " << sourceObject->objectName();
-
- if( sourceObject->objectName()=="RecordListScreen" )
+ if( isDragableData(event) )
   {
    qDebug() << "Try move record by drag and drop";
 
