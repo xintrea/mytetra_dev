@@ -47,6 +47,16 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
       return QColor(Qt::darkGray); // Ветка без таблицы конечных записей
     }
 
+
+    if(role==Qt::BackgroundRole)
+    {
+     TreeItem *item = getItem(index);
+
+     if(item->getCursorOver())
+      return QColor(Qt::gray);
+    }
+
+
     // Если запрашивается содержимое текста элемента
     if(role==Qt::DisplayRole || role== Qt::EditRole)
     {
@@ -315,15 +325,33 @@ int TreeModel::rowCount(const QModelIndex &itemIndex) const
 // Установка значений в Item элементе, связанного с указанным QModelIndex 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role != Qt::EditRole) return false;
+ // Роль UserRole в настоящий момент используется для задания флага, сообщающего
+ // что курсор неаходится над элементом при Drag and Drop
+ if(role==Qt::UserRole)
+  {
+   // Вычисляется указатель на Item элемент по QModelIndex
+   // в визуальной модели дерева
+   TreeItem *item = getItem(index);
 
-    // Вычисляется указатель на Item элемент по QModelIndex 
-    // в визуальной модели дерева
-    TreeItem *item = getItem(index);
+   item->setCursorOver(value.toBool());
 
-    // Устанавливаются данные в Item элемент
-    item->setField("name", value.toString());
-    return true;
+   return true;
+  }
+
+ if(role==Qt::EditRole)
+  {
+
+   // Вычисляется указатель на Item элемент по QModelIndex
+   // в визуальной модели дерева
+   TreeItem *item = getItem(index);
+
+   // Устанавливаются данные в Item элемент
+   item->setField("name", value.toString());
+
+   return true;
+  }
+
+ return false;
 }
 
 

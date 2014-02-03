@@ -14,6 +14,8 @@ TreeItem::TreeItem(const QMap<QString, QString> &data, TreeItem *parent)
 {
  parentItem = parent;
  fieldsTable = data;
+
+ cursorOver=false;
 }
 
 
@@ -588,4 +590,16 @@ int TreeItem::getRecordPos(QString recordId)
    return i;
 
  return -1;
+}
+
+
+void TreeItem::setCursorOver(bool isCursorOver)
+{
+ cursorOver=isCursorOver;
+}
+
+
+bool TreeItem::getCursorOver()
+{
+ return cursorOver;
 }

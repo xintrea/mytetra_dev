@@ -113,6 +113,10 @@ class TreeItem
     // в своей таблице конечных данных
     // Если записи с таким идентификатором нет, возвращается -1
     int getRecordPos(QString recordId);
+
+    // Методы установки флага что курсор находится над элементом, используется при Drag and Drop
+    void setCursorOver(bool isCursorOver);
+    bool getCursorOver();
     
 private:
     bool removeChildrenLink(int position, int count);
@@ -134,6 +138,9 @@ private:
 
     // Каждая ветка может содержать таблицу конечных записей
     RecordTableData recordsTable;
+
+    // Флаг, устанавливаемый внешними классами при проходе курсора мышки над элементом, используется при Drag and Drop
+    bool cursorOver;
 };
 
 #endif

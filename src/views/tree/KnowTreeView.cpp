@@ -17,6 +17,10 @@ KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
  // Разрешение принимать Drop-события
  setAcceptDrops(true);
  setDropIndicatorShown(true);
+
+ // this->setFlag(Qt::WA_Hover);
+ // QString style="QTreeView::item:hover { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1); border: 1px solid #bfcde4; }";
+ // this->setStyleSheet(style);
 }
 
 
@@ -45,9 +49,23 @@ void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
    qDebug() << "Accept in dragMoveEvent()";
 
    // Выясняется элемент дерева, над которым находится курсор
+   QModelIndex index=indexAt(event->pos());
+
+   // Указатель на родительский элемент
+   TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
+
+   // Изменяется модель данных, в ней выставляется флаг что курсор находится над элементом
+   parentPointer->knowTreeModel->setData(index, QVariant(true), Qt::UserRole);
+
+   parentPointer->knowTreeModel->emitSignalDataChanged(index);
+
+   // Выясняется элемент дерева, над которым находится курсор
    // QModelIndex index=indexAt(event->pos());
    // QAbstractItemDelegate *item=itemDelegate(index);
 
+   // Стилизация по item:hover не работает при перетаскивании (работает только при обычном перемещении мышки над элементом)
+   // QString style="QTreeView::item:hover { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1); border: 1px solid #bfcde4; }";
+   // this->setStyleSheet(style);
 
    // todo: ... доделать подсветку элемента над которым находится мышка ...
 
