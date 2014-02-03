@@ -17,10 +17,6 @@ KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
  // Разрешение принимать Drop-события
  setAcceptDrops(true);
  setDropIndicatorShown(true);
-
- // this->setFlag(Qt::WA_Hover);
- // QString style="QTreeView::item:hover { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1); border: 1px solid #bfcde4; }";
- // this->setStyleSheet(style);
 }
 
 
@@ -36,7 +32,6 @@ void KnowTreeView::dragEnterEvent(QDragEnterEvent *event)
   {
    event->setDropAction(Qt::MoveAction);
    event->accept();
-   qDebug() << "Accept in dragEnterEvent()";
   }
 }
 
@@ -46,36 +41,15 @@ void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
  if( isDragableData(event) )
   {
    event->acceptProposedAction();
-   qDebug() << "Accept in dragMoveEvent()";
 
    // Выясняется элемент дерева, над которым находится курсор
    QModelIndex index=indexAt(event->pos());
 
-   // Указатель на родительский элемент
+   // Указатель на родительский элемент, чтобы далее получить модель данных
    TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
 
-   // Изменяется модель данных, в ней выставляется флаг что курсор находится над элементом
+   // В модели данных отмечается элемент дерева, над которым находится курсор
    parentPointer->knowTreeModel->setData(index, QVariant(true), Qt::UserRole);
-
-   parentPointer->knowTreeModel->emitSignalDataChanged(index);
-
-   // Выясняется элемент дерева, над которым находится курсор
-   // QModelIndex index=indexAt(event->pos());
-   // QAbstractItemDelegate *item=itemDelegate(index);
-
-   // Стилизация по item:hover не работает при перетаскивании (работает только при обычном перемещении мышки над элементом)
-   // QString style="QTreeView::item:hover { background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1); border: 1px solid #bfcde4; }";
-   // this->setStyleSheet(style);
-
-   // todo: ... доделать подсветку элемента над которым находится мышка ...
-
-
-   // item->setEditorData();
-   // setBackground(0, Qt::red);
-   // this->setMouseTracking(true);
-
-   // Подсвечивается данный элемент
-   // index.model()->setData(&index, QColor(Qt::darkGray), Qt::BackgroundRole);
   }
  else
   event->ignore();
@@ -118,6 +92,10 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // Выясняется элемент дерева, над которым был сделан Drop
    QModelIndex index=indexAt(event->pos());
 
+   // Если отпускание мышки произошло не на ветке дерева, а на свободном пустом месте в области виджета дерева
+   if(!index.isValid())
+    return;
+
    // Указатель на родительский элемент
    TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
 
@@ -132,9 +110,14 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    QString text=exemplar["text"]; // Текст записи
    exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
-   // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
-   // Исходная ветка в момент Drop - это выделенная курсором ветка
+   // Исходная ветка в момент Drop (откуда переностся запись) - это выделенная курсором ветка
    QModelIndex indexFrom = find_object<TreeScreen>("treeview")->getCurrentItemIndex();
+
+   // Если перенос происходит в ту же самую ветку
+   if(indexFrom==index)
+    return;
+
+   // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
    TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
    unsigned int recordPos=treeItemFrom->recordtableGetTableData()->getWorkPos(); // Или можно сделать через getRecordPos(QString recordId)
    RecordListScreen *recordListScreen=find_object<RecordListScreen>("RecordListScreen");
@@ -156,6 +139,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // Обновлении конечной ветки чтобы было видно что записей прибавилось
    parentPointer->updateBranchOnScreen(index);
 
+   // В модели данных обнуляется элемент, который подсвечивался при Drag And Drop
+   parentPointer->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
   }
 }
 

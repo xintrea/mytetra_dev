@@ -50,9 +50,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
     if(role==Qt::BackgroundRole)
     {
-     TreeItem *item = getItem(index);
-
-     if(item->getCursorOver())
+     if(index==cursorOverIndex)
       return QColor(Qt::gray);
     }
 
@@ -329,11 +327,18 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
  // что курсор неаходится над элементом при Drag and Drop
  if(role==Qt::UserRole)
   {
-   // Вычисляется указатель на Item элемент по QModelIndex
-   // в визуальной модели дерева
-   TreeItem *item = getItem(index);
+   QModelIndex previousIndex=cursorOverIndex;
 
-   item->setCursorOver(value.toBool());
+   if(value.toBool())
+    cursorOverIndex=index;
+   else
+    cursorOverIndex=QModelIndex();
+
+   if(previousIndex.isValid())
+    emitSignalDataChanged(previousIndex);
+
+   if(cursorOverIndex.isValid())
+    emitSignalDataChanged(cursorOverIndex);
 
    return true;
   }

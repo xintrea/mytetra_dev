@@ -12,6 +12,5 @@ MtTableWidget::MtTableWidget(QWidget *parent) : QTableWidget(parent)
 
 MtTableWidget::~MtTableWidget()
 {
- if(itemDelegate!=NULL)
-  delete itemDelegate;
+ delete itemDelegate;
 }

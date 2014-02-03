@@ -11,7 +11,6 @@ MtComboBox::MtComboBox(QWidget *parent) : QComboBox(parent)
 
 MtComboBox::~MtComboBox()
 {
- if(itemDelegate!=NULL)
-  delete itemDelegate;
+ delete itemDelegate;
 }
 

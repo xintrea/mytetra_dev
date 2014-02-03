@@ -729,17 +729,18 @@ void RecordListScreen::startDrag()
    QDrag *drag=new QDrag(this);
    drag->setMimeData( getSelectedRecords() );
 
-   // Запуск операции перетаскивания объекта (start - запуск перетаскивания)
+   // Запуск операции перетаскивания объекта
    unsigned int result=drag->exec(Qt::MoveAction);
 
-   if(result) // ==Qt::MoveAction
+   // Если перетаскивание завершено
+   if(result==0)
     {
      // Сюда код дойдет после того, как перетаскивание будет закончено
-
      qDebug() << "Success drag and drop move record";
 
-     // Здесь сделать удаление переносимой записи
-
+     // todo: Совершенно непонятно, где удалять объект drag.
+     // Если удалять в этом месте, имеем сегфолт
+     // delete drag;
     }
   }
 }
