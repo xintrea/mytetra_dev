@@ -8,15 +8,19 @@
 #include <QtDebug>
 #include <QHeaderView>
 #include <QPaintEvent>
+#include <QTableView>
+#include <QStandardItemModel>
+#include <QStandardItem>
 
 #include "FindTableWidget.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
-#include "libraries/MtTableWidget.h"
+
 
 FindTableWidget::FindTableWidget(QWidget *parent) : QWidget(parent)
 {
  setupUI();
+ setupModels();
  setupSignals();
  assembly();
  
@@ -29,10 +33,11 @@ FindTableWidget::~FindTableWidget(void)
 
 }
 
+
 void FindTableWidget::setupUI(void)
 {
- findTableView=new MtTableWidget();
- findTableView->setObjectName("findtableview");
+ findTableView=new QTableView(this);
+ findTableView->setObjectName("FindTableView");
  findTableView->setMinimumSize(1,1);
  findTableView->horizontalHeader()->hide();
  findTableView->verticalHeader()->setDefaultSectionSize ( findTableView->verticalHeader()->minimumSectionSize () );
@@ -49,11 +54,24 @@ void FindTableWidget::setupUI(void)
 }
 
 
+void FindTableWidget::setupModels(void)
+{
+ // Создается модель табличных данных
+ findTableModel=new QStandardItemModel(this);
+
+ // Модель привязывается к виду
+ findTableView->setModel(findTableModel);
+}
+
+
 void FindTableWidget::setupSignals(void)
 {
 
- connect(findTableView, SIGNAL(cellActivated(int, int)),
-         this, SLOT(selectCell(int, int)));
+ // Вариант для QTableWidget
+ // connect(findTableView, SIGNAL(cellActivated(int, int)), this, SLOT(selectCell(int, int)));
+
+
+ connect(findTableView, SIGNAL( activated(const QModelIndex &) ), this, SLOT( selectCell(const QModelIndex &) ));
 
 }
  
@@ -78,17 +96,17 @@ void FindTableWidget::updateColumnsWidth(void)
 
 void FindTableWidget::clearAll(void)
 {
- // Таблица очищается
- findTableView->setRowCount(0);
- findTableView->setColumnCount(0);
+ // Модель таблицы очищается
+ findTableModel->setRowCount(0);
+ findTableModel->setColumnCount(0);
  
-  // Устанавливается в таблице две колонки Path и Title
- findTableView->setColumnCount(2);
+  // В модели таблицы устанавливаются две колонки Path и Title
+ findTableModel->setColumnCount(2);
  
- // Устанавливаются заголовки колонок
+ // В модели устанавливаются заголовки колонок
  QStringList list;
  list << tr("Title") << tr("Details");
- findTableView->setHorizontalHeaderLabels(list);
+ findTableModel->setHorizontalHeaderLabels(list);
  
  findTableView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
  findTableView->horizontalHeader()->setStretchLastSection(true);
@@ -97,21 +115,22 @@ void FindTableWidget::clearAll(void)
 
 void FindTableWidget::addRow(QString title, QString branchName, QString tags, QStringList path, int numInRecordtable)
 {
- int i=findTableView->rowCount();
+ int i=findTableModel->rowCount();
 
- findTableView->insertRow(i);
+ findTableModel->insertRow(i);
 
  // Заголовок записи
- QTableWidgetItem *item_title=new QTableWidgetItem();
+ QStandardItem *item_title=new QStandardItem();
  item_title->setText(title);
  
  // В ячейке заголовка также хранится информация о пути к ветке
  // и номере записи в таблице конечных записей
- item_title->setData(Qt::UserRole  ,path);
- item_title->setData(Qt::UserRole+1,numInRecordtable);
+ qDebug() << "Path to record" << path;
+ item_title->setData(QVariant(path), Qt::UserRole);
+ item_title->setData(QVariant(numInRecordtable), Qt::UserRole+1);
  
  // Информация о записи
- QTableWidgetItem *item_info=new QTableWidgetItem();
+ QStandardItem *item_info=new QStandardItem();
  QString info;
  tags=tags.trimmed();
  if(tags.length()>0)
@@ -119,10 +138,10 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
  else 
   item_info->setText(branchName);
  
- findTableView->setItem(i,0,item_title);
- findTableView->setItem(i,1,item_info);
+ findTableModel->setItem(i, 0, item_title);
+ findTableModel->setItem(i, 1, item_info);
  
- qDebug() << "In findtablewidget add_row() row count " << findTableView->rowCount();
+ qDebug() << "In findtablewidget add_row() row count " << findTableModel->rowCount();
 }
 
 
@@ -140,15 +159,17 @@ bool FindTableWidget::eventFilter( QObject * o, QEvent * e )
 }
 
 
-void FindTableWidget::selectCell(int row, int column)
+// void FindTableWidget::selectCell(int row, int column)
+void FindTableWidget::selectCell(const QModelIndex & index)
 {
- Q_UNUSED(column);
-
- QTableWidgetItem *item=findTableView->item(row,0);
+ QStandardItem *clickItem=findTableModel->itemFromIndex(index);
+ QStandardItem *item=findTableModel->item(clickItem->row(), 0); // Данные находятся в самом левом столбце с индексом 0
  
  // Выясняется путь к ветке и номер в таблице конечных записей
  QStringList path=item->data(Qt::UserRole).toStringList();
  int n=item->data(Qt::UserRole+1).toInt();
+
+ qDebug() << "Get path to record:" << path;
  
  find_object<MainWindow>("mainwindow")->setTreePosition(path);
  find_object<MainWindow>("mainwindow")->setRecordtablePosition(n);

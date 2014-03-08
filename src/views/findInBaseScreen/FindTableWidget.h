@@ -2,10 +2,10 @@
 #define	_FINDTABLEWIDGET_H_
 
 #include <QWidget>
-#include <libraries/MtTableWidget.h>
 
 class QModelIndex;
-
+class QTableView;
+class QStandardItemModel;
 
 class FindTableWidget : public QWidget
 {
@@ -22,13 +22,16 @@ public:
 
 private slots:
 
- void selectCell(int row, int column);
+ // void selectCell(int row, int column);
+ void selectCell(const QModelIndex & index);
 
 private:
 
-    MtTableWidget *findTableView;
+ QTableView *findTableView;
+ QStandardItemModel *findTableModel;
  
  void setupUI(void);
+ void setupModels(void);
  void setupSignals(void);
  void assembly(void);
  

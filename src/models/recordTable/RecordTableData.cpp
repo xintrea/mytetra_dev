@@ -2,6 +2,7 @@
 #include <QMap>
 #include <QString>
 #include <QDir>
+#include <QMessageBox>
 
 #include "main.h"
 #include "RecordTableData.h"
@@ -44,7 +45,8 @@ RecordTableData::~RecordTableData()
 }
 
 
-// Получение значения указанного поля для указанного элемента
+// Получение значения указанного поля для указанного имени поля
+// Имя поля - все возможные имена полей, кроме text
 QString RecordTableData::getInfoField(QString name, int pos) const
 {
  // Если индекс недопустимый
@@ -154,7 +156,8 @@ void RecordTableData::setField(QString name, QString value, int pos)
 
 
 // Получение значения текста указанной записи
-QString RecordTableData::getText(int pos) const
+// Если возникнет проблема, что файла с текстом записи нет, будет создан пустой файл
+QString RecordTableData::getText(int pos)
 {
  // Если индекс недопустимый, возвращается пустая строка
  if(pos<0 || pos>=size()) 
@@ -171,15 +174,13 @@ QString RecordTableData::getText(int pos) const
  QMap<QString, QString> lineTmp;
  lineTmp=getInfoFields(pos); // Раньше было index.row()
 
- // Выясняется путь к файлу с текстом записи
+ // Выясняется полное имя файла с текстом записи
  QString fileName;
  fileName=mytetraconfig.get_tetradir()+"/base/"+lineTmp["dir"]+"/"+lineTmp["file"];
 
  QFile f(fileName);
 
-  // Если нужный файл не существует
- if(!f.exists())
-  critical_error("File "+fileName+" not found");
+ checkAndCreateTextFile(pos, fileName);
 
  // Открывается файл
  if(!f.open(QIODevice::ReadOnly))
@@ -195,6 +196,29 @@ QString RecordTableData::getText(int pos) const
   {
    qDebug() << "RecordTableData::get_text() : return data after decrypt";
    return decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
+  }
+}
+
+
+// В функцию должно передаваться полное имя файла
+void RecordTableData::checkAndCreateTextFile(int pos, QString fillFileName)
+{
+ QFile f(fillFileName);
+
+ // Если нужный файл не существует
+ if(!f.exists())
+  {
+   // Выводится уведомление что будет создан пустой текст записи
+   QMessageBox msgBox;
+   msgBox.setWindowTitle(tr("Warning!"));
+   msgBox.setText( tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fillFileName) );
+   msgBox.setIcon(QMessageBox::Information);
+   msgBox.exec();
+
+   // Создается пустой текст записи
+   QString text="";
+   QMap<QString, QByteArray> files;
+   setText(pos, text, files);
   }
 }
 
@@ -302,7 +326,7 @@ void RecordTableData::setText(int pos,
 // Ее вызывает редактор, передавая указатель на себя
 // и ссылку на переменную loadText, которую надо заполнить
 void RecordTableData::editorLoadCallback(QObject *editor,
-                                           QString &loadText)
+                                         QString &loadText)
 {
  // qDebug() << "RecordTableScreen::editor_load_callback() : Dir" << dir << "File" << file;
 
@@ -586,7 +610,7 @@ QMap<QString, QString> RecordTableData::getInfoFields(int pos) const
 
 
 // Получение полного образа записи
-QMap<QString, QString> RecordTableData::getRecordExemplar(int pos) const
+QMap<QString, QString> RecordTableData::getRecordExemplar(int pos)
 {
  // Если индекс недопустимый, возвращается пустой список данных
  if(pos<0 || pos>=size())

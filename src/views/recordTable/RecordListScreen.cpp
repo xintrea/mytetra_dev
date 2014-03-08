@@ -120,9 +120,12 @@ void RecordListScreen::onSelectionChanged(const QItemSelection &selected,
 // Действия при выборе строки таблицы конечных записей
 void RecordListScreen::onClickToRecord(const QModelIndex &index)
 {
- qDebug() << "RecordListScreen::onClickToRecord() : current item num " << index.row();
+ // Позиция записи в списке
+ int pos=index.row();
 
- if(index.row()<0) return;
+ qDebug() << "RecordListScreen::onClickToRecord() : current item num " << pos;
+
+ if(pos<0) return;
 
  // Выясняется указатель на объект редактирования текста записи
  MetaEditor *edView=find_object<MetaEditor>("editorview");
@@ -133,7 +136,7 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // В таблице конечных данных запоминается какая запись была выбрана
  // чтобы затем при выборе этой же подветки засветка автоматически
  // установилась на последнюю рабочую запись
- table->setWorkPos( index.row() );
+ table->setWorkPos( pos );
 
 
  // Устанавливается функция обратного вызова для записи данных
@@ -144,8 +147,8 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
 
 
  // Для новой выбраной записи выясняется директория и основной файл
- QString currentDir =table->getInfoField("dir", index.row());
- QString currentFile=table->getInfoField("file", index.row());
+ QString currentDir =table->getInfoField("dir", pos);
+ QString currentFile=table->getInfoField("file", pos);
  QString fullDir=mytetraconfig.get_tetradir()+"/base/"+currentDir;
  QString fullFileName=fullDir+"/"+currentFile;
  qDebug() << " File " << fullFileName << "\n";
@@ -153,6 +156,9 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // Если в окне содержимого записи уже находится выбираемая запись
  if(edView->get_work_directory()==fullDir &&
     edView->get_file_name()==currentFile) return;
+
+ // Перед открытием редактора происходит попытка получения текста записи
+ table->checkAndCreateTextFile(pos, fullFileName);
 
  // Редактору задаются имя файла и директории
  // И дается команда загрузки файла
@@ -163,15 +169,15 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // И если имя директории или имя файла пусты, то это означает что
  // запись не была расшифрована, и редактор должен просто показывать пустой текст
  // ничего не сохранять и не считывать
- qDebug() << "RecordListScreen::onClickToRecord() : id " << table->getInfoField("id", index.row());
- qDebug() << "RecordListScreen::onClickToRecord() : name " << table->getInfoField("name", index.row());
- qDebug() << "RecordListScreen::onClickToRecord() : crypt " << table->getInfoField("crypt", index.row());
- if(table->getInfoField("crypt", index.row())=="1")
+ qDebug() << "RecordListScreen::onClickToRecord() : id " << table->getInfoField("id", pos);
+ qDebug() << "RecordListScreen::onClickToRecord() : name " << table->getInfoField("name", pos);
+ qDebug() << "RecordListScreen::onClickToRecord() : crypt " << table->getInfoField("crypt", pos);
+ if(table->getInfoField("crypt", pos)=="1")
   if(fullDir.length()==0 || currentFile.length()==0)
    edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
 
  // В редактор заносится информация, идет ли работа с зашифрованным текстом
- edView->setMiscField("crypt", table->getInfoField("crypt", index.row()));
+ edView->setMiscField("crypt", table->getInfoField("crypt", pos));
 
  // В редакторе устанавливается функция обратного вызова для чтения данных
  edView->set_load_callback(table->editorLoadCallback);
@@ -180,12 +186,12 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // edView->set_textarea(table->get_text(index.row()));
 
  // Заполняются прочие инфо-поля
- edView->setName  ( table->getInfoField("name", index.row()) );
- edView->setAuthor( table->getInfoField("author",index.row()) );
- edView->setUrl   ( table->getInfoField("url", index.row()) );
- edView->setTags  ( table->getInfoField("tags", index.row()) );
+ edView->setName  ( table->getInfoField("name", pos) );
+ edView->setAuthor( table->getInfoField("author", pos) );
+ edView->setUrl   ( table->getInfoField("url", pos) );
+ edView->setTags  ( table->getInfoField("tags", pos) );
 
- QString id=table->getInfoField("id", index.row());
+ QString id=table->getInfoField("id", pos);
  edView->setMiscField("id", id);
 
 

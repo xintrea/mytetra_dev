@@ -22,7 +22,7 @@ public:
     virtual ~RecordTableData();
 
     // Получение текста указанной записи
-    QString getText(int pos) const;
+    QString getText(int pos);
 
     // QByteArray get_text_as_byte_array(int pos) const;
 
@@ -48,7 +48,7 @@ public:
     QMap<QString, QString> getInfoFields(int pos) const;
     
     // Получение полного образа записи
-    QMap<QString, QString> getRecordExemplar(int pos) const;
+    QMap<QString, QString> getRecordExemplar(int pos);
 
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);
@@ -96,6 +96,8 @@ public:
 
     int  getWorkPos(void);
     void setWorkPos(int pos);
+
+    void checkAndCreateTextFile(int pos, QString fullFileName);
 
 private:
     // Функция заполнения таблицы из DOM-документа
