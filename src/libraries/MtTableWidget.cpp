@@ -1,5 +1,6 @@
 #include "MtTableWidget.h"
 
+// Этот класс не используется, скорее всего будет удален
 
 MtTableWidget::MtTableWidget(QWidget *parent) : QTableWidget(parent)
 {

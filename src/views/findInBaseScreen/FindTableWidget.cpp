@@ -11,10 +11,17 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QStandardItem>
+#include <QStyledItemDelegate>
 
 #include "FindTableWidget.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
+#include "models/appConfig/AppConfig.h"
+
+extern AppConfig mytetraconfig;
+
+#define USER_ROLE_PATH               Qt::UserRole
+#define USER_ROLE_NUM_IN_RECORDTABLE Qt::UserRole+1
 
 
 FindTableWidget::FindTableWidget(QWidget *parent) : QWidget(parent)
@@ -48,9 +55,6 @@ void FindTableWidget::setupUI(void)
   
  // Устанавливается режим что редактирование невозможно
  findTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
- // Проверка отрисовки виджета
- // findtableview->viewport()->installEventFilter( this );
 }
 
 
@@ -66,15 +70,10 @@ void FindTableWidget::setupModels(void)
 
 void FindTableWidget::setupSignals(void)
 {
-
- // Вариант для QTableWidget
- // connect(findTableView, SIGNAL(cellActivated(int, int)), this, SLOT(selectCell(int, int)));
-
-
  connect(findTableView, SIGNAL( activated(const QModelIndex &) ), this, SLOT( selectCell(const QModelIndex &) ));
-
 }
- 
+
+
 void FindTableWidget::assembly(void)
 {
  QHBoxLayout *central_layout=new QHBoxLayout();
@@ -119,15 +118,20 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
 
  findTableModel->insertRow(i);
 
- // Заголовок записи
+ // Принудительная стилизация, так как стилизация через QSS для элементов QTableView полноценно не работает
+ int height=mytetraconfig.getUglyQssReplaceHeightForTableView();
+ if(height!=0)
+  findTableView->setRowHeight(i, height);
+
+ // Заголовок (название) записи
  QStandardItem *item_title=new QStandardItem();
  item_title->setText(title);
  
  // В ячейке заголовка также хранится информация о пути к ветке
  // и номере записи в таблице конечных записей
  qDebug() << "Path to record" << path;
- item_title->setData(QVariant(path), Qt::UserRole);
- item_title->setData(QVariant(numInRecordtable), Qt::UserRole+1);
+ item_title->setData(QVariant(path), USER_ROLE_PATH);
+ item_title->setData(QVariant(numInRecordtable), USER_ROLE_NUM_IN_RECORDTABLE);
  
  // Информация о записи
  QStandardItem *item_info=new QStandardItem();
@@ -166,8 +170,8 @@ void FindTableWidget::selectCell(const QModelIndex & index)
  QStandardItem *item=findTableModel->item(clickItem->row(), 0); // Данные находятся в самом левом столбце с индексом 0
  
  // Выясняется путь к ветке и номер в таблице конечных записей
- QStringList path=item->data(Qt::UserRole).toStringList();
- int n=item->data(Qt::UserRole+1).toInt();
+ QStringList path=item->data(USER_ROLE_PATH).toStringList();
+ int n=item->data(USER_ROLE_NUM_IN_RECORDTABLE).toInt();
 
  qDebug() << "Get path to record:" << path;
  

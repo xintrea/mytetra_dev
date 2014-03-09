@@ -561,6 +561,18 @@ void AppConfig::setRememberCursorAtOrdinarySelection(bool flag)
 }
 
 
+int AppConfig::getUglyQssReplaceHeightForTableView(void)
+{
+ return conf->value("uglyQssReplaceHeightForTableView",0).toInt();
+}
+
+void AppConfig::setUglyQssReplaceHeightForTableView(int n)
+{
+ conf->setValue("uglyQssReplaceHeightForTableView", n);
+}
+
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -617,7 +629,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 14
+ // Последняя версия на данный момент - 15
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -644,6 +656,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(12, 13, get_parameter_table_12(), get_parameter_table_13());
  if(fromVersion<=13)
   updater.update_version(13, 14, get_parameter_table_13(), get_parameter_table_14());
+ if(fromVersion<=14)
+  updater.update_version(14, 15, get_parameter_table_14(), get_parameter_table_15());
 }
 
 
@@ -938,3 +952,24 @@ QStringList AppConfig::get_parameter_table_14(bool withEndSignature)
  return table;
 }
 
+
+QStringList AppConfig::get_parameter_table_15(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 14
+ table << get_parameter_table_14(false);
+
+ // Новые параметры
+ if(globalParameters.getTargetOs()=="android")
+  table << "uglyQssReplaceHeightForTableView" << "int" << "35"; // Так как не все параметры можно стилизовать через QSS, здесь задается высота ячейки таблицы
+ else
+  table << "uglyQssReplaceHeightForTableView" << "int" << "0";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}

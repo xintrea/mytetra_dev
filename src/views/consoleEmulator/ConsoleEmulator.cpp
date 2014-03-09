@@ -19,7 +19,12 @@ ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QWidget(parent)
 
 ConsoleEmulator::~ConsoleEmulator()
 {
-
+ delete waitClock;
+ delete messageLabel;
+ delete buttonCancel;
+ delete buttonDetails;
+ delete consoleOutput;
+ delete escShortcut;
 }
 
 
@@ -41,6 +46,8 @@ void ConsoleEmulator::setupUI(void)
   consoleOutput->hide();
 
  waitClock=new WaitClock(this);
+
+ escShortcut=new QShortcut(QKeySequence("Esc"),  this);
 }
 
 
@@ -48,6 +55,8 @@ void ConsoleEmulator::setupSignals(void)
 {
  connect(buttonCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()));
  connect(buttonDetails, SIGNAL(clicked()), this, SLOT(onDetailsClick()));
+
+ connect(escShortcut, SIGNAL(activated()), this, SLOT(onCancelClick()));
 }
 
 

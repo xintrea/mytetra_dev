@@ -140,6 +140,9 @@ public:
     bool getRememberCursorAtOrdinarySelection(void);
     void setRememberCursorAtOrdinarySelection(bool flag);
 
+    int  getUglyQssReplaceHeightForTableView(void);
+    void setUglyQssReplaceHeightForTableView(int n);
+
 
 private:
 
@@ -164,7 +167,8 @@ private:
     QStringList get_parameter_table_12(bool withEndSignature=true);
     QStringList get_parameter_table_13(bool withEndSignature=true);
     QStringList get_parameter_table_14(bool withEndSignature=true);
-    
+    QStringList get_parameter_table_15(bool withEndSignature=true);
+
     bool is_init_flag;
 };
 

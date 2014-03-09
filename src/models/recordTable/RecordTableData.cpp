@@ -558,7 +558,7 @@ QMap<QString, QString> RecordTableData::getInfoFields(int pos) const
  QMap<QString, QString> lineTmp;
  lineTmp=fieldsTable.at(pos);
 
- qDebug() << "RecordTableData::get_fields() : pos"<<pos<<"lineTmp:"<<lineTmp;
+ // qDebug() << "RecordTableData::get_fields() : pos"<<pos<<"lineTmp:"<<lineTmp;
 
  QMap<QString, QString> tmpRecordFields;
 

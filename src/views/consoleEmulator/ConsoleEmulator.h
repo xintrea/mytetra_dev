@@ -8,6 +8,7 @@
 #include <QToolButton>
 #include <QTextEdit>
 #include <QCloseEvent>
+#include <QShortcut>
 
 #include "views/waitClock/WaitClock.h"
 
@@ -65,6 +66,8 @@ private:
  QToolButton *buttonDetails;
 
  QTextEdit *consoleOutput;
+
+ QShortcut *escShortcut;
 
 };
 

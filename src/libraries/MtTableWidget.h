@@ -5,6 +5,7 @@
 #include <QTableWidget>
 #include <QStyledItemDelegate>
 
+// Этот класс не используется, скорее всего будет удален
 
 // Класс, исправляющий QTableWidget, чтобы правильно применялись QSS-стили
 

@@ -102,13 +102,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // Выясняется ссылка на элемент дерева (на ветку), над которым был совершен Drop
    TreeItem *treeItem=parentPointer->knowTreeModel->getItem(index);
 
-   // Выясняется ссылка на таблицу данных которая содержится в данной ветке
+   // Выясняется ссылка на таблицу данных ветки, над которой совершен Drop
    RecordTableData *recordTableData=treeItem->recordtableGetTableData();
-
-   // Текстовые данные записи
-   QMap<QString, QString> exemplar=clipboardRecords->getRecordFields(0);
-   QString text=exemplar["text"]; // Текст записи
-   exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
    // Исходная ветка в момент Drop (откуда переностся запись) - это выделенная курсором ветка
    QModelIndex indexFrom = find_object<TreeScreen>("treeview")->getCurrentItemIndex();
@@ -117,21 +112,34 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    if(indexFrom==index)
     return;
 
-   // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
-   TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
-   unsigned int recordPos=treeItemFrom->recordtableGetTableData()->getWorkPos(); // Или можно сделать через getRecordPos(QString recordId)
-   RecordListScreen *recordListScreen=find_object<RecordListScreen>("RecordListScreen");
-   recordListScreen->deleteRecordByPos(recordPos);
 
-   // Добавление записи в базу
-   recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
-                                    0,
-                                    exemplar,
-                                    text,
-                                    clipboardRecords->getRecordFiles(0) );
+   // Перенос записей, хранящихся в MimeData
+   // В настоящий момент в MimeData попадает только одна запись,
+   // но в дальнейшем планируется переносить несколько записей
+   // и здесь код подготовлен для переноса нескольких записей
+   for(int i=0; i<clipboardRecords->getRecordsNum(); i++)
+    {
+     // Данные записи (текстовые)
+     QMap<QString, QString> exemplar=clipboardRecords->getRecordFields(i);
+     QString text=exemplar["text"]; // Текст записи
+     exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
-   // Сохранение дерева веток
-   find_object<TreeScreen>("treeview")->saveKnowTree();
+     // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
+     TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
+     unsigned int recordPos=treeItemFrom->getRecordPos( exemplar["id"] );
+     RecordListScreen *recordListScreen=find_object<RecordListScreen>("RecordListScreen");
+     recordListScreen->deleteRecordByPos(recordPos);
+
+     // Добавление записи в базу
+     recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
+                                      0,
+                                      exemplar,
+                                      text,
+                                      clipboardRecords->getRecordFiles(i) );
+
+     // Сохранение дерева веток
+     find_object<TreeScreen>("treeview")->saveKnowTree();
+    }
 
    // Обновление исходной ветки чтобы было видно что записей убавилось
    parentPointer->updateBranchOnScreen(indexFrom);
