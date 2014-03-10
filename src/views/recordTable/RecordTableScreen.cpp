@@ -222,8 +222,8 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Выясняется, содержит ли текущая ветка подчиненные ветки
  /*
- QModelIndex index = find_object<TreeScreen>("treeview")->get_selection_model()->currentIndex();
- TreeItem *item = find_object<TreeScreen>("treeview")->kntrmodel->getItem(index);
+ QModelIndex index = find_object<TreeScreen>("TreeScreen")->get_selection_model()->currentIndex();
+ TreeItem *item = find_object<TreeScreen>("TreeScreen")->kntrmodel->getItem(index);
  int branch_have_children=0;
  if(item->childCount()>0)branch_have_children=1;
  */

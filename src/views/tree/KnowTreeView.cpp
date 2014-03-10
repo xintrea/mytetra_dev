@@ -106,7 +106,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    RecordTableData *recordTableData=treeItem->recordtableGetTableData();
 
    // Исходная ветка в момент Drop (откуда переностся запись) - это выделенная курсором ветка
-   QModelIndex indexFrom = find_object<TreeScreen>("treeview")->getCurrentItemIndex();
+   QModelIndex indexFrom = find_object<TreeScreen>("TreeScreen")->getCurrentItemIndex();
 
    // Если перенос происходит в ту же самую ветку
    if(indexFrom==index)
@@ -138,7 +138,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
                                       clipboardRecords->getRecordFiles(i) );
 
      // Сохранение дерева веток
-     find_object<TreeScreen>("treeview")->saveKnowTree();
+     find_object<TreeScreen>("TreeScreen")->saveKnowTree();
     }
 
    // Обновление исходной ветки чтобы было видно что записей убавилось

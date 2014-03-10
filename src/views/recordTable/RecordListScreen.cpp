@@ -292,7 +292,7 @@ void RecordListScreen::addNew(int mode,
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 }
 
 
@@ -365,7 +365,7 @@ void RecordListScreen::editField(int pos,
  metaEditor->setTags(tags);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 }
 
 
@@ -467,11 +467,11 @@ void RecordListScreen::deleteRecords(void)
  recordModel->removeRowsByList(delIdx);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("treeview")->updateSelectedBranch();
+ find_object<TreeScreen>("TreeScreen")->updateSelectedBranch();
 
  // Установка курсора на нужную позицию
  if(selectionIndex>=0)
@@ -544,7 +544,7 @@ void RecordListScreen::moveUp(void)
  setSelectionToPos(pos-1);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
 }
 
@@ -567,7 +567,7 @@ void RecordListScreen::moveDn(void)
  setSelectionToPos(pos+1);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
 }
 
@@ -681,7 +681,7 @@ void RecordListScreen::paste(void)
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("treeview")->updateSelectedBranch();
+ find_object<TreeScreen>("TreeScreen")->updateSelectedBranch();
 }
 
 

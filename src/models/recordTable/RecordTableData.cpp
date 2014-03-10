@@ -218,7 +218,7 @@ void RecordTableData::checkAndCreateTextFile(int pos, QString fillFileName)
    // Создается пустой текст записи
    QString text="";
    QMap<QString, QByteArray> files;
-   setText(pos, text, files);
+   setRecordData(pos, text, files);
   }
 }
 
@@ -263,7 +263,7 @@ QByteArray RecordTableData::get_text_smart(int pos) const
 // pos - номер записи
 // text - текст записи
 // files - список файлов (по умолчанию пуст)
-void RecordTableData::setText(int pos,
+void RecordTableData::setRecordData(int pos,
                                const QString &text,
                                const QMap<QString, QByteArray> &files)
 {
@@ -741,10 +741,10 @@ QDomDocument RecordTableData::exportDataToDom(void)
 // ADD_NEW_RECORD_BEFORE - перед указанной позицией, pos - номер позиции
 // ADD_NEW_RECORD_AFTER - после указанной позиции, pos - номер позиции
 int RecordTableData::insertNewRecord(int mode,
-                                       int pos,
-                                       QMap<QString, QString> fields,
-                                       QString text,
-                                       QMap<QString, QByteArray> files)
+                                     int pos,
+                                     QMap<QString, QString> fields,
+                                     QString text,
+                                     QMap<QString, QByteArray> files)
 {
   qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
 
@@ -831,7 +831,7 @@ int RecordTableData::insertNewRecord(int mode,
 
 
   // Добавляется текст и файлы объекта
-  setText(insertPos, text, files);
+  setRecordData(insertPos, text, files);
 
   qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
 

@@ -80,7 +80,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupUI(void)
 {
  treeView=new TreeScreen;
- treeView->setObjectName("treeview");
+ treeView->setObjectName("TreeScreen");
  globalParameters.setTreeScreen(treeView);
 
  recordTableView=new RecordTableScreen();
@@ -612,13 +612,13 @@ void MainWindow::synchronization(void)
  walkHistory.setDrop(true);
 
  // Заново считываются данные в дерево
- treeView->initKnowTree();
+ treeView->reloadKnowTree();
  restoreTreePosition();
  restoreRecordTablePosition();
  restoreEditorCursorPosition();
  restoreEditorScrollBarPosition();
 
- // Разблокируется история
+ // Разблокируется история посещений элементов
  walkHistory.setDrop(false);
 }
 

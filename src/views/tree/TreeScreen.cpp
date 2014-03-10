@@ -15,7 +15,6 @@
 #include "views/recordTable/RecordListScreen.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
-#include "models/tree/XmlTree.h"
 #include "models/tree/TreeItem.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/ClipboardBranch.h"
@@ -29,25 +28,17 @@ extern GlobalParameters globalParameters;
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
 {
- knowTreeModel=NULL;
-
  setupActions();
  setupUI();
-
- initKnowTree(); // Заполнить дерево веток надо перед определением сигналов
-
+ setupModels();
  setupSignals();
  assembly();
- 
- // Нужно установить правила показа контекстного самодельного меню
- // чтобы оно могло вызываться
- knowTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 
 TreeScreen::~TreeScreen()
 {
- 
+
 }
 
 
@@ -193,7 +184,30 @@ void TreeScreen::setupUI(void)
 
  knowTreeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
  
- // setHeader ( QHeaderView * header )
+ // Нужно установить правила показа контекстного самодельного меню
+ // чтобы оно могло вызываться
+ knowTreeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+ // Представление не должно позволять редактировать элементы обычным путем
+ knowTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
+
+void TreeScreen::setupModels(void)
+{
+ // Создание и первичная настройка модели
+ knowTreeModel = new KnowTreeModel(this);
+
+ // Установка заголовка
+ // QStringList headers;
+ // headers << tr("Info groups");
+ // knowTreeModel->setHeaders(headers);
+
+ // Загрузка данных
+ knowTreeModel->initFromXML( mytetraconfig.get_tetradir()+"/mytetra.xml" );
+
+ // Модель подключется к виду
+ knowTreeView->setModel(knowTreeModel);
 }
 
 
@@ -398,7 +412,7 @@ void TreeScreen::moveUpDnBranch(int direction)
   } 
  
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 }
 
 
@@ -525,7 +539,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
   }
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
  find_object<MainWindow>("mainwindow")->setEnabled(true);
 }
@@ -580,7 +594,7 @@ void TreeScreen::edit_branch(void)
  item->setField("name", newname);
  
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
  
  find_object<MainWindow>("mainwindow")->setEnabled(true);
 }
@@ -728,7 +742,7 @@ void TreeScreen::del_branch(QString mode)
    qDebug() << "Delete finish";
 
    // Сохранение дерева веток
-   find_object<TreeScreen>("treeview")->saveKnowTree();
+   find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
    qDebug() << "Save new tree finish";
   }
@@ -1034,7 +1048,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
  find_object<MainWindow>("mainwindow")->setTreePosition(pasted_branch_path);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
  // Разблокируется главное окно
  find_object<MainWindow>("mainwindow")->setEnabled(true);
@@ -1091,7 +1105,7 @@ void TreeScreen::encryptBranchItem(void)
  item->switchToEncrypt();
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
  // Обновляеются на экране ветка и ее подветки
  updateBranchOnScreen( getCurrentItemIndex() );
@@ -1107,7 +1121,7 @@ void TreeScreen::decryptBranchItem(void)
  item->switchToDecrypt();
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 
  // Обновляеются на экране ветка и ее подветки
  updateBranchOnScreen( getCurrentItemIndex() );
@@ -1207,91 +1221,6 @@ void treescreen::on_knowTreeView_repaint(void)
 */
 
 
-// Создание дерева разделов
-void TreeScreen::initKnowTree(void)
-{
- // Загрузка файла и преобразование его в DOM модель
- XmlTree xmlt;
- if(!xmlt.load(mytetraconfig.get_tetradir()+"/mytetra.xml"))return;
-
- QStringList headers;
- headers << tr("Info groups");
-
- // Преобразование DOM модели в Item модель
- if(knowTreeModel==NULL)
-  {
-   // Первое обращение к модели
-   knowTreeModel = new KnowTreeModel(headers, xmlt.domModel); // Создается модель с данными
-
-   knowTreeView->setModel(knowTreeModel); // Модель подключется к виду
-  }
- else
-  {
-   knowTreeModel->init(xmlt.domModel); // Пересоздаются данные в модели
-  }
- 
- // Загрузка Item модели в представление
-
- // QItemSelectionModel *m = knowTreeView->selectionModel();
- // knowTreeView->setModel(knowTreeModel);
- // if(m!=NULL) delete m;
-
- // knowTreeView->selectionModel()->clear();
-
- // knowTreeView->reset();
-
- // Представление не должно позволять редактировать элементы обычным путем
- knowTreeView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-}
-
-
-// Функция сохранения дерева веток
-void TreeScreen::saveKnowTree(void)
-{
- // Коструирование DOM документа для записи в файл
- QDomDocument doc("mytetradoc");
-
- // Установка заголовка
- doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
-
- // Создание корневого элемента
- QDomElement rootelement=doc.createElement("root");
-
- // Добавление формата версии к корневому элементу
- QDomElement formvers=doc.createElement("format");
- formvers.setAttribute("version",CURRENT_FORMAT_VERSION);
- formvers.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
- rootelement.appendChild(formvers);
-
- // Получение полного DOM дерева хранимых данных
- QDomElement elmdomtree=knowTreeModel->exportFullModelDataToDom(knowTreeModel->rootItem);
-
- // Добавление полного дерева DOM хранимых данных к корневому элементу
- rootelement.appendChild(elmdomtree);
-
- // Добавление корневого элемента в DOM документ
- doc.appendChild(rootelement);
-
- // Рспечатка на экран, что будет выводиться в XML файл
- // qDebug() << "Doc document for write " << doc.toString();
-
- // Перенос текущего файла дерева в корзину
- remove_file_to_trash(mytetraconfig.get_tetradir()+"/mytetra.xml");
-
- // Запись DOM данных в файл
- QString filename=mytetraconfig.get_tetradir()+"/mytetra.xml";
- QFile wfile(filename);
- if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-  {
-   qDebug() << "Cant open file " << filename << " for write.";
-   exit(1);
-  }
- QTextStream out(&wfile);
- out.setCodec("UTF-8");
- out << doc.toString();
-}
-
-
 void TreeScreen::updateSelectedBranch(void)
 {
  // Получение списка выделенных Item-элементов
@@ -1363,3 +1292,16 @@ void TreeScreen::treeCryptControl(void)
   }
 }
 
+
+// Сохранение дерева веток на диск
+void TreeScreen::saveKnowTree(void)
+{
+ knowTreeModel->save();
+}
+
+
+// Перечитывание дерева веток с диска
+void TreeScreen::reloadKnowTree(void)
+{
+ knowTreeModel->reload();
+}

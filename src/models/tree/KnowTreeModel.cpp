@@ -6,6 +6,7 @@
 #include "KnowTreeModel.h"
 #include "TreeItem.h"
 #include "TreeModel.h"
+#include "XmlTree.h"
 
 #include "libraries/ClipboardRecords.h"
 #include "libraries/ClipboardBranch.h"
@@ -16,17 +17,12 @@
 extern AppConfig mytetraconfig;
 
 
-
 // Конструктор модели дерева, состоящего из Item элементов
 // Принимает заголовки колонок и DOM модель древовидных данных
-KnowTreeModel::KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent)
+KnowTreeModel::KnowTreeModel(QObject *parent) : TreeModel(parent)
 {
-  Q_UNUSED(headers);
-  Q_UNUSED(parent);
-
-  rootItem=NULL;
-
-  init(domModel);
+ xmlFileName="";
+ rootItem=NULL;
 }
 
 
@@ -36,6 +32,19 @@ KnowTreeModel::KnowTreeModel(const QStringList &headers, QDomDocument domModel, 
 KnowTreeModel::~KnowTreeModel()
 {
  delete rootItem;
+}
+
+
+void KnowTreeModel::initFromXML(QString fileName)
+{
+ xmlFileName=fileName;
+
+ // Загрузка файла и преобразование его в DOM модель
+ XmlTree xmlt;
+ if(!xmlt.load( xmlFileName ))
+  return;
+
+ init(xmlt.domModel);
 }
 
 
@@ -58,6 +67,12 @@ void KnowTreeModel::init(QDomDocument domModel)
   setupModelData(domModel, rootItem);
 
   endResetModel();
+}
+
+
+void KnowTreeModel::reload(void)
+{
+ initFromXML(xmlFileName);
 }
 
 
@@ -205,6 +220,56 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
    parseTreeToDom(workElement, currItem->child(i) );
   }
 
+}
+
+
+// Запись всех данных в XML файл
+void KnowTreeModel::save()
+{
+ // Если имя файла небыло проинициализировано
+ if(xmlFileName=="")
+  critical_error(tr("In KnowTreeModel can't set file name for XML file"));
+
+ // Коструирование DOM документа для записи в файл
+ QDomDocument doc("mytetradoc");
+
+ // Установка заголовка
+ doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+
+ // Создание корневого элемента
+ QDomElement rootelement=doc.createElement("root");
+
+ // Добавление формата версии к корневому элементу
+ QDomElement formvers=doc.createElement("format");
+ formvers.setAttribute("version",CURRENT_FORMAT_VERSION);
+ formvers.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
+ rootelement.appendChild(formvers);
+
+ // Получение полного DOM дерева хранимых данных
+ QDomElement elmdomtree=exportFullModelDataToDom(rootItem);
+
+ // Добавление полного дерева DOM хранимых данных к корневому элементу
+ rootelement.appendChild(elmdomtree);
+
+ // Добавление корневого элемента в DOM документ
+ doc.appendChild(rootelement);
+
+ // Рспечатка на экран, что будет выводиться в XML файл
+ // qDebug() << "Doc document for write " << doc.toString();
+
+ // Перенос текущего файла дерева в корзину
+ remove_file_to_trash(xmlFileName);
+
+ // Запись DOM данных в файл
+ QFile wfile(xmlFileName);
+ if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+   qDebug() << "Cant open file " << xmlFileName << " for write.";
+   exit(1);
+  }
+ QTextStream out(&wfile);
+ out.setCodec("UTF-8");
+ out << doc.toString();
 }
 
 
@@ -647,7 +712,7 @@ void KnowTreeModel::reEncrypt(QString previousPassword, QString currentPassword)
 
 
  // Сохранение дерева веток
- find_object<TreeScreen>("treeview")->saveKnowTree();
+ find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 }
 
 

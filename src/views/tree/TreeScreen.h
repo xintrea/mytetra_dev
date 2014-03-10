@@ -25,10 +25,9 @@ public:
 
  KnowTreeModel *knowTreeModel;
 
- void initKnowTree(void);
- 
  void saveKnowTree(void);
- 
+ void reloadKnowTree(void);
+
  void updateSelectedBranch(void);
 
  int getFirstSelectedItemIndex(void);
@@ -79,6 +78,7 @@ private:
  QMap<QString, QAction *> actionList;
 
  void setupUI(void);
+ void setupModels(void);
  void setupSignals(void);
  void setupActions(void);
  void assembly(void);

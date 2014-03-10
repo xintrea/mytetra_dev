@@ -27,14 +27,9 @@ public:
     // QByteArray get_text_as_byte_array(int pos) const;
 
     // Установка текста указанной записи
-    void setText(int pos,
-                 const QString &text,
-                 const QMap<QString, QByteArray> &files=(QMap<QString, QByteArray>()) );
-    /*
-    void set_text(int pos,
-                  const QByteArray &text,
-                  const QMap<QString, QByteArray> &files=(QMap<QString, QByteArray>()) );
-    */
+    void setRecordData(int pos,
+                       const QString &text,
+                       const QMap<QString, QByteArray> &files=(QMap<QString, QByteArray>()) );
 
     bool checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull);
     
@@ -72,7 +67,7 @@ public:
                         QMap<QString, QByteArray> files = (QMap<QString, QByteArray>()) );
 
     void editRecordFields(int pos,
-                     QMap<QString, QString> editFields);
+                          QMap<QString, QString> editFields);
 
     void deleteRecord(int i);
 
@@ -105,13 +100,13 @@ private:
 
     QMap<QString, QString> getMergeFields(int pos, QMap<QString, QString> fields);
 
-    void setTextSmart(int pos,
-                      int mode,
-                      const QString &textString,
-                      const QByteArray &textByteArray,
-                      const QMap<QString, QByteArray> &files);
-
-    // QByteArray get_text_smart(int pos) const;
+    /*
+    void setRecordDataSmart(int pos,
+                            int mode,
+                            const QString &textString,
+                            const QByteArray &textByteArray,
+                            const QMap<QString, QByteArray> &files);
+    */
 
     // Таблица с инфополями записей
     QList< QMap<QString, QString> > fieldsTable;

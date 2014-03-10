@@ -317,7 +317,7 @@ void FindScreen::findStart(void)
  else if (mytetraconfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
  {
   // Индекс текущей выбранной ветки
-  QModelIndex currentItemIndex=find_object<TreeScreen>("treeview")->getCurrentItemIndex();
+  QModelIndex currentItemIndex=find_object<TreeScreen>("TreeScreen")->getCurrentItemIndex();
 
   // Текущая ветка
   startItem=searchModel->getItem(currentItemIndex);

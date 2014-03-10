@@ -20,12 +20,15 @@ class KnowTreeModel : public TreeModel
     Q_OBJECT
 
 public:
-    KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent = 0);
+    KnowTreeModel(QObject *parent = 0); // KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent = 0);
     ~KnowTreeModel();
 
-    void init(QDomDocument domModel);
+    void initFromXML(QString fileName);
+    void reload(void);
 
     QDomElement exportFullModelDataToDom(TreeItem *root);
+
+    void save(void);
 
     // Добавление новой подветки к указанной ветке
     void addNewChildBranch(const QModelIndex &index, QString id, QString name);
@@ -70,6 +73,11 @@ public:
     bool isRecordIdExists(QString findId);
 
 private:
+
+    QString xmlFileName;
+
+    void init(QDomDocument domModel);
+
     // Функция заполнения дерева из DOM-документа
     void setupModelData(QDomDocument dommodel, TreeItem *parent);
 
