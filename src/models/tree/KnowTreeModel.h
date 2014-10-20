@@ -112,6 +112,10 @@ private:
 
     bool isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode);
 
+    bool checkFormat(QDomElement elementFormat);
+
+    bool updateSubVersionFrom1To2(void);
+
     // QModelIndex get_item_index_recurse(QModelIndex currindex, TreeItem *finditem, int mode);
 };
 

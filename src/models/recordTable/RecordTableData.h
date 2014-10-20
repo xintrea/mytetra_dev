@@ -34,13 +34,13 @@ public:
     bool checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull);
     
     // Получение значения указанного поля для указанного элемента
-    QString getInfoField(QString name, int pos) const;
+    QString getField(QString name, int pos) const;
 
     // Установка значения указанного поля для указанного элемента
     void setField(QString name, QString value, int pos);
    
     // Получение всех инфополей указанного элемента
-    QMap<QString, QString> getInfoFields(int pos) const;
+    QMap<QString, QString> getFields(int pos) const;
     
     // Получение полного образа записи
     QMap<QString, QString> getRecordExemplar(int pos);

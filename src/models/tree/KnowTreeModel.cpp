@@ -18,7 +18,6 @@ extern AppConfig mytetraconfig;
 
 
 // Конструктор модели дерева, состоящего из Item элементов
-// Принимает заголовки колонок и DOM модель древовидных данных
 KnowTreeModel::KnowTreeModel(QObject *parent) : TreeModel(parent)
 {
  xmlFileName="";
@@ -50,6 +49,14 @@ void KnowTreeModel::initFromXML(QString fileName)
 
 void KnowTreeModel::init(QDomDocument domModel)
 {
+  // Проверка формата XML-файла
+  if( !checkFormat(domModel.documentElement().firstChildElement("format")) )
+   {
+    critical_error(tr("Unsupported format version for data base."));
+    return;
+   }
+
+
   QMap<QString, QString> rootData;
 
   // Определяется одно поле в корневом объекте
@@ -70,6 +77,46 @@ void KnowTreeModel::init(QDomDocument domModel)
 }
 
 
+bool KnowTreeModel::checkFormat(QDomElement elementFormat)
+{
+ int baseVersion=0;
+ int baseSubVersion=0;
+
+ // Если DOM-элемент с версией и подверсией существует
+ if( !elementFormat.isNull() )
+  {
+   baseVersion=elementFormat.attribute("version", "0").toInt(); // Считывается номер версии
+   baseSubVersion=elementFormat.attribute("subversion", "0").toInt(); // Считывается номер подверсии
+  }
+
+ // Если номер версии или подверсии выше чем поддерживаемые программой
+ if(baseVersion > CURRENT_FORMAT_VERSION ||
+    baseSubVersion > CURRENT_FORMAT_SUBVERSION)
+  return false;
+
+ // В настоящий момент поддерживается формат 1.2
+ // В настоящий момент предполагается, что номер версии всегда 1, поэтому вся работа идет по номеру подверсии
+ if(baseSubVersion<=1)
+  if(updateSubVersionFrom1To2()==false) // Смена формата с 1.1 на 1.2
+   return false;
+
+ // На будущее, для перехода с подверии 2 на подверсию 3, эти строки надо добавлять к существующим (а не заменять)
+ // if(baseSubVersion<=2)
+ //  if(updateSubVersionFrom2To3()==false)
+ //   return false;
+
+ return true;
+}
+
+
+bool KnowTreeModel::updateSubVersionFrom1To2(void)
+{
+
+
+ return true;
+}
+
+
 void KnowTreeModel::reload(void)
 {
  initFromXML(xmlFileName);
@@ -79,15 +126,15 @@ void KnowTreeModel::reload(void)
 // Разбор DOM модели и преобразование ее в Item модель
 void KnowTreeModel::setupModelData(QDomDocument dommodel, TreeItem *parent)
 {
-  QDomElement contentrootnode=dommodel.documentElement().firstChildElement("content").firstChildElement("node");
+  QDomElement contentRootNode=dommodel.documentElement().firstChildElement("content").firstChildElement("node");
 
-  if(contentrootnode.isNull())
+  if(contentRootNode.isNull())
    {
     qDebug() << "Unable load xml tree, first content node not found.";
     return;
    }
 
-  parseNodeElement(contentrootnode, parent);
+  parseNodeElement(contentRootNode, parent);
 
   return;
 }

@@ -147,8 +147,8 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
 
 
  // Для новой выбраной записи выясняется директория и основной файл
- QString currentDir =table->getInfoField("dir", pos);
- QString currentFile=table->getInfoField("file", pos);
+ QString currentDir =table->getField("dir", pos);
+ QString currentFile=table->getField("file", pos);
  QString fullDir=mytetraconfig.get_tetradir()+"/base/"+currentDir;
  QString fullFileName=fullDir+"/"+currentFile;
  qDebug() << " File " << fullFileName << "\n";
@@ -169,15 +169,15 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // И если имя директории или имя файла пусты, то это означает что
  // запись не была расшифрована, и редактор должен просто показывать пустой текст
  // ничего не сохранять и не считывать
- qDebug() << "RecordListScreen::onClickToRecord() : id " << table->getInfoField("id", pos);
- qDebug() << "RecordListScreen::onClickToRecord() : name " << table->getInfoField("name", pos);
- qDebug() << "RecordListScreen::onClickToRecord() : crypt " << table->getInfoField("crypt", pos);
- if(table->getInfoField("crypt", pos)=="1")
+ qDebug() << "RecordListScreen::onClickToRecord() : id " << table->getField("id", pos);
+ qDebug() << "RecordListScreen::onClickToRecord() : name " << table->getField("name", pos);
+ qDebug() << "RecordListScreen::onClickToRecord() : crypt " << table->getField("crypt", pos);
+ if(table->getField("crypt", pos)=="1")
   if(fullDir.length()==0 || currentFile.length()==0)
    edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
 
  // В редактор заносится информация, идет ли работа с зашифрованным текстом
- edView->setMiscField("crypt", table->getInfoField("crypt", pos));
+ edView->setMiscField("crypt", table->getField("crypt", pos));
 
  // В редакторе устанавливается функция обратного вызова для чтения данных
  edView->set_load_callback(table->editorLoadCallback);
@@ -186,12 +186,12 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // edView->set_textarea(table->get_text(index.row()));
 
  // Заполняются прочие инфо-поля
- edView->setName  ( table->getInfoField("name", pos) );
- edView->setAuthor( table->getInfoField("author", pos) );
- edView->setUrl   ( table->getInfoField("url", pos) );
- edView->setTags  ( table->getInfoField("tags", pos) );
+ edView->setName  ( table->getField("name", pos) );
+ edView->setAuthor( table->getField("author", pos) );
+ edView->setUrl   ( table->getField("url", pos) );
+ edView->setTags  ( table->getField("tags", pos) );
 
- QString id=table->getInfoField("id", pos);
+ QString id=table->getField("id", pos);
  edView->setMiscField("id", id);
 
 
@@ -313,10 +313,10 @@ void RecordListScreen::editFieldContext(void)
  RecordTableData *table=recordModel->getTableData();
 
  // Поля окна заполняются начальными значениями
- editRecordWin.setField("name",  table->getInfoField("name",index.row()) );
- editRecordWin.setField("author",table->getInfoField("author",index.row()) );
- editRecordWin.setField("url",   table->getInfoField("url",index.row()) );
- editRecordWin.setField("tags",  table->getInfoField("tags",index.row()) );
+ editRecordWin.setField("name",  table->getField("name",index.row()) );
+ editRecordWin.setField("author",table->getField("author",index.row()) );
+ editRecordWin.setField("url",   table->getField("url",index.row()) );
+ editRecordWin.setField("tags",  table->getField("tags",index.row()) );
 
 
  int i=editRecordWin.exec();

@@ -419,7 +419,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
          if(key!="text")
           {
            // Поиск в обычном поле
-           inspectText=searchRecordTable->getInfoField(key,i);
+           inspectText=searchRecordTable->getField(key,i);
            iteration_search_result[key]=findInTextProcess(inspectText);
           }
          else
@@ -442,7 +442,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
      // Если запись найдена
      if(findFlag==1)
       {
-       qDebug() << "Find succesfull in " << searchRecordTable->getInfoField("name",i);
+       qDebug() << "Find succesfull in " << searchRecordTable->getField("name",i);
     
        // В таблицу результатов поиска добавляются данные
        // Имя записи
@@ -450,9 +450,9 @@ void FindScreen::findRecurse(TreeItem *curritem)
        // Теги
        // Путь к ветке
        // Номер записи в таблице конечных записей
-       findTable->addRow(searchRecordTable->getInfoField("name",i),
+       findTable->addRow(searchRecordTable->getField("name",i),
                           curritem->getField("name"),
-                          searchRecordTable->getInfoField("tags",i),
+                          searchRecordTable->getField("tags",i),
                           curritem->getPath(),
                           i);
       }

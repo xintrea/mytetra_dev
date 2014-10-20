@@ -239,7 +239,6 @@ QStringList TreeItem::fieldNameAvailableList(void) const
  names << "name";
  names << "ctime";
  names << "crypt";
- names << "salt";
 
  return names;
 }
@@ -584,7 +583,7 @@ RecordTableData *TreeItem::recordtableGetTableData(void)
 int TreeItem::getRecordPos(QString recordId)
 {
  for(int i=0; i<recordsTable.size(); i++)
-  if(recordsTable.getInfoField("id", i)==recordId)
+  if(recordsTable.getField("id", i)==recordId)
    return i;
 
  return -1;

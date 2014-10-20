@@ -55,6 +55,13 @@ void FindTableWidget::setupUI(void)
   
  // Устанавливается режим что редактирование невозможно
  findTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+ // Принудительная стилизация, так как стилизация через QSS для элементов QTableView полноценно не работает
+ // У таблицы есть вертикальные заголовки, для каждой строки, в которых отображается номер строки.
+ // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
+ int height=mytetraconfig.getUglyQssReplaceHeightForTableView();
+ if(height!=0)
+  findTableView->verticalHeader()->setDefaultSectionSize(height);
 }
 
 
@@ -119,9 +126,9 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
  findTableModel->insertRow(i);
 
  // Принудительная стилизация, так как стилизация через QSS для элементов QTableView полноценно не работает
- int height=mytetraconfig.getUglyQssReplaceHeightForTableView();
- if(height!=0)
-  findTableView->setRowHeight(i, height);
+ // int height=mytetraconfig.getUglyQssReplaceHeightForTableView();
+ // if(height!=0)
+ //  findTableView->setRowHeight(i, height);
 
  // Заголовок (название) записи
  QStandardItem *item_title=new QStandardItem();
