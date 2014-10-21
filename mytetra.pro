@@ -134,12 +134,23 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorAbsTable.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
-    src/libraries/wyedit/EditorMultiLineInputDialog.h \
-    src/libraries/qtSingleApplication/qtsingleapplication.h \
+    src/libraries/wyedit/EditorMultiLineInputDialog.h
+
+
+lessThan(QT_MAJOR_VERSION,5) {
+HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
     src/libraries/qtSingleApplication/qtlockedfile.h \
     src/libraries/qtSingleApplication/qtlocalpeer.h \
-    src/libraries/qtSingleApplication/qtsinglecoreapplication.h \
-    src/views/recordTable/RecordListScreen.h \
+    src/libraries/qtSingleApplication/qtsinglecoreapplication.h
+}
+else {
+HEADERS+=src/libraries/qtSingleApplication5/qtsingleapplication.h \
+    src/libraries/qtSingleApplication5/qtlockedfile.h \
+    src/libraries/qtSingleApplication5/qtlocalpeer.h \
+    src/libraries/qtSingleApplication5/qtsinglecoreapplication.h
+}
+
+HEADERS+=src/views/recordTable/RecordListScreen.h \
     src/libraries/ClipboardBranch.h \
     src/libraries/GlobalParameters.h \
     src/models/dataBaseConfig/DataBaseConfig.h \
@@ -155,6 +166,7 @@ HEADERS = src/main.h \
     src/libraries/MtTableWidget.h \
     src/views/tree/KnowTreeView.h \
     src/libraries/MtStyledItemDelegate.h
+
 SOURCES = src/main.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
@@ -198,12 +210,22 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorAbsTable.cpp \
     src/libraries/wyedit/EditorAddTableForm.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
-    src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
-    src/libraries/qtSingleApplication/qtsingleapplication.cpp \
+    src/libraries/wyedit/EditorMultiLineInputDialog.cpp
+
+lessThan(QT_MAJOR_VERSION,5) {
+SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
     src/libraries/qtSingleApplication/qtlockedfile.cpp \
     src/libraries/qtSingleApplication/qtlocalpeer.cpp \
-    src/libraries/qtSingleApplication/qtsinglecoreapplication.cpp \
-    src/views/recordTable/RecordListScreen.cpp \
+    src/libraries/qtSingleApplication/qtsinglecoreapplication.cpp
+}
+else {
+SOURCES+=src/libraries/qtSingleApplication5/qtsingleapplication.cpp \
+    src/libraries/qtSingleApplication5/qtlockedfile.cpp \
+    src/libraries/qtSingleApplication5/qtlocalpeer.cpp \
+    src/libraries/qtSingleApplication5/qtsinglecoreapplication.cpp
+}
+
+SOURCES+=src/views/recordTable/RecordListScreen.cpp \
     src/libraries/ClipboardBranch.cpp \
     src/libraries/GlobalParameters.cpp \
     src/models/dataBaseConfig/DataBaseConfig.cpp \
