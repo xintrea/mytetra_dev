@@ -713,6 +713,8 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
 {
   Q_UNUSED(o);  
 
+  qDebug() << "Event: " << e->type();
+  
   // Отлавливание потери фокуса
   // QEvent::ActivationChange
   if( e->type() == QEvent::WindowDeactivate)

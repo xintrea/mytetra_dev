@@ -436,8 +436,13 @@ void smartPrintDebugMessage(QString msg)
  if(globalParameters.getTargetOs()=="any" ||
     globalParameters.getTargetOs()=="meego")
   {
+   QTime currTime = QTime::currentTime();
+   QString timeText=currTime.toString("hh:mm:ss");
+   msg=timeText+" "+msg;
+
    unsigned int messageLen=msg.toLocal8Bit().size();
    // printf("Len of line: %d\n", messageLen);
+
    fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
   }
  
