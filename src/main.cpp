@@ -9,7 +9,13 @@
 #include "libraries/ClipboardRecords.h"
 #include "libraries/TrashMonitoring.h"
 #include "libraries/GlobalParameters.h"
+
+#if QT_VERSION < 0x050000
 #include "libraries/qtSingleApplication/qtsingleapplication.h"
+#else
+#include "libraries/qtSingleApplication5/qtsingleapplication.h"
+#endif
+
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/crypt/RC5Simple.h"
