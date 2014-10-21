@@ -47,7 +47,7 @@ void AppConfig::init(void)
 
  update_version_process();
 
- conf->sync();
+ sync();
 
  is_init_flag=true;
 }
@@ -56,6 +56,12 @@ void AppConfig::init(void)
 bool AppConfig::is_init(void)
 {
  return is_init_flag;
+}
+
+
+void AppConfig::sync(void)
+{
+ conf->sync();
 }
 
 

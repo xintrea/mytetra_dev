@@ -12,6 +12,7 @@ DEFINES+="ANDROID_OS=3"
 DEFINES+="TARGET_OS=$${TARGET_OS}"
 
 message(Building running in Qt major version: $${QT_MAJOR_VERSION})
+message(Value of QT_NO_SESSIONMANAGER is: $${QT_NO_SESSIONMANAGER})
 
 TEMPLATE = app
 QT = gui \

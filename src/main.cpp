@@ -2,6 +2,7 @@
 
 #include <QTranslator>
 #include <QToolButton>
+#include <QSplashScreen>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -853,6 +854,10 @@ int main(int argc, char ** argv)
 
  QtSingleApplication app(argc, argv);
 
+ // Экран загрузки
+ QSplashScreen splash(QPixmap(":/resource/pic/mytetra_splash.png"));
+ splash.show();
+
  // Не запущен ли другой экземпляр
  if(app.isRunning())
   {
@@ -974,5 +979,10 @@ int main(int argc, char ** argv)
 
  // win.show();
  app.connect(&app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+
+ // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
+
+ splash.finish(&win);
+
  return app.exec();
 }

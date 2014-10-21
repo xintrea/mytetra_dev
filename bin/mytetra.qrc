@@ -65,6 +65,7 @@
    <file>resource/pic/expand_console.svg</file>
    <file>resource/pic/walk_history_previous.svg</file>
    <file>resource/pic/walk_history_next.svg</file>
+   <file>resource/pic/mytetra_splash.png</file>
    <file>resource/translations/mytetra_ru.qm</file>
    <file>resource/standartconfig/any/conf.ini</file>
    <file>resource/standartconfig/any/editorconf.ini</file>

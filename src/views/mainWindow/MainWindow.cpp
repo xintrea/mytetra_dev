@@ -61,15 +61,7 @@ MainWindow::MainWindow() : QMainWindow()
 
 MainWindow::~MainWindow()
 {
- // При удалении главного окна надо сохранить данные в поле редактирования
- saveTextarea();
-
- // Сохраняются данные сеанса работы
- saveGeometry();
- saveTreePosition();
- saveRecordTablePosition();
- saveEditorCursorPosition();
- saveEditorScrollBarPosition();
+ saveAllState();
   
  delete treeView;
  delete recordTableView;
@@ -104,8 +96,16 @@ void MainWindow::setupUI(void)
 
 void MainWindow::setupSignals(void)
 {
- connect(editorView,SIGNAL(send_expand_edit_area(bool)), this,SLOT(onExpandEditArea(bool)));
+ connect(editorView,SIGNAL(send_expand_edit_area(bool)), this, SLOT(onExpandEditArea(bool)));
 
+ // Сигнал, генерирующийся при выходе из оконных систем X11 и Windows
+ connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
+
+ qDebug() << "Application session id: " << qApp->sessionId();
+
+ int i,n = qApp->staticMetaObject.methodCount();
+ for(i=0;i<n;i++)
+   qDebug() << "App method" << i << qApp->staticMetaObject.method(i).methodSignature();
 }
 
 
@@ -131,6 +131,33 @@ void MainWindow::assembly(void)
  findSplitter->setObjectName("findsplitter");
  
  setCentralWidget(findSplitter);
+}
+
+
+void MainWindow::saveAllState(void)
+{
+ // Сохранение данных в поле редактирования
+ saveTextarea();
+
+ // Сохраняются данные сеанса работы
+ saveGeometry();
+ saveTreePosition();
+ saveRecordTablePosition();
+ saveEditorCursorPosition();
+ saveEditorScrollBarPosition();
+
+ // Синхронизируется с диском конфиг программы
+ mytetraconfig.sync();
+}
+
+
+// Слот, срабатывающий когда происходит выход из оконной системы
+void MainWindow::commitData(QSessionManager& manager)
+{
+ Q_UNUSED(manager);
+ qDebug() << "Session manager send commit data signal.";
+
+ applicationFastExit();
 }
 
 
@@ -486,23 +513,31 @@ void MainWindow::filePrintPdf(void)
 }
 
 
+// Слот - Нормальный выход из программы
 void MainWindow::applicationExit(void)
 {
- saveTextarea();
-
+ saveAllState();
 
  // Если в конфиге настроено, что нужно синхронизироваться при выходе
  // И задана команда синхронизации
- if(mytetraconfig.get_synchroonexit())
-  if(mytetraconfig.get_synchrocommand().trimmed().length()>0)
-   synchronization();
+   if(mytetraconfig.get_synchroonexit())
+     if(mytetraconfig.get_synchrocommand().trimmed().length()>0)
+       synchronization();
 
-
+ // Запуск выхода из программы
  enableRealClose=true;
-
  emit close();
+}
 
- // exit(0);
+
+// Быстрый выход из программы, без возможности синхронизации
+void MainWindow::applicationFastExit(void)
+{
+ saveAllState();
+
+ // Запуск выхода из программы
+ enableRealClose=true;
+ emit close();
 }
 
 

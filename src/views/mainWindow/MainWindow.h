@@ -83,6 +83,13 @@ public:
 
  void saveTextarea(void);
 
+ void saveAllState(void);
+
+public slots:
+ void applicationExit(void);
+ void applicationFastExit(void);
+ void commitData(QSessionManager& manager);
+
 private slots:
  void fileNew(void);
  void fileOpen(void);
@@ -101,7 +108,7 @@ private slots:
  void onClickHelpAboutQt(void);
  
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
- void applicationExit(void);
+
 
 private:
 

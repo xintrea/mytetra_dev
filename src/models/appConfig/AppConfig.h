@@ -20,6 +20,8 @@ public:
     void init(void);
     bool is_init(void);
 
+    void sync(void);
+
     // Версия формата конфигфайла
     int get_config_version(void);
     void set_config_version(int i);
