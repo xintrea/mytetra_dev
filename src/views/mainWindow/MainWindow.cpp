@@ -100,12 +100,6 @@ void MainWindow::setupSignals(void)
 
  // Сигнал, генерирующийся при выходе из оконных систем X11 и Windows
  connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
-
- qDebug() << "Application session id: " << qApp->sessionId();
-
- int i,n = qApp->staticMetaObject.methodCount();
- for(i=0;i<n;i++)
-   qDebug() << "App method" << i << qApp->staticMetaObject.method(i).methodSignature();
 }
 
 
@@ -748,7 +742,7 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
 {
   Q_UNUSED(o);  
 
-  qDebug() << "Event: " << e->type();
+  // qDebug() << "Event: " << e->type();
   
   // Отлавливание потери фокуса
   // QEvent::ActivationChange
