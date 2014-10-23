@@ -769,7 +769,7 @@ int RecordTableData::insertNewRecord(int mode,
   // Выясняется, есть ли в дереве запись с указанным ID
   // Если есть, то генерируются новые ID для записи и новая директория хранения
   // Если нет, то это значит что запись была вырезана, но хранится в буфере,
-  // и ее желательно вставить с прежним ID и прежнии именем директории
+  // и ее желательно вставить с прежним ID и прежним именем директории
   KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("KnowTreeView")->model());
   if(fields["id"].length()==0 ||
      dataModel->isRecordIdExists( fields["id"] ) )
@@ -1082,6 +1082,35 @@ QStringList RecordTableData::fieldNameAvailableList(void) const
  names << "dir";
  names << "file";
  names << "crypt";
+
+ return names;
+}
+
+
+// Получение описаний набора полей
+QMap<QString, QString> RecordTableData::fieldDescription(QStringList list) const
+{
+ QMap<QString, QString> names;
+
+ names["id"]=tr("ID");
+ names["name"]=tr("Title");
+ names["author"]=tr("Author");
+ names["url"]=tr("Url");
+ names["tags"]=tr("Tags");
+ names["ctime"]=tr("Create time");
+ names["dir"]=tr("Directory name");
+ names["file"]=tr("File name");
+ names["crypt"]=tr("Is crypt");
+
+ // Удаляются строчки, которых нет в переданном списке
+ QMutableMapIterator<QString, QString> iterator(names);
+ while (iterator.hasNext())
+ {
+   iterator.next();
+
+   if( list.contains( iterator.key() )==false )
+    iterator.remove();
+ }
 
  return names;
 }

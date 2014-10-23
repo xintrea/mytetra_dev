@@ -77,6 +77,28 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
 }
 
 
+
+QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int nRole) const
+{
+ QStringList availableFields=table->fieldNameAvailableList();
+
+ QMap<QString, QString> mapFields=table->fieldDescription( QStringList );
+
+ QString result;
+ for(int i=0; i<=section; i++)
+   result=mapFields
+
+
+
+
+
+
+
+
+
+}
+
+
 // Сколько записей в таблице
 int RecordTableModel::rowCount(const QModelIndex &parent) const
 {
@@ -86,6 +108,15 @@ int RecordTableModel::rowCount(const QModelIndex &parent) const
   return 0;
 
  return table->size();
+}
+
+
+// Сколько столбцов в таблице
+int RecordTableModel::columnCount(const QModelIndex &parent) const
+{
+ Q_UNUSED(parent);
+
+ return table->fieldNameAvailableList()->count();
 }
 
 

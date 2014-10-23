@@ -242,7 +242,8 @@ void RecordListScreen::addNewRecord(int mode)
  // с картинками, содержащимися в тексте
  AddNewRecord addNewRecordWin;
  int i=addNewRecordWin.exec();
- if(i==QDialog::Rejected)return; // Была нажата отмена, ничего ненужно делать
+ if(i==QDialog::Rejected)
+   return; // Была нажата отмена, ничего ненужно делать
 
 
  // Имя директории, в которой расположены файлы картинок, используемые в тексте
@@ -270,9 +271,9 @@ void RecordListScreen::addNewRecord(int mode)
 
 // Функция добавления новой записи в таблицу конечных записей
 void RecordListScreen::addNew(int mode,
-                                QMap<QString, QString> fields,
-                                QString text,
-                                QMap<QString, QByteArray> files)
+                              QMap<QString, QString> fields,
+                              QString text,
+                              QMap<QString, QByteArray> files)
 {
  qDebug() << "In add_new()";
 

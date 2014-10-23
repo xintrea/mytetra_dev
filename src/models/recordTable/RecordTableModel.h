@@ -1,7 +1,7 @@
 #ifndef __RECORDTABLEMODEL_H__
 #define __RECORDTABLEMODEL_H__
 
-#include <QAbstractListModel>
+#include <QAbstractTableModel>
 #include <QModelIndex>
 #include <QVariant>
 #include <QObject>
@@ -10,13 +10,15 @@
 
 class RecordTableData;
 
-class RecordTableModel : public QAbstractListModel
+class RecordTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
     RecordTableModel(QObject *pobj=0);
     ~RecordTableModel();
+
+    QVariant headerData(int section, Qt::Orientation orientation, int nRole) const;
 
     // Интерфейс модели, предоставление данных по указанному индексу
     QVariant data(const QModelIndex &index, int nRole) const;
@@ -26,6 +28,9 @@ public:
 
     // Интерфейс модели, сколько записей в таблице
     int rowCount(const QModelIndex &parent=QModelIndex()) const;
+
+    // Интерфейс модели, сколько столбцов в таблице
+    int columnCount(const QModelIndex &parent=QModelIndex()) const;
 
     // Возвращение указателя на модель конечных записей, т.е. на себя
     QAbstractListModel *getModel(void);
