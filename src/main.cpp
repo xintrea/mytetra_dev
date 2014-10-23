@@ -837,8 +837,22 @@ int main(int argc, char ** argv)
 {
  printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
 
- Q_INIT_RESOURCE(mytetra);
+ // Добавляется путь, чтобы бинарник мог найти библиотеки в подкаталоге /libraries/qtX
+ // Оказалось, что такой метод не работает
+ /*
+ QString libraryPostfix;
+ #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
+ libraryPostfix="4";
+ #endif
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ libraryPostfix="5";
+ #endif
+ QString libraryPath=QFileInfo(argv[0]).dir().path() + "/libraries/qt" + libraryPostfix;
+ QCoreApplication::addLibraryPath( libraryPath );
+ printf("Additional libraries path: %s\n\r", libraryPath.toLocal8Bit().data() );
+ */
 
+ Q_INIT_RESOURCE(mytetra);
 
  // Начальные инициализации основных объектов
 

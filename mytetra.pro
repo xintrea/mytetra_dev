@@ -21,9 +21,7 @@ QT = gui \
     svg \
     network
 CONFIG += qt \
-    warn_on \
-    console \
-    debug
+    warn_on
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
                                         printsupport
