@@ -164,7 +164,7 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 {
  Q_UNUSED(parent);
 
- return fixedParameters.recordFieldAvailableList().count(); // TODO: Заменить на показываемые поля
+ return fixedParameters.recordFieldAvailableList().size(); // TODO: Заменить на показываемые поля
 }
 
 

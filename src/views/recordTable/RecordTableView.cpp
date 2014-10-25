@@ -24,7 +24,7 @@ extern WalkHistory walkHistory;
 // Виджет, отображащий список записей в ветке
 
 
-RecordTableView::RecordTableView(QWidget *parent) : QListView(parent)
+RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 {
  // Установка модели данных
  recordModel=new RecordTableModel();
@@ -435,10 +435,10 @@ void RecordTableView::deleteRecords(void)
  QModelIndexList::iterator it;
  for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); it++)
  {
-  QModelIndex currIdx;
-  currIdx=*it;
-  qDebug() << "Mark for delete item num " << currIdx.row();
-  delIdx.append( currIdx.row() );
+   QModelIndex currIdx;
+   currIdx=*it;
+   qDebug() << "Mark for delete item num " << currIdx.row();
+   delIdx.append( currIdx.row() );
  }
 
  // Массив удаляемых индексов сортируется так чтоб вначале
@@ -448,17 +448,17 @@ void RecordTableView::deleteRecords(void)
  // Поиск индекса, на который надо установить засветку после удаления
  int i=0,selectionIndex=-1;
  for(i=0;i<totalRowCount;i++)
-  {
+ {
    // Если позиция не помечена на удаление, она считается
    if(!delIdx.contains(i))
-    {
+   {
      selectionIndex++;
 
      // На первой непомеченной после курсора позиции обработка прекращается
      // Значение selection_index в этот момент и есть нужный индекс
      if(i>beforeIndex)break;
-    }
-  }
+   }
+ }
  qDebug() << "After delete cursor set to" << selectionIndex << "row";
 
  // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
@@ -476,21 +476,21 @@ void RecordTableView::deleteRecords(void)
 
  // Установка курсора на нужную позицию
  if(selectionIndex>=0)
-  {
+ {
    // Создание индекса из номера
    QModelIndex selIdx=recordModel->index(selectionIndex, 0);
 
    // Установка курсора
    selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
-  }
+ }
  else
-  {
+ {
    // Иначе таблица конечных записей пуста, курсор устанавливать ненужно
 
    // Нужно очистить поле редактирования чтобы невидно было текста
    // последней удаленной записи
    find_object<MetaEditor>("editorview")->clearAll();
-  }
+ }
 
  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
 }
@@ -530,23 +530,22 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 // Перемещение записи вверх
 void RecordTableView::moveUp(void)
 {
- qDebug() << "In moveup()";
+  qDebug() << "In moveup()";
 
- // Получение номера первой выделенной строки
- int pos=getFirstSelectionPos();
+  // Получение номера первой выделенной строки
+  int pos=getFirstSelectionPos();
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordModel->getTableData();
 
- // Перемещение текущей записи вверх
- table->moveUp(pos);
+  // Перемещение текущей записи вверх
+  table->moveUp(pos);
 
- // Установка засветки на перемещенную запись
- setSelectionToPos(pos-1);
+  // Установка засветки на перемещенную запись
+  setSelectionToPos(pos-1);
 
- // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
-
+  // Сохранение дерева веток
+  find_object<TreeScreen>("TreeScreen")->saveKnowTree();
 }
 
 
@@ -695,7 +694,7 @@ void RecordTableView::mousePressEvent(QMouseEvent *event)
    mouseStartPos=event->pos();
   }
 
- QListView::mousePressEvent(event);
+ QTableView::mousePressEvent(event);
 }
 
 
@@ -714,14 +713,14 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
     }
   }
 
- QListView::mouseMoveEvent(event);
+ QTableView::mouseMoveEvent(event);
 }
 
 
 // Реакция на отпускание клавиши мышки
 void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 {
- QListView::mouseReleaseEvent(event);
+ QTableView::mouseReleaseEvent(event);
 }
 
 

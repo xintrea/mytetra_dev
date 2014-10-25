@@ -2,7 +2,7 @@
 #define RECORDLISTSCREEN_H_
 
 #include <QWidget>
-#include <QListView>
+#include <QTableView>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QToolBar>
@@ -15,7 +15,7 @@ class RecordTableModel;
 class ClipboardRecords;
 
 
-class RecordTableView : public QListView
+class RecordTableView : public QTableView
 {
  Q_OBJECT
 
