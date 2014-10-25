@@ -46,7 +46,8 @@ void RecordTableView::init(void)
 {
  setupSignals();
 
- this->setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
+ setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
+ setSelectionBehavior(QAbstractItemView::SelectRows);
 
  // Нужно установить правила показа контекстного самодельного меню
  // чтобы оно могло вызываться
@@ -855,7 +856,7 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
 }
 
 
-// Переопределенный слот (virtual protected slot)
+// Переопределенный сигнал (virtual protected slot)
 void RecordTableView::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected )
 {
