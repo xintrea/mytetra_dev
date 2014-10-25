@@ -63,17 +63,17 @@ MainWindow::~MainWindow()
 {
  saveAllState();
   
- delete treeView;
+ delete treeScreen;
  delete recordTableScreen;
- delete editorView;
+ delete editorScreen;
 }
 
 
 void MainWindow::setupUI(void)
 {
- treeView=new TreeScreen;
- treeView->setObjectName("TreeScreen");
- globalParameters.setTreeScreen(treeView);
+ treeScreen=new TreeScreen;
+ treeScreen->setObjectName("TreeScreen");
+ globalParameters.setTreeScreen(treeScreen);
 
  recordTableScreen=new RecordTableScreen();
  recordTableScreen->setObjectName("recordTableScreen");
@@ -83,9 +83,9 @@ void MainWindow::setupUI(void)
  findScreenDisp->setObjectName("findscreendisp");
  globalParameters.setFindScreen(findScreenDisp);
 
- editorView=new MetaEditor();
- editorView->setObjectName("editorview");
- globalParameters.setMetaEditor(editorView);
+ editorScreen=new MetaEditor();
+ editorScreen->setObjectName("editorview");
+ globalParameters.setMetaEditor(editorScreen);
 
  statusBar=new QStatusBar();
  statusBar->setObjectName("statbar");
@@ -96,7 +96,7 @@ void MainWindow::setupUI(void)
 
 void MainWindow::setupSignals(void)
 {
- connect(editorView,SIGNAL(send_expand_edit_area(bool)), this, SLOT(onExpandEditArea(bool)));
+ connect(editorScreen,SIGNAL(send_expand_edit_area(bool)), this, SLOT(onExpandEditArea(bool)));
 
  // Сигнал, генерирующийся при выходе из оконных систем X11 и Windows
  connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
@@ -107,12 +107,12 @@ void MainWindow::assembly(void)
 {
  vSplitter=new QSplitter(Qt::Vertical);
  vSplitter->addWidget(recordTableScreen); // Список конечных записей
- vSplitter->addWidget(editorView);      // Текст записи
+ vSplitter->addWidget(editorScreen);      // Текст записи
  vSplitter->setCollapsible(0,false); // Список конечных записей не может смыкаться
  vSplitter->setCollapsible(1,false); // Содержимое записи не может смыкаться
 
  hSplitter=new QSplitter(Qt::Horizontal);
- hSplitter->addWidget(treeView); // Дерево веток
+ hSplitter->addWidget(treeScreen); // Дерево веток
  hSplitter->addWidget(vSplitter);
  hSplitter->setCollapsible(0,false); // Дерево веток не может смыкаться
  hSplitter->setCollapsible(1,false); // Столбец со списком и содержимым записи не может смыкаться
@@ -213,10 +213,10 @@ void MainWindow::restoreTreePosition(void)
 void MainWindow::saveTreePosition(void)
 {
  // Получение QModelIndex выделенного в дереве элемента
- QModelIndex index=treeView->getCurrentItemIndex();
+ QModelIndex index=treeScreen->getCurrentItemIndex();
  
  // Получаем указатель вида TreeItem
- TreeItem *item =treeView->knowTreeModel->getItem(index);
+ TreeItem *item =treeScreen->knowTreeModel->getItem(index);
 
  // Сохраняем путь к элементу item
  mytetraConfig.set_tree_position(item->getPath());
@@ -225,18 +225,18 @@ void MainWindow::saveTreePosition(void)
 
 void MainWindow::setTreePosition(QStringList path)
 {
- if(treeView->knowTreeModel->isItemValid(path)==false) return;
+ if(treeScreen->knowTreeModel->isItemValid(path)==false) return;
 
  // Получаем указатель на элемент вида TreeItem, используя путь
- TreeItem *item =treeView->knowTreeModel->getItem(path);
+ TreeItem *item =treeScreen->knowTreeModel->getItem(path);
  
  qDebug() << "Set tree position to " << item->getField("name") << " id " << item->getField("id");
  
  // Из указателя на элемент TreeItem получаем QModelIndex
- QModelIndex setto=treeView->knowTreeModel->getIndexByItem(item);
+ QModelIndex setto=treeScreen->knowTreeModel->getIndexByItem(item);
 
  // Курсор устанавливается в нужную позицию
- treeView->setCursorToIndex(setto);
+ treeScreen->setCursorToIndex(setto);
 }
 
 
@@ -244,10 +244,10 @@ bool MainWindow::isTreePositionCrypt()
 {
  QStringList path=mytetraConfig.get_tree_position();
 
- if(treeView->knowTreeModel->isItemValid(path)==false) return false;
+ if(treeScreen->knowTreeModel->isItemValid(path)==false) return false;
 
  // Получаем указатель на элемент вида TreeItem, используя путь
- TreeItem *item =treeView->knowTreeModel->getItem(path);
+ TreeItem *item =treeScreen->knowTreeModel->getItem(path);
 
  if(item->getField("crypt")=="1")
   return true;
@@ -281,7 +281,7 @@ void MainWindow::setRecordtablePosition(int n)
 
 void MainWindow::saveEditorCursorPosition(void)
 {
- int n=editorView->getCursorPosition();
+ int n=editorScreen->getCursorPosition();
 
  mytetraConfig.setEditorCursorPosition(n);
 }
@@ -291,13 +291,13 @@ void MainWindow::restoreEditorCursorPosition(void)
 {
  int n=mytetraConfig.getEditorCursorPosition();
 
- editorView->setCursorPosition(n);
+ editorScreen->setCursorPosition(n);
 }
 
 
 void MainWindow::saveEditorScrollBarPosition(void)
 {
- int n=editorView->getScrollBarPosition();
+ int n=editorScreen->getScrollBarPosition();
 
  mytetraConfig.setEditorScrollBarPosition(n);
 }
@@ -307,7 +307,7 @@ void MainWindow::restoreEditorScrollBarPosition(void)
 {
  int n=mytetraConfig.getEditorScrollBarPosition();
 
- editorView->setScrollBarPosition(n);
+ editorScreen->setScrollBarPosition(n);
 }
 
 
@@ -469,7 +469,7 @@ void MainWindow::filePrint(void)
   dlg->setWindowTitle(tr("Print Document"));
 
   if (dlg->exec() == QDialog::Accepted)
-   editorView->get_textarea_document()->print(&printer);
+   editorScreen->get_textarea_document()->print(&printer);
 
   delete dlg;
 #endif
@@ -479,7 +479,7 @@ void MainWindow::filePrint(void)
 // Предпросмотр печати текущей статьи
 void MainWindow::filePrintPreview(void)
 {
-   PrintPreview *preview = new PrintPreview(editorView->get_textarea_document(), this);
+   PrintPreview *preview = new PrintPreview(editorScreen->get_textarea_document(), this);
 
    preview->setModal(true);
    preview->setAttribute(Qt::WA_DeleteOnClose);
@@ -501,7 +501,7 @@ void MainWindow::filePrintPdf(void)
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(fileName);
-    editorView->get_textarea_document()->print(&printer);
+    editorScreen->get_textarea_document()->print(&printer);
    }
 #endif
 }
@@ -641,7 +641,7 @@ void MainWindow::synchronization(void)
  walkHistory.setDrop(true);
 
  // Заново считываются данные в дерево
- treeView->reloadKnowTree();
+ treeScreen->reloadKnowTree();
  restoreTreePosition();
  restoreRecordTablePosition();
  restoreEditorCursorPosition();
@@ -758,12 +758,12 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
 
 void MainWindow::goWalkHistoryPrevious(void)
 {
- editorView->save_textarea();
+ editorScreen->save_textarea();
 
- QString id=editorView->getMiscField("id");
+ QString id=editorScreen->getMiscField("id");
  walkHistory.add(id,
-                 editorView->getCursorPosition(),
-                 editorView->getScrollBarPosition(),
+                 editorScreen->getCursorPosition(),
+                 editorScreen->getScrollBarPosition(),
                  WALK_HISTORY_GO_PREVIOUS);
  walkHistory.setDrop(true);
 
@@ -773,12 +773,12 @@ void MainWindow::goWalkHistoryPrevious(void)
 
 void MainWindow::goWalkHistoryNext(void)
 {
- editorView->save_textarea();
+ editorScreen->save_textarea();
 
- QString id=editorView->getMiscField("id");
+ QString id=editorScreen->getMiscField("id");
  walkHistory.add(id,
-                 editorView->getCursorPosition(),
-                 editorView->getScrollBarPosition(),
+                 editorScreen->getCursorPosition(),
+                 editorScreen->getScrollBarPosition(),
                  WALK_HISTORY_GO_NEXT);
  walkHistory.setDrop(true);
 
@@ -798,10 +798,10 @@ void MainWindow::goWalkHistory(void)
   }
 
  // Выясняется путь к ветке, где находится данная запись
- QStringList path=treeView->knowTreeModel->getRecordPath(id);
+ QStringList path=treeScreen->knowTreeModel->getRecordPath(id);
 
  // Проверяем, есть ли такая ветка
- if(treeView->knowTreeModel->isItemValid(path)==false)
+ if(treeScreen->knowTreeModel->isItemValid(path)==false)
   {
    walkHistory.setDrop(false);
    return;
@@ -809,7 +809,7 @@ void MainWindow::goWalkHistory(void)
 
 
  // Выясняется позицию записи в талице конечных записей
- TreeItem *item =treeView->knowTreeModel->getItem(path);
+ TreeItem *item =treeScreen->knowTreeModel->getItem(path);
  int pos=item->getRecordPos(id);
 
  // Проверяем, есть ли такая позиция
@@ -824,8 +824,8 @@ void MainWindow::goWalkHistory(void)
 
  if(mytetraConfig.getRememberCursorAtHistoryNavigation())
   {
-   editorView->setCursorPosition( walkHistory.getCursorPosition(id) );
-   editorView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
+   editorScreen->setCursorPosition( walkHistory.getCursorPosition(id) );
+   editorScreen->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
 
  walkHistory.setDrop(false);
@@ -837,13 +837,13 @@ void MainWindow::goWalkHistory(void)
 // текст редактируемой записи
 void MainWindow::saveTextarea(void)
 {
- QString id=editorView->getMiscField("id");
+ QString id=editorScreen->getMiscField("id");
 
  qDebug() << "MainWindow::saveTextarea() : id :" << id;
 
- editorView->save_textarea();
+ editorScreen->save_textarea();
 
  walkHistory.add(id, 
-                 editorView->getCursorPosition(),
-                 editorView->getScrollBarPosition());
+                 editorScreen->getCursorPosition(),
+                 editorScreen->getScrollBarPosition());
 }

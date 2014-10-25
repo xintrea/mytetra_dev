@@ -58,9 +58,9 @@ public:
  MainWindow();
  ~MainWindow();
 
- TreeScreen *treeView;
+ TreeScreen *treeScreen;
  RecordTableScreen *recordTableScreen;
- MetaEditor *editorView;
+ MetaEditor *editorScreen;
  FindScreen *findScreenDisp;
  QStatusBar *statusBar;
 
