@@ -10,7 +10,7 @@
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
 #include "models/recordTable/RecordTableModel.h"
-#include "views/recordTable/RecordListScreen.h"
+#include "views/recordTable/RecordTableView.h"
 
 KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
 {
@@ -67,7 +67,7 @@ template <class X> bool KnowTreeView::isDragableData(X *event)
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
- if( sourceObject->objectName()=="RecordListScreen" )
+ if( sourceObject->objectName()=="RecordTableView" )
   return true;
  else
   return false;
@@ -127,8 +127,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      unsigned int recordPos=treeItemFrom->getRecordPos( exemplar["id"] );
-     RecordListScreen *recordListScreen=find_object<RecordListScreen>("RecordListScreen");
-     recordListScreen->deleteRecordByPos(recordPos);
+     RecordTableView *recordTableView=find_object<RecordTableView>("RecordTableView");
+     recordTableView->deleteRecordByPos(recordPos);
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,

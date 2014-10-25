@@ -9,7 +9,7 @@
 #include "views/tree/TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
 #include "views/record/RecordInfoFieldsEditor.h"
-#include "RecordListScreen.h"
+#include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableData.h"
@@ -24,7 +24,7 @@ extern WalkHistory walkHistory;
 // Виджет, отображащий список записей в ветке
 
 
-RecordListScreen::RecordListScreen(QWidget *parent) : QListView(parent)
+RecordTableView::RecordTableView(QWidget *parent) : QListView(parent)
 {
  // Установка модели данных
  recordModel=new RecordTableModel();
@@ -33,7 +33,7 @@ RecordListScreen::RecordListScreen(QWidget *parent) : QListView(parent)
 }
 
 
-RecordListScreen::~RecordListScreen()
+RecordTableView::~RecordTableView()
 {
  delete recordModel;
 }
@@ -42,7 +42,7 @@ RecordListScreen::~RecordListScreen()
 // Пришлось ввести метод init, так как инициализация невозможна без
 // созданных в parent QAction, а создать в parent QAction можно только
 // при наличии ссылки на данный объект
-void RecordListScreen::init(void)
+void RecordTableView::init(void)
 {
  setupSignals();
 
@@ -55,7 +55,7 @@ void RecordListScreen::init(void)
 }
 
 
-void RecordListScreen::setupSignals(void)
+void RecordTableView::setupSignals(void)
 {
  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
@@ -92,7 +92,7 @@ void RecordListScreen::setupSignals(void)
 }
 
 
-void RecordListScreen::onSelectionChanged(const QItemSelection &selected,
+void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                           const QItemSelection &deselected )
 {
  QModelIndex selectRecord;
@@ -105,7 +105,7 @@ void RecordListScreen::onSelectionChanged(const QItemSelection &selected,
   deselectRecord=deselected.indexes().at(0);
 
  /*
- qDebug() << "RecordListScreen::onSelectionChanged()";
+ qDebug() << "RecordTableView::onSelectionChanged()";
  qDebug() << "Current index. row() " << selectRecord.row() << " isValid() " << selectRecord.isValid();
  qDebug() << "Previous index. row() " << deselectRecord.row() << " isValid() " << deselectRecord.isValid();
  */
@@ -118,12 +118,12 @@ void RecordListScreen::onSelectionChanged(const QItemSelection &selected,
 
 
 // Действия при выборе строки таблицы конечных записей
-void RecordListScreen::onClickToRecord(const QModelIndex &index)
+void RecordTableView::onClickToRecord(const QModelIndex &index)
 {
  // Позиция записи в списке
  int pos=index.row();
 
- qDebug() << "RecordListScreen::onClickToRecord() : current item num " << pos;
+ qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
 
  if(pos<0) return;
 
@@ -169,9 +169,9 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // И если имя директории или имя файла пусты, то это означает что
  // запись не была расшифрована, и редактор должен просто показывать пустой текст
  // ничего не сохранять и не считывать
- qDebug() << "RecordListScreen::onClickToRecord() : id " << table->getField("id", pos);
- qDebug() << "RecordListScreen::onClickToRecord() : name " << table->getField("name", pos);
- qDebug() << "RecordListScreen::onClickToRecord() : crypt " << table->getField("crypt", pos);
+ qDebug() << "RecordTableView::onClickToRecord() : id " << table->getField("id", pos);
+ qDebug() << "RecordTableView::onClickToRecord() : name " << table->getField("name", pos);
+ qDebug() << "RecordTableView::onClickToRecord() : crypt " << table->getField("crypt", pos);
  if(table->getField("crypt", pos)=="1")
   if(fullDir.length()==0 || currentFile.length()==0)
    edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
@@ -206,7 +206,7 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
 
 
 // Слот для вызова добавления новой записи в конец таблицы
-void RecordListScreen::addNewToEndContext(void)
+void RecordTableView::addNewToEndContext(void)
 {
  qDebug() << "In slot add_new_toend_context()";
 
@@ -215,7 +215,7 @@ void RecordListScreen::addNewToEndContext(void)
 
 
 // Слот для вызова добавления новой записи перед выделенной строкой
-void RecordListScreen::addNewBeforeContext(void)
+void RecordTableView::addNewBeforeContext(void)
 {
  qDebug() << "In slot add_new_before_context()";
 
@@ -224,7 +224,7 @@ void RecordListScreen::addNewBeforeContext(void)
 
 
 // Слот для вызова добавления новой записи после выделенной строки
-void RecordListScreen::addNewAfterContext(void)
+void RecordTableView::addNewAfterContext(void)
 {
  qDebug() << "In slot add_new_after_context()";
 
@@ -233,7 +233,7 @@ void RecordListScreen::addNewAfterContext(void)
 
 
 // Вызов окна добавления данных в таблицу конечных записей
-void RecordListScreen::addNewRecord(int mode)
+void RecordTableView::addNewRecord(int mode)
 {
  qDebug() << "In add_new_record()";
 
@@ -270,7 +270,7 @@ void RecordListScreen::addNewRecord(int mode)
 
 
 // Функция добавления новой записи в таблицу конечных записей
-void RecordListScreen::addNew(int mode,
+void RecordTableView::addNew(int mode,
                               QMap<QString, QString> fields,
                               QString text,
                               QMap<QString, QByteArray> files)
@@ -298,7 +298,7 @@ void RecordListScreen::addNew(int mode,
 
 
 // Слот, срабатывающий при нажатии кнопки редактирования записи
-void RecordListScreen::editFieldContext(void)
+void RecordTableView::editFieldContext(void)
 {
  qDebug() << "In edit_field_context()";
 
@@ -337,7 +337,7 @@ void RecordListScreen::editFieldContext(void)
 
 
 // Функция сохранения отредактированных полей записи в таблицу конечных записей
-void RecordListScreen::editField(int pos,
+void RecordTableView::editField(int pos,
                                  QString name,
                                  QString author,
                                  QString url,
@@ -370,7 +370,7 @@ void RecordListScreen::editField(int pos,
 }
 
 
-void RecordListScreen::deleteContext(void)
+void RecordTableView::deleteContext(void)
 {
  // Создается окно с вопросом нужно удалять запись (записи) или нет
  QMessageBox messageBox(this);
@@ -392,7 +392,7 @@ void RecordListScreen::deleteContext(void)
 
 
 // Удаление записи с указанным номером (счет с нуля)
-void RecordListScreen::deleteRecordByPos(int pos)
+void RecordTableView::deleteRecordByPos(int pos)
 {
  QVector<int> vectorPos;
  vectorPos.append(pos);
@@ -401,16 +401,16 @@ void RecordListScreen::deleteRecordByPos(int pos)
 
 
 // Удаление записей с указанным номером (счет с нуля)
-void RecordListScreen::deleteRecordsByPos(QVector<int> vectorPos)
+void RecordTableView::deleteRecordsByPos(QVector<int> vectorPos)
 {
  recordModel->removeRowsByList( vectorPos ); // Удаление
 }
 
 
 // Удаление отмеченных записей
-void RecordListScreen::deleteRecords(void)
+void RecordTableView::deleteRecords(void)
 {
- qDebug() << "RecordListScreen::delete_records()";
+ qDebug() << "RecordTableView::delete_records()";
 
  // Запоминание позиции, на которой стоит курсор списка
  int beforeIndex=(selectionModel()->currentIndex()).row();
@@ -496,7 +496,7 @@ void RecordListScreen::deleteRecords(void)
 }
 
 
-void RecordListScreen::assemblyContextMenu(void)
+void RecordTableView::assemblyContextMenu(void)
 {
   // Конструирование меню
   contextMenu=new QMenu(this);
@@ -517,7 +517,7 @@ void RecordListScreen::assemblyContextMenu(void)
 
 
 // Открытие контекстного меню в таблице конечных записей
-void RecordListScreen::onCustomContextMenuRequested(const QPoint &pos)
+void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 {
   qDebug("In on_customContextMenuRequested");
 
@@ -528,7 +528,7 @@ void RecordListScreen::onCustomContextMenuRequested(const QPoint &pos)
 
 
 // Перемещение записи вверх
-void RecordListScreen::moveUp(void)
+void RecordTableView::moveUp(void)
 {
  qDebug() << "In moveup()";
 
@@ -551,7 +551,7 @@ void RecordListScreen::moveUp(void)
 
 
 // Перемещение записи вниз
-void RecordListScreen::moveDn(void)
+void RecordTableView::moveDn(void)
 {
  qDebug() << "In movedn()";
 
@@ -574,7 +574,7 @@ void RecordListScreen::moveDn(void)
 
 
 // Получение номера первого выделенного элемента
-int RecordListScreen::getFirstSelectionPos(void)
+int RecordTableView::getFirstSelectionPos(void)
 {
  // Получение списка выделенных Item-элементов
  QModelIndexList selectItems=selectionModel()->selectedIndexes();
@@ -586,14 +586,14 @@ int RecordListScreen::getFirstSelectionPos(void)
 }
 
 
-bool RecordListScreen::isSelectedSetToTop(void)
+bool RecordTableView::isSelectedSetToTop(void)
 {
  if(getFirstSelectionPos()==0)return true;
  else return false;
 }
 
 
-bool RecordListScreen::isSelectedSetToBottom(void)
+bool RecordTableView::isSelectedSetToBottom(void)
 {
  if(getFirstSelectionPos()==model()->rowCount()-1)return true;
  else return false;
@@ -601,7 +601,7 @@ bool RecordListScreen::isSelectedSetToBottom(void)
 
 
 // Установка засветки в нужную строку
-void RecordListScreen::setSelectionToPos(int pos)
+void RecordTableView::setSelectionToPos(int pos)
 {
  if(pos>(recordModel->rowCount()-1))
   return;
@@ -616,7 +616,7 @@ void RecordListScreen::setSelectionToPos(int pos)
 
 // Копирование отмеченных записей в буфер обмена с удалением
 // из таблицы конечных записей
-void RecordListScreen::cut(void)
+void RecordTableView::cut(void)
 {
  // Надо сохранить запись, так как перед копированием в буфер обмена запись
  // обязательно должна быть сохранена, иначе редактирование,
@@ -629,7 +629,7 @@ void RecordListScreen::cut(void)
 
 
 // Копирование отмеченных записей в буфер обмена
-void RecordListScreen::copy(void)
+void RecordTableView::copy(void)
 {
  // Объект с записями помещается в буфер обмена
  QApplication::clipboard() -> setMimeData( getSelectedRecords() );
@@ -637,7 +637,7 @@ void RecordListScreen::copy(void)
 
 
 // Вставка записей из буфера обмена
-void RecordListScreen::paste(void)
+void RecordTableView::paste(void)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
@@ -687,7 +687,7 @@ void RecordListScreen::paste(void)
 
 
 // Реакция на нажатие кнопок мышки
-void RecordListScreen::mousePressEvent(QMouseEvent *event)
+void RecordTableView::mousePressEvent(QMouseEvent *event)
 {
  // Если нажата левая кнопка мыши
  if(event->buttons() == Qt::LeftButton)
@@ -700,7 +700,7 @@ void RecordListScreen::mousePressEvent(QMouseEvent *event)
 
 
 // Реакция на движение мышкой
-void RecordListScreen::mouseMoveEvent(QMouseEvent *event)
+void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 {
  // Если при движении нажата левая кнопка мышки
  if(event->buttons() & Qt::LeftButton)
@@ -719,13 +719,13 @@ void RecordListScreen::mouseMoveEvent(QMouseEvent *event)
 
 
 // Реакция на отпускание клавиши мышки
-void RecordListScreen::mouseReleaseEvent(QMouseEvent *event)
+void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 {
  QListView::mouseReleaseEvent(event);
 }
 
 
-void RecordListScreen::startDrag()
+void RecordTableView::startDrag()
 {
  qDebug() << "Start record drag\n";
 
@@ -754,9 +754,9 @@ void RecordListScreen::startDrag()
 
 
 // Установка нового набора данных для списка записей
-void RecordListScreen::setTableData(RecordTableData *rtData)
+void RecordTableView::setTableData(RecordTableData *rtData)
 {
- qDebug() << "In RecordListScreen setTableData() start";
+ qDebug() << "In RecordTableView setTableData() start";
 
  // Обновление набора данных с последующим выбором первой строки
  // может быть очень длительным, поэтому показывается что процесс выполняется
@@ -803,23 +803,23 @@ void RecordListScreen::setTableData(RecordTableData *rtData)
  // qApp->restoreOverrideCursor();
  find_object<MainWindow>("mainwindow")->unsetCursor();
 
- qDebug() << "In RecordListScreen set new model stop";
+ qDebug() << "In RecordTableView set new model stop";
 }
 
 
-RecordTableData *RecordListScreen::getTableData(void)
+RecordTableData *RecordTableView::getTableData(void)
 {
  return recordModel->getTableData();
 }
 
 
-int RecordListScreen::getRowCount(void)
+int RecordTableView::getRowCount(void)
 {
  return recordModel->rowCount();
 }
 
 
-ClipboardRecords *RecordListScreen::getSelectedRecords(void)
+ClipboardRecords *RecordTableView::getSelectedRecords(void)
 {
  // Получение списка Item-элементов, подлежащих копированию
  QModelIndexList itemsForCopy=selectionModel()->selectedIndexes();
@@ -857,10 +857,10 @@ ClipboardRecords *RecordListScreen::getSelectedRecords(void)
 
 
 // Переопределенный слот (virtual protected slot)
-void RecordListScreen::selectionChanged(const QItemSelection &selected,
+void RecordTableView::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected )
 {
- // qDebug() << "RecordListScreen::selectionChanged()";
+ // qDebug() << "RecordTableView::selectionChanged()";
 
  emit listSelectionChanged(selected, deselected);
 }

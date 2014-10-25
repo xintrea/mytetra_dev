@@ -15,13 +15,13 @@ class RecordTableModel;
 class ClipboardRecords;
 
 
-class RecordListScreen : public QListView
+class RecordTableView : public QListView
 {
  Q_OBJECT
 
 public:
- RecordListScreen(QWidget *parent=0);
- virtual ~RecordListScreen();
+ RecordTableView(QWidget *parent=0);
+ virtual ~RecordTableView();
 
  void init(void);
 

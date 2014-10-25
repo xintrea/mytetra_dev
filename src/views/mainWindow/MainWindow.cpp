@@ -64,7 +64,7 @@ MainWindow::~MainWindow()
  saveAllState();
   
  delete treeView;
- delete recordTableView;
+ delete recordTableScreen;
  delete editorView;
 }
 
@@ -75,9 +75,9 @@ void MainWindow::setupUI(void)
  treeView->setObjectName("TreeScreen");
  globalParameters.setTreeScreen(treeView);
 
- recordTableView=new RecordTableScreen();
- recordTableView->setObjectName("recordtableview");
- globalParameters.setRecordTableScreen(recordTableView);
+ recordTableScreen=new RecordTableScreen();
+ recordTableScreen->setObjectName("recordTableScreen");
+ globalParameters.setRecordTableScreen(recordTableScreen);
 
  findScreenDisp=new FindScreen();
  findScreenDisp->setObjectName("findscreendisp");
@@ -106,7 +106,7 @@ void MainWindow::setupSignals(void)
 void MainWindow::assembly(void)
 {
  vSplitter=new QSplitter(Qt::Vertical);
- vSplitter->addWidget(recordTableView); // Список конечных записей
+ vSplitter->addWidget(recordTableScreen); // Список конечных записей
  vSplitter->addWidget(editorView);      // Текст записи
  vSplitter->setCollapsible(0,false); // Список конечных записей не может смыкаться
  vSplitter->setCollapsible(1,false); // Содержимое записи не может смыкаться
@@ -267,7 +267,7 @@ void MainWindow::restoreRecordTablePosition(void)
 
 void MainWindow::saveRecordTablePosition(void)
 {
- int n=recordTableView->getFirstSelectionPos();
+ int n=recordTableScreen->getFirstSelectionPos();
  
  mytetraConfig.set_recordtable_position(n);
 }
@@ -275,7 +275,7 @@ void MainWindow::saveRecordTablePosition(void)
 
 void MainWindow::setRecordtablePosition(int n)
 {
- recordTableView->setSelectionToPos(n);
+ recordTableScreen->setSelectionToPos(n);
 }
 
 

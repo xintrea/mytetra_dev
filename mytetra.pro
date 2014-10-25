@@ -136,7 +136,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
-    src/libraries/FixedParameters.h
+    src/libraries/FixedParameters.h \
+    src/views/recordTable/RecordTableView.h
 
 
 lessThan(QT_MAJOR_VERSION,5) {
@@ -152,7 +153,7 @@ HEADERS+=src/libraries/qtSingleApplication5/qtsingleapplication.h \
     src/libraries/qtSingleApplication5/qtsinglecoreapplication.h
 }
 
-HEADERS+=src/views/recordTable/RecordListScreen.h \
+HEADERS+=\
     src/libraries/ClipboardBranch.h \
     src/libraries/GlobalParameters.h \
     src/models/dataBaseConfig/DataBaseConfig.h \
@@ -213,7 +214,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorAddTableForm.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
     src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
-    src/libraries/FixedParameters.cpp
+    src/libraries/FixedParameters.cpp \
+    src/views/recordTable/RecordTableView.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
@@ -228,7 +230,7 @@ SOURCES+=src/libraries/qtSingleApplication5/qtsingleapplication.cpp \
     src/libraries/qtSingleApplication5/qtsinglecoreapplication.cpp
 }
 
-SOURCES+=src/views/recordTable/RecordListScreen.cpp \
+SOURCES+=\
     src/libraries/ClipboardBranch.cpp \
     src/libraries/GlobalParameters.cpp \
     src/models/dataBaseConfig/DataBaseConfig.cpp \

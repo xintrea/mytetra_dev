@@ -805,7 +805,6 @@ void Editor::save_textarea(void)
      save_textarea_text();
 
      // Сохранение картинок, которые есть в записи
-     // editorview->save_textarea_images( recordtableview->get_fulldirname_of_currentitem(), Editor::save_images_remove_unused );
      save_textarea_images(Editor::SAVE_IMAGES_REMOVE_UNUSED);
     }
    else

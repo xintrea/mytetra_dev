@@ -13,7 +13,7 @@
 #include <QByteArray>
 #include <QItemSelection>
 
-class RecordListScreen;
+class RecordTableView;
 class RecordTableModel;
 
 class RecordTableScreen : public QWidget
@@ -53,7 +53,7 @@ private:
  QToolBar *toolsLine;
  QToolBar *findLine;
  
- RecordListScreen *recordListScreen;
+ RecordTableView *recordTableView;
   
  QHBoxLayout *recordTableToolsLayout;
  QVBoxLayout *recordTableScreenLayout;

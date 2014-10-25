@@ -12,7 +12,7 @@
 #include "KnowTreeView.h"
 
 #include "models/recordTable/RecordTableData.h"
-#include "views/recordTable/RecordListScreen.h"
+#include "views/recordTable/RecordTableView.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/tree/TreeItem.h"
@@ -1185,7 +1185,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
      if(password.retrievePassword()==false)
       {
        // Устанавливаем пустые данные для отображения таблицы конечных записей
-       find_object<RecordListScreen>("RecordListScreen")->setTableData(NULL);
+       find_object<RecordTableView>("RecordTableView")->setTableData(NULL);
 
        // Все инструменты работы с веткой отключаются
        QMapIterator<QString, QAction *> i(actionList);
@@ -1205,7 +1205,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
  RecordTableData *rtdata=item->recordtableGetTableData();
 
  // Устанавливаем данные таблицы конечных записей
- find_object<RecordListScreen>("RecordListScreen")->setTableData(rtdata);
+ find_object<RecordTableView>("RecordTableView")->setTableData(rtdata);
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
  knowTreeView->resizeColumnToContents(0);
