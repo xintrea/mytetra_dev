@@ -12,7 +12,7 @@
 #include "AppConfigPage_Main.h"
 #include "models/appConfig/AppConfig.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 
 AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
@@ -26,7 +26,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
 
  tetradirInput=new QLineEdit(this);
  tetradirInput->setMinimumWidth(350);
- tetradirInput->setText(mytetraconfig.get_tetradir());
+ tetradirInput->setText(mytetraConfig.get_tetradir());
 
  QToolButton *tetradirButton=new QToolButton(this);
  tetradirButton->setText(tr("..."));
@@ -43,7 +43,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
 
  trashdirInput=new QLineEdit(this);
  trashdirInput->setMinimumWidth(350);
- trashdirInput->setText(mytetraconfig.get_trashdir());
+ trashdirInput->setText(mytetraConfig.get_trashdir());
 
  QToolButton *trashdirButton=new QToolButton(this);
  trashdirButton->setText(tr("..."));
@@ -60,7 +60,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  
  trashsizeInput=new QSpinBox(this);
  trashsizeInput->setRange(1,1000);
- trashsizeInput->setValue(mytetraconfig.get_trashsize());
+ trashsizeInput->setValue(mytetraConfig.get_trashsize());
  
  QLabel *trashsizeFlexion=new QLabel(this);
  trashsizeFlexion->setText(tr("Mb"));
@@ -76,7 +76,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  
  trashmaxfilecountInput=new QSpinBox(this);
  trashmaxfilecountInput->setRange(1,3000);
- trashmaxfilecountInput->setValue(mytetraconfig.get_trashmaxfilecount());
+ trashmaxfilecountInput->setValue(mytetraConfig.get_trashmaxfilecount());
  
  QLabel *trashmaxfilecountFlexion=new QLabel(this);
  trashmaxfilecountFlexion->setText(tr("files"));
@@ -94,7 +94,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  interfaceLanguage->setMinimumContentsLength(2);
  interfaceLanguage->addItem("en");
  interfaceLanguage->addItem("ru");
- interfaceLanguage->setCurrentIndex(interfaceLanguage->findText(mytetraconfig.get_interfacelanguage(), Qt::MatchCaseSensitive));
+ interfaceLanguage->setCurrentIndex(interfaceLanguage->findText(mytetraConfig.get_interfacelanguage(), Qt::MatchCaseSensitive));
 
  QHBoxLayout *interfaceLanguageLayout=new QHBoxLayout();
  interfaceLanguageLayout->addWidget(interfaceLanguage);
@@ -169,7 +169,7 @@ int AppConfigPage_Main::apply_changes(void)
  int difficultChanges=0;
  
  // Если был изменен путь к базе, он запоминается в конфигфайл
- if(mytetraconfig.get_tetradir()!=tetradirInput->text())
+ if(mytetraConfig.get_tetradir()!=tetradirInput->text())
   {
    QDir dir(tetradirInput->text());
 
@@ -181,14 +181,14 @@ int AppConfigPage_Main::apply_changes(void)
    else
     { 
      // Новое имя запоминается в конфиг
-     mytetraconfig.set_tetradir(tetradirInput->text());
+     mytetraConfig.set_tetradir(tetradirInput->text());
      difficultChanges=1;
     } 
   } 
 
  
  // Если был изменен путь к корзине, он запоминается в конфигфайл
- if(mytetraconfig.get_trashdir()!=trashdirInput->text())
+ if(mytetraConfig.get_trashdir()!=trashdirInput->text())
   {
    QDir dir(trashdirInput->text());
 
@@ -200,29 +200,29 @@ int AppConfigPage_Main::apply_changes(void)
    else
     { 
      // Новое имя запоминается в конфиг
-     mytetraconfig.set_trashdir(trashdirInput->text());
+     mytetraConfig.set_trashdir(trashdirInput->text());
     } 
   } 
  
  
  // Если был изменен размер корзины
- if( (int)mytetraconfig.get_trashsize() != (int)trashsizeInput->text().toInt() )
+ if( (int)mytetraConfig.get_trashsize() != (int)trashsizeInput->text().toInt() )
   {
-   mytetraconfig.set_trashsize(trashsizeInput->text().toInt());
+   mytetraConfig.set_trashsize(trashsizeInput->text().toInt());
   }
 
  
  // Если было изменено максимально возможное количество файлов в корзине
- if(mytetraconfig.get_trashmaxfilecount()!=trashmaxfilecountInput->text().toInt())
+ if(mytetraConfig.get_trashmaxfilecount()!=trashmaxfilecountInput->text().toInt())
   {
-   mytetraconfig.set_trashmaxfilecount(trashmaxfilecountInput->text().toInt());
+   mytetraConfig.set_trashmaxfilecount(trashmaxfilecountInput->text().toInt());
   }
 
  
  // Если был изменен язык
- if(mytetraconfig.get_interfacelanguage()!=interfaceLanguage->currentText())
+ if(mytetraConfig.get_interfacelanguage()!=interfaceLanguage->currentText())
   {
-   mytetraconfig.set_interfacelanguage(interfaceLanguage->currentText());
+   mytetraConfig.set_interfacelanguage(interfaceLanguage->currentText());
    difficultChanges=1;
   }
 

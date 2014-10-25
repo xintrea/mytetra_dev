@@ -18,7 +18,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 #define USER_ROLE_PATH               Qt::UserRole
 #define USER_ROLE_NUM_IN_RECORDTABLE Qt::UserRole+1
@@ -59,7 +59,7 @@ void FindTableWidget::setupUI(void)
  // Принудительная стилизация, так как стилизация через QSS для элементов QTableView полноценно не работает
  // У таблицы есть вертикальные заголовки, для каждой строки, в которых отображается номер строки.
  // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
- int height=mytetraconfig.getUglyQssReplaceHeightForTableView();
+ int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
  if(height!=0)
   findTableView->verticalHeader()->setDefaultSectionSize(height);
 }

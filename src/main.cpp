@@ -9,6 +9,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/ClipboardRecords.h"
 #include "libraries/TrashMonitoring.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
 
 #if QT_VERSION < 0x050000
@@ -24,17 +25,20 @@
 
 using namespace std;
 
+// Фиксированные параметры программы (жестко заданные в текущей версии MyTetra)
+FixedParameters fixedParameters;
+
 // Глобальные параметры программы
 GlobalParameters globalParameters;
 
 // Конфигурация программы
-AppConfig mytetraconfig;
+AppConfig mytetraConfig;
 
 // Конфигурация данных
 DataBaseConfig dataBaseConfig;
 
 // Объект слежения за состоянием корзины
-TrashMonitoring trashmonitoring;
+TrashMonitoring trashMonitoring;
 
 // Объект с историей посещаемых записей
 WalkHistory walkHistory;
@@ -146,7 +150,7 @@ void remove_directory_to_trash(QString nameDirFrom)
  QDir dirfrom(nameDirFrom);
  QStringList fileList=dirfrom.entryList();
 
- QString nameDirTo=mytetraconfig.get_trashdir();
+ QString nameDirTo=mytetraConfig.get_trashdir();
 
  // Перебор всех файлов в удаляемой директории
  for(int i=0;i<fileList.size();i++)
@@ -173,7 +177,7 @@ void remove_directory_to_trash(QString nameDirFrom)
 
   // Перенос файла в корзину
   if( QFile::rename(fileNameFrom,fileNameTo)==true )
-   trashmonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+   trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
   else
    critical_error("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
  }
@@ -205,13 +209,13 @@ void remove_file_to_trash(QString fileNameFrom)
  
  // Получение имени файла для сохранения в корзине
  QString fileNameToShort=get_unical_id()+"_"+fileNameFromShort;
- QString fileNameTo     =mytetraconfig.get_trashdir()+"/"+fileNameToShort;
+ QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
  
  qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
  
  // Файл перемещается в корзину
  if( QFile::rename(fileNameFrom,fileNameTo)==true )
-  trashmonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
  else
   critical_error("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
 }
@@ -476,14 +480,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
  #endif
 
 
- if(!mytetraconfig.is_init())
+ if(!mytetraConfig.is_init())
  {
   smartPrintDebugMessage("[INF] "+msgText+"\n");
   return;
  }
 
  // Если в конфигурации запрещен вывод отладочных сообщений
- if(!mytetraconfig.get_printdebugmessages()) 
+ if(!mytetraConfig.get_printdebugmessages())
   return;
 
  switch (type) {
@@ -889,7 +893,7 @@ int main(int argc, char ** argv)
  globalParameters.init();
 
  // Инициализация основных конфигурирующих программу переменных
- mytetraconfig.init();
+ mytetraConfig.init();
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
@@ -900,7 +904,7 @@ int main(int argc, char ** argv)
 
  // Подключение перевода интерфейса
  // QString langFileName=globalParameters.getWorkDirectory()+"/resource/translations/mytetra_"+mytetraconfig.get_interfacelanguage()+".qm";
- QString langFileName=":/resource/translations/mytetra_"+mytetraconfig.get_interfacelanguage()+".qm";
+ QString langFileName=":/resource/translations/mytetra_"+mytetraConfig.get_interfacelanguage()+".qm";
  qDebug() << "Use language file " << langFileName;
 
  QTranslator langTranslator;
@@ -911,7 +915,7 @@ int main(int argc, char ** argv)
  // Создание объекта главного окна
  MainWindow win;
  win.setWindowTitle("MyTetra");
- if(mytetraconfig.get_runinminimizedwindow()==false)
+ if(mytetraConfig.get_runinminimizedwindow()==false)
   win.show();
  else
   win.hide();
@@ -939,15 +943,15 @@ int main(int argc, char ** argv)
 
  // Если в конфиге настроено, что нужно синхронизироваться при старте
  // И задана команда синхронизации
- if(mytetraconfig.get_synchroonstartup())
-  if(mytetraconfig.get_synchrocommand().trimmed().length()>0)
+ if(mytetraConfig.get_synchroonstartup())
+  if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
    win.synchronization();
 
 
  // Если настроено в конфиге, сразу запрашивается пароль доступа
  // к зашифрованным данным
  // И если есть хоть какие-то зашифрованные данные
- if(mytetraconfig.get_howpassrequest()=="atStartProgram")
+ if(mytetraConfig.get_howpassrequest()=="atStartProgram")
   if(globalParameters.getCryptKey().length()==0)
    if(dataBaseConfig.get_crypt_mode()>0)
     {
@@ -966,8 +970,8 @@ int main(int argc, char ** argv)
  // И хранимый пароль (точнее его хеш) заполнен
  if(globalParameters.getCryptKey().length()==0)
   if(dataBaseConfig.get_crypt_mode()>0)
-   if(mytetraconfig.getPasswordSaveFlag())
-    if(mytetraconfig.getPasswordMiddleHash().length()>0)
+   if(mytetraConfig.getPasswordSaveFlag())
+    if(mytetraConfig.getPasswordMiddleHash().length()>0)
      {
       // При запросе пароля ключ шифрования будет восстановлен автоматически
       Password password;

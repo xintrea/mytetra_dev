@@ -6,15 +6,14 @@
 #include "models/tree/TreeModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/FixedParameters.h"
 
-// #include <QDom>
-
-
-extern AppConfig mytetraconfig;
+extern FixedParameters fixedParameters;
+extern AppConfig mytetraConfig;
 
 
 // Конструктор модели.
-RecordTableModel::RecordTableModel(QObject *pobj) : QAbstractListModel(pobj)
+RecordTableModel::RecordTableModel(QObject *pobj) : QAbstractTableModel(pobj)
 {
  // При создании модели она должна брать данные как минимум из
  // пустой таблицы данных
@@ -31,71 +30,120 @@ RecordTableModel::~RecordTableModel()
 }
 
 
-// Предоставление данных модели
-// В таблице конечных записей на экране перечисляются только имена записей
-QVariant RecordTableModel::data(const QModelIndex &index, int nRole) const
+// Предоставление данных табличной модели
+QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 {
- if(table==NULL) return QVariant();
+  // Если таблица данных не создана
+  if(table==NULL)
+    return QVariant();
 
- // Если индекс недопустимый, возвращается пустой объект
- if(!index.isValid()) return QVariant();
- 
- // Если запрашивается текст строки для отрисовки или для редактирования
- if(nRole==Qt::DisplayRole || nRole==Qt::EditRole)
-  return table->getField("name",index.row());
+  // Если таблица пустая
+  if(table->size()==0)
+    return QVariant();
+
+  // Если индекс недопустимый, возвращается пустой объект
+  if(!index.isValid())
+    return QVariant();
+
+  qDebug() << "RecordTableModel::data(), row:" << index.row() << " column " << index.column();
+
+  // Если запрашивается текст строки для отрисовки или для редактирования
+  if(role==Qt::DisplayRole || role==Qt::EditRole)
+  {
+    QStringList showFields=fixedParameters.recordFieldAvailableList(); // Заменить на показываемые поля
+
+    qDebug() << "RecordTableModel::data(), Show field list: " << showFields;
+
+    // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
+    if( index.column() < showFields.size() )
+    {
+      QString fieldName=showFields.value( index.column() );
+
+      qDebug() << "RecordTableModel::data(), fieldName: " << fieldName;
+
+      return table->getField(fieldName, index.row());
+    }
+  }
+
    
- // Во всех остальных случаях
- return QVariant();
+  // Во всех остальных случаях
+  return QVariant();
 }
 
 
 // Сохранение вводимых данных по указанному индексу
-bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, int nRole)
+bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
- if(table==NULL) return false;
+  // Если таблица данных не создана
+  if(table==NULL)
+    return false;
 
- // Если индекс недопустимый, возвращается пустой объект
- if(!index.isValid()) return false;
+  // Если таблица пустая
+  if(table->size()==0)
+    return false;
 
- // Если запрашивается редактирование
- if(nRole==Qt::EditRole)
+  // Если индекс недопустимый
+  if(!index.isValid())
+    return false;
+
+  // Если запрашивается редактирование
+  if(role==Qt::EditRole)
   {
-   // Новое значение строки записывается в строковую переменную 
-   QString lineName;
-   lineName=value.value<QString>();
+    QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
 
-   // Изменяется поле в таблице конечных записей
-   table->setField("name",lineName,index.row());
+    // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
+    if( index.column() < showFields.size() )
+    {
+      QString fieldName=showFields.value( index.column() );
+
+      // Новое значение ячейки записывается в строковую переменную
+      QString cellValue;
+      cellValue=value.value<QString>();
+
+      // Изменяется поле в таблице конечных записей
+      table->setField(fieldName, cellValue, index.row());
    
-   emit dataChanged(index,index); // Посылается сигнал что данные были изменены
+      emit dataChanged(index,index); // Посылается сигнал что данные были изменены
 
-   return true;
+      return true;
+    }
   }
 
- // Во всех остальных случаях
- return false;
+  // Во всех остальных случаях
+  return false;
 }
 
 
-
-QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int nRole) const
+// Получение заголовков столбцов и строк
+QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
- QStringList availableFields=table->fieldNameAvailableList();
+ QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
 
- QMap<QString, QString> mapFields=table->fieldDescription( QStringList );
+ QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( showFields );
 
- QString result;
- for(int i=0; i<=section; i++)
-   result=mapFields
+ // Если ни один столбец не показывается (чего, впринципе не может быть)
+ if(showFields.size()==0)
+   return QVariant();
+
+ // Если запрашивается заголовок столбца
+ if(orientation==Qt::Horizontal && role==Qt::DisplayRole)
+ {
+   // Если запрашиваемый номер столбца больше количества показываемых
+   if(section>showFields.size())
+     return QVariant();
+
+   QString fieldName=showFields.value(section);
+
+   return descriptionFields.value(fieldName);
+ }
 
 
+ // Если запрашивается заголовок строки
+ if(orientation==Qt::Vertical && role==Qt::DisplayRole)
+   return section+1;
 
 
-
-
-
-
-
+ return QAbstractTableModel::headerData(section, orientation, role);
 }
 
 
@@ -116,11 +164,11 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 {
  Q_UNUSED(parent);
 
- return table->fieldNameAvailableList()->count();
+ return fixedParameters.recordFieldAvailableList().count(); // TODO: Заменить на показываемые поля
 }
 
 
-QAbstractListModel *RecordTableModel::getModel(void)
+QAbstractTableModel *RecordTableModel::getModel(void)
 {
  // Возвращается ссылка на модель таблицы конечных записей
  return this;

@@ -76,11 +76,6 @@ public:
     void moveUp(int pos);
     void moveDn(int pos);
 
-    bool isFieldNameAvailable(QString name) const;
-    QStringList fieldNameAvailableList(void) const;
-    QStringList fieldNameForCryptList(void) const;
-    QMap<QString, QString> fieldDescription(QStringList list) const;
-
     void switchToEncrypt(void);
     void switchToDecrypt(void);
 

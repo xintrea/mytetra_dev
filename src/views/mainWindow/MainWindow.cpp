@@ -20,8 +20,8 @@
 
 #include "libraries/wyedit/EditorTextArea.h"
 
-extern AppConfig mytetraconfig;
-extern TrashMonitoring trashmonitoring;
+extern AppConfig mytetraConfig;
+extern TrashMonitoring trashMonitoring;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 
@@ -48,8 +48,8 @@ MainWindow::MainWindow() : QMainWindow()
   trayIcon->show();
  
  // Инициализируется объект слежения за корзиной
- trashmonitoring.init(mytetraconfig.get_trashdir());
- trashmonitoring.update();
+ trashMonitoring.init(mytetraConfig.get_trashdir());
+ trashMonitoring.update();
 
  // Закрывать ли по-настоящему окно при обнаружении сигнала closeEvent
  enableRealClose=false;
@@ -141,7 +141,7 @@ void MainWindow::saveAllState(void)
  saveEditorScrollBarPosition();
 
  // Синхронизируется с диском конфиг программы
- mytetraconfig.sync();
+ mytetraConfig.sync();
 }
 
 
@@ -158,7 +158,7 @@ void MainWindow::commitData(QSessionManager& manager)
 // Восстанавливается геометрия окна и позиции основных разделителей
 void MainWindow::restoreGeometry(void)
 {
- QRect rect=mytetraconfig.get_mainwingeometry();
+ QRect rect=mytetraConfig.get_mainwingeometry();
 
  resize(rect.size());
  move(rect.topLeft());
@@ -166,9 +166,9 @@ void MainWindow::restoreGeometry(void)
  // move(rect.topLeft());
  // resize(rect.size());
  
- vSplitter->setSizes(mytetraconfig.get_vspl_size_list());
- hSplitter->setSizes(mytetraconfig.get_hspl_size_list());
- findSplitter->setSizes(mytetraconfig.get_findsplitter_size_list());
+ vSplitter->setSizes(mytetraConfig.get_vspl_size_list());
+ hSplitter->setSizes(mytetraConfig.get_hspl_size_list());
+ findSplitter->setSizes(mytetraConfig.get_findsplitter_size_list());
 }
 
 
@@ -179,14 +179,14 @@ void MainWindow::saveGeometry(void)
 
  QRect geom(pos(), size());
 
- mytetraconfig.set_mainwingeometry(geom.x(), geom.y(),
+ mytetraConfig.set_mainwingeometry(geom.x(), geom.y(),
                                    geom.width(), geom.height());
 
  // mytetraconfig.set_mainwingeometry(geometry().x(), geometry().y(),
  //                                   geometry().width(), geometry().height());
  
- mytetraconfig.set_vspl_size_list(vSplitter->sizes());
- mytetraconfig.set_hspl_size_list(hSplitter->sizes());
+ mytetraConfig.set_vspl_size_list(vSplitter->sizes());
+ mytetraConfig.set_hspl_size_list(hSplitter->sizes());
  
 
  // Запоминается размер сплиттера только при видимом виджете поиска,
@@ -196,15 +196,15 @@ void MainWindow::saveGeometry(void)
  // данный метод вызывается из декструктора главного окна, и к этому моменту
  // виджет уже невиден
 
- if(mytetraconfig.get_findscreen_show())
-  mytetraconfig.set_findsplitter_size_list(findSplitter->sizes());
+ if(mytetraConfig.get_findscreen_show())
+  mytetraConfig.set_findsplitter_size_list(findSplitter->sizes());
 }
 
 
 void MainWindow::restoreTreePosition(void)
 {
  // Путь к последнему выбранному в дереве элементу
- QStringList path=mytetraconfig.get_tree_position();
+ QStringList path=mytetraConfig.get_tree_position();
 
  setTreePosition(path);
 }
@@ -219,7 +219,7 @@ void MainWindow::saveTreePosition(void)
  TreeItem *item =treeView->knowTreeModel->getItem(index);
 
  // Сохраняем путь к элементу item
- mytetraconfig.set_tree_position(item->getPath());
+ mytetraConfig.set_tree_position(item->getPath());
 }
  
 
@@ -242,7 +242,7 @@ void MainWindow::setTreePosition(QStringList path)
 
 bool MainWindow::isTreePositionCrypt()
 {
- QStringList path=mytetraconfig.get_tree_position();
+ QStringList path=mytetraConfig.get_tree_position();
 
  if(treeView->knowTreeModel->isItemValid(path)==false) return false;
 
@@ -258,7 +258,7 @@ bool MainWindow::isTreePositionCrypt()
 
 void MainWindow::restoreRecordTablePosition(void)
 {
- int n=mytetraconfig.get_recordtable_position();
+ int n=mytetraConfig.get_recordtable_position();
 
  if(n>=0)
   setRecordtablePosition(n);
@@ -269,7 +269,7 @@ void MainWindow::saveRecordTablePosition(void)
 {
  int n=recordTableView->getFirstSelectionPos();
  
- mytetraconfig.set_recordtable_position(n);
+ mytetraConfig.set_recordtable_position(n);
 }
 
 
@@ -283,13 +283,13 @@ void MainWindow::saveEditorCursorPosition(void)
 {
  int n=editorView->getCursorPosition();
 
- mytetraconfig.setEditorCursorPosition(n);
+ mytetraConfig.setEditorCursorPosition(n);
 }
 
 
 void MainWindow::restoreEditorCursorPosition(void)
 {
- int n=mytetraconfig.getEditorCursorPosition();
+ int n=mytetraConfig.getEditorCursorPosition();
 
  editorView->setCursorPosition(n);
 }
@@ -299,13 +299,13 @@ void MainWindow::saveEditorScrollBarPosition(void)
 {
  int n=editorView->getScrollBarPosition();
 
- mytetraconfig.setEditorScrollBarPosition(n);
+ mytetraConfig.setEditorScrollBarPosition(n);
 }
 
 
 void MainWindow::restoreEditorScrollBarPosition(void)
 {
- int n=mytetraconfig.getEditorScrollBarPosition();
+ int n=mytetraConfig.getEditorScrollBarPosition();
 
  editorView->setScrollBarPosition(n);
 }
@@ -313,7 +313,7 @@ void MainWindow::restoreEditorScrollBarPosition(void)
 
 void MainWindow::restoreFindOnBaseVisible(void)
 {
- bool n=mytetraconfig.get_findscreen_show();
+ bool n=mytetraConfig.get_findscreen_show();
 
  // Определяется ссылка на виджет поиска
  FindScreen *findScreenRel=find_object<FindScreen>("findscreendisp");
@@ -514,8 +514,8 @@ void MainWindow::applicationExit(void)
 
  // Если в конфиге настроено, что нужно синхронизироваться при выходе
  // И задана команда синхронизации
-   if(mytetraconfig.get_synchroonexit())
-     if(mytetraconfig.get_synchrocommand().trimmed().length()>0)
+   if(mytetraConfig.get_synchroonexit())
+     if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
        synchronization();
 
  // Запуск выхода из программы
@@ -609,7 +609,7 @@ void MainWindow::synchronization(void)
  saveEditorScrollBarPosition();
 
  // Считывается команда синхронизации
- QString command=mytetraconfig.get_synchrocommand();
+ QString command=mytetraConfig.get_synchrocommand();
 
  // Если команда синхронизации пуста
  if(command.trimmed().length()==0)
@@ -623,7 +623,7 @@ void MainWindow::synchronization(void)
 
 
  // Макрос %a заменяется на путь к директории базы данных
- QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraconfig.get_tetradir();
+ QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir();
  QDir databaseDir(databasePath);
  databasePath=databaseDir.canonicalPath();
 
@@ -822,7 +822,7 @@ void MainWindow::goWalkHistory(void)
  setTreePosition(path);
  setRecordtablePosition(pos);
 
- if(mytetraconfig.getRememberCursorAtHistoryNavigation())
+ if(mytetraConfig.getRememberCursorAtHistoryNavigation())
   {
    editorView->setCursorPosition( walkHistory.getCursorPosition(id) );
    editorView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );

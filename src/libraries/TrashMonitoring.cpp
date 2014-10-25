@@ -6,7 +6,7 @@
 #include "TrashMonitoring.h"
 #include "models/appConfig/AppConfig.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 
 TrashMonitoring::TrashMonitoring(void)
@@ -93,8 +93,8 @@ void TrashMonitoring::update(void)
  // Исключается наиболее старый файл пока выполняется 
  // условие что количество файлов слишком велико или
  // суммарный размер файлов превышает предельно допустимый размер корзины
- while(filesTable.size() > mytetraconfig.get_trashmaxfilecount() ||
-       dirSize > mytetraconfig.get_trashsize()*1000000)
+ while(filesTable.size() > mytetraConfig.get_trashmaxfilecount() ||
+       dirSize > mytetraConfig.get_trashsize()*1000000)
   removeOldesFile();
 }
 

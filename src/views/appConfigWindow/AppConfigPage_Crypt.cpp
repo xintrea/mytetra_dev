@@ -14,7 +14,7 @@
 #include "libraries/crypt/Password.h"
 
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 extern DataBaseConfig dataBaseConfig;
 
@@ -70,7 +70,7 @@ void AppConfigPage_Crypt::setup_ui(void)
   howPassRequestRadio2=new QRadioButton(tr("Ask the password at MyTetra startup"));
 
   // Точка устанавливается возле того пункта, который настроен в конфиге
-  if(mytetraconfig.get_howpassrequest()=="atClickOnCryptBranch")
+  if(mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
    howPassRequestRadio1->setChecked(true);
   else
    howPassRequestRadio2->setChecked(true);
@@ -83,7 +83,7 @@ void AppConfigPage_Crypt::setup_ui(void)
 
   passwordSaveAnnotation=new QLabel(tr("Password will be saved at first next entered.<br>Stored password will be cleared if uncheck this checkbox."));
 
-  if(mytetraconfig.getPasswordSaveFlag())
+  if(mytetraConfig.getPasswordSaveFlag())
    {
     howPassRequestRadio1->setEnabled(false);
     howPassRequestRadio2->setEnabled(false);
@@ -119,11 +119,11 @@ void AppConfigPage_Crypt::setup_ui(void)
   autoClosePasswordEnable=new QCheckBox(tr("Enable auto closing password window, sec"), this);
   
   autoClosePasswordDelay=new QSpinBox(this);
-  autoClosePasswordDelay->setValue(mytetraconfig.get_autoClosePasswordDelay());
+  autoClosePasswordDelay->setValue(mytetraConfig.get_autoClosePasswordDelay());
   autoClosePasswordDelay->setRange(1, 999);
 
   // Устанавливается галка и активность виджета выбора задержки
-  onAutoClosePasswordEnableToggle( mytetraconfig.get_autoClosePasswordEnable() );
+  onAutoClosePasswordEnableToggle( mytetraConfig.get_autoClosePasswordEnable() );
 
   // Виджеты вставляются в группировщик
   QHBoxLayout *autoClosePasswordLayout=new QHBoxLayout;
@@ -190,8 +190,8 @@ QString AppConfigPage_Crypt::getRetrieveStatusText(void)
   status=status+tr("Password is set. ");
 
  // Если пароль (точнее хеш пароля) хранится локально
- if(mytetraconfig.getPasswordSaveFlag() &&
-    mytetraconfig.getPasswordMiddleHash().length()>0)
+ if(mytetraConfig.getPasswordSaveFlag() &&
+    mytetraConfig.getPasswordMiddleHash().length()>0)
   status=status+tr("Password is saved locally. ");
 
  return status;
@@ -284,28 +284,28 @@ int AppConfigPage_Crypt::apply_changes(void)
  qDebug() << "Apply changes crypt";
 
  if(howPassRequestRadio1->isChecked() &&
-    mytetraconfig.get_howpassrequest()=="atStartProgram")
-  mytetraconfig.set_howpassrequest("atClickOnCryptBranch");
+    mytetraConfig.get_howpassrequest()=="atStartProgram")
+  mytetraConfig.set_howpassrequest("atClickOnCryptBranch");
 
  if(howPassRequestRadio2->isChecked() &&
-    mytetraconfig.get_howpassrequest()=="atClickOnCryptBranch")
-  mytetraconfig.set_howpassrequest("atStartProgram");
+    mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
+  mytetraConfig.set_howpassrequest("atStartProgram");
 
- if(autoClosePasswordEnable->isChecked()!=mytetraconfig.get_autoClosePasswordEnable())
-  mytetraconfig.set_autoClosePasswordEnable( autoClosePasswordEnable->isChecked() );
+ if(autoClosePasswordEnable->isChecked()!=mytetraConfig.get_autoClosePasswordEnable())
+  mytetraConfig.set_autoClosePasswordEnable( autoClosePasswordEnable->isChecked() );
 
- if(autoClosePasswordDelay->value()!=mytetraconfig.get_autoClosePasswordDelay())
-  mytetraconfig.set_autoClosePasswordDelay( autoClosePasswordDelay->value() );
+ if(autoClosePasswordDelay->value()!=mytetraConfig.get_autoClosePasswordDelay())
+  mytetraConfig.set_autoClosePasswordDelay( autoClosePasswordDelay->value() );
 
- if(passwordSaveEnable->isChecked()!=mytetraconfig.getPasswordSaveFlag())
+ if(passwordSaveEnable->isChecked()!=mytetraConfig.getPasswordSaveFlag())
   {
-   mytetraconfig.setPasswordSaveFlag( passwordSaveEnable->isChecked() );
+   mytetraConfig.setPasswordSaveFlag( passwordSaveEnable->isChecked() );
    
    // Если галка установлена что хранить локально пароль ненужно
    if(!passwordSaveEnable->isChecked())
     {
      // Промежуточный хеш пароля удаляется 
-     mytetraconfig.setPasswordMiddleHash("");
+     mytetraConfig.setPasswordMiddleHash("");
     }
   }
 

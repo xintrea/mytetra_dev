@@ -9,6 +9,7 @@
 
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
 #include "models/tree/TreeItem.h"
 #include "libraries/WalkHistory.h"
@@ -17,7 +18,8 @@
 
 #include "libraries/wyedit/Editor.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
+extern FixedParameters fixedParameters;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 
@@ -58,7 +60,7 @@ QString RecordTableData::getField(QString name, int pos) const
   }
 
  // Если имя поля недопустимо
- if(isFieldNameAvailable(name)==false)
+ if(fixedParameters.isRecordFieldAvailable(name)==false)
   critical_error("RecordTableData::get_field() : get unavailable field "+name);
  
  QMap<QString, QString> lineTmp;
@@ -69,7 +71,7 @@ QString RecordTableData::getField(QString name, int pos) const
 
  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
  // то расшифровка невозможна
- if(fieldNameForCryptList().contains(name))
+ if(fixedParameters.recordFieldCryptedList().contains(name))
   if(lineTmp.contains("crypt"))
    if(lineTmp["crypt"]=="1")
     if(globalParameters.getCryptKey().length()==0)
@@ -87,7 +89,7 @@ QString RecordTableData::getField(QString name, int pos) const
    // и в наборе полей есть поле crypt
    // и поле crypt установлено в 1
    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-   if(fieldNameForCryptList().contains(name))
+   if(fixedParameters.recordFieldCryptedList().contains(name))
     if(lineTmp.contains("crypt"))
      if(lineTmp["crypt"]=="1")
       if(lineTmp[name].length()>0)
@@ -122,7 +124,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
 
 
  // Если имя поля недопустимо
- if(isFieldNameAvailable(name)==false)
+ if(fixedParameters.isRecordFieldAvailable(name)==false)
   critical_error("In RecordTableData::set_field() unavailable field name "+name+" try set to "+value);
 
 
@@ -132,7 +134,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
  // и в наборе полей есть поле crypt
  // и поле crypt установлено в 1
  // и поле не пустое (пустые данные ненужно шифровать)
- if(fieldNameForCryptList().contains(name))
+ if(fixedParameters.recordFieldCryptedList().contains(name))
   if((fieldsTable[pos]).contains("crypt"))
    if((fieldsTable[pos])["crypt"]=="1")
     if(value.length()>0)
@@ -176,7 +178,7 @@ QString RecordTableData::getText(int pos)
 
  // Выясняется полное имя файла с текстом записи
  QString fileName;
- fileName=mytetraconfig.get_tetradir()+"/base/"+lineTmp["dir"]+"/"+lineTmp["file"];
+ fileName=mytetraConfig.get_tetradir()+"/base/"+lineTmp["dir"]+"/"+lineTmp["file"];
 
  QFile f(fileName);
 
@@ -527,7 +529,7 @@ bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString
  QString nameFile=(getFields(pos))["file"];
 
  // Полные имена директории и файла
- nameDirFull=mytetraconfig.get_tetradir()+"/base/"+nameDir;
+ nameDirFull=mytetraConfig.get_tetradir()+"/base/"+nameDir;
  nameFileFull=nameDirFull+"/"+nameFile;
 
  // Проверяется наличие директории, куда будет вставляться файл с текстом записи
@@ -535,7 +537,7 @@ bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString
  if(!recordDir.exists())
   {
    // Создается новая директория в директории base
-   QDir directory(mytetraconfig.get_tetradir()+"/base");
+   QDir directory(mytetraConfig.get_tetradir()+"/base");
    directory.mkdir(nameDir);
   }
 
@@ -552,7 +554,7 @@ QMap<QString, QString> RecordTableData::getFields(int pos) const
  if(pos<0 || pos>=fieldsTable.size()) return QMap<QString, QString>();
 
  // Список имен инфополей
- QStringList fieldNames=fieldNameAvailableList();
+ QStringList fieldNames=fixedParameters.recordFieldAvailableList();
  
  // В linetmp копируется запись (только инфополя) с нужным номером
  QMap<QString, QString> lineTmp;
@@ -588,11 +590,11 @@ QMap<QString, QString> RecordTableData::getFields(int pos) const
        // Присутствует шифрование
 
        // Если поле не подлежит шифрованию
-       if(fieldNameForCryptList().contains(currName)==false)
+       if(fixedParameters.recordFieldCryptedList().contains(currName)==false)
         result=lineTmp[currName]; // Напрямую значение поля
        else
         if(globalParameters.getCryptKey().length()>0 &&
-           fieldNameForCryptList().contains(currName))
+           fixedParameters.recordFieldCryptedList().contains(currName))
         result=decryptString(globalParameters.getCryptKey(), lineTmp[currName]); // Расшифровывается значение поля
       }
 
@@ -702,7 +704,7 @@ QDomDocument RecordTableData::exportDataToDom(void)
  QDomElement recordTableDomData = doc.createElement("recordtable");
  doc.appendChild(recordTableDomData);
 
- QStringList fieldsNamesAvailable=fieldNameAvailableList();
+ QStringList fieldsNamesAvailable=fixedParameters.recordFieldAvailableList();
 
  // Пробегаются все записи в таблице
  for(int i=0; i<fieldsTable.size(); i++)
@@ -870,7 +872,7 @@ void RecordTableData::deleteRecord(int i)
  if(i>=fieldsTable.size())return;
 
  // Удаление директории и файлов внутри, с сохранением в резервной директории
- QString dirForDelete=mytetraconfig.get_tetradir()+"/base/"+getField("dir",i);
+ QString dirForDelete=mytetraConfig.get_tetradir()+"/base/"+getField("dir",i);
  qDebug() << "Remove dir " << dirForDelete;
  remove_directory_to_trash( dirForDelete );
 
@@ -971,7 +973,7 @@ void RecordTableData::switchToEncrypt(void)
    setField("crypt", "1", i);
 
    // Выбираются поля, разрешенные для шифрования
-   foreach(QString fieldName, fieldNameForCryptList())
+   foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
    {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое
@@ -1025,7 +1027,7 @@ void RecordTableData::switchToDecrypt(void)
    setField("crypt", "0", i);
 
    // Все поля, подлежащие шифрованию, заполняются расшифрованными значениями
-   foreach(QString fieldName, fieldNameForCryptList())
+   foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
    {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое
@@ -1060,75 +1062,6 @@ void RecordTableData::switchToDecrypt(void)
 }
 
 
-bool RecordTableData::isFieldNameAvailable(QString name) const
-{
- if(fieldNameAvailableList().contains(name))
-  return true;
- else
-  return false;
-}
-
-
-QStringList RecordTableData::fieldNameAvailableList(void) const
-{
- QStringList names;
-
- names << "id";
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
- names << "ctime";
- names << "dir";
- names << "file";
- names << "crypt";
-
- return names;
-}
-
-
-// Получение описаний набора полей
-QMap<QString, QString> RecordTableData::fieldDescription(QStringList list) const
-{
- QMap<QString, QString> names;
-
- names["id"]=tr("ID");
- names["name"]=tr("Title");
- names["author"]=tr("Author");
- names["url"]=tr("Url");
- names["tags"]=tr("Tags");
- names["ctime"]=tr("Create time");
- names["dir"]=tr("Directory name");
- names["file"]=tr("File name");
- names["crypt"]=tr("Is crypt");
-
- // Удаляются строчки, которых нет в переданном списке
- QMutableMapIterator<QString, QString> iterator(names);
- while (iterator.hasNext())
- {
-   iterator.next();
-
-   if( list.contains( iterator.key() )==false )
-    iterator.remove();
- }
-
- return names;
-}
-
-
-QStringList RecordTableData::fieldNameForCryptList(void) const
-{
- QStringList names;
-
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
-
- return names;
-}
-
-
 // Метод, возвращающий набор полей и их значений, полученный путем слияния
 // данных указанной записи и переданного набора полей
 QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QString> fields)
@@ -1140,7 +1073,7 @@ QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QS
   critical_error("In RecordTableData::getMergeFields bad record pos "+QString::number(pos));
 
  // Список допустимых имен инфополей
- QStringList fieldNames=fieldNameAvailableList();
+ QStringList fieldNames=fixedParameters.recordFieldAvailableList();
 
  // Перебираются допустимые имена полей
  for(int i=0; i<fieldNames.size(); ++i)

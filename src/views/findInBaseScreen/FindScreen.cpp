@@ -26,7 +26,7 @@
 #include "libraries/MtComboBox.h"
 #include "views/tree/KnowTreeView.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
@@ -62,17 +62,17 @@ void FindScreen::setupToolsLine(void)
  wordRegard=new MtComboBox();
  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_any.svg"), tr("Any word"));
  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_all.svg"), tr("All words"));
- wordRegard->setCurrentIndex(mytetraconfig.get_findscreen_wordregard());
+ wordRegard->setCurrentIndex(mytetraConfig.get_findscreen_wordregard());
  
  howExtract=new MtComboBox();
  howExtract->addItem(QIcon(":/resource/pic/find_in_base_separate.svg"), tr("Whole words"));
  howExtract->addItem(QIcon(":/resource/pic/find_in_base_substring.svg"), tr("Substring"));
- howExtract->setCurrentIndex(mytetraconfig.get_findscreen_howextract());
+ howExtract->setCurrentIndex(mytetraConfig.get_findscreen_howextract());
 
  treeSearchArea=new MtComboBox();
  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
- treeSearchArea->setCurrentIndex(mytetraconfig.getFindScreenTreeSearchArea());
+ treeSearchArea->setCurrentIndex(mytetraConfig.getFindScreenTreeSearchArea());
  
  closeButton=new QToolButton(this);
  closeButton->setVisible(true);
@@ -118,19 +118,19 @@ void FindScreen::setupWhereFindLine(void)
  whereFindLabel=new QLabel(tr("Find in: "));
 
  findInName=new QCheckBox(tr("Title"));
- findInName->setChecked(mytetraconfig.get_findscreen_find_in_field("name"));
+ findInName->setChecked(mytetraConfig.get_findscreen_find_in_field("name"));
 
  findInAuthor=new QCheckBox(tr("Author(s)"));
- findInAuthor->setChecked(mytetraconfig.get_findscreen_find_in_field("author"));
+ findInAuthor->setChecked(mytetraConfig.get_findscreen_find_in_field("author"));
 
  findInUrl=new QCheckBox(tr("Url"));
- findInUrl->setChecked(mytetraconfig.get_findscreen_find_in_field("url"));
+ findInUrl->setChecked(mytetraConfig.get_findscreen_find_in_field("url"));
 
  findInTags=new QCheckBox(tr("Tags"));
- findInTags->setChecked(mytetraconfig.get_findscreen_find_in_field("tags"));
+ findInTags->setChecked(mytetraConfig.get_findscreen_find_in_field("tags"));
 
  findInText=new QCheckBox(tr("Text"));
- findInText->setChecked(mytetraconfig.get_findscreen_find_in_field("text"));
+ findInText->setChecked(mytetraConfig.get_findscreen_find_in_field("text"));
 }
 
 
@@ -306,7 +306,7 @@ void FindScreen::findStart(void)
  // Выясняется сколько всего конечных записей
  TreeItem *startItem=0;
  int totalRec=0;
- if(mytetraconfig.getFindScreenTreeSearchArea()==0) // Если нужен поиск во всем дереве
+ if(mytetraConfig.getFindScreenTreeSearchArea()==0) // Если нужен поиск во всем дереве
  {
   // Корневой элемент дерева
   startItem=searchModel->rootItem;
@@ -314,7 +314,7 @@ void FindScreen::findStart(void)
   // Количество элементов (веток) во всем дереве
   totalRec=searchModel->getAllRecordCount();
  }
- else if (mytetraconfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
+ else if (mytetraConfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
  {
   // Индекс текущей выбранной ветки
   QModelIndex currentItemIndex=find_object<TreeScreen>("TreeScreen")->getCurrentItemIndex();
@@ -518,19 +518,19 @@ bool FindScreen::findInTextProcess(const QString& text)
 
 void FindScreen::changedWordRegard(int pos)
 {
- mytetraconfig.set_findscreen_wordregard(pos);
+ mytetraConfig.set_findscreen_wordregard(pos);
 }
 
 
 void FindScreen::changedHowExtract(int pos)
 {
- mytetraconfig.set_findscreen_howextract(pos);
+ mytetraConfig.set_findscreen_howextract(pos);
 }
 
 
 void FindScreen::changedTreeSearchArea(int pos)
 {
- mytetraconfig.setFindScreenTreeSearchArea(pos);
+ mytetraConfig.setFindScreenTreeSearchArea(pos);
 }
 
 
@@ -570,13 +570,13 @@ void FindScreen::changedFindInField(QString fieldname, int state)
  if(state==Qt::Checked) i=true;
  else i=false;
   
- mytetraconfig.set_findscreen_find_in_field(fieldname,i);
+ mytetraConfig.set_findscreen_find_in_field(fieldname,i);
 }
  
 
 void FindScreen::widgetShow(void)
 {
- mytetraconfig.set_findscreen_show(true);
+ mytetraConfig.set_findscreen_show(true);
  this->show();
 
  // При появлении виджета курсор должен сразу стоять на поле ввода
@@ -588,9 +588,9 @@ void FindScreen::widgetHide(void)
 {
  // Запоминается размер сплиттера перед скрытием виджета
  QSplitter *findSplitterRel=find_object<QSplitter>("findsplitter");
- mytetraconfig.set_findsplitter_size_list(findSplitterRel->sizes());
+ mytetraConfig.set_findsplitter_size_list(findSplitterRel->sizes());
  
  // Виджет скрывается
- mytetraconfig.set_findscreen_show(false);
+ mytetraConfig.set_findscreen_show(false);
  this->close();
 }

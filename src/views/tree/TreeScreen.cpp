@@ -22,7 +22,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/Password.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
@@ -204,7 +204,7 @@ void TreeScreen::setupModels(void)
  // knowTreeModel->setHeaders(headers);
 
  // Загрузка данных
- knowTreeModel->initFromXML( mytetraconfig.get_tetradir()+"/mytetra.xml" );
+ knowTreeModel->initFromXML( mytetraConfig.get_tetradir()+"/mytetra.xml" );
 
  // Модель подключется к виду
  knowTreeView->setModel(knowTreeModel);
@@ -693,7 +693,7 @@ void TreeScreen::del_branch(QString mode)
    text=tr("Are you sure you wish to cut item <b>") + branches_name.join(", ") + tr("</b> and all sub items?");
    del_button=tr("Cut");
 
-   if(mytetraconfig.get_cutbranchconfirm()) enable_question=true;
+   if(mytetraConfig.get_cutbranchconfirm()) enable_question=true;
    else enable_question=false;
   }
 
@@ -966,7 +966,7 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
   QMap<QString, QString> exemplar=curr_item_record_table->getRecordExemplar(i);
 
   // Имя директории, в которой расположена запись и ее файлы
-  QString directory=mytetraconfig.get_tetradir()+"/base/"+exemplar["dir"];
+  QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
 
   branch_clipboard_data->addRecord(branch_id,
                                     exemplar,

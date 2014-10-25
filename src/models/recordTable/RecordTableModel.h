@@ -18,13 +18,13 @@ public:
     RecordTableModel(QObject *pobj=0);
     ~RecordTableModel();
 
-    QVariant headerData(int section, Qt::Orientation orientation, int nRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     // Интерфейс модели, предоставление данных по указанному индексу
-    QVariant data(const QModelIndex &index, int nRole) const;
+    QVariant data(const QModelIndex &index, int role) const;
     
     // Интерфейс модели, сохранение вводимых данных по указанному индексу
-    bool setData(const QModelIndex &index, const QVariant &value, int nRole);
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     // Интерфейс модели, сколько записей в таблице
     int rowCount(const QModelIndex &parent=QModelIndex()) const;
@@ -33,7 +33,7 @@ public:
     int columnCount(const QModelIndex &parent=QModelIndex()) const;
 
     // Возвращение указателя на модель конечных записей, т.е. на себя
-    QAbstractListModel *getModel(void);
+    QAbstractTableModel *getModel(void);
 
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);

@@ -6,7 +6,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/findInBaseScreen/FindScreen.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 
 ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QWidget(parent)
@@ -42,7 +42,7 @@ void ConsoleEmulator::setupUI(void)
  consoleOutput=new QTextEdit(this);
  consoleOutput->setReadOnly(true);
  consoleOutput->setFontFamily("monospace");
- if(mytetraconfig.getSyncroConsoleDetails()==false)
+ if(mytetraConfig.getSyncroConsoleDetails()==false)
   consoleOutput->hide();
 
  waitClock=new WaitClock(this);
@@ -134,12 +134,12 @@ void ConsoleEmulator::onDetailsClick(void)
  if(consoleOutput->isHidden())
   {
    consoleOutput->show();
-   mytetraconfig.setSyncroConsoleDetails(true);
+   mytetraConfig.setSyncroConsoleDetails(true);
   }
  else
   {
    consoleOutput->hide();
-   mytetraconfig.setSyncroConsoleDetails(false);
+   mytetraConfig.setSyncroConsoleDetails(false);
   }
 
  this->adjustSize();

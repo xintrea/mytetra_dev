@@ -14,7 +14,7 @@
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 
 // Конструктор модели дерева, состоящего из Item элементов

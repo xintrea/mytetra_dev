@@ -135,7 +135,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorAbsTable.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
-    src/libraries/wyedit/EditorMultiLineInputDialog.h
+    src/libraries/wyedit/EditorMultiLineInputDialog.h \
+    src/libraries/FixedParameters.h
 
 
 lessThan(QT_MAJOR_VERSION,5) {
@@ -211,7 +212,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorAbsTable.cpp \
     src/libraries/wyedit/EditorAddTableForm.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
-    src/libraries/wyedit/EditorMultiLineInputDialog.cpp
+    src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
+    src/libraries/FixedParameters.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

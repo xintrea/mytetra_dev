@@ -85,7 +85,7 @@ protected slots:
 
 protected:
 
- RecordTableModel *recordModel; // Класс, расширенный от QAbstractListModel
+ RecordTableModel *recordModel; // Класс, расширенный от QAbstractTableModel
 
  QMenu *contextMenu;
 

@@ -13,7 +13,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/findInBaseScreen/FindScreen.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 
 // Виджет, который отображает список записей в ветке

@@ -17,7 +17,7 @@
 #include "views/record/MetaEditor.h"
 #include "libraries/WalkHistory.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 extern WalkHistory walkHistory;
 
 
@@ -149,7 +149,7 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
  // Для новой выбраной записи выясняется директория и основной файл
  QString currentDir =table->getField("dir", pos);
  QString currentFile=table->getField("file", pos);
- QString fullDir=mytetraconfig.get_tetradir()+"/base/"+currentDir;
+ QString fullDir=mytetraConfig.get_tetradir()+"/base/"+currentDir;
  QString fullFileName=fullDir+"/"+currentFile;
  qDebug() << " File " << fullFileName << "\n";
 
@@ -196,7 +196,7 @@ void RecordListScreen::onClickToRecord(const QModelIndex &index)
 
 
  // Восстанавливается позиция курсора и прокрутки если это необходимо
- if(mytetraconfig.getRememberCursorAtOrdinarySelection())
+ if(mytetraConfig.getRememberCursorAtOrdinarySelection())
   {
    edView->setCursorPosition( walkHistory.getCursorPosition(id) );
    edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
@@ -289,7 +289,7 @@ void RecordListScreen::addNew(int mode,
                                       files);
 
  // Установка курсора на только что созданную позицию
- QModelIndex selIdx=recordModel->index(selPos); // Создание индекса из номера
+ QModelIndex selIdx=recordModel->index(selPos, 0); // Создание индекса из номера
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
 
  // Сохранение дерева веток
@@ -478,7 +478,7 @@ void RecordListScreen::deleteRecords(void)
  if(selectionIndex>=0)
   {
    // Создание индекса из номера
-   QModelIndex selIdx=recordModel->index(selectionIndex);
+   QModelIndex selIdx=recordModel->index(selectionIndex, 0);
 
    // Установка курсора
    selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
@@ -607,7 +607,7 @@ void RecordListScreen::setSelectionToPos(int pos)
   return;
 
  // Создание индекса из номера
- QModelIndex selIdx=recordModel->index(pos);
+ QModelIndex selIdx=recordModel->index(pos, 0);
 
  // Установка засветки на нужный индекс
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
@@ -847,7 +847,7 @@ ClipboardRecords *RecordListScreen::getSelectedRecords(void)
    QMap<QString, QString> exemplar=table->getRecordExemplar( (itemsForCopy.at(i)).row() );
 
    // Имя директории, в которой расположена запись и ее файлы
-   QString directory=mytetraconfig.get_tetradir()+"/base/"+exemplar["dir"];
+   QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
 
    clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
   }

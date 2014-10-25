@@ -9,7 +9,7 @@
 #include "models/appConfig/AppConfigUpdater.h"
 #include "libraries/GlobalParameters.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
@@ -43,7 +43,7 @@ DataBaseConfig::~DataBaseConfig()
 void DataBaseConfig::init(void)
 {
  // Создается имя файла конфигурации
- QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraconfig.get_tetradir()+"/database.ini";
+ QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
 
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);

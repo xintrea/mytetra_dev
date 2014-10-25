@@ -4,7 +4,7 @@
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
 
-extern AppConfig mytetraconfig;
+extern AppConfig mytetraConfig;
 
 // Виджет ввода инфополей
 
@@ -55,7 +55,7 @@ void InfoFieldEnter::setup_ui(void)
  expandInfo->setMinimumSize(x,x);
  expandInfo->setMaximumSize(x,x);
  expandInfo->resize(x,x);
- if(mytetraconfig.get_addnewrecord_expand_info()=="0")
+ if(mytetraConfig.get_addnewrecord_expand_info()=="0")
   {
    expandInfo->setIcon(QIcon(":/resource/pic/triangl_dn.svg"));
    // expandInfo->setIcon(this->style()->standardIcon(QStyle::SP_ArrowDown));
@@ -99,7 +99,7 @@ void InfoFieldEnter::assembly(void)
  infoFieldLayout->addWidget(recordTags,y,1);
 
  // Устанавливается видимость или невидимость полей author, url, tags...
- expandInfoOnDisplay( mytetraconfig.get_addnewrecord_expand_info() );
+ expandInfoOnDisplay( mytetraConfig.get_addnewrecord_expand_info() );
 
  // Полученый набор элементов устанавливается для текущего виджета
  setLayout(infoFieldLayout);
@@ -137,12 +137,12 @@ void InfoFieldEnter::expandInfoOnDisplay(QString expand)
 void InfoFieldEnter::expandInfoClick(void)
 {
  // Если в данный момент информация "свернута"
- if(mytetraconfig.get_addnewrecord_expand_info()=="0")
+ if(mytetraConfig.get_addnewrecord_expand_info()=="0")
  {
   // Надо информацию развернуть
   expandInfoOnDisplay("1");
 
-  mytetraconfig.set_addnewrecord_expand_info("1");
+  mytetraConfig.set_addnewrecord_expand_info("1");
 
   expandInfo->setIcon(QIcon(":/resource/pic/triangl_up.svg"));
  }
@@ -151,7 +151,7 @@ void InfoFieldEnter::expandInfoClick(void)
   // Надо информацию свернуть
   expandInfoOnDisplay("0");
 
-  mytetraconfig.set_addnewrecord_expand_info("0");
+  mytetraConfig.set_addnewrecord_expand_info("0");
 
   expandInfo->setIcon(QIcon(":/resource/pic/triangl_dn.svg"));
  }
