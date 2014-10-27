@@ -2,6 +2,7 @@
 #include <QMimeData>
 #include <QDrag>
 #include <QVector>
+#include <QHeaderView>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -51,6 +52,12 @@ void RecordTableView::init(void)
  setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
  setSelectionBehavior(QAbstractItemView::SelectRows);
 
+ if(mytetraConfig.getRecordTableShowHorizontalHeaders()==false)
+   horizontalHeader()->hide();
+
+ if(mytetraConfig.getRecordTableShowVerticalHeaders()==false)
+   verticalHeader()->hide();
+
  // horizontalHeader()->setDefaultSectionSize ( horizontalHeader()->minimumSectionSize () );
 
  // Нужно установить правила показа контекстного самодельного меню
@@ -62,13 +69,6 @@ void RecordTableView::init(void)
 
 void RecordTableView::setupSignals(void)
 {
- // http://www.youtube.com/watch?feature=player_embedded&v=yf56jYDv2fc
- // http://www.youtube.com/watch?feature=player_embedded&v=sjFr3a8xRb8
- // http://www.youtube.com/watch?feature=player_embedded&v=bULrkalUpZ8
- // http://www.youtube.com/watch?feature=player_embedded&v=2RKYXEiuv2E - Super Spy Hunter
- // http://www.youtube.com/watch?feature=player_embedded&v=jKQP0eVbxFQ - Battle Toads
-
-
  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
          this,SLOT(onCustomContextMenuRequested(const QPoint &)));

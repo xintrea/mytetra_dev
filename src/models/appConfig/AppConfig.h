@@ -146,6 +146,18 @@ public:
     void setUglyQssReplaceHeightForTableView(int n);
 
 
+    // Перечень полей, отображаемых в таблице конечных записей
+    QStringList getRecordTableShowFields(void);
+    void setRecordTableShowFields(QStringList fields);
+
+    // Нужно ли отображать горизонтальные заголовки в таблице конечных записей
+    bool getRecordTableShowHorizontalHeaders(void);
+    void setRecordTableShowHorizontalHeaders(bool flag);
+
+    // Нужно ли отображать вертикальные заголовки в таблице конечных записей
+    bool getRecordTableShowVerticalHeaders(void);
+    void setRecordTableShowVerticalHeaders(bool flag);
+
 private:
 
     QSettings *conf; // было static
@@ -170,6 +182,7 @@ private:
     QStringList get_parameter_table_13(bool withEndSignature=true);
     QStringList get_parameter_table_14(bool withEndSignature=true);
     QStringList get_parameter_table_15(bool withEndSignature=true);
+    QStringList get_parameter_table_16(bool withEndSignature=true);
 
     bool is_init_flag;
 };

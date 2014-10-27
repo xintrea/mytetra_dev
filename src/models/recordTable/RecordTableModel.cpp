@@ -50,7 +50,8 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
   // Если запрашивается текст строки для отрисовки или для редактирования
   if(role==Qt::DisplayRole || role==Qt::EditRole)
   {
-    QStringList showFields=fixedParameters.recordFieldAvailableList(); // Заменить на показываемые поля
+    // QStringList showFields=fixedParameters.recordFieldAvailableList(); // Заменить на показываемые поля
+    QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
     // qDebug() << "RecordTableModel::data(), Show field list: " << showFields;
 
@@ -89,7 +90,8 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
   // Если запрашивается редактирование
   if(role==Qt::EditRole)
   {
-    QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+    // QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+    QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
     // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
     if( index.column() < showFields.size() )
@@ -117,7 +119,8 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
 // Получение заголовков столбцов и строк
 QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
- QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+ // QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+ QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
  QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( showFields );
 
@@ -164,7 +167,8 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 {
  Q_UNUSED(parent);
 
- return fixedParameters.recordFieldAvailableList().size(); // TODO: Заменить на показываемые поля
+ // return fixedParameters.recordFieldAvailableList().size(); // TODO: Заменить на показываемые поля
+ return mytetraConfig.getRecordTableShowFields().size();
 }
 
 

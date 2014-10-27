@@ -578,6 +578,42 @@ void AppConfig::setUglyQssReplaceHeightForTableView(int n)
 }
 
 
+// Перечень полей, отображаемых в таблице конечных записей
+QStringList AppConfig::getRecordTableShowFields(void)
+{
+ return (conf->value("recordTableShowFields", "name")).toString().split(",");
+}
+
+
+void AppConfig::setRecordTableShowFields(QStringList fields)
+{
+ conf->setValue("recordTableShowFields",fields.join(","));
+}
+
+
+bool AppConfig::getRecordTableShowHorizontalHeaders(void)
+{
+ return conf->value("recordTableShowHorizontalHeaders").toBool();
+}
+
+
+void AppConfig::setRecordTableShowHorizontalHeaders(bool flag)
+{
+ conf->setValue("recordTableShowHorizontalHeaders", flag);
+}
+
+
+bool AppConfig::getRecordTableShowVerticalHeaders(void)
+{
+ return conf->value("recordTableShowVerticalHeaders").toBool();
+}
+
+
+void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
+{
+ conf->setValue("recordTableShowVerticalHeaders", flag);
+}
+
 
 // --------------------
 // Номер версии конфига
@@ -635,7 +671,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 15
+ // Последняя версия на данный момент - 16
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -664,6 +700,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(13, 14, get_parameter_table_13(), get_parameter_table_14());
  if(fromVersion<=14)
   updater.update_version(14, 15, get_parameter_table_14(), get_parameter_table_15());
+ if(fromVersion<=15)
+  updater.update_version(15, 16, get_parameter_table_15(), get_parameter_table_16());
 }
 
 
@@ -973,6 +1011,26 @@ QStringList AppConfig::get_parameter_table_15(bool withEndSignature)
   table << "uglyQssReplaceHeightForTableView" << "int" << "35"; // Так как не все параметры можно стилизовать через QSS, здесь задается высота ячейки таблицы
  else
   table << "uglyQssReplaceHeightForTableView" << "int" << "0";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_16(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 15
+ table << get_parameter_table_15(false);
+
+ table << "recordTableShowFields" << "QString" << "name,tags";
+ table << "recordTableShowHorizontalHeaders" << "bool" << "true";
+ table << "recordTableShowVerticalHeaders" << "bool" << "false";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
