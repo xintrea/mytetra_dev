@@ -45,21 +45,21 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
   if(!index.isValid())
     return QVariant();
 
-  qDebug() << "RecordTableModel::data(), row:" << index.row() << " column " << index.column();
+  // qDebug() << "RecordTableModel::data(), row:" << index.row() << " column " << index.column();
 
   // Если запрашивается текст строки для отрисовки или для редактирования
   if(role==Qt::DisplayRole || role==Qt::EditRole)
   {
     QStringList showFields=fixedParameters.recordFieldAvailableList(); // Заменить на показываемые поля
 
-    qDebug() << "RecordTableModel::data(), Show field list: " << showFields;
+    // qDebug() << "RecordTableModel::data(), Show field list: " << showFields;
 
     // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
     if( index.column() < showFields.size() )
     {
       QString fieldName=showFields.value( index.column() );
 
-      qDebug() << "RecordTableModel::data(), fieldName: " << fieldName;
+      // qDebug() << "RecordTableModel::data(), fieldName: " << fieldName;
 
       return table->getField(fieldName, index.row());
     }
@@ -219,17 +219,17 @@ int RecordTableModel::addTableData(int mode,
 // Удаление записей по указанному списку
 void RecordTableModel::removeRowsByList(QVector<int> delIdx)
 {
- if(table==NULL) return;
+  if(table==NULL) return;
 
- // Массив сортируется так чтоб вначале были индексы с наибольшим номером
- // Это необходимо чтобы удаление было правильным
- qSort(delIdx.begin(), delIdx.end(), qGreater<int>());
+  // Массив сортируется так чтоб вначале были индексы с наибольшим номером
+  // Это необходимо чтобы удаление было правильным
+  qSort(delIdx.begin(), delIdx.end(), qGreater<int>());
 
- for(int i=0;i<delIdx.count();i++)
+  for(int i=0;i<delIdx.count();i++)
   {
-   beginRemoveRows(QModelIndex(), delIdx[i], 1);
-   table->deleteRecord(delIdx[i]);
-   endRemoveRows();
+    beginRemoveRows(QModelIndex(), delIdx[i], 1);
+    table->deleteRecord(delIdx[i]);
+    endRemoveRows();
   }
 }
 

@@ -897,8 +897,8 @@ void RecordTableData::deleteRecord(int i)
 // Удаление всех элементов таблицы конечных записей
 void RecordTableData::deleteAllRecords(void)
 {
- for(int i=0;i<size();i++)
-  deleteRecord(i);
+  for(int i=0;i<size();i++)
+    deleteRecord(i);
 }
 
 

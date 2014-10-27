@@ -61,7 +61,7 @@ void FindTableWidget::setupUI(void)
  // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
  int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
  if(height!=0)
-  findTableView->verticalHeader()->setDefaultSectionSize(height);
+  findTableView->verticalHeader()->setDefaultSectionSize( height );
 }
 
 

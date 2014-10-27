@@ -1,3 +1,8 @@
+Copyright (c) 2014, Sergey M. Stepanov 
+Russia, Volgodonsk city, Pionerskaya st. 103/26. 
+All rights reserved.
+
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

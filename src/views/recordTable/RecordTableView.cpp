@@ -44,10 +44,14 @@ RecordTableView::~RecordTableView()
 // при наличии ссылки на данный объект
 void RecordTableView::init(void)
 {
+ qDebug() << "RecordTableView::init()";
+
  setupSignals();
 
  setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
  setSelectionBehavior(QAbstractItemView::SelectRows);
+
+ // horizontalHeader()->setDefaultSectionSize ( horizontalHeader()->minimumSectionSize () );
 
  // Нужно установить правила показа контекстного самодельного меню
  // чтобы оно могло вызываться
@@ -58,6 +62,13 @@ void RecordTableView::init(void)
 
 void RecordTableView::setupSignals(void)
 {
+ // http://www.youtube.com/watch?feature=player_embedded&v=yf56jYDv2fc
+ // http://www.youtube.com/watch?feature=player_embedded&v=sjFr3a8xRb8
+ // http://www.youtube.com/watch?feature=player_embedded&v=bULrkalUpZ8
+ // http://www.youtube.com/watch?feature=player_embedded&v=2RKYXEiuv2E - Super Spy Hunter
+ // http://www.youtube.com/watch?feature=player_embedded&v=jKQP0eVbxFQ - Battle Toads
+
+
  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
          this,SLOT(onCustomContextMenuRequested(const QPoint &)));
@@ -126,7 +137,8 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
 
  qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
 
- if(pos<0) return;
+ if(pos<0)
+   return;
 
  // Выясняется указатель на объект редактирования текста записи
  MetaEditor *edView=find_object<MetaEditor>("editorview");
@@ -156,7 +168,8 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
 
  // Если в окне содержимого записи уже находится выбираемая запись
  if(edView->get_work_directory()==fullDir &&
-    edView->get_file_name()==currentFile) return;
+    edView->get_file_name()==currentFile)
+      return;
 
  // Перед открытием редактора происходит попытка получения текста записи
  table->checkAndCreateTextFile(pos, fullFileName);
@@ -322,7 +335,8 @@ void RecordTableView::editFieldContext(void)
 
 
  int i=editRecordWin.exec();
- if(i==QDialog::Rejected)return; // Была нажата отмена, ничего ненужно делать
+ if(i==QDialog::Rejected)
+   return; // Была нажата отмена, ничего ненужно делать
 
  // Введенные данные обновляются
  editField(pos,
@@ -520,7 +534,7 @@ void RecordTableView::assemblyContextMenu(void)
 // Открытие контекстного меню в таблице конечных записей
 void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 {
-  qDebug("In on_customContextMenuRequested");
+ qDebug("In on_customContextMenuRequested");
 
   // Включение отображения меню на экране
   // menu.exec(event->globalPos());
@@ -604,13 +618,18 @@ bool RecordTableView::isSelectedSetToBottom(void)
 void RecordTableView::setSelectionToPos(int pos)
 {
  if(pos>(recordModel->rowCount()-1))
-  return;
+   return;
 
+ // Сложный механизм выбора строки. Не помню, почему выбрал именно его. Сейчас отключен, посмотрим в работе
+ /*
  // Создание индекса из номера
  QModelIndex selIdx=recordModel->index(pos, 0);
 
  // Установка засветки на нужный индекс
- selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
+ selectionModel()->setCurrentIndex(selIdx, QItemSelectionModel::ClearAndSelect);
+ */
+
+ selectRow(pos);
 }
 
 
@@ -642,9 +661,9 @@ void RecordTableView::paste(void)
  // Проверяется, содержит ли буфер обмена данные нужного формата
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
  if(mimeData==NULL)
-  return;
+   return;
  if( ! (mimeData->hasFormat("mytetra/records")) )
-  return;
+   return;
 
  // Создается ссылка на буфер обмена
  QClipboard *clipboardBuf=QApplication::clipboard();
@@ -824,13 +843,28 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
  // Получение списка Item-элементов, подлежащих копированию
  QModelIndexList itemsForCopy=selectionModel()->selectedIndexes();
 
+ // В списке должны остаться только элементы столбца 0
+ // (так как ранее одна строка была одним элементом списка,
+ // а теперь используется таблица, и при одной выделенной строке
+ // выделено несколько элементов)
+ QMutableListIterator<QModelIndex> iterator(itemsForCopy);
+ while (iterator.hasNext())
+ {
+  iterator.next();
+
+  QModelIndex index=iterator.value();
+  if(index.column()>0)
+    iterator.remove();
+ }
+
+
  // Список возвращается в произвольном порядке, не в таком как на экране
  // поэтому его нужно отсортировать по QModelIndex
  qSort(itemsForCopy.begin(),itemsForCopy.end());
 
  qDebug() << "Get selected records";
  for(int i=0; i<itemsForCopy.size(); ++i)
-  qDebug() << itemsForCopy.at(i).data().toString();
+   qDebug() << itemsForCopy.at(i).data().toString();
 
 
  // Объект с данными для заполнения буфера обмена
@@ -858,9 +892,12 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
 
 // Переопределенный сигнал (virtual protected slot)
 void RecordTableView::selectionChanged(const QItemSelection &selected,
-                                        const QItemSelection &deselected )
+                                       const QItemSelection &deselected )
 {
  // qDebug() << "RecordTableView::selectionChanged()";
 
  emit listSelectionChanged(selected, deselected);
+
+ // Для корректной работы надо вызвать сигнал базового класса
+ QTableView::selectionChanged(selected, deselected);
 }
