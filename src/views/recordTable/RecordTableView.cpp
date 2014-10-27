@@ -52,11 +52,35 @@ void RecordTableView::init(void)
  setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
  setSelectionBehavior(QAbstractItemView::SelectRows);
 
+ // Видимость горизонтальных заголовков
  if(mytetraConfig.getRecordTableShowHorizontalHeaders()==false)
    horizontalHeader()->hide();
 
+ // Видимость вертикальных заголовков
  if(mytetraConfig.getRecordTableShowVerticalHeaders()==false)
    verticalHeader()->hide();
+
+ // Растягивание последней секции до размеров виджета
+ horizontalHeader()->setStretchLastSection(true);
+
+ // Горизонтальные заголовки делаются перемещяемыми
+ #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
+ horizontalHeader()->setMovable(true);
+ #endif
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ horizontalHeader()->setSectionsMovable(true);
+ #endif
+
+ // Установка высоты строки с принудительной стилизацией (если это необходимо),
+ // так как стилизация через QSS для элементов QTableView полноценно не работает
+ // У таблицы есть вертикальные заголовки, для каждой строки, в которых отображается номер строки.
+ // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
+ verticalHeader()->setDefaultSectionSize ( verticalHeader()->minimumSectionSize () );
+ int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
+ if(height!=0)
+  verticalHeader()->setDefaultSectionSize( height );
+
+ enableMoveSection=true;
 
  // horizontalHeader()->setDefaultSectionSize ( horizontalHeader()->minimumSectionSize () );
 
@@ -101,6 +125,9 @@ void RecordTableView::setupSignals(void)
          parentPointer, SLOT(toolsUpdate(void)));
  connect(QApplication::clipboard(),SIGNAL(dataChanged()),
          parentPointer, SLOT(toolsUpdate(void)));
+
+ connect(this->horizontalHeader(), SIGNAL( sectionMoved( int, int, int ) ),
+         this, SLOT( sectionMoved( int, int, int ) ) );
 }
 
 
@@ -901,3 +928,41 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
  // Для корректной работы надо вызвать сигнал базового класса
  QTableView::selectionChanged(selected, deselected);
 }
+
+
+// Слот, срабатывающий после того, как был передвинут горизонтальный заголовок
+void RecordTableView::sectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex )
+{
+  Q_UNUSED(logicalIndex);
+
+  if(!enableMoveSection)
+    return;
+
+  int oldVisualWidth=horizontalHeader()->sectionSize(oldVisualIndex);
+  int newVisualWidth=horizontalHeader()->sectionSize(newVisualIndex);
+
+  // В настройках последовательность полей меняется
+  QStringList showFields=mytetraConfig.getRecordTableShowFields();
+  showFields.move(oldVisualIndex, newVisualIndex);
+  mytetraConfig.setRecordTableShowFields(showFields);
+
+  qDebug() << "New show field sequence" << showFields;
+
+  enableMoveSection=false;
+
+  // Перемещение в данном представлении сбрасывается, так как модель берет последовательность полей из настроек
+  for(int logicalIdx=0; logicalIdx<showFields.size(); logicalIdx++)
+  {
+    int visualIdx=horizontalHeader()->visualIndex( logicalIdx );
+    if( visualIdx != logicalIdx )
+      horizontalHeader()->moveSection(visualIdx, logicalIdx); // Этот вызов запустит срабатывание этого же слота sectionMoved(), поэтому нужен enableMoveSection
+  }
+
+  enableMoveSection=true;
+
+  horizontalHeader()->reset();
+
+  horizontalHeader()->resizeSection(oldVisualIndex, newVisualWidth);
+  horizontalHeader()->resizeSection(newVisualIndex, oldVisualWidth);
+}
+

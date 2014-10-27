@@ -47,7 +47,15 @@ void FindTableWidget::setupUI(void)
  findTableView->setObjectName("FindTableView");
  findTableView->setMinimumSize(1,1);
  findTableView->horizontalHeader()->hide();
+
+ // Установка высоты строки с принудительной стилизацией (если это необходимо),
+ // так как стилизация через QSS для элементов QTableView полноценно не работает
+ // У таблицы есть вертикальные заголовки, для каждой строки, в которых отображается номер строки.
+ // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
  findTableView->verticalHeader()->setDefaultSectionSize ( findTableView->verticalHeader()->minimumSectionSize () );
+ int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
+ if(height!=0)
+  findTableView->verticalHeader()->setDefaultSectionSize( height );
 
  // Устанавливается режим что могут выделяться только строки 
  // а не отдельный item таблицы
@@ -55,13 +63,6 @@ void FindTableWidget::setupUI(void)
   
  // Устанавливается режим что редактирование невозможно
  findTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
- // Принудительная стилизация, так как стилизация через QSS для элементов QTableView полноценно не работает
- // У таблицы есть вертикальные заголовки, для каждой строки, в которых отображается номер строки.
- // При задании высоты вертикального заголовка, высота применяется и для всех ячеек в строке.
- int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
- if(height!=0)
-  findTableView->verticalHeader()->setDefaultSectionSize( height );
 }
 
 

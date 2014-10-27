@@ -72,6 +72,9 @@ public slots:
  void moveUp(void);
  void moveDn(void);
 
+ // Слот, срабатывающий после перетаскивания колонки
+ void sectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
+
 protected slots:
 
  // Реакия на сдвиг засветки клавишами или мышкой
@@ -114,6 +117,8 @@ protected:
  void mousePressEvent(QMouseEvent *event);
  void mouseMoveEvent(QMouseEvent *event);
  void mouseReleaseEvent(QMouseEvent *event);
+
+ bool enableMoveSection;
 
 private:
 
