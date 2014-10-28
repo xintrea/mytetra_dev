@@ -158,6 +158,10 @@ public:
     bool getRecordTableShowVerticalHeaders(void);
     void setRecordTableShowVerticalHeaders(bool flag);
 
+    // Ширина полей, отображаемых в таблице конечных записей
+    QStringList getRecordTableFieldsWidth(void);
+    void setRecordTableFieldsWidth(QStringList fieldsWidth);
+
 private:
 
     QSettings *conf; // было static

@@ -73,7 +73,8 @@ public slots:
  void moveDn(void);
 
  // Слот, срабатывающий после перетаскивания колонки
- void sectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
+ void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
+ void onSectionResized( int logicalIndex, int oldSize, int newSize );
 
 protected slots:
 
@@ -117,6 +118,9 @@ protected:
  void mousePressEvent(QMouseEvent *event);
  void mouseMoveEvent(QMouseEvent *event);
  void mouseReleaseEvent(QMouseEvent *event);
+
+ void saveColumnWidth(void);
+ void restoreColumnWidth(void);
 
  bool enableMoveSection;
 

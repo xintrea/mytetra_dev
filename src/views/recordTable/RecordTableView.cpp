@@ -80,9 +80,9 @@ void RecordTableView::init(void)
  if(height!=0)
   verticalHeader()->setDefaultSectionSize( height );
 
- enableMoveSection=true;
+ restoreColumnWidth();
 
- // horizontalHeader()->setDefaultSectionSize ( horizontalHeader()->minimumSectionSize () );
+ enableMoveSection=true;
 
  // Нужно установить правила показа контекстного самодельного меню
  // чтобы оно могло вызываться
@@ -127,7 +127,9 @@ void RecordTableView::setupSignals(void)
          parentPointer, SLOT(toolsUpdate(void)));
 
  connect(this->horizontalHeader(), SIGNAL( sectionMoved( int, int, int ) ),
-         this, SLOT( sectionMoved( int, int, int ) ) );
+         this, SLOT( onSectionMoved( int, int, int ) ) );
+ connect(this->horizontalHeader(), SIGNAL( sectionResized( int, int, int ) ),
+         this, SLOT( onSectionResized( int, int, int ) ) );
 }
 
 
@@ -931,13 +933,14 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
 
 
 // Слот, срабатывающий после того, как был передвинут горизонтальный заголовок
-void RecordTableView::sectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex )
+void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex )
 {
   Q_UNUSED(logicalIndex);
 
   if(!enableMoveSection)
     return;
 
+  // Запоминается ширина столбцов
   int oldVisualWidth=horizontalHeader()->sectionSize(oldVisualIndex);
   int newVisualWidth=horizontalHeader()->sectionSize(newVisualIndex);
 
@@ -951,6 +954,7 @@ void RecordTableView::sectionMoved( int logicalIndex, int oldVisualIndex, int ne
   enableMoveSection=false;
 
   // Перемещение в данном представлении сбрасывается, так как модель берет последовательность полей из настроек
+  // После это кода logicalIindex=visualIndex для всех полей
   for(int logicalIdx=0; logicalIdx<showFields.size(); logicalIdx++)
   {
     int visualIdx=horizontalHeader()->visualIndex( logicalIdx );
@@ -962,7 +966,44 @@ void RecordTableView::sectionMoved( int logicalIndex, int oldVisualIndex, int ne
 
   horizontalHeader()->reset();
 
+  // Устанавливается ширина столбцов после перемещения
   horizontalHeader()->resizeSection(oldVisualIndex, newVisualWidth);
   horizontalHeader()->resizeSection(newVisualIndex, oldVisualWidth);
+
+  saveColumnWidth();
 }
 
+
+void RecordTableView::onSectionResized( int logicalIndex, int oldSize, int newSize )
+{
+ saveColumnWidth();
+}
+
+
+// Сохранение ширины колонок в конфигфайл
+void RecordTableView::saveColumnWidth(void)
+{
+  // Выясняется количество полей
+  int count=mytetraConfig.getRecordTableShowFields().size();
+
+  QStringList columnWidthList;
+
+  for(int i=0; i<count; i++)
+  {
+    QString width;
+    width.setNum( columnWidth(i) );
+    columnWidthList << width;
+  }
+
+  mytetraConfig.setRecordTableFieldsWidth( columnWidthList );
+}
+
+
+// Восстановление ширины колонок из конфигфайла
+void RecordTableView::restoreColumnWidth(void)
+{
+  QStringList columnWidthList=mytetraConfig.getRecordTableFieldsWidth();
+
+  for(int i=0; i<columnWidthList.size(); i++)
+    setColumnWidth( i, columnWidthList[i].toInt() );
+}

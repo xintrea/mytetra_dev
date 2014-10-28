@@ -614,6 +614,24 @@ void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
  conf->setValue("recordTableShowVerticalHeaders", flag);
 }
 
+QStringList getRecordTableFieldsWidth(void);
+void setRecordTableFieldsWidth(QStringList fieldsWidth);
+
+
+// Ширина полей, отображаемых в таблице конечных записей
+QStringList AppConfig::getRecordTableFieldsWidth(void)
+{
+ return (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
+}
+
+
+void AppConfig::setRecordTableFieldsWidth(QStringList fields)
+{
+ conf->setValue("recordTableFieldsWidth",fields.join(","));
+}
+
+
+
 
 // --------------------
 // Номер версии конфига
@@ -1029,6 +1047,7 @@ QStringList AppConfig::get_parameter_table_16(bool withEndSignature)
  table << get_parameter_table_15(false);
 
  table << "recordTableShowFields" << "QString" << "name,tags";
+ table << "recordTableFieldsWidth" << "QString" << "256,128";
  table << "recordTableShowHorizontalHeaders" << "bool" << "true";
  table << "recordTableShowVerticalHeaders" << "bool" << "false";
 
