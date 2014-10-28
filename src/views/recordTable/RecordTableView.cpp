@@ -80,6 +80,8 @@ void RecordTableView::init(void)
  if(height!=0)
   verticalHeader()->setDefaultSectionSize( height );
 
+ setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
  restoreColumnWidth();
 
  enableMoveSection=true;
@@ -653,12 +655,12 @@ void RecordTableView::setSelectionToPos(int pos)
  /*
  // Создание индекса из номера
  QModelIndex selIdx=recordModel->index(pos, 0);
-
  // Установка засветки на нужный индекс
  selectionModel()->setCurrentIndex(selIdx, QItemSelectionModel::ClearAndSelect);
  */
 
  selectRow(pos);
+ scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 }
 
 
@@ -829,7 +831,9 @@ void RecordTableView::setTableData(RecordTableData *rtData)
    if(workPos>0 && workPos<recordModel->rowCount())
     {
      // Выделение устанавливается на нужную запись
-     selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
+     // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
+     selectRow(workPos);
+     scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 
      removeSelection=false;
     }
@@ -976,6 +980,10 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
 
 void RecordTableView::onSectionResized( int logicalIndex, int oldSize, int newSize )
 {
+ Q_UNUSED(logicalIndex);
+ Q_UNUSED(oldSize);
+ Q_UNUSED(newSize);
+
  saveColumnWidth();
 }
 
@@ -1004,6 +1012,8 @@ void RecordTableView::restoreColumnWidth(void)
 {
   QStringList columnWidthList=mytetraConfig.getRecordTableFieldsWidth();
 
-  for(int i=0; i<columnWidthList.size(); i++)
+  // Восстанавливается ширина всех колонок без последней
+  // Чтобы последняя растягивалась по месту
+  for(int i=0; i<columnWidthList.size()-1; i++)
     setColumnWidth( i, columnWidthList[i].toInt() );
 }
