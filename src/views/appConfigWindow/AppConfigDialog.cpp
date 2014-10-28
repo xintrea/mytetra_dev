@@ -7,6 +7,8 @@
 #include "AppConfigPage_Crypt.h"
 #include "AppConfigPage_Misc.h"
 #include "AppConfigPage_Synchro.h"
+#include "AppConfigPage_RecordTable.h"
+
 
 
 AppConfigDialog::AppConfigDialog(void) : QWidget()
@@ -15,10 +17,11 @@ AppConfigDialog::AppConfigDialog(void) : QWidget()
  
  configdialog->set_window_title(tr("MyTetra settings"));
  
- configdialog->add_widget(new AppConfigPage_Main,    tr("Main"));
- configdialog->add_widget(new AppConfigPage_Crypt,   tr("Crypt"));
- configdialog->add_widget(new AppConfigPage_Synchro, tr("Synchro"));
- configdialog->add_widget(new AppConfigPage_Misc,    tr("Misc"));
+ configdialog->add_widget(new AppConfigPage_Main,        tr("Main"));
+ configdialog->add_widget(new AppConfigPage_Crypt,       tr("Crypt"));
+ configdialog->add_widget(new AppConfigPage_Synchro,     tr("Synchro"));
+ configdialog->add_widget(new AppConfigPage_RecordTable, tr("Note area"));
+ configdialog->add_widget(new AppConfigPage_Misc,        tr("Misc"));
 
  configdialog->updateListWidth();
 

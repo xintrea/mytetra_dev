@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QCheckBox>
 #include <QMap>
+#include <QGroupBox>
 
+#include "ConfigPage.h"
 
 class AppConfigPage_RecordTable : public ConfigPage
 {
@@ -18,7 +20,7 @@ private slots:
 
 protected:
 
-  QMap<QString, QCheckBox *> showFields;
+  QMap<QString, QCheckBox *> fields;
 
   QCheckBox *showHorizontalHeader;
   QCheckBox *showVerticalHeader;

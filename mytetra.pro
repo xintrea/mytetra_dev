@@ -94,6 +94,7 @@ INSTALLS+=icon_48_file
 
 HEADERS = src/main.h \
     src/views/recordTable/RecordTableScreen.h \
+    src/views/recordTable/RecordTableView.h \
     src/views/record/RecordInfoFieldsEditor.h \
     src/views/record/InfoFieldEnter.h \
     src/views/record/MetaEditor.h \
@@ -125,6 +126,7 @@ HEADERS = src/main.h \
     src/views/appConfigWindow/AppConfigPage_Misc.h \
     src/views/appConfigWindow/AppConfigPage_Crypt.h \
     src/views/appConfigWindow/AppConfigPage_Synchro.h \
+    src/views/appConfigWindow/AppConfigPage_RecordTable.h \
     src/models/appConfig/AppConfigUpdater.h \
     src/libraries/TrashMonitoring.h \
     src/libraries/wyedit/EditorContextMenu.h \
@@ -136,9 +138,7 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
-    src/libraries/FixedParameters.h \
-    src/views/recordTable/RecordTableView.h \
-    src/views/appConfigWindow/AppConfigPage_RecordTable.h
+    src/libraries/FixedParameters.h 
 
 
 lessThan(QT_MAJOR_VERSION,5) {
@@ -173,6 +173,7 @@ HEADERS+=\
 
 SOURCES = src/main.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
+    src/views/recordTable/RecordTableView.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
     src/views/record/InfoFieldEnter.cpp \
     src/views/record/MetaEditor.cpp \
@@ -204,6 +205,7 @@ SOURCES = src/main.cpp \
     src/views/appConfigWindow/AppConfigPage_Misc.cpp \
     src/views/appConfigWindow/AppConfigPage_Crypt.cpp \
     src/views/appConfigWindow/AppConfigPage_Synchro.cpp \
+    src/views/appConfigWindow/AppConfigPage_RecordTable.cpp \
     src/models/appConfig/AppConfigUpdater.cpp \
     src/libraries/TrashMonitoring.cpp \
     src/libraries/wyedit/EditorContextMenu.cpp \
@@ -215,9 +217,7 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorAddTableForm.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
     src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
-    src/libraries/FixedParameters.cpp \
-    src/views/recordTable/RecordTableView.cpp \
-    src/views/appConfigWindow/AppConfigPage_RecordTable.cpp
+    src/libraries/FixedParameters.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
