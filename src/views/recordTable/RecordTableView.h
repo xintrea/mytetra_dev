@@ -25,6 +25,11 @@ public:
 
  void init(void);
 
+ void reloadModel( void );
+
+ void restoreHeaderState( void );
+ void restoreColumnWidth(void);
+
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
 
@@ -76,6 +81,7 @@ public slots:
  void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
  void onSectionResized( int logicalIndex, int oldSize, int newSize );
 
+
 protected slots:
 
  // Реакия на сдвиг засветки клавишами или мышкой
@@ -120,7 +126,6 @@ protected:
  void mouseReleaseEvent(QMouseEvent *event);
 
  void saveColumnWidth(void);
- void restoreColumnWidth(void);
 
  bool enableMoveSection;
 

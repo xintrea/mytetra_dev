@@ -52,13 +52,7 @@ void RecordTableView::init(void)
  setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
  setSelectionBehavior(QAbstractItemView::SelectRows);
 
- // Видимость горизонтальных заголовков
- if(mytetraConfig.getRecordTableShowHorizontalHeaders()==false)
-   horizontalHeader()->hide();
-
- // Видимость вертикальных заголовков
- if(mytetraConfig.getRecordTableShowVerticalHeaders()==false)
-   verticalHeader()->hide();
+ restoreHeaderState();
 
  // Растягивание последней секции до размеров виджета
  horizontalHeader()->setStretchLastSection(true);
@@ -134,6 +128,30 @@ void RecordTableView::setupSignals(void)
          this, SLOT( onSectionResized( int, int, int ) ) );
 }
 
+
+void RecordTableView::reloadModel( void )
+{
+  setModel(NULL);
+  setModel(recordModel);
+
+  qDebug() << "Reload record table model in RecordTableView";
+}
+
+
+void RecordTableView::restoreHeaderState( void )
+{
+  // Видимость горизонтальных заголовков
+  if(mytetraConfig.getRecordTableShowHorizontalHeaders()==false)
+    horizontalHeader()->hide();
+  else
+    horizontalHeader()->show();
+
+  // Видимость вертикальных заголовков
+  if(mytetraConfig.getRecordTableShowVerticalHeaders()==false)
+    verticalHeader()->hide();
+  else
+    verticalHeader()->show();
+}
 
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                           const QItemSelection &deselected )
