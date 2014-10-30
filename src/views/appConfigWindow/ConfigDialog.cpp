@@ -76,20 +76,22 @@ void ConfigDialog::set_window_title(QString title)
 }
 
 
-void ConfigDialog::add_widget(QWidget *inswidget, QString name)
+QListWidgetItem *ConfigDialog::add_widget(QWidget *inswidget, QString name)
 {
  pagesWidget->addWidget(inswidget);
 
- create_items(name);
+ return create_items(name);
 }
 
 
 // Создаются пункты для вызова нужных конфигурирующих виджетов
-void ConfigDialog::create_items(QString name)
+QListWidgetItem *ConfigDialog::create_items(QString name)
 {
- QListWidgetItem *configButton = new QListWidgetItem(contentsWidget);
- configButton->setText(name);
- configButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+ QListWidgetItem *item = new QListWidgetItem(contentsWidget);
+ item->setText(name);
+ item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+ return item;
 }
 
 

@@ -60,6 +60,9 @@ public slots:
  // Вызов действий для вставки записей из буфера
  void paste(void);
 
+ // Вызов настроек
+ void settings(void);
+
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 

@@ -4,17 +4,25 @@
 #include <QWidget>
 
 class ConfigDialog;
-
+class QListWidgetItem;
 
 class AppConfigDialog : public QWidget
 {
  Q_OBJECT
 
 public:
- AppConfigDialog(void);
+ AppConfigDialog(QString firstPageName);
     
 private:
- ConfigDialog *configdialog;
+ ConfigDialog *configDialog;
+
+ QListWidgetItem *pageMain;
+ QListWidgetItem *pageCrypt;
+ QListWidgetItem *pageSynchro;
+ QListWidgetItem *pageRecordTable;
+ QListWidgetItem *pageMisc;
+
+ void changePage(QString name);
 };
 
 #endif // _APPCONFIGDIALOG_H_

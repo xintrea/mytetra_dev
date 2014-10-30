@@ -1,5 +1,6 @@
 #include <QStackedWidget>
 #include <QDialog>
+#include <QDebug>
 
 #include "ConfigDialog.h"
 #include "AppConfigDialog.h"
@@ -10,21 +11,40 @@
 #include "AppConfigPage_RecordTable.h"
 
 
-
-AppConfigDialog::AppConfigDialog(void) : QWidget()
+AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 {
- ConfigDialog *configdialog=new ConfigDialog();
+ configDialog=new ConfigDialog();
+ configDialog->set_window_title(tr("MyTetra settings"));
  
- configdialog->set_window_title(tr("MyTetra settings"));
- 
- configdialog->add_widget(new AppConfigPage_Main,        tr("Main"));
- configdialog->add_widget(new AppConfigPage_Crypt,       tr("Crypt"));
- configdialog->add_widget(new AppConfigPage_Synchro,     tr("Synchro"));
- configdialog->add_widget(new AppConfigPage_RecordTable, tr("Note area"));
- configdialog->add_widget(new AppConfigPage_Misc,        tr("Misc"));
+ pageMain       =configDialog->add_widget(new AppConfigPage_Main(this),        tr("Main"));
+ pageCrypt      =configDialog->add_widget(new AppConfigPage_Crypt(this),       tr("Crypt"));
+ pageSynchro    =configDialog->add_widget(new AppConfigPage_Synchro(this),     tr("Synchro"));
+ pageRecordTable=configDialog->add_widget(new AppConfigPage_RecordTable(this), tr("Note area"));
+ pageMisc       =configDialog->add_widget(new AppConfigPage_Misc(this),        tr("Misc"));
 
- configdialog->updateListWidth();
+ configDialog->updateListWidth();
 
- configdialog->exec();
+ if(firstPageName.size()>0)
+   changePage(firstPageName);
+
+ configDialog->exec();
 }
 
+
+// Переход на нужную страницу настроек извне
+void AppConfigDialog::changePage(QString name)
+{
+
+ QListWidgetItem *item=NULL;
+
+ if(name=="pageMain") item=pageMain;
+ if(name=="pageCrypt") item=pageCrypt;
+ if(name=="pageSynchro") item=pageSynchro;
+ if(name=="pageRecordTable") item=pageRecordTable;
+ if(name=="pageMisc") item=pageMisc;
+
+ if(item!=NULL)
+   configDialog->change_page(item, item);
+ else
+   qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
+}

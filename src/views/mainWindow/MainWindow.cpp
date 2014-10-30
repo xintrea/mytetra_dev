@@ -550,7 +550,7 @@ void MainWindow::toolsFind(void)
 void MainWindow::toolsPreferences(void)
 {
  // Создается окно настроек, после выхода из этой функции окно удалится
- AppConfigDialog dialog;
+ AppConfigDialog dialog("");
  dialog.show();
 }
 

@@ -36,6 +36,7 @@ public:
  QAction *actionCut;
  QAction *actionCopy;
  QAction *actionPaste;
+ QAction *actionSettings;
 
 public slots:
 

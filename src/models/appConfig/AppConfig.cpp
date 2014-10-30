@@ -587,6 +587,10 @@ QStringList AppConfig::getRecordTableShowFields(void)
 
 void AppConfig::setRecordTableShowFields(QStringList fields)
 {
+ // Не должно быть так, чтобы был пустой список
+ if(fields.size()==0)
+   fields << "name";
+
  conf->setValue("recordTableShowFields",fields.join(","));
 }
 
@@ -627,6 +631,14 @@ QStringList AppConfig::getRecordTableFieldsWidth(void)
 
 void AppConfig::setRecordTableFieldsWidth(QStringList fields)
 {
+ // В списке с одним элементом должна стоять стандартная величина (всеравно она не влияет, и начнет влиять только после появления второй колонки)
+ if(fields.size()==1)
+   fields[0]="256";
+
+ // Не должно быть так, чтобы был пустой список
+ if(fields.size()==0)
+   fields << "256";
+
  conf->setValue("recordTableFieldsWidth",fields.join(","));
 }
 

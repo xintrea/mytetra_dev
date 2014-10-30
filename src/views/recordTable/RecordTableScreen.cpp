@@ -92,6 +92,11 @@ void RecordTableScreen::setupActions(void)
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
  connect(actionPaste, SIGNAL(triggered()), recordTableView, SLOT(paste()));
 
+ // Настройка внешнего вида таблицы конечных записей
+ actionSettings = new QAction(tr("&View settings"), this);
+ actionSettings->setStatusTip(tr("Setup table view settins"));
+ connect(actionSettings, SIGNAL(triggered()), recordTableView, SLOT(settings()));
+
  // Перемещение записи вверх
  actionMoveUp = new QAction(tr("&Move Up"), this);
  actionMoveUp->setStatusTip(tr("Move note up"));

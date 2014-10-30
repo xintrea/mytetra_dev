@@ -7,6 +7,7 @@ class QDialogButtonBox;
 class QListWidget;
 class QListWidgetItem;
 class QStackedWidget;
+class QListWidgetItem;
 
 
 class ConfigDialog : public QDialog
@@ -15,7 +16,7 @@ class ConfigDialog : public QDialog
 
 public:
     ConfigDialog();
-    void add_widget(QWidget *inswidget, QString name);
+    QListWidgetItem *add_widget(QWidget *inswidget, QString name);
     void set_window_title(QString title);
 
     void updateListWidth(void);
@@ -31,7 +32,7 @@ private:
     void setup_signals(void);
     void assembly(void);
 
-    void create_items(QString name);
+    QListWidgetItem *create_items(QString name);
 
     QListWidget *contentsWidget;
     QStackedWidget *pagesWidget;

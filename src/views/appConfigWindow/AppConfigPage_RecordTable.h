@@ -17,6 +17,7 @@ public:
   int apply_changes(void);
 
 private slots:
+ void onFieldToggle(bool);
 
 protected:
 
@@ -28,6 +29,8 @@ protected:
   // Объединяющая рамка
   QGroupBox *showFieldsBox;
   QGroupBox *showHeadersBox;
+
+  void setupSignals(void);
 };
 
 

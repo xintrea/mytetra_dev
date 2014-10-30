@@ -2,6 +2,7 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QStringList>
+#include <QMessageBox>
 
 #include "main.h"
 #include "AppConfigPage_RecordTable.h"
@@ -70,6 +71,50 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
 
   // Устанавливается основной слой
   setLayout(central_layout);
+
+  setupSignals();
+}
+
+
+void AppConfigPage_RecordTable::setupSignals(void)
+{
+  QMapIterator<QString, QCheckBox *> i(fields);
+  while (i.hasNext())
+  {
+    i.next();
+    connect(i.value(), SIGNAL(toggled(bool)),
+            this, SLOT(onFieldToggle(bool)));
+  }
+}
+
+
+// Слот, срабатывающий каждый раз когда изменяется чекбокс любого поля
+void AppConfigPage_RecordTable::onFieldToggle(bool flag)
+{
+ Q_UNUSED(flag);
+
+ int count=0;
+
+  QMapIterator<QString, QCheckBox *> i(fields);
+  while (i.hasNext())
+  {
+    i.next();
+
+    if(i.value()->isChecked())
+      count++;
+  }
+
+
+  // Если пользователь снял флажки со всех полей
+  if(count==0)
+  {
+    QMessageBox msgBox;
+    msgBox.setText("Can't check off all fields.");
+    msgBox.exec();
+
+    fields["name"]->setCheckState( Qt::Checked );
+  }
+
 }
 
 
@@ -80,6 +125,18 @@ int AppConfigPage_RecordTable::apply_changes(void)
 {
  qDebug() << "Apply changes record table";
 
+ // Запоминается ширина полей
+ // Это надо сделать в первую очередь, потому что в дальнейшем после перечитывания модели и
+ // установки заголовков таблицы конечных записей слетают ширины полей (устанавливаюся в 100 px самим Qt)
+ QStringList showFields=mytetraConfig.getRecordTableShowFields();
+ QStringList fieldsWidth=mytetraConfig.getRecordTableFieldsWidth();
+ qDebug() << "showFields" << showFields;
+ qDebug() << "fieldsWidth" << fieldsWidth;
+
+ // Указатель на представление таблицы конечных записей
+ RecordTableView *view=find_object<RecordTableView>("RecordTableView");
+
+
  // Запоминание в конфигурацию отображения горизонтальных заголовков
  if(mytetraConfig.getRecordTableShowHorizontalHeaders()!=showHorizontalHeader->isChecked())
    mytetraConfig.setRecordTableShowHorizontalHeaders(showHorizontalHeader->isChecked());
@@ -88,16 +145,12 @@ int AppConfigPage_RecordTable::apply_changes(void)
  if(mytetraConfig.getRecordTableShowVerticalHeaders()!=showVerticalHeader->isChecked())
    mytetraConfig.setRecordTableShowVerticalHeaders(showVerticalHeader->isChecked());
 
+ // В виде устанавливается видимость заголовоков
+ view->restoreHeaderState();
 
- QStringList showFields=mytetraConfig.getRecordTableShowFields();
- QStringList fieldsWidth=mytetraConfig.getRecordTableFieldsWidth();
-
- qDebug() << "showFields" << showFields;
- qDebug() << "fieldsWidth" << fieldsWidth;
 
  QStringList addFieldsList; // Список полей, которые добавились в результате настройки
  QStringList removeFieldsList; // Список полей, которые должны удалиться в результате настройки
-
 
  // Определение, какие поля нужно добавить, какие удалить
  QMapIterator<QString, QCheckBox *> i(fields);
@@ -131,6 +184,12 @@ int AppConfigPage_RecordTable::apply_changes(void)
 
  // Установка имен полей в конфигурацию
  mytetraConfig.setRecordTableShowFields(newShowFields);
+
+
+ // Переподключение модели в таблице конечных записей, чтобы обновились колонки и их количество
+ // Во время переподключения в конфигурации будут сброшены ширины полей на 100 px.
+ // (непонятно, с чем это связано, видимо Qt генерирует сигналы изменения размеров окна/виджета)
+ view->reloadModel();
 
 
  // Если полей становится больше чем было
@@ -187,11 +246,18 @@ int AppConfigPage_RecordTable::apply_changes(void)
  }
 
 
- // Переподключение модели в таблице конечных записей, чтобы применились все внесенные параметры
- RecordTableView *view=find_object<RecordTableView>("RecordTableView");
- view->reloadModel();
- view->restoreHeaderState();
+ // Если полей столько же сколько и было
+ if( newShowFields.size() == showFields.size() )
+ {
+   qDebug() << "Count of field not changed. Set previous fields width" << fieldsWidth;
+
+   // Установка запомненных ширин полей в конфигурацию
+   // Так как это значение в конфигурации было искажено в момент переподключения модели
+   mytetraConfig.setRecordTableFieldsWidth(fieldsWidth);
+ }
+
  view->restoreColumnWidth();
+
 
  return 0;
 }

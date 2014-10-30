@@ -17,6 +17,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/record/MetaEditor.h"
 #include "libraries/WalkHistory.h"
+#include "views/appConfigWindow/AppConfigDialog.h"
 
 extern AppConfig mytetraConfig;
 extern WalkHistory walkHistory;
@@ -352,8 +353,11 @@ void RecordTableView::addNew(int mode,
                                       files);
 
  // Установка курсора на только что созданную позицию
+ /*
  QModelIndex selIdx=recordModel->index(selPos, 0); // Создание индекса из номера
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
+ */
+ selectRow(selPos);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("TreeScreen")->saveKnowTree();
@@ -489,6 +493,11 @@ void RecordTableView::deleteRecords(void)
  if(itemsForDelete.count()==0)
  {
    qDebug() << "Records for delete not selected.";
+
+   QMessageBox msgBox;
+   msgBox.setText("Please select at least one record for delete.");
+   msgBox.exec();
+
    return;
  }
 
@@ -541,11 +550,13 @@ void RecordTableView::deleteRecords(void)
  // Установка курсора на нужную позицию
  if(selectionIndex>=0)
  {
+   /*
    // Создание индекса из номера
    QModelIndex selIdx=recordModel->index(selectionIndex, 0);
-
    // Установка курсора
    selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
+   */
+   selectRow(selectionIndex);
  }
  else
  {
@@ -577,6 +588,8 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addAction(parentPointer->actionCut);
   contextMenu->addAction(parentPointer->actionCopy);
   contextMenu->addAction(parentPointer->actionPaste);
+  contextMenu->addSeparator();
+  contextMenu->addAction(parentPointer->actionSettings);
 }
 
 
@@ -1022,6 +1035,8 @@ void RecordTableView::saveColumnWidth(void)
   }
 
   mytetraConfig.setRecordTableFieldsWidth( columnWidthList );
+
+  qDebug() << "Save column width " << columnWidthList;
 }
 
 
@@ -1030,8 +1045,18 @@ void RecordTableView::restoreColumnWidth(void)
 {
   QStringList columnWidthList=mytetraConfig.getRecordTableFieldsWidth();
 
+  qDebug() << "Restore column width " << columnWidthList;
+
   // Восстанавливается ширина всех колонок без последней
   // Чтобы последняя растягивалась по месту
   for(int i=0; i<columnWidthList.size()-1; i++)
     setColumnWidth( i, columnWidthList[i].toInt() );
+}
+
+
+// Слот, срабатывающий при вызове настроек
+void RecordTableView::settings(void)
+{
+ AppConfigDialog dialog("pageRecordTable");
+ dialog.show();
 }

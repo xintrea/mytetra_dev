@@ -223,6 +223,8 @@ int RecordTableModel::addTableData(int mode,
 // Удаление записей по указанному списку
 void RecordTableModel::removeRowsByList(QVector<int> delIdx)
 {
+  qDebug() << "Remove rows by list: " << delIdx;
+
   if(table==NULL) return;
 
   // Массив сортируется так чтоб вначале были индексы с наибольшим номером
@@ -231,7 +233,7 @@ void RecordTableModel::removeRowsByList(QVector<int> delIdx)
 
   for(int i=0;i<delIdx.count();i++)
   {
-    beginRemoveRows(QModelIndex(), delIdx[i], 1);
+    beginRemoveRows(QModelIndex(), delIdx[i], delIdx[i]);
     table->deleteRecord(delIdx[i]);
     endRemoveRows();
   }
