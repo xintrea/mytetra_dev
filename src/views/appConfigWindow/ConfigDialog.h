@@ -20,12 +20,11 @@ public:
     void set_window_title(QString title);
 
     void updateListWidth(void);
-
-public slots:
-    void change_page(QListWidgetItem *current, QListWidgetItem *previous);
+    void externalChangePage(QListWidgetItem *item);
 
 private slots:    
     void apply_changes(void);
+    void change_page(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
     void setup_ui(void);

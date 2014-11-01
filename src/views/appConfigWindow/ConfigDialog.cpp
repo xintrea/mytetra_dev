@@ -95,12 +95,20 @@ QListWidgetItem *ConfigDialog::create_items(QString name)
 }
 
 
+// Приватный слот, переключение виджета настройки при клике по списку настроечных виджетов
 void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previous)
 {
     if (!current)
         current = previous;
 
     pagesWidget->setCurrentIndex(contentsWidget->row(current));
+}
+
+
+
+void ConfigDialog::externalChangePage(QListWidgetItem *item)
+{
+  contentsWidget->setCurrentItem(item);
 }
 
 

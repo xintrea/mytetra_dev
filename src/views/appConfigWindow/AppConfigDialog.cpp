@@ -31,7 +31,7 @@ AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 }
 
 
-// Переход на нужную страницу настроек извне
+// Переход на нужную страницу настроек (переход совершается кодом извне)
 void AppConfigDialog::changePage(QString name)
 {
 
@@ -44,7 +44,7 @@ void AppConfigDialog::changePage(QString name)
  if(name=="pageMisc") item=pageMisc;
 
  if(item!=NULL)
-   configDialog->change_page(item, item);
+   configDialog->externalChangePage(item);
  else
    qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
 }
