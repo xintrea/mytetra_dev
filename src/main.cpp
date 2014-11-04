@@ -915,10 +915,15 @@ int main(int argc, char ** argv)
  // Создание объекта главного окна
  MainWindow win;
  win.setWindowTitle("MyTetra");
- if(mytetraConfig.get_runinminimizedwindow()==false)
-  win.show();
+ if(globalParameters.getTargetOs()=="android")
+   win.show(); // В Андроиде нет десктопа, на нем нельзя сворачивать окно
  else
-  win.hide();
+ {
+   if(mytetraConfig.get_runinminimizedwindow()==false)
+     win.show();
+   else
+     win.hide();
+ }
 
  // win.setObjectName("mainwindow");
  // pMainWindow=&win; // Запоминается указатель на основное окно

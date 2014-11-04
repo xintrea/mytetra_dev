@@ -158,10 +158,14 @@ void MainWindow::commitData(QSessionManager& manager)
 // Восстанавливается геометрия окна и позиции основных разделителей
 void MainWindow::restoreGeometry(void)
 {
- QRect rect=mytetraConfig.get_mainwingeometry();
-
- resize(rect.size());
- move(rect.topLeft());
+ if(globalParameters.getTargetOs()=="android")
+   setWindowState(Qt::WindowMaximized); // Для Андроида окно просто разворачивается на весь экран
+ else
+ {
+   QRect rect=mytetraConfig.get_mainwingeometry();
+   resize(rect.size());
+   move(rect.topLeft());
+ }
 
  // move(rect.topLeft());
  // resize(rect.size());
@@ -748,7 +752,7 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
   // QEvent::ActivationChange
   if( e->type() == QEvent::WindowDeactivate)
   {
-   qDebug() << "Main window focus decativate, save text area.";
+   qDebug() << "Main window focus deactivate, save text area.";
    saveTextarea();
   }
 

@@ -1059,4 +1059,9 @@ void RecordTableView::settings(void)
 {
  AppConfigDialog dialog("pageRecordTable");
  dialog.show();
+
+ // Todo: Возвращение фокуса почему-то не работает, надо разбираться
+ // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
+ // qDebug() << "Set focus to RecordTableView";
+ // this->setFocus();
 }

@@ -211,6 +211,8 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
  QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
 
+ QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/stylesheet.css");
+ QFile::setPermissions(dirName+"/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
 
  // Создается файл базы данных
  QFile::copy(":/resource/standartdata/mytetra.xml", dirName+"/data/mytetra.xml");
