@@ -1,6 +1,9 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QAbstractItemModel>
+#include <QScroller>
+#include <QScrollerProperties>
+#include <QScrollBar>
 
 #include "main.h"
 #include "KnowTreeView.h"
@@ -11,12 +14,39 @@
 #include "models/tree/TreeItem.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "views/recordTable/RecordTableView.h"
+#include "libraries/GlobalParameters.h"
+
+
+extern GlobalParameters globalParameters;
+
 
 KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
 {
  // Разрешение принимать Drop-события
  setAcceptDrops(true);
  setDropIndicatorShown(true);
+
+
+ if(globalParameters.getTargetOs()=="android")
+ {
+   QScroller *scroller = QScroller::scroller(this);
+
+   // For desktop - QScroller::LeftMouseButtonGesture, for Android - QScroller::TouchGesture in doc
+   // TouchGesture по факту на Андроиде не работает, а LeftMouseButtonGesture - почему-то работает
+   scroller->grabGesture(this, QScroller::LeftMouseButtonGesture);
+
+   QScrollerProperties properties = scroller->scrollerProperties();
+   QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
+   properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
+   properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
+   scroller->setScrollerProperties(properties); // QScrollerProperties::OvershootAlwaysOff
+
+   horizontalScrollBar()->setStyleSheet("QScrollBar {height:0px;}");
+   verticalScrollBar()->setStyleSheet("QScrollBar {width:0px;}");
+
+   setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+   // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+ }
 }
 
 
