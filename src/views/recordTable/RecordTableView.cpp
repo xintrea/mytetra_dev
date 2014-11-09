@@ -32,6 +32,9 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
  recordModel=new RecordTableModel();
  recordModel->setObjectName("recordmodel");
  setModel(recordModel);
+
+ // Настройка области виджета для кинетической прокрутки
+ setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 }
 
 

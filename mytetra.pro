@@ -138,7 +138,7 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorAddTableForm.h \
     src/libraries/wyedit/EditorImageProperties.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
-    src/libraries/FixedParameters.h 
+    src/libraries/FixedParameters.h
 
 
 lessThan(QT_MAJOR_VERSION,5) {

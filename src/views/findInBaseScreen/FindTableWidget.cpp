@@ -63,6 +63,9 @@ void FindTableWidget::setupUI(void)
   
  // Устанавливается режим что редактирование невозможно
  findTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+ // Настройка области виджета для кинетической прокрутки
+ setKineticScrollArea( qobject_cast<QAbstractItemView*>(findTableView) );
 }
 
 

@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include <QSizePolicy>
 #include <QToolBar>
+#include <QAbstractItemView>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   29
+#define APPLICATION_RELEASE_MICROVERSION   30
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -68,6 +69,7 @@ QStringList text_delimiter_decompose(QString text);
 QString get_unical_id(void);
 int get_milli_count(void);
 void init_random(void);
+
 void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec);
 void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba);
 QString encryptString(QByteArray key, QString line);
@@ -77,6 +79,8 @@ QString decryptStringFromByteArray(QByteArray key, QByteArray data);
 void encryptFile(QByteArray key, QString fileName);
 void decryptFile(QByteArray key, QString fileName);
 void encDecFileSmart(QByteArray key, QString fileName, int mode);
+
+void setKineticScrollArea(QAbstractItemView *object);
 
 // template <class X> inline X *find_object(QString n);
 

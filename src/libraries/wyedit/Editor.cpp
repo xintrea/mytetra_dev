@@ -883,7 +883,9 @@ bool Editor::load_textarea()
 
  // Устанавливается URL документа, с помощью него будут высчитываться
  // относительные ссылки при загрузке картинок
- textArea->document()->setMetaInformation( QTextDocument::DocumentUrl, fileName );
+ textArea->document()->setMetaInformation( QTextDocument::DocumentUrl, "file:"+fileName );
+
+ qDebug() << "Editor::load_textarea() Set document URL to " << fileName;
 
  // Текст из файла вставляется в область редактирования
  // QString content=QString::fromUtf8(f.readAll());

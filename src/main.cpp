@@ -3,6 +3,9 @@
 #include <QTranslator>
 #include <QToolButton>
 #include <QSplashScreen>
+#include <QScroller>
+#include <QScrollerProperties>
+#include <QScrollBar>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -548,6 +551,46 @@ void setCssStyle()
   }
 }
  
+
+void setKineticScrollArea(QAbstractItemView *object)
+{
+
+  if(object==NULL)
+    return;
+
+  if(globalParameters.getTargetOs()=="android")
+  {
+    QScroller *scroller = QScroller::scroller(object);
+
+    // For desktop - QScroller::LeftMouseButtonGesture, for Android - QScroller::TouchGesture in doc
+    // TouchGesture по факту на Андроиде не работает, а LeftMouseButtonGesture - почему-то работает
+    scroller->grabGesture(object, QScroller::LeftMouseButtonGesture);
+
+    QScrollerProperties properties = scroller->scrollerProperties();
+    QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
+    properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
+    properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
+    scroller->setScrollerProperties(properties); // QScrollerProperties::OvershootAlwaysOff
+
+    object->horizontalScrollBar()->setStyleSheet("QScrollBar {height:0px;}");
+
+    // QScrollBar::add-line:horizontal { border: none; background: none; } QScrollBar::sub-line:horizontal { border: none; background: none; }
+    // QScrollBar {width:3px;}
+    // QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}
+    // QScrollBar::add-line:vertical { height: 0px; } QScrollBar::sub-line:vertical { height: 0px; }
+    // QScrollBar::add-line:vertical { border: none; background: none; height: 0px; } QScrollBar::sub-line:vertical { border: none; background: none; height: 0px; }
+    // background: transparent; background-color:transparent;
+    // "QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}"
+    object->verticalScrollBar()->setStyleSheet("QScrollBar {width:2px; border: none; background: transparent;}"
+                                               "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {width: 0px; height: 0px; border: none;  background: transparent; image: url(:/resource/pic/transparent_dot.png); }"
+                                               "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { image: url(:/resource/pic/transparent_dot.png); }");
+
+    object->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+  }
+}
+
+
 
 QStringList text_delimiter_decompose(QString text)
 {
