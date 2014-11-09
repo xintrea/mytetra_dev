@@ -4,6 +4,9 @@
 #include <QTextEdit>
 #include <QPaintEvent>
 #include <QMimeData>
+#include <QTapAndHoldGesture>
+#include <QEvent>
+#include <QGestureEvent>
 
 class EditorTextArea : public QTextEdit
 {
@@ -25,6 +28,10 @@ class EditorTextArea : public QTextEdit
   int get_indent_started_left(void);
   int get_indent_started_right(void);
 
+ signals:
+  void tapAndHoldGestureFinished(const QPoint &);
+
+
  public slots:
   void show_indetedge(bool i);
   void set_indentedge_pos(int i);
@@ -35,6 +42,10 @@ class EditorTextArea : public QTextEdit
 
   bool flagShowIndentEdge; // Рисовать ли линию отступа
   int  posIndentEdge; // По какой координате рисовать линию отступа
+
+  bool event(QEvent *event);
+  bool gestureEvent(QGestureEvent *event);
+  void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
   virtual bool eventFilter(QObject *o, QEvent *e);
 };

@@ -186,8 +186,12 @@ void Editor::setup_signals(void)
  connect(this,SIGNAL(send_set_leftindent_pos(int)), indentSlider,SLOT(set_leftindent_pos(int)));
  connect(this,SIGNAL(send_set_rightindent_pos(int)),indentSlider,SLOT(set_rightindent_pos(int)));
 
- // Сигнал чтобы показать контекстное меню по правому клику в редакторе
+ // Соединение сигнал-слот чтобы показать контекстное меню по правому клику в редакторе
  connect(textArea, SIGNAL(customContextMenuRequested(const QPoint &)),
+         this, SLOT(on_customContextMenuRequested(const QPoint &)));
+
+ // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+ connect(textArea, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
          this, SLOT(on_customContextMenuRequested(const QPoint &)));
 
  // connect(textArea->document(), SIGNAL(modificationChanged (bool )),

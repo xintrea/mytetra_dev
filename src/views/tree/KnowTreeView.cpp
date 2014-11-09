@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QAbstractItemModel>
+#include <QMessageBox>
 
 #include "main.h"
 #include "KnowTreeView.h"
@@ -11,6 +12,11 @@
 #include "models/tree/TreeItem.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "views/recordTable/RecordTableView.h"
+#include "libraries/GlobalParameters.h"
+#include "views/mainWindow/MainWindow.h"
+
+
+extern GlobalParameters globalParameters;
 
 
 KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
@@ -18,6 +24,9 @@ KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
  // Разрешение принимать Drop-события
  setAcceptDrops(true);
  setDropIndicatorShown(true);
+
+ // Разрешение принимать жест QTapAndHoldGesture
+ grabGesture(Qt::TapAndHoldGesture);
 
  // Настройка области виджета для кинетической прокрутки
  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
@@ -27,6 +36,44 @@ KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
 KnowTreeView::~KnowTreeView()
 {
 
+}
+
+
+// Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)
+bool KnowTreeView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+     {
+        qDebug() << "In gesture event(): " << event << " Event type: " << event->type();
+        return gestureEvent(static_cast<QGestureEvent*>(event));
+     }
+
+    return QTreeView::event(event);
+}
+
+
+// Обработчик жестов
+// Вызывается из обработчика событий
+bool KnowTreeView::gestureEvent(QGestureEvent *event)
+{
+  qDebug() << "In gestureEvent()" << event;
+
+  if (QGesture *gesture = event->gesture(Qt::TapAndHoldGesture))
+    tapAndHoldGestureTriggered(static_cast<QTapAndHoldGesture *>(gesture));
+
+  return true;
+}
+
+
+// Обработчик жеста TapAndHoldGesture
+// Вызывается из обработчика жестов
+void KnowTreeView::tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture)
+{
+  qDebug() << "In tapAndHoldGestureTriggered()" << gesture;
+
+  if(gesture->state()==Qt::GestureFinished)
+    if(globalParameters.getTargetOs()=="android")
+      emit tapAndHoldGestureFinished( mapFromGlobal(gesture->position().toPoint()) );
 }
 
 

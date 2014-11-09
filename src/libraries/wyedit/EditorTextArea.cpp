@@ -6,9 +6,14 @@
 #include <QUrl>
 
 #include "../../main.h"
+#include "views/mainWindow/MainWindow.h"
+#include "libraries/GlobalParameters.h"
 
 #include "Editor.h"
 #include "EditorTextArea.h"
+
+
+extern GlobalParameters globalParameters;
 
 
 EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)
@@ -22,6 +27,9 @@ EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)
  this->verticalScrollBar()->installEventFilter(this);
 
  // this->setStyleSheet("QTextEdit::table {border:1px solid maroon; border-collapse:collapse;}");
+
+ // Разрешение принимать жест QTapAndHoldGesture
+ grabGesture(Qt::TapAndHoldGesture);
 }
 
 
@@ -42,6 +50,44 @@ void EditorTextArea::set_showformatting(bool i)
  flagShowFormatting=i;
 
  viewport()->update();
+}
+
+
+// Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)
+bool EditorTextArea::event(QEvent *event)
+{
+  if (event->type() == QEvent::Gesture)
+  {
+    // qDebug() << "In gesture event(): " << event << " Event type: " << event->type();
+    return gestureEvent(static_cast<QGestureEvent*>(event));
+  }
+
+  return QTextEdit::event(event);
+}
+
+
+// Обработчик жестов
+// Вызывается из обработчика событий
+bool EditorTextArea::gestureEvent(QGestureEvent *event)
+{
+  // qDebug() << "In gestureEvent()" << event;
+
+  if (QGesture *gesture = event->gesture(Qt::TapAndHoldGesture))
+    tapAndHoldGestureTriggered(static_cast<QTapAndHoldGesture *>(gesture));
+
+  return true;
+}
+
+
+// Обработчик жеста TapAndHoldGesture
+// Вызывается из обработчика жестов
+void EditorTextArea::tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture)
+{
+  // qDebug() << "In tapAndHoldGestureTriggered()" << gesture;
+
+  if(gesture->state()==Qt::GestureFinished)
+    if(globalParameters.getTargetOs()=="android")
+      emit tapAndHoldGestureFinished( mapFromGlobal(gesture->position().toPoint()) );
 }
 
 

@@ -18,7 +18,11 @@
 #include "views/record/MetaEditor.h"
 #include "libraries/WalkHistory.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
+#include "libraries/GlobalParameters.h"
+#include "views/mainWindow/MainWindow.h"
 
+
+extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 extern WalkHistory walkHistory;
 
@@ -35,6 +39,9 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
  // Настройка области виджета для кинетической прокрутки
  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+
+ // Разрешение принимать жест QTapAndHoldGesture
+ grabGesture(Qt::TapAndHoldGesture);
 }
 
 
@@ -96,6 +103,10 @@ void RecordTableView::setupSignals(void)
  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
          this,SLOT(onCustomContextMenuRequested(const QPoint &)));
+
+ // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+ connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
+         this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
@@ -767,6 +778,44 @@ void RecordTableView::paste(void)
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
  find_object<TreeScreen>("TreeScreen")->updateSelectedBranch();
+}
+
+
+// Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)
+bool RecordTableView::event(QEvent *event)
+{
+  if (event->type() == QEvent::Gesture)
+  {
+    qDebug() << "In gesture event(): " << event << " Event type: " << event->type();
+    return gestureEvent(static_cast<QGestureEvent*>(event));
+  }
+
+  return QTableView::event(event);
+}
+
+
+// Обработчик жестов
+// Вызывается из обработчика событий
+bool RecordTableView::gestureEvent(QGestureEvent *event)
+{
+  qDebug() << "In gestureEvent()" << event;
+
+  if (QGesture *gesture = event->gesture(Qt::TapAndHoldGesture))
+    tapAndHoldGestureTriggered(static_cast<QTapAndHoldGesture *>(gesture));
+
+  return true;
+}
+
+
+// Обработчик жеста TapAndHoldGesture
+// Вызывается из обработчика жестов
+void RecordTableView::tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture)
+{
+  qDebug() << "In tapAndHoldGestureTriggered()" << gesture;
+
+  if(gesture->state()==Qt::GestureFinished)
+    if(globalParameters.getTargetOs()=="android")
+      emit tapAndHoldGestureFinished( mapFromGlobal(gesture->position().toPoint()) );
 }
 
 
