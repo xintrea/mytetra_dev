@@ -9,6 +9,9 @@
 #include <QStringList>
 #include <QItemSelection>
 #include <QMenu>
+#include <QTapAndHoldGesture>
+#include <QEvent>
+#include <QGestureEvent>
 
 class RecordTableData;
 class RecordTableModel;
@@ -45,9 +48,13 @@ public:
  void deleteRecordByPos(int pos);
  void deleteRecordsByPos(QVector<int> vectorPos);
 
+
 signals:
 
  void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+
+ void tapAndHoldGestureFinished(const QPoint &);
+
 
 public slots:
 
@@ -122,6 +129,10 @@ protected:
 
  // Реакия на выбор записи мышкой или клавишами
  void onClickToRecord(const QModelIndex &index);
+
+ bool event(QEvent *event);
+ bool gestureEvent(QGestureEvent *event);
+ void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
  QPoint mouseStartPos;
  void mousePressEvent(QMouseEvent *event);

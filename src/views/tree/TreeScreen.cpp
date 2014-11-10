@@ -307,11 +307,15 @@ void TreeScreen::on_customContextMenuRequested(const QPoint &pos)
 
 void TreeScreen::setupSignals(void)
 {
- // Сигнал чтобы показать контекстное меню по правому клику на ветке
- connect(knowTreeView,SIGNAL(customContextMenuRequested(const QPoint &)),
+ // Соединение сигнал-слот чтобы показать контекстное меню по правому клику на ветке
+ connect(knowTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
          this,SLOT(on_customContextMenuRequested(const QPoint &)));
 
- // Сигнал что ветка выбрана мышкой или стрелками на клавиатуре
+ // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+ connect(knowTreeView, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
+         this, SLOT(on_customContextMenuRequested(const QPoint &)));
+
+ // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре
  connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
          this, SLOT(on_knowtree_clicked(const QModelIndex&)));
  

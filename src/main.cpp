@@ -3,6 +3,9 @@
 #include <QTranslator>
 #include <QToolButton>
 #include <QSplashScreen>
+#include <QScroller>
+#include <QScrollerProperties>
+#include <QScrollBar>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -549,6 +552,59 @@ void setCssStyle()
 }
  
 
+void setKineticScrollArea(QAbstractItemView *object)
+{
+
+  if(object==NULL)
+    return;
+
+  if(globalParameters.getTargetOs()=="android")
+  {
+    // Настройка жестов прокрутки
+    QScroller *scroller = QScroller::scroller(object);
+
+    // For desktop - QScroller::LeftMouseButtonGesture, for Android - QScroller::TouchGesture in doc
+    // TouchGesture по факту на Андроиде не работает, а LeftMouseButtonGesture - почему-то работает
+    scroller->grabGesture(object, QScroller::LeftMouseButtonGesture);
+
+    // Поведение прокрутки на краях списка (сейчас не пружинит)
+    QScrollerProperties properties = scroller->scrollerProperties();
+    QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
+    properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
+    properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
+    scroller->setScrollerProperties(properties); // QScrollerProperties::OvershootAlwaysOff
+
+    // Горизонтальный скроллинг скрывается
+    object->horizontalScrollBar()->setStyleSheet("QScrollBar {height:0px;}");
+
+    // QScrollBar::add-line:horizontal { border: none; background: none; } QScrollBar::sub-line:horizontal { border: none; background: none; }
+    // QScrollBar {width:3px;}
+    // QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}
+    // QScrollBar::add-line:vertical { height: 0px; } QScrollBar::sub-line:vertical { height: 0px; }
+    // QScrollBar::add-line:vertical { border: none; background: none; height: 0px; } QScrollBar::sub-line:vertical { border: none; background: none; height: 0px; }
+    // background: transparent; background-color:transparent;
+    // "QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}"
+    object->verticalScrollBar()->setStyleSheet("QScrollBar:vertical {width:3px; border: none; background: transparent; margin: 0;}"
+                                               "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {width: 0px; height: 0px; border: none;  background: transparent; image: url(:/resource/pic/transparent_dot.png); }"
+                                               "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { image: url(:/resource/pic/transparent_dot.png); }");
+
+
+
+    /*
+    object->horizontalScrollBar()->setStyleSheet("QScrollBar:horizontal {border: 2px solid black; background: grey; height: 15px;}"
+                                                 "QScrollBar::add-line:horizontal {border none; background: none;}"
+                                                 "QScrollBar::sub-line:horizontal {border none; background: none;}"
+                                                 );
+    */
+
+    object->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+  }
+}
+
+
+
 QStringList text_delimiter_decompose(QString text)
 {
  text.replace('"',' ');
@@ -841,21 +897,6 @@ int main(int argc, char ** argv)
 {
  printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
 
- // Добавляется путь, чтобы бинарник мог найти библиотеки в подкаталоге /libraries/qtX
- // Оказалось, что такой метод не работает
- /*
- QString libraryPostfix;
- #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
- libraryPostfix="4";
- #endif
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
- libraryPostfix="5";
- #endif
- QString libraryPath=QFileInfo(argv[0]).dir().path() + "/libraries/qt" + libraryPostfix;
- QCoreApplication::addLibraryPath( libraryPath );
- printf("Additional libraries path: %s\n\r", libraryPath.toLocal8Bit().data() );
- */
-
  Q_INIT_RESOURCE(mytetra);
 
  // Начальные инициализации основных объектов
@@ -872,9 +913,10 @@ int main(int argc, char ** argv)
 
  QtSingleApplication app(argc, argv);
 
- // Экран загрузки
+ // Экран загрузки, показывается только в Андроид версии (так как загрузка идет ~10 сек, и без сплешскрина непонятно что происходит)
  QSplashScreen splash(QPixmap(":/resource/pic/mytetra_splash.png"));
- splash.show();
+ if(globalParameters.getTargetOs()=="android")
+   splash.show();
 
  // Не запущен ли другой экземпляр
  if(app.isRunning())
@@ -1005,7 +1047,9 @@ int main(int argc, char ** argv)
 
  // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
 
- splash.finish(&win);
+ // Окно сплеш-скрина скрывается
+ if(globalParameters.getTargetOs()=="android")
+   splash.finish(&win);
 
  return app.exec();
 }
