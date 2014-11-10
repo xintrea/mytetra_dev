@@ -2,7 +2,11 @@
 # ANY_OS - for desktop Windows and Linux
 # MEEGO_OS - for MEEGO
 # ANDROID_OS - for Android
-TARGET_OS=ANDROID_OS
+TARGET_OS=ANY_OS
+
+
+QMAKE_CXXFLAGS_DEBUG += -pg
+QMAKE_LFLAGS_DEBUG += -pg
 
 
 # Create define variable in C++ code
