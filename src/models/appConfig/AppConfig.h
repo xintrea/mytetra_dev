@@ -162,6 +162,11 @@ public:
     QStringList getRecordTableFieldsWidth(void);
     void setRecordTableFieldsWidth(QStringList fieldsWidth);
 
+    // Показывать ли сплешскрин при старте программы
+    bool getShowSplashScreen(void);
+    void setShowSplashScreen(bool isShow);
+
+
 private:
 
     QSettings *conf; // было static
@@ -187,6 +192,7 @@ private:
     QStringList get_parameter_table_14(bool withEndSignature=true);
     QStringList get_parameter_table_15(bool withEndSignature=true);
     QStringList get_parameter_table_16(bool withEndSignature=true);
+    QStringList get_parameter_table_17(bool withEndSignature=true);
 
     bool is_init_flag;
 };

@@ -643,6 +643,17 @@ void AppConfig::setRecordTableFieldsWidth(QStringList fields)
 }
 
 
+// Показывать ли сплешскрин при старте программы
+bool AppConfig::getShowSplashScreen(void)
+{
+ return conf->value("showSplashScreen").toBool();
+}
+
+
+void AppConfig::setShowSplashScreen(bool isShow)
+{
+ conf->setValue("showSplashScreen", isShow);
+}
 
 
 // --------------------
@@ -701,7 +712,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 16
+ // Последняя версия на данный момент - 17
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -732,6 +743,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(14, 15, get_parameter_table_14(), get_parameter_table_15());
  if(fromVersion<=15)
   updater.update_version(15, 16, get_parameter_table_15(), get_parameter_table_16());
+ if(fromVersion<=16)
+  updater.update_version(16, 17, get_parameter_table_16(), get_parameter_table_17());
 }
 
 
@@ -1058,6 +1071,7 @@ QStringList AppConfig::get_parameter_table_16(bool withEndSignature)
  // Старые параметры, аналогичные версии 15
  table << get_parameter_table_15(false);
 
+ // Новые параметры
  table << "recordTableShowFields" << "QString" << "name,tags";
  table << "recordTableFieldsWidth" << "QString" << "256,128";
  table << "recordTableShowHorizontalHeaders" << "bool" << "true";
@@ -1067,4 +1081,26 @@ QStringList AppConfig::get_parameter_table_16(bool withEndSignature)
   table << "0" << "0" << "0";
 
  return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_17(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 16
+  table << get_parameter_table_16(false);
+
+  // Новые параметры
+  if(globalParameters.getTargetOs()=="android")
+    table << "showSplashScreen" << "bool" << "true"; // В Андроид долгий запуск, нужно показывать сплешскрин
+  else
+    table << "showSplashScreen" << "bool" << "false"; // На десктопе быстрый запуск, сплешскрин только мешает
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
 }

@@ -901,22 +901,16 @@ int main(int argc, char ** argv)
 
  // Начальные инициализации основных объектов
 
- // Файл запущенной программы (нулевой аргумент функции main)
- // QString mainProgramFile=QString::fromAscii( argv[0] );
- QString mainProgramFile=QString::fromLatin1( argv[0] );
- qDebug() << "Set main program file to " << mainProgramFile;
-
  // Запоминается имя файла запущенного бинарника
+ // Файл запущенной программы (нулевой аргумент функции main)
+ QString mainProgramFile=QString::fromLatin1( argv[0] ); // todo: Этот код наверно некорректно работает с путями в UTF8
+ qDebug() << "Set main program file to " << mainProgramFile;
  globalParameters.setMainProgramFile(mainProgramFile);
 
+ // Перехват отладочных сообщений
  setDebugMessageHandler();
 
  QtSingleApplication app(argc, argv);
-
- // Экран загрузки, показывается только в Андроид версии (так как загрузка идет ~10 сек, и без сплешскрина непонятно что происходит)
- QSplashScreen splash(QPixmap(":/resource/pic/mytetra_splash.png"));
- if(globalParameters.getTargetOs()=="android")
-   splash.show();
 
  // Не запущен ли другой экземпляр
  if(app.isRunning())
@@ -942,6 +936,12 @@ int main(int argc, char ** argv)
 
  // Установка CSS-оформления
  setCssStyle();
+
+
+ // Экран загрузки, показывается только в Андроид версии (так как загрузка идет ~10 сек, и без сплешскрина непонятно что происходит)
+ QSplashScreen splash(QPixmap(":/resource/pic/mytetra_splash.png"));
+ if(mytetraConfig.getShowSplashScreen())
+   splash.show();
 
 
  // Подключение перевода интерфейса
@@ -1048,7 +1048,7 @@ int main(int argc, char ** argv)
  // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
 
  // Окно сплеш-скрина скрывается
- if(globalParameters.getTargetOs()=="android")
+ if(mytetraConfig.getShowSplashScreen())
    splash.finish(&win);
 
  return app.exec();
