@@ -423,15 +423,9 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    RC5_LOG(( "Block num %d, shift %d\n", block, shift ));
 
-   temp_word_1=RC5_GetWordFromByte(temp_in[0],
-                                   temp_in[1],
-                                   temp_in[2],
-                                   temp_in[3]);
+   temp_word_1=RC5_GET_WORD_FROM_BYTE(temp_in[0], temp_in[1], temp_in[2], temp_in[3]);
 
-   temp_word_2=RC5_GetWordFromByte(temp_in[RC5_WORD_LEN+0],
-                                   temp_in[RC5_WORD_LEN+1],
-                                   temp_in[RC5_WORD_LEN+2],
-                                   temp_in[RC5_WORD_LEN+3]);
+   temp_word_2=RC5_GET_WORD_FROM_BYTE(temp_in[RC5_WORD_LEN+0], temp_in[RC5_WORD_LEN+1], temp_in[RC5_WORD_LEN+2], temp_in[RC5_WORD_LEN+3]);
 
    pt[0]=temp_word_1; 
    pt[1]=temp_word_2;
@@ -452,8 +446,8 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
     {
      // Save crypt data with shift to RC5_BLOCK_LEN
      // btw. in first block putted IV 
-     out[notCryptDataSize+shift+i]=RC5_GetByteFromWord(ct[0], i);
-     out[notCryptDataSize+shift+RC5_WORD_LEN+i]=RC5_GetByteFromWord(ct[1], i);
+     out[notCryptDataSize+shift+i]=RC5_GET_BYTE_FROM_WORD(ct[0], i);
+     out[notCryptDataSize+shift+RC5_WORD_LEN+i]=RC5_GET_BYTE_FROM_WORD(ct[1], i);
     }
 
 
@@ -604,15 +598,9 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    RC5_LOG(( "Block num %d, shift %d\n", block, shift ));
 
-   temp_word_1=RC5_GetWordFromByte(in[shift],
-                                   in[shift+1],
-                                   in[shift+2],
-                                   in[shift+3]);
+   temp_word_1=RC5_GET_WORD_FROM_BYTE(in[shift], in[shift+1], in[shift+2], in[shift+3]);
 
-   temp_word_2=RC5_GetWordFromByte(in[shift+RC5_WORD_LEN],
-                                   in[shift+RC5_WORD_LEN+1],
-                                   in[shift+RC5_WORD_LEN+2],
-                                   in[shift+RC5_WORD_LEN+3]);
+   temp_word_2=RC5_GET_WORD_FROM_BYTE(in[shift+RC5_WORD_LEN], in[shift+RC5_WORD_LEN+1], in[shift+RC5_WORD_LEN+2], in[shift+RC5_WORD_LEN+3]);
               
    pt[0]=temp_word_1; 
    pt[1]=temp_word_2;
@@ -633,8 +621,8 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    for(int i=0; i<RC5_WORD_LEN; i++)
     { 
-     ct_part[i]=RC5_GetByteFromWord(ct[0], i);
-     ct_part[i+RC5_WORD_LEN]=RC5_GetByteFromWord(ct[1], i);
+     ct_part[i]=RC5_GET_BYTE_FROM_WORD(ct[0], i);
+     ct_part[i+RC5_WORD_LEN]=RC5_GET_BYTE_FROM_WORD(ct[1], i);
     }
 
    // Un XOR
@@ -781,7 +769,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 }
 
 
-inline unsigned char RC5Simple::RC5_GetByteFromWord(RC5_TWORD w, int n)
+/*
+inline unsigned char RC5Simple::RC5_GET_BYTE_FROM_WORD(RC5_TWORD w, int n)
 {
  unsigned char b=0;
 
@@ -803,6 +792,7 @@ inline unsigned char RC5Simple::RC5_GetByteFromWord(RC5_TWORD w, int n)
 
  return b;
 }          
+*/
 
 
 inline unsigned char RC5Simple::RC5_GetByteFromInt(unsigned int w, int n)
@@ -841,7 +831,8 @@ inline unsigned int RC5Simple::RC5_GetIntFromByte(unsigned char b0,
 }
 
 
-inline RC5_TWORD RC5Simple::RC5_GetWordFromByte(unsigned char b0,
+/*
+inline RC5_TWORD RC5Simple::RC5_GET_WORD_FROM_BYTE(unsigned char b0,
                                                 unsigned char b1, 
                                                 unsigned char b2, 
                                                 unsigned char b3)
@@ -851,6 +842,7 @@ inline RC5_TWORD RC5Simple::RC5_GetWordFromByte(unsigned char b0,
         (b2 << 16)+
         (b3 << 24);
 }
+*/
 
 
 // Random generator, from - to inclusive

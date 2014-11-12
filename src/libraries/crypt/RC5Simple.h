@@ -68,6 +68,9 @@ typedef unsigned int RC5_TWORD;
 #define RC5_ROTL(x,y) (((x)<<(y&(RC5_W-1))) | ((x)>>(RC5_W-(y&(RC5_W-1)))))
 #define RC5_ROTR(x,y) (((x)>>(y&(RC5_W-1))) | ((x)<<(RC5_W-(y&(RC5_W-1)))))
 
+#define RC5_GET_BYTE_FROM_WORD(w, n) ((unsigned char)((w) >> ((n)*8) & 0xff))
+#define RC5_GET_WORD_FROM_BYTE(b0, b1, b2, b3) ((RC5_TWORD)(b0 + (b1 << 8) + (b2 << 16)+ (b3 << 24)))
+
 #define RC5_MODE_ENCODE 0
 #define RC5_MODE_DECODE 1
 
@@ -131,16 +134,17 @@ private:
 
  unsigned int errorCode;
 
- inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
+ // inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
+ // inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
+ //                                      unsigned char b1,
+ //                                      unsigned char b2,
+ //                                      unsigned char b3);
+
  inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
  inline unsigned int RC5_GetIntFromByte(unsigned char b0,
                                         unsigned char b1, 
                                         unsigned char b2, 
                                         unsigned char b3);
- inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
-                                      unsigned char b1, 
-                                      unsigned char b2, 
-                                      unsigned char b3);
 
  void RC5_EncDec(vector<unsigned char> &in, vector<unsigned char> &out, int mode);
 
