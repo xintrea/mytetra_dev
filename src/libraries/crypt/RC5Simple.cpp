@@ -114,6 +114,11 @@ Volgodonsk, 2011-2013
 //        ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 //      - Фиксация номера версии
 
+// 1.31 - Основана на версии 1.30
+//      - Исправлено незакрытие файла при шифрации/дешифровке в случае
+//        возникновения ошибки из-за нуливого размера файла
+//        в методе RC5_EncDecFile()
+
 
 RC5Simple::RC5Simple(bool enableRandomInit)
 { 
@@ -733,6 +738,7 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
 
  if(in_file_length==0)
   {
+   fclose(in_file);
    errorCode=RC5_ERROR_CODE_3;
    return;
   }

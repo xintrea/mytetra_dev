@@ -685,23 +685,33 @@ void init_random(void)
 
 void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
 {
- unsigned int size=qba.size();
+  unsigned int size=qba.size();
 
- vec.resize(size, 0);
+  vec.resize(size, 0);
 
- for(unsigned int i=0; i<size; i++)
-  vec[i]=(unsigned char)qba[i];
+  memcpy(&vec[0], qba.constData(), size*sizeof(unsigned char));
 }
 
 
 void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba)
 {
- unsigned int size=vec.size();
+  unsigned int size=vec.size();
 
- qba.resize(size);
+  qba.setRawData( (const char *)&vec[0], size*sizeof(unsigned char) );
 
- for(unsigned int i=0; i<size; i++)
-  qba[i]=(unsigned char)vec[i];
+  /*
+  printf("\n");
+  qDebug() << "Vector: ";
+  for(unsigned int i=0; i<size; i++)
+    printf("%02hhx", vec[i]);
+  printf("\n");
+
+  printf("\n");
+  qDebug() << "QByteArray: ";
+  for(unsigned int i=0; i<size; i++)
+    printf("%02hhx", qba.at(i));
+  printf("\n");
+  */
 }
 
 

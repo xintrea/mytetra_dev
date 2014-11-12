@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.30 / 11.12.2013"
+#define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.31 / 11.12.2013"
 
 #define RC5_FORMAT_VERSION_1 1
 #define RC5_FORMAT_VERSION_2 2
