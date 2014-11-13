@@ -4,7 +4,6 @@
 # ANDROID_OS - for Android
 TARGET_OS=ANY_OS
 
-
 # Flags for profile application
 # QMAKE_CXXFLAGS_DEBUG += -pg
 # QMAKE_LFLAGS_DEBUG += -pg

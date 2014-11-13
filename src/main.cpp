@@ -686,9 +686,7 @@ void init_random(void)
 void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
 {
   unsigned int size=qba.size();
-
   vec.resize(size, 0);
-
   memcpy(&vec[0], qba.constData(), size*sizeof(unsigned char));
 }
 
@@ -696,8 +694,8 @@ void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
 void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba)
 {
   unsigned int size=vec.size();
-
-  qba.setRawData( (const char *)&vec[0], size*sizeof(unsigned char) );
+  qba.clear();
+  qba.append( (const char *)&vec[0], size*sizeof(unsigned char) );
 
   /*
   printf("\n");
@@ -855,12 +853,14 @@ QString decryptStringFromByteArray(QByteArray key, QByteArray data)
 }
 
 
+// Шифрование файла на диске, вместо незашифрованного файла появляется зашифрованный
 void encryptFile(QByteArray key, QString fileName)
 {
  encDecFileSmart(key, fileName, 0);
 }
 
 
+// Расшифровка файла на диске, вместо зашифрованного файла появляется нешифрованный
 void decryptFile(QByteArray key, QString fileName)
 {
  encDecFileSmart(key, fileName, 1);
@@ -869,6 +869,8 @@ void decryptFile(QByteArray key, QString fileName)
 
 void encDecFileSmart(QByteArray key, QString fileName, int mode)
 {
+ QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
  QFile file(fileName);
 
  if(!file.open(QIODevice::ReadOnly))
@@ -900,6 +902,8 @@ void encDecFileSmart(QByteArray key, QString fileName, int mode)
  if(!file.open(QIODevice::WriteOnly))
   critical_error("encryptFile() : Cant open binary file "+fileName+" for write.");
  file.write(result);
+
+ QApplication::restoreOverrideCursor();
 }
 
 
