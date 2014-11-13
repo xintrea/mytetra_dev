@@ -3,9 +3,12 @@
 #include <QTranslator>
 #include <QToolButton>
 #include <QSplashScreen>
+
+#if QT_VERSION >= 0x050000
 #include <QScroller>
 #include <QScrollerProperties>
 #include <QScrollBar>
+#endif
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -554,6 +557,12 @@ void setCssStyle()
 
 void setKineticScrollArea(QAbstractItemView *object)
 {
+  #if QT_VERSION < 0x050000
+
+   Q_UNUSED(object);
+   return;
+
+  #else
 
   if(object==NULL)
     return;
@@ -601,6 +610,8 @@ void setKineticScrollArea(QAbstractItemView *object)
 
     // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
   }
+  
+  #endif
 }
 
 
