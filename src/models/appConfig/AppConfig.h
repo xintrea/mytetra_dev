@@ -166,6 +166,10 @@ public:
     bool getShowSplashScreen(void);
     void setShowSplashScreen(bool isShow);
 
+    // Режим интерфейса, возможные значения "desktop" и "mobile"
+    QString getInterfaceMode(void);
+    bool setInterfaceMode(QString mode);
+
 
 private:
 
@@ -193,6 +197,7 @@ private:
     QStringList get_parameter_table_15(bool withEndSignature=true);
     QStringList get_parameter_table_16(bool withEndSignature=true);
     QStringList get_parameter_table_17(bool withEndSignature=true);
+    QStringList get_parameter_table_18(bool withEndSignature=true);
 
     bool is_init_flag;
 };

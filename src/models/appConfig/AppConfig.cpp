@@ -656,6 +656,21 @@ void AppConfig::setShowSplashScreen(bool isShow)
 }
 
 
+// Режим интерфейса, возможные значения "desktop" и "mobile"
+QString AppConfig::getInterfaceMode(void)
+{
+ QString mode=get_parameter("interfaceMode");
+ return mode;
+}
+
+
+bool AppConfig::setInterfaceMode(QString mode)
+{
+ conf->setValue("interfaceMode", mode);
+ return true;
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -712,7 +727,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 17
+ // Последняя версия на данный момент - 18
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -745,6 +760,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(15, 16, get_parameter_table_15(), get_parameter_table_16());
  if(fromVersion<=16)
   updater.update_version(16, 17, get_parameter_table_16(), get_parameter_table_17());
+ if(fromVersion<=17)
+  updater.update_version(17, 18, get_parameter_table_17(), get_parameter_table_18());
 }
 
 
@@ -1104,3 +1121,26 @@ QStringList AppConfig::get_parameter_table_17(bool withEndSignature)
 
   return table;
 }
+
+
+QStringList AppConfig::get_parameter_table_18(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 17
+  table << get_parameter_table_17(false);
+
+  // Новые параметры
+  if(globalParameters.getTargetOs()=="android")
+    table << "interfaceMode" << "QString" << "mobile"; // В Андроид должен быть мобильный интерфейс
+  else
+    table << "interfaceMode" << "QString" << "desktop"; // На десктопе должен быть интерфейс адоптированный для работы на рабочем столе
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
