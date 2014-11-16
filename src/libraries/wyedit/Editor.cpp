@@ -40,6 +40,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 
  save_callback_func=NULL;
  load_callback_func=NULL;
+ back_callback_func=NULL;
 }
 
 
@@ -74,11 +75,25 @@ void Editor::initEnableRandomSeed(bool flag)
 }
 
 
-void Editor::init(void)
+// Инициализация редактора
+// Если mode=INIT_DESKTOP_MODE - происходит обычная инициализация
+// Если mode=INIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
+void Editor::init(int mode)
 {
  // Создается объект поддержки конфигурирования редактора
  editorConfig=new EditorConfig(initDataConfigFileName, this);
  editorConfig->setObjectName("editorconfig");
+
+ // Выясняется перечень кнопок на панели инструментов
+ toolsListInLine1=(editorConfig->get_tools_line_1()).split(",");
+ toolsListInLine2=(editorConfig->get_tools_line_2()).split(",");
+
+ // В мобильном режиме добавляется кнопка back (если ее нет)
+ if(mode==INIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
+ {
+   toolsListInLine1.prepend("separator");
+   toolsListInLine1.prepend("back");
+ }
 
  // Создается виджет поиска, обязательно нужно указать parent чтобы
  // могли применяться флаги окна.
@@ -169,10 +184,11 @@ void Editor::setup_signals(void)
  connect(tableMergeCells,SIGNAL(clicked()),this,SLOT(on_table_merge_cells_clicked()));
  connect(tableSplitCell,SIGNAL(clicked()), this,SLOT(on_table_split_cell_clicked()));
 
- connect(insertImageFromFile,SIGNAL(clicked()), this,SLOT(on_insert_image_from_file_clicked()));
- connect(expandEditArea,SIGNAL(clicked()), this,SLOT(on_expand_edit_area_clicked()));
- connect(expandToolsLines,SIGNAL(clicked()), this,SLOT(on_expand_tools_lines_clicked()));
- connect(save,SIGNAL(clicked()), this,SLOT(on_save_clicked()));
+ connect(insertImageFromFile, SIGNAL(clicked()), this, SLOT(on_insert_image_from_file_clicked()));
+ connect(expandEditArea, SIGNAL(clicked()), this, SLOT(on_expand_edit_area_clicked()));
+ connect(expandToolsLines, SIGNAL(clicked()), this, SLOT(on_expand_tools_lines_clicked()));
+ connect(save, SIGNAL(clicked()), this, SLOT(on_save_clicked()));
+ connect(back, SIGNAL(clicked()), this, SLOT(on_back_clicked()));
 
  connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(on_cursor_position_changed()));
  connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(on_selection_changed()));
@@ -430,6 +446,12 @@ void Editor::setup_buttons(void)
  save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
  save->setObjectName("editor_tb_save");
 
+ // Кнопка "назад", используется в мобильном интерфейсе
+ back = new QToolButton(this);
+ back->setStatusTip(tr("Back"));
+ back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
+ back->setObjectName("editor_tb_back");
+
  // Виджет настройки отступов
  indentSlider=new IndentSlider(this->width(), 16, this);
  indentSlider->setObjectName("editor_tb_indentslider");
@@ -515,24 +537,11 @@ void Editor::assembly_buttons(void)
  toolsLine1=new QToolBar();
  toolsLine2=new QToolBar();
 
+ updateToolsLines();
+
  QSize toolIconSize(16, 16);
  toolsLine1->setIconSize(toolIconSize);
  toolsLine2->setIconSize(toolIconSize);
-
- QStringList line1=(editorConfig->get_tools_line_1()).split(",");
- QStringList line2=(editorConfig->get_tools_line_2()).split(",");
-
- for(int i=0;i<line1.size();++i)
- {
-  QString b=line1.at(i).trimmed();
-  insert_button_to_tools_line(b,toolsLine1);
- }
-
- for(int i=0;i<line2.size();++i)
- {
-  QString b=line2.at(i).trimmed();
-  insert_button_to_tools_line(b,toolsLine2);
- }
 
  // Горизонтальные линейки собираются
  textformatButtonsLayout=new QVBoxLayout();
@@ -541,6 +550,22 @@ void Editor::assembly_buttons(void)
 
  indentSlider->setVisible(true);
  textformatButtonsLayout->addWidget(indentSlider);
+}
+
+
+void Editor::updateToolsLines(void)
+{
+  for(int i=0;i<toolsListInLine1.size();++i)
+  {
+    QString b=toolsListInLine1.at(i).trimmed();
+    insert_button_to_tools_line(b,toolsLine1);
+  }
+
+  for(int i=0;i<toolsListInLine2.size();++i)
+  {
+    QString b=toolsListInLine2.at(i).trimmed();
+    insert_button_to_tools_line(b,toolsLine2);
+  }
 }
 
 
@@ -2721,85 +2746,98 @@ void Editor::switch_expand_tools_lines(int flag)
 
 void Editor::on_save_clicked(void)
 {
- save_textarea();
+  save_textarea();
+}
+
+
+void Editor::on_back_clicked(void)
+{
+  // back_callback_func(qobject_cast<QObject *>(this));
+ back_callback_func();
 }
 
 
 void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString))
 {
- save_callback_func=func;
+  save_callback_func=func;
+}
+
+
+void Editor::set_back_callback(void (*func)(void))
+{
+  back_callback_func=func;
 }
 
 
 void Editor::set_load_callback(void (*func)(QObject *editor, QString &String))
 {
- load_callback_func=func;
+  load_callback_func=func;
 }
 
 
 void Editor::setMiscField(QString name, QString value)
 {
- miscFields[name]=value;
+  miscFields[name]=value;
 }
 
 
 QString Editor::getMiscField(QString name)
 {
- if(miscFields.contains(name))
-  return miscFields[name];
- else
-  return QString();
+  if(miscFields.contains(name))
+    return miscFields[name];
+  else
+    return QString();
 }
 
 
 void Editor::setDirFileEmptyReaction(int mode)
 {
- // Проверяется допустимость переданного значения
- if(mode==DIRFILEEMPTY_REACTION_SHOW_ERROR ||
-    mode==DIRFILEEMPTY_REACTION_SUPPRESS_ERROR)
-  dirFileEmptyReaction=mode;
- else
-  critical_error("Editor::setDirFileEmptyReaction() : Unsupport mode "+QString::number(mode));
+  // Проверяется допустимость переданного значения
+  if(mode==DIRFILEEMPTY_REACTION_SHOW_ERROR ||
+     mode==DIRFILEEMPTY_REACTION_SUPPRESS_ERROR)
+    dirFileEmptyReaction=mode;
+  else
+    critical_error("Editor::setDirFileEmptyReaction() : Unsupport mode "+QString::number(mode));
 }
 
 
 int Editor::getDirFileEmptyReaction(void)
 {
- return dirFileEmptyReaction;
+  return dirFileEmptyReaction;
 }
 
 
 // Метод позволяющий управлять доступностью инcтрументов редактирования
 void Editor::setDisableToolList(QStringList toolNames)
 {
- disableToolList=toolNames;
+  disableToolList=toolNames;
 }
 
 
 int Editor::getCursorPosition(void)
 {
- return textArea->textCursor().position();
+  return textArea->textCursor().position();
 }
 
 
 void Editor::setCursorPosition(int n)
 {
- QTextCursor cursor=textArea->textCursor();
+  QTextCursor cursor=textArea->textCursor();
 
- cursor.setPosition(n);
+  cursor.setPosition(n);
 
- textArea->setTextCursor(cursor);
+  textArea->setTextCursor(cursor);
 }
 
 
 int Editor::getScrollBarPosition(void)
 {
- return textArea->verticalScrollBar()->value();
+  return textArea->verticalScrollBar()->value();
 }
 
 
 void Editor::setScrollBarPosition(int n)
 {
- textArea->verticalScrollBar()->setValue(n);
+  textArea->verticalScrollBar()->setValue(n);
 }
 

@@ -321,40 +321,19 @@ void EditorConfig::set_config_version(int i)
 
 void EditorConfig::update_version_process(void)
 {
- if(get_config_version()==1)
-  {
-   update_version(1, 2, get_parameter_table_1(), get_parameter_table_2());
-   update_version(2, 3, get_parameter_table_2(), get_parameter_table_3());
-   update_version(3, 4, get_parameter_table_3(), get_parameter_table_4());
-   update_version(4, 5, get_parameter_table_4(), get_parameter_table_5());
-   update_version(5, 6, get_parameter_table_5(), get_parameter_table_6());
-  }
+ int fromVersion=get_config_version();
 
- if(get_config_version()==2)
-  {
-   update_version(2, 3, get_parameter_table_2(), get_parameter_table_3());
-   update_version(3, 4, get_parameter_table_3(), get_parameter_table_4());
-   update_version(4, 5, get_parameter_table_4(), get_parameter_table_5());
-   update_version(5, 6, get_parameter_table_5(), get_parameter_table_6());
-  }
-
- if(get_config_version()==3)
-  {
-   update_version(3, 4, get_parameter_table_3(), get_parameter_table_4());
-   update_version(4, 5, get_parameter_table_4(), get_parameter_table_5());
-   update_version(5, 6, get_parameter_table_5(), get_parameter_table_6());
-  }
-
- if(get_config_version()==4)
-  {
-   update_version(4, 5, get_parameter_table_4(), get_parameter_table_5());
-   update_version(5, 6, get_parameter_table_5(), get_parameter_table_6());
-  }
-
- if(get_config_version()==5)
-  {
-   update_version(5, 6, get_parameter_table_5(), get_parameter_table_6());
-  }
+ // Последняя версия на данный момент - 6
+ if(fromVersion<=1)
+  update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
+ if(fromVersion<=2)
+  update_version(2,  3,  get_parameter_table_2(),  get_parameter_table_3());
+ if(fromVersion<=3)
+  update_version(3,  4,  get_parameter_table_3(),  get_parameter_table_4());
+ if(fromVersion<=4)
+  update_version(4,  5,  get_parameter_table_4(),  get_parameter_table_5());
+ if(fromVersion<=5)
+  update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
 }
 
 

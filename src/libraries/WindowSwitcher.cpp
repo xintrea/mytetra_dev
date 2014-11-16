@@ -1,0 +1,105 @@
+#include "WindowSwitcher.h"
+
+#include "main.h"
+#include "models/appConfig/AppConfig.h"
+#include "libraries/GlobalParameters.h"
+#include "views/tree/TreeScreen.h"
+#include "views/record/MetaEditor.h"
+#include "views/recordTable/RecordTableScreen.h"
+#include "views/findInBaseScreen/FindScreen.h"
+
+extern AppConfig mytetraConfig;
+extern GlobalParameters globalParameters;
+
+
+WindowSwitcher::WindowSwitcher(QObject *parent) : QObject(parent)
+{
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   enableSwitcher=true;
+ else
+ {
+   enableSwitcher=false;
+   return;
+ }
+
+ // Редактор является встраиваемым, поэтому работа кнопки Back у него идет через callback функцию
+ // MetaEditor *edView=find_object<MetaEditor>("editorview"); // Выясняется указатель на объект редактирования текста записи
+ MetaEditor *metaEditor=globalParameters.getMetaEditor();
+ metaEditor->set_back_callback( this->switchFromRecordToRecordtable ); // Устанавливается функция обратного вызова при клике на кнопку Back
+}
+
+
+void WindowSwitcher::switchFromTreeToRecordtable(void)
+{
+ if(!enableSwitcher)
+   return;
+
+ // Скрываются все прочие области
+ globalParameters.getTreeScreen()->hide();
+ globalParameters.getMetaEditor()->hide();
+ globalParameters.getFindScreen()->hide();
+
+ globalParameters.getRecordTableScreen()->show();
+}
+
+
+void WindowSwitcher::switchFromRecordtableToRecord(void)
+{
+ if(!enableSwitcher)
+   return;
+
+ // Скрываются все прочие области
+ globalParameters.getTreeScreen()->hide();
+ globalParameters.getRecordTableScreen()->hide();
+ globalParameters.getFindScreen()->hide();
+
+ globalParameters.getMetaEditor()->show();
+}
+
+
+// Статическая функция, используется редактором как callback функция при нажатии кнопки back
+void WindowSwitcher::switchFromRecordToRecordtable(void)
+{
+ if(mytetraConfig.getInterfaceMode()!="mobile") // В статической функции использовать нестатическую переменну enableSwitcher нельзя
+   return;
+
+ // Скрываются все прочие области
+ globalParameters.getTreeScreen()->hide();
+ globalParameters.getMetaEditor()->hide();
+ globalParameters.getFindScreen()->hide();
+
+ globalParameters.getRecordTableScreen()->show();
+}
+
+
+void WindowSwitcher::switchFromTreeToFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}
+
+
+void WindowSwitcher::switchFromRecordToFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}
+
+
+void WindowSwitcher::switchFromRecordtableToFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}
+
+
+// Закрытие окна FindInBase с переходом на окно, откуда оно было открыто
+void WindowSwitcher::closeFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}

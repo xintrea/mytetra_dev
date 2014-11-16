@@ -690,7 +690,7 @@ void AppConfig::set_config_version(int i)
 }
 
 
-QStringList AppConfig::remove_parameter_from_table(QString removeName, QStringList table)
+QStringList AppConfig::removeParameterFromTable(QString removeName, QStringList table)
 {
  // Перебираются параметры в таблице
  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
@@ -712,6 +712,64 @@ QStringList AppConfig::remove_parameter_from_table(QString removeName, QStringLi
 
  return table;
 }
+
+
+// Получение типа параметра в виде строки
+QString AppConfig::getParameterTypeFromTable(QString parameterName, QStringList table)
+{
+  // Перебираются параметры в таблице
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  {
+    // Выясняется имя параметра
+    QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
+
+    if(name==parameterName)
+      return table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+1);
+  }
+
+  return "";
+}
+
+
+// Получение значения параметра в виде строки
+QString AppConfig::getParameterValueFromTable(QString parameterName, QStringList table)
+{
+  // Перебираются параметры в таблице
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  {
+    // Выясняется имя параметра
+    QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
+
+    if(name==parameterName)
+      return table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+2);
+  }
+
+  return "";
+}
+
+
+// Замена типа и значения параметра
+QStringList AppConfig::replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table)
+{
+  // Перебираются параметры в таблице
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  {
+    // Выясняется имя параметра
+    QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
+
+    // Если имя совпадает с заменяемым
+    if(name==replaceName)
+    {
+      table[i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+1]=replaceType;
+      table[i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+2]=replaceValue;
+
+      break;
+    }
+  }
+
+  return table;
+}
+
 
 
 // ------------------------------------
@@ -869,9 +927,9 @@ QStringList AppConfig::get_parameter_table_5(bool withEndSignature)
  table << get_parameter_table_4(false);
 
  // Исключаются ненужные в новой версии параметры
- table=remove_parameter_from_table("lastidnum", table);
- table=remove_parameter_from_table("lastnotenum", table);
- table=remove_parameter_from_table("lastprefixnum", table);
+ table=removeParameterFromTable("lastidnum", table);
+ table=removeParameterFromTable("lastnotenum", table);
+ table=removeParameterFromTable("lastprefixnum", table);
 
  if(withEndSignature)
   table << "0" << "0" << "0";

@@ -17,6 +17,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/consoleEmulator/ExecuteCommand.h"
 #include "libraries/WalkHistory.h"
+#include "libraries/WindowSwitcher.h"
 
 #include "libraries/wyedit/EditorTextArea.h"
 
@@ -91,6 +92,14 @@ void MainWindow::setupUI(void)
  statusBar->setObjectName("statbar");
  setStatusBar(statusBar);
  globalParameters.setStatusBar(statusBar);
+
+ // Вспомогательный объект переключения окон, исполдьзуется в мобильном интерфейсе
+ windowSwitcher=new WindowSwitcher();
+ windowSwitcher->setObjectName("windowSwitcher");
+ globalParameters.setWindowSwitcher(windowSwitcher);
+
+ // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
+ // MetaEditor *edView=find_object<MetaEditor>("editorview");
 }
 
 

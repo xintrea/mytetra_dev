@@ -15,7 +15,7 @@
 #include "views/record/MetaEditor.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/findInBaseScreen/FindScreen.h"
-
+#include "libraries/WindowSwitcher.h"
 
 GlobalParameters::GlobalParameters(QObject *pobj)
 {
@@ -42,6 +42,7 @@ void GlobalParameters::init(void)
  pointFindScreen=NULL;
  pointMetaEditor=NULL;
  pointStatusBar=NULL;
+ windowSwitcher=NULL;
 
  initWorkDirectory(); // Инициализация рабочей директории
 }
@@ -461,6 +462,18 @@ void GlobalParameters::setStatusBar(QStatusBar *point)
 QStatusBar *GlobalParameters::getStatusBar()
 {
  return pointStatusBar;
+}
+
+
+void GlobalParameters::setWindowSwitcher(WindowSwitcher *point)
+{
+ windowSwitcher=point;
+}
+
+
+WindowSwitcher *GlobalParameters::getWindowSwitcher()
+{
+ return windowSwitcher;
 }
 
 

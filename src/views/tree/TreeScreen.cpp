@@ -21,6 +21,8 @@
 #include "views/record/MetaEditor.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/Password.h"
+#include "libraries/WindowSwitcher.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -1213,6 +1215,9 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
  knowTreeView->resizeColumnToContents(0);
+
+ // Переключаются окна (используется для мобильного интерфейса)
+ globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
 }
 
 

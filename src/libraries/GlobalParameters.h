@@ -8,7 +8,7 @@ class TreeScreen;
 class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
-
+class WindowSwitcher;
 
 class GlobalParameters : public QObject
 {
@@ -42,6 +42,9 @@ public:
     void setStatusBar(QStatusBar *point);
     QStatusBar *getStatusBar();
 
+    void setWindowSwitcher(WindowSwitcher *point);
+    WindowSwitcher *getWindowSwitcher();
+
 
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
@@ -60,6 +63,7 @@ private:
     FindScreen *pointFindScreen;
     MetaEditor *pointMetaEditor;
     QStatusBar *pointStatusBar;
+    WindowSwitcher *windowSwitcher;
 
     QString mainProgramFile;
     QString workDirectory;

@@ -374,7 +374,7 @@ void RecordTableData::editorLoadCallback(QObject *editor,
 // Ее вызывает редактор, передавая указатель на себя
 // и текст который надо записать в переменной saveText
 void RecordTableData::editorSaveCallback(QObject *editor,
-                                           QString saveText)
+                                         QString saveText)
 {
  // qDebug() << "RecordTableScreen::editor_load_callback() : Dir" << dir << "File" << file;
 

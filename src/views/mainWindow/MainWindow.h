@@ -49,6 +49,8 @@ class TreeScreen;
 class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
+class WindowSwitcher;
+
 
 class MainWindow : public QMainWindow
 {
@@ -63,6 +65,7 @@ public:
  MetaEditor *editorScreen;
  FindScreen *findScreenDisp;
  QStatusBar *statusBar;
+ WindowSwitcher *windowSwitcher;
 
  void restoreGeometry(void);
  void restoreTreePosition(void);

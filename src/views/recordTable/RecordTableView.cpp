@@ -20,6 +20,7 @@
 #include "views/appConfigWindow/AppConfigDialog.h"
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/WindowSwitcher.h"
 
 
 extern GlobalParameters globalParameters;
@@ -233,7 +234,10 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
  // Если в окне содержимого записи уже находится выбираемая запись
  if(edView->get_work_directory()==fullDir &&
     edView->get_file_name()==currentFile)
-      return;
+      {
+        globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
+        return;
+      }
 
  // Перед открытием редактора происходит попытка получения текста записи
  table->checkAndCreateTextFile(pos, fullFileName);
@@ -280,6 +284,7 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
    edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
 
+ globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
 }
 
 

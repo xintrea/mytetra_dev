@@ -68,6 +68,7 @@
    <file>resource/pic/mytetra_splash.png</file>
    <file>resource/pic/transparent_dot.svg</file>
    <file>resource/pic/transparent_dot.png</file>
+   <file>resource/pic/mobile_back.svg</file>
    <file>resource/translations/mytetra_ru.qm</file>
    <file>resource/standartconfig/any/conf.ini</file>
    <file>resource/standartconfig/any/editorconf.ini</file>

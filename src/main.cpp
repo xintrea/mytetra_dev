@@ -26,6 +26,7 @@
 
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
+#include "libraries/WindowSwitcher.h"
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 

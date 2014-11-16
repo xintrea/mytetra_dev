@@ -176,7 +176,11 @@ private:
     QSettings *conf; // было static
     QString get_parameter(QString name);
 
-    QStringList remove_parameter_from_table(QString removeName, QStringList table);
+    QStringList removeParameterFromTable(QString removeName, QStringList table);
+    QString getParameterTypeFromTable(QString parameterName, QStringList table);
+    QString getParameterValueFromTable(QString parameterName, QStringList table);
+    QStringList replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table);
+
 
     void update_version_process(void);
 

@@ -20,7 +20,7 @@
 
 
 // ----------------------------------------------------------
-// WyEdit - встраиваемый визуальный редактор
+// WyEdit - визуальный редактор для MyTetra
 // Волгодонск, 2010 г.
 // Контакты: xintrea@gmail.com, www.webhamster.ru
 // Данный исходный код распространяется под лицензией GPL v.3
@@ -141,6 +141,8 @@ public:
  QToolButton   *expandToolsLines;
  QToolButton   *save;
 
+ QToolButton   *back;
+
  IndentSlider  *indentSlider;
 
  // Горизонтальная линейка, содержащая кнопки форматирования
@@ -160,7 +162,7 @@ public:
  void initEnableAssembly(bool flag);
  void initConfigFileName(QString name);
  void initEnableRandomSeed(bool flag);
- void init(void);
+ void init(int mode);
 
  // Методы работы с textarea
  void set_textarea(QString text);
@@ -189,6 +191,9 @@ public:
  void set_save_callback(void (*func)(QObject *editor, QString saveString));
  void set_load_callback(void (*func)(QObject *editor, QString &loadString));
 
+ // Метод установки функции переключения на предыдущее окно (для мобильного интерфейса)
+ void set_back_callback(void (*func)(void));
+
  // Методы установки и чтения произвольных нестандартных данных 
  // которые может хранить объект редактора
  void setMiscField(QString name, QString value);
@@ -208,6 +213,7 @@ public:
  int  getScrollBarPosition(void);
  void setScrollBarPosition(int n);
 
+
  enum
  {
   SAVE_IMAGES_SIMPLE=0,
@@ -219,6 +225,12 @@ public:
    DIRFILEEMPTY_REACTION_SHOW_ERROR,
    DIRFILEEMPTY_REACTION_SUPPRESS_ERROR
   };
+
+ enum
+ {
+  INIT_DESKTOP_MODE=0,
+  INIT_MOBILE_MODE=1
+ };
 
 signals:
 
@@ -274,6 +286,7 @@ private slots:
  void on_expand_edit_area_clicked(void);
  void on_expand_tools_lines_clicked(void);
  void on_save_clicked(void);
+ void on_back_clicked(void);
 
  void on_cursor_position_changed(void); // Слот, контролирущий перемещение курсора
  void on_selection_changed(void);
@@ -324,6 +337,7 @@ private:
  void hide_all_tools_elements(void);
  void format_to_list(QTextListFormat::Style setFormat);
  void align_text(Qt::AlignmentFlag mode);
+ void updateToolsLines(void);
 
  bool is_block_select(void);
  bool is_cursor_on_empty_line(void);
@@ -372,12 +386,18 @@ private:
  void (*save_callback_func)(QObject *editor, QString saveString);
  void (*load_callback_func)(QObject *editor, QString &loadString);
 
+ // Указатель на функцию переключения на предыдущее окно (для мобильного интерфейса)
+ void (*back_callback_func)(void);
+
  // Поля для хранения произвольных данных
  // Обычно используются для запоминания нестандартного набора данных
  // в объекте редактора, и считываются из функции обратного вызова
  QMap<QString, QString> miscFields;
 
  int dirFileEmptyReaction;
+
+ QStringList toolsListInLine1;
+ QStringList toolsListInLine2;
 
  // Список инструментов, которые ненужно подгружать
  QStringList disableToolList;

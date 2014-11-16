@@ -48,7 +48,7 @@ void AddNewRecord::setupUI(void)
  recordTextEditor->initEnableAssembly(true);
  recordTextEditor->initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  recordTextEditor->initEnableRandomSeed(false);
- recordTextEditor->init();
+ recordTextEditor->init(Editor::INIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
 
  // Кнопки OK и Cancel
  buttonBox=new QDialogButtonBox();

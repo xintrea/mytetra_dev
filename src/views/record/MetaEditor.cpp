@@ -5,11 +5,13 @@
 #include "libraries/wyedit/EditorTextArea.h"
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "models/appConfig/AppConfig.h"
 
 #include <QtDebug>
 
 
 extern GlobalParameters globalParameters;
+extern AppConfig mytetraConfig;
 
 
 MetaEditor::MetaEditor(void) : Editor()
@@ -17,7 +19,13 @@ MetaEditor::MetaEditor(void) : Editor()
  Editor::initEnableAssembly(false);
  Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  Editor::initEnableRandomSeed(false);
- Editor::init();
+
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+   Editor::init(Editor::INIT_DESKTOP_MODE);
+ else if(mytetraConfig.getInterfaceMode()=="mobile")
+   Editor::init(Editor::INIT_MOBILE_MODE);
+ else
+   critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
  setupLabels();
  metaAssembly();
