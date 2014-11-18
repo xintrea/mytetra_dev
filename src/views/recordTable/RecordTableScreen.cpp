@@ -12,7 +12,10 @@
 #include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "libraries/WindowSwitcher.h"
+#include "libraries/GlobalParameters.h"
 
+extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 
 
@@ -135,6 +138,12 @@ void RecordTableScreen::setupActions(void)
  actionWalkHistoryNext->setIcon(QIcon(":/resource/pic/walk_history_next.svg"));
  connect(actionWalkHistoryNext, SIGNAL(triggered()), this, SLOT(onWalkHistoryNextClick()));
 
+ // Кнопка Назад (Back) в мобильном интерфейсе
+ actionBack=new QAction(tr("Back to item tree"), this);
+ actionBack->setStatusTip(tr("Back to item tree"));
+ actionBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
+ connect(actionBack, SIGNAL(triggered()), this, SLOT(onBackClick()));
+
 
  // Сразу после создания все действия запрещены
  disableAllActions();
@@ -147,6 +156,12 @@ void RecordTableScreen::setupUI(void)
 
  QSize toolBarIconSize(16,16);
  toolsLine->setIconSize(toolBarIconSize);
+
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+ {
+   insert_action_as_button(toolsLine, actionBack);
+   toolsLine->addSeparator();
+ }
 
  insert_action_as_button(toolsLine, actionAddNewToEnd);
  insert_action_as_button(toolsLine, actionEditField);
@@ -197,7 +212,8 @@ void RecordTableScreen::assembly(void)
 }
 
 
-// Отключение всех действий
+// Отключение всех действий над записями
+// (но не всех действий на панели инструментов, так как на панели инструментов есть действия, не оказывающие воздействия на записи)
 void RecordTableScreen::disableAllActions(void)
 {
  actionAddNewToEnd->setEnabled(false);
@@ -321,45 +337,52 @@ void RecordTableScreen::toolsUpdate(void)
 // Получение номера первого выделенного элемента
 int RecordTableScreen::getFirstSelectionPos(void)
 {
- return recordTableView->getFirstSelectionPos();
+  return recordTableView->getFirstSelectionPos();
 }
 
 
 // Установка засветки в нужную строку
 void RecordTableScreen::setSelectionToPos(int pos)
 {
- recordTableView->setSelectionToPos(pos);
+  recordTableView->setSelectionToPos(pos);
 }
 
 
 // Действия при нажатии на кнопку поиска по базе
 void RecordTableScreen::findInBaseOpen(void)
 {
- // Определяется ссылка на виджет поиска
- FindScreen *findScreen=find_object<FindScreen>("findscreendisp");
+  // Определяется ссылка на виджет поиска
+  FindScreen *findScreen=find_object<FindScreen>("findscreendisp");
  
- // Если виджет не показан, он выводится на экран, и наоборот
- if(findScreen->isVisible()==false)
-  findScreen->widgetShow();
- else
-  findScreen->widgetHide();
+  // Если виджет не показан, он выводится на экран, и наоборот
+  if(findScreen->isVisible()==false)
+    findScreen->widgetShow();
+  else
+   findScreen->widgetHide();
 }
 
 
 // Действия при нажатии кнопки синхронизации
 void RecordTableScreen::onSyncroClick(void)
 {
- find_object<MainWindow>("mainwindow")->synchronization();
+  find_object<MainWindow>("mainwindow")->synchronization();
 }
 
 
 void RecordTableScreen::onWalkHistoryPreviousClick(void)
 {
- find_object<MainWindow>("mainwindow")->goWalkHistoryPrevious();
+  find_object<MainWindow>("mainwindow")->goWalkHistoryPrevious();
 }
 
 
 void RecordTableScreen::onWalkHistoryNextClick(void)
 {
- find_object<MainWindow>("mainwindow")->goWalkHistoryNext();
+  find_object<MainWindow>("mainwindow")->goWalkHistoryNext();
+}
+
+
+// Возвращение к дереву разделов в мобильном интерфейсе
+void RecordTableScreen::onBackClick(void)
+{
+  globalParameters.getWindowSwitcher()->switchFromRecordtableToTree();
 }

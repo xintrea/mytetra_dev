@@ -37,6 +37,7 @@ public:
  QAction *actionCopy;
  QAction *actionPaste;
  QAction *actionSettings;
+ QAction *actionBack;
 
 public slots:
 
@@ -49,6 +50,7 @@ private slots:
  void onSyncroClick(void);
  void onWalkHistoryPreviousClick(void);
  void onWalkHistoryNextClick(void);
+ void onBackClick(void);
 
 private:
  QToolBar *toolsLine;

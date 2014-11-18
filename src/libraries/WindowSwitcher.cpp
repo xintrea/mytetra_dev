@@ -43,6 +43,36 @@ void WindowSwitcher::switchFromTreeToRecordtable(void)
 }
 
 
+void WindowSwitcher::switchFromTreeToFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}
+
+
+// Статическая функция, используется редактором как callback функция при нажатии кнопки back в редакторе конечной записи
+void WindowSwitcher::switchFromRecordToRecordtable(void)
+{
+ if(mytetraConfig.getInterfaceMode()!="mobile") // В статическом методе использовать нестатическую переменну enableSwitcher нельзя
+
+ // Скрываются все прочие области
+ globalParameters.getTreeScreen()->hide();
+ globalParameters.getMetaEditor()->hide();
+ globalParameters.getFindScreen()->hide();
+
+ globalParameters.getRecordTableScreen()->show();
+}
+
+
+void WindowSwitcher::switchFromRecordToFindInBase(void)
+{
+ if(!enableSwitcher)
+   return;
+
+}
+
+
 void WindowSwitcher::switchFromRecordtableToRecord(void)
 {
  if(!enableSwitcher)
@@ -57,42 +87,25 @@ void WindowSwitcher::switchFromRecordtableToRecord(void)
 }
 
 
-// Статическая функция, используется редактором как callback функция при нажатии кнопки back
-void WindowSwitcher::switchFromRecordToRecordtable(void)
-{
- if(mytetraConfig.getInterfaceMode()!="mobile") // В статической функции использовать нестатическую переменну enableSwitcher нельзя
-   return;
-
- // Скрываются все прочие области
- globalParameters.getTreeScreen()->hide();
- globalParameters.getMetaEditor()->hide();
- globalParameters.getFindScreen()->hide();
-
- globalParameters.getRecordTableScreen()->show();
-}
-
-
-void WindowSwitcher::switchFromTreeToFindInBase(void)
-{
- if(!enableSwitcher)
-   return;
-
-}
-
-
-void WindowSwitcher::switchFromRecordToFindInBase(void)
-{
- if(!enableSwitcher)
-   return;
-
-}
-
-
 void WindowSwitcher::switchFromRecordtableToFindInBase(void)
 {
  if(!enableSwitcher)
    return;
 
+}
+
+
+void WindowSwitcher::switchFromRecordtableToTree(void)
+{
+ if(!enableSwitcher)
+   return;
+
+ // Скрываются все прочие области
+ globalParameters.getMetaEditor()->hide();
+ globalParameters.getRecordTableScreen()->hide();
+ globalParameters.getFindScreen()->hide();
+
+ globalParameters.getTreeScreen()->show();
 }
 
 
