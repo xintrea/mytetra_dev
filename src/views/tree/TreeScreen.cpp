@@ -318,9 +318,14 @@ void TreeScreen::setupSignals(void)
          this, SLOT(on_customContextMenuRequested(const QPoint &)));
 
  // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре
- connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
-         this, SLOT(on_knowtree_clicked(const QModelIndex&)));
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+   connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
+           this, SLOT(on_knowtree_clicked(const QModelIndex&)));
  
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   connect(knowTreeView, SIGNAL(clicked(const QModelIndex &)),
+           this, SLOT(on_knowtree_clicked(const QModelIndex &)));
+
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  // connect(knowTreeView, SIGNAL(doubleClicked(const QModelIndex &)),
  //         actionList["editBranch"], SLOT(trigger(void)));

@@ -102,6 +102,7 @@ protected slots:
  // является переопределенным, так как его тип virtual protected slot
  virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
+ void onClickToRecord(const QModelIndex &index);
 
 protected:
 
@@ -128,7 +129,7 @@ protected:
  void deleteRecords(void);
 
  // Реакия на выбор записи мышкой или клавишами
- void onClickToRecord(const QModelIndex &index);
+ void clickToRecord(const QModelIndex &index);
 
  bool event(QEvent *event);
  bool gestureEvent(QGestureEvent *event);

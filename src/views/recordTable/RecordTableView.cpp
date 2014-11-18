@@ -113,8 +113,15 @@ void RecordTableView::setupSignals(void)
  connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
          this, SLOT(editFieldContext(void)));
 
- connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
-         this, SLOT(onSelectionChanged ( const QItemSelection &, const QItemSelection &) ));
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+   connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
+           this, SLOT(onSelectionChanged ( const QItemSelection &, const QItemSelection &) ));
+
+ // Для мобильного режима должен работать сигнал clicked, так как если засветка уже стоит на строке с записью, должна открыться запись
+ // а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   connect(this, SIGNAL( clicked(const QModelIndex &) ),
+           this, SLOT( onClickToRecord(const QModelIndex &) ));
 
  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
@@ -190,12 +197,18 @@ void RecordTableView::onSelectionChanged(const QItemSelection &selected,
  // return;
 
  if(selectRecord.isValid())
-  onClickToRecord(selectRecord);
+  clickToRecord(selectRecord);
+}
+
+
+void RecordTableView::onClickToRecord(const QModelIndex &index)
+{
+  clickToRecord(index);
 }
 
 
 // Действия при выборе строки таблицы конечных записей
-void RecordTableView::onClickToRecord(const QModelIndex &index)
+void RecordTableView::clickToRecord(const QModelIndex &index)
 {
  // Позиция записи в списке
  int pos=index.row();
@@ -419,7 +432,7 @@ void RecordTableView::editFieldContext(void)
 
  // Нужно перерисовать окно редактирования чтобы обновились инфополя
  // делается это путем "повторного" выбора текущего пункта
- onClickToRecord(index); // Раньше было select()
+ clickToRecord(index); // Раньше было select()
 }
 
 
