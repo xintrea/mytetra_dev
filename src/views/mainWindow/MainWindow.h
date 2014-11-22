@@ -112,6 +112,7 @@ private slots:
  
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
+ void onFocusChanged(QWidget *, QWidget *);
 
 private:
 

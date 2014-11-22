@@ -670,6 +670,20 @@ bool AppConfig::setInterfaceMode(QString mode)
  return true;
 }
 
+// Имя последнего активного виджета
+QString AppConfig::getFocusWidget(void)
+{
+ QString widgetName=get_parameter("focusWidget");
+ return widgetName;
+}
+
+
+bool AppConfig::setFocusWidget(QString widgetName)
+{
+ conf->setValue("focusWidget", widgetName);
+ return true;
+}
+
 
 // --------------------
 // Номер версии конфига
@@ -785,7 +799,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 18
+ // Последняя версия на данный момент - 19
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -820,6 +834,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(16, 17, get_parameter_table_16(), get_parameter_table_17());
  if(fromVersion<=17)
   updater.update_version(17, 18, get_parameter_table_17(), get_parameter_table_18());
+ if(fromVersion<=18)
+  updater.update_version(18, 19, get_parameter_table_18(), get_parameter_table_19());
 }
 
 
@@ -1202,3 +1218,21 @@ QStringList AppConfig::get_parameter_table_18(bool withEndSignature)
   return table;
 }
 
+
+QStringList AppConfig::get_parameter_table_19(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 18
+  table << get_parameter_table_18(false);
+
+  // Новые параметры
+  table << "focusWidget" << "QString" << "";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}

@@ -172,7 +172,7 @@ void TreeScreen::setupUI(void)
  insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
 
  knowTreeView=new KnowTreeView(this);
- knowTreeView->setObjectName("KnowTreeView");
+ knowTreeView->setObjectName("knowTreeView");
  knowTreeView->setMinimumSize(150,250);
  knowTreeView->setWordWrap(true);
 
@@ -423,7 +423,7 @@ void TreeScreen::moveUpDnBranch(int direction)
   } 
  
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -550,7 +550,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
   }
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
  find_object<MainWindow>("mainwindow")->setEnabled(true);
 }
@@ -605,7 +605,7 @@ void TreeScreen::edit_branch(void)
  item->setField("name", newname);
  
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
  
  find_object<MainWindow>("mainwindow")->setEnabled(true);
 }
@@ -753,7 +753,7 @@ void TreeScreen::del_branch(QString mode)
    qDebug() << "Delete finish";
 
    // Сохранение дерева веток
-   find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+   find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
    qDebug() << "Save new tree finish";
   }
@@ -1059,7 +1059,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
  find_object<MainWindow>("mainwindow")->setTreePosition(pasted_branch_path);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
  // Разблокируется главное окно
  find_object<MainWindow>("mainwindow")->setEnabled(true);
@@ -1116,7 +1116,7 @@ void TreeScreen::encryptBranchItem(void)
  item->switchToEncrypt();
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
  // Обновляеются на экране ветка и ее подветки
  updateBranchOnScreen( getCurrentItemIndex() );
@@ -1132,7 +1132,7 @@ void TreeScreen::decryptBranchItem(void)
  item->switchToDecrypt();
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
  // Обновляеются на экране ветка и ее подветки
  updateBranchOnScreen( getCurrentItemIndex() );
@@ -1196,7 +1196,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
      if(password.retrievePassword()==false)
       {
        // Устанавливаем пустые данные для отображения таблицы конечных записей
-       find_object<RecordTableView>("RecordTableView")->setTableData(NULL);
+       find_object<RecordTableView>("recordTableView")->setTableData(NULL);
 
        // Все инструменты работы с веткой отключаются
        QMapIterator<QString, QAction *> i(actionList);
@@ -1216,7 +1216,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
  RecordTableData *rtdata=item->recordtableGetTableData();
 
  // Устанавливаем данные таблицы конечных записей
- find_object<RecordTableView>("RecordTableView")->setTableData(rtdata);
+ find_object<RecordTableView>("recordTableView")->setTableData(rtdata);
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
  knowTreeView->resizeColumnToContents(0);

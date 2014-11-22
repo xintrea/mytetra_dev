@@ -23,7 +23,7 @@ WindowSwitcher::WindowSwitcher(QObject *parent) : QObject(parent)
  }
 
  // Редактор является встраиваемым, поэтому работа кнопки Back у него идет через callback функцию
- // MetaEditor *edView=find_object<MetaEditor>("editorview"); // Выясняется указатель на объект редактирования текста записи
+ // MetaEditor *edView=find_object<MetaEditor>("editorScreen"); // Выясняется указатель на объект редактирования текста записи
  MetaEditor *metaEditor=globalParameters.getMetaEditor();
  metaEditor->set_back_callback( this->switchFromRecordToRecordtable ); // Устанавливается функция обратного вызова при клике на кнопку Back
 }
@@ -115,4 +115,48 @@ void WindowSwitcher::closeFindInBase(void)
  if(!enableSwitcher)
    return;
 
+}
+
+
+void WindowSwitcher::switchDirectTo(QString widgetName)
+{
+  // Скрываются все прочие области
+  globalParameters.getTreeScreen()->hide();
+  globalParameters.getRecordTableScreen()->hide();
+  globalParameters.getMetaEditor()->hide();
+  globalParameters.getFindScreen()->hide();
+
+  // Оформить через case
+  if(widgetName=="knowTreeView")
+  {
+    globalParameters.getTreeScreen()->show();
+    globalParameters.getTreeScreen()->setFocus();
+    return;
+  }
+
+  if(widgetName=="recordTableView")
+  {
+    globalParameters.getRecordTableScreen()->show();
+    globalParameters.getRecordTableScreen()->setFocus();
+    return;
+  }
+
+  if(widgetName=="textArea")
+  {
+    globalParameters.getMetaEditor()->show();
+    globalParameters.getMetaEditor()->setFocus();
+    return;
+  }
+
+  if(widgetName=="findTableView")
+  {
+    globalParameters.getFindScreen()->show();
+    globalParameters.getFindScreen()->setFocus();
+    return;
+  }
+
+
+  // Остальные случаи - активируется дерево записей
+  globalParameters.getTreeScreen()->show();
+  globalParameters.getTreeScreen()->setFocus();
 }

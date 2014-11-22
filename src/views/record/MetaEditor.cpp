@@ -287,7 +287,7 @@ void MetaEditor::onClickToTag(const QString &link_text)
  // -----------------------------
 
  // Определяется ссылка на виджет поиска
- FindScreen *findScreen=find_object<FindScreen>("findscreendisp");
+ FindScreen *findScreen=find_object<FindScreen>("findScreenDisp");
 
  // Если виджет не показан, он выводится на экран
  if(findScreen->isVisible()==false)

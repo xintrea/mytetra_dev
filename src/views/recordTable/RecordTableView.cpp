@@ -219,7 +219,7 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
    return;
 
  // Выясняется указатель на объект редактирования текста записи
- MetaEditor *edView=find_object<MetaEditor>("editorview");
+ MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 
  // Выясняется ссылка на таблицу конечных данных
  RecordTableData *table=recordModel->getTableData();
@@ -392,7 +392,7 @@ void RecordTableView::addNew(int mode,
  selectRow(selPos);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -459,14 +459,14 @@ void RecordTableView::editField(int pos,
  table->editRecordFields(pos, editData);
 
  // Обновление инфополей в области редактирования записи
- MetaEditor *metaEditor=find_object<MetaEditor>("editorview");
+ MetaEditor *metaEditor=find_object<MetaEditor>("editorScreen");
  metaEditor->setName(name);
  metaEditor->setAuthor(author);
  metaEditor->setUrl(url);
  metaEditor->setTags(tags);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -567,17 +567,17 @@ void RecordTableView::deleteRecords(void)
  qDebug() << "After delete cursor set to" << selectionIndex << "row";
 
  // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
- find_object<MetaEditor>("editorview")->clearAll();
+ find_object<MetaEditor>("editorScreen")->clearAll();
 
  // Вызывается удаление отмеченных записей
  recordModel->removeRowsByList(delIdx);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("TreeScreen")->updateSelectedBranch();
+ find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
 
  // Установка курсора на нужную позицию
  if(selectionIndex>=0)
@@ -596,7 +596,7 @@ void RecordTableView::deleteRecords(void)
 
    // Нужно очистить поле редактирования чтобы невидно было текста
    // последней удаленной записи
-   find_object<MetaEditor>("editorview")->clearAll();
+   find_object<MetaEditor>("editorScreen")->clearAll();
  }
 
  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
@@ -654,7 +654,7 @@ void RecordTableView::moveUp(void)
   setSelectionToPos(pos-1);
 
   // Сохранение дерева веток
-  find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -676,7 +676,7 @@ void RecordTableView::moveDn(void)
  setSelectionToPos(pos+1);
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
 }
 
@@ -734,7 +734,7 @@ void RecordTableView::cut(void)
  // Надо сохранить запись, так как перед копированием в буфер обмена запись
  // обязательно должна быть сохранена, иначе редактирование,
  // которое было после открытия записи и до нажатия Cut, потеряется
- find_object<MetaEditor>("editorview")->save_textarea();
+ find_object<MetaEditor>("editorScreen")->save_textarea();
 
  copy();
  deleteRecords();
@@ -795,7 +795,7 @@ void RecordTableView::paste(void)
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("TreeScreen")->updateSelectedBranch();
+ find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
 }
 
 
@@ -944,7 +944,7 @@ void RecordTableView::setTableData(RecordTableData *rtData)
  if(removeSelection)
   {
     // Надо очистить поля области редактировния
-    find_object<MetaEditor>("editorview")->clearAll();
+    find_object<MetaEditor>("editorScreen")->clearAll();
 
     // При выборе записи обновление инструментов было бы вызвано автоматически
     // в альтернативной ветке (там "эмулируется" клик по записи)

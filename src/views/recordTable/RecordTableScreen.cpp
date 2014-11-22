@@ -26,7 +26,7 @@ RecordTableScreen::RecordTableScreen(QWidget *parent) : QWidget(parent)
 {
  // Инициализируется область со списком записей
  recordTableView=new RecordTableView(this);
- recordTableView->setObjectName("RecordTableView");
+ recordTableView->setObjectName("recordTableView");
 
  setupActions();
 
@@ -243,8 +243,8 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Выясняется, содержит ли текущая ветка подчиненные ветки
  /*
- QModelIndex index = find_object<TreeScreen>("TreeScreen")->get_selection_model()->currentIndex();
- TreeItem *item = find_object<TreeScreen>("TreeScreen")->kntrmodel->getItem(index);
+ QModelIndex index = find_object<TreeScreen>("treeScreen")->get_selection_model()->currentIndex();
+ TreeItem *item = find_object<TreeScreen>("treeScreen")->kntrmodel->getItem(index);
  int branch_have_children=0;
  if(item->childCount()>0)branch_have_children=1;
  */
@@ -324,12 +324,12 @@ void RecordTableScreen::toolsUpdate(void)
   {
    qDebug() << "In table select present";
    qDebug() << "In table row count is" << recordTableView->getRowCount();
-   find_object<MetaEditor>("editorview")->set_textarea_editable(true);
+   find_object<MetaEditor>("editorScreen")->set_textarea_editable(true);
   }
  else
   {
    qDebug() << "In table select non present";
-   find_object<MetaEditor>("editorview")->set_textarea_editable(false);
+   find_object<MetaEditor>("editorScreen")->set_textarea_editable(false);
   }
 }
 
@@ -352,7 +352,7 @@ void RecordTableScreen::setSelectionToPos(int pos)
 void RecordTableScreen::findInBaseOpen(void)
 {
   // Определяется ссылка на виджет поиска
-  FindScreen *findScreen=find_object<FindScreen>("findscreendisp");
+  FindScreen *findScreen=find_object<FindScreen>("findScreenDisp");
  
   // Если виджет не показан, он выводится на экран, и наоборот
   if(findScreen->isVisible()==false)

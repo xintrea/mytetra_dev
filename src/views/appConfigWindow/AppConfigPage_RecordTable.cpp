@@ -134,7 +134,7 @@ int AppConfigPage_RecordTable::apply_changes(void)
  qDebug() << "fieldsWidth" << fieldsWidth;
 
  // Указатель на представление таблицы конечных записей
- RecordTableView *view=find_object<RecordTableView>("RecordTableView");
+ RecordTableView *view=find_object<RecordTableView>("recordTableView");
 
 
  // Запоминание в конфигурацию отображения горизонтальных заголовков

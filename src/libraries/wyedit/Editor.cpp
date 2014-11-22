@@ -479,7 +479,7 @@ void Editor::setup_editor_area(void)
 {
  // Создается область редактирования
  textArea=new EditorTextArea(this);
- textArea->setObjectName("textarea");
+ textArea->setObjectName("textArea");
  textArea->setContextMenuPolicy(Qt::CustomContextMenu); // Меню определяется в программе
 
  QFont font;

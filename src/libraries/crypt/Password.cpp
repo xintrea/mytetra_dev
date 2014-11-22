@@ -150,7 +150,7 @@ bool Password::replacePassword(void)
  // ------------------------
 
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("KnowTreeView")->model());
+ KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
 
  // Перешифрация
  dataModel->reEncrypt(previousPassword, password);

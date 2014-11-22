@@ -73,7 +73,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupUI(void)
 {
  treeScreen=new TreeScreen;
- treeScreen->setObjectName("TreeScreen");
+ treeScreen->setObjectName("treeScreen");
  globalParameters.setTreeScreen(treeScreen);
 
  recordTableScreen=new RecordTableScreen();
@@ -81,15 +81,15 @@ void MainWindow::setupUI(void)
  globalParameters.setRecordTableScreen(recordTableScreen);
 
  findScreenDisp=new FindScreen();
- findScreenDisp->setObjectName("findscreendisp");
+ findScreenDisp->setObjectName("findScreenDisp");
  globalParameters.setFindScreen(findScreenDisp);
 
  editorScreen=new MetaEditor();
- editorScreen->setObjectName("editorview");
+ editorScreen->setObjectName("editorScreen");
  globalParameters.setMetaEditor(editorScreen);
 
  statusBar=new QStatusBar();
- statusBar->setObjectName("statbar");
+ statusBar->setObjectName("statusBar");
  setStatusBar(statusBar);
  globalParameters.setStatusBar(statusBar);
 
@@ -99,7 +99,7 @@ void MainWindow::setupUI(void)
  globalParameters.setWindowSwitcher(windowSwitcher);
 
  // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
- // MetaEditor *edView=find_object<MetaEditor>("editorview");
+ // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 }
 
 
@@ -109,6 +109,8 @@ void MainWindow::setupSignals(void)
 
  // Сигнал, генерирующийся при выходе из оконных систем X11 и Windows
  connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
+
+ connect(qApp, SIGNAL( focusChanged(QWidget *, QWidget *) ), this, SLOT( onFocusChanged(QWidget *, QWidget *) ));
 }
 
 
@@ -329,7 +331,7 @@ void MainWindow::restoreFindOnBaseVisible(void)
  bool n=mytetraConfig.get_findscreen_show();
 
  // Определяется ссылка на виджет поиска
- FindScreen *findScreenRel=find_object<FindScreen>("findscreendisp");
+ FindScreen *findScreenRel=find_object<FindScreen>("findScreenDisp");
  
  if(n)
   findScreenRel->show();
@@ -551,7 +553,7 @@ void MainWindow::applicationFastExit(void)
 void MainWindow::toolsFind(void)
 {
  // Определяется ссылка на виджет поиска
- FindScreen *findScreenRel=find_object<FindScreen>("findscreendisp");
+ FindScreen *findScreenRel=find_object<FindScreen>("findScreenDisp");
  
  if( !(findScreenRel->isVisible()) )
   findScreenRel->show();
@@ -589,12 +591,15 @@ void MainWindow::onExpandEditArea(bool flag)
 
 void MainWindow::onClickHelpAboutMyTetra(void)
 {
+ QString version=QString::number(APPLICATION_RELEASE_VERSION)+"."+QString::number(APPLICATION_RELEASE_SUBVERSION)+"."+QString::number(APPLICATION_RELEASE_MICROVERSION);
+
  QMessageBox *msgBox = new QMessageBox(this);
  msgBox->about(this, 
-               "MyTetra v."+QString::number(APPLICATION_RELEASE_VERSION)+"."+QString::number(APPLICATION_RELEASE_SUBVERSION)+"."+QString::number(APPLICATION_RELEASE_MICROVERSION),
+               "MyTetra v."+version,
 "<b>MyTetra</b> - smart manager<br/>\
 for information collecting<br/>\
 <br/>\
+v."+version+" (build target OS: "+globalParameters.getTargetOs()+")\
 Author:<br/>\
 Sergey M. Stepanov, <i>xintrea@gmail.com</i><br/>\
 <br/>\
@@ -850,13 +855,34 @@ void MainWindow::goWalkHistory(void)
 // текст редактируемой записи
 void MainWindow::saveTextarea(void)
 {
- QString id=editorScreen->getMiscField("id");
+  QString id=editorScreen->getMiscField("id");
 
- qDebug() << "MainWindow::saveTextarea() : id :" << id;
+  qDebug() << "MainWindow::saveTextarea() : id :" << id;
 
- editorScreen->save_textarea();
+  editorScreen->save_textarea();
 
- walkHistory.add(id, 
-                 editorScreen->getCursorPosition(),
-                 editorScreen->getScrollBarPosition());
+  walkHistory.add(id,
+                  editorScreen->getCursorPosition(),
+                  editorScreen->getScrollBarPosition());
 }
+
+
+// Слот, обрабатывающий смену фокуса на виджетах
+void MainWindow::onFocusChanged(QWidget *widgetFrom, QWidget *widgetTo)
+{
+  Q_UNUSED (widgetFrom);
+
+  if(widgetTo==NULL)
+    return;
+
+  qDebug() << "MainWindow::onFocusChanged() to " << widgetTo->objectName();
+
+  QStringList availableName;
+  availableName << "knowTreeView" << "recordTableView" << "textArea" << "findTableView";
+
+  if( availableName.contains( widgetTo->objectName() ) )
+    if( mytetraConfig.getFocusWidget()!=widgetTo->objectName() ) // Если текущее имя не является уже запомненым в mytetraConfig
+      mytetraConfig.setFocusWidget( widgetTo->objectName() );
+}
+
+

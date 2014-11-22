@@ -118,7 +118,7 @@ template <class X> bool KnowTreeView::isDragableData(X *event)
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
- if( sourceObject->objectName()=="RecordTableView" )
+ if( sourceObject->objectName()=="recordTableView" )
   return true;
  else
   return false;
@@ -157,7 +157,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    RecordTableData *recordTableData=treeItem->recordtableGetTableData();
 
    // Исходная ветка в момент Drop (откуда переностся запись) - это выделенная курсором ветка
-   QModelIndex indexFrom = find_object<TreeScreen>("TreeScreen")->getCurrentItemIndex();
+   QModelIndex indexFrom = find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
 
    // Если перенос происходит в ту же самую ветку
    if(indexFrom==index)
@@ -178,7 +178,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      unsigned int recordPos=treeItemFrom->getRecordPos( exemplar["id"] );
-     RecordTableView *recordTableView=find_object<RecordTableView>("RecordTableView");
+     RecordTableView *recordTableView=find_object<RecordTableView>("recordTableView");
      recordTableView->deleteRecordByPos(recordPos);
 
      // Добавление записи в базу
@@ -189,7 +189,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
                                       clipboardRecords->getRecordFiles(i) );
 
      // Сохранение дерева веток
-     find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+     find_object<TreeScreen>("treeScreen")->saveKnowTree();
     }
 
    // Обновление исходной ветки чтобы было видно что записей убавилось

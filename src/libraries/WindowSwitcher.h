@@ -22,6 +22,8 @@ public:
 
  void closeFindInBase(void);
 
+ void switchDirectTo(QString widgetName);
+
 signals:
 
 public slots:

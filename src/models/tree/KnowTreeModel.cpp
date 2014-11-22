@@ -759,7 +759,7 @@ void KnowTreeModel::reEncrypt(QString previousPassword, QString currentPassword)
 
 
  // Сохранение дерева веток
- find_object<TreeScreen>("TreeScreen")->saveKnowTree();
+ find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -896,7 +896,7 @@ QModelIndex knowtreemodel::get_item_index(TreeItem *item)
  // Перебираются элементы на одном уровне вложения с начальным элементом дерева
  for(int i=0;rootindex.sibling(i,0).isValid();i++)
   {
-   // qDebug() << "Sibling current " << (find_object<KnowTreeView>("KnowTreeView")->model()->data(rootindex.sibling(i,0),Qt::EditRole)).toString();
+   // qDebug() << "Sibling current " << (find_object<KnowTreeView>("knowTreeView")->model()->data(rootindex.sibling(i,0),Qt::EditRole)).toString();
 
    // Перебираемый элемент проверяется на соответствие с искомым TreeItem
    if(item==static_cast<TreeItem*>(rootindex.sibling(i,0).internalPointer()))
@@ -931,7 +931,7 @@ QModelIndex knowtreemodel::get_item_index_recurse(QModelIndex currindex, TreeIte
    return QModelIndex();
   } 
 
- // qDebug() << "Recurse current " << (find_object<KnowTreeView>("KnowTreeView")->model()->data(currindex,Qt::EditRole)).toString();
+ // qDebug() << "Recurse current " << (find_object<KnowTreeView>("knowTreeView")->model()->data(currindex,Qt::EditRole)).toString();
  // qDebug() << "Current index have " << currindex.row() << "row";
  // qDebug() << "Find flag " << findflag;
  

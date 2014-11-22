@@ -44,7 +44,7 @@ FindTableWidget::~FindTableWidget(void)
 void FindTableWidget::setupUI(void)
 {
  findTableView=new QTableView(this);
- findTableView->setObjectName("FindTableView");
+ findTableView->setObjectName("findTableView");
  findTableView->setMinimumSize(1,1);
  findTableView->horizontalHeader()->hide();
 

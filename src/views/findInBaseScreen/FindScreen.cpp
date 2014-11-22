@@ -299,7 +299,7 @@ void FindScreen::findStart(void)
  findTable->clearAll();
  
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("KnowTreeView")->model());
+ KnowTreeModel *searchModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
  
  
  // Выясняется стартовый элемент в дереве, с которого будет начат поиск
@@ -317,7 +317,7 @@ void FindScreen::findStart(void)
  else if (mytetraConfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
  {
   // Индекс текущей выбранной ветки
-  QModelIndex currentItemIndex=find_object<TreeScreen>("TreeScreen")->getCurrentItemIndex();
+  QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
 
   // Текущая ветка
   startItem=searchModel->getItem(currentItemIndex);

@@ -1006,6 +1006,9 @@ int main(int argc, char ** argv)
  win.restoreEditorCursorPosition();
  win.restoreEditorScrollBarPosition();
 
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   globalParameters.getWindowSwitcher()->switchDirectTo( mytetraConfig.getFocusWidget() );
+
  qDebug() << "Restore session succesfull";
 
  // После восстановления последней редактируемой записи

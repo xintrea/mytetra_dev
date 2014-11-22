@@ -298,7 +298,7 @@ void WalkHistory::setDrop(bool flag)
 void WalkHistory::checkId(QString id)
 {
  // Выясняется ссылка на модель дерева данных
- KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("KnowTreeView")->model());
+ KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
 
  // Если запись с указанным идентификатором существует
  if(dataModel->getRecordPath(id).length()>0)

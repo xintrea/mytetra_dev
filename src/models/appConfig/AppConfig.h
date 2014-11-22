@@ -170,6 +170,8 @@ public:
     QString getInterfaceMode(void);
     bool setInterfaceMode(QString mode);
 
+    QString getFocusWidget(void);
+    bool setFocusWidget(QString widgetName);
 
 private:
 
@@ -202,6 +204,7 @@ private:
     QStringList get_parameter_table_16(bool withEndSignature=true);
     QStringList get_parameter_table_17(bool withEndSignature=true);
     QStringList get_parameter_table_18(bool withEndSignature=true);
+    QStringList get_parameter_table_19(bool withEndSignature=true);
 
     bool is_init_flag;
 };
