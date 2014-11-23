@@ -93,7 +93,7 @@ void MainWindow::setupUI(void)
  setStatusBar(statusBar);
  globalParameters.setStatusBar(statusBar);
 
- // Вспомогательный объект переключения окон, исполдьзуется в мобильном интерфейсе
+ // Вспомогательный объект переключения окон, используется в мобильном интерфейсе
  windowSwitcher=new WindowSwitcher();
  windowSwitcher->setObjectName("windowSwitcher");
  globalParameters.setWindowSwitcher(windowSwitcher);
@@ -599,7 +599,8 @@ void MainWindow::onClickHelpAboutMyTetra(void)
 "<b>MyTetra</b> - smart manager<br/>\
 for information collecting<br/>\
 <br/>\
-v."+version+" (build target OS: "+globalParameters.getTargetOs()+")\
+v."+version+" (target OS: "+globalParameters.getTargetOs()+")<br/>\
+<br/>\
 Author:<br/>\
 Sergey M. Stepanov, <i>xintrea@gmail.com</i><br/>\
 <br/>\
@@ -877,12 +878,7 @@ void MainWindow::onFocusChanged(QWidget *widgetFrom, QWidget *widgetTo)
 
   qDebug() << "MainWindow::onFocusChanged() to " << widgetTo->objectName();
 
-  QStringList availableName;
-  availableName << "knowTreeView" << "recordTableView" << "textArea" << "findTableView";
-
-  if( availableName.contains( widgetTo->objectName() ) )
-    if( mytetraConfig.getFocusWidget()!=widgetTo->objectName() ) // Если текущее имя не является уже запомненым в mytetraConfig
-      mytetraConfig.setFocusWidget( widgetTo->objectName() );
+  return; // Временно ничего не делает
 }
 
 

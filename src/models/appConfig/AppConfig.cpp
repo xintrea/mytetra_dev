@@ -680,6 +680,7 @@ QString AppConfig::getFocusWidget(void)
 
 bool AppConfig::setFocusWidget(QString widgetName)
 {
+ qDebug() << "AppConfig::setFocusWidget() : " << widgetName;
  conf->setValue("focusWidget", widgetName);
  return true;
 }

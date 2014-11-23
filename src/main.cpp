@@ -999,15 +999,17 @@ int main(int argc, char ** argv)
  // После создания окна восстанавливается вид окна в предыдущий запуск
  // Эти действия нельзя делать в конструкторе главного окна, 
  // т.к. окно еще не создано
+ globalParameters.getWindowSwitcher()->disableSwitch();
  win.restoreFindOnBaseVisible();
  win.restoreGeometry();
  win.restoreTreePosition();
  win.restoreRecordTablePosition();
  win.restoreEditorCursorPosition();
  win.restoreEditorScrollBarPosition();
+ globalParameters.getWindowSwitcher()->enableSwitch();
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
-   globalParameters.getWindowSwitcher()->switchDirectTo( mytetraConfig.getFocusWidget() );
+   globalParameters.getWindowSwitcher()->restoreFocusWidget();
 
  qDebug() << "Restore session succesfull";
 

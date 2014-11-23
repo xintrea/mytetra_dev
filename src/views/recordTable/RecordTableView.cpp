@@ -703,15 +703,18 @@ bool RecordTableView::isSelectedSetToTop(void)
 
 bool RecordTableView::isSelectedSetToBottom(void)
 {
- if(getFirstSelectionPos()==model()->rowCount()-1)return true;
- else return false;
+  if(getFirstSelectionPos()==model()->rowCount()-1)
+    return true;
+  else
+    return false;
 }
 
 
 // Установка засветки в нужную строку
 void RecordTableView::setSelectionToPos(int pos)
 {
- if(pos>(recordModel->rowCount()-1))
+ int rowCount=recordModel->rowCount(); // В дебаггере почему-то не вычисляется этот condidtion
+ if(pos>(rowCount-1))
    return;
 
  // Сложный механизм выбора строки. Не помню, почему выбрал именно его. Сейчас отключен, посмотрим в работе

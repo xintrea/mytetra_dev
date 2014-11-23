@@ -10,8 +10,12 @@ class WindowSwitcher : public QObject
 public:
  explicit WindowSwitcher(QObject *parent = 0);
 
+ void enableSwitch(void);
+ void disableSwitch(void);
+
  void switchFromTreeToRecordtable(void);
  void switchFromTreeToFindInBase(void);
+ bool getSwitchStatus(void);
 
  static void switchFromRecordToRecordtable(void); // Используется как callback из редактора MetaEditor
  void switchFromRecordToFindInBase(void);
@@ -22,7 +26,7 @@ public:
 
  void closeFindInBase(void);
 
- void switchDirectTo(QString widgetName);
+ void restoreFocusWidget();
 
 signals:
 
