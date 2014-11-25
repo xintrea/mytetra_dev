@@ -193,29 +193,32 @@ TreeItem *TreeModel::getItem(QStringList path) const
 
 bool TreeModel::isItemValid(QStringList path) const
 {
- TreeItem *curritem=rootItem;
+  if(path.count()==1 && path[0]=="0")
+    return false;
 
- // Перебор идентификаторов пути
- for(int i=1;i<path.size();i++)
- {
-  int found=0;
+  TreeItem *curritem=rootItem;
 
-  // Поиск нужного идентификатора в подчиненных узлах текущего узла
-  for(int j=0;j<curritem->childCount();j++)
-   if( (curritem->child(j))->getField("id") == path.at(i) )
-    {
-     // Узел найден, он становится текущим
-     curritem=curritem->child(j);
-     found=1;
-     break;
-    }
+  // Перебор идентификаторов пути
+  for(int i=1;i<path.size();i++)
+  {
+    int found=0;
 
-  // Если очередной идентификатор пути не был найден
-  if(found==0)
-   return false;
- }
+    // Поиск нужного идентификатора в подчиненных узлах текущего узла
+    for(int j=0;j<curritem->childCount();j++)
+      if( (curritem->child(j))->getField("id") == path.at(i) )
+      {
+        // Узел найден, он становится текущим
+        curritem=curritem->child(j);
+        found=1;
+        break;
+      }
 
- return true;
+    // Если очередной идентификатор пути не был найден
+    if(found==0)
+      return false;
+  }
+
+  return true;
 }
 
 

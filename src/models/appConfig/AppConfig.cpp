@@ -313,13 +313,14 @@ void AppConfig::set_splitter_size_list(QString name, QList<int> list)
 
 QStringList AppConfig::get_tree_position(void)
 {
- return (conf->value("tree_position","1")).toString().split(",");
+  return (conf->value("tree_position","1")).toString().split(",");
 }
 
 
 void AppConfig::set_tree_position(QStringList list)
 {
- conf->setValue("tree_position",list.join(","));
+  qDebug() << "AppConfig::set_tree_position() : " << list;
+  conf->setValue("tree_position",list.join(","));
 }
 
 

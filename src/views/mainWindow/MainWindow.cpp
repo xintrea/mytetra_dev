@@ -221,6 +221,8 @@ void MainWindow::restoreTreePosition(void)
  // Путь к последнему выбранному в дереве элементу
  QStringList path=mytetraConfig.get_tree_position();
 
+ qDebug() << "MainWindow::restoreTreePosition() : " << path;
+
  setTreePosition(path);
 }
 
@@ -240,7 +242,8 @@ void MainWindow::saveTreePosition(void)
 
 void MainWindow::setTreePosition(QStringList path)
 {
- if(treeScreen->knowTreeModel->isItemValid(path)==false) return;
+ if(treeScreen->knowTreeModel->isItemValid(path)==false)
+   return;
 
  // Получаем указатель на элемент вида TreeItem, используя путь
  TreeItem *item =treeScreen->knowTreeModel->getItem(path);
