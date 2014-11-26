@@ -12,6 +12,7 @@
 #include <QString>
 #include <QByteArray>
 #include <QItemSelection>
+#include <QLabel>
 
 class RecordTableView;
 class RecordTableModel;
@@ -26,6 +27,8 @@ public:
 
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
+
+ void setTreePathLabel(QStringList path);
 
  // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
  QAction *actionAddNewToEnd;
@@ -55,6 +58,8 @@ private slots:
 private:
  QToolBar *toolsLine;
  QToolBar *findLine;
+
+ QLabel *treePathLabel;
  
  RecordTableView *recordTableView;
   

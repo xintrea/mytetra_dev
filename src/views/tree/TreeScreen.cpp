@@ -13,6 +13,7 @@
 
 #include "models/recordTable/RecordTableData.h"
 #include "views/recordTable/RecordTableView.h"
+#include "views/recordTable/RecordTableScreen.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/tree/TreeItem.h"
@@ -1217,6 +1218,10 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
 
  // Устанавливаем данные таблицы конечных записей
  find_object<RecordTableView>("recordTableView")->setTableData(rtdata);
+
+ // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   find_object<RecordTableScreen>("recordTableScreen")->setTreePathLabel( item->getPathAsName() );
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
  knowTreeView->resizeColumnToContents(0);

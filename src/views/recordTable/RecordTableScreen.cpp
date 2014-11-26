@@ -181,6 +181,11 @@ void RecordTableScreen::setupUI(void)
  insert_action_as_button(findLine, actionWalkHistoryPrevious);
  insert_action_as_button(findLine, actionWalkHistoryNext);
  insert_action_as_button(findLine, actionFindInBase);
+
+ treePathLabel=new QLabel(this);
+ treePathLabel->setWordWrap(true);
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+   treePathLabel->hide();
 }
 
 
@@ -201,6 +206,7 @@ void RecordTableScreen::assembly(void)
  recordTableScreenLayout->setObjectName("recordtablescreen_QVBoxLayout");
 
  recordTableScreenLayout->addLayout(recordTableToolsLayout);
+ recordTableScreenLayout->addWidget(treePathLabel);
  recordTableScreenLayout->addWidget(recordTableView);
 
  setLayout(recordTableScreenLayout);
@@ -385,4 +391,14 @@ void RecordTableScreen::onWalkHistoryNextClick(void)
 void RecordTableScreen::onBackClick(void)
 {
   globalParameters.getWindowSwitcher()->switchFromRecordtableToTree();
+}
+
+
+void RecordTableScreen::setTreePathLabel(QStringList path)
+{
+  // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
+  int emptyStringIndex=path.indexOf("");
+  path.removeAt(emptyStringIndex);
+
+  treePathLabel->setText(tr("<b>Path:</b> ")+path.join(" > "));
 }

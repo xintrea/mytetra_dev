@@ -176,6 +176,7 @@ void RecordTableView::restoreHeaderState( void )
     verticalHeader()->show();
 }
 
+
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected )
 {
