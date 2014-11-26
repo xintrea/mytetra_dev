@@ -177,7 +177,7 @@ void RecordTableView::restoreHeaderState( void )
 }
 
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
-                                          const QItemSelection &deselected )
+                                         const QItemSelection &deselected )
 {
  QModelIndex selectRecord;
  QModelIndex deselectRecord;
@@ -717,15 +717,22 @@ void RecordTableView::setSelectionToPos(int pos)
  if(pos>(rowCount-1))
    return;
 
+ // Простой механизм выбора строки. Похоже, что его использовать не получится
+ // selectRow(pos);
+
  // Сложный механизм выбора строки. Не помню, почему выбрал именно его. Сейчас отключен, посмотрим в работе
- /*
+
  // Создание индекса из номера
  QModelIndex selIdx=recordModel->index(pos, 0);
+
  // Установка засветки на нужный индекс
  selectionModel()->setCurrentIndex(selIdx, QItemSelectionModel::ClearAndSelect);
- */
 
- selectRow(pos);
+ // В мобильной версии реакции на выбор записи нет (не обрабатывается сигнал смены строки в модели выбора)
+ // Поэтому по записи должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   emit this->clicked(selIdx);
+
  scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 }
 

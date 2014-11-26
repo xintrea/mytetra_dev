@@ -32,7 +32,7 @@ void WindowSwitcher::enableSwitch(void)
    return;
  }
 
- enableSwitcher=false;
+ enableSwitcher=true;
 }
 
 
