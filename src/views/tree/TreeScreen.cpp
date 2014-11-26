@@ -1254,11 +1254,12 @@ QItemSelectionModel * TreeScreen::getSelectionModel(void)
 
 void TreeScreen::setCursorToIndex(QModelIndex index)
 {
- if(mytetraConfig.getInterfaceMode()=="desktop")
-   knowTreeView->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
+ // Курсор устанавливается на нужный элемент дерева
+ // В desktop-варианте на сигнал currentRowChanged() будет вызван слот on_knowtree_clicked()
+ knowTreeView->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
 
- // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены модели выбора)
- // Но виртуальный клик по ветке должен быть сделан
+ // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены строки в модели выбора)
+ // Поэтому по ветке должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
  if(mytetraConfig.getInterfaceMode()=="mobile")
    emit knowTreeView->clicked(index);
 }
