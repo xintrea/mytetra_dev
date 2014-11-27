@@ -1221,7 +1221,15 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
 
  // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
  if(mytetraConfig.getInterfaceMode()=="mobile")
-   find_object<RecordTableScreen>("recordTableScreen")->setTreePathLabel( item->getPathAsName() );
+ {
+   QStringList path=item->getPathAsName();
+
+   // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
+   int emptyStringIndex=path.indexOf("");
+   path.removeAt(emptyStringIndex);
+
+   find_object<RecordTableScreen>("recordTableScreen")->setTreePath( path.join(" > ") );
+ }
 
  // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
  knowTreeView->resizeColumnToContents(0);

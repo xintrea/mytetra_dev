@@ -28,7 +28,9 @@ public:
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
 
- void setTreePathLabel(QStringList path);
+ void setTreePath(QString path);
+ QString getTreePath(void);
+
 
  // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
  QAction *actionAddNewToEnd;
@@ -60,6 +62,7 @@ private:
  QToolBar *findLine;
 
  QLabel *treePathLabel;
+ QString treePath;
  
  RecordTableView *recordTableView;
   

@@ -290,6 +290,10 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
  QString id=table->getField("id", pos);
  edView->setMiscField("id", id);
 
+ // Устанавливается путь до ветки в которой лежит запись (в виде названий веток)
+ QString path=qobject_cast<RecordTableScreen *>(parent())->getTreePath();
+ // edView->setMiscField( "treePath", path );
+ edView->setTreePath( path );
 
  // Восстанавливается позиция курсора и прокрутки если это необходимо
  if(mytetraConfig.getRememberCursorAtOrdinarySelection())

@@ -29,15 +29,18 @@ public:
  MetaEditor(void);
  ~MetaEditor(void);
 
- void setName  (QString name);
- void setAuthor(QString author);
- void setUrl   (QString url);
- void setTags  (QString tags);
+ void setTreePath(QString path);
+ void setName    (QString name);
+ void setAuthor  (QString author);
+ void setUrl     (QString url);
+ void setTags    (QString tags);
 
 private:
  void setupLabels(void);
  void metaAssembly(void);
  void setupSignals(void);
+
+ QLabel *treePath; // Надпись Path (только для мобильного интерфейса)
 
  QLabel *recordName; // Надпись Title
  QLabel *recordAuthor; // Надпись Author(s)

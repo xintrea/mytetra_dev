@@ -52,41 +52,51 @@ void MetaEditor::setupSignals(void)
 
 void MetaEditor::setupLabels(void)
 {
- // Название записи
- recordName=new QLabel(this);
- recordName->setTextInteractionFlags(Qt::TextSelectableByMouse |
+  // Путь в дереве до данной записи в виде названий веток (только для мобильного интерфейса)
+  treePath=new QLabel(this);
+  treePath->setTextInteractionFlags(Qt::TextSelectableByMouse |
+                                    Qt::TextSelectableByKeyboard);
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+    treePath->setVisible(false);
+  else
+    treePath->setVisible(true);
+  treePath->setWordWrap(true);
+
+  // Название записи
+  recordName=new QLabel(this);
+  recordName->setTextInteractionFlags(Qt::TextSelectableByMouse |
                                       Qt::TextSelectableByKeyboard);
- recordName->setVisible(false);
- recordName->setWordWrap(true);
+  recordName->setVisible(false);
+  recordName->setWordWrap(true);
 
- // Автор
- recordAuthor=new QLabel(this);
- recordAuthor->setTextInteractionFlags(Qt::TextSelectableByMouse |
+  // Автор
+  recordAuthor=new QLabel(this);
+  recordAuthor->setTextInteractionFlags(Qt::TextSelectableByMouse |
                                         Qt::TextSelectableByKeyboard);
- recordAuthor->setVisible(false);
- recordAuthor->setWordWrap(true);
+  recordAuthor->setVisible(false);
+  recordAuthor->setWordWrap(true);
 
- // Url
- labelUrl=new QLabel(this);
- labelUrl->setText(tr("<B>Url:</B> "));
- labelUrl->setVisible(false);
+  // Url
+  labelUrl=new QLabel(this);
+  labelUrl->setText(tr("<B>Url:</B> "));
+  labelUrl->setVisible(false);
 
- recordUrl=new QLabel(this);
- recordUrl->setOpenExternalLinks(true);
- recordUrl->setTextInteractionFlags(Qt::TextSelectableByMouse |
-                                    Qt::TextSelectableByKeyboard |
-                                    Qt::LinksAccessibleByMouse |
-                                    Qt::LinksAccessibleByKeyboard);
- recordUrl->setVisible(false);
- recordUrl->setWordWrap(true);
+  recordUrl=new QLabel(this);
+  recordUrl->setOpenExternalLinks(true);
+  recordUrl->setTextInteractionFlags(Qt::TextSelectableByMouse |
+                                     Qt::TextSelectableByKeyboard |
+                                     Qt::LinksAccessibleByMouse |
+                                     Qt::LinksAccessibleByKeyboard);
+  recordUrl->setVisible(false);
+  recordUrl->setWordWrap(true);
 
- // Текстовые метки
- labelTags=new QLabel(this);
- labelTags->setText(tr("<B>Tags:</B> "));
- labelTags->setVisible(false);
+  // Текстовые метки
+  labelTags=new QLabel(this);
+  labelTags->setText(tr("<B>Tags:</B> "));
+  labelTags->setVisible(false);
 
- recordTagsLayout=new QHBoxLayout(); // Область текстовых меток
- recordTagsLayout->setAlignment(Qt::AlignLeft);
+  recordTagsLayout=new QHBoxLayout(); // Область текстовых меток
+  recordTagsLayout->setAlignment(Qt::AlignLeft);
 }
 
 
@@ -96,15 +106,16 @@ void MetaEditor::metaAssembly(void)
  metaEditorAssemblyLayout->setObjectName("metaeditor_assembly_layout");
 
  metaEditorAssemblyLayout->addLayout(textformatButtonsLayout, 0,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordName,              1,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordAuthor,            2,0, 1,2);
- metaEditorAssemblyLayout->addWidget(textArea,                3,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(treePath,                1,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(recordName,              2,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(recordAuthor,            3,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(textArea,                4,0, 1,2);
 
- metaEditorAssemblyLayout->addWidget(labelUrl,                4,0);
- metaEditorAssemblyLayout->addWidget(recordUrl,               4,1);
+ metaEditorAssemblyLayout->addWidget(labelUrl,                5,0);
+ metaEditorAssemblyLayout->addWidget(recordUrl,               5,1);
 
- metaEditorAssemblyLayout->addWidget(labelTags,               5,0);
- metaEditorAssemblyLayout->addLayout(recordTagsLayout,        5,1);
+ metaEditorAssemblyLayout->addWidget(labelTags,               6,0);
+ metaEditorAssemblyLayout->addLayout(recordTagsLayout,        6,1);
 
  metaEditorAssemblyLayout->setColumnStretch(1,1);
 
@@ -141,6 +152,13 @@ void MetaEditor::clearAll(void)
 
  set_work_directory("");
  set_file_name("");
+}
+
+
+void MetaEditor::setTreePath(QString path)
+{
+ treePath->setVisible(true);
+ treePath->setText(tr("<b>Path: </b>")+path);
 }
 
 

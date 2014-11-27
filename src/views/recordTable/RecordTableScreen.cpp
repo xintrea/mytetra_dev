@@ -394,11 +394,15 @@ void RecordTableScreen::onBackClick(void)
 }
 
 
-void RecordTableScreen::setTreePathLabel(QStringList path)
+void RecordTableScreen::setTreePath(QString path)
 {
-  // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
-  int emptyStringIndex=path.indexOf("");
-  path.removeAt(emptyStringIndex);
-
-  treePathLabel->setText(tr("<b>Path:</b> ")+path.join(" > "));
+  treePath=path; // Запоминается путь к ветке в виде строки
+  treePathLabel->setText(tr("<b>Path:</b> ")+treePath);
 }
+
+QString RecordTableScreen::getTreePath(void)
+{
+  return treePath;
+}
+
+
