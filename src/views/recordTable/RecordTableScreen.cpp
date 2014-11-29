@@ -112,11 +112,10 @@ void RecordTableScreen::setupActions(void)
  actionMoveDn->setIcon(QIcon(":/resource/pic/move_dn.svg"));
  connect(actionMoveDn, SIGNAL(triggered()), recordTableView, SLOT(moveDn()));
 
- // Поиск по базе
+ // Поиск по базе (клик связывается с действием в MainWindow)
  actionFindInBase=new QAction(tr("Find in base"), this);
  actionFindInBase->setStatusTip(tr("Find in base"));
  actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
- connect(actionFindInBase, SIGNAL(triggered()), this, SLOT(findInBaseOpen()));
 
  // Синхронизация
  actionSyncro=new QAction(tr("Synchronization"), this);
@@ -351,20 +350,6 @@ int RecordTableScreen::getFirstSelectionPos(void)
 void RecordTableScreen::setSelectionToPos(int pos)
 {
   recordTableView->setSelectionToPos(pos);
-}
-
-
-// Действия при нажатии на кнопку поиска по базе
-void RecordTableScreen::findInBaseOpen(void)
-{
-  // Определяется ссылка на виджет поиска
-  FindScreen *findScreen=find_object<FindScreen>("findScreenDisp");
- 
-  // Если виджет не показан, он выводится на экран, и наоборот
-  if(findScreen->isVisible()==false)
-    findScreen->widgetShow();
-  else
-   findScreen->widgetHide();
 }
 
 

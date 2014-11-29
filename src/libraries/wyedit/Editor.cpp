@@ -95,6 +95,13 @@ void Editor::init(int mode)
    toolsListInLine1.prepend("back");
  }
 
+ // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
+ if(mode==INIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
+ {
+   toolsListInLine1.append("separator");
+   toolsListInLine1.append("find_in_base");
+ }
+
  // Создается виджет поиска, обязательно нужно указать parent чтобы
  // могли применяться флаги окна.
  // Виджет будет постоянно включен параллельно с работой редактора.
@@ -189,6 +196,7 @@ void Editor::setup_signals(void)
  connect(expandToolsLines, SIGNAL(clicked()), this, SLOT(on_expand_tools_lines_clicked()));
  connect(save, SIGNAL(clicked()), this, SLOT(on_save_clicked()));
  connect(back, SIGNAL(clicked()), this, SLOT(on_back_clicked()));
+ connect(findInBase, SIGNAL(clicked()), this, SLOT(on_find_in_base_clicked()));
 
  connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(on_cursor_position_changed()));
  connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(on_selection_changed()));
@@ -446,11 +454,19 @@ void Editor::setup_buttons(void)
  save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
  save->setObjectName("editor_tb_save");
 
+
  // Кнопка "назад", используется в мобильном интерфейсе
  back = new QToolButton(this);
  back->setStatusTip(tr("Back"));
  back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
  back->setObjectName("editor_tb_back");
+
+ // Кнопка "поиск по базе", используется в мобильном интерфейсе
+ findInBase = new QToolButton(this);
+ findInBase->setStatusTip(tr("Find in base"));
+ findInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+ findInBase->setObjectName("editor_tb_find_in_base");
+
 
  // Виджет настройки отступов
  indentSlider=new IndentSlider(this->width(), 16, this);
@@ -464,13 +480,13 @@ void Editor::setup_buttons(void)
 
 void Editor::hide_all_tools_elements(void)
 {
- QRegExp name_mask("editor_tb_.*");
+  QRegExp nameMask("editor_tb_.*");
 
- // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
- QList<QWidget *> tbToolsList=this->findChildren<QWidget *>(name_mask);
+  // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
+  QList<QWidget *> tbToolsList=this->findChildren<QWidget *>(nameMask);
 
- for(int i=0;i<tbToolsList.size();++i)
-  tbToolsList.at(i)->setVisible(false);
+  for(int i=0;i<tbToolsList.size();++i)
+    tbToolsList.at(i)->setVisible(false);
 }
 
 
@@ -2754,6 +2770,12 @@ void Editor::on_back_clicked(void)
 {
   // back_callback_func(qobject_cast<QObject *>(this));
  back_callback_func();
+}
+
+
+void Editor::on_find_in_base_clicked(void)
+{
+ emit wyeditFindInBaseClicked();
 }
 
 

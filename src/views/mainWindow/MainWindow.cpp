@@ -111,6 +111,11 @@ void MainWindow::setupSignals(void)
  connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
 
  connect(qApp, SIGNAL( focusChanged(QWidget *, QWidget *) ), this, SLOT( onFocusChanged(QWidget *, QWidget *) ));
+
+ // Связывание сигналов кнопки поиска по базе с действием по открытию виджета поиска по базе
+ connect(treeScreen->actionList["findInBase"], SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
+ connect(recordTableScreen->actionFindInBase, SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
+ connect(editorScreen, SIGNAL(wyeditFindInBaseClicked()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
 }
 
 

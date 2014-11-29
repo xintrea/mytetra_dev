@@ -73,8 +73,12 @@
 //       что флаг правильно устанавливается в документе объекта
 //       QTextEdit автоматически
 
+// 1.6 - Основна на версии 1.5
+//     - В методе init() появился параметр mode, отвечащий за режим
+//       инициализации и отображения редактора - desktop или mobile
 
-#define WYEDIT_VERSION "WyEdit v.1.5 / 07.07.2011"
+
+#define WYEDIT_VERSION "WyEdit v.1.6 / 29.11.2014"
 
 
 #define MINIMUM_ALLOWED_FONT_SIZE 5
@@ -142,6 +146,7 @@ public:
  QToolButton   *save;
 
  QToolButton   *back;
+ QToolButton   *findInBase;
 
  IndentSlider  *indentSlider;
 
@@ -242,6 +247,8 @@ signals:
 
  void send_expand_edit_area(bool flag);
 
+ void wyeditFindInBaseClicked();
+
 private slots:
 
  // Действия в области редактирования
@@ -287,6 +294,7 @@ private slots:
  void on_expand_tools_lines_clicked(void);
  void on_save_clicked(void);
  void on_back_clicked(void);
+ void on_find_in_base_clicked(void);
 
  void on_cursor_position_changed(void); // Слот, контролирущий перемещение курсора
  void on_selection_changed(void);

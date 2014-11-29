@@ -43,6 +43,7 @@ public:
  QAction *actionPaste;
  QAction *actionSettings;
  QAction *actionBack;
+ QAction *actionFindInBase;
 
 public slots:
 
@@ -51,7 +52,6 @@ public slots:
 
 private slots:
  
- void findInBaseOpen(void);
  void onSyncroClick(void);
  void onWalkHistoryPreviousClick(void);
  void onWalkHistoryNextClick(void);
@@ -71,7 +71,6 @@ private:
 
  QAction *actionMoveUp;
  QAction *actionMoveDn;
- QAction *actionFindInBase;
  QAction *actionSyncro;
  QAction *actionWalkHistoryPrevious;
  QAction *actionWalkHistoryNext;

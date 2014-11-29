@@ -32,6 +32,8 @@ signals:
 
 public slots:
 
+ void findInBaseClick(void);
+
 private:
 
  bool enableSwitcher;

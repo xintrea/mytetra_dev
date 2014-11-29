@@ -147,6 +147,12 @@ void TreeScreen::setupActions(void)
  // actionDecryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
  connect(ac, SIGNAL(triggered()), this, SLOT(decrypt_branch()));
  actionList["decryptBranch"]=ac;
+
+ // Открытие поиска по базе (связывание клика происходит в MainWindows)
+ ac = new QAction(tr("Find in base"), this);
+ ac->setStatusTip(tr("Find in base"));
+ ac->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+ actionList["findInBase"]=ac;
 }
 
 
@@ -171,6 +177,13 @@ void TreeScreen::setupUI(void)
 
  insert_action_as_button(toolsLine, actionList["moveUpBranch"]);
  insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
+
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+ {
+   toolsLine->addSeparator();
+   insert_action_as_button(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
+ }
+
 
  knowTreeView=new KnowTreeView(this);
  knowTreeView->setObjectName("knowTreeView");

@@ -23,6 +23,8 @@ public:
  TreeScreen(QWidget *parent=0);
  virtual ~TreeScreen();
 
+ QMap<QString, QAction *> actionList;
+
  KnowTreeModel *knowTreeModel;
 
  void saveKnowTree(void);
@@ -74,8 +76,6 @@ private:
  KnowTreeView  *knowTreeView;
 
  QVBoxLayout *treeScreenLayout;
-
- QMap<QString, QAction *> actionList;
 
  void setupUI(void);
  void setupModels(void);
