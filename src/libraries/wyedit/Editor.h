@@ -233,8 +233,8 @@ public:
 
  enum
  {
-  INIT_DESKTOP_MODE=0,
-  INIT_MOBILE_MODE=1
+  WYEDIT_DESKTOP_MODE=0,
+  WYEDIT_MOBILE_MODE=1
  };
 
 signals:
@@ -336,6 +336,8 @@ private:
  // Используется при сохранении текста на диск
  QString workDirectory;
  QString workFileName;
+
+ int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setup_signals(void);
  void setup_buttons(void);

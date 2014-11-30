@@ -619,9 +619,6 @@ void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
  conf->setValue("recordTableShowVerticalHeaders", flag);
 }
 
-QStringList getRecordTableFieldsWidth(void);
-void setRecordTableFieldsWidth(QStringList fieldsWidth);
-
 
 // Ширина полей, отображаемых в таблице конечных записей
 QStringList AppConfig::getRecordTableFieldsWidth(void)
@@ -665,10 +662,9 @@ QString AppConfig::getInterfaceMode(void)
 }
 
 
-bool AppConfig::setInterfaceMode(QString mode)
+void AppConfig::setInterfaceMode(QString mode)
 {
  conf->setValue("interfaceMode", mode);
- return true;
 }
 
 // Имя последнего активного виджета
@@ -679,11 +675,22 @@ QString AppConfig::getFocusWidget(void)
 }
 
 
-bool AppConfig::setFocusWidget(QString widgetName)
+void AppConfig::setFocusWidget(QString widgetName)
 {
  qDebug() << "AppConfig::setFocusWidget() : " << widgetName;
  conf->setValue("focusWidget", widgetName);
- return true;
+}
+
+
+QStringList AppConfig::getHideEditorTools(void)
+{
+ return (conf->value("hideEditorTools", "")).toString().split(",");
+}
+
+
+void AppConfig::setHideEditorTools(QStringList toolsNames)
+{
+ conf->setValue("hideEditorTools",toolsNames.join(","));
 }
 
 
@@ -801,7 +808,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 19
+ // Последняя версия на данный момент - 20
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -838,6 +845,9 @@ void AppConfig::update_version_process(void)
   updater.update_version(17, 18, get_parameter_table_17(), get_parameter_table_18());
  if(fromVersion<=18)
   updater.update_version(18, 19, get_parameter_table_18(), get_parameter_table_19());
+ if(fromVersion<=19)
+  updater.update_version(19, 20, get_parameter_table_19(), get_parameter_table_20());
+
 }
 
 
@@ -1232,6 +1242,28 @@ QStringList AppConfig::get_parameter_table_19(bool withEndSignature)
 
   // Новые параметры
   table << "focusWidget" << "QString" << "";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_20(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 19
+  table << get_parameter_table_19(false);
+
+  // Новые параметры
+  if(globalParameters.getTargetOs()=="android")
+    table << "hideEditorTools" << "QString" << "alignleft,aligncenter,alignright,alignwidth,numericlist,dotlist,indentplus,indentminus,showformatting,showhtml,fontcolor,expand_edit_area,save,createtable,table_add_row,table_remove_row,table_add_col,table_remove_col,table_merge_cells,table_split_cell"; // В Андроид прячутся инструменты сложного форматирования текста
+  else
+    table << "hideEditorTools" << "QString" << ""; // На десктопе скрываемых кнопок редактора нет
 
   if(withEndSignature)
     table << "0" << "0" << "0";

@@ -168,10 +168,13 @@ public:
 
     // Режим интерфейса, возможные значения "desktop" и "mobile"
     QString getInterfaceMode(void);
-    bool setInterfaceMode(QString mode);
+    void setInterfaceMode(QString mode);
 
     QString getFocusWidget(void);
-    bool setFocusWidget(QString widgetName);
+    void setFocusWidget(QString widgetName);
+
+    QStringList getHideEditorTools(void);
+    void setHideEditorTools(QStringList toolsNames);
 
 private:
 
@@ -205,6 +208,7 @@ private:
     QStringList get_parameter_table_17(bool withEndSignature=true);
     QStringList get_parameter_table_18(bool withEndSignature=true);
     QStringList get_parameter_table_19(bool withEndSignature=true);
+    QStringList get_parameter_table_20(bool withEndSignature=true);
 
     bool is_init_flag;
 };

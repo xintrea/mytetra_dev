@@ -10,11 +10,12 @@
 #include "AddNewRecord.h"
 #include "main.h"
 #include "InfoFieldEnter.h"
+#include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
-
 #include "libraries/wyedit/Editor.h"
 
 extern GlobalParameters globalParameters;
+extern AppConfig mytetraConfig;
 
 // Окно добавления новой записи
 
@@ -44,11 +45,11 @@ void AddNewRecord::setupUI(void)
 
  // Редактор текста записи
  recordTextEditor=new Editor();
- recordTextEditor->setDisableToolList( (QStringList() << "save") );
+ recordTextEditor->setDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save") );
  recordTextEditor->initEnableAssembly(true);
  recordTextEditor->initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  recordTextEditor->initEnableRandomSeed(false);
- recordTextEditor->init(Editor::INIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
+ recordTextEditor->init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
 
  // Кнопки OK и Cancel
  buttonBox=new QDialogButtonBox();

@@ -76,10 +76,12 @@ void Editor::initEnableRandomSeed(bool flag)
 
 
 // Инициализация редактора
-// Если mode=INIT_DESKTOP_MODE - происходит обычная инициализация
-// Если mode=INIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
+// Если mode=WYEDIT_DESKTOP_MODE - происходит обычная инициализация
+// Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void Editor::init(int mode)
 {
+ viewMode=mode;
+
  // Создается объект поддержки конфигурирования редактора
  editorConfig=new EditorConfig(initDataConfigFileName, this);
  editorConfig->setObjectName("editorconfig");
@@ -89,14 +91,14 @@ void Editor::init(int mode)
  toolsListInLine2=(editorConfig->get_tools_line_2()).split(",");
 
  // В мобильном режиме добавляется кнопка back (если ее нет)
- if(mode==INIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
+ if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
  {
    toolsListInLine1.prepend("separator");
    toolsListInLine1.prepend("back");
  }
 
  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
- if(mode==INIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
+ if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
  {
    toolsListInLine1.append("separator");
    toolsListInLine1.append("find_in_base");
@@ -512,6 +514,8 @@ void Editor::setup_editor_area(void)
 // и указатель на линейку
 void Editor::insert_button_to_tools_line(QString toolName, QToolBar *line)
 {
+ qDebug() << "Editor::insert_button_to_tools_line() disableToolList : " << disableToolList;
+
  if(toolName=="separator")
   {
    line->addSeparator();
@@ -564,8 +568,15 @@ void Editor::assembly_buttons(void)
  textformatButtonsLayout->addWidget(toolsLine1);
  textformatButtonsLayout->addWidget(toolsLine2);
 
- indentSlider->setVisible(true);
- textformatButtonsLayout->addWidget(indentSlider);
+ // Виджет настройки отступов виден только в desktop интерфейсе
+ if(viewMode==WYEDIT_DESKTOP_MODE)
+ {
+   indentSlider->setVisible(true);
+   textformatButtonsLayout->addWidget(indentSlider);
+ }
+ else
+   indentSlider->setVisible(false);
+
 }
 
 
@@ -2750,7 +2761,8 @@ void Editor::switch_expand_tools_lines(int flag)
 
  // Панели распахиваются/смыкаются (кроме первой линии инструментов)
  toolsLine2->setVisible(setFlag);
- indentSlider->setVisible(setFlag);
+ if(viewMode==WYEDIT_DESKTOP_MODE)
+   indentSlider->setVisible(setFlag);
 
  // Запоминается новое состояние
  editorConfig->set_expand_tools_lines(setFlag);
@@ -2832,6 +2844,7 @@ int Editor::getDirFileEmptyReaction(void)
 // Метод позволяющий управлять доступностью инcтрументов редактирования
 void Editor::setDisableToolList(QStringList toolNames)
 {
+  qDebug() << "Editor::setDisableToolList() : " << toolNames;
   disableToolList=toolNames;
 }
 

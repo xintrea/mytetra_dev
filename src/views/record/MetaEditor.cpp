@@ -16,14 +16,16 @@ extern AppConfig mytetraConfig;
 
 MetaEditor::MetaEditor(void) : Editor()
 {
+ Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
+
  Editor::initEnableAssembly(false);
  Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  Editor::initEnableRandomSeed(false);
 
  if(mytetraConfig.getInterfaceMode()=="desktop")
-   Editor::init(Editor::INIT_DESKTOP_MODE);
+   Editor::init(Editor::WYEDIT_DESKTOP_MODE);
  else if(mytetraConfig.getInterfaceMode()=="mobile")
-   Editor::init(Editor::INIT_MOBILE_MODE);
+   Editor::init(Editor::WYEDIT_MOBILE_MODE);
  else
    critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
