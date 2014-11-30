@@ -1,3 +1,8 @@
+#include <QBoxLayout>
+#include <QGridLayout>
+#include <QScrollArea>
+#include <QtDebug>
+
 #include "main.h"
 #include "MetaEditor.h"
 
@@ -6,8 +11,6 @@
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/appConfig/AppConfig.h"
-
-#include <QtDebug>
 
 
 extern GlobalParameters globalParameters;
@@ -30,6 +33,7 @@ MetaEditor::MetaEditor(void) : Editor()
    critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
  setupLabels();
+ setupUI();
  metaAssembly();
 
  setupSignals();
@@ -96,9 +100,30 @@ void MetaEditor::setupLabels(void)
   labelTags=new QLabel(this);
   labelTags->setText(tr("<B>Tags:</B> "));
   labelTags->setVisible(false);
+}
 
-  recordTagsLayout=new QHBoxLayout(); // Область текстовых меток
-  recordTagsLayout->setAlignment(Qt::AlignLeft);
+
+void MetaEditor::setupUI(void)
+{
+ // Область текстовых меток, которые выглядят на экране как [метка1] [метка2] [метка3] ...
+ recordTagsLayout=new QHBoxLayout();
+ recordTagsLayout->setAlignment(Qt::AlignLeft);
+ recordTagsLayout->setMargin(0);
+
+ // QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
+ recordTagsContainer = new QWidget();
+ // recordTagsContainer->setBackgroundRole(QPalette::Dark); // Чтобы видеть область виджета
+ recordTagsContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+ recordTagsContainer->setLayout(recordTagsLayout);
+
+ // Создается QScrollArea и в нее добавляется виджет с QHBoxLayout
+ recordTagsScrollArea=new QScrollArea();
+ recordTagsScrollArea->setContentsMargins( 0, 0, 0, 0 ); // Убирается отступ от границ содержимого
+ recordTagsScrollArea->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+ recordTagsScrollArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff ); // Убирается горизонтальная полоса прокрутки
+ recordTagsScrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff ); // Убирается вертикальная полоса прокрутки
+ recordTagsScrollArea->setFrameShape(QFrame::NoFrame); // Убирается тонкая линия вокруг QScrollArea
+ recordTagsScrollArea->setWidget(recordTagsContainer);
 }
 
 
@@ -117,7 +142,7 @@ void MetaEditor::metaAssembly(void)
  metaEditorAssemblyLayout->addWidget(recordUrl,               5,1);
 
  metaEditorAssemblyLayout->addWidget(labelTags,               6,0);
- metaEditorAssemblyLayout->addLayout(recordTagsLayout,        6,1);
+ metaEditorAssemblyLayout->addWidget(recordTagsScrollArea,    6,1); // Было addLayout(recordTagsLayout ...)
 
  metaEditorAssemblyLayout->setColumnStretch(1,1);
 
@@ -289,6 +314,9 @@ void MetaEditor::setTags(QString tags)
   for(int i = 0; i < recordTagsLabels.size(); ++i)
    recordTagsLabels.at(i)->setVisible(true);
  }
+
+ recordTagsContainer->adjustSize();
+ recordTagsScrollArea->setMaximumHeight(recordTagsContainer->height());
 }
 
 

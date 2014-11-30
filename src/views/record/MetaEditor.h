@@ -1,13 +1,15 @@
 #ifndef _METAEDITOR_H_
 #define _METAEDITOR_H_
 
-#include <QBoxLayout>
-#include <QGridLayout>
 #include <QWidget>
 #include <QLabel>
 #include <QTextCodec>
 
 #include "libraries/wyedit/Editor.h"
+
+class QHBoxLayout;
+class QGridLayout;
+class QScrollArea;
 
 
 class MetaEditor: public Editor
@@ -37,6 +39,7 @@ public:
 
 private:
  void setupLabels(void);
+ void setupUI(void);
  void metaAssembly(void);
  void setupSignals(void);
 
@@ -49,7 +52,9 @@ private:
  QLabel *recordUrl;
 
  QLabel *labelTags; // Надпись "Tags"
+ QWidget *recordTagsContainer;
  QHBoxLayout *recordTagsLayout;
+ QScrollArea *recordTagsScrollArea;
  QString recordTagsText;
  QStringList recordTagsTextList;
  QList<QLabel*> recordTagsLabels;
