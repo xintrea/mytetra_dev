@@ -9,6 +9,7 @@ class QPushButton;
 class QToolButton;
 class QHBoxLayout;
 class QVBoxLayout;
+class QGridLayout;
 class QLabel;
 class QCheckBox;
 class QProgressDialog;
@@ -62,13 +63,20 @@ signals:
  void findClickedAfterAnotherTextChanged(void);
 
 private:
+
+ QHBoxLayout *toolsAreaFindTextAndButton;
  QLineEdit *findText;
  QPushButton *findStartButton;
+
+ QHBoxLayout *toolsAreaComboOption;
  MtComboBox *wordRegard;
  MtComboBox *howExtract;
  MtComboBox *treeSearchArea;
+
+ QVBoxLayout *toolsAreaCloseButton;
  QToolButton *closeButton;
  
+ QHBoxLayout *whereFindLine;
  QLabel *whereFindLabel;
  QCheckBox *findInName;
  QCheckBox *findInAuthor;
@@ -77,17 +85,23 @@ private:
  QCheckBox *findInText;
  
  QHBoxLayout *toolsLine;
- QVBoxLayout *placeUpCloseButton;
- QHBoxLayout *whereFindLine;
- QVBoxLayout *centralLayout;
+ QGridLayout *toolsGrid;
+
+ QVBoxLayout *centralDesktopLayout;
  
  FindTableWidget *findTable;
  
  QProgressDialog *progress;
 
- void setupToolsLine(void);
- void assemblyToolsLine(void);
- 
+ void setupFindTextAndButton(void);
+ void assemblyFindTextAndButton(void);
+
+ void setupComboOption(void);
+ void assemblyComboOption(void);
+
+ void setupCloseButton(void);
+ void assemblyCloseButton(void);
+
  void setupWhereFindLine(void);
  void assemblyWhereFindLine(void);
  

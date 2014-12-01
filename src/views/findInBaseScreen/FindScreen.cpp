@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QHBoxLayout>
+#include <QGridLayout>
 #include <QSplitter>
 #include <QWidget>
 #include <QProgressDialog>
@@ -32,8 +33,14 @@ extern GlobalParameters globalParameters;
 
 FindScreen::FindScreen(QWidget *parent) : QWidget(parent)
 {
- setupToolsLine();
- assemblyToolsLine();
+ setupFindTextAndButton();
+ assemblyFindTextAndButton();
+
+ setupComboOption();
+ assemblyComboOption();
+
+ setupCloseButton();
+ assemblyCloseButton();
 
  setupWhereFindLine();
  assemblyWhereFindLine();
@@ -50,66 +57,103 @@ FindScreen::~FindScreen(void)
 
 }
 
-void FindScreen::setupToolsLine(void)
+
+// Текст поиска и кнопка "Поиск"
+void FindScreen::setupFindTextAndButton(void)
 {
+ // Поле текста для поиска
  findText=new QLineEdit();
-  
+
+ // Кнопка "Поиск"
  findStartButton=new QPushButton(this);
  findStartButton->setText(tr("Find"));
  findStartButton->setDefault(true);
  findStartButton->setEnabled(false);
- 
- wordRegard=new MtComboBox();
- wordRegard->addItem(QIcon(":/resource/pic/find_in_base_any.svg"), tr("Any word"));
- wordRegard->addItem(QIcon(":/resource/pic/find_in_base_all.svg"), tr("All words"));
- wordRegard->setCurrentIndex(mytetraConfig.get_findscreen_wordregard());
- 
- howExtract=new MtComboBox();
- howExtract->addItem(QIcon(":/resource/pic/find_in_base_separate.svg"), tr("Whole words"));
- howExtract->addItem(QIcon(":/resource/pic/find_in_base_substring.svg"), tr("Substring"));
- howExtract->setCurrentIndex(mytetraConfig.get_findscreen_howextract());
-
- treeSearchArea=new MtComboBox();
- treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
- treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
- treeSearchArea->setCurrentIndex(mytetraConfig.getFindScreenTreeSearchArea());
- 
- closeButton=new QToolButton(this);
- closeButton->setVisible(true);
- int w=closeButton->geometry().width();
- int h=closeButton->geometry().height();
- int x=imin(w,h)/2;
- closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, QSizePolicy::ToolButton));
- closeButton->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
- closeButton->setMinimumSize(x,x);
- closeButton->setMaximumSize(x,x);
- closeButton->resize(x,x);
-
 }
 
 
-// Строка формирование поискового запроса с кнопочкой закрытия
-void FindScreen::assemblyToolsLine(void)
+// Текст поиска и кнопка "Поиск"
+void FindScreen::assemblyFindTextAndButton(void)
 {
- // Горизонтальный набор инструментов запроса
- // с распоркой чтобы область кнопки была справа
- toolsLine=new QHBoxLayout();
- toolsLine->addWidget(findText);
- toolsLine->addWidget(findStartButton);
- toolsLine->addWidget(wordRegard);
- toolsLine->addWidget(howExtract);
- toolsLine->addWidget(treeSearchArea);
- toolsLine->addStretch();
- 
- // Вертикальная область с кнопкой закрытия и распоркой 
+ toolsAreaFindTextAndButton=new QHBoxLayout();
+ toolsAreaFindTextAndButton->addWidget(findText);
+ toolsAreaFindTextAndButton->addWidget(findStartButton);
+}
+
+
+// Набор опций поиска в виде выпадающих списков
+void FindScreen::setupComboOption(void)
+{
+  // Выбор "Любое слово" - "Все слова"
+  wordRegard=new MtComboBox();
+  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_any.svg"), tr("Any word"));
+  wordRegard->addItem(QIcon(":/resource/pic/find_in_base_all.svg"), tr("All words"));
+  wordRegard->setCurrentIndex(mytetraConfig.get_findscreen_wordregard());
+
+  // Выбор "Только целые слова" - "Подстрока"
+  howExtract=new MtComboBox();
+  howExtract->addItem(QIcon(":/resource/pic/find_in_base_separate.svg"), tr("Whole words"));
+  howExtract->addItem(QIcon(":/resource/pic/find_in_base_substring.svg"), tr("Substring"));
+  howExtract->setCurrentIndex(mytetraConfig.get_findscreen_howextract());
+
+  // Выбор "Во всей базе" - "В текущей ветке"
+  treeSearchArea=new MtComboBox();
+  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
+  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
+  treeSearchArea->setCurrentIndex(mytetraConfig.getFindScreenTreeSearchArea());
+
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+  {
+    wordRegard->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    howExtract->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    treeSearchArea->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+
+    wordRegard->showMinimized();
+    howExtract->showMinimized();
+    treeSearchArea->showMinimized();
+  }
+}
+
+
+// Набор опций поиска в виде выпадающих списков
+void FindScreen::assemblyComboOption(void)
+{
+ toolsAreaComboOption=new QHBoxLayout();
+ toolsAreaComboOption->addWidget(wordRegard);
+ toolsAreaComboOption->addWidget(howExtract);
+ toolsAreaComboOption->addWidget(treeSearchArea);
+ toolsAreaComboOption->addStretch();
+}
+
+
+void FindScreen::setupCloseButton(void)
+{
+  // Кнопка закрытия виджета
+  closeButton=new QToolButton(this);
+  closeButton->setVisible(true);
+  closeButton->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+  {
+    int w=closeButton->geometry().width();
+    int h=closeButton->geometry().height();
+    int x=imin(w,h)/2;
+    closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, QSizePolicy::ToolButton));
+    closeButton->setMinimumSize(x,x);
+    closeButton->setMaximumSize(x,x);
+    closeButton->resize(x,x);
+  }
+}
+
+
+void FindScreen::assemblyCloseButton(void)
+{
+ // Вертикальная область с кнопкой закрытия и распоркой
  // чтобы кнопка была вверху
- placeUpCloseButton=new QVBoxLayout();
- placeUpCloseButton->setContentsMargins(0,0,0,0);
- placeUpCloseButton->addWidget(closeButton);
- placeUpCloseButton->addStretch();
- toolsLine->addLayout(placeUpCloseButton);
- 
- toolsLine->setContentsMargins(3,2,2,0); // Устанавливаются границы
+ toolsAreaCloseButton=new QVBoxLayout();
+ toolsAreaCloseButton->setContentsMargins(0,0,0,0);
+ toolsAreaCloseButton->addWidget(closeButton);
+ toolsAreaCloseButton->addStretch();
 }
 
 
@@ -137,8 +181,13 @@ void FindScreen::setupWhereFindLine(void)
 void FindScreen::assemblyWhereFindLine(void)
 {
  whereFindLine=new QHBoxLayout();
- 
- whereFindLine->addWidget(whereFindLabel);
+
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+   whereFindLine->addWidget(whereFindLabel);
+
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   whereFindLabel->hide();
+
  whereFindLine->addWidget(findInName);
  whereFindLine->addWidget(findInAuthor);
  whereFindLine->addWidget(findInUrl);
@@ -218,14 +267,34 @@ void FindScreen::setupUI(void)
 
 void FindScreen::assembly(void)
 {
- centralLayout=new QVBoxLayout();
- centralLayout->addLayout(toolsLine);
- centralLayout->addLayout(whereFindLine);
- centralLayout->addWidget(findTable);
- centralLayout->setContentsMargins(0,0,0,0); // Границы убираются
- centralLayout->setSizeConstraint(QLayout::SetNoConstraint);
- 
- this->setLayout(centralLayout);
+  centralDesktopLayout=new QVBoxLayout();
+
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+  {
+    toolsLine=new QHBoxLayout();
+    toolsLine->addLayout(toolsAreaFindTextAndButton);
+    toolsLine->addLayout(toolsAreaComboOption);
+    toolsLine->addLayout(toolsAreaCloseButton);
+
+    centralDesktopLayout->addLayout(toolsLine);
+  }
+
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+  {
+    toolsGrid=new QGridLayout();
+    toolsGrid->addLayout(toolsAreaFindTextAndButton, 0, 0);
+    toolsGrid->addLayout(toolsAreaCloseButton,       0, 1);
+    toolsGrid->addLayout(toolsAreaComboOption,       1, 0);
+
+    centralDesktopLayout->addLayout(toolsGrid);
+  }
+
+  centralDesktopLayout->addLayout(whereFindLine);
+  centralDesktopLayout->addWidget(findTable);
+  centralDesktopLayout->setContentsMargins(0,0,0,0); // Границы убираются
+  centralDesktopLayout->setSizeConstraint(QLayout::SetNoConstraint);
+
+  this->setLayout(centralDesktopLayout);
 }
 
 
