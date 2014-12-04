@@ -160,8 +160,10 @@ void TreeScreen::setupUI(void)
 {
  toolsLine=new QToolBar(this);
 
+ /*
  QSize tool_bar_icon_size(16,16);
  toolsLine->setIconSize(tool_bar_icon_size);
+ */
 
  insert_action_as_button(toolsLine, actionList["insSubbranch"]);
  insert_action_as_button(toolsLine, actionList["insBranch"]);

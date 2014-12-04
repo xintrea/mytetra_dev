@@ -98,19 +98,19 @@ void FindScreen::setupComboOption(void)
 
   // Выбор "Во всей базе" - "В текущей ветке"
   treeSearchArea=new MtComboBox();
-  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_all.svg"), tr("Entire base")); // Вся база
-  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_treesearcharea_branch.svg"), tr("In current branch")); // Текущая ветка
+  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_search_all.svg"), tr("Entire base")); // Вся база
+  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_search_branch.svg"), tr("In current branch")); // Текущая ветка
   treeSearchArea->setCurrentIndex(mytetraConfig.getFindScreenTreeSearchArea());
 
   if(mytetraConfig.getInterfaceMode()=="mobile")
   {
-    wordRegard->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
-    howExtract->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
-    treeSearchArea->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    // wordRegard->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    // howExtract->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+    // treeSearchArea->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
 
-    wordRegard->showMinimized();
-    howExtract->showMinimized();
-    treeSearchArea->showMinimized();
+    // wordRegard->showMinimized();
+    // howExtract->showMinimized();
+    // treeSearchArea->showMinimized();
   }
 }
 

@@ -153,8 +153,10 @@ void RecordTableScreen::setupUI(void)
 {
  toolsLine=new QToolBar(this);
 
+ /*
  QSize toolBarIconSize(16,16);
  toolsLine->setIconSize(toolBarIconSize);
+ */
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
@@ -175,7 +177,8 @@ void RecordTableScreen::setupUI(void)
 
 
  findLine=new QToolBar(this);
- findLine->setIconSize(toolBarIconSize);
+ // findLine->setIconSize(toolBarIconSize); // Устанавливается размер 16 pix
+
  insert_action_as_button(findLine, actionSyncro);
  insert_action_as_button(findLine, actionWalkHistoryPrevious);
  insert_action_as_button(findLine, actionWalkHistoryNext);

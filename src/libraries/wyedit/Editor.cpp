@@ -559,9 +559,11 @@ void Editor::assembly_buttons(void)
 
  updateToolsLines();
 
+ /*
  QSize toolIconSize(16, 16);
  toolsLine1->setIconSize(toolIconSize);
  toolsLine2->setIconSize(toolIconSize);
+ */
 
  // Горизонтальные линейки собираются
  textformatButtonsLayout=new QVBoxLayout();
