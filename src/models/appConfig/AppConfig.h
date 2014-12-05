@@ -176,6 +176,10 @@ public:
     QStringList getHideEditorTools(void);
     void setHideEditorTools(QStringList toolsNames);
 
+    // Флаг, показывающий распахнуты ли все инструметы управления в окне поиска по базе
+    bool getFindInBaseExpand(void);
+    void setFindInBaseExpand(bool state);
+
 private:
 
     QSettings *conf; // было static
@@ -209,6 +213,7 @@ private:
     QStringList get_parameter_table_18(bool withEndSignature=true);
     QStringList get_parameter_table_19(bool withEndSignature=true);
     QStringList get_parameter_table_20(bool withEndSignature=true);
+    QStringList get_parameter_table_21(bool withEndSignature=true);
 
     bool is_init_flag;
 };

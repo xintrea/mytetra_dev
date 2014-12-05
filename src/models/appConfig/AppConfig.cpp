@@ -694,6 +694,18 @@ void AppConfig::setHideEditorTools(QStringList toolsNames)
 }
 
 
+bool AppConfig::getFindInBaseExpand(void)
+{
+ return conf->value("findInBaseExpand").toBool();
+}
+
+
+void AppConfig::setFindInBaseExpand(bool state)
+{
+ conf->setValue("findInBaseExpand", state);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -808,7 +820,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 20
+ // Последняя версия на данный момент - 21
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -847,7 +859,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(18, 19, get_parameter_table_18(), get_parameter_table_19());
  if(fromVersion<=19)
   updater.update_version(19, 20, get_parameter_table_19(), get_parameter_table_20());
-
+ if(fromVersion<=20)
+  updater.update_version(20, 21, get_parameter_table_20(), get_parameter_table_21());
 }
 
 
@@ -1270,3 +1283,21 @@ QStringList AppConfig::get_parameter_table_20(bool withEndSignature)
 
   return table;
 }
+
+
+QStringList AppConfig::get_parameter_table_21(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 20
+  table << get_parameter_table_20(false);
+
+  table << "findInBaseExpand" << "bool" << "true";
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+

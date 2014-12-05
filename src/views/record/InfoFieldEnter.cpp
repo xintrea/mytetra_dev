@@ -47,6 +47,7 @@ void InfoFieldEnter::setup_ui(void)
  // Кнопка раскрытия или закрытия полей author, url, tags...
  // Она в два раза меньше обычного размера
  expandInfo=new QToolButton(this);
+ expandInfo->setObjectName("infoFieldEnterExpandInfo");
  expandInfo->setVisible(true);
  int w=expandInfo->geometry().width();
  int h=expandInfo->geometry().height();

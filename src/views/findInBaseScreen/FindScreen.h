@@ -43,6 +43,7 @@ public slots:
 private slots:
 
  void enableFindButton(const QString &text);
+ void toolsExpandClicked(void);
  
  void changedWordRegard(int pos);
  void changedHowExtract(int pos);
@@ -67,15 +68,16 @@ private:
  QHBoxLayout *toolsAreaFindTextAndButton;
  QLineEdit *findText;
  QPushButton *findStartButton;
+ QPushButton *toolsExpand;
+
+ QVBoxLayout *toolsAreaCloseButton;
+ QToolButton *closeButton;
 
  QHBoxLayout *toolsAreaComboOption;
  MtComboBox *wordRegard;
  MtComboBox *howExtract;
  MtComboBox *treeSearchArea;
 
- QVBoxLayout *toolsAreaCloseButton;
- QToolButton *closeButton;
- 
  QHBoxLayout *whereFindLine;
  QLabel *whereFindLabel;
  QCheckBox *findInName;
@@ -115,6 +117,8 @@ private:
  void findStart(void);
  void findRecurse(TreeItem *curritem);
  bool findInTextProcess(const QString& text);
+
+ void switchToolsExpand(bool flag);
  
  // Поля, где нужно искать (Заголовок, текст, теги...)
  QMap<QString, bool> searchArea;

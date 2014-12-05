@@ -36,11 +36,11 @@ FindScreen::FindScreen(QWidget *parent) : QWidget(parent)
  setupFindTextAndButton();
  assemblyFindTextAndButton();
 
- setupComboOption();
- assemblyComboOption();
-
  setupCloseButton();
  assemblyCloseButton();
+
+ setupComboOption();
+ assemblyComboOption();
 
  setupWhereFindLine();
  assemblyWhereFindLine();
@@ -69,6 +69,11 @@ void FindScreen::setupFindTextAndButton(void)
  findStartButton->setText(tr("Find"));
  findStartButton->setDefault(true);
  findStartButton->setEnabled(false);
+
+ // Кнопка разворачивания инструментов
+ toolsExpand=new QPushButton(this);
+ toolsExpand->setIcon(QIcon(":/resource/pic/find_in_base_expand_tools.svg"));
+ toolsExpand->setEnabled(true);
 }
 
 
@@ -78,6 +83,7 @@ void FindScreen::assemblyFindTextAndButton(void)
  toolsAreaFindTextAndButton=new QHBoxLayout();
  toolsAreaFindTextAndButton->addWidget(findText);
  toolsAreaFindTextAndButton->addWidget(findStartButton);
+ toolsAreaFindTextAndButton->addWidget(toolsExpand);
 }
 
 
@@ -220,6 +226,10 @@ void FindScreen::setupSignals(void)
  connect(findStartButton,SIGNAL(clicked()),
          this,SLOT(findClicked()));
 
+ // При нажатии кнопки разворачивания/сворачивания инструментов поиска
+ connect(toolsExpand,SIGNAL(clicked()),
+         this,SLOT(toolsExpandClicked()));
+
  // После установки текста извне, вырабатывается этот сигнал
  connect(this, SIGNAL(findClickedAfterAnotherTextChanged()),
          this, SLOT(findClicked()));
@@ -295,6 +305,8 @@ void FindScreen::assembly(void)
   centralDesktopLayout->setSizeConstraint(QLayout::SetNoConstraint);
 
   this->setLayout(centralDesktopLayout);
+
+  switchToolsExpand(mytetraConfig.getFindInBaseExpand());
 }
 
 
@@ -653,6 +665,7 @@ void FindScreen::widgetShow(void)
 }
 
 
+// Полное сокрытие виджета
 void FindScreen::widgetHide(void)
 {
  // Запоминается размер сплиттера перед скрытием виджета
@@ -663,3 +676,39 @@ void FindScreen::widgetHide(void)
  mytetraConfig.set_findscreen_show(false);
  this->close();
 }
+
+
+// Слот, срабатывающий при клике на кнопку expand
+void FindScreen::toolsExpandClicked(void)
+{
+  // Если нужно сомкнуть инструменты
+  if(wordRegard->isVisible())
+  {
+    switchToolsExpand(false);
+    mytetraConfig.setFindInBaseExpand(false);
+  }
+  else
+  {
+    switchToolsExpand(true);
+    mytetraConfig.setFindInBaseExpand(true);
+  }
+}
+
+
+void FindScreen::switchToolsExpand(bool flag)
+{
+  // toolsAreaComboOption->setVisible(flag);
+  // whereFindLine->setVisible(flag);
+
+  wordRegard->setVisible(flag);
+  howExtract->setVisible(flag);
+  treeSearchArea->setVisible(flag);
+
+  whereFindLabel->setVisible(flag);
+  findInName->setVisible(flag);
+  findInAuthor->setVisible(flag);
+  findInUrl->setVisible(flag);
+  findInTags->setVisible(flag);
+  findInText->setVisible(flag);
+}
+
