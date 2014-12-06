@@ -212,8 +212,7 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
  QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
 
- QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/stylesheet.css");
- QFile::setPermissions(dirName+"/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
+ createStyleSheetFile(dirName);
 
  // Создается файл базы данных
  QFile::copy(":/resource/standartdata/mytetra.xml", dirName+"/data/mytetra.xml");
@@ -222,6 +221,14 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  // Создается файл первой записи
  QFile::copy(":/resource/standartdata/base/0000000001/text.html", dirName+"/data/base/0000000001/text.html");
  QFile::setPermissions(dirName+"/data/base/0000000001/text.html", QFile::ReadUser | QFile::WriteUser);
+}
+
+
+void GlobalParameters::createStyleSheetFile(QString dirName)
+{
+  QString targetOs=getTargetOs();
+  QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/stylesheet.css");
+  QFile::setPermissions(dirName+"/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
 }
 
 

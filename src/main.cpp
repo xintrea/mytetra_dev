@@ -551,7 +551,8 @@ void setCssStyle()
   } 
  else 
   {
-   qDebug() << "Stylesheet not found in " << csspath << ". Use standert forms.";
+   qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
+   globalParameters.createStyleSheetFile(csspath);
   }
 }
  

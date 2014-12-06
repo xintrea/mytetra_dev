@@ -49,6 +49,10 @@ public:
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
 
+    // Файл стилей может создаваться и после развертывания начальных файлов MyTetra
+    // Так как в более старых версиях MyTetra его еще небыло
+    void createStyleSheetFile(QString dirName);
+
 private:
 
     void initWorkDirectory(void);
