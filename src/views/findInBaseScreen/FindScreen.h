@@ -68,7 +68,7 @@ private:
  QHBoxLayout *toolsAreaFindTextAndButton;
  QLineEdit *findText;
  QPushButton *findStartButton;
- QPushButton *toolsExpand;
+ QToolButton *toolsExpand;
 
  QVBoxLayout *toolsAreaCloseButton;
  QToolButton *closeButton;

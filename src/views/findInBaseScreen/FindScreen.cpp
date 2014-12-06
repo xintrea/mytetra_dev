@@ -71,7 +71,7 @@ void FindScreen::setupFindTextAndButton(void)
  findStartButton->setEnabled(false);
 
  // Кнопка разворачивания инструментов
- toolsExpand=new QPushButton(this);
+ toolsExpand=new QToolButton(this);
  toolsExpand->setIcon(QIcon(":/resource/pic/find_in_base_expand_tools.svg"));
  toolsExpand->setEnabled(true);
 }
@@ -682,7 +682,7 @@ void FindScreen::widgetHide(void)
 void FindScreen::toolsExpandClicked(void)
 {
   // Если нужно сомкнуть инструменты
-  if(wordRegard->isVisible())
+  if(findInName->isVisible())
   {
     switchToolsExpand(false);
     mytetraConfig.setFindInBaseExpand(false);
@@ -700,10 +700,15 @@ void FindScreen::switchToolsExpand(bool flag)
   // toolsAreaComboOption->setVisible(flag);
   // whereFindLine->setVisible(flag);
 
-  wordRegard->setVisible(flag);
-  howExtract->setVisible(flag);
-  treeSearchArea->setVisible(flag);
+  // Выпадающие списки скрываются в мобильном интерфейсе, так как они на отдельной строке
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+  {
+    wordRegard->setVisible(flag);
+    howExtract->setVisible(flag);
+    treeSearchArea->setVisible(flag);
+  }
 
+  // Флаги поиска скрываются для любого интерфейса, так как они всегда находятся на отдельной строке
   whereFindLabel->setVisible(flag);
   findInName->setVisible(flag);
   findInAuthor->setVisible(flag);
