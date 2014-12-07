@@ -56,7 +56,7 @@ void WindowSwitcher::switchFromTreeToRecordtable(void)
  // Скрываются все прочие области
  globalParameters.getTreeScreen()->hide();
  globalParameters.getMetaEditor()->hide();
- globalParameters.getFindScreen()->hide();
+ // globalParameters.getFindScreen()->hide();
 
  QWidget *object=static_cast<QWidget *>( globalParameters.getRecordTableScreen() );
  object->show();
@@ -88,7 +88,7 @@ void WindowSwitcher::switchFromRecordToRecordtable(void)
  // Скрываются все прочие области
  globalParameters.getTreeScreen()->hide();
  globalParameters.getMetaEditor()->hide();
- globalParameters.getFindScreen()->hide();
+ // globalParameters.getFindScreen()->hide();
 
  QWidget *object=static_cast<QWidget *>( globalParameters.getRecordTableScreen() );
  object->show();
@@ -112,7 +112,7 @@ void WindowSwitcher::switchFromRecordtableToRecord(void)
  // Скрываются все прочие области
  globalParameters.getTreeScreen()->hide();
  globalParameters.getRecordTableScreen()->hide();
- globalParameters.getFindScreen()->hide();
+ // globalParameters.getFindScreen()->hide();
 
  QWidget *object=static_cast<QWidget *>( globalParameters.getMetaEditor() );
  object->show();
@@ -136,7 +136,7 @@ void WindowSwitcher::switchFromRecordtableToTree(void)
  // Скрываются все прочие области
  globalParameters.getMetaEditor()->hide();
  globalParameters.getRecordTableScreen()->hide();
- globalParameters.getFindScreen()->hide();
+ // globalParameters.getFindScreen()->hide();
 
  QWidget *object=static_cast<QWidget *>( globalParameters.getTreeScreen() );
  object->show();
@@ -176,7 +176,7 @@ void WindowSwitcher::restoreFocusWidget()
   globalParameters.getTreeScreen()->hide();
   globalParameters.getRecordTableScreen()->hide();
   globalParameters.getMetaEditor()->hide();
-  globalParameters.getFindScreen()->hide();
+  // globalParameters.getFindScreen()->hide();
 
   QString widgetName=mytetraConfig.getFocusWidget();
 

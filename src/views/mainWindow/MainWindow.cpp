@@ -1,6 +1,7 @@
 #include <QString>
 #include <QDir>
 #include <QString>
+#include <QDesktopWidget>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
@@ -601,19 +602,47 @@ void MainWindow::onClickHelpAboutMyTetra(void)
 {
  QString version=QString::number(APPLICATION_RELEASE_VERSION)+"."+QString::number(APPLICATION_RELEASE_SUBVERSION)+"."+QString::number(APPLICATION_RELEASE_MICROVERSION);
 
+ QString infoProgramName;
+ QString infoVersion;
+ QString infoAuthor;
+ QString infoEmail;
+ QString infoLicense;
+ QString infoTargetOs;
+ QString infoDevicePixelRatio;
+ QString infoPhysicalDpi;
+ QString infoPhysicalDpiX;
+ QString infoPhysicalDpiY;
+
+ infoProgramName="<b>MyTetra</b> - smart manager<br/>for information collecting<br/><br/>";
+ infoVersion="v."+version+"<br/><br/>";
+ infoAuthor="Author: Sergey M. Stepanov<br/>";
+ infoEmail="Author Email:<i>xintrea@gmail.com</i><br/><br/>";
+ infoLicense="GNU General Public License v.3.0<br/><br/>";
+ infoTargetOs="Target OS: "+globalParameters.getTargetOs()+"<br/>";
+ infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
+
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 8 ))+"<br/>";
+ #endif
+
+ infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 8 ))+"<br/>";
+ infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 8 ))+"<br/>";
+
+ QString info=infoProgramName+
+              infoVersion+
+              infoAuthor+
+              infoEmail+
+              infoLicense+
+              infoTargetOs+
+              infoDevicePixelRatio+
+              infoPhysicalDpi+
+              infoPhysicalDpiX+
+              infoPhysicalDpiY;
+
  QMessageBox *msgBox = new QMessageBox(this);
  msgBox->about(this, 
                "MyTetra v."+version,
-"<b>MyTetra</b> - smart manager<br/>\
-for information collecting<br/>\
-<br/>\
-v."+version+" (target OS: "+globalParameters.getTargetOs()+")<br/>\
-<br/>\
-Author:<br/>\
-Sergey M. Stepanov, <i>xintrea@gmail.com</i><br/>\
-<br/>\
-GNU General Public License v.3.0<br/>\
-<a href='http://www.gnu.org/copyleft/gpl.html'>http://www.gnu.org/copyleft/gpl.html</a>");
+               info);
 }
 
 

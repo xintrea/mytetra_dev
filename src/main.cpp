@@ -538,24 +538,57 @@ void setDebugMessageHandler()
 }
 
 
+// Замена в CSS-стиле все вхождения подстроки META_ICON_SIZE на вычисленный размер иконки в пикселях
+QString replaceCssMetaIconSize(QString styleText)
+{
+ #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
+ qreal dpiX=qApp->desktop()->physicalDpiX();
+ qreal dpiY=qApp->desktop()->physicalDpiY();
+ qreal dpi=(dpiX+dpiY)/2;
+ #endif
+
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
+ #endif
+
+ qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
+ qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
+ qreal iconSizePx=iconSizeInch*dpi;
+
+ styleText.replace( "META_ICON_SIZE", QString::number( (int) iconSizePx) );
+
+ return styleText;
+}
+
+
 void setCssStyle()
 {
- QString csspath = globalParameters.getWorkDirectory()+"/stylesheet.css";
+  QString csspath = globalParameters.getWorkDirectory()+"/stylesheet.css";
 
- QFile css(csspath);
- if (css.open(QIODevice::ReadOnly | QIODevice::Text))
+  QFile css(csspath);
+
+  bool openResult=css.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  // Если файла не существует
+  if(!openResult)
   {
-   qDebug() << "Stylesheet success loaded from" << csspath;
-   QString style = QTextStream(&css).readAll();
-   qApp->setStyleSheet(style);
-  } 
- else 
+    qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
+    globalParameters.createStyleSheetFile( globalParameters.getWorkDirectory() );
+  }
+  css.close();
+
+  // Заново открывается файл
+  if(css.open(QIODevice::ReadOnly | QIODevice::Text))
   {
-   qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
-   globalParameters.createStyleSheetFile(csspath);
+    qDebug() << "Stylesheet success loaded from" << csspath;
+    QString style = QTextStream(&css).readAll();
+
+    style=replaceCssMetaIconSize(style);
+
+    qApp->setStyleSheet(style);
   }
 }
- 
+
 
 void setKineticScrollArea(QAbstractItemView *object)
 {
@@ -945,6 +978,9 @@ int main(int argc, char ** argv)
    printf("Another MyTetra exemplar is running.\n");
    exit(0);
   }
+
+ if( qApp->devicePixelRatio() > 1.0 )
+  qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
 
  #if QT_VERSION < 0x050000
   // Установка кодека текстов

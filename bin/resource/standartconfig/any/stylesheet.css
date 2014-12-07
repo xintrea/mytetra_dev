@@ -1,8 +1,12 @@
-/* Set your QSS style in this file */
+/* CSS for any desktop OS */
 
-/*
-QPushButton {
-    padding: 10px;
+QToolBar, QToolButton, QPushButton
+{ 
+  icon-size: 16px; /* maximum icon size */ 
 }
 
+/*
+QToolButton {
+  padding: 0;
+}
 */
