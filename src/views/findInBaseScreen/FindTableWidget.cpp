@@ -56,6 +56,8 @@ void FindTableWidget::setupUI(void)
  int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
  if(height!=0)
   findTableView->verticalHeader()->setDefaultSectionSize( height );
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+  findTableView->verticalHeader()->setDefaultSectionSize( getCalculateIconSizePx() );
 
  // Устанавливается режим что могут выделяться только строки 
  // а не отдельный item таблицы

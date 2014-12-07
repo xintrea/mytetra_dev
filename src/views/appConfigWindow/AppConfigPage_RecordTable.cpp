@@ -68,6 +68,7 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
 
   central_layout->addWidget(groupBoxVisibleHeaders);
   central_layout->addWidget(groupBoxVisibleColumns);
+  central_layout->addStretch();
 
   // Устанавливается основной слой
   setLayout(central_layout);

@@ -1,13 +1,36 @@
 /* CSS for any desktop OS */
+/* Set your Qt CSS style in this file */
 
 QToolBar, QToolButton, QPushButton
 { 
   icon-size: META_ICON_SIZEpx; /* maximum icon size */ 
 }
 
-
+/* Скругление кнопок */
 /*
-QToolButton {
-  padding: 0;
+QToolButton, QPushButton, QComboBox 
+{ 
+  border-color: gray;
+  border-width: 1px;
+  border-radius: META_ICON_SIXTH_SIZEpx;
+  border-style: solid;
 }
 */
+
+QComboBox 
+{
+  icon-size: META_ICON_SIZEpx;
+  margin: 0px;
+}
+
+QCheckBox::indicator 
+{
+  width: META_ICON_TWO_THIRDS_SIZEpx;
+  height: META_ICON_TWO_THIRDS_SIZEpx;
+}
+
+QRadioButton::indicator
+{
+  width: META_ICON_TWO_THIRDS_SIZEpx;
+  height: META_ICON_TWO_THIRDS_SIZEpx;
+}

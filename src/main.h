@@ -33,7 +33,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   51
+#define APPLICATION_RELEASE_MICROVERSION   52
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -81,6 +81,8 @@ void decryptFile(QByteArray key, QString fileName);
 void encDecFileSmart(QByteArray key, QString fileName, int mode);
 
 void setKineticScrollArea(QAbstractItemView *object);
+
+qreal getCalculateIconSizePx(void);
 
 // template <class X> inline X *find_object(QString n);
 

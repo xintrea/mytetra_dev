@@ -514,7 +514,7 @@ void Editor::setup_editor_area(void)
 // и указатель на линейку
 void Editor::insert_button_to_tools_line(QString toolName, QToolBar *line)
 {
- qDebug() << "Editor::insert_button_to_tools_line() disableToolList : " << disableToolList;
+ // qDebug() << "Editor::insert_button_to_tools_line() disableToolList : " << disableToolList;
 
  if(toolName=="separator")
   {

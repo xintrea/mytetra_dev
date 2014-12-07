@@ -117,6 +117,21 @@ void FindScreen::setupComboOption(void)
     // wordRegard->showMinimized();
     // howExtract->showMinimized();
     // treeSearchArea->showMinimized();
+
+    wordRegard->setMinimumContentsLength(1);
+    wordRegard->setMaximumWidth(getCalculateIconSizePx()*2);
+    wordRegard->setMinimumWidth(getCalculateIconSizePx()*2);
+    wordRegard->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+
+    howExtract->setMinimumContentsLength(1);
+    howExtract->setMaximumWidth(getCalculateIconSizePx()*2);
+    howExtract->setMinimumWidth(getCalculateIconSizePx()*2);
+    howExtract->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
+
+    treeSearchArea->setMinimumContentsLength(1);
+    treeSearchArea->setMaximumWidth(getCalculateIconSizePx()*2);
+    treeSearchArea->setMinimumWidth(getCalculateIconSizePx()*2);
+    treeSearchArea->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
   }
 }
 
@@ -137,7 +152,7 @@ void FindScreen::setupCloseButton(void)
   // Кнопка закрытия виджета
   closeButton=new QToolButton(this);
   closeButton->setVisible(true);
-  closeButton->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton));
+  closeButton->setIcon(this->style()->standardIcon(QStyle::SP_TitleBarCloseButton)); // SP_TitleBarCloseButton SP_DialogCloseButton
 
   if(mytetraConfig.getInterfaceMode()=="desktop")
   {
@@ -300,9 +315,13 @@ void FindScreen::assembly(void)
   }
 
   centralDesktopLayout->addLayout(whereFindLine);
-  centralDesktopLayout->addWidget(findTable);
+  centralDesktopLayout->addWidget(findTable, 10);
   centralDesktopLayout->setContentsMargins(0,0,0,0); // Границы убираются
   centralDesktopLayout->setSizeConstraint(QLayout::SetNoConstraint);
+
+  // whereFindLine->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+  // findTable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 
   this->setLayout(centralDesktopLayout);
 
@@ -708,8 +727,11 @@ void FindScreen::switchToolsExpand(bool flag)
     treeSearchArea->setVisible(flag);
   }
 
+  // Надпись Find in видна и управляется только в desktop режиме интерфейса
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+    whereFindLabel->setVisible(flag);
+
   // Флаги поиска скрываются для любого интерфейса, так как они всегда находятся на отдельной строке
-  whereFindLabel->setVisible(flag);
   findInName->setVisible(flag);
   findInAuthor->setVisible(flag);
   findInUrl->setVisible(flag);

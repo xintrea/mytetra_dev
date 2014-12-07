@@ -538,26 +538,37 @@ void setDebugMessageHandler()
 }
 
 
+qreal getCalculateIconSizePx(void)
+{
+#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
+  qreal dpiX=qApp->desktop()->physicalDpiX();
+  qreal dpiY=qApp->desktop()->physicalDpiY();
+  qreal dpi=(dpiX+dpiY)/2;
+#endif
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+  qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
+#endif
+
+  qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
+  qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
+  qreal iconSizePx=iconSizeInch*dpi;
+
+  return iconSizePx;
+}
+
+
 // Замена в CSS-стиле все вхождения подстроки META_ICON_SIZE на вычисленный размер иконки в пикселях
 QString replaceCssMetaIconSize(QString styleText)
 {
- #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
- qreal dpiX=qApp->desktop()->physicalDpiX();
- qreal dpiY=qApp->desktop()->physicalDpiY();
- qreal dpi=(dpiX+dpiY)/2;
- #endif
+  styleText.replace( "META_ICON_SIZE", QString::number( (int) getCalculateIconSizePx() ) );
+  styleText.replace( "META_ICON_HALF_SIZE", QString::number( (int)getCalculateIconSizePx()/2 ) );
+  styleText.replace( "META_ICON_TWO_THIRDS_SIZE", QString::number( ((int)getCalculateIconSizePx()*2)/3 ) );
+  styleText.replace( "META_ICON_QUARTER_SIZE", QString::number( (int)getCalculateIconSizePx()/4 ) );
+  styleText.replace( "META_ICON_FIFTH_SIZE", QString::number( (int)getCalculateIconSizePx()/5 ) );
+  styleText.replace( "META_ICON_SIXTH_SIZE", QString::number( (int)getCalculateIconSizePx()/6 ) );
 
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
- qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
- #endif
-
- qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
- qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
- qreal iconSizePx=iconSizeInch*dpi;
-
- styleText.replace( "META_ICON_SIZE", QString::number( (int) iconSizePx) );
-
- return styleText;
+  return styleText;
 }
 
 

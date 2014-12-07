@@ -85,6 +85,8 @@ void RecordTableView::init(void)
  int height=mytetraConfig.getUglyQssReplaceHeightForTableView();
  if(height!=0)
   verticalHeader()->setDefaultSectionSize( height );
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+  verticalHeader()->setDefaultSectionSize( getCalculateIconSizePx() );
 
  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 

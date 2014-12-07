@@ -804,8 +804,8 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
   // QEvent::ActivationChange
   if( e->type() == QEvent::WindowDeactivate)
   {
-   qDebug() << "Main window focus deactivate, save text area.";
-   saveTextarea();
+   qDebug() << "Main window focus deactivate, save all state.";
+   saveAllState();
   }
 
   return false; // Продолжать оработку событий дальше
