@@ -167,8 +167,12 @@ void TreeScreen::setupUI(void)
 
  insert_action_as_button(toolsLine, actionList["insSubbranch"]);
  insert_action_as_button(toolsLine, actionList["insBranch"]);
- insert_action_as_button(toolsLine, actionList["editBranch"]);
- insert_action_as_button(toolsLine, actionList["delBranch"]);
+
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+ {
+   insert_action_as_button(toolsLine, actionList["editBranch"]);
+   insert_action_as_button(toolsLine, actionList["delBranch"]);
+ }
 
  toolsLine->addSeparator();
 

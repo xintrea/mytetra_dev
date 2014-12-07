@@ -25,12 +25,18 @@ QComboBox
 
 QCheckBox::indicator 
 {
-  width: META_ICON_TWO_THIRDS_SIZEpx;
-  height: META_ICON_TWO_THIRDS_SIZEpx;
+  width: META_ICON_HALF_SIZEpx;
+  height: META_ICON_HALF_SIZEpx;
 }
 
 QRadioButton::indicator
 {
-  width: META_ICON_TWO_THIRDS_SIZEpx;
-  height: META_ICON_TWO_THIRDS_SIZEpx;
+  width: META_ICON_HALF_SIZEpx;
+  height: META_ICON_HALF_SIZEpx;
+}
+
+QRadioButton::indicator::checked
+{
+  width: META_ICON_SIZEpx;
+  height: META_ICON_SIZEpx;
 }

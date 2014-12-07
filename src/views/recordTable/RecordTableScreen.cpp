@@ -165,8 +165,12 @@ void RecordTableScreen::setupUI(void)
  }
 
  insert_action_as_button(toolsLine, actionAddNewToEnd);
- insert_action_as_button(toolsLine, actionEditField);
- insert_action_as_button(toolsLine, actionDelete);
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+ {
+   insert_action_as_button(toolsLine, actionEditField);
+   insert_action_as_button(toolsLine, actionDelete);
+ }
+
  toolsLine->addSeparator();
  insert_action_as_button(toolsLine, actionCut);
  insert_action_as_button(toolsLine, actionCopy);
@@ -177,11 +181,13 @@ void RecordTableScreen::setupUI(void)
 
 
  findLine=new QToolBar(this);
- // findLine->setIconSize(toolBarIconSize); // Устанавливается размер 16 pix
 
- insert_action_as_button(findLine, actionSyncro);
- insert_action_as_button(findLine, actionWalkHistoryPrevious);
- insert_action_as_button(findLine, actionWalkHistoryNext);
+ if(mytetraConfig.getInterfaceMode()=="desktop")
+ {
+   insert_action_as_button(findLine, actionSyncro);
+   insert_action_as_button(findLine, actionWalkHistoryPrevious);
+   insert_action_as_button(findLine, actionWalkHistoryNext);
+ }
  insert_action_as_button(findLine, actionFindInBase);
 
  treePathLabel=new QLabel(this);
