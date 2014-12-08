@@ -294,8 +294,10 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
 
  // Устанавливается путь до ветки в которой лежит запись (в виде названий веток)
  QString path=qobject_cast<RecordTableScreen *>(parent())->getTreePath();
- // edView->setMiscField( "treePath", path );
- edView->setTreePath( path );
+
+ // В мобильном интерфейсе редактор должен показывать путь до записи
+ if(mytetraConfig.getInterfaceMode()=="mobile")
+   edView->setTreePath( path );
 
  // Восстанавливается позиция курсора и прокрутки если это необходимо
  if(mytetraConfig.getRememberCursorAtOrdinarySelection())
