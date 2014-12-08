@@ -35,6 +35,12 @@ void GlobalParameters::setMainProgramFile(QString file)
 }
 
 
+QString GlobalParameters::getMainProgramFile(void)
+{
+ return mainProgramFile;
+}
+
+
 void GlobalParameters::init(void)
 {
  pointTreeScreen=NULL;

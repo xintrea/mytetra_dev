@@ -608,6 +608,8 @@ void MainWindow::onClickHelpAboutMyTetra(void)
  QString infoEmail;
  QString infoLicense;
  QString infoTargetOs;
+ QString infoProgramFile;
+ QString infoWorkDirectory;
  QString infoDevicePixelRatio;
  QString infoPhysicalDpi;
  QString infoPhysicalDpiX;
@@ -619,6 +621,8 @@ void MainWindow::onClickHelpAboutMyTetra(void)
  infoEmail="Author Email:<i>xintrea@gmail.com</i><br/><br/>";
  infoLicense="GNU General Public License v.3.0<br/><br/>";
  infoTargetOs="Target OS: "+globalParameters.getTargetOs()+"<br/>";
+ infoProgramFile="Program file: "+globalParameters.getMainProgramFile()+"<br/>";
+ infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
  infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
 
  #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
@@ -634,6 +638,8 @@ void MainWindow::onClickHelpAboutMyTetra(void)
               infoEmail+
               infoLicense+
               infoTargetOs+
+              infoProgramFile+
+              infoWorkDirectory+
               infoDevicePixelRatio+
               infoPhysicalDpi+
               infoPhysicalDpiX+

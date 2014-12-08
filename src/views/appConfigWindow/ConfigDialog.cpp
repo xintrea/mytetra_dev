@@ -3,6 +3,7 @@
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QMessageBox>
+#include <QScrollArea>
 
 #include "ConfigDialog.h"
 #include "ConfigPage.h"
@@ -22,13 +23,20 @@ void ConfigDialog::setup_ui(void)
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::ListMode);
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMinimumWidth(128);
-    contentsWidget->setMaximumWidth(150);
+    contentsWidget->setMinimumWidth(100); // contentsWidget->setMaximumWidth(150);
     contentsWidget->setCurrentRow(0);
     contentsWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
+    // В scrollArea будут помещаться конфигурирующие виджеты, чтобы они были работоспособны на небольших экранах
+    scrollArea=new QScrollArea;
+    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
     // Область переключения конфигурирующих виджетов
     pagesWidget = new QStackedWidget;
+    pagesWidget->setMinimumWidth(250);
+    pagesWidget->setMinimumHeight(250);
+    pagesWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
 
     // Кнопки закрытия диалога
     confirmButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -52,7 +60,10 @@ void ConfigDialog::assembly(void)
 {
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(contentsWidget);
-    horizontalLayout->addWidget(pagesWidget, 1);
+    horizontalLayout->addWidget(scrollArea, 1); // horizontalLayout->addWidget(pagesWidget, 1);
+
+    scrollArea->setWidget(pagesWidget);
+    scrollArea->adjustSize();
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch(1);
@@ -98,10 +109,12 @@ QListWidgetItem *ConfigDialog::create_items(QString name)
 // Приватный слот, переключение виджета настройки при клике по списку настроечных виджетов
 void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    if (!current)
-        current = previous;
+  if (!current)
+    current = previous;
 
-    pagesWidget->setCurrentIndex(contentsWidget->row(current));
+  pagesWidget->setCurrentIndex(contentsWidget->row(current));
+
+  scrollArea->adjustSize();
 }
 
 
@@ -109,6 +122,8 @@ void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previo
 void ConfigDialog::externalChangePage(QListWidgetItem *item)
 {
   contentsWidget->setCurrentItem(item);
+
+  scrollArea->adjustSize();
 }
 
 
@@ -116,6 +131,8 @@ void ConfigDialog::updateListWidth(void)
 {
  contentsWidget->updateGeometry();
  contentsWidget->update();
+
+ scrollArea->adjustSize();
 }
 
 

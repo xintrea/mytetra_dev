@@ -8,6 +8,7 @@ class QListWidget;
 class QListWidgetItem;
 class QStackedWidget;
 class QListWidgetItem;
+class QScrollArea;
 
 
 class ConfigDialog : public QDialog
@@ -34,6 +35,7 @@ private:
     QListWidgetItem *create_items(QString name);
 
     QListWidget *contentsWidget;
+    QScrollArea *scrollArea;
     QStackedWidget *pagesWidget;
     QDialogButtonBox *confirmButtons;
 };

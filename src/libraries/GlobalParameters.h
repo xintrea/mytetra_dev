@@ -19,6 +19,7 @@ public:
     virtual ~GlobalParameters();
 
     void setMainProgramFile(QString file);
+    QString getMainProgramFile(void);
 
     void init(void);
 
