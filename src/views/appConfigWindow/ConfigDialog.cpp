@@ -23,9 +23,10 @@ void ConfigDialog::setup_ui(void)
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::ListMode);
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMinimumWidth(100); // contentsWidget->setMaximumWidth(150);
+    // contentsWidget->setMinimumWidth(100); // contentsWidget->setMaximumWidth(150);
     contentsWidget->setCurrentRow(0);
     contentsWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    contentsWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
     // В scrollArea будут помещаться конфигурирующие виджеты, чтобы они были работоспособны на небольших экранах
     scrollArea=new QScrollArea;
@@ -36,7 +37,6 @@ void ConfigDialog::setup_ui(void)
     pagesWidget->setMinimumWidth(250);
     pagesWidget->setMinimumHeight(250);
     pagesWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
 
     // Кнопки закрытия диалога
     confirmButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
