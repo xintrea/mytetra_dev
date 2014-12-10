@@ -35,7 +35,7 @@ private:
     QListWidgetItem *create_items(QString name);
 
     QListWidget *contentsWidget;
-    QScrollArea *scrollArea;
+    // QScrollArea *scrollArea;
     QStackedWidget *pagesWidget;
     QDialogButtonBox *confirmButtons;
 };

@@ -2,6 +2,7 @@
 #include <QDialog>
 #include <QDebug>
 
+#include "main.h"
 #include "ConfigDialog.h"
 #include "AppConfigDialog.h"
 #include "AppConfigPage_Main.h"
@@ -9,10 +10,20 @@
 #include "AppConfigPage_Misc.h"
 #include "AppConfigPage_Synchro.h"
 #include "AppConfigPage_RecordTable.h"
+#include "models/appConfig/AppConfig.h"
+
+extern AppConfig mytetraConfig;
 
 
 AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 {
+ // if(mytetraConfig.getInterfaceMode()=="mobile")
+ if(true)
+ {
+   this->setMinimumSize(getScreenSizeX(), getScreenSizeY());
+   this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+ }
+
  configDialog=new ConfigDialog();
  configDialog->set_window_title(tr("MyTetra settings"));
  

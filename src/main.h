@@ -82,6 +82,8 @@ void encDecFileSmart(QByteArray key, QString fileName, int mode);
 
 void setKineticScrollArea(QAbstractItemView *object);
 
+int getScreenSizeX(void);
+int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
 
 // template <class X> inline X *find_object(QString n);

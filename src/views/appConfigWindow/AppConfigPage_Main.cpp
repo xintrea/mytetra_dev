@@ -25,7 +25,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  tetradirLabel->setText(tr("Data directory"));
 
  tetradirInput=new QLineEdit(this);
- tetradirInput->setMinimumWidth(150);
+ tetradirInput->setMinimumWidth(50);
  tetradirInput->setText(mytetraConfig.get_tetradir());
 
  QToolButton *tetradirButton=new QToolButton(this);
@@ -42,7 +42,7 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
  trashdirLabel->setText(tr("Trash directory"));
 
  trashdirInput=new QLineEdit(this);
- trashdirInput->setMinimumWidth(150);
+ trashdirInput->setMinimumWidth(50);
  trashdirInput->setText(mytetraConfig.get_trashdir());
 
  QToolButton *trashdirButton=new QToolButton(this);

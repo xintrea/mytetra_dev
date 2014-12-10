@@ -29,14 +29,14 @@ void ConfigDialog::setup_ui(void)
     contentsWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
 
     // В scrollArea будут помещаться конфигурирующие виджеты, чтобы они были работоспособны на небольших экранах
-    scrollArea=new QScrollArea;
-    scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // scrollArea=new QScrollArea;
+    // scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     // Область переключения конфигурирующих виджетов
     pagesWidget = new QStackedWidget;
     pagesWidget->setMinimumWidth(250);
     pagesWidget->setMinimumHeight(250);
-    pagesWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    pagesWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     // Кнопки закрытия диалога
     confirmButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -60,10 +60,10 @@ void ConfigDialog::assembly(void)
 {
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
     horizontalLayout->addWidget(contentsWidget);
-    horizontalLayout->addWidget(scrollArea, 1); // horizontalLayout->addWidget(pagesWidget, 1);
+    horizontalLayout->addWidget(pagesWidget, 1); // horizontalLayout->addWidget(pagesWidget, 1);
 
-    scrollArea->setWidget(pagesWidget);
-    scrollArea->adjustSize();
+    // scrollArea->setWidget(pagesWidget);
+    // scrollArea->adjustSize();
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout;
     buttonsLayout->addStretch(1);
@@ -114,7 +114,7 @@ void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previo
 
   pagesWidget->setCurrentIndex(contentsWidget->row(current));
 
-  scrollArea->adjustSize();
+  // scrollArea->adjustSize();
 }
 
 
@@ -123,7 +123,7 @@ void ConfigDialog::externalChangePage(QListWidgetItem *item)
 {
   contentsWidget->setCurrentItem(item);
 
-  scrollArea->adjustSize();
+  // scrollArea->adjustSize();
 }
 
 
@@ -132,7 +132,7 @@ void ConfigDialog::updateListWidth(void)
  contentsWidget->updateGeometry();
  contentsWidget->update();
 
- scrollArea->adjustSize();
+ // scrollArea->adjustSize();
 }
 
 
