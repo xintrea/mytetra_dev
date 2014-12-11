@@ -20,8 +20,9 @@ AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
  // if(mytetraConfig.getInterfaceMode()=="mobile")
  if(true)
  {
+   qDebug() << "Screen size X Y: " << getScreenSizeX() << getScreenSizeY();
    this->setMinimumSize(getScreenSizeX(), getScreenSizeY());
-   this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+   this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
  }
 
  configDialog=new ConfigDialog();
