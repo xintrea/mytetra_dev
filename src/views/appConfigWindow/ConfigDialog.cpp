@@ -26,7 +26,7 @@ void ConfigDialog::setup_ui(void)
     // contentsWidget->setMinimumWidth(100); // contentsWidget->setMaximumWidth(150);
     contentsWidget->setCurrentRow(0);
     contentsWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    contentsWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    // contentsWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents); // Не компилируется в Qt4
 
     // В scrollArea будут помещаться конфигурирующие виджеты, чтобы они были работоспособны на небольших экранах
     // scrollArea=new QScrollArea;

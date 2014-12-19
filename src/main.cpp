@@ -1018,8 +1018,11 @@ int main(int argc, char ** argv)
    exit(0);
   }
 
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
  if( qApp->devicePixelRatio() > 1.0 )
   qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+ #endif
 
  #if QT_VERSION < 0x050000
   // Установка кодека текстов

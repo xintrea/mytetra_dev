@@ -623,9 +623,9 @@ void MainWindow::onClickHelpAboutMyTetra(void)
  infoTargetOs="Target OS: "+globalParameters.getTargetOs()+"<br/>";
  infoProgramFile="Program file: "+globalParameters.getMainProgramFile()+"<br/>";
  infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
- infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
 
  #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
  infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 8 ))+"<br/>";
  #endif
 
