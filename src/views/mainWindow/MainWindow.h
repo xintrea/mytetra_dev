@@ -122,6 +122,7 @@ private:
 
  void initFileMenu(void);
  void initToolsMenu(void);
+ void initPreferencesMenu(QMenu *menu);
  void initHelpMenu(void);
  
  void initRecordTableActions(void);
