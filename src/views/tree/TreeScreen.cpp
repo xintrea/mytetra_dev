@@ -1292,8 +1292,11 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
 
  // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены строки в модели выбора)
  // Поэтому по ветке должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
+ // Метод clicked() публичный начиная с Qt5 (мобильный интерфейс возможен только в Qt5)
+ #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
  if(mytetraConfig.getInterfaceMode()=="mobile")
    emit knowTreeView->clicked(index);
+ #endif
 }
 
  

@@ -17,8 +17,7 @@ extern AppConfig mytetraConfig;
 
 AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 {
- // if(mytetraConfig.getInterfaceMode()=="mobile")
- if(true)
+ if(mytetraConfig.getInterfaceMode()=="mobile") // if(true)
  {
    qDebug() << "Screen size X Y: " << getScreenSizeX() << getScreenSizeY();
    this->setMinimumSize(getScreenSizeX(), getScreenSizeY());
