@@ -2,7 +2,7 @@
 # ANY_OS - for desktop Windows and Linux
 # MEEGO_OS - for MEEGO
 # ANDROID_OS - for Android
-TARGET_OS=ANY_OS
+TARGET_OS=ANDROID_OS
 
 
 # Flags for profile application
