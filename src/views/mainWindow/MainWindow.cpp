@@ -420,7 +420,7 @@ void MainWindow::initFileMenu(void)
 
 // Создание раздела меню Tools
 void MainWindow::initToolsMenu(void)
- {
+{
    // Создание меню
    QMenu *menu = new QMenu(tr("&Tools"), this);
    menuBar()->addMenu(menu);
@@ -433,8 +433,45 @@ void MainWindow::initToolsMenu(void)
 
    menu->addSeparator();
 
-   a = new QAction(tr("&Preferences"), this);
-   connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+
+   if(mytetraConfig.getInterfaceMode()=="desktop")
+   {
+     a = new QAction(tr("&Preferences"), this);
+     connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+     menu->addAction(a);
+   }
+   else
+   {
+     // Создание подменю
+     QMenu *menu = new QMenu(tr("&Preferences"), this);
+     initPreferencesMenu(menu);
+   }
+}
+
+
+// Заполнение подраздела меню Preferences
+void MainWindow::initPreferencesMenu(QMenu *menu)
+ {
+   QAction *a;
+
+   a = new QAction(tr("Main"), this);
+   // connect(a, SIGNAL(triggered()), this, SLOT(toolsFind()));
+   menu->addAction(a);
+
+   a = new QAction(tr("Crypt"), this);
+   // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+   menu->addAction(a);
+
+   a = new QAction(tr("Synchro"), this);
+   // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+   menu->addAction(a);
+
+   a = new QAction(tr("RecordTable"), this);
+   // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+   menu->addAction(a);
+
+   a = new QAction(tr("Misc"), this);
+   // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
    menu->addAction(a);
 }
 
