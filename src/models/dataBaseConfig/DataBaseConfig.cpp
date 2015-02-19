@@ -43,7 +43,8 @@ DataBaseConfig::~DataBaseConfig()
 void DataBaseConfig::init(void)
 {
  // Создается имя файла конфигурации
- QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
+ // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
+ QString configFileName=mytetraConfig.get_tetradir()+"/database.ini";
 
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);

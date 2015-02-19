@@ -1146,7 +1146,8 @@ bool Editor::is_cursor_on_empty_line(void)
 bool Editor::is_cursor_on_space_line(void)
 {
  // Если есть выделение, функция работать не должна
- if(textArea->textCursor().hasSelection()) return false;
+ if(textArea->textCursor().hasSelection())
+   return false;
 
  // Создаётся дополнительный курсор
  QTextCursor cursor=textArea->textCursor();
@@ -1157,8 +1158,10 @@ bool Editor::is_cursor_on_space_line(void)
  // Текст анализируемой строки
  QString selectedText=cursor.selectedText();
 
- if(selectedText.simplified().size()>0)return false;
- else return true;
+ if(selectedText.simplified().size()>0)
+   return false;
+ else
+   return true;
 }
 
 
@@ -1246,39 +1249,32 @@ void Editor::on_code_clicked(void)
 // размера и убирание утолщения, наклона, подчеркивания
 void Editor::on_clear_clicked(void)
 {
- // Проверка скрытия кнопок
- /*
- QToolButton *tool=this->findChild<QToolButton *>("editor_tb_save");
- tool->hide();
- tool->setVisible(false);
- tool->setEnabled(false);
- */
+ int startCursorPos=textArea->textCursor().position();
+ int stopCursorPos=textArea->textCursor().anchor();
+ qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+
+
+ bool flag_cursor_on_empty_line=is_cursor_on_empty_line();
+ bool flag_cursor_on_space_line=is_cursor_on_space_line();
 
  // Очистка возможна только если что-то выделено
  // Или курсор стоит на пустой строке с одним символом перевода строки
  // Или курсор стоит на строке, в которой нет текста
- bool flag_cursor_on_empty_line=is_cursor_on_empty_line();
- bool flag_cursor_on_space_line=is_cursor_on_space_line();
  if(!(textArea->textCursor().hasSelection() ||
       flag_cursor_on_empty_line ||
-      flag_cursor_on_space_line)) return;
+      flag_cursor_on_space_line))
+   return;
 
  textArea->textCursor().beginEditBlock();
 
  if(flag_cursor_on_space_line)
   (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
 
+
  // Создается стандартный шрифт
  QFont font;
  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание
  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер
-
- /*
- font.setBold(false); // Толщина обычная
- font.setWeight(QFont::Normal); // Толщина обычная
- font.setItalic(false); // Наклона нет
- font.setUnderline(false); // Подчеркивания нет
- */
 
  // Применяется стандартный шрифт
  textArea->setCurrentFont(font);
@@ -1290,6 +1286,10 @@ void Editor::on_clear_clicked(void)
  set_fontsize_on_display(editorConfig->get_default_font_size());
 
 
+ // Очищается формат символов
+ textArea->setCurrentCharFormat( QTextCharFormat() );
+
+
  // Если выделен блок
  // или курсор на пустой линии
  // или курсор на линии на которой нет символов
@@ -1297,13 +1297,19 @@ void Editor::on_clear_clicked(void)
     flag_cursor_on_empty_line ||
     flag_cursor_on_space_line)
  {
-   QTextBlockFormat formt;
-   formt.setLeftMargin(0); // Убирается отступ
-   formt.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
+   QTextBlockFormat format;
+
+   // Убираются отступы
+   format.setLeftMargin(0);   // Убирается левый отступ (который, возможно был установлен слайдеромили кнопками изменения отступа)
+   format.setRightMargin(0);
+   format.setTopMargin(0);    // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
+   format.setBottomMargin(0);
+   format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
 
    // Применение форматирование
-   textArea->textCursor().setBlockFormat(formt);
+   textArea->textCursor().setBlockFormat(format);
  }
+
 
  // Если была работа со строкой, в которой нет символов,
  // курсор переносится на начало строки, чтобы не путать пользователя
@@ -1311,6 +1317,10 @@ void Editor::on_clear_clicked(void)
   textArea->moveCursor(QTextCursor::StartOfLine);
 
 
+ // Очистка закомментирована, так как она заменена очисткой формата символов setCurrentCharFormat()
+ // А так же эта очистка некорректно работает из-за особенностей вставки в Qt (первая строка получает отличный от остальных строк формат).
+ // Думать дальше
+ /*
  // Удаление какого-либо форматирования стилем
  QString htmlCode=textArea->textCursor().selection().toHtml();
  qDebug() << "Before remove style: " << htmlCode;
@@ -1323,26 +1333,6 @@ void Editor::on_clear_clicked(void)
  htmlCode.replace(replace_expression, "");
  qDebug() << "After remove style: " << htmlCode;
 
- /*
- QRegExp reg_header("^.*<body>");
- reg_header.setMinimal(true);
-
- QRegExp reg_footer("</body>.*$");
- reg_footer.setMinimal(true);
-
- QRegExp reg_span_open("<span.?>");
- reg_span_open.setMinimal(true);
-
- QRegExp reg_span_close("</span>");
- reg_span_close.setMinimal(true);
-
- htmlCode.replace(reg_header, "");
- htmlCode.replace(reg_footer, "");
- htmlCode.replace(reg_span_open, "");
- htmlCode.replace(reg_span_close, "");
- qDebug() << "After remove header and footer: " << htmlCode;
- */
-
  QString currStyleSheet=textArea->document()->defaultStyleSheet();
  textArea->document()->setDefaultStyleSheet(" ");
 
@@ -1351,6 +1341,12 @@ void Editor::on_clear_clicked(void)
 
  textArea->document()->setDefaultStyleSheet(currStyleSheet);
 
+ textArea->textCursor().setPosition(startCursorPos);
+ textArea->textCursor().setPosition(stopCursorPos, QTextCursor::KeepAnchor);
+ // textArea->setTextCursor( textArea->textCursor() );
+
+ qDebug() << "Cursor position: " << textArea->textCursor().position() << "Cursor anchor: " << textArea->textCursor().anchor();
+ */
 
  textArea->textCursor().endEditBlock();
 

@@ -722,9 +722,9 @@ void MainWindow::synchronization(void)
 
 
  // Макрос %a заменяется на путь к директории базы данных
- QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir();
- QDir databaseDir(databasePath);
- databasePath=databaseDir.canonicalPath();
+ // QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir();
+ QDir databaseDir( mytetraConfig.get_tetradir() );
+ QString databasePath=databaseDir.canonicalPath();
 
  command.replace("%a", databasePath);
 

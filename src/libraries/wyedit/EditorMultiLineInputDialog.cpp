@@ -35,7 +35,7 @@ void EditorMultiLineInputDialog::setup_ui()
  buttonBox->addButton(tr("OK"),QDialogButtonBox::AcceptRole);
  buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
 
- // Устанавливается размер окна, равныи виджету, из которого
+ // Устанавливается размер окна, равный виджету, из которого
  // этот виджет был вызван
  if(this->parent()->isWidgetType())
   {

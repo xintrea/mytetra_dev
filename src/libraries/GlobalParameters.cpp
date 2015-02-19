@@ -274,7 +274,7 @@ bool GlobalParameters::findWorkDirectory(void)
    // Если директория существует и в ней есть настоящий файл конфигурации
    if(isMytetraIniConfig(dir+"/conf.ini")==true)
     {
-     qDebug() << "Config.ini success find in home directory " << dir;
+     qDebug() << "Config init file success find in home directory " << dir;
      workDirectory=dir;
     }
    else
@@ -290,7 +290,7 @@ bool GlobalParameters::findWorkDirectory(void)
      // Если директория существует и в ней есть настоящий файл конфигурации
      if(isMytetraIniConfig(dir+"/conf.ini")==true)
       {
-       qDebug() << "Config.ini success find in home subdirectory " << dir;
+       qDebug() << "Config init file success find in home subdirectory " << dir;
        workDirectory=dir;
       }
      else

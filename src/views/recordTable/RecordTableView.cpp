@@ -1125,7 +1125,7 @@ void RecordTableView::saveColumnWidth(void)
 
   mytetraConfig.setRecordTableFieldsWidth( columnWidthList );
 
-  qDebug() << "Save column width " << columnWidthList;
+  // qDebug() << "Save column width " << columnWidthList;
 }
 
 
@@ -1134,7 +1134,7 @@ void RecordTableView::restoreColumnWidth(void)
 {
   QStringList columnWidthList=mytetraConfig.getRecordTableFieldsWidth();
 
-  qDebug() << "Restore column width " << columnWidthList;
+  // qDebug() << "Restore column width " << columnWidthList;
 
   // Восстанавливается ширина всех колонок без последней
   // Чтобы последняя растягивалась по месту

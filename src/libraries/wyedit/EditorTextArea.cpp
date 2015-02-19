@@ -127,7 +127,8 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
 
 
  // Если символы форматирования ненужно рисовать
- if(flagShowFormatting==false) return;
+ if(flagShowFormatting==false)
+   return;
 
  // Начало области поиска
  int documentStartFrameSearch=0;

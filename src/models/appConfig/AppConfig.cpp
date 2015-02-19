@@ -35,15 +35,12 @@ void AppConfig::init(void)
  QString configFileName=globalParameters.getWorkDirectory()+"/conf.ini";
 
  // Проверяется, есть ли файл конфигурации
- QFile conffile(configFileName);
- if(!conffile.exists())
+ QFile confFile(configFileName);
+ if(!confFile.exists())
   critical_error("File "+configFileName+" not found.");
 
  // Создается указатель на объект хранилища конфигурации
  conf=new QSettings(configFileName, QSettings::IniFormat);
-
- // conf->setPath(QSettings::IniFormat, QSettings::UserScope,"./");
- // conf->setPath(QSettings::IniFormat, QSettings::SystemScope,"./");
 
  update_version_process();
 
@@ -78,7 +75,7 @@ QString AppConfig::get_parameter(QString name)
 
 
 
-// Установка имени рабочей директории
+// Установка имени директории с данными (в которой находится mytetra.xml)
 bool AppConfig::set_tetradir(QString dirName)
 {
  QDir directory(dirName);
@@ -93,7 +90,7 @@ bool AppConfig::set_tetradir(QString dirName)
 }
 
 
-// Получение имени рабочей директории
+// Получение имени директории с данными (в которой находится mytetra.xml)
 QString AppConfig::get_tetradir(void)
 {
  return get_parameter("tetradir");
