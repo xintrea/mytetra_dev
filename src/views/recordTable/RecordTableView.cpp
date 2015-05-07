@@ -398,6 +398,16 @@ void RecordTableView::addNew(int mode,
  QModelIndex selIdx=recordModel->index(selPos, 0); // Создание индекса из номера
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
  */
+
+ // В QTableView некорректно работает установка на только что созданную строку
+ // Это как-то связано с отрисовкой виджета QTableView
+ // Прокрутка к только что созданной строке через selectRow() показывает только
+ // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
+ // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
+ if(mode==ADD_NEW_RECORD_TO_END ||
+    ( mode==ADD_NEW_RECORD_AFTER && selPos>=(recordModel->rowCount()-1) ) )
+   scrollToBottom();
+
  selectRow(selPos);
 
  // Сохранение дерева веток
@@ -727,20 +737,20 @@ void RecordTableView::setSelectionToPos(int pos)
    return;
 
  // Простой механизм выбора строки. Похоже, что его использовать не получится
- // selectRow(pos);
-
- // Сложный механизм выбора строки. Не помню, почему выбрал именно его. Сейчас отключен, посмотрим в работе
-
- // Создание индекса из номера
- QModelIndex selIdx=recordModel->index(pos, 0);
+ selectRow(pos);
 
  // Установка засветки на нужный индекс
- selectionModel()->setCurrentIndex(selIdx, QItemSelectionModel::ClearAndSelect);
+ // selectionModel()->setCurrentIndex(selIdx, QItemSelectionModel::ClearAndSelect);
 
  // В мобильной версии реакции на выбор записи нет (не обрабатывается сигнал смены строки в модели выбора)
  // Поэтому по записи должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
  if(mytetraConfig.getInterfaceMode()=="mobile")
+ {
+   // Создание индекса из номера
+   QModelIndex selIdx=recordModel->index(pos, 0);
+
    emit this->clicked(selIdx);
+ }
 
  scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 }
