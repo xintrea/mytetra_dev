@@ -15,6 +15,7 @@
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/appConfig/AppConfig.h"
+#include "models/tree/KnowTreeModel.h"
 #include "views/record/MetaEditor.h"
 #include "libraries/WalkHistory.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
@@ -912,6 +913,9 @@ void RecordTableView::startDrag()
  // Если действительно выбрана строка
  if( currentIndex().isValid() )
   {
+   // Перед переносом нужно запомнить текст последней редактируемой записи, чтобы не перенесся неотредактированный вариант
+   find_object<MainWindow>("mainwindow")->saveTextarea();
+
    // Копирование выделенных строк в объект переноса
    QDrag *drag=new QDrag(this);
    drag->setMimeData( getSelectedRecords() );
@@ -928,6 +932,9 @@ void RecordTableView::startDrag()
      // todo: Совершенно непонятно, где удалять объект drag.
      // Если удалять в этом месте, имеем сегфолт
      // delete drag;
+
+     // В модели данных обнуляется оформление элемента, который (возможно) подсвечивался при Drag And Drop
+     find_object<TreeScreen>("treeScreen")->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
     }
   }
 }
