@@ -1287,7 +1287,11 @@ void Editor::on_clear_clicked(void)
 
 
  // Очищается формат символов
- textArea->setCurrentCharFormat( QTextCharFormat() );
+ QColor clearColor;
+ QBrush clearBrush( clearColor );
+ QTextCharFormat clearCharFormat;
+ clearCharFormat.setForeground( clearBrush );
+ textArea->setCurrentCharFormat( clearCharFormat );
 
 
  // Если выделен блок
