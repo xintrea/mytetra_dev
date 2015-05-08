@@ -22,18 +22,18 @@ using namespace std;
 
 // ----------------------------------------------------------
 // MyTetra - программа для накопления осмысленной информации
-// Волгодонск, 2010 - 2014 г.
+// Волгодонск, 2010 - 2015 г.
 // Контакты: xintrea@gmail.com, www.webhamster.ru
 // Данный исходный код распространяется под лицензиями:
 // - GPL v.3
 // - Modified BSD
-// © Степанов С. М. и товарищи 2010 - 2014
+// © Степанов С. М. и товарищи 2010 - 2015
 // ----------------------------------------------------------
 
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   64
+#define APPLICATION_RELEASE_MICROVERSION   65
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1

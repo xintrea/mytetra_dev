@@ -22,6 +22,7 @@ public:
 private slots:
 
  void closeProcess(void);
+ void errorHanler(void);
 
 private:
 
@@ -31,6 +32,8 @@ private:
  QString messageText;
 
  QProcess *process;
+
+ bool isError;
 };
 
 #endif	/* _EXECUTECOMMAND_H_ */

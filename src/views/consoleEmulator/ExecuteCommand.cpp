@@ -101,11 +101,17 @@ void ExecuteCommand::run(void)
  qDebug() << "Run shell" << shell;
  qDebug() << "Run command" << command;
 
+ isError=false;
 
  // Создается процесс 
  process=new QProcess();
 
  connect(&console, SIGNAL(cancelConsole()), this, SLOT(closeProcess()));
+ connect(this, SIGNAL(error()), this, SLOT(errorHanler()));
+
+
+ // Объединение вывода стандартного канала и канала ошибок
+ process->setProcessChannelMode(QProcess::MergedChannels);
 
  // В процессе запускается команда на исполнение
  process->start(commandLine);
@@ -140,13 +146,24 @@ void ExecuteCommand::run(void)
     qApp->processEvents();
   }
 
- console.hide();
-
  closeProcess();
+
+ if(isError==false && process->exitCode()==0 )
+  console.hide();
+ else
+  console.switchToErrorView();
 
  delete process;
 
  qDebug() << "Process stop";
+}
+
+
+void ExecuteCommand::errorHanler(void)
+{
+ qDebug() << "ExecuteCommand::errorHanler() : Detect error!";
+
+ isError=true;
 }
 
 

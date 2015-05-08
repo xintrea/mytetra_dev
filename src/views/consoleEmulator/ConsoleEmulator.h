@@ -38,6 +38,9 @@ public:
  void clearConsoleOutput(void);
  void addConsoleOutput(QString text);
 
+ // Преобразование внешнего вида консольного эмулятора к отображению ошибки
+ void switchToErrorView(void);
+
 public slots:
 
  // Слот срабатывающий при нажатии Cancel или при принудительном закрытии окна
@@ -45,6 +48,8 @@ public slots:
 
  // Слот срабатывающий при клике на кнопку скрыть/показать консольный вывод
  void onDetailsClick(void);
+
+ void onCloseIfErrorClick(void);
 
 signals:
 
@@ -64,11 +69,17 @@ private:
  QLabel *messageLabel;
  QPushButton *buttonCancel;
  QToolButton *buttonDetails;
+ QPushButton *buttonCloseIfError;
+
+ // Верхний блок вида "Картинка |Тут какая-то надпись| [v] | [Cancel]"
+ QHBoxLayout *upToolbar;
 
  QTextEdit *consoleOutput;
 
  QShortcut *escShortcut;
 
+ // Возникала ли ошибка при выполнении команд
+ bool isError;
 };
 
 #endif /* _CONSOLEEMULATOR_H_ */

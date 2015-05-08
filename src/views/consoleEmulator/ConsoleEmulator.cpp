@@ -11,6 +11,8 @@ extern AppConfig mytetraConfig;
 
 ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QWidget(parent)
 {
+ isError=false;
+
  setupUI();
  setupSignals();
  assembly();
@@ -39,6 +41,11 @@ void ConsoleEmulator::setupUI(void)
  buttonCancel->setText(tr("Cancel"));
  buttonCancel->setDefault(true);
 
+ // Кнопка, появляющаяся в случае, если при исполнении команды будет обнаружена ошибка
+ buttonCloseIfError=new QPushButton(this);
+ buttonCloseIfError->setText(tr("Close"));
+ buttonCloseIfError->hide();
+
  consoleOutput=new QTextEdit(this);
  consoleOutput->setReadOnly(true);
  consoleOutput->setFontFamily("monospace");
@@ -62,16 +69,17 @@ void ConsoleEmulator::setupSignals(void)
 
 void ConsoleEmulator::assembly(void)
 {
- QHBoxLayout *hLayout = new QHBoxLayout;
- hLayout->addWidget(waitClock);
- hLayout->addWidget(messageLabel);
- hLayout->addWidget(buttonDetails);
- hLayout->addWidget(buttonCancel);
+ upToolbar = new QHBoxLayout;
+ upToolbar->addWidget(waitClock);
+ upToolbar->addWidget(messageLabel);
+ upToolbar->addWidget(buttonDetails);
+ upToolbar->addWidget(buttonCancel);
 
 
  QVBoxLayout *vLayout = new QVBoxLayout;
- vLayout->addLayout(hLayout);
+ vLayout->addLayout(upToolbar);
  vLayout->addWidget(consoleOutput);
+ vLayout->addWidget(buttonCloseIfError);
 
  buttonCancel->setFocus();
 
@@ -129,6 +137,14 @@ void ConsoleEmulator::closeEvent(QCloseEvent *event)
 }
 
 
+void ConsoleEmulator::onCloseIfErrorClick(void)
+{
+ qDebug() << "ConsoleEmulator::onCloseIfErrorClick() : Click close if error";
+
+ this->close(); // Будет сгенерировано событие closeEvent
+}
+
+
 void ConsoleEmulator::onDetailsClick(void)
 {
  if(consoleOutput->isHidden())
@@ -144,3 +160,20 @@ void ConsoleEmulator::onDetailsClick(void)
 
  this->adjustSize();
 }
+
+
+void ConsoleEmulator::switchToErrorView(void)
+{
+ qDebug() << "ConsoleEmulator::switchToErrorView() : Detect error!";
+
+ isError=true;
+
+ // Верхняя строка скрывается
+ QLayoutItem *child;
+ while ((child = upToolbar->takeAt(0)) != 0)
+   child->widget()->hide();
+
+ // Кнопка закрытия появляется внизу
+ buttonCloseIfError->show();
+}
+
