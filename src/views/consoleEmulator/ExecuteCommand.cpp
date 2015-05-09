@@ -132,7 +132,7 @@ void ExecuteCommand::run(void)
    if(readBytes>=1)
     {
      // Преобразование в QString, необходимо чтобы исключать строки с нулями
-     QString output=QString::fromLatin1(buf); // Ранее было fromAscii
+     QString output=QString::fromLocal8Bit(buf); // Ранее было fromAscii, потом fromLatin1
 
      if(output.length()>0)
       {
