@@ -63,7 +63,7 @@ void EditorFindDialog::assembly(void)
   
  this->setLayout(centralLayout);
  
- this->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint);
+ this->setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowCloseButtonHint);
 }
 
 

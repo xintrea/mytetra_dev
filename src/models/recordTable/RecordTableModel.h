@@ -32,9 +32,6 @@ public:
     // Интерфейс модели, сколько столбцов в таблице
     int columnCount(const QModelIndex &parent=QModelIndex()) const;
 
-    // Возвращение указателя на модель конечных записей, т.е. на себя
-    QAbstractTableModel *getModel(void);
-
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);
     

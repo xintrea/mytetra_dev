@@ -172,13 +172,6 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 }
 
 
-QAbstractTableModel *RecordTableModel::getModel(void)
-{
- // Возвращается ссылка на модель таблицы конечных записей
- return this;
-}
-
-
 void RecordTableModel::setTableData(RecordTableData *rtData)
 {
  beginResetModel();
