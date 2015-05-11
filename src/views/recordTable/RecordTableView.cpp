@@ -14,6 +14,7 @@
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableData.h"
+#include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
 #include "views/record/MetaEditor.h"
@@ -35,9 +36,17 @@ extern WalkHistory walkHistory;
 RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 {
  // Установка модели данных
- recordModel=new RecordTableModel();
- recordModel->setObjectName("recordmodel");
- setModel(recordModel);
+ recordSourceModel=new RecordTableModel();
+ recordSourceModel->setObjectName("recordSourceModel");
+
+ recordProxyModel=new RecordTableProxyModel();
+ recordProxyModel->setSourceModel(recordSourceModel);
+ recordProxyModel->setObjectName("recordProxyModel");
+
+ setModel(recordProxyModel);
+
+ // Разрешение отображать заголовки таблиц с возможностью сортировки (заголовки будут кликабельны и будут иметь треугольнички)
+ this->setSortingEnabled(true);
 
  // Настройка области виджета для кинетической прокрутки
  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
@@ -49,7 +58,8 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
 RecordTableView::~RecordTableView()
 {
- delete recordModel;
+ delete recordSourceModel;
+ delete recordProxyModel;
 }
 
 
@@ -158,7 +168,7 @@ void RecordTableView::setupSignals(void)
 void RecordTableView::reloadModel( void )
 {
   setModel(NULL);
-  setModel(recordModel);
+  setModel(recordProxyModel);
 
   qDebug() << "Reload record table model in RecordTableView";
 }

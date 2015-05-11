@@ -117,6 +117,7 @@ HEADERS = src/main.h \
     src/models/tree/KnowTreeModel.h \
     src/models/recordTable/RecordTableData.h \
     src/models/recordTable/RecordTableModel.h \
+    src/models/recordTable/RecordTableProxyModel.h \
     src/models/appConfig/AppConfig.h \
     src/views/record/AddNewRecord.h \
     src/libraries/ClipboardRecords.h \
@@ -144,7 +145,6 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
     src/libraries/FixedParameters.h \
     src/libraries/WindowSwitcher.h
-
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -197,6 +197,7 @@ SOURCES = src/main.cpp \
     src/models/tree/KnowTreeModel.cpp \
     src/models/recordTable/RecordTableData.cpp \
     src/models/recordTable/RecordTableModel.cpp \
+    src/models/recordTable/RecordTableProxyModel.cpp \
     src/models/appConfig/AppConfig.cpp \
     src/views/record/AddNewRecord.cpp \
     src/libraries/ClipboardRecords.cpp \

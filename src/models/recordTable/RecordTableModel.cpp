@@ -12,7 +12,7 @@ extern FixedParameters fixedParameters;
 extern AppConfig mytetraConfig;
 
 
-// Конструктор модели.
+// Конструктор модели
 RecordTableModel::RecordTableModel(QObject *pobj) : QAbstractTableModel(pobj)
 {
  // При создании модели она должна брать данные как минимум из
@@ -23,7 +23,7 @@ RecordTableModel::RecordTableModel(QObject *pobj) : QAbstractTableModel(pobj)
 }
 
 
-// Деструктор модели.
+// Деструктор модели
 RecordTableModel::~RecordTableModel()
 {
  return;

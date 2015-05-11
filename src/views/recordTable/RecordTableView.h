@@ -15,6 +15,7 @@
 
 class RecordTableData;
 class RecordTableModel;
+class RecordTableProxyModel;
 class ClipboardRecords;
 
 
@@ -106,7 +107,8 @@ protected slots:
 
 protected:
 
- RecordTableModel *recordModel; // Класс, расширенный от QAbstractTableModel
+ RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
+ RecordTableProxyModel *recordProxyModel;
 
  QMenu *contextMenu;
 
