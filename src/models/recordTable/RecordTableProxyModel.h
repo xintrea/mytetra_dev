@@ -4,12 +4,11 @@
 #include <QSortFilterProxyModel>
 
 
-
-
 class RecordTableProxyModel : public QSortFilterProxyModel
 {
 public:
-  RecordTableProxyModel();
+  RecordTableProxyModel(QObject *pobj);
+  ~RecordTableProxyModel();
 
 };
 

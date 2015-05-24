@@ -58,7 +58,7 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
 RecordTableView::~RecordTableView()
 {
- delete recordSourceModel;
+ // delete recordSourceModel;
  delete recordProxyModel;
 }
 
@@ -168,7 +168,9 @@ void RecordTableView::setupSignals(void)
 void RecordTableView::reloadModel( void )
 {
   setModel(NULL);
+
   setModel(recordProxyModel);
+  // setModel(recordSourceModel);
 
   qDebug() << "Reload record table model in RecordTableView";
 }
@@ -236,7 +238,7 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 
  // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ RecordTableData *table=recordSourceModel->getTableData();
 
  // В таблице конечных данных запоминается какая запись была выбрана
  // чтобы затем при выборе этой же подветки засветка автоматически
@@ -398,7 +400,7 @@ void RecordTableView::addNew(int mode,
  if(pos<0)pos=0; // Если ничего небыло выбрано
 
  // Вставка новых данных
- int selPos=recordModel->addTableData(mode,
+ int selPos=recordSourceModel->addTableData(mode,
                                       pos,
                                       fields,
                                       text,
@@ -406,7 +408,7 @@ void RecordTableView::addNew(int mode,
 
  // Установка курсора на только что созданную позицию
  /*
- QModelIndex selIdx=recordModel->index(selPos, 0); // Создание индекса из номера
+ QModelIndex selIdx=recordSourceModel->index(selPos, 0); // Создание индекса из номера
  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
  */
 
@@ -416,7 +418,7 @@ void RecordTableView::addNew(int mode,
  // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
  // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
  if(mode==ADD_NEW_RECORD_TO_END ||
-    ( mode==ADD_NEW_RECORD_AFTER && selPos>=(recordModel->rowCount()-1) ) )
+    ( mode==ADD_NEW_RECORD_AFTER && selPos>=(recordSourceModel->rowCount()-1) ) )
    scrollToBottom();
 
  selectRow(selPos);
@@ -440,7 +442,7 @@ void RecordTableView::editFieldContext(void)
  RecordInfoFieldsEditor editRecordWin;
 
   // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ RecordTableData *table=recordSourceModel->getTableData();
 
  // Поля окна заполняются начальными значениями
  editRecordWin.setField("name",  table->getField("name",index.row()) );
@@ -476,7 +478,7 @@ void RecordTableView::editField(int pos,
  qDebug() << "In edit_field()";
 
  // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ RecordTableData *table=recordSourceModel->getTableData();
 
  // Переданные отредактированные поля преобразуются в вид имя-значение
  QMap<QString, QString> editData;
@@ -526,14 +528,14 @@ void RecordTableView::deleteRecordByPos(int pos)
 {
  QVector<int> vectorPos;
  vectorPos.append(pos);
- recordModel->removeRowsByList( vectorPos ); // Удаление
+ recordSourceModel->removeRowsByList( vectorPos ); // Удаление
 }
 
 
 // Удаление записей с указанным номером (счет с нуля)
 void RecordTableView::deleteRecordsByPos(QVector<int> vectorPos)
 {
- recordModel->removeRowsByList( vectorPos ); // Удаление
+ recordSourceModel->removeRowsByList( vectorPos ); // Удаление
 }
 
 
@@ -546,7 +548,7 @@ void RecordTableView::deleteRecords(void)
  int beforeIndex=(selectionModel()->currentIndex()).row();
 
  // Выясняется количество элементов в таблице
- int totalRowCount=recordModel->rowCount();
+ int totalRowCount=recordSourceModel->rowCount();
 
  // Получение списка Item-элементов, подлежащих удалению
  QModelIndexList itemsForDelete=selectionModel()->selectedIndexes();
@@ -600,7 +602,7 @@ void RecordTableView::deleteRecords(void)
  find_object<MetaEditor>("editorScreen")->clearAll();
 
  // Вызывается удаление отмеченных записей
- recordModel->removeRowsByList(delIdx);
+ recordSourceModel->removeRowsByList(delIdx);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
@@ -614,7 +616,7 @@ void RecordTableView::deleteRecords(void)
  {
    /*
    // Создание индекса из номера
-   QModelIndex selIdx=recordModel->index(selectionIndex, 0);
+   QModelIndex selIdx=recordSourceModel->index(selectionIndex, 0);
    // Установка курсора
    selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
    */
@@ -675,7 +677,7 @@ void RecordTableView::moveUp(void)
   int pos=getFirstSelectionPos();
 
   // Выясняется ссылка на таблицу конечных данных
-  RecordTableData *table=recordModel->getTableData();
+  RecordTableData *table=recordSourceModel->getTableData();
 
   // Перемещение текущей записи вверх
   table->moveUp(pos);
@@ -697,7 +699,7 @@ void RecordTableView::moveDn(void)
  int pos=getFirstSelectionPos();
 
  // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ RecordTableData *table=recordSourceModel->getTableData();
 
  // Перемещение текущей записи вниз
  table->moveDn(pos);
@@ -743,7 +745,7 @@ bool RecordTableView::isSelectedSetToBottom(void)
 // Установка засветки в нужную строку
 void RecordTableView::setSelectionToPos(int pos)
 {
- int rowCount=recordModel->rowCount(); // В дебаггере почему-то не вычисляется этот condidtion
+ int rowCount=recordSourceModel->rowCount(); // В дебаггере почему-то не вычисляется этот condidtion
  if(pos>(rowCount-1))
    return;
 
@@ -758,7 +760,7 @@ void RecordTableView::setSelectionToPos(int pos)
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
    // Создание индекса из номера
-   QModelIndex selIdx=recordModel->index(pos, 0);
+   QModelIndex selIdx=recordSourceModel->index(pos, 0);
 
    emit this->clicked(selIdx);
  }
@@ -962,20 +964,20 @@ void RecordTableView::setTableData(RecordTableData *rtData)
  find_object<MainWindow>("mainwindow")->setCursor(Qt::BusyCursor);
 
  // Указатель на данные сообщается источнику данных
- recordModel->setTableData(rtData);
+ recordSourceModel->setTableData(rtData);
 
  // Надо обязательно сбросить selection model
  selectionModel()->clear();
 
  // Если список конечных записей не пуст
  bool removeSelection=true;
- if(recordModel->rowCount()>0)
+ if(recordSourceModel->rowCount()>0)
   {
    // Нужно выяснить, на какой записи ранее стояло выделение
    int workPos=rtData->getWorkPos();
 
    // Если номер записи допустимый
-   if(workPos>0 && workPos<recordModel->rowCount())
+   if(workPos>0 && workPos<recordSourceModel->rowCount())
     {
      // Выделение устанавливается на нужную запись
      // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
@@ -1008,13 +1010,13 @@ void RecordTableView::setTableData(RecordTableData *rtData)
 
 RecordTableData *RecordTableView::getTableData(void)
 {
- return recordModel->getTableData();
+ return recordSourceModel->getTableData();
 }
 
 
 int RecordTableView::getRowCount(void)
 {
- return recordModel->rowCount();
+ return recordSourceModel->rowCount();
 }
 
 
@@ -1052,7 +1054,7 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
  clipboardRecords->clear();
 
  // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordModel->getTableData();
+ RecordTableData *table=recordSourceModel->getTableData();
 
  // Перебираются записи и вносятся в буфер обмена
  for(int i=0; i<itemsForCopy.size(); ++i)
