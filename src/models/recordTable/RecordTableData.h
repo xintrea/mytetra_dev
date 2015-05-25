@@ -114,5 +114,8 @@ private:
     int workPos;
 };
 
+// Класс RecordTableData добавляется в QVariant
+Q_DECLARE_METATYPE(RecordTableData)
+
 #endif /* __RECORDTABLEDATA_H__ */
 
