@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QtXml>
 
+#define TABLE_DATA_ROLE Qt::UserRole
 
 class RecordTableData;
 
@@ -31,13 +32,18 @@ public:
 
     // Интерфейс модели, сколько столбцов в таблице
     int columnCount(const QModelIndex &parent=QModelIndex()) const;
+    
+private:
+
+    // Указатель на таблицу конечных записей
+    RecordTableData *table;
 
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);
-    
+
     // Ссылка на данные, с которыми работает модель
     RecordTableData *getTableData(void);
-    
+
     // Добавление записей
     int addTableData(int mode,
                      int pos,
@@ -47,11 +53,6 @@ public:
 
     // Удаление записей
     void removeRowsByList(QVector<int> delIdx);
-    
-private:
-
-    // Указатель на таблицу конечных записей
-    RecordTableData *table;
 
 };
 

@@ -7,7 +7,7 @@
 #include <QList>
 
 
-// Определяется структура данных одной записей
+// Определяется структура данных одной записи
 struct CLIPB_ONE_RECORD_STRUCT
 {
  QMap<QString, QString> fields;

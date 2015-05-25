@@ -66,6 +66,15 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     }
   }
 
+
+  // Если происходит запрос ссылки на таблицу данных
+  if(role==TABLE_DATA_ROLE)
+  {
+    QVariant var;
+    var.setValue<RecordTableDataPointer>( this->getTableData() );
+    return var;
+  }
+
    
   // Во всех остальных случаях
   return QVariant();
@@ -87,7 +96,7 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
   if(!index.isValid())
     return false;
 
-  // Если запрашивается редактирование
+  // Если происходит редактирование
   if(role==Qt::EditRole)
   {
     // QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
@@ -110,6 +119,15 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
       return true;
     }
   }
+
+
+  // Если происходит запись в таблицу данных
+  if(role==TABLE_DATA_ROLE)
+  {
+   this->setTableData( qVariantFromValue(value) );
+   return true;
+  }
+
 
   // Во всех остальных случаях
   return false;
@@ -172,6 +190,7 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 }
 
 
+// Приватный метод установки данных в таблицу данных
 void RecordTableModel::setTableData(RecordTableData *rtData)
 {
  beginResetModel();
@@ -182,6 +201,7 @@ void RecordTableModel::setTableData(RecordTableData *rtData)
 }
 
 
+// Приватный метод получения ссылки на таблицу данных
 RecordTableData *RecordTableModel::getTableData(void)
 {
  // Возвращается ссылка на данные, с которыми в данный момент работает модель
