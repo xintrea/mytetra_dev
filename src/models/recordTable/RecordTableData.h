@@ -121,5 +121,16 @@ Q_DECLARE_METATYPE(RecordTableData)
 typedef RecordTableDataPointer *RecordTableData;
 Q_DECLARE_METATYPE(RecordTableDataPointer)
 
+// Тип для передачи записи в виде QVariant в момент добавления, содержит и режим добавления, и позицию добавления
+struct OneRecordTableData
+{
+  int mode,
+  int pos,
+  QMap<QString, QString> fields,
+  QString text,
+  QMap<QString, QByteArray> files
+};
+Q_DECLARE_METATYPE(OneRecordTableData)
+
 #endif /* __RECORDTABLEDATA_H__ */
 
