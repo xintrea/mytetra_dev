@@ -121,16 +121,36 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
   }
 
 
-  // Если происходит запись в таблицу данных
+  // Если происходит запись во всю таблицу данных
   if(role==TABLE_DATA_ROLE)
   {
    this->setTableData( qVariantFromValue(value) );
    return true;
   }
 
+  // Если происходит запись одной строки
+  if(role==ONE_RECORD_ROLE)
+  {
+    this->setTableData( qVariantFromValue(value) );
+    return true;
+  }
 
   // Во всех остальных случаях
   return false;
+}
+
+
+// Добавление пустых строк
+bool RecordTableModel::insertRows(int position, int rows, const QModelIndex &parent)
+{
+    beginInsertRows(QModelIndex(), position, position+rows-1);
+
+    for (int row = 0; row < rows; ++row) {
+        stringList.insert(position, "");
+    }
+
+    endInsertRows();
+    return true;
 }
 
 

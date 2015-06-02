@@ -8,6 +8,7 @@
 #include <QtXml>
 
 #define TABLE_DATA_ROLE Qt::UserRole
+#define ONE_RECORD_ROLE Qt::UserRole+1
 
 class RecordTableData;
 
