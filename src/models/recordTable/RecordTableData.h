@@ -118,7 +118,7 @@ private:
 Q_DECLARE_METATYPE(RecordTableData)
 
 // Тип *RecordTableData добавляется в QVariant (называется RecordTableDataPointer)
-typedef RecordTableDataPointer *RecordTableData;
+typedef RecordTableData* RecordTableDataPointer;
 Q_DECLARE_METATYPE(RecordTableDataPointer)
 
 #endif /* __RECORDTABLEDATA_H__ */
