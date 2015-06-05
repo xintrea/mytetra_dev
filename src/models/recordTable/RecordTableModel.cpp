@@ -68,13 +68,14 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 
 
   // Если происходит запрос ссылки на таблицу данных
+  /*
   if(role==TABLE_DATA_ROLE)
   {
     QVariant var;
     var.setValue<RecordTableDataPointer>( this->getTableData() );
     return var;
   }
-
+  */
    
   // Во всех остальных случаях
   return QVariant();
@@ -120,7 +121,7 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
     }
   }
 
-
+  /*
   // Если происходит запись во всю таблицу данных
   if(role==TABLE_DATA_ROLE)
   {
@@ -134,19 +135,27 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
     this->setTableData( qVariantFromValue(value) );
     return true;
   }
+  */
 
   // Во всех остальных случаях
   return false;
 }
 
 
-// Добавление пустых строк
+// Добавление пустых строк, пока не используется
 bool RecordTableModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
+    // Модель не древовидная, parent не используется
+    Q_UNUSED(parent);
+
     beginInsertRows(QModelIndex(), position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
-        stringList.insert(position, "");
+        table->insertNewRecord(ADD_NEW_RECORD_AFTER,
+                               position,
+                               QMap<QString, QString>(),
+                               "",
+                               QMap<QString, QByteArray>() );
     }
 
     endInsertRows();

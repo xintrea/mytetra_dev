@@ -7,8 +7,8 @@
 #include <QObject>
 #include <QtXml>
 
-#define TABLE_DATA_ROLE Qt::UserRole
-#define ONE_RECORD_ROLE Qt::UserRole+1
+#define TABLE_DATA_ROLE Qt::UserRole+10
+#define ONE_RECORD_ROLE Qt::UserRole+11
 
 class RecordTableData;
 
@@ -33,8 +33,11 @@ public:
 
     // Интерфейс модели, сколько столбцов в таблице
     int columnCount(const QModelIndex &parent=QModelIndex()) const;
+
+    // Интерфейс модели, добавление пустых строк
+    bool insertRows(int position, int rows, const QModelIndex &parent);
     
-private:
+// private:
 
     // Указатель на таблицу конечных записей
     RecordTableData *table;
