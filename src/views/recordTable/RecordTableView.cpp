@@ -574,8 +574,14 @@ void RecordTableView::deleteRecords(void)
  {
    QModelIndex currIdx;
    currIdx=*it;
-   qDebug() << "Mark for delete item num " << currIdx.row();
-   delIdx.append( currIdx.row() );
+
+   // Если номер не содержится в перечне удаляемых строк
+   // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же номер строки
+   if(!delIdx.contains(currIdx.row()))
+   {
+     qDebug() << "Mark for delete item num " << currIdx.row();
+     delIdx.append( currIdx.row() );
+   }
  }
 
  // Массив удаляемых индексов сортируется так чтоб вначале
