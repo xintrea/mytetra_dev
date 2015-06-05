@@ -37,6 +37,9 @@ public:
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
 
+ QModelIndex getFirstSelectionIndexProxy(void);
+ QModelIndex getFirstSelectionIndexSource(void);
+
  bool isSelectedSetToTop(void);
  bool isSelectedSetToBottom(void);
 

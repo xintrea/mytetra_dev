@@ -219,7 +219,7 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 }
 
 
-// Приватный метод установки данных в таблицу данных
+// Установка данных в таблицу данных
 void RecordTableModel::setTableData(RecordTableData *rtData)
 {
  beginResetModel();
@@ -230,7 +230,7 @@ void RecordTableModel::setTableData(RecordTableData *rtData)
 }
 
 
-// Приватный метод получения ссылки на таблицу данных
+// Получение ссылки на таблицу данных
 RecordTableData *RecordTableModel::getTableData(void)
 {
  // Возвращается ссылка на данные, с которыми в данный момент работает модель
@@ -241,7 +241,7 @@ RecordTableData *RecordTableModel::getTableData(void)
 // Добавление данных
 // Функция возвращает позицию нового добавленного элемента
 int RecordTableModel::addTableData(int mode,
-                                   int pos,
+                                   QModelIndex posIndex,
                                    QMap<QString, QString> fields,
                                    QString text,
                                    QMap<QString, QByteArray> files)
@@ -250,7 +250,7 @@ int RecordTableModel::addTableData(int mode,
 
  // Вставка новых данных в таблицу конечных записей
  int selPos=table->insertNewRecord(mode,
-                                   pos,
+                                   posIndex.row(),
                                    fields,
                                    text,
                                    files);

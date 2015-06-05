@@ -36,11 +36,6 @@ public:
 
     // Интерфейс модели, добавление пустых строк
     bool insertRows(int position, int rows, const QModelIndex &parent);
-    
-// private:
-
-    // Указатель на таблицу конечных записей
-    RecordTableData *table;
 
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);
@@ -50,13 +45,18 @@ public:
 
     // Добавление записей
     int addTableData(int mode,
-                     int pos,
+                     QModelIndex posIndex,
                      QMap<QString, QString> fields,
                      QString text,
                      QMap<QString, QByteArray> files);
 
     // Удаление записей
     void removeRowsByList(QVector<int> delIdx);
+
+private:
+
+    // Указатель на таблицу конечных записей
+    RecordTableData *table;
 
 };
 

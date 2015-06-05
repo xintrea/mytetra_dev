@@ -395,13 +395,12 @@ void RecordTableView::addNew(int mode,
 {
  qDebug() << "In add_new()";
 
- // Получение номера первой выделенной строки
- int pos=getFirstSelectionPos();
- if(pos<0)pos=0; // Если ничего небыло выбрано
+ // Получение Source-индекса первой выделенной строки
+ QModelIndex posIndex=getFirstSelectionIndexSource();
 
  // Вставка новых данных
  int selPos=recordSourceModel->addTableData(mode,
-                                      pos,
+                                      posIndex,
                                       fields,
                                       text,
                                       files);
@@ -729,6 +728,34 @@ int RecordTableView::getFirstSelectionPos(void)
   return -1; // Если ничего не выделено
  else
   return (selectItems.at(0)).row(); // Индекс первого выделенного элемента
+}
+
+
+// Получение модельного индекса первого выделенного элемента в Proxy модели
+QModelIndex RecordTableView::getFirstSelectionIndexProxy(void)
+{
+  int pos=getFirstSelectionPos();
+
+  if(pos==-1)
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->index( pos, 0 );
+
+  return index;
+}
+
+
+// Получение модельного индекса первого выделенного элемента в Source модели
+QModelIndex RecordTableView::getFirstSelectionIndexSource(void)
+{
+  QModelIndex proxyIndex=getFirstSelectionIndexProxy();
+
+  if(!proxyIndex.isValid())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
 }
 
 
