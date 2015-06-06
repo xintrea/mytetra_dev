@@ -58,7 +58,7 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
 RecordTableView::~RecordTableView()
 {
- // delete recordSourceModel;
+ delete recordSourceModel;
  delete recordProxyModel;
 }
 
@@ -168,7 +168,6 @@ void RecordTableView::setupSignals(void)
 void RecordTableView::reloadModel( void )
 {
   setModel(NULL);
-
   setModel(recordProxyModel);
   // setModel(recordSourceModel);
 
@@ -217,13 +216,14 @@ void RecordTableView::onSelectionChanged(const QItemSelection &selected,
 }
 
 
+// Слот клика по записи. Принимает индекс Proxy модели
 void RecordTableView::onClickToRecord(const QModelIndex &index)
 {
   clickToRecord(index);
 }
 
 
-// Действия при выборе строки таблицы конечных записей
+// Действия при выборе строки таблицы конечных записей. Принимает индекс Proxy модели
 void RecordTableView::clickToRecord(const QModelIndex &index)
 {
  // Позиция записи в списке
