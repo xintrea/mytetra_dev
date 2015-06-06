@@ -45,8 +45,8 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
  setModel(recordProxyModel);
 
- // Разрешение отображать заголовки таблиц с возможностью сортировки (заголовки будут кликабельны и будут иметь треугольнички)
- this->setSortingEnabled(true);
+ // Изначально сортировка запрещена (заголовки столбцов не будут иметь треугольнички)
+ this->setSortingEnabled(false);
 
  // Настройка области виджета для кинетической прокрутки
  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
@@ -103,6 +103,7 @@ void RecordTableView::init(void)
 
  restoreColumnWidth();
 
+ // Разрешается перемещать секции заголовка таблицы
  enableMoveSection=true;
 
  // Нужно установить правила показа контекстного самодельного меню
@@ -194,25 +195,25 @@ void RecordTableView::restoreHeaderState( void )
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected )
 {
- QModelIndex selectRecord;
- QModelIndex deselectRecord;
+  QModelIndex selectRecord;
+  QModelIndex deselectRecord;
 
- if(!selected.indexes().isEmpty())
-  selectRecord=selected.indexes().at(0);
+  if(!selected.indexes().isEmpty())
+    selectRecord=selected.indexes().at(0);
 
- if(!deselected.indexes().isEmpty())
-  deselectRecord=deselected.indexes().at(0);
+  if(!deselected.indexes().isEmpty())
+    deselectRecord=deselected.indexes().at(0);
 
- /*
- qDebug() << "RecordTableView::onSelectionChanged()";
- qDebug() << "Current index. row() " << selectRecord.row() << " isValid() " << selectRecord.isValid();
- qDebug() << "Previous index. row() " << deselectRecord.row() << " isValid() " << deselectRecord.isValid();
- */
+  /*
+  qDebug() << "RecordTableView::onSelectionChanged()";
+  qDebug() << "Current index. row() " << selectRecord.row() << " isValid() " << selectRecord.isValid();
+  qDebug() << "Previous index. row() " << deselectRecord.row() << " isValid() " << deselectRecord.isValid();
+  */
 
- // return;
+  // return;
 
- if(selectRecord.isValid())
-  clickToRecord(selectRecord);
+  if(selectRecord.isValid())
+    clickToRecord(selectRecord);
 }
 
 
@@ -396,7 +397,7 @@ void RecordTableView::addNew(int mode,
  qDebug() << "In add_new()";
 
  // Получение Source-индекса первой выделенной строки
- QModelIndex posIndex=getFirstSelectionIndexSource();
+ QModelIndex posIndex=getFirstSelectionSourceIndex();
 
  // Вставка новых данных
  int selPos=recordSourceModel->addTableData(mode,
@@ -658,6 +659,7 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addAction(parentPointer->actionCopy);
   contextMenu->addAction(parentPointer->actionPaste);
   contextMenu->addSeparator();
+  contextMenu->addAction(parentPointer->actionSort);
   contextMenu->addAction(parentPointer->actionSettings);
 }
 
@@ -665,11 +667,56 @@ void RecordTableView::assemblyContextMenu(void)
 // Открытие контекстного меню в таблице конечных записей
 void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 {
- qDebug("In on_customContextMenuRequested");
+  qDebug() << "In on_customContextMenuRequested";
+
+  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
+
+
+  // Устанавливается надпись для пункта сортировки
+  if( !this->isSortingEnabled() )
+    parentPointer->actionSort->setText(tr("Enable sorting"));
+  else
+    parentPointer->actionSort->setText(tr("Disable sorting"));
+
+  // Запоминается номер колонки, по которой был произведен клик (номер колонки будет правильный, даже если записей мало и клик произошел под записями)
+  int n = this->horizontalHeader()->logicalIndexAt(pos);
+  qDebug() << "Click on column number " << n;
+  parentPointer->actionSort->setData( n ); // Запоминается в объект действия для сортировки
+
 
   // Включение отображения меню на экране
   // menu.exec(event->globalPos());
   contextMenu->exec( viewport()->mapToGlobal(pos) );
+}
+
+
+// Клик по пункту "Сортировка" в контекстном меню
+void RecordTableView::onSortClick(void)
+{
+  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
+
+  // Если сортировка еще не включена
+  if( !this->isSortingEnabled() )
+  {
+    // Включается сортировка
+    this->setSortingEnabled(true);
+
+    recordProxyModel->setSortRole(Qt::DisplayRole);
+
+    // Включается сортировка по нужной колонке
+    int n=parentPointer->actionSort->data().toInt();
+    qDebug() << "Sort column number " << n;
+    recordProxyModel->sort(n);
+    horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder);
+  }
+  else
+  {
+    // Оменяется сортировка
+    this->setSortingEnabled(false);
+    recordProxyModel->setSortRole(Qt::InitialSortOrderRole);
+    recordProxyModel->invalidate();
+  }
+
 }
 
 
@@ -732,7 +779,7 @@ int RecordTableView::getFirstSelectionPos(void)
 
 
 // Получение модельного индекса первого выделенного элемента в Proxy модели
-QModelIndex RecordTableView::getFirstSelectionIndexProxy(void)
+QModelIndex RecordTableView::getFirstSelectionProxyIndex(void)
 {
   int pos=getFirstSelectionPos();
 
@@ -746,14 +793,77 @@ QModelIndex RecordTableView::getFirstSelectionIndexProxy(void)
 
 
 // Получение модельного индекса первого выделенного элемента в Source модели
-QModelIndex RecordTableView::getFirstSelectionIndexSource(void)
+QModelIndex RecordTableView::getFirstSelectionSourceIndex(void)
 {
-  QModelIndex proxyIndex=getFirstSelectionIndexProxy();
+  QModelIndex proxyIndex=getFirstSelectionProxyIndex();
 
   if(!proxyIndex.isValid())
     return QModelIndex();
 
   QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
+}
+
+
+QModelIndex RecordTableView::convertPosToProxyIndex(int pos)
+{
+  if(pos<0 || pos>=recordProxyModel->rowCount())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->index( pos, 0 );
+
+  return index;
+}
+
+
+QModelIndex RecordTableView::convertPosToSourceIndex(int pos)
+{
+  if(pos<0 || pos>=recordProxyModel->rowCount())
+    return QModelIndex();
+
+  QModelIndex proxyIndex=convertPosToProxyIndex(pos);
+  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
+}
+
+
+int RecordTableView::convertProxyIndexToPos(QModelIndex index)
+{
+  if(!index.isValid())
+    return -1;
+
+  return index.row();
+}
+
+
+int RecordTableView::convertSourceIndexToPos(QModelIndex index)
+{
+  if(!index.isValid())
+    return -1;
+
+  return index.row();
+}
+
+
+QModelIndex RecordTableView::convertProxyIndexToSourceIndex(QModelIndex proxyIndex)
+{
+  if(!proxyIndex.isValid())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
+}
+
+
+QModelIndex RecordTableView::convertSourceIndexToProxyIndex(QModelIndex sourceIndex)
+{
+  if(!sourceIndex.isValid())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->mapFromSource( sourceIndex );
 
   return index;
 }

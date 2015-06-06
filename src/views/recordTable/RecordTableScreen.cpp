@@ -143,6 +143,12 @@ void RecordTableScreen::setupActions(void)
  actionBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
  connect(actionBack, SIGNAL(triggered()), this, SLOT(onBackClick()));
 
+ // Действия по сортировке
+ actionSort = new QAction(tr("Toggle sorting"), this);
+ actionSort->setStatusTip(tr("Enable/disable sorting by column"));
+ actionSort->setIcon(QIcon(":/resource/pic/sort.svg"));
+ connect(actionSort, SIGNAL(triggered()), recordTableView, SLOT(onSortClick()));
+
 
  // Сразу после создания все действия запрещены
  disableAllActions();

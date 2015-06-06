@@ -37,8 +37,15 @@ public:
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
 
- QModelIndex getFirstSelectionIndexProxy(void);
- QModelIndex getFirstSelectionIndexSource(void);
+ QModelIndex getFirstSelectionProxyIndex(void);
+ QModelIndex getFirstSelectionSourceIndex(void);
+
+ QModelIndex convertPosToProxyIndex(int pos);
+ QModelIndex convertPosToSourceIndex(int pos);
+ int         convertProxyIndexToPos(QModelIndex index);
+ int         convertSourceIndexToPos(QModelIndex index);
+ QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
+ QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
 
  bool isSelectedSetToTop(void);
  bool isSelectedSetToBottom(void);
@@ -94,6 +101,9 @@ public slots:
  // Слот, срабатывающий после перетаскивания колонки
  void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
  void onSectionResized( int logicalIndex, int oldSize, int newSize );
+
+ // Клик по пункту "Сортировка" в контекстном меню
+ void onSortClick(void);
 
 
 protected slots:
