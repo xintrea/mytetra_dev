@@ -703,11 +703,17 @@ void RecordTableView::onSortClick(void)
 
     recordProxyModel->setSortRole(Qt::DisplayRole);
 
-    // Включается сортировка по нужной колонке
+    // Включается сортировка по нужному столбцу
     int n=parentPointer->actionSort->data().toInt();
     qDebug() << "Sort column number " << n;
     recordProxyModel->sort(n);
+
+    // Треугольничек сортировки переставляется на нужный столбец
     horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder);
+
+    // Запрещается передвижение заголовков столбцов
+    // так как после переноса неправильно устанавливается треугольничек сортировки, он остается на том же по счету столбце
+    // horizontalHeader()->setSectionsMovable(false);
   }
   else
   {
@@ -715,6 +721,9 @@ void RecordTableView::onSortClick(void)
     this->setSortingEnabled(false);
     recordProxyModel->setSortRole(Qt::InitialSortOrderRole);
     recordProxyModel->invalidate();
+
+    // Разрешается передвижение заголовков столбцов
+    // horizontalHeader()->setSectionsMovable(true);
   }
 
 }
@@ -1235,6 +1244,30 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
 
   if(!enableMoveSection)
     return;
+
+  // Если была включена сортировка
+  if( this->isSortingEnabled() )
+    if( this->sortIndicatorSection())
+      horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder); // Треугольничек сортировки переставляется на нужный столбец
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Запоминается ширина столбцов
   int oldVisualWidth=horizontalHeader()->sectionSize(oldVisualIndex);
