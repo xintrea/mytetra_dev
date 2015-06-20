@@ -217,8 +217,11 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
 // Действия при выборе строки таблицы конечных записей. Принимает индекс Proxy модели
 void RecordTableView::clickToRecord(const QModelIndex &index)
 {
+  // Так как, возможно, включена сортировка, позиция на экране преобразуется в позицию в базе
+ QModelIndex sourceIndex=convertProxyIndexToSourceIndex(index);
+
  // Позиция записи в списке
- int pos=index.row();
+ int pos=sourceIndex.row();
 
  qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
 
