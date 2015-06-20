@@ -214,8 +214,17 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 {
  Q_UNUSED(parent);
 
- // return fixedParameters.recordFieldAvailableList().size(); // TODO: Заменить на показываемые поля
- return mytetraConfig.getRecordTableShowFields().size();
+ static int previousColumnCount=0;
+
+ int currentColumnCount=mytetraConfig.getRecordTableShowFields().size();
+
+ if( currentColumnCount!=previousColumnCount)
+ {
+   qDebug() << "Column count change. New column count: " << currentColumnCount;
+   previousColumnCount=currentColumnCount;
+ }
+
+ return currentColumnCount;
 }
 
 

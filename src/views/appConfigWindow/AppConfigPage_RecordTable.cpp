@@ -86,6 +86,17 @@ void AppConfigPage_RecordTable::setupSignals(void)
     connect(i.value(), SIGNAL(toggled(bool)),
             this, SLOT(onFieldToggle(bool)));
   }
+
+
+  // Указатель на представление таблицы конечных записей
+  RecordTableView *view=find_object<RecordTableView>("recordTableView");
+
+  connect(this, SIGNAL(updateHeadersState()),
+          view, SLOT(updateHeadersState()));
+
+  connect(this, SIGNAL(updateColumns()),
+          view, SLOT(updateColumns()));
+
 }
 
 
@@ -134,9 +145,6 @@ int AppConfigPage_RecordTable::apply_changes(void)
  qDebug() << "showFields" << showFields;
  qDebug() << "fieldsWidth" << fieldsWidth;
 
- // Указатель на представление таблицы конечных записей
- RecordTableView *view=find_object<RecordTableView>("recordTableView");
-
 
  // Запоминание в конфигурацию отображения горизонтальных заголовков
  if(mytetraConfig.getRecordTableShowHorizontalHeaders()!=showHorizontalHeader->isChecked())
@@ -145,9 +153,6 @@ int AppConfigPage_RecordTable::apply_changes(void)
  // Запоминание в конфигурацию отображения нумерации строк
  if(mytetraConfig.getRecordTableShowVerticalHeaders()!=showVerticalHeader->isChecked())
    mytetraConfig.setRecordTableShowVerticalHeaders(showVerticalHeader->isChecked());
-
- // В виде устанавливается видимость заголовоков
- view->restoreHeaderState();
 
 
  QStringList addFieldsList; // Список полей, которые добавились в результате настройки
@@ -187,12 +192,6 @@ int AppConfigPage_RecordTable::apply_changes(void)
  mytetraConfig.setRecordTableShowFields(newShowFields);
 
 
- // Переподключение модели в таблице конечных записей, чтобы обновились колонки и их количество
- // Во время переподключения в конфигурации будут сброшены ширины полей на 100 px.
- // (непонятно, с чем это связано, видимо Qt генерирует сигналы изменения размеров окна/виджета)
- view->reloadModel();
-
-
  // Если полей становится больше чем было
  if( newShowFields.size() > showFields.size() )
  {
@@ -223,7 +222,7 @@ int AppConfigPage_RecordTable::apply_changes(void)
 
    qDebug() << "newFieldsWidth" << newFieldsWidth;
 
-   // Установка новых ширин полей в конфигурацию
+   // Новые ширины полей запомниаются в конфигурацию
    mytetraConfig.setRecordTableFieldsWidth(newFieldsWidth);
  }
 
@@ -256,8 +255,6 @@ int AppConfigPage_RecordTable::apply_changes(void)
    // Так как это значение в конфигурации было искажено в момент переподключения модели
    mytetraConfig.setRecordTableFieldsWidth(fieldsWidth);
  }
-
- view->restoreColumnWidth();
 
 
  return 0;

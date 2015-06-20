@@ -16,6 +16,10 @@ public:
   AppConfigPage_RecordTable(QWidget *parent = 0);
   int apply_changes(void);
 
+signals:
+  void updateHeadersState(void);
+  void updateColumns(void);
+
 private slots:
  void onFieldToggle(bool);
 

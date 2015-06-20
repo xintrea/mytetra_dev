@@ -1070,6 +1070,7 @@ void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 }
 
 
+// Начало переноса записи
 void RecordTableView::startDrag()
 {
  qDebug() << "Start record drag\n";
@@ -1246,28 +1247,11 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
     return;
 
   // Если была включена сортировка
+  /*
   if( this->isSortingEnabled() )
-    if( this->sortIndicatorSection())
+    if( horizontalHeader()->sortIndicatorSection())
       horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder); // Треугольничек сортировки переставляется на нужный столбец
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  */
 
   // Запоминается ширина столбцов
   int oldVisualWidth=horizontalHeader()->sectionSize(oldVisualIndex);
@@ -1358,4 +1342,19 @@ void RecordTableView::settings(void)
  // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
  // qDebug() << "Set focus to RecordTableView";
  // this->setFocus();
+}
+
+
+void updateHeadersState(void)
+{
+  // Запуск восстановления отображения заголовков из конфигурации
+  restoreHeaderState();
+}
+
+
+void updateColumns(int )
+{
+
+  reloadModel();
+  restoreColumnWidth();
 }
