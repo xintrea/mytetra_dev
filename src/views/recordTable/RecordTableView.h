@@ -105,8 +105,6 @@ public slots:
  // Клик по пункту "Сортировка" в контекстном меню
  void onSortClick(void);
 
- void updateHeadersState(void);
- void updateColumns(void);
 
 protected slots:
 

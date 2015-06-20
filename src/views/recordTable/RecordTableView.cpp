@@ -36,10 +36,10 @@ extern WalkHistory walkHistory;
 RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 {
  // Установка модели данных
- recordSourceModel=new RecordTableModel();
+ recordSourceModel=new RecordTableModel(this);
  recordSourceModel->setObjectName("recordSourceModel");
 
- recordProxyModel=new RecordTableProxyModel();
+ recordProxyModel=new RecordTableProxyModel(this);
  recordProxyModel->setSourceModel(recordSourceModel);
  recordProxyModel->setObjectName("recordProxyModel");
 
@@ -163,16 +163,6 @@ void RecordTableView::setupSignals(void)
          this, SLOT( onSectionMoved( int, int, int ) ) );
  connect(this->horizontalHeader(), SIGNAL( sectionResized( int, int, int ) ),
          this, SLOT( onSectionResized( int, int, int ) ) );
-}
-
-
-void RecordTableView::reloadModel( void )
-{
-  setModel(NULL);
-  setModel(recordProxyModel);
-  // setModel(recordSourceModel);
-
-  qDebug() << "Reload record table model in RecordTableView";
 }
 
 
@@ -1344,17 +1334,3 @@ void RecordTableView::settings(void)
  // this->setFocus();
 }
 
-
-void updateHeadersState(void)
-{
-  // Запуск восстановления отображения заголовков из конфигурации
-  restoreHeaderState();
-}
-
-
-void updateColumns(int )
-{
-
-  reloadModel();
-  restoreColumnWidth();
-}

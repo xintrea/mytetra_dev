@@ -17,8 +17,7 @@ public:
   int apply_changes(void);
 
 signals:
-  void updateHeadersState(void);
-  void updateColumns(void);
+  void recordTableConfigChange(void); // Сигнал, испускающийся когда изменились настройки таблицы конечных записей
 
 private slots:
  void onFieldToggle(bool);
