@@ -1334,3 +1334,8 @@ void RecordTableView::settings(void)
  // this->setFocus();
 }
 
+
+void RecordTableView::onRecordTableConfigChange(void)
+{
+  restoreColumnWidth();
+}

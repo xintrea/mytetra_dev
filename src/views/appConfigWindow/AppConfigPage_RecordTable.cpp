@@ -8,6 +8,7 @@
 #include "AppConfigPage_RecordTable.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/FixedParameters.h"
+#include "views/recordTable/RecordTableView.h"
 #include "models/recordTable/RecordTableModel.h"
 
 extern AppConfig mytetraConfig;
@@ -94,6 +95,14 @@ void AppConfigPage_RecordTable::setupSignals(void)
   // При изменении настроек отображения таблицы конечных записей, должен вызываться соответствующий слот модели
   connect(this, SIGNAL(recordTableConfigChange()),
           recordTableModel, SLOT(onRecordTableConfigChange()));
+
+
+  // Указатель на представление таблицы конечных записей
+  RecordTableView *recordTableView=find_object<RecordTableView>("recordTableView");
+
+  // При изменении настроек отображения таблицы конечных записей должен вызываться соответствующий слот вида (чтобы перечиталась ширина столбцов)
+  connect(this, SIGNAL(recordTableConfigChange()),
+          recordTableView, SLOT(onRecordTableConfigChange()));
 }
 
 

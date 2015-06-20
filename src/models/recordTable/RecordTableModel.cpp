@@ -293,7 +293,6 @@ void RecordTableModel::removeRowsByList(QVector<int> delIdx)
 
 void RecordTableModel::onRecordTableConfigChange(void)
 {
-  // emit modelReset();
   beginResetModel();
   endResetModel();
 }

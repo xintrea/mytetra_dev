@@ -105,6 +105,8 @@ public slots:
  // Клик по пункту "Сортировка" в контекстном меню
  void onSortClick(void);
 
+ // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
+ void onRecordTableConfigChange(void);
 
 protected slots:
 
