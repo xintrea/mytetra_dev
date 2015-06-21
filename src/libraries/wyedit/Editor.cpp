@@ -199,6 +199,7 @@ void Editor::setup_signals(void)
  connect(save, SIGNAL(clicked()), this, SLOT(on_save_clicked()));
  connect(back, SIGNAL(clicked()), this, SLOT(on_back_clicked()));
  connect(findInBase, SIGNAL(clicked()), this, SLOT(on_find_in_base_clicked()));
+ connect(showText, SIGNAL(clicked()), this, SLOT(on_show_text_clicked()));
 
  connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(on_cursor_position_changed()));
  connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(on_selection_changed()));
@@ -468,6 +469,13 @@ void Editor::setup_buttons(void)
  findInBase->setStatusTip(tr("Find in base"));
  findInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
  findInBase->setObjectName("editor_tb_find_in_base");
+
+
+ // Кнопка "показать текст" для просмотра текста в отдельном окне
+ showText = new QToolButton(this);
+ showText->setStatusTip(tr("Show text in detached window"));
+ showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
+ showText->setObjectName("editor_show_text");
 
 
  // Виджет настройки отступов
@@ -2783,15 +2791,19 @@ void Editor::on_save_clicked(void)
 void Editor::on_back_clicked(void)
 {
   // back_callback_func(qobject_cast<QObject *>(this));
- back_callback_func();
+  back_callback_func();
 }
 
 
 void Editor::on_find_in_base_clicked(void)
 {
- emit wyeditFindInBaseClicked();
+  emit wyeditFindInBaseClicked();
 }
 
+void Editor::on_show_text_clicked(void)
+{
+
+}
 
 void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString))
 {

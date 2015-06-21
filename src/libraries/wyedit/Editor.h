@@ -148,6 +148,9 @@ public:
  QToolButton   *back;
  QToolButton   *findInBase;
 
+ QToolButton   *showText;
+
+
  IndentSlider  *indentSlider;
 
  // Горизонтальная линейка, содержащая кнопки форматирования
@@ -295,6 +298,7 @@ private slots:
  void on_save_clicked(void);
  void on_back_clicked(void);
  void on_find_in_base_clicked(void);
+ void on_show_text_clicked(void);
 
  void on_cursor_position_changed(void); // Слот, контролирущий перемещение курсора
  void on_selection_changed(void);
