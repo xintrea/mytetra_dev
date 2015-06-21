@@ -144,7 +144,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorImageProperties.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
     src/libraries/FixedParameters.h \
-    src/libraries/WindowSwitcher.h
+    src/libraries/WindowSwitcher.h \
+    src/libraries/wyedit/EditorShowText.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -224,7 +225,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorImageProperties.cpp \
     src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
     src/libraries/FixedParameters.cpp \
-    src/libraries/WindowSwitcher.cpp
+    src/libraries/WindowSwitcher.cpp \
+    src/libraries/wyedit/EditorShowText.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

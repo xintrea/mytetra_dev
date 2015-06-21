@@ -14,6 +14,7 @@
 #include <QStringList>
 
 #include "EditorFindDialog.h"
+#include "EditorShowText.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -78,7 +79,7 @@
 //       инициализации и отображения редактора - desktop или mobile
 
 
-#define WYEDIT_VERSION "WyEdit v.1.6 / 29.11.2014"
+#define WYEDIT_VERSION "WyEdit v.1.7 / 21.06.2015"
 
 
 #define MINIMUM_ALLOWED_FONT_SIZE 5

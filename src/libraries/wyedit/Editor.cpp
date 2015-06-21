@@ -243,6 +243,9 @@ void Editor::setup_signals(void)
 // Создание объектов кнопок для линейки форматирования текста
 void Editor::setup_buttons(void)
 {
+ // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
+ // имена объектов кнопок должны начинаться на "editor_tb"
+
  // Кнопка Bold
  bold = new QToolButton(this);
  bold->setShortcut(QKeySequence(QKeySequence::Bold));
@@ -475,7 +478,7 @@ void Editor::setup_buttons(void)
  showText = new QToolButton(this);
  showText->setStatusTip(tr("Show text in detached window"));
  showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
- showText->setObjectName("editor_show_text");
+ showText->setObjectName("editor_tb_show_text");
 
 
  // Виджет настройки отступов
@@ -2802,7 +2805,11 @@ void Editor::on_find_in_base_clicked(void)
 
 void Editor::on_show_text_clicked(void)
 {
+ EditorShowText *showText=new EditorShowText(this);
+ // showText->setWindowTitle("Some title");
+ showText->setHtml( textArea->toHtml() );
 
+ showText->show();
 }
 
 void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString))
