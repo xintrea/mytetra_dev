@@ -14,6 +14,7 @@ public:
   virtual ~EditorShowText();
 
   void setHtml(QString text);
+  void setDocument(QTextDocument *document);
 
 signals:
 

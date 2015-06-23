@@ -2803,9 +2803,11 @@ void Editor::on_find_in_base_clicked(void)
   emit wyeditFindInBaseClicked();
 }
 
+
+// Слот нажатия кнопки показа текста в отдельном открепляемом окне
 void Editor::on_show_text_clicked(void)
 {
-  if(getMiscField("id").length()==0)
+  if(textArea->toPlainText().length()==0)
   {
     QMessageBox msgBox;
     msgBox.setText("Can't show empty text in detached window");
@@ -2815,11 +2817,15 @@ void Editor::on_show_text_clicked(void)
   }
 
   EditorShowText *showText=new EditorShowText(this);
-  // showText->setWindowTitle("Some title");
-  showText->setHtml( textArea->toHtml() );
+
+  if(getMiscField("title").length()>0)
+    showText->setWindowTitle( getMiscField("title") );
+
+  showText->setDocument( textArea->document() );
 
   showText->show();
 }
+
 
 void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString))
 {

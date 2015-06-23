@@ -299,6 +299,8 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
  QString id=table->getField("id", pos);
  edView->setMiscField("id", id);
 
+ edView->setMiscField( "title", table->getField("name", pos) );
+
  // Устанавливается путь до ветки в которой лежит запись (в виде названий веток)
  QString path=qobject_cast<RecordTableScreen *>(parent())->getTreePath();
 
