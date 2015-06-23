@@ -2818,10 +2818,14 @@ void Editor::on_show_text_clicked(void)
 
   EditorShowText *showText=new EditorShowText(this);
 
+  // Устанавливается флаг удаления диалога после закрытия его окна
+  showText->setAttribute( Qt::WA_DeleteOnClose );
+
   if(getMiscField("title").length()>0)
     showText->setWindowTitle( getMiscField("title") );
 
-  showText->setDocument( textArea->document() );
+  QTextDocument *cloneDocument=textArea->document()->clone(showText); // Для метода clone указан parent, который уничтожится при закрытии окна, и за собой уничтожит этот временный документ
+  showText->setDocument( cloneDocument );
 
   showText->show();
 }
