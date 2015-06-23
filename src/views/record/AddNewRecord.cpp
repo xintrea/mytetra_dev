@@ -45,7 +45,7 @@ void AddNewRecord::setupUI(void)
 
  // Редактор текста записи
  recordTextEditor=new Editor();
- recordTextEditor->setDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save") );
+ recordTextEditor->setDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text") );
  recordTextEditor->initEnableAssembly(true);
  recordTextEditor->initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  recordTextEditor->initEnableRandomSeed(false);
