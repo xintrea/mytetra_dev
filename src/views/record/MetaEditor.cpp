@@ -179,6 +179,8 @@ void MetaEditor::clearAll(void)
 
  set_work_directory("");
  set_file_name("");
+
+ clearAllMiscField();
 }
 
 

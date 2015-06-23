@@ -2805,11 +2805,20 @@ void Editor::on_find_in_base_clicked(void)
 
 void Editor::on_show_text_clicked(void)
 {
- EditorShowText *showText=new EditorShowText(this);
- // showText->setWindowTitle("Some title");
- showText->setHtml( textArea->toHtml() );
+  if(getMiscField("id").length()==0)
+  {
+    QMessageBox msgBox;
+    msgBox.setText("Can't show empty text in detached window");
+    msgBox.exec();
 
- showText->show();
+    return;
+  }
+
+  EditorShowText *showText=new EditorShowText(this);
+  // showText->setWindowTitle("Some title");
+  showText->setHtml( textArea->toHtml() );
+
+  showText->show();
 }
 
 void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString))
@@ -2842,6 +2851,12 @@ QString Editor::getMiscField(QString name)
     return miscFields[name];
   else
     return QString();
+}
+
+
+void Editor::clearAllMiscField(void)
+{
+  miscFields.clear();
 }
 
 

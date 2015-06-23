@@ -207,6 +207,7 @@ public:
  // которые может хранить объект редактора
  void setMiscField(QString name, QString value);
  QString getMiscField(QString name);
+ void clearAllMiscField(void);
 
  void update_indentline_geometry();
 
