@@ -1,10 +1,10 @@
 mytetra_dev
 ===========
 
-ENG: Central source repository for MyTetra development
+ENG: Central source repository for MyTetra development. 
 MyTetra official english page: [http://webhamster.ru/site/page/index/articles/projectcode/138](http://webhamster.ru/site/page/index/articles/projectcode/138)
 
-RUS: Основной репозитарий исходников для разработки MyTetra
+RUS: Основной репозитарий исходников для разработки MyTetra. 
 Официальная русскоязычная страница программы MyTetra: [http://webhamster.ru/site/page/index/articles/projectcode/105](http://webhamster.ru/site/page/index/articles/projectcode/105)
 
 Соглашение о кодировании (оформление кода)
