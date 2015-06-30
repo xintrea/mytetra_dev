@@ -258,7 +258,7 @@ void RecordTableScreen::toolsUpdate(void)
  // Отключаются все действия
  disableAllActions();
 
- if(recordTableView->getTableData()==NULL)
+ if(recordTableView->isTableEmpty())
   return;
 
  // Выясняется, содержит ли текущая ветка подчиненные ветки

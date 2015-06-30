@@ -1156,9 +1156,12 @@ void RecordTableView::setTableData(RecordTableData *rtData)
 }
 
 
-RecordTableData *RecordTableView::getTableData(void)
+bool RecordTableView::isTableEmpty(void)
 {
- return recordSourceModel->getTableData();
+ if( recordSourceModel->getTableData()==NULL )
+   return true;
+ else
+   return false;
 }
 
 

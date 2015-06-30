@@ -51,7 +51,7 @@ public:
  bool isSelectedSetToBottom(void);
 
  void setTableData(RecordTableData *rtData);
- RecordTableData *getTableData(void);
+ bool isTableEmpty(void);
  ClipboardRecords *getSelectedRecords(void);
 
  int getRowCount(void);
