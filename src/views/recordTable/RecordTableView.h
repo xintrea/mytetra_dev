@@ -13,9 +13,6 @@
 #include <QEvent>
 #include <QGestureEvent>
 
-class RecordTableData;
-class RecordTableModel;
-class RecordTableProxyModel;
 class ClipboardRecords;
 
 
@@ -69,41 +66,15 @@ signals:
 
 public slots:
 
- // Вызов действий для копирования записей в буфер обмена с удалением
- void cut(void);
-
- // Вызов действий для копирования записей в буфер обмена
- void copy(void);
-
- // Вызов действий для вставки записей из буфера
- void paste(void);
+ // Открытие контекстного меню
+ void onCustomContextMenuRequested(const QPoint &pos);
 
  // Вызов настроек
  void settings(void);
 
- // Открытие контекстного меню
- void onCustomContextMenuRequested(const QPoint &pos);
-
- // Вызов действий из контекстного меню для открытия окна с вводом новой записи
- void addNewToEndContext(void);
- void addNewBeforeContext(void);
- void addNewAfterContext(void);
-
- // Вызов действий из контекстного меню для редактирования инфополей записи
- void editFieldContext(void);
-
- // Вызов действий из контекстного меню для удаления конечной записи
- void deleteContext(void);
-
- void moveUp(void);
- void moveDn(void);
-
  // Слот, срабатывающий после перетаскивания колонки
  void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
  void onSectionResized( int logicalIndex, int oldSize, int newSize );
-
- // Клик по пункту "Сортировка" в контекстном меню
- void onSortClick(void);
 
  // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
  void onRecordTableConfigChange(void);
@@ -121,9 +92,6 @@ protected slots:
  void onClickToRecord(const QModelIndex &index);
 
 protected:
-
- RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
- RecordTableProxyModel *recordProxyModel;
 
  QMenu *contextMenu;
 

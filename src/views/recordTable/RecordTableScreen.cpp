@@ -5,7 +5,7 @@
 #include <QList>
 
 #include "main.h"
-#include "RecordTableView.h"
+#include "recordTableController->getView().h"
 #include "RecordTableScreen.h"
 
 #include "views/mainWindow/MainWindow.h"
@@ -14,6 +14,8 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/GlobalParameters.h"
+#include "controllers/recordTable/recordTableController.h"
+
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
@@ -24,18 +26,18 @@ extern AppConfig mytetraConfig;
 
 RecordTableScreen::RecordTableScreen(QWidget *parent) : QWidget(parent)
 {
- // Инициализируется область со списком записей
- recordTableView=new RecordTableView(this);
- recordTableView->setObjectName("recordTableView");
+  // Инициализируется контроллер списка записей
+  recordTableController=new RecordTableController(this);
+  recordTableController->setObjectName("recordTableController");
 
- setupActions();
+  setupActions();
 
- recordTableView->init();
+  recordTableController->init();
 
- setupUI();
+  setupUI();
  
- setupSignals();
- assembly();
+  setupSignals();
+  assembly();
 }
 
 
@@ -53,64 +55,64 @@ void RecordTableScreen::setupActions(void)
  actionAddNewToEnd = new QAction(tr("Add note"), this);
  actionAddNewToEnd->setStatusTip(tr("Add a new note"));
  actionAddNewToEnd->setIcon(QIcon(":/resource/pic/note_add.svg"));
- connect(actionAddNewToEnd, SIGNAL(triggered()), recordTableView, SLOT(addNewToEndContext()));
+ connect(actionAddNewToEnd, SIGNAL(triggered()), recordTableController, SLOT(addNewToEndContext()));
 
  // Добавление записи до
  actionAddNewBefore = new QAction(tr("Add note before"), this);
  actionAddNewBefore->setStatusTip(tr("Add a note before selected"));
- connect(actionAddNewBefore, SIGNAL(triggered()), recordTableView, SLOT(addNewBeforeContext()));
+ connect(actionAddNewBefore, SIGNAL(triggered()), recordTableController, SLOT(addNewBeforeContext()));
 
  // Добавление записи после
  actionAddNewAfter = new QAction(tr("Add note after"), this);
  actionAddNewAfter->setStatusTip(tr("Add a note after selected"));
- connect(actionAddNewAfter, SIGNAL(triggered()), recordTableView, SLOT(addNewAfterContext()));
+ connect(actionAddNewAfter, SIGNAL(triggered()), recordTableController, SLOT(addNewAfterContext()));
 
  // Редактирование записи
  actionEditField = new QAction(tr("Edit properties (name, author, tags...)"), this);
  actionEditField->setStatusTip(tr("Edit note properties (name, author, tags...)"));
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
- connect(actionEditField, SIGNAL(triggered()), recordTableView, SLOT(editFieldContext()));
+ connect(actionEditField, SIGNAL(triggered()), recordTableController, SLOT(editFieldContext()));
 
  // Удаление записи
  actionDelete = new QAction(tr("Delete note(s)"), this);
  actionDelete->setStatusTip(tr("Delete note(s)"));
  actionDelete->setIcon(QIcon(":/resource/pic/note_delete.svg"));
- connect(actionDelete, SIGNAL(triggered()), recordTableView, SLOT(deleteContext()));
+ connect(actionDelete, SIGNAL(triggered()), recordTableController, SLOT(deleteContext()));
 
  // Удаление записи с копированием в буфер обмена
  actionCut = new QAction(tr("&Cut note(s)"), this);
  actionCut->setStatusTip(tr("Cut notes(s) to clipboard"));
  actionCut->setIcon(QIcon(":/resource/pic/cb_cut.svg"));
- connect(actionCut, SIGNAL(triggered()), recordTableView, SLOT(cut()));
+ connect(actionCut, SIGNAL(triggered()), recordTableController, SLOT(cut()));
 
  // Копирование записи (записей) в буфер обмена
  actionCopy = new QAction(tr("&Copy note(s)"), this);
  actionCopy->setStatusTip(tr("Copy note(s) to clipboard"));
  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
- connect(actionCopy, SIGNAL(triggered()), recordTableView, SLOT(copy()));
+ connect(actionCopy, SIGNAL(triggered()), recordTableController, SLOT(copy()));
 
  // Вставка записи из буфера обмена
  actionPaste = new QAction(tr("&Paste note(s)"), this);
  actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
- connect(actionPaste, SIGNAL(triggered()), recordTableView, SLOT(paste()));
+ connect(actionPaste, SIGNAL(triggered()), recordTableController, SLOT( ()));
 
  // Настройка внешнего вида таблицы конечных записей
  actionSettings = new QAction(tr("&View settings"), this);
  actionSettings->setStatusTip(tr("Setup table view settins"));
- connect(actionSettings, SIGNAL(triggered()), recordTableView, SLOT(settings()));
+ connect(actionSettings, SIGNAL(triggered()), recordTableController, SLOT(settings()));
 
  // Перемещение записи вверх
  actionMoveUp = new QAction(tr("&Move Up"), this);
  actionMoveUp->setStatusTip(tr("Move note up"));
  actionMoveUp->setIcon(QIcon(":/resource/pic/move_up.svg"));
- connect(actionMoveUp, SIGNAL(triggered()), recordTableView, SLOT(moveUp()));
+ connect(actionMoveUp, SIGNAL(triggered()), recordTableController, SLOT(moveUp()));
 
  // Перемещение записи вниз
  actionMoveDn=new QAction(tr("&Move Down"), this);
  actionMoveDn->setStatusTip(tr("Move note down"));
  actionMoveDn->setIcon(QIcon(":/resource/pic/move_dn.svg"));
- connect(actionMoveDn, SIGNAL(triggered()), recordTableView, SLOT(moveDn()));
+ connect(actionMoveDn, SIGNAL(triggered()), recordTableController, SLOT(moveDn()));
 
  // Поиск по базе (клик связывается с действием в MainWindow)
  actionFindInBase=new QAction(tr("Find in base"), this);
@@ -147,7 +149,7 @@ void RecordTableScreen::setupActions(void)
  actionSort = new QAction(tr("Toggle sorting"), this);
  actionSort->setStatusTip(tr("Enable/disable sorting by column"));
  actionSort->setIcon(QIcon(":/resource/pic/sort.svg"));
- connect(actionSort, SIGNAL(triggered()), recordTableView, SLOT(onSortClick()));
+ connect(actionSort, SIGNAL(triggered()), recordTableController, SLOT(onSortClick()));
 
 
  // Сразу после создания все действия запрещены
@@ -221,7 +223,7 @@ void RecordTableScreen::assembly(void)
 
  recordTableScreenLayout->addLayout(recordTableToolsLayout);
  recordTableScreenLayout->addWidget(treePathLabel);
- recordTableScreenLayout->addWidget(recordTableView);
+ recordTableScreenLayout->addWidget(recordTableController->getView());
 
  setLayout(recordTableScreenLayout);
 
@@ -258,7 +260,7 @@ void RecordTableScreen::toolsUpdate(void)
  // Отключаются все действия
  disableAllActions();
 
- if(recordTableView->isTableEmpty())
+ if(recordTableController->isTableEmpty())
   return;
 
  // Выясняется, содержит ли текущая ветка подчиненные ветки
@@ -277,35 +279,35 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Добавление записи до
  // Добавлять "до" можно только тогда, когда выбрана только одна строка
- if((recordTableView->selectionModel()->hasSelection() &&
-     (recordTableView->selectionModel()->selectedRows()).size()==1))
+ if((recordTableController->getView()->selectionModel()->hasSelection() &&
+     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1))
     actionAddNewBefore->setEnabled(true);
 
  // Добавление записи после
  // Добавлять "после" можно только тогда, когда выбрана только одна строка
- if((recordTableView->selectionModel()->hasSelection() &&
-     (recordTableView->selectionModel()->selectedRows()).size()==1))
+ if((recordTableController->getView()->selectionModel()->hasSelection() &&
+     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1))
   actionAddNewAfter->setEnabled(true);
 
  // Редактирование записи
  // Редактировать можно только тогда, когда выбрана только одна строка
- if(recordTableView->selectionModel()->hasSelection() &&
-    (recordTableView->selectionModel()->selectedRows()).size()==1)
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1)
   actionEditField->setEnabled(true);
 
  // Удаление записи
  // Пункт активен только если запись (или записи) выбраны в списке
- if(recordTableView->selectionModel()->hasSelection())
+ if(recordTableController->getView()->selectionModel()->hasSelection())
   actionDelete->setEnabled(true);
 
  // Удаление с копированием записи в буфер обмена
  // Пункт активен только если запись (или записи) выбраны в списке
- if(recordTableView->selectionModel()->hasSelection())
+ if(recordTableController->getView()->selectionModel()->hasSelection())
   actionCut->setEnabled(true);
 
  // Копирование записи в буфер обмена
  // Пункт активен только если запись (или записи) выбраны в списке
- if(recordTableView->selectionModel()->hasSelection())
+ if(recordTableController->getView()->selectionModel()->hasSelection())
   actionCopy->setEnabled(true);
 
  // Вставка записи из буфера обмена
@@ -314,9 +316,9 @@ void RecordTableScreen::toolsUpdate(void)
  // или не выбрано ни одной строки (тогда добавляется в конец списка)
  // или записей вообще нет
  // И проверяется, содержит ли буфер обмена данные нужного формата
- if((recordTableView->selectionModel()->hasSelection() && (recordTableView->selectionModel()->selectedRows()).size()==1) ||
-     recordTableView->selectionModel()->hasSelection()==false ||
-     recordTableView->model()->rowCount()==0)
+ if((recordTableController->getView()->selectionModel()->hasSelection() && (recordTableController->getView()->selectionModel()->selectedRows()).size()==1) ||
+     recordTableController->getView()->selectionModel()->hasSelection()==false ||
+     recordTableController->getView()->model()->rowCount()==0)
   {
    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
    if(mimeData!=NULL)
@@ -327,23 +329,23 @@ void RecordTableScreen::toolsUpdate(void)
  // Перемещение записи вверх
  // Пункт возможен только когда выбрана одна строка
  // и указатель стоит не на начале списка
- if((recordTableView->selectionModel()->hasSelection() && (recordTableView->selectionModel()->selectedRows()).size()==1) &&
-    recordTableView->isSelectedSetToTop()==false )
+ if((recordTableController->getView()->selectionModel()->hasSelection() && (recordTableController->getView()->selectionModel()->selectedRows()).size()==1) &&
+    recordTableController->getView()->isSelectedSetToTop()==false )
   actionMoveUp->setEnabled(true);
 
  // Перемещение записи вниз
  // Пункт возможен только когда выбрана одна строка
  // и указатель стоит не в конце списка
- if((recordTableView->selectionModel()->hasSelection() && (recordTableView->selectionModel()->selectedRows()).size()==1) &&
-    recordTableView->isSelectedSetToBottom()==false )
+ if((recordTableController->getView()->selectionModel()->hasSelection() && (recordTableController->getView()->selectionModel()->selectedRows()).size()==1) &&
+    recordTableController->getView()->isSelectedSetToBottom()==false )
   actionMoveDn->setEnabled(true);
 
  // Обновляется состояние области редактирования текста
- if(recordTableView->selectionModel()->hasSelection() &&
-    recordTableView->getRowCount()>0)
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    recordTableController->getView()->getRowCount()>0)
   {
    qDebug() << "In table select present";
-   qDebug() << "In table row count is" << recordTableView->getRowCount();
+   qDebug() << "In table row count is" << recordTableController->getView()->getRowCount();
    find_object<MetaEditor>("editorScreen")->set_textarea_editable(true);
   }
  else
@@ -357,14 +359,14 @@ void RecordTableScreen::toolsUpdate(void)
 // Получение номера первого выделенного элемента
 int RecordTableScreen::getFirstSelectionPos(void)
 {
-  return recordTableView->getFirstSelectionPos();
+  return recordTableController->getView()->getFirstSelectionPos();
 }
 
 
 // Установка засветки в нужную строку
 void RecordTableScreen::setSelectionToPos(int pos)
 {
-  recordTableView->setSelectionToPos(pos);
+  recordTableController->getView()->setSelectionToPos(pos);
 }
 
 

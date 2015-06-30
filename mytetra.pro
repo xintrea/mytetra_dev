@@ -145,7 +145,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorMultiLineInputDialog.h \
     src/libraries/FixedParameters.h \
     src/libraries/WindowSwitcher.h \
-    src/libraries/wyedit/EditorShowText.h
+    src/libraries/wyedit/EditorShowText.h \
+    src/controllers/recordTable/recordTableController.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -226,7 +227,12 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorMultiLineInputDialog.cpp \
     src/libraries/FixedParameters.cpp \
     src/libraries/WindowSwitcher.cpp \
-    src/libraries/wyedit/EditorShowText.cpp
+    src/libraries/wyedit/EditorShowText.cpp \
+    src/libraries/qtSingleApplication/qtlockedfile_unix.cpp \
+    src/libraries/qtSingleApplication/qtlockedfile_win.cpp \
+    src/libraries/qtSingleApplication5/qtlockedfile_unix.cpp \
+    src/libraries/qtSingleApplication5/qtlockedfile_win.cpp \
+    src/controllers/recordTable/recordTableController.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
