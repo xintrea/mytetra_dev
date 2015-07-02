@@ -54,6 +54,13 @@ public slots:
   // Клик по пункту "Сортировка" в контекстном меню
   void onSortClick(void);
 
+  QModelIndex convertPosToProxyIndex(int pos);
+  QModelIndex convertPosToSourceIndex(int pos);
+  int         convertProxyIndexToPos(QModelIndex index);
+  int         convertSourceIndexToPos(QModelIndex index);
+  QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
+  QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
+
 protected:
   RecordTableView *recordTableView;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel

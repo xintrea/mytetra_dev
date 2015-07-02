@@ -378,7 +378,8 @@ QModelIndex RecordTableView::getFirstSelectionProxyIndex(void)
   if(pos==-1)
     return QModelIndex();
 
-  QModelIndex index = recordProxyModel->index( pos, 0 );
+  // QModelIndex index = recordProxyModel->index( pos, 0 );
+  QModelIndex index = this->parent()->convertPosToProxyIndex(pos);
 
   return index;
 }
@@ -392,70 +393,8 @@ QModelIndex RecordTableView::getFirstSelectionSourceIndex(void)
   if(!proxyIndex.isValid())
     return QModelIndex();
 
-  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
-
-  return index;
-}
-
-
-QModelIndex RecordTableView::convertPosToProxyIndex(int pos)
-{
-  if(pos<0 || pos>=recordProxyModel->rowCount())
-    return QModelIndex();
-
-  QModelIndex index = recordProxyModel->index( pos, 0 );
-
-  return index;
-}
-
-
-QModelIndex RecordTableView::convertPosToSourceIndex(int pos)
-{
-  if(pos<0 || pos>=recordProxyModel->rowCount())
-    return QModelIndex();
-
-  QModelIndex proxyIndex=convertPosToProxyIndex(pos);
-  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
-
-  return index;
-}
-
-
-int RecordTableView::convertProxyIndexToPos(QModelIndex index)
-{
-  if(!index.isValid())
-    return -1;
-
-  return index.row();
-}
-
-
-int RecordTableView::convertSourceIndexToPos(QModelIndex index)
-{
-  if(!index.isValid())
-    return -1;
-
-  return index.row();
-}
-
-
-QModelIndex RecordTableView::convertProxyIndexToSourceIndex(QModelIndex proxyIndex)
-{
-  if(!proxyIndex.isValid())
-    return QModelIndex();
-
-  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
-
-  return index;
-}
-
-
-QModelIndex RecordTableView::convertSourceIndexToProxyIndex(QModelIndex sourceIndex)
-{
-  if(!sourceIndex.isValid())
-    return QModelIndex();
-
-  QModelIndex index = recordProxyModel->mapFromSource( sourceIndex );
+  // QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+  QModelIndex index = this->parent()->convertProxyIndexToSourceIndex(proxyIndex);
 
   return index;
 }

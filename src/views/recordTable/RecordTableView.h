@@ -37,13 +37,6 @@ public:
  QModelIndex getFirstSelectionProxyIndex(void);
  QModelIndex getFirstSelectionSourceIndex(void);
 
- QModelIndex convertPosToProxyIndex(int pos);
- QModelIndex convertPosToSourceIndex(int pos);
- int         convertProxyIndexToPos(QModelIndex index);
- int         convertSourceIndexToPos(QModelIndex index);
- QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
- QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
-
  bool isSelectedSetToTop(void);
  bool isSelectedSetToBottom(void);
 

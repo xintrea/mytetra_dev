@@ -102,6 +102,69 @@ int RecordTableController::getRowCount(void)
 }
 
 
+QModelIndex RecordTableController::convertPosToProxyIndex(int pos)
+{
+  if(pos<0 || pos>=recordProxyModel->rowCount())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->index( pos, 0 );
+
+  return index;
+}
+
+
+QModelIndex RecordTableController::convertPosToSourceIndex(int pos)
+{
+  if(pos<0 || pos>=recordProxyModel->rowCount())
+    return QModelIndex();
+
+  QModelIndex proxyIndex=convertPosToProxyIndex(pos);
+  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
+}
+
+
+int RecordTableController::convertProxyIndexToPos(QModelIndex index)
+{
+  if(!index.isValid())
+    return -1;
+
+  return index.row();
+}
+
+
+int RecordTableController::convertSourceIndexToPos(QModelIndex index)
+{
+  if(!index.isValid())
+    return -1;
+
+  return index.row();
+}
+
+
+QModelIndex RecordTableController::convertProxyIndexToSourceIndex(QModelIndex proxyIndex)
+{
+  if(!proxyIndex.isValid())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
+
+  return index;
+}
+
+
+QModelIndex RecordTableController::convertSourceIndexToProxyIndex(QModelIndex sourceIndex)
+{
+  if(!sourceIndex.isValid())
+    return QModelIndex();
+
+  QModelIndex index = recordProxyModel->mapFromSource( sourceIndex );
+
+  return index;
+}
+
+
 // Копирование отмеченных записей в буфер обмена с удалением
 // из таблицы конечных записей
 void RecordTableController::cut(void)
