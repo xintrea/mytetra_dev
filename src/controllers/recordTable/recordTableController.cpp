@@ -1,6 +1,6 @@
 #include "recordTableController.h"
 
-recordTableController::recordTableController(QObject *parent) : QObject(parent)
+RecordTableController::recordTableController(QObject *parent) : QObject(parent)
 {
   // Инициализируется область со списком записей
   recordTableView=new RecordTableView(this);
@@ -19,14 +19,29 @@ recordTableController::recordTableController(QObject *parent) : QObject(parent)
 }
 
 
-void recordTableController::init(void)
+void RecordTableController::init(void)
 {
   recordTableView->init();
 }
 
 
+RecordTableView *RecordTableController::getView(void)
+{
+  return recordTableView;
+}
+
+
+bool RecordTableController::isTableEmpty(void)
+{
+ if( recordSourceModel->getTableData()==NULL )
+   return true;
+ else
+   return false;
+}
+
+
 // Установка нового набора данных для списка записей
-void recordTableController::setTableData(RecordTableData *rtData)
+void RecordTableController::setTableData(RecordTableData *rtData)
 {
  qDebug() << "In RecordTableView setTableData() start";
 
@@ -81,9 +96,15 @@ void recordTableController::setTableData(RecordTableData *rtData)
 }
 
 
+int RecordTableController::getRowCount(void)
+{
+  return recordProxyModel.rowCount();
+}
+
+
 // Копирование отмеченных записей в буфер обмена с удалением
 // из таблицы конечных записей
-void recordTableController::cut(void)
+void RecordTableController::cut(void)
 {
  // Надо сохранить запись, так как перед копированием в буфер обмена запись
  // обязательно должна быть сохранена, иначе редактирование,
@@ -96,7 +117,7 @@ void recordTableController::cut(void)
 
 
 // Копирование отмеченных записей в буфер обмена
-void recordTableController::copy(void)
+void RecordTableController::copy(void)
 {
  // Объект с записями помещается в буфер обмена
  QApplication::clipboard() -> setMimeData( getSelectedRecords() );
@@ -104,7 +125,7 @@ void recordTableController::copy(void)
 
 
 // Вставка записей из буфера обмена
-void recordTableController::paste(void)
+void RecordTableController::paste(void)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
@@ -154,7 +175,7 @@ void recordTableController::paste(void)
 
 
 // Слот для вызова добавления новой записи в конец таблицы
-void recordTableController::addNewToEndContext(void)
+void RecordTableController::addNewToEndContext(void)
 {
  qDebug() << "In slot add_new_toend_context()";
 
@@ -163,7 +184,7 @@ void recordTableController::addNewToEndContext(void)
 
 
 // Слот для вызова добавления новой записи перед выделенной строкой
-void recordTableController::addNewBeforeContext(void)
+void RecordTableController::addNewBeforeContext(void)
 {
  qDebug() << "In slot add_new_before_context()";
 
@@ -172,7 +193,7 @@ void recordTableController::addNewBeforeContext(void)
 
 
 // Слот для вызова добавления новой записи после выделенной строки
-void recordTableController::addNewAfterContext(void)
+void RecordTableController::addNewAfterContext(void)
 {
  qDebug() << "In slot add_new_after_context()";
 
@@ -181,7 +202,7 @@ void recordTableController::addNewAfterContext(void)
 
 
 // Вызов окна добавления данных в таблицу конечных записей
-void recordTableController::addNewRecord(int mode)
+void RecordTableController::addNewRecord(int mode)
 {
  qDebug() << "In add_new_record()";
 
@@ -218,7 +239,7 @@ void recordTableController::addNewRecord(int mode)
 
 
 // Функция добавления новой записи в таблицу конечных записей
-void recordTableController::addNew(int mode,
+void RecordTableController::addNew(int mode,
                               QMap<QString, QString> fields,
                               QString text,
                               QMap<QString, QByteArray> files)
@@ -258,7 +279,7 @@ void recordTableController::addNew(int mode,
 
 
 // Слот, срабатывающий при нажатии кнопки редактирования записи
-void recordTableController::editFieldContext(void)
+void RecordTableController::editFieldContext(void)
 {
  qDebug() << "In edit_field_context()";
 
@@ -298,7 +319,7 @@ void recordTableController::editFieldContext(void)
 
 
 // Функция сохранения отредактированных полей записи в таблицу конечных записей
-void recordTableController::editField(int pos,
+void RecordTableController::editField(int pos,
                                  QString name,
                                  QString author,
                                  QString url,
@@ -353,7 +374,7 @@ void recordTableController::deleteContext(void)
 
 
 // Удаление записи с указанным номером (счет с нуля)
-void recordTableController::deleteRecordByPos(int pos)
+void RecordTableController::deleteRecordByPos(int pos)
 {
  QVector<int> vectorPos;
  vectorPos.append(pos);
@@ -362,14 +383,14 @@ void recordTableController::deleteRecordByPos(int pos)
 
 
 // Удаление записей с указанным номером (счет с нуля)
-void recordTableController::deleteRecordsByPos(QVector<int> vectorPos)
+void RecordTableController::deleteRecordsByPos(QVector<int> vectorPos)
 {
  recordSourceModel->removeRowsByList( vectorPos ); // Удаление
 }
 
 
 // Удаление отмеченных записей
-void recordTableController::deleteRecords(void)
+void RecordTableController::deleteRecords(void)
 {
  qDebug() << "RecordTableView::delete_records()";
 
@@ -471,7 +492,7 @@ void recordTableController::deleteRecords(void)
 
 
 // Перемещение записи вверх
-void recordTableController::moveUp(void)
+void RecordTableController::moveUp(void)
 {
   qDebug() << "In moveup()";
 
@@ -493,7 +514,7 @@ void recordTableController::moveUp(void)
 
 
 // Перемещение записи вниз
-void recordTableController::moveDn(void)
+void RecordTableController::moveDn(void)
 {
  qDebug() << "In movedn()";
 
@@ -516,7 +537,7 @@ void recordTableController::moveDn(void)
 
 
 // Клик по пункту "Сортировка" в контекстном меню
-void recordTableController::onSortClick(void)
+void RecordTableController::onSortClick(void)
 {
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 

@@ -14,8 +14,7 @@
 #include <QItemSelection>
 #include <QLabel>
 
-class RecordTableView;
-class RecordTableModel;
+class RecordTableController;
 
 class RecordTableScreen : public QWidget
 {
@@ -65,8 +64,8 @@ private:
  QLabel *treePathLabel;
  QString treePath;
  
- RecordTableView *recordTableView;
-  
+ RecordTableController *recordTableController;
+
  QHBoxLayout *recordTableToolsLayout;
  QVBoxLayout *recordTableScreenLayout;
 

@@ -9,11 +9,20 @@ class RecordTableModel;
 class RecordTableProxyModel;
 
 
-class recordTableController : public QObject
+class RecordTableController : public QObject
 {
   Q_OBJECT
 public:
-  explicit recordTableController(QObject *parent = 0);
+  explicit RecordTableController(QObject *parent = 0);
+
+  void init(void);
+
+  RecordTableView *getView(void);
+
+  bool isTableEmpty(void);
+  void setTableData(RecordTableData *rtData);
+
+  int getRowCount(void);
 
 signals:
 

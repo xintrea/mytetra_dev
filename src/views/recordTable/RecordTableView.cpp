@@ -48,8 +48,7 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 
 RecordTableView::~RecordTableView()
 {
- delete recordSourceModel;
- delete recordProxyModel;
+
 }
 
 
@@ -614,21 +613,6 @@ void RecordTableView::startDrag()
      find_object<TreeScreen>("treeScreen")->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
     }
   }
-}
-
-
-bool RecordTableView::isTableEmpty(void)
-{
- if( recordSourceModel->getTableData()==NULL )
-   return true;
- else
-   return false;
-}
-
-
-int RecordTableView::getRowCount(void)
-{
- return recordSourceModel->rowCount();
 }
 
 

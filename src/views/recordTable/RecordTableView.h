@@ -47,11 +47,7 @@ public:
  bool isSelectedSetToTop(void);
  bool isSelectedSetToBottom(void);
 
- void setTableData(RecordTableData *rtData);
- bool isTableEmpty(void);
  ClipboardRecords *getSelectedRecords(void);
-
- int getRowCount(void);
 
  void deleteRecordByPos(int pos);
  void deleteRecordsByPos(QVector<int> vectorPos);

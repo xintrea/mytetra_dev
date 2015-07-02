@@ -5,7 +5,7 @@
 #include <QList>
 
 #include "main.h"
-#include "recordTableController->getView().h"
+#include "RecordTableView.h"
 #include "RecordTableScreen.h"
 
 #include "views/mainWindow/MainWindow.h"
@@ -342,10 +342,10 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Обновляется состояние области редактирования текста
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
-    recordTableController->getView()->getRowCount()>0)
+    recordTableController->getRowCount()>0)
   {
    qDebug() << "In table select present";
-   qDebug() << "In table row count is" << recordTableController->getView()->getRowCount();
+   qDebug() << "In table row count is" << recordTableController->getRowCount();
    find_object<MetaEditor>("editorScreen")->set_textarea_editable(true);
   }
  else
