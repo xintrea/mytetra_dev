@@ -2,11 +2,13 @@
 #define __RECORDTABLECONTROLLER_H__
 
 #include <QObject>
+#include <QModelIndexList>
 
 class RecordTableView;
 class RecordTableData;
 class RecordTableModel;
 class RecordTableProxyModel;
+class ClipboardRecords;
 
 
 class RecordTableController : public QObject
@@ -23,6 +25,15 @@ public:
   void setTableData(RecordTableData *rtData);
 
   int getRowCount(void);
+
+  void addRecordsToClipboard(ClipboardRecords *clipboardRecords, QModelIndexList itemsForCopy);
+
+  QModelIndex convertPosToProxyIndex(int pos);
+  QModelIndex convertPosToSourceIndex(int pos);
+  int         convertProxyIndexToPos(QModelIndex index);
+  int         convertSourceIndexToPos(QModelIndex index);
+  QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
+  QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
 
 signals:
 
@@ -53,13 +64,6 @@ public slots:
 
   // Клик по пункту "Сортировка" в контекстном меню
   void onSortClick(void);
-
-  QModelIndex convertPosToProxyIndex(int pos);
-  QModelIndex convertPosToSourceIndex(int pos);
-  int         convertProxyIndexToPos(QModelIndex index);
-  int         convertSourceIndexToPos(QModelIndex index);
-  QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
-  QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
 
 protected:
   RecordTableView *recordTableView;

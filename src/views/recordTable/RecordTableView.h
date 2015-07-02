@@ -14,6 +14,7 @@
 #include <QGestureEvent>
 
 class ClipboardRecords;
+class RecordTableController;
 
 
 class RecordTableView : public QTableView
@@ -23,6 +24,8 @@ class RecordTableView : public QTableView
 public:
  RecordTableView(QWidget *parent=0);
  virtual ~RecordTableView();
+
+ void setController(RecordTableController *pController);
 
  void init(void);
 
@@ -83,6 +86,7 @@ protected slots:
 protected:
 
  QMenu *contextMenu;
+ RecordTableController *controller;
 
  void setupSignals(void);
 

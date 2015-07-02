@@ -23,6 +23,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/WindowSwitcher.h"
+#include "controllers/recordTable/recordTableController.h"
 
 
 extern GlobalParameters globalParameters;
@@ -49,6 +50,12 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
 RecordTableView::~RecordTableView()
 {
 
+}
+
+
+void RecordTableView::setController(RecordTableController *pController)
+{
+  controller=pController;
 }
 
 
@@ -207,7 +214,7 @@ void RecordTableView::onClickToRecord(const QModelIndex &index)
 void RecordTableView::clickToRecord(const QModelIndex &index)
 {
   // Так как, возможно, включена сортировка, позиция на экране преобразуется в позицию в базе
- QModelIndex sourceIndex=convertProxyIndexToSourceIndex(index);
+ QModelIndex sourceIndex=controller->convertProxyIndexToSourceIndex(index);
 
  // Позиция записи в списке
  int pos=sourceIndex.row();
@@ -379,7 +386,7 @@ QModelIndex RecordTableView::getFirstSelectionProxyIndex(void)
     return QModelIndex();
 
   // QModelIndex index = recordProxyModel->index( pos, 0 );
-  QModelIndex index = this->parent()->convertPosToProxyIndex(pos);
+  QModelIndex index = controller->convertPosToProxyIndex(pos);
 
   return index;
 }
@@ -394,7 +401,7 @@ QModelIndex RecordTableView::getFirstSelectionSourceIndex(void)
     return QModelIndex();
 
   // QModelIndex index = recordProxyModel->mapToSource( proxyIndex );
-  QModelIndex index = this->parent()->convertProxyIndexToSourceIndex(proxyIndex);
+  QModelIndex index = controller->convertProxyIndexToSourceIndex(proxyIndex);
 
   return index;
 }
@@ -588,20 +595,8 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
  ClipboardRecords *clipboardRecords=new ClipboardRecords();
  clipboardRecords->clear();
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordSourceModel->getTableData();
-
- // Перебираются записи и вносятся в буфер обмена
- for(int i=0; i<itemsForCopy.size(); ++i)
-  {
-   // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-   QMap<QString, QString> exemplar=table->getRecordExemplar( (itemsForCopy.at(i)).row() );
-
-   // Имя директории, в которой расположена запись и ее файлы
-   QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-   clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
-  }
+ // Объект заполняется выбранными записями
+ controller->addRecordsToClipboard(clipboardRecords, itemsForCopy);
 
  return clipboardRecords;
 }

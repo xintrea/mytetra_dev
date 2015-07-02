@@ -3,8 +3,9 @@
 RecordTableController::recordTableController(QObject *parent) : QObject(parent)
 {
   // Инициализируется область со списком записей
-  recordTableView=new RecordTableView(this);
+  recordTableView=new RecordTableView(parent); // Вид размещается внутри Screen, поэтому ссылка идет на parent а не на this
   recordTableView->setObjectName("recordTableView");
+  recordTableView->setController(this);
 
   // Создание модели данных
   recordSourceModel=new RecordTableModel(this);
@@ -93,6 +94,29 @@ void RecordTableController::setTableData(RecordTableData *rtData)
  find_object<MainWindow>("mainwindow")->unsetCursor();
 
  qDebug() << "In RecordTableView set new model stop";
+}
+
+
+// Заполнение переданного объекта буфера обмена данными из указанных записей
+// Индексы QModelIndexList передаются от Proxy модели
+void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRecords, QModelIndexList itemsForCopy)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // Перебираются записи и вносятся в буфер обмена
+  for(int i=0; i<itemsForCopy.size(); ++i)
+   {
+    QModelIndex index=convertProxyIndexToSourceIndex( itemsForCopy.at(i) );
+
+    // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
+    QMap<QString, QString> exemplar=table->getRecordExemplar( index.row() );
+
+    // Имя директории, в которой расположена запись и ее файлы
+    QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
+
+    clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
+   }
 }
 
 
