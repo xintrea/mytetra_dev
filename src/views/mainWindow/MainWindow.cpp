@@ -907,7 +907,7 @@ void MainWindow::goWalkHistory(void)
   }
 
 
- // Выясняется позицию записи в талице конечных записей
+ // Выясняется позицию записи в таблице конечных записей
  TreeItem *item =treeScreen->knowTreeModel->getItem(path);
  int pos=item->getRecordPos(id);
 

@@ -1,6 +1,11 @@
-#include "recordTableController.h"
+#include <QObject>
 
-RecordTableController::recordTableController(QObject *parent) : QObject(parent)
+#include "recordTableController.h"
+#include "views/record/MetaEditor.h"
+#include "views/recordTable/RecordTableView.h"
+
+
+RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 {
   // Инициализируется область со списком записей
   recordTableView=new RecordTableView(parent); // Вид размещается внутри Screen, поэтому ссылка идет на parent а не на this
@@ -20,6 +25,12 @@ RecordTableController::recordTableController(QObject *parent) : QObject(parent)
 }
 
 
+RecordTableController::~RecordTableController()
+{
+
+}
+
+
 void RecordTableController::init(void)
 {
   recordTableView->init();
@@ -29,6 +40,105 @@ void RecordTableController::init(void)
 RecordTableView *RecordTableController::getView(void)
 {
   return recordTableView;
+}
+
+
+void RecordTableController::clickToRecord(const QModelIndex &index)
+{
+  // Так как, возможно, включена сортировка, индекс на экране преобразуется в индекс в базе
+  QModelIndex sourceIndex=controller->convertProxyIndexToSourceIndex(index);
+
+  // Позиция записи в списке
+  int pos=sourceIndex.row();
+
+  qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
+
+  // Выясняется указатель на объект редактирования текста записи
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // В таблице конечных данных запоминается какая запись была выбрана
+  // чтобы затем при выборе этой же подветки засветка автоматически
+  // установилась на последнюю рабочую запись
+  table->setWorkPos( pos );
+
+
+  // Устанавливается функция обратного вызова для записи данных
+  edView->set_save_callback(table->editorSaveCallback);
+
+  // Сохраняется текст и картинки в окне редактирования
+  find_object<MainWindow>("mainwindow")->saveTextarea();
+
+
+  // Для новой выбраной записи выясняется директория и основной файл
+  QString currentDir =table->getField("dir", pos);
+  QString currentFile=table->getField("file", pos);
+  QString fullDir=mytetraConfig.get_tetradir()+"/base/"+currentDir;
+  QString fullFileName=fullDir+"/"+currentFile;
+  qDebug() << " File " << fullFileName << "\n";
+
+  // Если в окне содержимого записи уже находится выбираемая запись
+  if(edView->get_work_directory()==fullDir &&
+     edView->get_file_name()==currentFile)
+  {
+    globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
+    return;
+  }
+
+  // Перед открытием редактора происходит попытка получения текста записи
+  table->checkAndCreateTextFile(pos, fullFileName);
+
+  // Редактору задаются имя файла и директории
+  // И дается команда загрузки файла
+  edView->set_work_directory(fullDir);
+  edView->set_file_name(currentFile);
+
+  // Если идет работа с зашифрованной записью
+  // И если имя директории или имя файла пусты, то это означает что
+  // запись не была расшифрована, и редактор должен просто показывать пустой текст
+  // ничего не сохранять и не считывать
+  qDebug() << "RecordTableView::onClickToRecord() : id " << table->getField("id", pos);
+  qDebug() << "RecordTableView::onClickToRecord() : name " << table->getField("name", pos);
+  qDebug() << "RecordTableView::onClickToRecord() : crypt " << table->getField("crypt", pos);
+  if(table->getField("crypt", pos)=="1")
+    if(fullDir.length()==0 || currentFile.length()==0)
+      edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
+
+  // В редактор заносится информация, идет ли работа с зашифрованным текстом
+  edView->setMiscField("crypt", table->getField("crypt", pos));
+
+  // В редакторе устанавливается функция обратного вызова для чтения данных
+  edView->set_load_callback(table->editorLoadCallback);
+
+  edView->load_textarea();
+  // edView->set_textarea(table->get_text(index.row()));
+
+  // Заполняются прочие инфо-поля
+  edView->setName  ( table->getField("name", pos) );
+  edView->setAuthor( table->getField("author", pos) );
+  edView->setUrl   ( table->getField("url", pos) );
+  edView->setTags  ( table->getField("tags", pos) );
+
+  QString id=table->getField("id", pos);
+  edView->setMiscField("id", id);
+
+  edView->setMiscField( "title", table->getField("name", pos) );
+
+  // Устанавливается путь до ветки в которой лежит запись (в виде названий веток)
+  QString path=qobject_cast<RecordTableScreen *>(parent())->getTreePath();
+
+  // В мобильном интерфейсе редактор должен показывать путь до записи
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+    edView->setTreePath( path );
+
+  // В редакторе восстанавливается позиция курсора и прокрутки если это необходимо
+  if(mytetraConfig.getRememberCursorAtOrdinarySelection())
+  {
+    edView->setCursorPosition( walkHistory.getCursorPosition(id) );
+    edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
+  }
 }
 
 

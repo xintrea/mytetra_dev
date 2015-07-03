@@ -363,7 +363,7 @@ int RecordTableScreen::getFirstSelectionPos(void)
 }
 
 
-// Установка засветки в нужную строку
+// Установка засветки в нужную строку (номер позиции в Source данных)
 void RecordTableScreen::setSelectionToPos(int pos)
 {
   recordTableController->getView()->setSelectionToPos(pos);

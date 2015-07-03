@@ -37,7 +37,6 @@
 **
 ****************************************************************************/
 
-
 #include "qtlocalpeer.h"
 #include <QCoreApplication>
 #include <QTime>

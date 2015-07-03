@@ -228,21 +228,21 @@ SOURCES = src/main.cpp \
     src/libraries/FixedParameters.cpp \
     src/libraries/WindowSwitcher.cpp \
     src/libraries/wyedit/EditorShowText.cpp \
-    src/libraries/qtSingleApplication/qtlockedfile_unix.cpp \
-    src/libraries/qtSingleApplication/qtlockedfile_win.cpp \
-    src/libraries/qtSingleApplication5/qtlockedfile_unix.cpp \
-    src/libraries/qtSingleApplication5/qtlockedfile_win.cpp \
     src/controllers/recordTable/recordTableController.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
     src/libraries/qtSingleApplication/qtlockedfile.cpp \
+    src/libraries/qtSingleApplication/qtlockedfile_unix.cpp \
+    src/libraries/qtSingleApplication/qtlockedfile_win.cpp \
     src/libraries/qtSingleApplication/qtlocalpeer.cpp \
     src/libraries/qtSingleApplication/qtsinglecoreapplication.cpp
 }
 else {
 SOURCES+=src/libraries/qtSingleApplication5/qtsingleapplication.cpp \
     src/libraries/qtSingleApplication5/qtlockedfile.cpp \
+    src/libraries/qtSingleApplication5/qtlockedfile_unix.cpp \
+    src/libraries/qtSingleApplication5/qtlockedfile_win.cpp \
     src/libraries/qtSingleApplication5/qtlocalpeer.cpp \
     src/libraries/qtSingleApplication5/qtsinglecoreapplication.cpp
 }

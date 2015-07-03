@@ -12,7 +12,6 @@
 #include "KnowTreeView.h"
 
 #include "models/recordTable/RecordTableData.h"
-#include "views/recordTable/RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
@@ -23,7 +22,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/WindowSwitcher.h"
-
+#include "controllers/recordTable/recordTableController.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -1216,7 +1215,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
      if(password.retrievePassword()==false)
       {
        // Устанавливаем пустые данные для отображения таблицы конечных записей
-       find_object<RecordTableView>("recordTableView")->setTableData(NULL);
+       find_object<RecordTableController>("recordTableController")->setTableData(NULL);
 
        // Все инструменты работы с веткой отключаются
        QMapIterator<QString, QAction *> i(actionList);
@@ -1236,7 +1235,7 @@ void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
  RecordTableData *rtdata=item->recordtableGetTableData();
 
  // Устанавливаем данные таблицы конечных записей
- find_object<RecordTableView>("recordTableView")->setTableData(rtdata);
+ find_object<RecordTableController>("recordTableController")->setTableData(rtdata);
 
  // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
  if(mytetraConfig.getInterfaceMode()=="mobile")

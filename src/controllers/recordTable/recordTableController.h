@@ -15,11 +15,14 @@ class RecordTableController : public QObject
 {
   Q_OBJECT
 public:
-  explicit RecordTableController(QObject *parent = 0);
+  RecordTableController(QObject *parent = 0);
+  virtual ~RecordTableController();
 
   void init(void);
 
   RecordTableView *getView(void);
+
+  void clickToRecord(const QModelIndex &index);
 
   bool isTableEmpty(void);
   void setTableData(RecordTableData *rtData);
