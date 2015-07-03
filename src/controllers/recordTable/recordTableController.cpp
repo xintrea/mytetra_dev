@@ -182,7 +182,7 @@ void RecordTableController::setTableData(RecordTableData *rtData)
  recordSourceModel->setTableData(rtData);
 
  // Надо обязательно сбросить selection model
- selectionModel()->clear();
+ recordTableView->selectionModel()->clear();
 
  // Если список конечных записей не пуст
  bool removeSelection=true;
@@ -196,8 +196,8 @@ void RecordTableController::setTableData(RecordTableData *rtData)
     {
      // Выделение устанавливается на нужную запись
      // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
-     selectRow(workPos);
-     scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
+     recordTableView->selectRow(workPos);
+     recordTableView->scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 
      removeSelection=false;
     }
