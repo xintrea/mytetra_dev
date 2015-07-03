@@ -1,8 +1,23 @@
 #include <QObject>
 
+#include "main.h"
 #include "recordTableController.h"
 #include "views/record/MetaEditor.h"
 #include "views/recordTable/RecordTableView.h"
+#include "views/recordTable/RecordTableScreen.h"
+#include "models/recordTable/RecordTableData.h"
+#include "models/recordTable/RecordTableModel.h"
+#include "models/recordTable/RecordTableProxyModel.h"
+#include "views/mainWindow/MainWindow.h"
+#include "libraries/GlobalParameters.h"
+#include "models/appConfig/AppConfig.h"
+#include "libraries/WindowSwitcher.h"
+#include "libraries/WalkHistory.h"
+
+
+extern GlobalParameters globalParameters;
+extern AppConfig mytetraConfig;
+extern WalkHistory walkHistory;
 
 
 RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
@@ -43,10 +58,11 @@ RecordTableView *RecordTableController::getView(void)
 }
 
 
+// Принимает индекс Proxy модели
 void RecordTableController::clickToRecord(const QModelIndex &index)
 {
-  // Так как, возможно, включена сортировка, индекс на экране преобразуется в индекс в базе
-  QModelIndex sourceIndex=controller->convertProxyIndexToSourceIndex(index);
+  // Так как, возможно, включена сортировка, индекс на экране преобразуется в обычный индекс
+  QModelIndex sourceIndex=convertProxyIndexToSourceIndex(index);
 
   // Позиция записи в списке
   int pos=sourceIndex.row();

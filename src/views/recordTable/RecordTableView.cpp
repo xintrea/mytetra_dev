@@ -13,11 +13,9 @@
 #include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/recordTable/RecordTableModel.h"
-#include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
-#include "libraries/WalkHistory.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
@@ -27,7 +25,6 @@
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
-extern WalkHistory walkHistory;
 
 
 // Виджет, отображащий список записей в ветке
