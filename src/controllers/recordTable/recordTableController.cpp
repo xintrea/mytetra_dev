@@ -197,7 +197,7 @@ void RecordTableController::setTableData(RecordTableData *rtData)
      // Выделение устанавливается на нужную запись
      // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
      recordTableView->selectRow(workPos);
-     recordTableView->scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
+     recordTableView->scrollTo( recordTableView->currentIndex() ); // QAbstractItemView::PositionAtCenter
 
      removeSelection=false;
     }
