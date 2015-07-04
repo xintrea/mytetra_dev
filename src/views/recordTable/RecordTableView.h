@@ -48,6 +48,7 @@ public:
  void deleteRecordByPos(int pos);
  void deleteRecordsByPos(QVector<int> vectorPos);
 
+ void moveCursorToNewRecord(void);
 
 signals:
 
@@ -91,12 +92,6 @@ protected:
  void setupSignals(void);
 
  void assemblyContextMenu(void);
-
- void addNewRecord(int mode);
- void addNew(int mode,
-             QMap<QString, QString> fields,
-             QString text,
-             QMap<QString, QByteArray> files=(QMap<QString, QByteArray>()) );
 
  void editField(int pos,
                 QString name,

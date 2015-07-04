@@ -51,6 +51,10 @@ public slots:
   // Вызов действий для вставки записей из буфера
   void paste(void);
 
+  void deleteRecordByPos(int pos);
+  void deleteRecordsByPos(QVector<int> vectorPos);
+  void deleteRecords(void);
+
   // Вызов действий из контекстного меню для открытия окна с вводом новой записи
   void addNewToEndContext(void);
   void addNewBeforeContext(void);
@@ -72,6 +76,13 @@ protected:
   RecordTableView *recordTableView;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
   RecordTableProxyModel *recordProxyModel;
+
+  void addNewRecord(int mode);
+
+  void addNew(int mode,
+              QMap<QString, QString> fields,
+              QString text,
+              QMap<QString, QByteArray> files=(QMap<QString, QByteArray>()) );
 
 };
 

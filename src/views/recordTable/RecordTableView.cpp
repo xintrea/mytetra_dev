@@ -6,7 +6,6 @@
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
-#include "views/record/AddNewRecord.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
 #include "views/record/RecordInfoFieldsEditor.h"
@@ -346,6 +345,29 @@ void RecordTableView::setSelectionToPos(int sourcePos)
 
   scrollTo( currentIndex() ); // QAbstractItemView::PositionAtCenter
 }
+
+
+// todo: Доделать moveCursorToNewRecord!
+void RecordTableView::moveCursorToNewRecord(void)
+{
+  // Установка курсора на только что созданную позицию
+  /*
+  QModelIndex selIdx=recordSourceModel->index(selPos, 0); // Создание индекса из номера
+  selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
+  */
+
+  // В QTableView некорректно работает установка на только что созданную строку
+  // Это как-то связано с отрисовкой виджета QTableView
+  // Прокрутка к только что созданной строке через selectRow() показывает только
+  // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
+  // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
+  if(mode==ADD_NEW_RECORD_TO_END ||
+    ( mode==ADD_NEW_RECORD_AFTER && sourcePos>=(recordSourceModel->rowCount()-1) ) )
+    scrollToBottom();
+
+  selectRow(selPos);
+}
+
 
 
 // Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)

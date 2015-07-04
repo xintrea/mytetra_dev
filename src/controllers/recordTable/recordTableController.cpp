@@ -3,16 +3,20 @@
 #include "main.h"
 #include "recordTableController.h"
 #include "views/record/MetaEditor.h"
+#include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "views/mainWindow/MainWindow.h"
+#include "views/tree/TreeScreen.h"
 #include "libraries/GlobalParameters.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
+#include "libraries/ClipboardRecords.h"
+
 
 
 extern GlobalParameters globalParameters;
@@ -23,7 +27,7 @@ extern WalkHistory walkHistory;
 RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 {
   // Инициализируется область со списком записей
-  recordTableView=new RecordTableView(parent); // Вид размещается внутри Screen, поэтому ссылка идет на parent а не на this
+  recordTableView=new RecordTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
   recordTableView->setObjectName("recordTableView");
   recordTableView->setController(this);
 
@@ -248,7 +252,7 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
 
 int RecordTableController::getRowCount(void)
 {
-  return recordProxyModel.rowCount();
+  return recordProxyModel->rowCount();
 }
 
 
@@ -333,7 +337,7 @@ void RecordTableController::cut(void)
 void RecordTableController::copy(void)
 {
  // Объект с записями помещается в буфер обмена
- QApplication::clipboard() -> setMimeData( getSelectedRecords() );
+ QApplication::clipboard() -> setMimeData( recordTableView->getSelectedRecords() );
 }
 
 
@@ -387,7 +391,7 @@ void RecordTableController::paste(void)
 }
 
 
-// Слот для вызова добавления новой записи в конец таблицы
+// Слот для добавления новой записи в конец таблицы
 void RecordTableController::addNewToEndContext(void)
 {
  qDebug() << "In slot add_new_toend_context()";
@@ -396,7 +400,7 @@ void RecordTableController::addNewToEndContext(void)
 }
 
 
-// Слот для вызова добавления новой записи перед выделенной строкой
+// Слот для добавления новой записи перед выделенной строкой
 void RecordTableController::addNewBeforeContext(void)
 {
  qDebug() << "In slot add_new_before_context()";
@@ -405,7 +409,7 @@ void RecordTableController::addNewBeforeContext(void)
 }
 
 
-// Слот для вызова добавления новой записи после выделенной строки
+// Слот для добавления новой записи после выделенной строки
 void RecordTableController::addNewAfterContext(void)
 {
  qDebug() << "In slot add_new_after_context()";
@@ -445,9 +449,11 @@ void RecordTableController::addNewRecord(int mode)
 
  // Введенные данные добавляются
  addNew(mode,
-         fields,
-         addNewRecordWin.getField("text"),
-         files);
+        fields,
+        addNewRecordWin.getField("text"),
+        files);
+
+ recordTableView->moveCursorToNewRecord();
 }
 
 
@@ -460,7 +466,7 @@ void RecordTableController::addNew(int mode,
  qDebug() << "In add_new()";
 
  // Получение Source-индекса первой выделенной строки
- QModelIndex posIndex=getFirstSelectionSourceIndex();
+ QModelIndex posIndex=recordTableView->getFirstSelectionSourceIndex();
 
  // Вставка новых данных
  int selPos=recordSourceModel->addTableData(mode,
@@ -468,23 +474,6 @@ void RecordTableController::addNew(int mode,
                                       fields,
                                       text,
                                       files);
-
- // Установка курсора на только что созданную позицию
- /*
- QModelIndex selIdx=recordSourceModel->index(selPos, 0); // Создание индекса из номера
- selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
- */
-
- // В QTableView некорректно работает установка на только что созданную строку
- // Это как-то связано с отрисовкой виджета QTableView
- // Прокрутка к только что созданной строке через selectRow() показывает только
- // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
- // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
- if(mode==ADD_NEW_RECORD_TO_END ||
-    ( mode==ADD_NEW_RECORD_AFTER && selPos>=(recordSourceModel->rowCount()-1) ) )
-   scrollToBottom();
-
- selectRow(selPos);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
