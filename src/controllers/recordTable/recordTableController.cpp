@@ -1,4 +1,5 @@
 #include <QObject>
+#include <QHeaderView>
 
 #include "main.h"
 #include "recordTableController.h"
@@ -6,17 +7,17 @@
 #include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "views/mainWindow/MainWindow.h"
+#include "views/tree/TreeScreen.h"
+#include "views/record/RecordInfoFieldsEditor.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
-#include "views/mainWindow/MainWindow.h"
-#include "views/tree/TreeScreen.h"
-#include "libraries/GlobalParameters.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/GlobalParameters.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
-
 
 
 extern GlobalParameters globalParameters;
@@ -27,9 +28,9 @@ extern WalkHistory walkHistory;
 RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 {
   // Инициализируется область со списком записей
-  recordTableView=new RecordTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
-  recordTableView->setObjectName("recordTableView");
-  recordTableView->setController(this);
+  view=new RecordTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
+  view->setObjectName("recordTableView");
+  view->setController(this);
 
   // Создание модели данных
   recordSourceModel=new RecordTableModel(this);
@@ -40,7 +41,7 @@ RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
   recordProxyModel->setObjectName("recordProxyModel");
 
   // Модель данных задается для вида
-  recordTableView->setModel(recordProxyModel);
+  view->setModel(recordProxyModel);
 }
 
 
@@ -52,13 +53,13 @@ RecordTableController::~RecordTableController()
 
 void RecordTableController::init(void)
 {
-  recordTableView->init();
+  view->init();
 }
 
 
 RecordTableView *RecordTableController::getView(void)
 {
-  return recordTableView;
+  return view;
 }
 
 
@@ -186,7 +187,7 @@ void RecordTableController::setTableData(RecordTableData *rtData)
  recordSourceModel->setTableData(rtData);
 
  // Надо обязательно сбросить selection model
- recordTableView->selectionModel()->clear();
+ view->selectionModel()->clear();
 
  // Если список конечных записей не пуст
  bool removeSelection=true;
@@ -200,8 +201,8 @@ void RecordTableController::setTableData(RecordTableData *rtData)
     {
      // Выделение устанавливается на нужную запись
      // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
-     recordTableView->selectRow(workPos);
-     recordTableView->scrollTo( recordTableView->currentIndex() ); // QAbstractItemView::PositionAtCenter
+     view->selectRow(workPos);
+     view->scrollTo( view->currentIndex() ); // QAbstractItemView::PositionAtCenter
 
      removeSelection=false;
     }
@@ -337,7 +338,7 @@ void RecordTableController::cut(void)
 void RecordTableController::copy(void)
 {
  // Объект с записями помещается в буфер обмена
- QApplication::clipboard() -> setMimeData( recordTableView->getSelectedRecords() );
+ QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
 }
 
 
@@ -464,7 +465,7 @@ void RecordTableController::addNew(int mode,
  qDebug() << "In add_new()";
 
  // Получение Source-индекса первой выделенной строки
- QModelIndex posIndex=recordTableView->getFirstSelectionSourceIndex();
+ QModelIndex posIndex=view->getFirstSelectionSourceIndex();
 
  // Вставка новых данных
  int selPos=recordSourceModel->addTableData(mode,
@@ -473,7 +474,7 @@ void RecordTableController::addNew(int mode,
                                       text,
                                       files);
 
- recordTableView->moveCursorToNewRecord(mode, selPos);
+ view->moveCursorToNewRecord(mode, selPos);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
@@ -486,7 +487,7 @@ void RecordTableController::editFieldContext(void)
  qDebug() << "In edit_field_context()";
 
  // Получение индекса выделенного элемента
- QModelIndexList selectItems=selectionModel()->selectedIndexes();
+ QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
  QModelIndex index=selectItems.at(0);
  int pos=(selectItems.at(0)).row();
 
@@ -554,10 +555,10 @@ void RecordTableController::editField(int pos,
 }
 
 
-void recordTableController::deleteContext(void)
+void RecordTableController::deleteContext(void)
 {
  // Создается окно с вопросом нужно удалять запись (записи) или нет
- QMessageBox messageBox(this);
+ QMessageBox messageBox(view);
  messageBox.setWindowTitle("Delete");
  messageBox.setText(tr("Are you sure to delete this record(s)?"));
  QAbstractButton *cancelButton =messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
@@ -597,13 +598,13 @@ void RecordTableController::deleteRecords(void)
  qDebug() << "RecordTableView::delete_records()";
 
  // Запоминание позиции, на которой стоит курсор списка
- int beforeIndex=(selectionModel()->currentIndex()).row();
+ int beforeIndex=(view->selectionModel()->currentIndex()).row();
 
  // Выясняется количество элементов в таблице
  int totalRowCount=recordSourceModel->rowCount();
 
  // Получение списка Item-элементов, подлежащих удалению
- QModelIndexList itemsForDelete=selectionModel()->selectedIndexes();
+ QModelIndexList itemsForDelete=view->selectionModel()->selectedIndexes();
 
  // Проверка, выбраны ли записи
  if(itemsForDelete.count()==0)
@@ -678,7 +679,7 @@ void RecordTableController::deleteRecords(void)
    // Установка курсора
    selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
    */
-   selectRow(selectionIndex);
+   view->selectRow(selectionIndex);
  }
  else
  {
@@ -699,7 +700,7 @@ void RecordTableController::moveUp(void)
   qDebug() << "In moveup()";
 
   // Получение номера первой выделенной строки
-  int pos=getFirstSelectionPos();
+  int pos=view->getFirstSelectionPos();
 
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
@@ -708,7 +709,7 @@ void RecordTableController::moveUp(void)
   table->moveUp(pos);
 
   // Установка засветки на перемещенную запись
-  setSelectionToPos(pos-1);
+  view->setSelectionToPos(pos-1);
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
@@ -721,7 +722,7 @@ void RecordTableController::moveDn(void)
  qDebug() << "In movedn()";
 
  // Получение номера первой выделенной строки
- int pos=getFirstSelectionPos();
+ int pos=view->getFirstSelectionPos();
 
  // Выясняется ссылка на таблицу конечных данных
  RecordTableData *table=recordSourceModel->getTableData();
@@ -730,11 +731,10 @@ void RecordTableController::moveDn(void)
  table->moveDn(pos);
 
  // Установка засветки на перемещенную запись
- setSelectionToPos(pos+1);
+ view->setSelectionToPos(pos+1);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
-
 }
 
 
@@ -744,10 +744,10 @@ void RecordTableController::onSortClick(void)
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
   // Если сортировка еще не включена
-  if( !recordTableView->isSortingEnabled() )
+  if( !view->isSortingEnabled() )
   {
     // Включается сортировка
-    recordTableView->setSortingEnabled(true);
+    view->setSortingEnabled(true);
 
     recordProxyModel->setSortRole(Qt::DisplayRole);
 
@@ -757,7 +757,7 @@ void RecordTableController::onSortClick(void)
     recordProxyModel->sort(n);
 
     // Треугольничек сортировки переставляется на нужный столбец
-    horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder);
+    view->horizontalHeader()->setSortIndicator(n, Qt::AscendingOrder);
 
     // Запрещается передвижение заголовков столбцов
     // так как после переноса неправильно устанавливается треугольничек сортировки, он остается на том же по счету столбце
@@ -766,7 +766,7 @@ void RecordTableController::onSortClick(void)
   else
   {
     // Оменяется сортировка
-    recordTableView->setSortingEnabled(false);
+    view->setSortingEnabled(false);
     recordProxyModel->setSortRole(Qt::InitialSortOrderRole);
     recordProxyModel->invalidate();
 

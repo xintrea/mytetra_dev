@@ -73,7 +73,7 @@ public slots:
   void onSortClick(void);
 
 protected:
-  RecordTableView *recordTableView;
+  RecordTableView *view;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
   RecordTableProxyModel *recordProxyModel;
 
@@ -84,6 +84,11 @@ protected:
               QString text,
               QMap<QString, QByteArray> files=(QMap<QString, QByteArray>()) );
 
+  void editField(int pos,
+                 QString name,
+                 QString author,
+                 QString url,
+                 QString tags);
 };
 
 #endif // __RECORDTABLECONTROLLER_H__

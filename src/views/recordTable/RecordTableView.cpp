@@ -8,7 +8,6 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
-#include "views/record/RecordInfoFieldsEditor.h"
 #include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "models/recordTable/RecordTableModel.h"
