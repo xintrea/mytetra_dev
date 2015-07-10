@@ -347,8 +347,9 @@ void RecordTableView::setSelectionToPos(int sourcePos)
 }
 
 
-// todo: Доделать moveCursorToNewRecord!
-void RecordTableView::moveCursorToNewRecord(void)
+// mode - режим в котором добавлялась новая запись
+// pos - позиция новой записи в размерности Source модели
+void RecordTableView::moveCursorToNewRecord(int mode, int pos)
 {
   // Установка курсора на только что созданную позицию
   /*
@@ -362,10 +363,12 @@ void RecordTableView::moveCursorToNewRecord(void)
   // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
   // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
   if(mode==ADD_NEW_RECORD_TO_END ||
-    ( mode==ADD_NEW_RECORD_AFTER && sourcePos>=(recordSourceModel->rowCount()-1) ) )
+    ( mode==ADD_NEW_RECORD_AFTER && pos>=(model()->rowCount()-1) ) )
     scrollToBottom();
 
-  selectRow(selPos);
+  int proxyPos=controller->convertPosToProxyIndex(pos).row();
+
+  selectRow(proxyPos);
 }
 
 

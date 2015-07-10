@@ -48,7 +48,7 @@ public:
  void deleteRecordByPos(int pos);
  void deleteRecordsByPos(QVector<int> vectorPos);
 
- void moveCursorToNewRecord(void);
+ void moveCursorToNewRecord(int mode, int pos);
 
 signals:
 

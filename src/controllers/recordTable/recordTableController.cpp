@@ -452,8 +452,6 @@ void RecordTableController::addNewRecord(int mode)
         fields,
         addNewRecordWin.getField("text"),
         files);
-
- recordTableView->moveCursorToNewRecord();
 }
 
 
@@ -474,6 +472,8 @@ void RecordTableController::addNew(int mode,
                                       fields,
                                       text,
                                       files);
+
+ recordTableView->moveCursorToNewRecord(mode, selPos);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
