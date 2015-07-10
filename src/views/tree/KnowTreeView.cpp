@@ -5,15 +5,15 @@
 
 #include "main.h"
 #include "KnowTreeView.h"
-#include "libraries/ClipboardRecords.h"
 #include "TreeScreen.h"
+#include "libraries/ClipboardRecords.h"
+#include "libraries/GlobalParameters.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
 #include "models/recordTable/RecordTableModel.h"
-#include "views/recordTable/RecordTableView.h"
-#include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
+#include "controllers/recordTable/recordTableController.h"
 
 
 extern GlobalParameters globalParameters;
@@ -178,8 +178,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      unsigned int recordPos=treeItemFrom->getRecordPos( exemplar["id"] );
-     RecordTableView *recordTableView=find_object<RecordTableView>("recordTableView");
-     recordTableView->deleteRecordByPos(recordPos);
+     RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");
+     recordTableController->deleteRecordByPos(recordPos);
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
