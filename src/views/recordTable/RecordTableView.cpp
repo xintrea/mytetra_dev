@@ -262,6 +262,23 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 }
 
 
+// Слот, срабатывающий при нажатии кнопки редактирования записи
+void RecordTableView::editFieldContext(void)
+{
+ qDebug() << "In RecordTableView::editFieldContext";
+
+ // Получение индекса выделенного элемента
+ QModelIndexList selectItems=selectionModel()->selectedIndexes();
+ QModelIndex index=selectItems.at(0);
+
+ controller->editFieldContext(index);
+
+ // Нужно перерисовать окно редактирования чтобы обновились инфополя
+ // делается это путем "повторного" выбора текущего пункта
+ clickToRecord(index); // Раньше было select()
+}
+
+
 // Получение номера первого выделенного элемента
 int RecordTableView::getFirstSelectionPos(void)
 {

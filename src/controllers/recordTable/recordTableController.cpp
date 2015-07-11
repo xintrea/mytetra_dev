@@ -280,6 +280,7 @@ QModelIndex RecordTableController::convertPosToSourceIndex(int pos)
 }
 
 
+// Преобразование Proxy индекса в позицию на экране (так, как это будет выглядеть при Proxy модели)
 int RecordTableController::convertProxyIndexToPos(QModelIndex index)
 {
   if(!index.isValid())
@@ -289,6 +290,7 @@ int RecordTableController::convertProxyIndexToPos(QModelIndex index)
 }
 
 
+// Преобразование Source индекса в позицию на экране (так, как это будет выглядеть при Source модели)
 int RecordTableController::convertSourceIndexToPos(QModelIndex index)
 {
   if(!index.isValid())
@@ -481,15 +483,13 @@ void RecordTableController::addNew(int mode,
 }
 
 
-// Слот, срабатывающий при нажатии кнопки редактирования записи
-void RecordTableController::editFieldContext(void)
+// Действия при нажатии кнопки редактирования записи
+void RecordTableController::editFieldContext(QModelIndex proxyIndex)
 {
- qDebug() << "In edit_field_context()";
+ qDebug() << "RecordTableController::editFieldContext()";
 
- // Получение индекса выделенного элемента
- QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
- QModelIndex index=selectItems.at(0);
- int pos=(selectItems.at(0)).row();
+ QModelIndex sourceIndex=convertProxyIndexToSourceIndex(proxyIndex);
+ int pos=sourceIndex.row(); // Номер строки в базе
 
  // Создается окно ввода данных, после выхода из этой функции окно должно удалиться
  RecordInfoFieldsEditor editRecordWin;
@@ -498,26 +498,22 @@ void RecordTableController::editFieldContext(void)
  RecordTableData *table=recordSourceModel->getTableData();
 
  // Поля окна заполняются начальными значениями
- editRecordWin.setField("name",  table->getField("name",index.row()) );
- editRecordWin.setField("author",table->getField("author",index.row()) );
- editRecordWin.setField("url",   table->getField("url",index.row()) );
- editRecordWin.setField("tags",  table->getField("tags",index.row()) );
+ editRecordWin.setField("name",  table->getField("name",   pos) );
+ editRecordWin.setField("author",table->getField("author", pos) );
+ editRecordWin.setField("url",   table->getField("url",    pos) );
+ editRecordWin.setField("tags",  table->getField("tags",   pos) );
 
 
  int i=editRecordWin.exec();
  if(i==QDialog::Rejected)
    return; // Была нажата отмена, ничего ненужно делать
 
- // Введенные данные обновляются
+ // Измененные данные записываются
  editField(pos,
             editRecordWin.getField("name"),
             editRecordWin.getField("author"),
             editRecordWin.getField("url"),
             editRecordWin.getField("tags"));
-
- // Нужно перерисовать окно редактирования чтобы обновились инфополя
- // делается это путем "повторного" выбора текущего пункта
- clickToRecord(index); // Раньше было select()
 }
 
 

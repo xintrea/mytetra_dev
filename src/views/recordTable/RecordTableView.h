@@ -84,6 +84,9 @@ protected slots:
 
  void onClickToRecord(const QModelIndex &index);
 
+ // Вызов действий из контекстного меню для редактирования инфополей записи
+ void editFieldContext(void);
+
 protected:
 
  QMenu *contextMenu;

@@ -31,6 +31,9 @@ public:
 
   void addRecordsToClipboard(ClipboardRecords *clipboardRecords, QModelIndexList itemsForCopy);
 
+  // Действия при редактировании инфополей записи из контекстного меню
+  void editFieldContext(QModelIndex proxyIndex);
+
   QModelIndex convertPosToProxyIndex(int pos);
   QModelIndex convertPosToSourceIndex(int pos);
   int         convertProxyIndexToPos(QModelIndex index);
@@ -59,9 +62,6 @@ public slots:
   void addNewToEndContext(void);
   void addNewBeforeContext(void);
   void addNewAfterContext(void);
-
-  // Вызов действий из контекстного меню для редактирования инфополей записи
-  void editFieldContext(void);
 
   // Вызов действий из контекстного меню для удаления конечной записи
   void deleteContext(void);
