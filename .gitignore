@@ -25,3 +25,8 @@ mytetra.pro.user*
 *.la
 *.a
 
+# Ignore bash files
+*.sh
+
+# Ignore gitignore self
+.gitignore
