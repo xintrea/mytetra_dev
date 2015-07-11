@@ -77,6 +77,12 @@ public slots:
   // Клик по пункту "Сортировка" в контекстном меню
   void onSortClick(void);
 
+  // Слот для вызов настроек
+  void settings(void);
+
+  // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
+  void onRecordTableConfigChange(void);
+
 protected:
   RecordTableView *view;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel

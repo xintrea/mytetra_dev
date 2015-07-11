@@ -14,7 +14,6 @@
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
-#include "views/appConfigWindow/AppConfigDialog.h"
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/WindowSwitcher.h"
@@ -656,20 +655,4 @@ void RecordTableView::restoreColumnWidth(void)
 }
 
 
-// Слот, срабатывающий при вызове настроек
-void RecordTableView::settings(void)
-{
- AppConfigDialog dialog("pageRecordTable");
- dialog.show();
 
- // Todo: Возвращение фокуса почему-то не работает, надо разбираться
- // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
- // qDebug() << "Set focus to RecordTableView";
- // this->setFocus();
-}
-
-
-void RecordTableView::onRecordTableConfigChange(void)
-{
-  restoreColumnWidth();
-}

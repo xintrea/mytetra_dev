@@ -53,8 +53,10 @@ public:
     // Удаление записей
     void removeRowsByList(QVector<int> delIdx);
 
-public slots:
     void onRecordTableConfigChange(void);
+
+public slots:
+
 
 private:
 

@@ -62,15 +62,9 @@ public slots:
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 
- // Вызов настроек
- void settings(void);
-
  // Слот, срабатывающий после перетаскивания колонки
  void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
  void onSectionResized( int logicalIndex, int oldSize, int newSize );
-
- // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
- void onRecordTableConfigChange(void);
 
  // Вызов действий из контекстного меню или из контроллера для редактирования инфополей записи
  void editFieldContext(void);

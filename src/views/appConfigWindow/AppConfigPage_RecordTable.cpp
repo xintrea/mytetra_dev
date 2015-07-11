@@ -8,8 +8,8 @@
 #include "AppConfigPage_RecordTable.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/FixedParameters.h"
-#include "views/recordTable/RecordTableView.h"
 #include "models/recordTable/RecordTableModel.h"
+#include "controllers/recordTable/recordTableController.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -89,20 +89,12 @@ void AppConfigPage_RecordTable::setupSignals(void)
   }
 
 
-  // Указатель на модель таблицы конечных записей
-  RecordTableModel *recordTableModel=find_object<RecordTableModel>("recordSourceModel");
+  // Указатель на контроллер таблицы конечных записей
+  RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");
 
-  // При изменении настроек отображения таблицы конечных записей, должен вызываться соответствующий слот модели
+  // При изменении настроек отображения таблицы конечных записей должен вызываться соответствующий слот контроллера (чтобы перечиталась ширина столбцов)
   connect(this, SIGNAL(recordTableConfigChange()),
-          recordTableModel, SLOT(onRecordTableConfigChange()));
-
-
-  // Указатель на представление таблицы конечных записей
-  RecordTableView *recordTableView=find_object<RecordTableView>("recordTableView");
-
-  // При изменении настроек отображения таблицы конечных записей должен вызываться соответствующий слот вида (чтобы перечиталась ширина столбцов)
-  connect(this, SIGNAL(recordTableConfigChange()),
-          recordTableView, SLOT(onRecordTableConfigChange()));
+          recordTableController, SLOT(onRecordTableConfigChange()));
 }
 
 

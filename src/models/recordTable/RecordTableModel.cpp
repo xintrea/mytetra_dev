@@ -296,3 +296,4 @@ void RecordTableModel::onRecordTableConfigChange(void)
   beginResetModel();
   endResetModel();
 }
+

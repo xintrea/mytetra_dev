@@ -10,6 +10,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/tree/TreeScreen.h"
 #include "views/record/RecordInfoFieldsEditor.h"
+#include "views/appConfigWindow/AppConfigDialog.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
@@ -792,3 +793,21 @@ void RecordTableController::onSortClick(void)
 }
 
 
+// Слот, срабатывающий при вызове настроек
+void RecordTableController::settings(void)
+{
+ AppConfigDialog dialog("pageRecordTable");
+ dialog.show();
+
+ // Todo: Возвращение фокуса почему-то не работает, надо разбираться
+ // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
+ // qDebug() << "Set focus to RecordTableView";
+ // this->setFocus();
+}
+
+
+void RecordTableController::onRecordTableConfigChange(void)
+{
+  recordSourceModel->onRecordTableConfigChange();
+  view->restoreColumnWidth();
+}
