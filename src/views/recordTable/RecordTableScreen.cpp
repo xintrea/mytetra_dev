@@ -95,7 +95,7 @@ void RecordTableScreen::setupActions(void)
  actionPaste = new QAction(tr("&Paste note(s)"), this);
  actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
- connect(actionPaste, SIGNAL(triggered()), recordTableController, SLOT( ()));
+ connect(actionPaste, SIGNAL(triggered()), recordTableController, SLOT(paste()));
 
  // Настройка внешнего вида таблицы конечных записей
  actionSettings = new QAction(tr("&View settings"), this);
