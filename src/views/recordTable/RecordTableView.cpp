@@ -338,11 +338,19 @@ bool RecordTableView::isSelectedSetToBottom(void)
 }
 
 
-// Установка засветки в нужную строку (номер позиции в Source данных)
-void RecordTableView::setSelectionToPos(int sourcePos)
+// Установка засветки в нужную строку на экране
+void RecordTableView::setSelectionToPos(int iPos)
 {
-  QModelIndex index=controller->convertPosToProxyIndex(sourcePos); // Модельный индекс в Proxy модели
+  QModelIndex index=controller->convertPosToProxyIndex(iPos); // Модельный индекс в Proxy модели
   int pos=index.row();
+
+  // todo: Если это условие ни разу не сработает, значит преобразование ipos - pos надо просто убрать
+  if(pos!=iPos)
+  {
+    QMessageBox msgBox;
+    msgBox.setText("In RecordTableView::setSelectionToPos() input pos not equal model pos");
+    msgBox.exec();
+  }
 
   int rowCount=controller->getRowCount();
   if(pos>(rowCount-1))

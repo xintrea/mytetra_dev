@@ -72,6 +72,9 @@ public slots:
  // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
  void onRecordTableConfigChange(void);
 
+ // Вызов действий из контекстного меню или из контроллера для редактирования инфополей записи
+ void editFieldContext(void);
+
 protected slots:
 
  // Реакия на сдвиг засветки клавишами или мышкой
@@ -83,9 +86,6 @@ protected slots:
  virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
  void onClickToRecord(const QModelIndex &index);
-
- // Вызов действий из контекстного меню для редактирования инфополей записи
- void editFieldContext(void);
 
 protected:
 

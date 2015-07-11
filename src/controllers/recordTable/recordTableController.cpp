@@ -257,6 +257,19 @@ int RecordTableController::getRowCount(void)
 }
 
 
+// Получение номера первого выделенного элемента на экране
+int RecordTableController::getFirstSelectionPos(void)
+{
+  return view->getFirstSelectionPos();
+}
+
+
+void RecordTableController::setSelectionToPos(int pos)
+{
+  view->setSelectionToPos(pos);
+}
+
+
 QModelIndex RecordTableController::convertPosToProxyIndex(int pos)
 {
   if(pos<0 || pos>=recordProxyModel->rowCount())
@@ -480,6 +493,12 @@ void RecordTableController::addNew(int mode,
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
+}
+
+
+void RecordTableController::onEditFieldContext(void)
+{
+  view->editFieldContext();
 }
 
 
@@ -748,7 +767,7 @@ void RecordTableController::onSortClick(void)
     recordProxyModel->setSortRole(Qt::DisplayRole);
 
     // Включается сортировка по нужному столбцу
-    int n=parentPointer->actionSort->data().toInt();
+    int n=parentPointer->actionSort->data().toInt(); // В actionSort хранится номер столбца, по которому нужно сортировать
     qDebug() << "Sort column number " << n;
     recordProxyModel->sort(n);
 

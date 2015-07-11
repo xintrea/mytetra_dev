@@ -41,6 +41,9 @@ public:
   QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
   QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
 
+  int getFirstSelectionPos(void);
+  void setSelectionToPos(int pos);
+
 signals:
 
 public slots:
@@ -53,6 +56,8 @@ public slots:
 
   // Вызов действий для вставки записей из буфера
   void paste(void);
+
+  void onEditFieldContext(void);
 
   void deleteRecordByPos(int pos);
   void deleteRecordsByPos(QVector<int> vectorPos);

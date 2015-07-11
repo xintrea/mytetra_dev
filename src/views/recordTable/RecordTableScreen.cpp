@@ -71,7 +71,7 @@ void RecordTableScreen::setupActions(void)
  actionEditField = new QAction(tr("Edit properties (name, author, tags...)"), this);
  actionEditField->setStatusTip(tr("Edit note properties (name, author, tags...)"));
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
- connect(actionEditField, SIGNAL(triggered()), recordTableController, SLOT(editFieldContext()));
+ connect(actionEditField, SIGNAL(triggered()), recordTableController, SLOT(onEditFieldContext()));
 
  // Удаление записи
  actionDelete = new QAction(tr("Delete note(s)"), this);
@@ -356,17 +356,17 @@ void RecordTableScreen::toolsUpdate(void)
 }
 
 
-// Получение номера первого выделенного элемента
+// Получение номера первого выделенного элемента в таблице записи на экране
 int RecordTableScreen::getFirstSelectionPos(void)
 {
-  return recordTableController->getView()->getFirstSelectionPos();
+  return recordTableController->getFirstSelectionPos();
 }
 
 
-// Установка засветки в нужную строку (номер позиции в Source данных)
+// Установка засветки в нужную строку в таблице записи на экране
 void RecordTableScreen::setSelectionToPos(int pos)
 {
-  recordTableController->getView()->setSelectionToPos(pos);
+  recordTableController->setSelectionToPos(pos);
 }
 
 
