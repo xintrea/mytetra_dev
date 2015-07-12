@@ -323,7 +323,7 @@ void EditorConfig::update_version_process(void)
 {
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 6
+ // Последняя версия на данный момент - 7
  if(fromVersion<=1)
   update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -334,6 +334,8 @@ void EditorConfig::update_version_process(void)
   update_version(4,  5,  get_parameter_table_4(),  get_parameter_table_5());
  if(fromVersion<=5)
   update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
+ if(fromVersion<=6)
+  update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
 }
 
 
@@ -397,8 +399,8 @@ QStringList EditorConfig::get_parameter_table_3(bool withEndSignature)
  table << get_parameter_table_2(false);
  
  // Добавляются новые параметры
- table << "tools_line_1"                << "QString"    << "clear,separator,bold,italic,underline,separator,monospace,code,alignleft,aligncenter,alignright,alignwidth,fontselect,fontsize";
- table << "tools_line_2"                << "QString"    << " ";
+ table << "tools_line_1" << "QString" << "clear,separator,bold,italic,underline,separator,monospace,code,alignleft,aligncenter,alignright,alignwidth,fontselect,fontsize";
+ table << "tools_line_2" << "QString" << " ";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
@@ -464,6 +466,25 @@ QStringList EditorConfig::get_parameter_table_6(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_7(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 6
+ table << get_parameter_table_6(false);
+
+ // В параметр tools_line_2 добавляется "show_text"
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -507,6 +528,11 @@ QString EditorConfig::update_version_change_value(int versionFrom,
  if(versionFrom==3 && versionTo==4 && name=="tools_line_2")
   {
    result=result+",insert_image_from_file";
+  }
+
+ if(versionFrom==6 && versionTo==7 && name=="tools_line_2")
+  {
+   result=result+",show_text";
   }
 
  return result;
