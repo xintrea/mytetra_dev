@@ -810,4 +810,5 @@ void RecordTableController::onRecordTableConfigChange(void)
 {
   recordSourceModel->onRecordTableConfigChange();
   view->restoreColumnWidth();
+  view->restoreHeaderState();
 }
