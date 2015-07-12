@@ -279,6 +279,7 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Добавление записи до
  // Добавлять "до" можно только тогда, когда выбрана только одна строка
+ // и не включена сортировка
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
     recordTableController->getView()->isSortingEnabled()==false )
@@ -286,6 +287,7 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Добавление записи после
  // Добавлять "после" можно только тогда, когда выбрана только одна строка
+ // и не включена сортировка
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
     recordTableController->getView()->isSortingEnabled()==false )
@@ -331,15 +333,21 @@ void RecordTableScreen::toolsUpdate(void)
  // Перемещение записи вверх
  // Пункт возможен только когда выбрана одна строка
  // и указатель стоит не на начале списка
- if((recordTableController->getView()->selectionModel()->hasSelection() && (recordTableController->getView()->selectionModel()->selectedRows()).size()==1) &&
-    recordTableController->getView()->isSelectedSetToTop()==false )
+ // и не включена сортировка
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+    recordTableController->getView()->isSelectedSetToTop()==false &&
+    recordTableController->getView()->isSortingEnabled()==false)
   actionMoveUp->setEnabled(true);
 
  // Перемещение записи вниз
  // Пункт возможен только когда выбрана одна строка
  // и указатель стоит не в конце списка
- if((recordTableController->getView()->selectionModel()->hasSelection() && (recordTableController->getView()->selectionModel()->selectedRows()).size()==1) &&
-    recordTableController->getView()->isSelectedSetToBottom()==false )
+ // и не включена сортировка
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+    recordTableController->getView()->isSelectedSetToBottom()==false &&
+    recordTableController->getView()->isSortingEnabled()==false)
   actionMoveDn->setEnabled(true);
 
  // Обновляется состояние области редактирования текста

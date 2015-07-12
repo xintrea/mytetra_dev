@@ -790,6 +790,7 @@ void RecordTableController::onSortClick(void)
     // horizontalHeader()->setSectionsMovable(true);
   }
 
+  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
 }
 
 
