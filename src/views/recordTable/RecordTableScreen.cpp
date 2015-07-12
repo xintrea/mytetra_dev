@@ -279,15 +279,17 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Добавление записи до
  // Добавлять "до" можно только тогда, когда выбрана только одна строка
- if((recordTableController->getView()->selectionModel()->hasSelection() &&
-     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1))
-    actionAddNewBefore->setEnabled(true);
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+    recordTableController->getView()->isSortingEnabled()==false )
+   actionAddNewBefore->setEnabled(true);
 
  // Добавление записи после
  // Добавлять "после" можно только тогда, когда выбрана только одна строка
- if((recordTableController->getView()->selectionModel()->hasSelection() &&
-     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1))
-  actionAddNewAfter->setEnabled(true);
+ if(recordTableController->getView()->selectionModel()->hasSelection() &&
+    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+    recordTableController->getView()->isSortingEnabled()==false )
+   actionAddNewAfter->setEnabled(true);
 
  // Редактирование записи
  // Редактировать можно только тогда, когда выбрана только одна строка
