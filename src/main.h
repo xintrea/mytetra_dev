@@ -17,6 +17,7 @@
 #include <QSizePolicy>
 #include <QToolBar>
 #include <QAbstractItemView>
+#include <QThread>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION   84
+#define APPLICATION_RELEASE_MICROVERSION   85
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -142,5 +143,13 @@ template <class X> inline X *find_object(QString objectName)
   }
 }
 
+
+class Sleeper : public QThread
+{
+public:
+    static void usleep(unsigned long usecs){QThread::usleep(usecs);}
+    static void msleep(unsigned long msecs){QThread::msleep(msecs);}
+    static void sleep(unsigned long secs){QThread::sleep(secs);}
+};
 
 #endif // __MAIN_H__

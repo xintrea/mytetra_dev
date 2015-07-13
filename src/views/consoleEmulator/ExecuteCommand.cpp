@@ -125,29 +125,20 @@ void ExecuteCommand::run(void)
  // Пока процесс не закончил свою работу
  while(process->state()!=QProcess::NotRunning)
   {
-   // Считываются данные из стандартного потока запущенного процесса
-   char buf[1024];
-   int readBytes=process->readLine(buf, sizeof(buf));
+    printOutput(process, console);
 
-   // Если считаны какие-то символы
-   if(readBytes>=1)
-    {
-     // Преобразование в QString, необходимо чтобы исключать строки с нулями
-     QString output=QString::fromLocal8Bit(buf); // Ранее было fromAscii, потом fromLatin1
-
-     if(output.length()>0)
-      {
-       console->addConsoleOutput(output);
-       qApp->processEvents();
-       qDebug() << "[Console] " << output;
-      }
-    }
-
-   if((rand()%10)==1)
-    qApp->processEvents();
+    // Разгружается основной цикл обработки событий приложения
+    if((rand()%10)==1)
+      qApp->processEvents();
   }
 
+ Sleeper::sleep(1);
+ qApp->processEvents();
+ printOutput(process, console); // Считываются остатки из стандартного вывода, если они есть
+
  closeProcess();
+ qApp->processEvents();
+ printOutput(process, console); // Считываются остатки из стандартного вывода, если они есть
 
  if(isError==false && process->exitCode()==0 )
   console->hide();
@@ -162,6 +153,28 @@ void ExecuteCommand::run(void)
  delete process;
 
  qDebug() << "Process stop";
+}
+
+
+void ExecuteCommand::printOutput(QProcess *process, ConsoleEmulator *console)
+{
+  // Считываются данные из стандартного потока запущенного процесса
+  char buf[1024];
+  int readBytes=process->readLine(buf, sizeof(buf));
+
+  // Если считаны какие-то символы
+  if(readBytes>=1)
+  {
+    // Преобразование в QString, необходимо чтобы исключать строки с нулями
+    QString output=QString::fromLocal8Bit(buf); // Ранее было fromAscii, потом fromLatin1
+
+    if(output.length()>0)
+    {
+      console->addConsoleOutput(output);
+      qApp->processEvents();
+      qDebug() << "[Console] " << output;
+    }
+  }
 }
 
 

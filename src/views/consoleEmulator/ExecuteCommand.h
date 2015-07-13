@@ -40,6 +40,9 @@ private:
  ConsoleEmulator *console;
 
  bool isError;
+
+ void printOutput(QProcess *process, ConsoleEmulator *console);
+
 };
 
 #endif	/* _EXECUTECOMMAND_H_ */
