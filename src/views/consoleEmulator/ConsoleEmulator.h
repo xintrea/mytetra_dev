@@ -24,7 +24,7 @@
 // | file3.txt                                      |
 // +------------------------------------------------+
 
-class ConsoleEmulator : public QWidget
+class ConsoleEmulator : public QDialog
 {
  Q_OBJECT
 

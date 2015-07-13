@@ -5,6 +5,10 @@
 #include <QDialog>
 #include <QProcess>
 
+
+class ConsoleEmulator;
+
+
 class ExecuteCommand : public QDialog
 {
  Q_OBJECT
@@ -22,7 +26,7 @@ public:
 private slots:
 
  void closeProcess(void);
- void errorHanler(void);
+ void errorHanler(QProcess::ProcessError error);
 
 private:
 
@@ -32,6 +36,8 @@ private:
  QString messageText;
 
  QProcess *process;
+
+ ConsoleEmulator *console;
 
  bool isError;
 };

@@ -12,6 +12,7 @@
 ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
 {
  command="";
+ console=NULL;
 
  // Определяется, какую командную оболочку надо использовать
 
@@ -46,7 +47,7 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
 
 ExecuteCommand::~ExecuteCommand()
 {
- 
+ delete console;
 }
 
 
@@ -91,12 +92,12 @@ void ExecuteCommand::run(void)
 
 
  // Создается виджет эмулятора консоли
- ConsoleEmulator console;
+ console=new ConsoleEmulator();
 
- console.setWindowTitle(windowTitle);
- console.setMessageText(messageText);
- console.setConsoleOutput(commandLine+"\n");
- console.show();
+ console->setWindowTitle(windowTitle);
+ console->setMessageText(messageText);
+ console->setConsoleOutput(commandLine+"\n");
+ console->show();
 
  qDebug() << "Run shell" << shell;
  qDebug() << "Run command" << command;
@@ -106,8 +107,8 @@ void ExecuteCommand::run(void)
  // Создается процесс 
  process=new QProcess();
 
- connect(&console, SIGNAL(cancelConsole()), this, SLOT(closeProcess()));
- connect(this, SIGNAL(error()), this, SLOT(errorHanler()));
+ connect(console, SIGNAL(cancelConsole()), this, SLOT(closeProcess()));
+ connect(process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(errorHanler(QProcess::ProcessError)));
 
 
  // Объединение вывода стандартного канала и канала ошибок
@@ -136,7 +137,7 @@ void ExecuteCommand::run(void)
 
      if(output.length()>0)
       {
-       console.addConsoleOutput(output);
+       console->addConsoleOutput(output);
        qApp->processEvents();
        qDebug() << "[Console] " << output;
       }
@@ -149,9 +150,14 @@ void ExecuteCommand::run(void)
  closeProcess();
 
  if(isError==false && process->exitCode()==0 )
-  console.hide();
+  console->hide();
  else
-  console.switchToErrorView();
+  {
+   console->switchToErrorView();
+
+   // Окно с консолью было просто видно (чтобы показывать вывод), а теперь запускается как модальное, чтобы началось ожидание нажатия кнопки Close
+   console->exec();
+  }
 
  delete process;
 
@@ -159,9 +165,9 @@ void ExecuteCommand::run(void)
 }
 
 
-void ExecuteCommand::errorHanler(void)
+void ExecuteCommand::errorHanler(QProcess::ProcessError error)
 {
- qDebug() << "ExecuteCommand::errorHanler() : Detect error!";
+ qDebug() << "ExecuteCommand::errorHanler(): Detect error! Error code: " << error;
 
  isError=true;
 }

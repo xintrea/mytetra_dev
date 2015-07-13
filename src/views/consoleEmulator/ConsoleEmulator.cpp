@@ -9,7 +9,7 @@
 extern AppConfig mytetraConfig;
 
 
-ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QWidget(parent)
+ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 {
  isError=false;
 
@@ -62,6 +62,8 @@ void ConsoleEmulator::setupSignals(void)
 {
  connect(buttonCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()));
  connect(buttonDetails, SIGNAL(clicked()), this, SLOT(onDetailsClick()));
+
+ connect(buttonCloseIfError, SIGNAL(clicked()), this, SLOT(onCancelClick()));
 
  connect(escShortcut, SIGNAL(activated()), this, SLOT(onCancelClick()));
 }
