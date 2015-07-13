@@ -790,6 +790,7 @@ void RecordTableController::onSortClick(void)
     // horizontalHeader()->setSectionsMovable(true);
   }
 
+  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
 }
 
 
@@ -810,4 +811,5 @@ void RecordTableController::onRecordTableConfigChange(void)
 {
   recordSourceModel->onRecordTableConfigChange();
   view->restoreColumnWidth();
+  view->restoreHeaderState();
 }
