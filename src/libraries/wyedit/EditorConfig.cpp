@@ -521,21 +521,23 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                                                   QString fromValue,
                                                   QString toValue)
 {
- Q_UNUSED(toValue);
+  Q_UNUSED(toValue);
 
- QString result=fromValue;
+  QString result=fromValue;
 
- if(versionFrom==3 && versionTo==4 && name=="tools_line_2")
+  if(versionFrom==3 && versionTo==4 && name=="tools_line_2")
   {
-   result=result+",insert_image_from_file";
+    if(!result.contains("insert_image_from_file"))
+      result=result+",insert_image_from_file";
   }
 
- if(versionFrom==6 && versionTo==7 && name=="tools_line_2")
+  if(versionFrom==6 && versionTo==7 && name=="tools_line_2")
   {
-   result=result+",show_text";
+    if(!result.contains("show_text"))
+      result=result+",show_text";
   }
 
- return result;
+  return result;
 }
 
 
