@@ -40,6 +40,8 @@ public:
   int         convertSourceIndexToPos(QModelIndex index);
   QModelIndex convertProxyIndexToSourceIndex(QModelIndex proxyIndex);
   QModelIndex convertSourceIndexToProxyIndex(QModelIndex sourceIndex);
+  int         convertSourcePosToProxyPos(int sourcePos);
+  int         convertProxyPosToSourcePos(int proxyPos);
 
   int getFirstSelectionPos(void);
   void setSelectionToPos(int pos);

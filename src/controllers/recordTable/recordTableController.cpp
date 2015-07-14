@@ -336,6 +336,20 @@ QModelIndex RecordTableController::convertSourceIndexToProxyIndex(QModelIndex so
 }
 
 
+int RecordTableController::convertSourcePosToProxyPos(int sourcePos)
+{
+  QModelIndex proxyIndex=recordProxyModel->mapFromSource( recordSourceModel->index(sourcePos, 0) );
+  return proxyIndex.row();
+}
+
+
+int RecordTableController::convertProxyPosToSourcePos(int proxyPos)
+{
+  QModelIndex sourceIndex=recordProxyModel->mapToSource( recordProxyModel->index(proxyPos, 0) );
+  return sourceIndex.row();
+}
+
+
 // Копирование отмеченных записей в буфер обмена с удалением
 // из таблицы конечных записей
 void RecordTableController::cut(void)
@@ -483,14 +497,14 @@ void RecordTableController::addNew(int mode,
  // Получение Source-индекса первой выделенной строки
  QModelIndex posIndex=view->getFirstSelectionSourceIndex();
 
- // Вставка новых данных
+ // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
  int selPos=recordSourceModel->addTableData(mode,
                                       posIndex,
                                       fields,
                                       text,
                                       files);
 
- view->moveCursorToNewRecord(mode, selPos);
+ view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
