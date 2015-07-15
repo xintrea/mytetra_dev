@@ -83,6 +83,18 @@ void RecordTablePrint::setModel(RecordTableProxyModel *model)
 {
   QString html="<table border='1'>";
 
+  // Заголовок таблицы
+  html+="<tr>";
+  for(int nColumn=0; nColumn < model->columnCount(); nColumn++)
+  {
+    QVariant cellTextVariant=model->headerData(nColumn, Qt::Horizontal, Qt::DisplayRole);
+    QString cellText=cellTextVariant.toString();
+
+    html+="<td><b>"+cellText+"</b></td>";
+  }
+  html+="</tr>";
+
+
   // Данные из модели сразу преобразуются в HTML
   for(int nRow=0; nRow < model->rowCount(); nRow++)
   {
