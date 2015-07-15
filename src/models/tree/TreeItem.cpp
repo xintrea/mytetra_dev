@@ -578,7 +578,7 @@ RecordTableData *TreeItem::recordtableGetTableData(void)
 }
 
 
-// Получение номера строки, в которой находится запись с указанным идентификатором
+// Получение Source номера строки, в которой находится запись с указанным идентификатором
 // Если записи с таким идентификатором нет, возвращается -1
 int TreeItem::getRecordPos(QString recordId)
 {
@@ -588,4 +588,5 @@ int TreeItem::getRecordPos(QString recordId)
 
  return -1;
 }
+
 

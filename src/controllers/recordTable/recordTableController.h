@@ -45,6 +45,7 @@ public:
 
   int getFirstSelectionPos(void);
   void setSelectionToPos(int pos);
+  void setSelectionToId(QString id);
 
 signals:
 

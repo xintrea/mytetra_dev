@@ -70,6 +70,11 @@ public:
                           QMap<QString, QString> editFields);
 
     void deleteRecord(int i);
+    void deleteRecordById(QString id);
+
+    bool isRecordExists(QString id);
+
+    int getPosById(QString id);
 
     void empty(void);
 

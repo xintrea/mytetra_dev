@@ -615,7 +615,7 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
   return true;
 
  // Если таблица записей текущей ветки содержит искомый идентификатор
- if(item->getRecordPos(findId)!=-1)
+ if( item->recordtableGetTableData()->isRecordExists(findId) )
   {
    isExists=true;
    return true;
@@ -833,7 +833,7 @@ QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
  currentPath << item->getId();
 
  // Если в данной ветке есть искомая запись
- if(item->getRecordPos(recordId)>=0)
+ if( item->recordtableGetTableData()->isRecordExists(recordId) )
   {
    isFind=true;
    findPath=currentPath;
