@@ -231,6 +231,7 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addAction(parentPointer->actionPaste);
   contextMenu->addSeparator();
   contextMenu->addAction(parentPointer->actionSort);
+  contextMenu->addAction(parentPointer->actionPrint);
   contextMenu->addAction(parentPointer->actionSettings);
 }
 
@@ -653,6 +654,4 @@ void RecordTableView::restoreColumnWidth(void)
   for(int i=0; i<columnWidthList.size()-1; i++)
     setColumnWidth( i, columnWidthList[i].toInt() );
 }
-
-
 

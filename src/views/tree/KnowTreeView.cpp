@@ -137,7 +137,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    const ClipboardRecords *clipboardRecords;
    clipboardRecords=qobject_cast<const ClipboardRecords *>(event->mimeData());
 
-   // Печать содержимого перетаскиваемого объекта
+   // Печать в консоль содержимого перетаскиваемого объекта (для отладки)
    clipboardRecords->print();
 
    // Выясняется элемент дерева, над которым был сделан Drop

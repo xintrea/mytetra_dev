@@ -151,6 +151,11 @@ void RecordTableScreen::setupActions(void)
  actionSort->setIcon(QIcon(":/resource/pic/sort.svg"));
  connect(actionSort, SIGNAL(triggered()), recordTableController, SLOT(onSortClick()));
 
+ // Кнопка вызова печати таблицы конечных записей
+ actionPrint = new QAction(tr("Print table"), this);
+ actionPrint->setStatusTip(tr("Print current notes table"));
+ actionPrint->setIcon(QIcon(":/resource/pic/print_record_table.svg"));
+ connect(actionPrint, SIGNAL(triggered()), recordTableController, SLOT(onPrintClick()));
 
  // Сразу после создания все действия запрещены
  disableAllActions();

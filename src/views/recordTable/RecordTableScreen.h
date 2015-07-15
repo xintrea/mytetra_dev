@@ -44,6 +44,7 @@ public:
  QAction *actionBack;
  QAction *actionFindInBase;
  QAction *actionSort;
+ QAction *actionPrint;
 
 public slots:
 

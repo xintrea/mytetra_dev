@@ -7,6 +7,7 @@
 #include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "views/recordTable/RecordTablePrint.h"
 #include "views/mainWindow/MainWindow.h"
 #include "views/tree/TreeScreen.h"
 #include "views/record/RecordInfoFieldsEditor.h"
@@ -585,6 +586,7 @@ void RecordTableController::editField(int pos,
 }
 
 
+// Обработка клика по удалению записи в контекстном меню и по кнопке на панели
 void RecordTableController::deleteContext(void)
 {
  // Создается окно с вопросом нужно удалять запись (записи) или нет
@@ -711,10 +713,10 @@ void RecordTableController::deleteRecords(void)
    */
    view->selectRow(selectionIndex);
  }
- else
- {
-   // Иначе таблица конечных записей пуста, курсор устанавливать ненужно
 
+ // Если таблица конечных записей пуста
+ if(recordSourceModel->rowCount()==0)
+ {
    // Нужно очистить поле редактирования чтобы невидно было текста
    // последней удаленной записи
    find_object<MetaEditor>("editorScreen")->clearAll();
@@ -827,3 +829,23 @@ void RecordTableController::onRecordTableConfigChange(void)
   view->restoreColumnWidth();
   view->restoreHeaderState();
 }
+
+
+void RecordTableController::onPrintClick(void)
+{
+  /*
+  QMessageBox msgBox;
+  msgBox.setText("Print notes table");
+  msgBox.exec();
+  */
+
+  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
+
+  RecordTablePrint printDialog(parentPointer);
+  printDialog.setModel(recordProxyModel);
+  printDialog.exec();
+
+  // if(dialog.exec()!=QDialog::Accepted)
+  //   return;
+}
+

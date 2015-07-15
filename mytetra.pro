@@ -146,7 +146,8 @@ HEADERS = src/main.h \
     src/libraries/FixedParameters.h \
     src/libraries/WindowSwitcher.h \
     src/libraries/wyedit/EditorShowText.h \
-    src/controllers/recordTable/recordTableController.h
+    src/controllers/recordTable/recordTableController.h \
+    src/views/recordTable/RecordTablePrint.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -228,7 +229,8 @@ SOURCES = src/main.cpp \
     src/libraries/FixedParameters.cpp \
     src/libraries/WindowSwitcher.cpp \
     src/libraries/wyedit/EditorShowText.cpp \
-    src/controllers/recordTable/recordTableController.cpp
+    src/controllers/recordTable/recordTableController.cpp \
+    src/views/recordTable/RecordTablePrint.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

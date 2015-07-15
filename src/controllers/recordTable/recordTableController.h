@@ -85,6 +85,9 @@ public slots:
   // Слот, обновляющий вид если изменились настройки таблицы конечных записей в конфиге программы
   void onRecordTableConfigChange(void);
 
+  // Печать таблицы конечных записей
+  void onPrintClick(void);
+
 protected:
   RecordTableView *view;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
