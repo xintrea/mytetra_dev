@@ -81,7 +81,7 @@ void RecordTablePrint::assembly()
 // Метод установки модели данных, из которой будет формироваться таблица
 void RecordTablePrint::setModel(RecordTableProxyModel *model)
 {
-  QString html="<table border='1'>";
+  QString html="<table border='1' style='border-style:solid; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;' cellspacing='0'' cellpadding='10'>";
 
   // Заголовок таблицы
   html+="<tr>";
