@@ -62,7 +62,6 @@ public slots:
 
   void onEditFieldContext(void);
 
-  void deleteRecordsByPos(QVector<int> vectorPos);
   void deleteRecords(void);
 
   // Вызов действий из контекстного меню для открытия окна с вводом новой записи
