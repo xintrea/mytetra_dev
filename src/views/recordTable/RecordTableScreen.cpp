@@ -385,6 +385,14 @@ void RecordTableScreen::setSelectionToPos(int pos)
 }
 
 
+// Установка засветки в нужную запись в таблице записей на экране
+void RecordTableScreen::setSelectionToId(QString id)
+{
+  recordTableController->setSelectionToId(id);
+}
+
+
+
 // Действия при нажатии кнопки синхронизации
 void RecordTableScreen::onSyncroClick(void)
 {

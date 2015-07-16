@@ -272,6 +272,18 @@ void RecordTableController::setSelectionToPos(int pos)
 }
 
 
+void RecordTableController::setSelectionToId(QString id)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // Номер записи в Source данных
+  int pos=table->getPosById(id);
+
+  view->setSelectionToPos( convertSourcePosToProxyPos(pos) );
+}
+
+
 QModelIndex RecordTableController::convertPosToProxyIndex(int pos)
 {
   if(pos<0 || pos>=recordProxyModel->rowCount())

@@ -26,6 +26,7 @@ public:
 
  int getFirstSelectionPos(void);
  void setSelectionToPos(int pos);
+ void setSelectionToId(QString id);
 
  void setTreePath(QString path);
  QString getTreePath(void);

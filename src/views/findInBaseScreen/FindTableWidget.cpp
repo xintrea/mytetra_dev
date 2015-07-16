@@ -189,6 +189,6 @@ void FindTableWidget::selectCell(const QModelIndex & index)
  qDebug() << "Get path to record:" << path;
  
  find_object<MainWindow>("mainwindow")->setTreePosition(path);
- find_object<MainWindow>("mainwindow")->setRecordtablePosition(n);
+ find_object<MainWindow>("mainwindow")->setRecordtablePositionByPos(n);
 }
 

@@ -285,7 +285,7 @@ void MainWindow::restoreRecordTablePosition(void)
  int n=mytetraConfig.get_recordtable_position();
 
  if(n>=0)
-  setRecordtablePosition(n);
+  setRecordtablePositionByPos(n);
 }
 
 
@@ -297,9 +297,15 @@ void MainWindow::saveRecordTablePosition(void)
 }
 
 
-void MainWindow::setRecordtablePosition(int n)
+void MainWindow::setRecordtablePositionByPos(int n)
 {
  recordTableScreen->setSelectionToPos(n);
+}
+
+
+void MainWindow::setRecordtablePositionById(QString id)
+{
+ recordTableScreen->setSelectionToId(id);
 }
 
 
@@ -909,17 +915,16 @@ void MainWindow::goWalkHistory(void)
 
  // Выясняется позицию записи в таблице конечных записей
  TreeItem *item =treeScreen->knowTreeModel->getItem(path);
- int pos=item->getRecordPos(id);
 
  // Проверяем, есть ли такая позиция
- if(pos<0)
+ if(item->recordtableGetTableData()->isRecordExists(id)==false)
   {
    walkHistory.setDrop(false);
    return;
   }
 
  setTreePosition(path);
- setRecordtablePosition(pos);
+ setRecordtablePositionById(id);
 
  if(mytetraConfig.getRememberCursorAtHistoryNavigation())
   {

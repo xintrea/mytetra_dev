@@ -177,9 +177,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
 
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
-     unsigned int recordPos=treeItemFrom->getRecordPos( exemplar["id"] );
-     RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");
-     recordTableController->deleteRecordByPos(recordPos);
+     treeItemFrom->recordtableGetTableData()->deleteRecordById( exemplar["id"] );
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,

@@ -894,6 +894,14 @@ void RecordTableData::deleteRecord(int i)
 }
 
 
+void RecordTableData::deleteRecordById(QString id)
+{
+  for(int i=0;i<size();i++)
+    if(getField("id", i)==id)
+      deleteRecord(i);
+}
+
+
 // Удаление всех элементов таблицы конечных записей
 void RecordTableData::deleteAllRecords(void)
 {
@@ -909,6 +917,26 @@ void RecordTableData::empty(void)
 {
  fieldsTable.clear();
  treeItem=NULL;
+}
+
+
+bool RecordTableData::isRecordExists(QString id)
+{
+  for(int i=0;i<size();i++)
+    if(getField("id", i)==id)
+      return true;
+
+  return false;
+}
+
+
+int RecordTableData::getPosById(QString id)
+{
+  for(int i=0;i<size();i++)
+    if(getField("id", i)==id)
+      return i;
+
+  return -1;
 }
 
 
