@@ -79,9 +79,6 @@ public:
     QStringList get_tree_position(void);
     void set_tree_position(QStringList list);
 
-    // Позиция записи в таблице конечных записей, которая выделена на экране
-    int get_recordtable_position(void);
-    void set_recordtable_position(int pos);
 
     // ID записи в таблице конечных записей, которая выделена на экране
     QString get_recordtable_selected_record_id(void);
@@ -221,6 +218,7 @@ private:
     QStringList get_parameter_table_20(bool withEndSignature=true);
     QStringList get_parameter_table_21(bool withEndSignature=true);
     QStringList get_parameter_table_22(bool withEndSignature=true);
+    QStringList get_parameter_table_23(bool withEndSignature=true);
 
     bool is_init_flag;
 };

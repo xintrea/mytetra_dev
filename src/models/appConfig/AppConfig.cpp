@@ -321,18 +321,6 @@ void AppConfig::set_tree_position(QStringList list)
 }
 
 
-int AppConfig::get_recordtable_position(void)
-{
- return conf->value("recordtable_position",0).toInt();
-}
-
-
-void AppConfig::set_recordtable_position(int pos)
-{
- conf->setValue("recordtable_position",pos);
-}
-
-
 // ID записи в таблице конечных записей, которая выделена на экране
 QString AppConfig::get_recordtable_selected_record_id(void)
 {
@@ -831,7 +819,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 22
+ // Последняя версия на данный момент - 23
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -874,6 +862,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(20, 21, get_parameter_table_20(), get_parameter_table_21());
  if(fromVersion<=21)
   updater.update_version(21, 22, get_parameter_table_21(), get_parameter_table_22());
+ if(fromVersion<=22)
+  updater.update_version(22, 23, get_parameter_table_22(), get_parameter_table_23());
 }
 
 
@@ -1329,4 +1319,23 @@ QStringList AppConfig::get_parameter_table_22(bool withEndSignature)
     table << "0" << "0" << "0";
 
   return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_23(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 22
+ table << get_parameter_table_22(false);
+
+ // Исключаются ненужные в новой версии параметры
+ table=removeParameterFromTable("recordtable_position", table);
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
 }
