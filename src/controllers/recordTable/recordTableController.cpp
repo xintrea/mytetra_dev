@@ -620,15 +620,6 @@ void RecordTableController::deleteContext(void)
 }
 
 
-// Удаление записи с указанным номером (счет с нуля)
-void RecordTableController::deleteRecordByPos(int pos)
-{
- QVector<int> vectorPos;
- vectorPos.append(pos);
- recordSourceModel->removeRowsByList( vectorPos ); // Удаление
-}
-
-
 // Удаление записей с указанным номером (счет с нуля)
 void RecordTableController::deleteRecordsByPos(QVector<int> vectorPos)
 {

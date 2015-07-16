@@ -45,9 +45,6 @@ public:
 
  ClipboardRecords *getSelectedRecords(void);
 
- void deleteRecordByPos(int pos);
- void deleteRecordsByPos(QVector<int> vectorPos);
-
  void moveCursorToNewRecord(int mode, int pos);
 
 signals:

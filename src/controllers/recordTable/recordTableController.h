@@ -62,7 +62,6 @@ public slots:
 
   void onEditFieldContext(void);
 
-  void deleteRecordByPos(int pos);
   void deleteRecordsByPos(QVector<int> vectorPos);
   void deleteRecords(void);
 
