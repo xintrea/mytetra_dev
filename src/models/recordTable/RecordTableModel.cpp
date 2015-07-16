@@ -146,27 +146,6 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
 }
 
 
-// Добавление пустых строк, пока не используется
-bool RecordTableModel::insertRows(int position, int rows, const QModelIndex &parent)
-{
-    // Модель не древовидная, parent не используется
-    Q_UNUSED(parent);
-
-    beginInsertRows(QModelIndex(), position, position+rows-1);
-
-    for (int row = 0; row < rows; ++row) {
-        table->insertNewRecord(ADD_NEW_RECORD_AFTER,
-                               position,
-                               QMap<QString, QString>(),
-                               "",
-                               QMap<QString, QByteArray>() );
-    }
-
-    endInsertRows();
-    return true;
-}
-
-
 // Получение заголовков столбцов и строк
 QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {

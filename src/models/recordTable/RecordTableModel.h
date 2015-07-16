@@ -35,9 +35,6 @@ public:
     // Интерфейс модели, сколько столбцов в таблице
     int columnCount(const QModelIndex &parent=QModelIndex()) const;
 
-    // Интерфейс модели, добавление пустых строк
-    bool insertRows(int position, int rows, const QModelIndex &parent);
-
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);
 
