@@ -76,8 +76,7 @@ public:
 
  void setTreePosition(QStringList path);
  bool isTreePositionCrypt();
- 
- void setRecordtablePositionByPos(int n);
+
  void setRecordtablePositionById(QString id);
 
  void synchronization(void);

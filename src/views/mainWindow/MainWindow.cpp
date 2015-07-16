@@ -280,31 +280,6 @@ bool MainWindow::isTreePositionCrypt()
 }
 
 
-/*
-void MainWindow::restoreRecordTablePosition(void)
-{
- int n=mytetraConfig.get_recordtable_position();
-
- if(n>=0)
-  setRecordtablePositionByPos(n);
-}
-
-
-void MainWindow::saveRecordTablePosition(void)
-{
- int n=recordTableScreen->getFirstSelectionPos();
- 
- mytetraConfig.set_recordtable_position(n);
-}
-
-
-void MainWindow::setRecordtablePositionByPos(int n)
-{
- recordTableScreen->setSelectionToPos(n);
-}
-*/
-
-
 void MainWindow::restoreRecordTablePosition(void)
 {
  QString id=mytetraConfig.get_recordtable_selected_record_id();
