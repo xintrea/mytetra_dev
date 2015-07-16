@@ -266,6 +266,13 @@ int RecordTableController::getFirstSelectionPos(void)
 }
 
 
+// Получение ID первого выделенного элемента на экране
+QString RecordTableController::getFirstSelectionId(void)
+{
+  return view->getFirstSelectionId();
+}
+
+
 void RecordTableController::setSelectionToPos(int pos)
 {
   view->setSelectionToPos(pos);

@@ -66,6 +66,10 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     }
   }
 
+  if(role==RECORD_ID_ROLE)
+  {
+    return table->getField("id", index.row());
+  }
 
   // Если происходит запрос ссылки на таблицу данных
   /*

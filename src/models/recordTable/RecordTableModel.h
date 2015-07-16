@@ -9,6 +9,7 @@
 
 #define TABLE_DATA_ROLE Qt::UserRole+10
 #define ONE_RECORD_ROLE Qt::UserRole+11
+#define RECORD_ID_ROLE  Qt::UserRole+12
 
 class RecordTableData;
 

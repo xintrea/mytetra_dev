@@ -24,9 +24,10 @@ public:
  RecordTableScreen(QWidget *parent=0);
  virtual ~RecordTableScreen();
 
- int getFirstSelectionPos(void);
- void setSelectionToPos(int pos);
- void setSelectionToId(QString id);
+ int     getFirstSelectionPos(void);
+ QString getFirstSelectionId(void);
+ void    setSelectionToPos(int pos);
+ void    setSelectionToId(QString id);
 
  void setTreePath(QString path);
  QString getTreePath(void);

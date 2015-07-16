@@ -333,6 +333,20 @@ void AppConfig::set_recordtable_position(int pos)
 }
 
 
+// ID записи в таблице конечных записей, которая выделена на экране
+QString AppConfig::get_recordtable_selected_record_id(void)
+{
+  return conf->value("recordtableSelectedRecordId",0).toString();
+}
+
+
+// ID записи в таблице конечных записей, которая выделена на экране
+void AppConfig::set_recordtable_selected_record_id(QString id)
+{
+  conf->setValue("recordtableSelectedRecordId", id);
+}
+
+
 int AppConfig::get_findscreen_wordregard(void)
 {
  return conf->value("findscreen_wordregard",0).toInt();
@@ -817,7 +831,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 21
+ // Последняя версия на данный момент - 22
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -858,6 +872,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(19, 20, get_parameter_table_19(), get_parameter_table_20());
  if(fromVersion<=20)
   updater.update_version(20, 21, get_parameter_table_20(), get_parameter_table_21());
+ if(fromVersion<=21)
+  updater.update_version(21, 22, get_parameter_table_21(), get_parameter_table_22());
 }
 
 
@@ -1298,3 +1314,19 @@ QStringList AppConfig::get_parameter_table_21(bool withEndSignature)
   return table;
 }
 
+
+QStringList AppConfig::get_parameter_table_22(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 21
+  table << get_parameter_table_21(false);
+
+  table << "recordtableSelectedRecordId" << "QString" << "";
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}

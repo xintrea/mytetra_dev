@@ -378,6 +378,13 @@ int RecordTableScreen::getFirstSelectionPos(void)
 }
 
 
+// Получение ID первого выделенного элемента в таблице записи на экране
+QString RecordTableScreen::getFirstSelectionId(void)
+{
+  return recordTableController->getFirstSelectionId();
+}
+
+
 // Установка засветки в нужную строку в таблице записи на экране
 void RecordTableScreen::setSelectionToPos(int pos)
 {

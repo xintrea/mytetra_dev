@@ -18,10 +18,10 @@
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
 
-extern AppConfig mytetraConfig;
+#define USER_ROLE_PATH      Qt::UserRole
+#define USER_ROLE_RECORD_ID Qt::UserRole+1
 
-#define USER_ROLE_PATH               Qt::UserRole
-#define USER_ROLE_NUM_IN_RECORDTABLE Qt::UserRole+1
+extern AppConfig mytetraConfig;
 
 
 FindTableWidget::FindTableWidget(QWidget *parent) : QWidget(parent)
@@ -125,7 +125,7 @@ void FindTableWidget::clearAll(void)
 }
 
 
-void FindTableWidget::addRow(QString title, QString branchName, QString tags, QStringList path, int numInRecordtable)
+void FindTableWidget::addRow(QString title, QString branchName, QString tags, QStringList path, QString recordId)
 {
  int i=findTableModel->rowCount();
 
@@ -144,7 +144,7 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
  // и номере записи в таблице конечных записей
  qDebug() << "Path to record" << path;
  item_title->setData(QVariant(path), USER_ROLE_PATH);
- item_title->setData(QVariant(numInRecordtable), USER_ROLE_NUM_IN_RECORDTABLE);
+ item_title->setData(QVariant(recordId), USER_ROLE_RECORD_ID);
  
  // Информация о записи
  QStandardItem *item_info=new QStandardItem();
@@ -184,11 +184,11 @@ void FindTableWidget::selectCell(const QModelIndex & index)
  
  // Выясняется путь к ветке и номер в таблице конечных записей
  QStringList path=item->data(USER_ROLE_PATH).toStringList();
- int n=item->data(USER_ROLE_NUM_IN_RECORDTABLE).toInt();
+ QString recordId=item->data(USER_ROLE_RECORD_ID).toString();
 
  qDebug() << "Get path to record:" << path;
  
  find_object<MainWindow>("mainwindow")->setTreePosition(path);
- find_object<MainWindow>("mainwindow")->setRecordtablePositionByPos(n);
+ find_object<MainWindow>("mainwindow")->setRecordtablePositionById(recordId);
 }
 

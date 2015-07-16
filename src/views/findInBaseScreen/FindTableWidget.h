@@ -7,6 +7,7 @@ class QModelIndex;
 class QTableView;
 class QStandardItemModel;
 
+
 class FindTableWidget : public QWidget
 {
  Q_OBJECT
@@ -17,7 +18,7 @@ public:
  virtual ~FindTableWidget(void);
 
  void clearAll(void);
- void addRow(QString title, QString branchName, QString tags, QStringList path, int numInRecordtable);
+ void addRow(QString title, QString branchName, QString tags, QStringList path, QString recordId);
  void updateColumnsWidth(void);
 
 private slots:

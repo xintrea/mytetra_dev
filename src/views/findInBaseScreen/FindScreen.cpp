@@ -549,12 +549,12 @@ void FindScreen::findRecurse(TreeItem *curritem)
        // Имя ветки
        // Теги
        // Путь к ветке
-       // Номер записи в таблице конечных записей
-       findTable->addRow(searchRecordTable->getField("name",i),
+       // ID записи в таблице конечных записей
+       findTable->addRow(searchRecordTable->getField("name", i),
                           curritem->getField("name"),
-                          searchRecordTable->getField("tags",i),
+                          searchRecordTable->getField("tags", i),
                           curritem->getPath(),
-                          i);
+                          searchRecordTable->getField("id", i));
       }
      
     } // Закрылся цикл перебора записей в таблице конечных записей
@@ -562,7 +562,8 @@ void FindScreen::findRecurse(TreeItem *curritem)
  
 
  // Рекурсивная обработка каждой подчиненной ветки
- for(int i=0;i<curritem->childCount();i++) findRecurse(curritem->child(i));
+ for(int i=0;i<curritem->childCount();i++)
+   findRecurse(curritem->child(i));
 
 }
 

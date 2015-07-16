@@ -35,6 +35,8 @@ public:
  void restoreColumnWidth(void);
 
  int getFirstSelectionPos(void);
+ QString getFirstSelectionId(void);
+
  void setSelectionToPos(int pos);
 
  QModelIndex getFirstSelectionProxyIndex(void);

@@ -43,9 +43,10 @@ public:
   int         convertSourcePosToProxyPos(int sourcePos);
   int         convertProxyPosToSourcePos(int proxyPos);
 
-  int getFirstSelectionPos(void);
-  void setSelectionToPos(int pos);
-  void setSelectionToId(QString id);
+  int     getFirstSelectionPos(void);
+  QString getFirstSelectionId(void);
+  void    setSelectionToPos(int pos);
+  void    setSelectionToId(QString id);
 
 signals:
 

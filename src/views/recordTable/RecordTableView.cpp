@@ -292,6 +292,19 @@ int RecordTableView::getFirstSelectionPos(void)
 }
 
 
+// Получение номера первого выделенного элемента
+QString RecordTableView::getFirstSelectionId(void)
+{
+  // Получение списка выделенных Item-элементов
+  QModelIndexList selectItems=selectionModel()->selectedIndexes();
+
+  if(selectItems.isEmpty())
+    return ""; // Если ничего не выделено
+
+  return selectItems.at(0).data(RECORD_ID_ROLE).toString();
+}
+
+
 // Получение модельного индекса первого выделенного элемента в Proxy модели
 QModelIndex RecordTableView::getFirstSelectionProxyIndex(void)
 {
