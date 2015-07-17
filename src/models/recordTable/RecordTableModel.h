@@ -48,9 +48,6 @@ public:
                      QString text,
                      QMap<QString, QByteArray> files);
 
-    // Удаление записей
-    void removeRowsByList(QVector<int> delIdx);
-
     void onRecordTableConfigChange(void);
 
 public slots:

@@ -291,6 +291,31 @@ void RecordTableController::setSelectionToId(QString id)
 }
 
 
+QModelIndex RecordTableController::convertIdToSourceIndex(QString id)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // Номер записи в Source данных
+  int sourcePos=table->getPosById(id);
+
+  return convertPosToSourceIndex(sourcePos);
+}
+
+
+QModelIndex RecordTableController::convertIdToProxyIndex(QString id)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // Номер записи в Source данных
+  int sourcePos=table->getPosById(id);
+  int proxyPos=convertSourcePosToProxyPos(sourcePos);
+
+  return convertPosToProxyIndex(proxyPos);
+}
+
+
 QModelIndex RecordTableController::convertPosToProxyIndex(int pos)
 {
   if(pos<0 || pos>=recordProxyModel->rowCount())
@@ -635,10 +660,7 @@ void RecordTableController::deleteRecords(void)
  // Запоминание позиции, на которой стоит курсор списка
  int beforeIndex=(view->selectionModel()->currentIndex()).row();
 
- // Выясняется количество элементов в таблице
- int totalRowCount=recordSourceModel->rowCount();
-
- // Получение списка Item-элементов, подлежащих удалению
+ // Получение списка Item-элементов, подлежащих удалению. Индексы Proxy модели
  QModelIndexList itemsForDelete=view->selectionModel()->selectedIndexes();
 
  // Проверка, выбраны ли записи
@@ -653,50 +675,43 @@ void RecordTableController::deleteRecords(void)
    return;
  }
 
- // Сбор в массив всех индексов, которые нужно удалить
+ // Сбор в массив всех идентификаторов, которые нужно удалить
  // Напрямую пробегать массив item-элементов и удалять из него нельзя
  // так как итератор начинает указывать на несуществующие элементы
- QVector<int> delIdx;
+ QVector<QString> delIds;
+ QVector<int> delRows;
  QModelIndexList::iterator it;
  for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); it++)
  {
    QModelIndex currIdx;
    currIdx=*it;
 
-   // Если номер не содержится в перечне удаляемых строк
-   // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же номер строки
-   if(!delIdx.contains(currIdx.row()))
+   QString appendId=currIdx.data(RECORD_ID_ROLE).toString();
+
+   // Если идентификатор не содержится в перечне удаляемых идентификаторов
+   // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же идентификатор записи
+   if(!delIds.contains(appendId))
    {
-     qDebug() << "Mark for delete item num " << currIdx.row();
-     delIdx.append( currIdx.row() );
+     qDebug() << "Mark for delete item id " << addingId;
+     delIds.append( appendId );
+     delRows.append( currIdx.row() );
    }
  }
 
- // Массив удаляемых индексов сортируется так чтоб вначале
- // были индексы с наименьшим номером
- qSort(delIdx.begin(), delIdx.end(), qLess<int>());
+ // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
+ qSort(delRows.begin(), delRows.end(), qGreater<int>());
+ int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
 
- // Поиск индекса, на который надо установить засветку после удаления
- int i=0,selectionIndex=-1;
- for(i=0;i<totalRowCount;i++)
- {
-   // Если позиция не помечена на удаление, она считается
-   if(!delIdx.contains(i))
-   {
-     selectionIndex++;
-
-     // На первой непомеченной после курсора позиции обработка прекращается
-     // Значение selection_index в этот момент и есть нужный индекс
-     if(i>beforeIndex)break;
-   }
- }
+ // Номер строки на который надо установить засветку после удаления
+ // Засветка устанавливается на запись, следующую после последней удаляемой
+ int selectionRowNum=lastRowNum+1-delRows.count();
  qDebug() << "After delete cursor set to" << selectionIndex << "row";
 
  // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
  find_object<MetaEditor>("editorScreen")->clearAll();
 
  // Вызывается удаление отмеченных записей
- recordSourceModel->removeRowsByList(delIdx);
+ removeRowsByIdList(delIds);
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
@@ -706,19 +721,11 @@ void RecordTableController::deleteRecords(void)
  find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
 
  // Установка курсора на нужную позицию
- if(selectionIndex>=0)
- {
-   /*
-   // Создание индекса из номера
-   QModelIndex selIdx=recordSourceModel->index(selectionIndex, 0);
-   // Установка курсора
-   selectionModel()->setCurrentIndex(selIdx,QItemSelectionModel::ClearAndSelect);
-   */
-   view->selectRow(selectionIndex);
- }
+ if(selectionRowNum>=0 && selectionRowNum<recordProxyModel->rowCount())
+   view->selectRow(selectionRowNum);
 
  // Если таблица конечных записей пуста
- if(recordSourceModel->rowCount()==0)
+ if(recordProxyModel->rowCount()==0)
  {
    // Нужно очистить поле редактирования чтобы невидно было текста
    // последней удаленной записи
@@ -726,6 +733,29 @@ void RecordTableController::deleteRecords(void)
  }
 
  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
+}
+
+
+// Удаление записей по указанному списку идентификаторов
+void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
+{
+  qDebug() << "Remove rows by ID list: " << delIds;
+
+  if(table==NULL)
+    return;
+
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  for(int i=0;i<delIds.count();i++)
+  {
+    QString id=delIds[i];
+    QModelIndex idx=convertIdToProxyIndex(id);
+
+    beginRemoveRows(QModelIndex(), idx, idx);
+    table->deleteRecordById(id);
+    endRemoveRows();
+  }
 }
 
 
