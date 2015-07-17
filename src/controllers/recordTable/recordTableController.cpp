@@ -657,9 +657,6 @@ void RecordTableController::deleteRecords(void)
 {
  qDebug() << "RecordTableView::delete_records()";
 
- // Запоминание позиции, на которой стоит курсор списка
- int beforeIndex=(view->selectionModel()->currentIndex()).row();
-
  // Получение списка Item-элементов, подлежащих удалению. Индексы Proxy модели
  QModelIndexList itemsForDelete=view->selectionModel()->selectedIndexes();
 
@@ -692,7 +689,7 @@ void RecordTableController::deleteRecords(void)
    // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же идентификатор записи
    if(!delIds.contains(appendId))
    {
-     qDebug() << "Mark for delete item id " << addingId;
+     qDebug() << "Mark for delete item id " << appendId;
      delIds.append( appendId );
      delRows.append( currIdx.row() );
    }
@@ -705,7 +702,7 @@ void RecordTableController::deleteRecords(void)
  // Номер строки на который надо установить засветку после удаления
  // Засветка устанавливается на запись, следующую после последней удаляемой
  int selectionRowNum=lastRowNum+1-delRows.count();
- qDebug() << "After delete cursor set to" << selectionIndex << "row";
+ qDebug() << "After delete cursor set to" << selectionRowNum << "row";
 
  // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
  find_object<MetaEditor>("editorScreen")->clearAll();
@@ -741,20 +738,22 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
 {
   qDebug() << "Remove rows by ID list: " << delIds;
 
-  if(table==NULL)
-    return;
-
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
+
+  if(table==NULL)
+    return;
 
   for(int i=0;i<delIds.count();i++)
   {
     QString id=delIds[i];
     QModelIndex idx=convertIdToProxyIndex(id);
 
-    beginRemoveRows(QModelIndex(), idx, idx);
+    // Удаляется строка в модели
+    recordProxyModel->removeRow(idx.row());
+
+    // Удаляется строка непосредственно в таблице
     table->deleteRecordById(id);
-    endRemoveRows();
   }
 }
 

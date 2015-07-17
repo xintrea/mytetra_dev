@@ -107,6 +107,9 @@ protected:
                  QString author,
                  QString url,
                  QString tags);
+
+  void removeRowsByIdList(QVector<QString> delIds);
+
 };
 
 #endif // __RECORDTABLECONTROLLER_H__

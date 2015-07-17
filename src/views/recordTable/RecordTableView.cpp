@@ -292,7 +292,7 @@ int RecordTableView::getFirstSelectionPos(void)
 }
 
 
-// Получение номера первого выделенного элемента
+// Получение ID первого выделенного элемента
 QString RecordTableView::getFirstSelectionId(void)
 {
   // Получение списка выделенных Item-элементов
