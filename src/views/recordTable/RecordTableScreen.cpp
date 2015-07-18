@@ -432,6 +432,7 @@ void RecordTableScreen::setTreePath(QString path)
   treePathLabel->setText(tr("<b>Path:</b> ")+treePath);
 }
 
+
 QString RecordTableScreen::getTreePath(void)
 {
   return treePath;

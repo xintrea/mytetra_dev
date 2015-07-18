@@ -19,7 +19,9 @@ public:
  RecordTablePrint(QWidget *parent=0);
  virtual ~RecordTablePrint();
 
- void setModel(RecordTableProxyModel *model);
+ void setModel(RecordTableProxyModel *iModel);
+ void generateHtmlTableFromModel(void);
+ void setTitleToHtml(QString title);
 
 public slots:
 
@@ -29,6 +31,8 @@ private:
 
  QTextEdit *textArea; // Отображение текста с таблицей, выводимой на печать
  QDialogButtonBox *buttonBox; // Линейка с кнопками
+
+ RecordTableProxyModel *model;
 
  void setup_ui(void);
  void setup_signals(void);

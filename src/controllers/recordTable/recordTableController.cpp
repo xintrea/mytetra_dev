@@ -16,6 +16,7 @@
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
+#include "models/tree/TreeItem.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
@@ -882,6 +883,8 @@ void RecordTableController::onPrintClick(void)
 
   RecordTablePrint printDialog(parentPointer);
   printDialog.setModel(recordProxyModel);
+  printDialog.generateHtmlTableFromModel();
+  printDialog.setTitleToHtml( recordSourceModel->getTableData()->getItem()->getPathAsNameWithDelimeter(" / ") );
   printDialog.exec();
 
   // if(dialog.exec()!=QDialog::Accepted)

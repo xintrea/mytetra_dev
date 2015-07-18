@@ -396,6 +396,19 @@ QStringList TreeItem::getPathAsName(void)
 }
 
 
+// Путь к элементу в виде строки
+QString TreeItem::getPathAsNameWithDelimeter(QString delimeter)
+{
+  QStringList path=getPathAsName();
+
+  // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
+  int emptyStringIndex=path.indexOf("");
+  path.removeAt(emptyStringIndex);
+
+  return path.join(delimeter);
+}
+
+
 QStringList TreeItem::getPathAsField(QString fieldName)
 {
  QStringList path;

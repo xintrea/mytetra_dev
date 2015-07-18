@@ -79,9 +79,16 @@ void RecordTablePrint::assembly()
 
 
 // Метод установки модели данных, из которой будет формироваться таблица
-void RecordTablePrint::setModel(RecordTableProxyModel *model)
+void RecordTablePrint::setModel(RecordTableProxyModel *iModel)
 {
-  QString html="<table border='1' style='border-style:solid; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;' cellspacing='0'' cellpadding='10'>";
+  model=iModel;
+}
+
+
+// Формирование HTML-кода таблицы
+void RecordTablePrint::generateHtmlTableFromModel(void)
+{
+  QString html="<table border='1' style='border-style:solid; margin-top:0; margin-bottom:0; margin-left:0; margin-right:0;' cellspacing='0' cellpadding='0'>";
 
   // Заголовок таблицы
   html+="<tr>";
@@ -90,7 +97,7 @@ void RecordTablePrint::setModel(RecordTableProxyModel *model)
     QVariant cellTextVariant=model->headerData(nColumn, Qt::Horizontal, Qt::DisplayRole);
     QString cellText=cellTextVariant.toString();
 
-    html+="<td><b>"+cellText+"</b></td>";
+    html+="<td style='padding: 10px;'><b>"+cellText+"</b></td>";
   }
   html+="</tr>";
 
@@ -106,7 +113,7 @@ void RecordTablePrint::setModel(RecordTableProxyModel *model)
         QVariant cellTextVariant=model->index(nRow, nColumn).data(Qt::DisplayRole);
         QString cellText=cellTextVariant.toString();
 
-        html+="<td>"+cellText+"</td>";
+        html+="<td style='padding: 10px;'>"+cellText+"</td>";
       }
 
     html+="</tr>";
@@ -117,6 +124,12 @@ void RecordTablePrint::setModel(RecordTableProxyModel *model)
   qDebug() << html;
 
   textArea->setHtml(html);
+}
+
+
+void RecordTablePrint::setTitleToHtml(QString title)
+{
+  textArea->setHtml( "<p>"+title+"</p>"+textArea->toHtml() );
 }
 
 

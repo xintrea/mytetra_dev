@@ -73,6 +73,8 @@ class TreeItem
     // Возвращает путь в виде названий веток дерева
     QStringList getPathAsName(void);
 
+    QString getPathAsNameWithDelimeter(QString delimeter);
+
     // Возвращает набор значений указанного поля для пути от корня к ветке
     QStringList getPathAsField(QString fieldName);
 
