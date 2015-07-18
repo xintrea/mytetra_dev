@@ -108,11 +108,6 @@ class TreeItem
 
     // Взятие ссылки на данные конечных записей
     RecordTableData *recordtableGetTableData(void);
-
-    // Получение номера строки, в которой находится запись в с указанным идентификатором
-    // в своей таблице конечных данных
-    // Если записи с таким идентификатором нет, возвращается -1
-    int getRecordPos(QString recordId);
     
 private:
     bool removeChildrenLink(int position, int count);

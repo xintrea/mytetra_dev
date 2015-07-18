@@ -50,6 +50,10 @@ public:
   void    setSelectionToPos(int pos);
   void    setSelectionToId(QString id);
 
+  // Методы удаления записей перенесены в открытый доступ, так как через них удаляются даннные из KnowTreeView про DragAndDrop
+  void removeRowById(QString delId);
+  void removeRowsByIdList(QVector<QString> delIds);
+
 signals:
 
 public slots:
@@ -107,8 +111,6 @@ protected:
                  QString author,
                  QString url,
                  QString tags);
-
-  void removeRowsByIdList(QVector<QString> delIds);
 
 };
 

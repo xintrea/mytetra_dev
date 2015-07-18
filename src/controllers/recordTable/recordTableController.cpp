@@ -733,6 +733,15 @@ void RecordTableController::deleteRecords(void)
 }
 
 
+// Удаление одной записи по идентификатору
+void RecordTableController::removeRowById(QString delId)
+{
+  QVector<QString> delIds;
+  delIds.append( delId );
+  removeRowsByIdList(delIds);
+}
+
+
 // Удаление записей по указанному списку идентификаторов
 void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
 {

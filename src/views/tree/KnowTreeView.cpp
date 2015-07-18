@@ -168,6 +168,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // В настоящий момент в MimeData попадает только одна запись,
    // но в дальнейшем планируется переносить несколько записей
    // и здесь код подготовлен для переноса нескольких записей
+   RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");  // Указатель на контроллер таблицы конечных записей
    for(int i=0; i<clipboardRecords->getRecordsNum(); i++)
     {
      // Данные записи (текстовые)
@@ -176,8 +177,10 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
-     TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
-     treeItemFrom->recordtableGetTableData()->deleteRecordById( exemplar["id"] );
+     // В этот момент вид таблицы конечных записей показывает таблицу, из которой совершается Drag
+     // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
+     recordTableController->removeRowById( exemplar["id"] );
+
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
