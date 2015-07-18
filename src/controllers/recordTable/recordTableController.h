@@ -25,7 +25,7 @@ public:
 
   void clickToRecord(const QModelIndex &index);
 
-  bool isTableEmpty(void);
+  bool isTableNotExists(void);
   void setTableData(RecordTableData *rtData);
 
   int getRowCount(void);
@@ -51,7 +51,7 @@ public:
   void    setSelectionToPos(int pos);
   void    setSelectionToId(QString id);
 
-  // Методы удаления записей перенесены в открытый доступ, так как через них удаляются даннные из KnowTreeView про DragAndDrop
+  // Методы удаления записей перенесены в открытый доступ, так как через них удаляются даннные из KnowTreeView при DragAndDrop
   void removeRowById(QString delId);
   void removeRowsByIdList(QVector<QString> delIds);
 

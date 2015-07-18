@@ -171,6 +171,8 @@ void MetaEditor::setField(QString n, QString v)
 
 void MetaEditor::clearAll(void)
 {
+ qDebug() << "MetaEditor::clearAll()" ;
+
  setName("");
  setAuthor("");
  setUrl("");

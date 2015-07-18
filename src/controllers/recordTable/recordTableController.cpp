@@ -165,7 +165,7 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 }
 
 
-bool RecordTableController::isTableEmpty(void)
+bool RecordTableController::isTableNotExists(void)
 {
  if( recordSourceModel->getTableData()==NULL )
    return true;

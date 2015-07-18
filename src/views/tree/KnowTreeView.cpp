@@ -13,6 +13,8 @@
 #include "models/tree/TreeItem.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "views/mainWindow/MainWindow.h"
+#include "views/recordTable/RecordTableScreen.h"
+#include "views/record/MetaEditor.h"
 #include "controllers/recordTable/recordTableController.h"
 
 
@@ -176,10 +178,16 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      QString text=exemplar["text"]; // Текст записи
      exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
+
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      // В этот момент вид таблицы конечных записей показывает таблицу, из которой совершается Drag
      // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      recordTableController->removeRowById( exemplar["id"] );
+
+     // Если таблица конечных записей после удаления перемещенной записи стала пустой
+     if(recordTableController->getRowCount()==0)
+       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы невидно было текста последней удаленной записи
+     find_object<RecordTableScreen>("recordTableScreen")->toolsUpdate();
 
 
      // Добавление записи в базу
