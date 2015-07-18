@@ -211,6 +211,33 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 }
 
 
+// Удаление строк в таблице
+// note: Переопределение метода removeRows() влияет и на метод removeRow(),
+// так как он просто вызывает removeRows() для удаления одной строки
+bool RecordTableModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+  Q_UNUSED(parent);
+
+
+  if(row<0 || row>=rowCount() || (row+count-1)<0 || (row+count-1)>=rowCount())
+  {
+    critical_error("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
+    return false;
+  }
+
+
+  beginRemoveRows(QModelIndex(), row, row+count-1);
+
+  // Удаляются строки непосредственно в таблице
+  for(int i=row; i<row+count; ++i)
+    table->deleteRecord(i);
+
+  endRemoveRows();
+
+  return true;
+}
+
+
 // Установка данных в таблицу данных
 void RecordTableModel::setTableData(RecordTableData *rtData)
 {

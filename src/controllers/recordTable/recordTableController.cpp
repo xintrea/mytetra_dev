@@ -749,11 +749,9 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
     QString id=delIds[i];
     QModelIndex idx=convertIdToProxyIndex(id);
 
-    // Удаляется строка в модели
+    // Удаляется строка в Proxy модели
+    // Proxy модель сама должна уведомить вид о своем изменении, так как именно она подключена к виду
     recordProxyModel->removeRow(idx.row());
-
-    // Удаляется строка непосредственно в таблице
-    table->deleteRecordById(id);
   }
 }
 
