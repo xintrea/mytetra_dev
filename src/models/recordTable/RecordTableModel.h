@@ -17,6 +17,9 @@ class RecordTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
+    // К закрытым (private) функциям модели может иметь доступ контроллер
+    friend class RecordTableController;
+
 public:
     RecordTableModel(QObject *pobj=0);
     ~RecordTableModel();
@@ -37,6 +40,12 @@ public:
 
     bool removeRows(int row, int count, const QModelIndex &parent=QModelIndex());
 
+
+public slots:
+
+
+private:
+
     // Установка указателя на таблицу данных, с которой нужно работать модели
     void setTableData(RecordTableData *rtData);
 
@@ -52,10 +61,7 @@ public:
 
     void onRecordTableConfigChange(void);
 
-public slots:
-
-
-private:
+protected:
 
     // Указатель на таблицу конечных записей
     RecordTableData *table;

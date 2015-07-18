@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QModelIndexList>
 
+
 class RecordTableView;
 class RecordTableData;
 class RecordTableModel;

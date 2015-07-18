@@ -28,5 +28,9 @@ mytetra.pro.user*
 # Ignore bash files
 *.sh
 
+# Ignore IDE files
+*.Debug
+*.Release
+
 # Ignore gitignore self
 .gitignore
