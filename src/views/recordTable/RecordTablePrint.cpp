@@ -2,6 +2,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QDebug>
+#include <QFileDialog>
 
 #include "views/printPreview/PrintPreview.h"
 #include "models/recordTable/RecordTableProxyModel.h"
@@ -40,6 +41,7 @@ void RecordTablePrint::setup_ui()
  // Линейка с кнопками управления
  buttonBox=new QDialogButtonBox(Qt::Horizontal);
  buttonBox->addButton(tr("Print"),QDialogButtonBox::AcceptRole);
+ buttonBox->addButton(tr("Save"),QDialogButtonBox::ActionRole);
  buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
 
  // Устанавливается размер окна, равный виджету, из которого
@@ -145,4 +147,24 @@ void RecordTablePrint::print(void)
   preview->setModal(true);
   preview->setAttribute(Qt::WA_DeleteOnClose);
   preview->show();
+}
+
+
+void RecordTablePrint::save(void)
+{
+  QString fileName=QFileDialog::getSaveFileName(this, tr("Save File"), "", tr("HTML Files (*.html)"));
+
+  if (fileName != "") {
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+      QMessageBox msgBox;
+      msgBox.setText("The file has been write only.");
+      msgBox.exec();
+    } else {
+      QTextStream stream(&file);
+      stream << textArea->toHtml();
+      stream.flush();
+      file.close();
+    }
+  }
 }

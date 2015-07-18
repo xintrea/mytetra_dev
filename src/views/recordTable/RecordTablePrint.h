@@ -23,9 +23,10 @@ public:
  void generateHtmlTableFromModel(void);
  void setTitleToHtml(QString title);
 
-public slots:
+protected slots:
 
  void print(void);
+ void save(void);
 
 private:
 
