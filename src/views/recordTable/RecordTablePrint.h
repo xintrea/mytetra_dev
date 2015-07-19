@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QPushButton>
 #include <QTextEdit>
 
 
@@ -32,6 +33,10 @@ private:
 
  QTextEdit *textArea; // Отображение текста с таблицей, выводимой на печать
  QDialogButtonBox *buttonBox; // Линейка с кнопками
+
+ QPushButton *printButton;
+ QPushButton *saveButton;
+ QPushButton *cancelButton;
 
  RecordTableProxyModel *model;
 

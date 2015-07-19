@@ -3,6 +3,7 @@
 #include <QGroupBox>
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "views/printPreview/PrintPreview.h"
 #include "models/recordTable/RecordTableProxyModel.h"
@@ -21,6 +22,11 @@ RecordTablePrint::RecordTablePrint(QWidget *parent) : QDialog(parent)
 RecordTablePrint::~RecordTablePrint()
 {
   delete textArea;
+
+  delete printButton;
+  delete saveButton;
+  delete cancelButton;
+
   delete buttonBox;
 }
 
@@ -38,11 +44,15 @@ void RecordTablePrint::setup_ui()
  textArea->setAcceptRichText(true);
  textArea->setSizePolicy(sizePolicy);
 
+ printButton=new QPushButton( tr("Print") );
+ saveButton=new QPushButton( tr("Save") );
+ cancelButton=new QPushButton( tr("Cancel") );
+
  // Линейка с кнопками управления
  buttonBox=new QDialogButtonBox(Qt::Horizontal);
- buttonBox->addButton(tr("Print"),QDialogButtonBox::AcceptRole);
- buttonBox->addButton(tr("Save"),QDialogButtonBox::ActionRole);
- buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
+ buttonBox->addButton(printButton,  QDialogButtonBox::AcceptRole);
+ buttonBox->addButton(saveButton,   QDialogButtonBox::AcceptRole);
+ buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
 
  // Устанавливается размер окна, равный виджету, из которого
  // этот виджет был вызван
@@ -63,8 +73,12 @@ void RecordTablePrint::setup_ui()
 
 void RecordTablePrint::setup_signals()
 {
- connect(buttonBox, SIGNAL(accepted()), this, SLOT(print()));
- connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+ // connect(buttonBox, SIGNAL(accepted()), this, SLOT(print()));
+ // connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+ connect(printButton,  SIGNAL(clicked()), this, SLOT(print()));
+ connect(saveButton,   SIGNAL(clicked()), this, SLOT(save()));
+ connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
 
@@ -158,11 +172,12 @@ void RecordTablePrint::save(void)
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
       QMessageBox msgBox;
-      msgBox.setText("The file has been write only.");
+      msgBox.setText(tr("The file has been write only."));
       msgBox.exec();
     } else {
       QTextStream stream(&file);
-      stream << textArea->toHtml();
+      stream.setCodec("UTF-8");
+      stream << textArea->document()->toHtml("UTF-8"); // Команда stream << textArea->toHtml() не подходит, так как не выствляет в заголовках charset
       stream.flush();
       file.close();
     }

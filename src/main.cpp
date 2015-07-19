@@ -1015,7 +1015,15 @@ int main(int argc, char ** argv)
  // Не запущен ли другой экземпляр
  if(app.isRunning())
   {
-   printf("Another MyTetra exemplar is running.\n");
+   QString message="Another MyTetra exemplar is running.\n";
+
+   printf(message.toLocal8Bit());
+
+   QMessageBox msgBox;
+   msgBox.setIcon(QMessageBox::Warning);
+   msgBox.setText(message);
+   msgBox.exec();
+
    exit(0);
   }
 
