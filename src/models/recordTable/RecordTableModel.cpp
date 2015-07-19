@@ -48,21 +48,31 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
   // qDebug() << "RecordTableModel::data(), row:" << index.row() << " column " << index.column();
 
   // Если запрашивается текст строки для отрисовки или для редактирования
-  if(role==Qt::DisplayRole || role==Qt::EditRole)
+  if(role==Qt::DisplayRole || role==Qt::EditRole || role==SORT_ROLE)
   {
-    // QStringList showFields=fixedParameters.recordFieldAvailableList(); // Заменить на показываемые поля
     QStringList showFields=mytetraConfig.getRecordTableShowFields();
-
-    // qDebug() << "RecordTableModel::data(), Show field list: " << showFields;
 
     // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
     if( index.column() < showFields.size() )
     {
       QString fieldName=showFields.value( index.column() );
 
-      // qDebug() << "RecordTableModel::data(), fieldName: " << fieldName;
+      QString field=table->getField(fieldName, index.row());
 
-      return table->getField(fieldName, index.row());
+      // Некоторые данные при отрисовке в таблице преобразуются в "экранные" представления
+      // Преобразование возможно только для отображаемой в таблице информации
+      if( role==Qt::DisplayRole && fieldName=="ctime")
+      {
+        // Преобразование временного штампа в дату и время
+        QDateTime fieldDateTime=QDateTime::fromString(field, "yyyyMMddhhmmss");
+        return fieldDateTime.toString(Qt::SystemLocaleDate);
+
+        // QDate fieldDate=fieldDateTime.date();
+        // QTime fieldTime=fieldDateTime.time();
+        // return fieldDate.toString(Qt::SystemLocaleDate)+" "+fieldTime.toString(Qt::SystemLocaleDate);
+      }
+      else
+        return field;
     }
   }
 

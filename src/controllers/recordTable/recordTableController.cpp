@@ -821,7 +821,7 @@ void RecordTableController::onSortClick(void)
     // Включается сортировка
     view->setSortingEnabled(true);
 
-    recordProxyModel->setSortRole(Qt::DisplayRole);
+    recordProxyModel->setSortRole(SORT_ROLE); // Qt::DisplayRole
 
     // Включается сортировка по нужному столбцу
     int n=parentPointer->actionSort->data().toInt(); // В actionSort хранится номер столбца, по которому нужно сортировать
