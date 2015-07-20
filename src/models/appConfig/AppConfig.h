@@ -182,6 +182,14 @@ public:
     bool getFindInBaseExpand(void);
     void setFindInBaseExpand(bool state);
 
+    // Разрешено ли использовать собственный формат вывода даты и времени
+    bool getEnableCustomDateTimeFormat(void);
+    void setEnableCustomDateTimeFormat(bool state);
+
+    // Строка собственного формата вывода даты и времени
+    QString getCustomDateTimeFormat(void);
+    void setCustomDateTimeFormat(QString format);
+
 
 private:
 
@@ -219,6 +227,7 @@ private:
     QStringList get_parameter_table_21(bool withEndSignature=true);
     QStringList get_parameter_table_22(bool withEndSignature=true);
     QStringList get_parameter_table_23(bool withEndSignature=true);
+    QStringList get_parameter_table_24(bool withEndSignature=true);
 
     bool is_init_flag;
 };

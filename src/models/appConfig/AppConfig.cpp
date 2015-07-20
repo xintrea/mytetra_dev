@@ -676,7 +676,7 @@ QString AppConfig::getFocusWidget(void)
 
 void AppConfig::setFocusWidget(QString widgetName)
 {
- qDebug() << "AppConfig::setFocusWidget() : " << widgetName;
+ // qDebug() << "AppConfig::setFocusWidget() : " << widgetName;
  conf->setValue("focusWidget", widgetName);
 }
 
@@ -702,6 +702,31 @@ bool AppConfig::getFindInBaseExpand(void)
 void AppConfig::setFindInBaseExpand(bool state)
 {
  conf->setValue("findInBaseExpand", state);
+}
+
+
+
+// Разрешено ли использовать собственный формат вывода даты и времени
+bool AppConfig::getEnableCustomDateTimeFormat(void)
+{
+  return conf->value("enableCustomDateTimeFormat").toBool();
+}
+
+void AppConfig::setEnableCustomDateTimeFormat(bool state)
+{
+  conf->setValue("enableCustomDateTimeFormat", state);
+}
+
+
+// Строка собственного формата вывода даты и времени
+QString AppConfig::getCustomDateTimeFormat(void)
+{
+  return get_parameter("customDateTimeFormat");
+}
+
+void AppConfig::setCustomDateTimeFormat(QString format)
+{
+  conf->setValue("customDateTimeFormat", format);
 }
 
 
@@ -819,7 +844,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 23
+ // Последняя версия на данный момент - 24
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -864,6 +889,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(21, 22, get_parameter_table_21(), get_parameter_table_22());
  if(fromVersion<=22)
   updater.update_version(22, 23, get_parameter_table_22(), get_parameter_table_23());
+ if(fromVersion<=23)
+  updater.update_version(23, 24, get_parameter_table_23(), get_parameter_table_24());
 }
 
 
@@ -1333,6 +1360,25 @@ QStringList AppConfig::get_parameter_table_23(bool withEndSignature)
 
  // Исключаются ненужные в новой версии параметры
  table=removeParameterFromTable("recordtable_position", table);
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_24(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 23
+ table << get_parameter_table_23(false);
+
+ table << "enableCustomDateTimeFormat" << "bool" << "false";
+ table << "customDateTimeFormat" << "QString" << "";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
