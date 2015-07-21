@@ -181,7 +181,6 @@ void AppConfigPage_Main::assembly(void)
   dateTimeFormatHBox->addWidget(dateTimeFormatHelpButton);
 
   dateTimeFormatVBox->addLayout(dateTimeFormatHBox);
-  // dateTimeFormatVBox->addStretch();
   dateTimeFormatBox->setLayout(dateTimeFormatVBox);
 
 

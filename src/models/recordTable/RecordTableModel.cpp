@@ -65,7 +65,10 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
       {
         // Преобразование временного штампа в дату и время
         QDateTime fieldDateTime=QDateTime::fromString(field, "yyyyMMddhhmmss");
-        return fieldDateTime.toString(Qt::SystemLocaleDate);
+        if(mytetraConfig.getEnableCustomDateTimeFormat()==false)
+          return fieldDateTime.toString(Qt::SystemLocaleDate);
+        else
+          return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
 
         // QDate fieldDate=fieldDateTime.date();
         // QTime fieldTime=fieldDateTime.time();
