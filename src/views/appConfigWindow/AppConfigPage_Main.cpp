@@ -140,7 +140,7 @@ void AppConfigPage_Main::setup_signals(void)
   connect(disableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onDisableCustomDateTimeFormatToggle(bool) ) );
   connect(enableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onEnableCustomDateTimeFormatToggle(bool) ) );
 
-  connect(dateTimeFormatHelpButton, SIGNAL(clicked()), this, SLOT(onDateTimeFormatHelpButton()));
+  connect(dateTimeFormatHelpButton, SIGNAL( clicked() ), this, SLOT( onDateTimeFormatHelpButton() ) );
 }
 
 
@@ -181,7 +181,7 @@ void AppConfigPage_Main::assembly(void)
   dateTimeFormatHBox->addWidget(dateTimeFormatHelpButton);
 
   dateTimeFormatVBox->addLayout(dateTimeFormatHBox);
-  dateTimeFormatVBox->addStretch();
+  // dateTimeFormatVBox->addStretch();
   dateTimeFormatBox->setLayout(dateTimeFormatVBox);
 
 
@@ -349,6 +349,20 @@ int AppConfigPage_Main::apply_changes(void)
  if(mytetraConfig.get_trashmaxfilecount()!=trashmaxfilecountInput->text().toInt())
   {
    mytetraConfig.set_trashmaxfilecount(trashmaxfilecountInput->text().toInt());
+  }
+
+
+ // Если было изменено использование пользовательского формата даты и времени
+ if(mytetraConfig.getEnableCustomDateTimeFormat()!=enableCustomDateTimeFormat->isChecked())
+  {
+   mytetraConfig.setEnableCustomDateTimeFormat(enableCustomDateTimeFormat->isChecked());
+  }
+
+
+ // Если было изменен пользовательский формат даты и времени
+ if(mytetraConfig.getCustomDateTimeFormat()!=customDateTimeFormat->text())
+  {
+   mytetraConfig.setCustomDateTimeFormat(customDateTimeFormat->text());
   }
 
  

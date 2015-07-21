@@ -4787,6 +4787,14 @@ build/moc_AppConfigPage_Main.cpp: C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/Q
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractspinbox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qvalidator.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qregularexpression.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QGroupBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgroupbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QRadioButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qradiobutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qicon.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QLabel \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlabel.h \
 		src/views/appConfigWindow/ConfigPage.h \
 		src/libraries/MtComboBox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QObject \
@@ -4794,7 +4802,6 @@ build/moc_AppConfigPage_Main.cpp: C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/Q
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qcombobox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractitemdelegate.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyleoption.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qicon.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qslider.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractslider.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyle.h \
@@ -6573,6 +6580,10 @@ build/moc_RecordTablePrint.cpp: C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtC
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialog.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialogButtonBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialogbuttonbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QPushButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qpushbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qicon.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QTextEdit \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtextedit.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractscrollarea.h \
@@ -16383,6 +16394,12 @@ build/AppConfigDialog.o: src/views/appConfigWindow/AppConfigDialog.cpp C:/tools/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlineedit.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSpinBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qspinbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QGroupBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgroupbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QRadioButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qradiobutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QLabel \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlabel.h \
 		src/views/appConfigWindow/ConfigPage.h \
 		src/libraries/MtComboBox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QComboBox \
@@ -16390,12 +16407,6 @@ build/AppConfigDialog.o: src/views/appConfigWindow/AppConfigDialog.cpp C:/tools/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QStyledItemDelegate \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyleditemdelegate.h \
 		src/views/appConfigWindow/AppConfigPage_Crypt.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QLabel \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlabel.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QGroupBox \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgroupbox.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QRadioButton \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qradiobutton.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QCheckBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qcheckbox.h \
 		src/views/appConfigWindow/AppConfigPage_Misc.h \
@@ -16804,9 +16815,16 @@ build/AppConfigPage_Main.o: src/views/appConfigWindow/AppConfigPage_Main.cpp C:/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialog.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QMessageBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qmessagebox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QCommonStyle \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qcommonstyle.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyle.h \
 		src/views/appConfigWindow/AppConfigPage_Main.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSpinBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qspinbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QGroupBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgroupbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QRadioButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qradiobutton.h \
 		src/views/appConfigWindow/ConfigPage.h \
 		src/libraries/MtComboBox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QObject \
@@ -16816,7 +16834,6 @@ build/AppConfigPage_Main.o: src/views/appConfigWindow/AppConfigPage_Main.cpp C:/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyleoption.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qslider.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractslider.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyle.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtabbar.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtabwidget.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qrubberband.h \
@@ -20040,6 +20057,7 @@ build/recordTableController.o: src/controllers/recordTable/recordTableController
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QMap \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QString \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QByteArray \
+		src/views/recordTable/RecordTablePrint.h \
 		src/views/mainWindow/MainWindow.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QMainWindow \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
@@ -20282,6 +20300,10 @@ build/recordTableController.o: src/controllers/recordTable/recordTableController
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QDir \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QSettings \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QDebug \
+		src/models/tree/TreeItem.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QVector \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/QDomElement \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/QDomDocument \
 		src/libraries/GlobalParameters.h \
 		src/libraries/WindowSwitcher.h \
 		src/libraries/WalkHistory.h \
@@ -20400,13 +20422,38 @@ build/RecordTablePrint.o: src/views/recordTable/RecordTablePrint.cpp C:/tools/qt
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgroupbox.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qframe.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QDebug \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QFileDialog \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qfiledialog.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qdir.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qfileinfo.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QMessageBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qmessagebox.h \
+		src/views/printPreview/PrintPreview.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QMainWindow \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtabwidget.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qicon.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtPrintSupport/QPrinter \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtPrintSupport/qprinter.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpagedpaintdevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpagelayout.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpagesize.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtPrintSupport/qtprintsupportglobal.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialog \
+		src/models/recordTable/RecordTableProxyModel.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QSortFilterProxyModel \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsortfilterproxymodel.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qabstractproxymodel.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qabstractitemmodel.h \
 		src/views/recordTable/RecordTablePrint.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QtGlobal \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QWidget \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialog \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialog.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialogButtonBox \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialogbuttonbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QPushButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qpushbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractbutton.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QTextEdit \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtextedit.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractscrollarea.h \
@@ -23337,6 +23384,23 @@ build/KnowTreeView.o: src/views/tree/KnowTreeView.cpp C:/tools/qt/qt_5_4_2/5.4/m
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qsplitter.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSystemTrayIcon \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qsystemtrayicon.h \
+		src/views/recordTable/RecordTableScreen.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QItemSelection \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QLabel \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlabel.h \
+		src/views/record/MetaEditor.h \
+		src/libraries/wyedit/Editor.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QBoxLayout \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSpinBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qspinbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSlider \
+		src/libraries/wyedit/EditorFindDialog.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/QTextDocument \
+		src/libraries/wyedit/EditorShowText.h \
+		src/libraries/MtComboBox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QComboBox \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QStyledItemDelegate \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyleditemdelegate.h \
 		src/controllers/recordTable/recordTableController.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QModelIndexList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build\KnowTreeView.o src\views\tree\KnowTreeView.cpp
