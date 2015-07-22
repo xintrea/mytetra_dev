@@ -389,14 +389,14 @@ QStringList TreeItem::getPath(void)
 }
 
 
-// Путь к элементу (список названий веток)
+// Путь к элементу (в виде списка названий веток)
 QStringList TreeItem::getPathAsName(void)
 {
  return getPathAsField("name");
 }
 
 
-// Путь к элементу в виде строки
+// Путь к элементу в виде строки, разделенной указанным разделителем
 QString TreeItem::getPathAsNameWithDelimeter(QString delimeter)
 {
   QStringList path=getPathAsName();

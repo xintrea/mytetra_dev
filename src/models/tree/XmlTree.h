@@ -14,8 +14,10 @@ class XmlTree : public QObject
   XmlTree(void);
   ~XmlTree(void);
   bool load(QString file);
+  QDomDocument* getDomModel(void);
   
-  QDomDocument domModel; // DOM-представление документа
+ protected:
+  QDomDocument *domModel; // DOM-представление документа
 };
 
 

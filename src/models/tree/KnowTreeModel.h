@@ -76,10 +76,10 @@ private:
 
     QString xmlFileName;
 
-    void init(QDomDocument domModel);
+    void init(QDomDocument *domModel);
 
     // Функция заполнения дерева из DOM-документа
-    void setupModelData(QDomDocument dommodel, TreeItem *parent);
+    void setupModelData(QDomDocument *dommodel, TreeItem *parent);
 
     // Преобразование DOM в Item модель. Функция рекурсивного обхода элементов DOM-документа
     void parseNodeElement(QDomElement n, TreeItem *parent);
