@@ -12,6 +12,11 @@
 
 class TreeItem;
 
+struct RecordData
+{
+  QMap<QString, QString> fields; // Хранятся пары: Имя поля (атрибута XML) - Значение
+  QMap<QString, QString> files; // Хранятся пары: id - Имя файла
+};
 
 class RecordTableData : public QObject
 {
@@ -110,7 +115,7 @@ private:
     */
 
     // Таблица с инфополями записей
-    QList< QMap<QString, QString> > fieldsTable;
+    QList< RecordData > tableData;
 
     // Ссылка на ветку, которой принадлежит данная таблица
     TreeItem *treeItem;
