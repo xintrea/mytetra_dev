@@ -36,6 +36,7 @@ private:
  QString messageText;
 
  QProcess *process;
+ QTextCodec *outputCodec;
 
  ConsoleEmulator *console;
 

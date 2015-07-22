@@ -43,6 +43,18 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
   {
    shell="cmd.exe /C";
   }
+
+
+ // Выясняется кодировка локали
+ QTextCodec *localeCodec = QTextCodec::codecForLocale();
+ QString localeCodepage=localeCodec->name(); // Возможные варианты "windows-1251" для Windows
+
+ // Для Windows с русской кодировкой исправляется кодировка локали, так как в консли локаль CP866
+ if(localeCodepage=="windows-1251")
+   localeCodepage="CP866";
+
+ // Определяется кодек для вывода текста терминального потока
+ QTextCodec *outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
 }
 
 
@@ -162,17 +174,6 @@ void ExecuteCommand::printOutput(QProcess *process, ConsoleEmulator *console)
   // Считываются данные из стандартного потока запущенного процесса
   char buf[1024];
   int readBytes=process->readLine(buf, sizeof(buf));
-
-  // Выясняется кодировка локали
-  QTextCodec *localeCodec = QTextCodec::codecForLocale();
-  QString localeCodepage=localeCodec->name(); // Возможные варианты "windows-1251" для Windows
-
-  // Для Windows с русской кодировкой исправляется кодировка локали, так как в консли локаль CP866
-  if(localeCodepage=="windows-1251")
-    localeCodepage="CP866";
-
-  // Создается кодек для вывода текста терминального потока
-  QTextCodec *outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
 
   // Если считаны какие-то символы
   if(readBytes>=1)
