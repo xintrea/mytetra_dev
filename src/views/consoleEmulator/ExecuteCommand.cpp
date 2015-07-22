@@ -3,6 +3,7 @@
 #include <QString>
 #include <QString>
 #include <QMessageBox>
+#include <QTextCodec>
 
 #include "ExecuteCommand.h"
 #include "ConsoleEmulator.h"
@@ -162,11 +163,29 @@ void ExecuteCommand::printOutput(QProcess *process, ConsoleEmulator *console)
   char buf[1024];
   int readBytes=process->readLine(buf, sizeof(buf));
 
+  // Выясняется кодировка локали
+  QTextCodec *localeCodec = QTextCodec::codecForLocale();
+  QString localeCodepage=localeCodec->name(); // Возможные варианты "windows-1251" для Windows
+
+  // Для Windows с русской кодировкой исправляется кодировка локали, так как в консли локаль CP866
+  if(localeCodepage=="windows-1251")
+    localeCodepage="CP866";
+
+  // Создается кодек для вывода текста терминального потока
+  QTextCodec *outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
+
   // Если считаны какие-то символы
   if(readBytes>=1)
   {
+    /*
+    QByteArray encodedString = "...";
+    QTextCodec *codec = QTextCodec::codecForName("KOI8-R");
+    QString string = codec->toUnicode(encodedString);
+    */
+
     // Преобразование в QString, необходимо чтобы исключать строки с нулями
-    QString output=QString::fromLocal8Bit(buf); // Ранее было fromAscii, потом fromLatin1
+    // QString output=QString::fromLocal8Bit(buf); // Ранее было fromAscii, потом fromLatin1
+    QString output=outputCodec->toUnicode(buf);
 
     if(output.length()>0)
     {

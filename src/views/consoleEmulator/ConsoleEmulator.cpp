@@ -41,11 +41,6 @@ void ConsoleEmulator::setupUI(void)
  buttonCancel->setText(tr("Cancel"));
  buttonCancel->setDefault(true);
 
- // Кнопка, появляющаяся в случае, если при исполнении команды будет обнаружена ошибка
- buttonCloseIfError=new QPushButton(this);
- buttonCloseIfError->setText(tr("Close"));
- buttonCloseIfError->hide();
-
  consoleOutput=new QTextEdit(this);
  consoleOutput->setReadOnly(true);
  consoleOutput->setFontFamily("monospace");
@@ -63,8 +58,6 @@ void ConsoleEmulator::setupSignals(void)
  connect(buttonCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()));
  connect(buttonDetails, SIGNAL(clicked()), this, SLOT(onDetailsClick()));
 
- connect(buttonCloseIfError, SIGNAL(clicked()), this, SLOT(onCancelClick()));
-
  connect(escShortcut, SIGNAL(activated()), this, SLOT(onCancelClick()));
 }
 
@@ -74,6 +67,7 @@ void ConsoleEmulator::assembly(void)
  upToolbar = new QHBoxLayout;
  upToolbar->addWidget(waitClock);
  upToolbar->addWidget(messageLabel);
+ upToolbar->addStretch();
  upToolbar->addWidget(buttonDetails);
  upToolbar->addWidget(buttonCancel);
 
@@ -81,7 +75,6 @@ void ConsoleEmulator::assembly(void)
  QVBoxLayout *vLayout = new QVBoxLayout;
  vLayout->addLayout(upToolbar);
  vLayout->addWidget(consoleOutput);
- vLayout->addWidget(buttonCloseIfError);
 
  buttonCancel->setFocus();
 
@@ -139,14 +132,6 @@ void ConsoleEmulator::closeEvent(QCloseEvent *event)
 }
 
 
-void ConsoleEmulator::onCloseIfErrorClick(void)
-{
- qDebug() << "ConsoleEmulator::onCloseIfErrorClick() : Click close if error";
-
- this->close(); // Будет сгенерировано событие closeEvent
-}
-
-
 void ConsoleEmulator::onDetailsClick(void)
 {
  if(consoleOutput->isHidden())
@@ -171,11 +156,14 @@ void ConsoleEmulator::switchToErrorView(void)
  isError=true;
 
  // Верхняя строка скрывается
- QLayoutItem *child;
- while ((child = upToolbar->takeAt(0)) != 0)
-   child->widget()->hide();
+ // QLayoutItem *child;
+ // while ((child = upToolbar->takeAt(0)) != 0)
+ //   child->widget()->hide();
 
- // Кнопка закрытия появляется внизу
- buttonCloseIfError->show();
+ // Сообщение об обнаруженной ошибке
+ messageLabel->setText("<b>"+tr("Commands running error")+"</b>");
+
+ // Консольный вывод показывается, так как он возможно не был открыт, если не был выбран развернутый вид
+ consoleOutput->show();
 }
 

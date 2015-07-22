@@ -23,6 +23,8 @@
 // | file2.txt                                      |
 // | file3.txt                                      |
 // +------------------------------------------------+
+// |                   [Close]                      |
+// +------------------------------------------------+
 
 class ConsoleEmulator : public QDialog
 {
@@ -49,8 +51,6 @@ public slots:
  // Слот срабатывающий при клике на кнопку скрыть/показать консольный вывод
  void onDetailsClick(void);
 
- void onCloseIfErrorClick(void);
-
 signals:
 
  // Сигнал, вырабатывающийся в слоте onCancelConsole()
@@ -69,7 +69,6 @@ private:
  QLabel *messageLabel;
  QPushButton *buttonCancel;
  QToolButton *buttonDetails;
- QPushButton *buttonCloseIfError;
 
  // Верхний блок вида "Картинка |Тут какая-то надпись| [v] | [Cancel]"
  QHBoxLayout *upToolbar;
