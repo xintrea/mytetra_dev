@@ -54,7 +54,7 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
    localeCodepage="CP866";
 
  // Определяется кодек для вывода текста терминального потока
- QTextCodec *outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
+ outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
 }
 
 
