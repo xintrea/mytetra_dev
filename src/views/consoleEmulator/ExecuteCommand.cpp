@@ -28,21 +28,20 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
  if(os=="unix")
   {
    if(system("sh -c exit")==0)
-    {
      shell="sh -c";
-     return;
-    }
-
-   if(system("bash -c exit")==0)
-    {
+   else if(system("bash -c exit")==0)
      shell="bash -c";
-     return;
-    }
   }
  else if(os=="windows")
   {
    shell="cmd.exe /C";
   }
+
+ if(shell.length()==0)
+ {
+   critical_error("Can't detect sh, bash or cmd shell.");
+   return;
+ }
 
 
  // Выясняется кодировка локали
