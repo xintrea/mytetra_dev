@@ -8,12 +8,12 @@
 
 XmlTree::XmlTree(void)
 {
-    
+  domModel=new QDomDocument();
 }
 
 XmlTree::~XmlTree(void)
 {
-    
+  delete domModel;
 }
 
 
@@ -22,7 +22,7 @@ bool XmlTree::load(QString file)
  // Загрузка файла дерева разделов
  QFile xmlFile(file);
  
- // Если файл не может быть загружен
+ // Если файл не может быть открыт
  if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
  {
   QMessageBox::information(0, tr("Error"),
@@ -36,7 +36,7 @@ bool XmlTree::load(QString file)
  QString errorStr;
  int errorLine;
  int errorColumn;
- if (!domModel.setContent(&xmlFile, true, &errorStr, &errorLine,&errorColumn))
+ if (!domModel->setContent(&xmlFile, true, &errorStr, &errorLine,&errorColumn))
   {
    QMessageBox::information(0, tr("Error converting to DOM"),
                                tr("Parse error at line %1, column %2:\n%3")
@@ -47,5 +47,11 @@ bool XmlTree::load(QString file)
   }
 
  return true;
+}
+
+
+QDomDocument* XmlTree::getDomModel(void)
+{
+  return domModel;
 }
 

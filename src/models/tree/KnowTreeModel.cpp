@@ -43,14 +43,14 @@ void KnowTreeModel::initFromXML(QString fileName)
  if(!xmlt.load( xmlFileName ))
   return;
 
- init(xmlt.domModel);
+ init(xmlt.getDomModel());
 }
 
 
-void KnowTreeModel::init(QDomDocument domModel)
+void KnowTreeModel::init(QDomDocument *domModel)
 {
   // Проверка формата XML-файла
-  if( !checkFormat(domModel.documentElement().firstChildElement("format")) )
+  if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
    {
     critical_error(tr("Unsupported format version for data base."));
     return;
@@ -124,9 +124,9 @@ void KnowTreeModel::reload(void)
 
 
 // Разбор DOM модели и преобразование ее в Item модель
-void KnowTreeModel::setupModelData(QDomDocument dommodel, TreeItem *parent)
+void KnowTreeModel::setupModelData(QDomDocument *dommodel, TreeItem *parent)
 {
-  QDomElement contentRootNode=dommodel.documentElement().firstChildElement("content").firstChildElement("node");
+  QDomElement contentRootNode=dommodel->documentElement().firstChildElement("content").firstChildElement("node");
 
   if(contentRootNode.isNull())
    {
