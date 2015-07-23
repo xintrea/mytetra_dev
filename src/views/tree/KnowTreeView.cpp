@@ -171,10 +171,10 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // но в дальнейшем планируется переносить несколько записей
    // и здесь код подготовлен для переноса нескольких записей
    RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");  // Указатель на контроллер таблицы конечных записей
-   for(int i=0; i<clipboardRecords->getRecordsNum(); i++)
+   for(int i=0; i<clipboardRecords->getCount(); i++)
     {
      // Данные записи (текстовые)
-     QMap<QString, QString> exemplar=clipboardRecords->getRecordFields(i);
+     QMap<QString, QString> exemplar=clipboardRecords->getRecordFieldList(i);
      QString text=exemplar["text"]; // Текст записи
      exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
 
@@ -193,9 +193,9 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                       0,
-                                      exemplar,
                                       text,
-                                      clipboardRecords->getRecordFiles(i) );
+                                      exemplar,
+                                      clipboardRecords->getRecordPictureFiles(i) );
 
      // Сохранение дерева веток
      find_object<TreeScreen>("treeScreen")->saveKnowTree();

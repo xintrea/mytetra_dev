@@ -243,8 +243,8 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
    {
     QModelIndex index=convertProxyIndexToSourceIndex( itemsForCopy.at(i) );
 
-    // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-    QMap<QString, QString> exemplar=table->getRecordExemplar( index.row() );
+    // Образ записи, включающий все текстовые данные (текст записи, свойства записи, перечень приаттаченных файлов)
+    RecordExemplar exemplar=table->getRecordExemplar( index.row() );
 
     // Имя директории, в которой расположена запись и ее файлы
     QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
@@ -438,7 +438,7 @@ void RecordTableController::paste(void)
  clipboardRecords->print();
 
  // Выясняется количество записей в буфере
- int nList=clipboardRecords->getRecordsNum();
+ int nList=clipboardRecords->getCount();
 
  // Пробегаются все записи в буфере
  for(int i=0;i<nList;i++)
@@ -446,7 +446,7 @@ void RecordTableController::paste(void)
    QMap<QString, QString> fields;
 
    // Получение из буфера полей записи с нужным номером
-   fields=clipboardRecords->getRecordFields(i);
+   fields=clipboardRecords->getRecordFieldList(i);
 
    // Запоминается текст записи
    QString text=fields["text"];
@@ -459,7 +459,7 @@ void RecordTableController::paste(void)
    addNew(ADD_NEW_RECORD_TO_END,
            fields,
            text,
-           clipboardRecords->getRecordFiles(i));
+           clipboardRecords->getRecordPictureFiles(i));
   }
 
  // Обновление на экране ветки, на которой стоит засветка,

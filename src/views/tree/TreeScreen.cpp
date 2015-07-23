@@ -993,7 +993,7 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
  for(int i=0; i<curr_item_record_table->size (); i++)
  {
   // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-  QMap<QString, QString> exemplar=curr_item_record_table->getRecordExemplar(i);
+  RecordExemplar exemplar=curr_item_record_table->getRecordExemplar(i);
 
   // Имя директории, в которой расположена запись и ее файлы
   QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];

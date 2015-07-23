@@ -683,12 +683,12 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
  // -----------------------------------------------
 
  // Выясняются данные конечных записей
- QList< CLIPB_ONE_RECORD_STRUCT > records=subbranch->getBranchRecords(startBranchId);
+ QList< RecordData > records=subbranch->getBranchRecords(startBranchId);
 
- foreach(CLIPB_ONE_RECORD_STRUCT record, records)
+ foreach(RecordData record, records)
  {
   QMap<QString, QString> recordFields=record.fields;
-  QMap<QString, QByteArray> recordFiles=record.files;
+  QMap<QString, QByteArray> recordFiles=record.pictures;
 
   qDebug() << "Add table record "+recordFields["name"];
 
@@ -704,8 +704,8 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
 
   newitem->recordtableGetTableData()->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                                          0,
-                                                         recordFields,
                                                          recordText,
+                                                         recordFields,
                                                          recordFiles);
  }
 

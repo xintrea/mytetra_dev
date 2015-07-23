@@ -283,8 +283,8 @@ int RecordTableModel::addTableData(int mode,
  // Вставка новых данных в таблицу конечных записей
  int selPos=table->insertNewRecord(mode,
                                    posIndex.row(),
-                                   fields,
                                    text,
+                                   fields,
                                    files);
 
 

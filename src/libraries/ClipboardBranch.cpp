@@ -47,7 +47,7 @@ void ClipboardBranch::print(void) const
   QString branch_id=current_branch.value("id");
 
   // Находятся все записи, принадлежащие текущей ветке
-  foreach(CLIPB_ONE_RECORD_STRUCT current_record, branchData.record.values(branch_id))
+  foreach(RecordData current_record, branchData.record.values(branch_id))
   {
    qDebug() << "Record:";
 
@@ -118,10 +118,10 @@ void ClipboardBranch::addRecord(QString branch_id,
 {
  // todo: Сделать проверку, есть ли ветка с указанным id
 
- CLIPB_ONE_RECORD_STRUCT record;
+ RecordData record;
 
  record.fields=record_fields;
- record.files=record_files;
+ record.pictures=record_files;
 
  branchData.record.insert(branch_id, record);
 }
@@ -146,14 +146,14 @@ QMap<QString, QString> ClipboardBranch::getBranchFieldsById(QString id)
 
 
 // Получение списка записей для указанной ветки
-QList< CLIPB_ONE_RECORD_STRUCT > ClipboardBranch::getBranchRecords(QString id)
+QList< RecordData > ClipboardBranch::getBranchRecords(QString id)
 {
- QList< CLIPB_ONE_RECORD_STRUCT > records;
+ QList< RecordData > records;
 
  // Находятся записи с нужным идентификатором
  // Записи добавляются в records в последовательности задом-наперёд
  // из-за особенностей реализации foreach для QMultiMap
- foreach(CLIPB_ONE_RECORD_STRUCT current_record, branchData.record.values(id))
+ foreach(RecordData current_record, branchData.record.values(id))
   records.insert(0, current_record);
 
  return records;
