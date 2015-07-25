@@ -95,6 +95,7 @@ SOURCES       = src\main.cpp \
 		src\libraries\wyedit\EditorShowText.cpp \
 		src\controllers\recordTable\recordTableController.cpp \
 		src\views\recordTable\RecordTablePrint.cpp \
+		src\models\recordTable\Record.cpp \
 		src\libraries\qtSingleApplication5\qtsingleapplication.cpp \
 		src\libraries\qtSingleApplication5\qtlocalpeer.cpp \
 		src\libraries\qtSingleApplication5\qtsinglecoreapplication.cpp \
@@ -227,6 +228,7 @@ OBJECTS       = build/main.o \
 		build/EditorShowText.o \
 		build/recordTableController.o \
 		build/RecordTablePrint.o \
+		build/Record.o \
 		build/qtsingleapplication.o \
 		build/qtlocalpeer.o \
 		build/qtsinglecoreapplication.o \
@@ -361,6 +363,7 @@ DIST          =  src\main.h \
 		src\libraries\wyedit\EditorShowText.h \
 		src\controllers\recordTable\recordTableController.h \
 		src\views\recordTable\RecordTablePrint.h \
+		src\models\recordTable\Record.h \
 		src\libraries\qtSingleApplication5\qtsingleapplication.h \
 		src\libraries\qtSingleApplication5\qtlockedfile.h \
 		src\libraries\qtSingleApplication5\qtlocalpeer.h \
@@ -431,6 +434,7 @@ DIST          =  src\main.h \
 		src\libraries\wyedit\EditorShowText.cpp \
 		src\controllers\recordTable\recordTableController.cpp \
 		src\views\recordTable\RecordTablePrint.cpp \
+		src\models\recordTable\Record.cpp \
 		src\libraries\qtSingleApplication5\qtsingleapplication.cpp \
 		src\libraries\qtSingleApplication5\qtlocalpeer.cpp \
 		src\libraries\qtSingleApplication5\qtsinglecoreapplication.cpp \
@@ -487,8 +491,8 @@ dist:
 	$(ZIP) mytetra.zip $(SOURCES) $(DIST) mytetra.pro C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\spec_pre.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\qdevice.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\device_config.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\common\shell-win32.conf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\qconfig.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_clucene_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_core.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_core_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_designer.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_designer_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_gui.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_gui_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_help.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_help_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_location.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_location_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_network.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_network_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qml.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qml_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_quick.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_quick_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_script.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_script_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_sql.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_sql_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_svg.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_svg_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webview.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_webview_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_xml.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_xml_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\qt_functions.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\qt_config.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\win32\qt_config.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\win32-g++\qmake.conf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\spec_post.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\exclusive_builds.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\default_pre.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\win32\default_pre.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\resolve_config.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\exclusive_builds_post.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\default_post.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\build_pass.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\win32\console.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\warn_on.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\qt.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\resources.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\moc.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\win32\opengl.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\uic.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\win32\rtti.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\precompile_header.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\testcase_targets.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\exceptions.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\yacc.prf C:\tools\qt\qt_5_4_2\5.4\mingw491_32\mkspecs\features\lex.prf mytetra.pro bin\mytetra.qrc C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Svgd.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5PrintSupportd.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Widgetsd.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Guid.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Xmld.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Networkd.prl C:/tools/qt/qt_5_4_2/5.4/mingw491_32/lib/Qt5Cored.prl bin\resource\translations\mytetra_ru.ts bin\resource\translations\mytetra_ru.ts RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS NO_PCH_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) build\main.o build\RecordTableScreen.o build\RecordTableView.o build\RecordInfoFieldsEditor.o build\InfoFieldEnter.o build\MetaEditor.o build\Editor.o build\EditorConfig.o build\EditorConfigDialog.o build\EditorConfigFont.o build\EditorConfigMisc.o build\EditorFindDialog.o build\MainWindow.o build\PrintPreview.o build\PreviewView.o build\XmlTree.o build\TreeModel.o build\TreeItem.o build\KnowTreeModel.o build\RecordTableData.o build\RecordTableModel.o build\RecordTableProxyModel.o build\AppConfig.o build\AddNewRecord.o build\ClipboardRecords.o build\TreeScreen.o build\FindScreen.o build\FindTableWidget.o build\AppConfigDialog.o build\ConfigDialog.o build\ConfigPage.o build\AppConfigPage_Main.o build\AppConfigPage_Misc.o build\AppConfigPage_Crypt.o build\AppConfigPage_Synchro.o build\AppConfigPage_RecordTable.o build\AppConfigUpdater.o build\TrashMonitoring.o build\EditorContextMenu.o build\EditorTextArea.o build\IndentSlider.o build\EditorSplitCellForm.o build\EditorAbsTableCell.o build\EditorAbsTable.o build\EditorAddTableForm.o build\EditorImageProperties.o build\EditorMultiLineInputDialog.o build\FixedParameters.o build\WindowSwitcher.o build\EditorShowText.o build\recordTableController.o build\RecordTablePrint.o build\qtsingleapplication.o build\qtlocalpeer.o build\qtsinglecoreapplication.o build\ClipboardBranch.o build\GlobalParameters.o build\DataBaseConfig.o build\EnterPassword.o build\ExecuteCommand.o build\ConsoleEmulator.o build\WaitClock.o build\WalkHistory.o build\Pbkdf2Qt.o build\RC5Simple.o build\Password.o build\MtComboBox.o build\MtTableWidget.o build\KnowTreeView.o build\MtStyledItemDelegate.o build\qrc_mytetra.o build\moc_RecordTableScreen.o build\moc_RecordTableView.o build\moc_RecordInfoFieldsEditor.o build\moc_InfoFieldEnter.o build\moc_MetaEditor.o build\moc_Editor.o build\moc_EditorConfig.o build\moc_EditorConfigDialog.o build\moc_EditorConfigFont.o build\moc_EditorConfigMisc.o build\moc_EditorFindDialog.o build\moc_MainWindow.o build\moc_PrintPreview.o build\moc_PreviewView.o
-	-$(DEL_FILE) build\moc_XmlTree.o build\moc_TreeModel.o build\moc_KnowTreeModel.o build\moc_RecordTableData.o build\moc_RecordTableModel.o build\moc_AppConfig.o build\moc_AddNewRecord.o build\moc_ClipboardRecords.o build\moc_TreeScreen.o build\moc_FindScreen.o build\moc_FindTableWidget.o build\moc_AppConfigDialog.o build\moc_ConfigDialog.o build\moc_ConfigPage.o build\moc_AppConfigPage_Main.o build\moc_AppConfigPage_Misc.o build\moc_AppConfigPage_Crypt.o build\moc_AppConfigPage_Synchro.o build\moc_AppConfigPage_RecordTable.o build\moc_AppConfigUpdater.o build\moc_EditorContextMenu.o build\moc_EditorTextArea.o build\moc_IndentSlider.o build\moc_EditorSplitCellForm.o build\moc_EditorAddTableForm.o build\moc_EditorImageProperties.o build\moc_EditorMultiLineInputDialog.o build\moc_FixedParameters.o build\moc_WindowSwitcher.o build\moc_EditorShowText.o build\moc_recordTableController.o build\moc_RecordTablePrint.o build\moc_qtsingleapplication.o build\moc_qtlocalpeer.o build\moc_qtsinglecoreapplication.o build\moc_ClipboardBranch.o build\moc_GlobalParameters.o build\moc_DataBaseConfig.o build\moc_EnterPassword.o build\moc_ExecuteCommand.o build\moc_ConsoleEmulator.o build\moc_WaitClock.o build\moc_WalkHistory.o build\moc_Password.o build\moc_MtComboBox.o build\moc_MtTableWidget.o build\moc_KnowTreeView.o build\moc_MtStyledItemDelegate.o
+	-$(DEL_FILE) build\main.o build\RecordTableScreen.o build\RecordTableView.o build\RecordInfoFieldsEditor.o build\InfoFieldEnter.o build\MetaEditor.o build\Editor.o build\EditorConfig.o build\EditorConfigDialog.o build\EditorConfigFont.o build\EditorConfigMisc.o build\EditorFindDialog.o build\MainWindow.o build\PrintPreview.o build\PreviewView.o build\XmlTree.o build\TreeModel.o build\TreeItem.o build\KnowTreeModel.o build\RecordTableData.o build\RecordTableModel.o build\RecordTableProxyModel.o build\AppConfig.o build\AddNewRecord.o build\ClipboardRecords.o build\TreeScreen.o build\FindScreen.o build\FindTableWidget.o build\AppConfigDialog.o build\ConfigDialog.o build\ConfigPage.o build\AppConfigPage_Main.o build\AppConfigPage_Misc.o build\AppConfigPage_Crypt.o build\AppConfigPage_Synchro.o build\AppConfigPage_RecordTable.o build\AppConfigUpdater.o build\TrashMonitoring.o build\EditorContextMenu.o build\EditorTextArea.o build\IndentSlider.o build\EditorSplitCellForm.o build\EditorAbsTableCell.o build\EditorAbsTable.o build\EditorAddTableForm.o build\EditorImageProperties.o build\EditorMultiLineInputDialog.o build\FixedParameters.o build\WindowSwitcher.o build\EditorShowText.o build\recordTableController.o build\RecordTablePrint.o build\Record.o build\qtsingleapplication.o build\qtlocalpeer.o build\qtsinglecoreapplication.o build\ClipboardBranch.o build\GlobalParameters.o build\DataBaseConfig.o build\EnterPassword.o build\ExecuteCommand.o build\ConsoleEmulator.o build\WaitClock.o build\WalkHistory.o build\Pbkdf2Qt.o build\RC5Simple.o build\Password.o build\MtComboBox.o build\MtTableWidget.o build\KnowTreeView.o build\MtStyledItemDelegate.o build\qrc_mytetra.o build\moc_RecordTableScreen.o build\moc_RecordTableView.o build\moc_RecordInfoFieldsEditor.o build\moc_InfoFieldEnter.o build\moc_MetaEditor.o build\moc_Editor.o build\moc_EditorConfig.o build\moc_EditorConfigDialog.o build\moc_EditorConfigFont.o build\moc_EditorConfigMisc.o build\moc_EditorFindDialog.o build\moc_MainWindow.o build\moc_PrintPreview.o
+	-$(DEL_FILE) build\moc_PreviewView.o build\moc_XmlTree.o build\moc_TreeModel.o build\moc_KnowTreeModel.o build\moc_RecordTableData.o build\moc_RecordTableModel.o build\moc_AppConfig.o build\moc_AddNewRecord.o build\moc_ClipboardRecords.o build\moc_TreeScreen.o build\moc_FindScreen.o build\moc_FindTableWidget.o build\moc_AppConfigDialog.o build\moc_ConfigDialog.o build\moc_ConfigPage.o build\moc_AppConfigPage_Main.o build\moc_AppConfigPage_Misc.o build\moc_AppConfigPage_Crypt.o build\moc_AppConfigPage_Synchro.o build\moc_AppConfigPage_RecordTable.o build\moc_AppConfigUpdater.o build\moc_EditorContextMenu.o build\moc_EditorTextArea.o build\moc_IndentSlider.o build\moc_EditorSplitCellForm.o build\moc_EditorAddTableForm.o build\moc_EditorImageProperties.o build\moc_EditorMultiLineInputDialog.o build\moc_FixedParameters.o build\moc_WindowSwitcher.o build\moc_EditorShowText.o build\moc_recordTableController.o build\moc_RecordTablePrint.o build\moc_qtsingleapplication.o build\moc_qtlocalpeer.o build\moc_qtsinglecoreapplication.o build\moc_ClipboardBranch.o build\moc_GlobalParameters.o build\moc_DataBaseConfig.o build\moc_EnterPassword.o build\moc_ExecuteCommand.o build\moc_ConsoleEmulator.o build\moc_WaitClock.o build\moc_WalkHistory.o build\moc_Password.o build\moc_MtComboBox.o build\moc_MtTableWidget.o build\moc_KnowTreeView.o build\moc_MtStyledItemDelegate.o
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -13489,6 +13493,8 @@ build/RecordTableData.o: src/models/recordTable/RecordTableData.cpp C:/tools/qt/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qrubberband.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QThread \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qthread.h \
+		src/models/recordTable/Record.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QByteArray \
 		src/models/recordTable/RecordTableData.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QAbstractListModel \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QModelIndex \
@@ -13597,7 +13603,6 @@ build/RecordTableData.o: src/models/recordTable/RecordTableData.cpp C:/tools/qt/
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qtcoreversion.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/qxml.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/qtxmlversion.h \
-		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QByteArray \
 		src/models/appConfig/AppConfig.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QSettings \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QDebug \
@@ -20464,6 +20469,169 @@ build/RecordTablePrint.o: src/views/recordTable/RecordTablePrint.cpp C:/tools/qt
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build\RecordTablePrint.o src\views\recordTable\RecordTablePrint.cpp
 
+build/Record.o: src/models/recordTable/Record.cpp src/main.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QApplication \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qapplication.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qcoreapplication.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qglobal.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qconfig.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qfeatures.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsystemdetection.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qprocessordetection.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qcompilerdetection.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qtypeinfo.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qtypetraits.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsysinfo.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qlogging.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qflags.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qbasicatomic.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_bootstrap.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qgenericatomic.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_msvc.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_armv7.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_armv6.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_armv5.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_ia64.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_mips.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_x86.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_cxx11.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_gcc.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qatomic_unix.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qmutex.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qchar.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qrefcount.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qlist.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qiterator.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qcoreevent.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qmetatype.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qvarlengtharray.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qisenum.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qeventloop.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsize.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qcursor.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdesktopwidget.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qmargins.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qrect.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpalette.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qcolor.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qrgb.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qiodevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qbrush.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qmatrix.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpolygon.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qregion.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qline.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtransform.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpainterpath.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qimage.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpixelformat.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpixmap.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsharedpointer.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qsharedpointer_impl.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qfont.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qfontmetrics.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qfontinfo.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qsizepolicy.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qkeysequence.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qevent.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qurl.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qurlquery.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qfile.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qfiledevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qvector2d.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qguiapplication.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qinputmethod.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/QClipboard \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qclipboard.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QObject \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QWidget \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialog \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QtGlobal \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/QDomNode \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/qdom.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtXml/qtxmlglobal.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QTextEdit \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtextedit.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractscrollarea.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qframe.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtextdocument.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtextoption.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtextcursor.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtextformat.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qpen.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QPushButton \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qpushbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractbutton.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qicon.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QVBoxLayout \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qboxlayout.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlayout.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qlayoutitem.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qgridlayout.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QSizePolicy \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QToolBar \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtoolbar.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QAbstractItemView \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractitemview.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qabstractitemmodel.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qitemselectionmodel.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractitemdelegate.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyleoption.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractspinbox.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qvalidator.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qregularexpression.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qslider.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qabstractslider.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qstyle.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtabbar.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qtabwidget.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qrubberband.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QThread \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qthread.h \
+		src/models/recordTable/Record.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QString \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QMap \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QByteArray
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build\Record.o src\models\recordTable\Record.cpp
+
 build/qtsingleapplication.o: src/libraries/qtSingleApplication5/qtsingleapplication.cpp src/libraries/qtSingleApplication5/qtsingleapplication.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QApplication \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/qapplication.h \
@@ -21611,6 +21779,8 @@ build/ExecuteCommand.o: src/views/consoleEmulator/ExecuteCommand.cpp C:/tools/qt
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qfiledevice.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qvector2d.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/QTextCodec \
+		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtCore/qtextcodec.h \
 		src/views/consoleEmulator/ExecuteCommand.h \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QWidget \
 		C:/tools/qt/qt_5_4_2/5.4/mingw491_32/include/QtWidgets/QDialog \

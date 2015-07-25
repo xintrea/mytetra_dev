@@ -7,7 +7,9 @@
 #include <QtDebug>
 
 #include "main.h"
+#include "models/recordTable/Record.h"
 #include "ClipboardRecords.h"
+
 
 ClipboardRecords::ClipboardRecords(void) : QMimeData()
 {
@@ -40,20 +42,8 @@ void ClipboardRecords::clear(void)
 }
 
 
-void ClipboardRecords::addRecord(QString text,
-                                 QMap<QString, QString> fieldList,
-                                 QMap<QString, QString> attachList,
-                                 QMap<QString, QByteArray> pictureFiles,
-                                 QMap<QString, QByteArray> attachFiles)
+void ClipboardRecords::addRecord(Record record)
 {
-  RecordData record;
-  
-  record.text=text;
-  record.fieldList = fieldList;
-  record.attachList = attachList;
-  record.pictureFiles = pictureFiles;
-  record.attachFiles = attachFiles;
-  
   records.table << record;
 }
 
@@ -61,31 +51,31 @@ void ClipboardRecords::addRecord(QString text,
 // Печать информации о содержимом записи
 void ClipboardRecords::print(void) const
 {
-  QListIterator< RecordData > list(records.table);
+  QListIterator< Record > list(records.table);
   
   // Перебор записей
   while (list.hasNext()) 
   {
-    RecordData record=list.next();
+    Record record=list.next();
 
-    qDebug() << record.text;
+    qDebug() << record.getText();
 
     // Перебор полей в записи
     QMap<QString, QString> fieldList=record.fieldList;
-    QMapIterator<QString, QString> line(fieldList);
-    while(line.hasNext()) 
+    QMapIterator<QString, QString> currentField(fieldList);
+    while(currentField.hasNext())
     {  
-      line.next();
-      qDebug() << line.key() << ": " << line.value();
+      currentField.next();
+      qDebug() << currentField.key() << ": " << currentField.value();
     }
 
     // Перебор информации о праттаченных файлах в записи
-    QMap<QString, QString> attachFiles=record.attachFiles;
-    QMapIterator<QString, QString> line(attachFiles);
-    while(line.hasNext()) 
+    QMap<QString, QString> attachFiles=record.attachList;
+    QMapIterator<QString, QString> currentFile(attachFiles);
+    while(currentFile.hasNext())
     {  
-      line.next();
-      qDebug() << line.key() << ": " << line.value();
+      currentFile.next();
+      qDebug() << currentFile.key() << ": " << currentFile.value();
     }
     
   }
@@ -103,7 +93,7 @@ int ClipboardRecords::getCount(void) const
 QString ClipboardRecords::getRecordText(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).text;
+  return records.table.at(n).getText();
  else
   {
    critical_error("In ClipboardRecords::getRecordText() unavailable number "+QString::number(n));
@@ -142,7 +132,7 @@ QMap<QString, QString> ClipboardRecords::getRecordAttachList(int n) const
 QMap<QString, QByteArray> ClipboardRecords::getRecordPictureFiles(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).pictureFiles;
+  return records.table.at(n).getPictureFiles();
  else
   {
    critical_error("In ClipboardRecords::getRecordPictureFiles() unavailable number "+QString::number(n));
@@ -155,7 +145,7 @@ QMap<QString, QByteArray> ClipboardRecords::getRecordPictureFiles(int n) const
 QMap<QString, QByteArray> ClipboardRecords::getRecordAttachFiles(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).attachFiles;
+  return records.table.at(n).getAttachFiles();
  else
   {
    critical_error("In ClipboardRecords::getRecordAttachFiles() unavailable number "+QString::number(n));

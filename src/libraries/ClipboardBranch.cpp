@@ -146,14 +146,14 @@ QMap<QString, QString> ClipboardBranch::getBranchFieldsById(QString id)
 
 
 // Получение списка записей для указанной ветки
-QList< RecordData > ClipboardBranch::getBranchRecords(QString id)
+QList< Record > ClipboardBranch::getBranchRecords(QString id)
 {
- QList< RecordData > records;
+ QList< Record > records;
 
  // Находятся записи с нужным идентификатором
  // Записи добавляются в records в последовательности задом-наперёд
  // из-за особенностей реализации foreach для QMultiMap
- foreach(RecordData current_record, branchData.record.values(id))
+ foreach(Record current_record, branchData.record.values(id))
   records.insert(0, current_record);
 
  return records;

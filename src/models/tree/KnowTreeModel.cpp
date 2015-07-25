@@ -683,30 +683,14 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
  // -----------------------------------------------
 
  // Выясняются данные конечных записей
- QList< RecordData > records=subbranch->getBranchRecords(startBranchId);
+ QList< Record > records=subbranch->getBranchRecords(startBranchId);
 
- foreach(RecordData record, records)
+ foreach(Record record, records)
  {
-  QMap<QString, QString> recordFields=record.fields;
-  QMap<QString, QByteArray> recordFiles=record.pictures;
-
-  qDebug() << "Add table record "+recordFields["name"];
-
-  // Запоминается текст записи, полученный из буфера обмена
-  QString recordText=recordFields["text"];
-
-  // Поле с текстом записи удаляется из списка инфополей
-  recordFields.remove("text");
-
-  qDebug() << "KnowTreeModel::paste_subbranch_recurse() : create branch with field" << newitem->getAllFields();
-
-
-
+  qDebug() << "Add table record "+record.fieldList["name"];
   newitem->recordtableGetTableData()->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                                          0,
-                                                         recordText,
-                                                         recordFields,
-                                                         recordFiles);
+                                                         record);
  }
 
  // --------------------

@@ -5,6 +5,7 @@
 #include <QMessageBox>
 
 #include "main.h"
+#include "Record.h"
 #include "RecordTableData.h"
 
 #include "models/appConfig/AppConfig.h"
@@ -48,112 +49,112 @@ RecordTableData::~RecordTableData()
 
 
 // Получение значения указанного поля для указанного имени поля
-// Имя поля - все возможные имена полей, кроме text
+// Имя поля - все возможные имена полей, кроме text (такого поля теперь вообще нет, текст запрашивается как отдельное свойство)
 QString RecordTableData::getField(QString name, int pos) const
 {
- // Если индекс недопустимый
- if(pos<0 || pos>=tableData.size())
+  // Если индекс недопустимый
+  if(pos<0 || pos>=tableData.size())
   {
-   QString i;
-   i.setNum(pos);
-   critical_error("RecordTableData::get_field() : get unavailable record index "+i);
+    QString i;
+    i.setNum(pos);
+    critical_error("RecordTableData::getField() : get unavailable record index "+i);
   }
 
- // Если имя поля недопустимо
- if(fixedParameters.isRecordFieldAvailable(name)==false)
-  critical_error("RecordTableData::get_field() : get unavailable field "+name);
- 
- QMap<QString, QString> recordFields;
- recordFields=tableData.at(pos).fieldList;
+  // Если имя поля недопустимо
+  if(fixedParameters.isRecordFieldAvailable(name)==false)
+    critical_error("RecordTableData::getField() : get unavailable field "+name);
 
- QString result="";
+  QMap<QString, QString> recordFields;
+  recordFields=tableData.at(pos).fieldList;
 
-
- // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
- // то расшифровка невозможна
- if(fixedParameters.recordFieldCryptedList().contains(name))
-  if(recordFields.contains("crypt"))
-   if(recordFields["crypt"]=="1")
-    if(globalParameters.getCryptKey().length()==0)
-  return QString();
+  QString result="";
 
 
- // Если поле с таким названием есть
- if(recordFields.contains(name))
-  {
-   // Нужно определить, зашифровано поле или нет
-
-   bool isCrypt=false;
-
-   // Если имя поля принадлежит списку полей, которые могут шифроваться
-   // и в наборе полей есть поле crypt
-   // и поле crypt установлено в 1
-   // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-   if(fixedParameters.recordFieldCryptedList().contains(name))
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то расшифровка невозможна
+  if(fixedParameters.recordFieldCryptedList().contains(name))
     if(recordFields.contains("crypt"))
-     if(recordFields["crypt"]=="1")
-      if(recordFields[name].length()>0)
-       isCrypt=true;
+      if(recordFields["crypt"]=="1")
+        if(globalParameters.getCryptKey().length()==0)
+          return QString();
 
-   // Если поле не подлежит шифрованию
-   if(isCrypt==false)
-    result=recordFields[name]; // Возвращается значение поля
-   else
+
+  // Если поле с таким названием есть
+  if(recordFields.contains(name))
+  {
+    // Нужно определить, зашифровано поле или нет
+
+    bool isCrypt=false;
+
+    // Если имя поля принадлежит списку полей, которые могут шифроваться
+    // и в наборе полей есть поле crypt
+    // и поле crypt установлено в 1
+    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
+    if(fixedParameters.recordFieldCryptedList().contains(name))
+      if(recordFields.contains("crypt"))
+        if(recordFields["crypt"]=="1")
+          if(recordFields[name].length()>0)
+            isCrypt=true;
+
+    // Если поле не подлежит шифрованию
+    if(isCrypt==false)
+      result=recordFields[name]; // Возвращается значение поля
+    else
     {
-     // Поле расшифровывается
-     result=decryptString(globalParameters.getCryptKey(), recordFields[name]);
+      // Поле расшифровывается
+      result=decryptString(globalParameters.getCryptKey(), recordFields[name]);
     }
   }
 
- // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
+  // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
 
- return result;
+  return result;
 }
 
 
 // Установка значения указанного поля для указанного элемента
 void RecordTableData::setField(QString name, QString value, int pos)
 {
- // Если индекс недопустимый
- if(pos<0 || pos>=tableData.size())
+  // Если индекс недопустимый
+  if(pos<0 || pos>=tableData.size())
   {
-   QString i;
-   i.setNum(pos);
-   critical_error("In RecordTableData::set_field() unavailable record index "+i+" in table while field "+name+" try set to "+value);
+    QString i;
+    i.setNum(pos);
+    critical_error("In RecordTableData::setField() unavailable record index "+i+" in table while field "+name+" try set to "+value);
   }
 
 
- // Если имя поля недопустимо
- if(fixedParameters.isRecordFieldAvailable(name)==false)
-  critical_error("In RecordTableData::set_field() unavailable field name "+name+" try set to "+value);
+  // Если имя поля недопустимо
+  if(fixedParameters.isRecordFieldAvailable(name)==false)
+    critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
 
 
- bool isCrypt=false;
+  bool isCrypt=false;
 
- // Если имя поля принадлежит списку полей, которые могут шифроваться
- // и в наборе полей есть поле crypt
- // и поле crypt установлено в 1
- // и поле не пустое (пустые данные ненужно шифровать)
- if(fixedParameters.recordFieldCryptedList().contains(name))
-  if((tableData[pos]).fieldList.contains("crypt"))
-   if((tableData[pos].fieldList)["crypt"]=="1")
-    if(value.length()>0)
-     {
-      if(globalParameters.getCryptKey().length()>0)
-       isCrypt=true;
-      else
-       critical_error("In RecordTableData::set_field() can not set data to crypt field "+name+". Password not setted");
-     }
+  // Если имя поля принадлежит списку полей, которые могут шифроваться
+  // и в наборе полей есть поле crypt
+  // и поле crypt установлено в 1
+  // и поле не пустое (пустые данные ненужно шифровать)
+  if(fixedParameters.recordFieldCryptedList().contains(name))
+    if((tableData[pos]).fieldList.contains("crypt"))
+      if((tableData[pos].fieldList)["crypt"]=="1")
+        if(value.length()>0)
+        {
+          if(globalParameters.getCryptKey().length()>0)
+            isCrypt=true;
+          else
+            critical_error("In RecordTableData::set_field() can not set data to crypt field "+name+". Password not setted");
+        }
 
 
- // Если нужно шифровать, поле шифруется
- if(isCrypt==true)
-  value=encryptString(globalParameters.getCryptKey(), value);
+  // Если нужно шифровать, поле шифруется
+  if(isCrypt==true)
+    value=encryptString(globalParameters.getCryptKey(), value);
 
- // Устанавливается значение поля
- (tableData[pos]).fieldList.insert(name, value);
+  // Устанавливается значение поля
+  (tableData[pos]).fieldList.insert(name, value);
 
- // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
+  // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
 }
 
 
@@ -173,12 +174,12 @@ QString RecordTableData::getText(int pos)
 
 
  // Выясняются значения инфополей записи
- QMap<QString, QString> lineTmp;
- lineTmp=getFieldList(pos); // Раньше было index.row()
+ QMap<QString, QString> tmpFieldList;
+ tmpFieldList=getFieldList(pos); // Раньше было index.row()
 
  // Выясняется полное имя файла с текстом записи
  QString fileName;
- fileName=mytetraConfig.get_tetradir()+"/base/"+lineTmp["dir"]+"/"+lineTmp["file"];
+ fileName=mytetraConfig.get_tetradir()+"/base/"+tmpFieldList["dir"]+"/"+tmpFieldList["file"];
 
  QFile f(fileName);
 
@@ -438,19 +439,19 @@ QMap<QString, QString> RecordTableData::getFieldList(int pos) const
  QStringList fieldNames=fixedParameters.recordFieldAvailableList();
  
  // В lineTmp копируется запись (только инфополя) с нужным номером
- QMap<QString, QString> lineTmp;
- lineTmp=tableData.at(pos).fieldList;
+ QMap<QString, QString> sourceFieldList;
+ sourceFieldList=tableData.at(pos).fieldList;
 
  // qDebug() << "RecordTableData::get_fields() : pos"<<pos<<"lineTmp:"<<lineTmp;
 
- QMap<QString, QString> tmpRecordFieldList;
+ QMap<QString, QString> resultFieldList;
 
 
  // Проверяется, используется ли шифрование
  bool isCrypt=false;
 
- if(lineTmp.contains("crypt"))
-  if(lineTmp["crypt"]=="1")
+ if(sourceFieldList.contains("crypt"))
+  if(sourceFieldList["crypt"]=="1")
    isCrypt=true;
 
 
@@ -460,35 +461,35 @@ QMap<QString, QString> RecordTableData::getFieldList(int pos) const
    QString currName=fieldNames.at(i);
 
    // Если поле с таким именем существует
-   if(lineTmp.contains( currName ))
+   if(sourceFieldList.contains( currName ))
     {
      QString result="";
 
      if(isCrypt==false)
-      result=lineTmp[currName]; // Напрямую значение поля
+      result=sourceFieldList[currName]; // Напрямую значение поля
      else
       {
        // Присутствует шифрование
 
        // Если поле не подлежит шифрованию
        if(fixedParameters.recordFieldCryptedList().contains(currName)==false)
-        result=lineTmp[currName]; // Напрямую значение поля
+        result=sourceFieldList[currName]; // Напрямую значение поля
        else
         if(globalParameters.getCryptKey().length()>0 &&
            fixedParameters.recordFieldCryptedList().contains(currName))
-        result=decryptString(globalParameters.getCryptKey(), lineTmp[currName]); // Расшифровывается значение поля
+        result=decryptString(globalParameters.getCryptKey(), sourceFieldList[currName]); // Расшифровывается значение поля
       }
 
-     tmpRecordFieldList[currName]=result;
+     resultFieldList[currName]=result;
     }
   }
 
   // else
   //  tmpRecordFieldList[fieldNames.at(i)]="";
 
- qDebug() << "RecordTableData::get_fields() : pos"<<pos<<"Data:"<<tmpRecordFieldList;
+ qDebug() << "RecordTableData::get_fields() : pos"<<pos<<"Data:"<<resultFieldList;
 
- return tmpRecordFieldList;
+ return resultFieldList;
 }
 
 
@@ -500,23 +501,43 @@ QMap<QString, QString> RecordTableData::getAttachList(int pos) const
 }
 
 
-// Получение полного образа записи
-// Он содержит только текстовые данные, из которых можно вытянуть имена файлов картинок
-// и имена прикрепляемых файлов
-RecordExemplar RecordTableData::getRecordExemplar(int pos)
+// Получение легкого образа записи
+Record RecordTableData::getRecordLite(int pos)
 {
- // Если индекс недопустимый, возвращается пустой список данных
+ // Если индекс недопустимый, возвращается пустая запись
  if(pos<0 || pos>=size())
-  return NULL;
+   return Record();
 
- RecordExemplar record;
- 
- record.text=getText(pos); // Текст записи
- record.fieldList=getFieldList(pos);  // Все инфополя
- record.fileTable=getFileTable(pos); // Текст записи
- record.files=getFiles(pos); // Все файлы
+ // Хранимая в дереве запись не может быть "тяжелой"
+ if(!tableData.at(pos).isLite())
+   critical_error("In RecordTableData::getRecordLite() try get fat record");
 
- return record;
+ return tableData.at(pos);
+}
+
+
+// Получение полного образа записи
+Record RecordTableData::getRecordFat(int pos)
+{
+ // Если индекс недопустимый, возвращается пустая запись
+ if(pos<0 || pos>=size())
+   return Record();
+
+ // Хранимая в дереве запись не может быть "тяжелой"
+ if(!tableData.at(pos).isLite())
+   critical_error("In RecordTableData::getRecordFat() try get source fat record");
+
+ Record resultRecord=tableData.at(pos);
+
+ resultRecord.switchToFat();
+
+
+
+
+
+
+
+ return resultRecord;
 }
 
 
@@ -555,7 +576,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
     if(currentRec.tagName()=="record")
      {
       // Структура, куда будет помещена текущая запись
-      RecordExemplar currentRecordData;
+      Record currentRecordData;
 
 
       // Получение списка всех атрибутов текущего элемента
@@ -577,10 +598,6 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
         // qDebug() << "Read record attr " << name << value;
        }
 
-
-      // Список файлов
-      QMap<QString, QString> fileList;
-
       // Проверка, есть ли у записи таблица файлов
       if(!currentRec.firstChildElement("files").isNull())
       {
@@ -593,7 +610,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
           {
             QString id=currentFile.attribute("id"); // Идентификатор файла
             QString name=currentFile.attribute("name"); // Имя файла
-            currentRecordData.files[id]=name;
+            currentRecordData.attachList[id]=name;
           }
 
           currentFile=currentFile.nextSiblingElement();
@@ -662,11 +679,11 @@ QDomDocument RecordTableData::exportDataToDom(void)
 // ADD_NEW_RECORD_TO_END - в конец списка, pos игнорируется
 // ADD_NEW_RECORD_BEFORE - перед указанной позицией, pos - номер позиции
 // ADD_NEW_RECORD_AFTER - после указанной позиции, pos - номер позиции
+// Метод принимает "тяжелый" объект записи
+// todo: добавить сохранение таблицы приаттаченных файлов и содержимого файлов
 int RecordTableData::insertNewRecord(int mode,
                                      int pos,
-                                     QString text,
-                                     QMap<QString, QString> fields,
-                                     QMap<QString, QByteArray> files)
+                                     Record record)
 {
   qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
 
@@ -685,39 +702,41 @@ int RecordTableData::insertNewRecord(int mode,
   // В список переданных полей добавляются вычислимые в данном месте поля
 
   // Наличие шифрации
-  if(isCrypt) fields["crypt"]="1";
-  else fields["crypt"]="0";
+  if(isCrypt)
+    record.fieldList["crypt"]="1";
+  else
+    record.fieldList["crypt"]="0";
 
   // Выясняется, есть ли в дереве запись с указанным ID
   // Если есть, то генерируются новые ID для записи и новая директория хранения
   // Если нет, то это значит что запись была вырезана, но хранится в буфере,
   // и ее желательно вставить с прежним ID и прежним именем директории
   KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
-  if(fields["id"].length()==0 ||
-     dataModel->isRecordIdExists( fields["id"] ) )
+  if(record.fieldList["id"].length()==0 ||
+     dataModel->isRecordIdExists( record.fieldList["id"] ) )
    {
     // Создается новая запись (ID был пустой) или
     // Запись с таким ID в дереве есть, поэтому выделяются новый ID и новая директория хранения (чтобы не затереть существующие)
 
     // Директория хранения записи и файл
-    fields["dir"]=get_unical_id();
-    fields["file"]="text.html";
+    record.fieldList["dir"]=get_unical_id();
+    record.fieldList["file"]="text.html";
 
     // Уникальный идентификатор XML записи
     QString id=get_unical_id();
-    fields["id"]=id;
+    record.fieldList["id"]=id;
    }
 
 
   // Время создания данной записи
   QDateTime ctime_dt=QDateTime::currentDateTime();
   QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
-  fields["ctime"]=ctime;
+  record.fieldList["ctime"]=ctime;
   
 
   // Добавляются инфополя объекта
   int insertPos=0;
-  RecordExemplar emptyRecord;
+  Record emptyRecord;
 
   // Вначале добавляется пустая запись
   if(mode==ADD_NEW_RECORD_TO_END) // В конец списка
@@ -739,10 +758,10 @@ int RecordTableData::insertNewRecord(int mode,
   // Запись заполняется данными
   
   // Вначале на всякий случай устанавливается значение поля наличия шифрования
-  setField("crypt", fields["crypt"], insertPos);
+  setField("crypt", record.fieldList["crypt"], insertPos);
 
   // Устанавливается весь набор полей
-  QMapIterator<QString, QString> i(fields);
+  QMapIterator<QString, QString> i(record.fieldList);
   while(i.hasNext())
    {
     i.next();
@@ -752,8 +771,8 @@ int RecordTableData::insertNewRecord(int mode,
    }
 
 
-  // Добавляется текст и файлы объекта
-  setTextAndPictures(insertPos, text, files);
+  // Добавляется текст и файлы изображений
+  setTextAndPictures(insertPos, record.getText(), record.getPictureFiles());
 
   qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
 
@@ -781,6 +800,7 @@ void RecordTableData::editRecordFields(int pos,
 
 
 // Удаление записи с указанным индексом
+// todo: добавить удаление приаттаченных файлов и очистку таблицы приаттаченных файлов
 void RecordTableData::deleteRecord(int i)
 {
  qDebug() << "Try delete record num " << i << " table count " << tableData.size();
@@ -898,6 +918,7 @@ void RecordTableData::moveDn(int pos)
 
 
 // Переключение таблицы в зашифрованное состояние
+// Добавить шифрацию имени приаттаченных файлов и содержимого файлов
 void RecordTableData::switchToEncrypt(void)
 {
  // Перебор записей
@@ -953,6 +974,7 @@ void RecordTableData::switchToEncrypt(void)
 
 
 // Переключение таблицы в расшифрованное состояние
+// todo: добавить расшифрацию имени приаттаченных файлов и содержимого файлов
 void RecordTableData::switchToDecrypt(void)
 {
  // Перебор записей

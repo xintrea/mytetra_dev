@@ -10,10 +10,9 @@
 #include <QString>
 #include <QByteArray>
 
-#include "Record.h"
-
-
 class TreeItem;
+class Record;
+
 
 class RecordTableData : public QObject
 {
@@ -46,7 +45,8 @@ public:
     QMap<QString, QString> getAttachList(int pos) const;
     
     // Получение образа записи
-    RecordExemplar getRecordExemplar(int pos);
+    Record getRecordLite(int pos);
+    Record getRecordFat(int pos);
 
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);
@@ -65,9 +65,7 @@ public:
 
     int insertNewRecord(int mode,
                         int pos,
-                        QString text,
-                        QMap<QString, QString> fields,
-                        QMap<QString, QByteArray> files = (QMap<QString, QByteArray>()) );
+                        Record record);
 
     void editRecordFields(int pos,
                           QMap<QString, QString> editFields);

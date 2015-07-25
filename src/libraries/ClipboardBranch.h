@@ -27,7 +27,7 @@ struct CLIPB_BRANCH_STRUCT
  //          |        +-------------------- Запись
  //          |        |
  //          V        V
- QMultiMap< QString, RecordData>record;
+ QMultiMap< QString, Record>record;
 };
 Q_DECLARE_METATYPE(CLIPB_BRANCH_STRUCT);
 
@@ -64,7 +64,7 @@ public:
  QMap<QString, QString> getBranchFieldsById(QString id);
 
  // Получение списка записей для указанной ветки
- QList<RecordData> getBranchRecords(QString id);
+ QList<Record> getBranchRecords(QString id);
 
 protected:
  // Этот метод QMimeData надо переопределить, так как он виртуальный

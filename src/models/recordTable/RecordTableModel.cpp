@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Record.h"
 #include "RecordTableModel.h"
 #include "RecordTableData.h"
 
@@ -274,18 +275,14 @@ RecordTableData *RecordTableModel::getTableData(void)
 // Функция возвращает позицию нового добавленного элемента
 int RecordTableModel::addTableData(int mode,
                                    QModelIndex posIndex,
-                                   QMap<QString, QString> fields,
-                                   QString text,
-                                   QMap<QString, QByteArray> files)
+                                   Record record)
 {
  beginResetModel(); // Подумать, возможно нужно заменить на beginInsertRows
 
  // Вставка новых данных в таблицу конечных записей
  int selPos=table->insertNewRecord(mode,
                                    posIndex.row(),
-                                   text,
-                                   fields,
-                                   files);
+                                   record);
 
 
  endResetModel(); // Подумать, возможно нужно заменить на endInsertRows

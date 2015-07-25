@@ -6,12 +6,14 @@
 #include <QMap>
 #include <QList>
 
+// class Record;
+#include "models/recordTable/Record.h"
  
 // Определяется структура данных набора записей
 // которая будет передаваться через буфер обмена
 struct CLIPB_RECORDS_STRUCT
 {
-  QList< RecordData > table;
+  QList< Record > table;
 };
 Q_DECLARE_METATYPE(CLIPB_RECORDS_STRUCT);
 
@@ -26,11 +28,7 @@ public:
 
   void init(void);
   void clear(void);
-  void addRecord(QString text,
-                 QMap<QString, QString> fieldList,
-                 QMap<QString, QString> attachList,
-                 QMap<QString, QByteArray> pictureFiles,
-                 QMap<QString, QByteArray> attachFiles);
+  void addRecord(Record record);
   void print(void) const;
   int getCount(void) const;
 

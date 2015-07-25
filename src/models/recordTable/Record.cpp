@@ -14,7 +14,7 @@ Record::~Record()
 }
 
 
-bool Record::isNull()
+bool Record::isNull() const
 {
   // Заполненная запись не может содержать пустые свойства
   if(fieldList.count()==0)
@@ -24,7 +24,7 @@ bool Record::isNull()
 }
 
 
-bool Record::isLite()
+bool Record::isLite() const
 {
   return liteFlag;
 }
@@ -66,8 +66,28 @@ QString Record::getIdAndNameAsString()
 }
 
 
-// Тажелые свойства устанавливаются и берутся через геттеры и сеттеры
-QMap<QString, QByteArray> Record::getPictureFiles()
+// Тяжелые свойства устанавливаются и берутся через геттеры и сеттеры
+QString Record::getText() const
+{
+  // У легкого объекта невозможно запросить текст, если так происходит - это ошибка вызывающей логики
+  if(liteFlag==true)
+    critical_error("Cant get text from lite record object"+getIdAndNameAsString());
+
+  return text;
+}
+
+
+void Record::setText(QString iText)
+{
+  // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
+  if(liteFlag==true)
+    critical_error("Cant set text for lite record object"+getIdAndNameAsString());
+
+  text=iText;
+}
+
+
+QMap<QString, QByteArray> Record::getPictureFiles() const
 {
   // У легкого объекта невозможно запросить картики, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
@@ -88,7 +108,7 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 }
 
 
-QMap<QString, QByteArray> Record::getAttachFiles()
+QMap<QString, QByteArray> Record::getAttachFiles() const
 {
   // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)

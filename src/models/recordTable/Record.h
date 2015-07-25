@@ -28,18 +28,20 @@ public:
 
   // Основные текстовые данные открыты, чтобы с ними можно было работать напрямую,
   // чтобы не тратитить производительность на геттеры-сеттеры
-  QString text; // Текст записи
   QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов)
   QMap<QString, QString> attachList; // Перечень прикрепляемых файлов
 
-  QMap<QString, QByteArray> getPictureFiles();
+  QString getText() const;
+  void setText(QString iText);
+
+  QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
-  QMap<QString, QByteArray> getAttachFiles();
+  QMap<QString, QByteArray> getAttachFiles() const;
   void setAttachFiles(QMap<QString, QByteArray> iAttachFiles);
 
-  bool isNull();
-  bool isLite();
+  bool isNull() const;
+  bool isLite() const;
   void switchToLite();
   void switchToFat();
 
@@ -47,6 +49,8 @@ protected:
 
   bool liteFlag;
 
+  // Установка содержимого свойств происходит в вышестоящем коде
+  QString text; // Содержимое файла с текстом записи
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
 
