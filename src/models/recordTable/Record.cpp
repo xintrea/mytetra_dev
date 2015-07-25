@@ -52,7 +52,7 @@ void Record::switchToFat()
 }
 
 
-QString Record::getIdAndNameAsString()
+QString Record::getIdAndNameAsString() const
 {
   QString id, name;
 

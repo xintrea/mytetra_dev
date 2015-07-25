@@ -12,6 +12,7 @@
 #include "views/tree/TreeScreen.h"
 #include "views/record/RecordInfoFieldsEditor.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
+#include "models/recordTable/Record.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
@@ -244,12 +245,9 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
     QModelIndex index=convertProxyIndexToSourceIndex( itemsForCopy.at(i) );
 
     // Образ записи, включающий все текстовые данные (текст записи, свойства записи, перечень приаттаченных файлов)
-    RecordExemplar exemplar=table->getRecordExemplar( index.row() );
+    Record record=table->getRecordFat( index.row() );
 
-    // Имя директории, в которой расположена запись и ее файлы
-    QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-    clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
+    clipboardRecords->addRecord( record );
    }
 }
 
@@ -442,25 +440,7 @@ void RecordTableController::paste(void)
 
  // Пробегаются все записи в буфере
  for(int i=0;i<nList;i++)
-  {
-   QMap<QString, QString> fields;
-
-   // Получение из буфера полей записи с нужным номером
-   fields=clipboardRecords->getRecordFieldList(i);
-
-   // Запоминается текст записи
-   QString text=fields["text"];
-
-   // Текст записи из списка инфополей удаляется
-   fields.remove("text");
-
-   qDebug() << "RecordTableScreen::paste() : fields " << fields;
-
-   addNew(ADD_NEW_RECORD_TO_END,
-           fields,
-           text,
-           clipboardRecords->getRecordPictureFiles(i));
-  }
+   addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
@@ -508,35 +488,32 @@ void RecordTableController::addNewRecord(int mode)
  if(i==QDialog::Rejected)
    return; // Была нажата отмена, ничего ненужно делать
 
-
- // Имя директории, в которой расположены файлы картинок, используемые в тексте
+ // Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
  QString directory=addNewRecordWin.getImagesDirectory();
 
- // Получение набора файлов картинок в виде структуры
- QMap<QString, QByteArray> files=get_files_from_directory(directory, "*.png");
+ // todo: сделать заполнение таблицы приаттаченных файлов
 
- // Временная директория с картинками удаляется
+ Record record;
+ record.switchToFat();
+ record.setText( addNewRecordWin.getField("text") );
+ record.fieldList["name"]=addNewRecordWin.getField("name");
+ record.fieldList["author"]=addNewRecordWin.getField("author");
+ record.fieldList["url"]   =addNewRecordWin.getField("url");
+ record.fieldList["tags"]  =addNewRecordWin.getField("tags");
+ record.setPictureFiles( get_files_from_directory(directory, "*.png") );
+ record.setAttachFiles( get_files_from_directory(directory, "*.bin") );
+
+ // Временная директория с картинками и приаттаченными файлами удаляется
  remove_directory(directory);
 
- QMap<QString, QString> fields;
- fields["name"]  =addNewRecordWin.getField("name");
- fields["author"]=addNewRecordWin.getField("author");
- fields["url"]   =addNewRecordWin.getField("url");
- fields["tags"]  =addNewRecordWin.getField("tags");
-
  // Введенные данные добавляются
- addNew(mode,
-        fields,
-        addNewRecordWin.getField("text"),
-        files);
+ addNew(mode, record);
 }
 
 
 // Функция добавления новой записи в таблицу конечных записей
-void RecordTableController::addNew(int mode,
-                              QMap<QString, QString> fields,
-                              QString text,
-                              QMap<QString, QByteArray> files)
+// Принимает полный формат записи
+void RecordTableController::addNew(int mode, Record record)
 {
  qDebug() << "In add_new()";
 
@@ -545,10 +522,8 @@ void RecordTableController::addNew(int mode,
 
  // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
  int selPos=recordSourceModel->addTableData(mode,
-                                      posIndex,
-                                      fields,
-                                      text,
-                                      files);
+                                            posIndex,
+                                            record);
 
  view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
 

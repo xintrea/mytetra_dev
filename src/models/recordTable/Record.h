@@ -54,7 +54,7 @@ protected:
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
 
-  QString getIdAndNameAsString(); // Внутренний метод для облегчения печати отладочной информации
+  QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
 };
 

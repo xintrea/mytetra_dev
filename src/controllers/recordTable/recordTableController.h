@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QModelIndexList>
 
-
+class Record;
 class RecordTableView;
 class RecordTableData;
 class RecordTableModel;
@@ -102,10 +102,7 @@ protected:
 
   void addNewRecord(int mode);
 
-  void addNew(int mode,
-              QMap<QString, QString> fields,
-              QString text,
-              QMap<QString, QByteArray> files=(QMap<QString, QByteArray>()) );
+  void addNew(int mode, Record record);
 
   void editField(int pos,
                  QString name,

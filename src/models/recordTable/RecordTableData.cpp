@@ -527,15 +527,19 @@ Record RecordTableData::getRecordFat(int pos)
  if(!tableData.at(pos).isLite())
    critical_error("In RecordTableData::getRecordFat() try get source fat record");
 
+ // Копия записи из дерева
  Record resultRecord=tableData.at(pos);
 
+ // Превращение копии записи в представление с полным содержимым
  resultRecord.switchToFat();
 
+ // Добавление текста записи
+ resultRecord.setText( getText(pos) );
 
-
-
-
-
+ // Добавление бинарных образов файлов картинок и приаттаченных файлов
+ QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.fieldList["dir"];
+ resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
+ resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
  return resultRecord;
 }

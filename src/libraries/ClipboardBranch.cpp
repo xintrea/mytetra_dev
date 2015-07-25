@@ -47,7 +47,7 @@ void ClipboardBranch::print(void) const
   QString branch_id=current_branch.value("id");
 
   // Находятся все записи, принадлежащие текущей ветке
-  foreach(RecordData current_record, branchData.record.values(branch_id))
+  foreach(Record current_record, branchData.record.values(branch_id))
   {
    qDebug() << "Record:";
 
@@ -112,13 +112,9 @@ void ClipboardBranch::addBranch( QString parent_id, QMap<QString, QString> branc
 
 
 // Добавление конечной записи
-void ClipboardBranch::addRecord(QString branch_id,
-                             QMap<QString, QString> record_fields,
-                             QMap<QString, QByteArray > record_files)
+void ClipboardBranch::addRecord(QString branch_id, Record record)
 {
  // todo: Сделать проверку, есть ли ветка с указанным id
-
- RecordData record;
 
  record.fields=record_fields;
  record.pictures=record_files;

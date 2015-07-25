@@ -32,6 +32,7 @@ public:
   void print(void) const;
   int getCount(void) const;
 
+  Record getRecord(int n) const;
   QString getRecordText(int n) const;
   QMap<QString, QString> getRecordFieldList(int n) const;
   QMap<QString, QString> getRecordAttachList(int n) const;

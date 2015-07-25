@@ -992,22 +992,10 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
  curr_item_record_table=curr_item->recordtableGetTableData();
  for(int i=0; i<curr_item_record_table->size(); i++)
  {
-  // "Тяжелый" образ записи
-  Record exemplar=curr_item_record_table->getRecordFat(i);
+  // Полный образ записи (с файлами и текстом)
+  Record record=curr_item_record_table->getRecordFat(i);
 
-
-
-
-
-
-
-
-  // Имя директории, в которой расположена запись и ее файлы
-  QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-  branch_clipboard_data->addRecord(branch_id,
-                                    exemplar,
-                                    get_files_from_directory(directory, "*.png"));
+  branch_clipboard_data->addRecord(branch_id, record);
  }
 }
 

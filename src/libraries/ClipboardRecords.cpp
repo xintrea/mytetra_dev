@@ -89,6 +89,18 @@ int ClipboardRecords::getCount(void) const
 }
 
 
+Record ClipboardRecords::getRecord(int n) const
+{
+  if(n<records.table.size())
+   return records.table.at(n);
+  else
+   {
+    critical_error("In ClipboardRecords::getRecord() unavailable number "+QString::number(n));
+    return Record();
+   }
+}
+
+
 // Получение текста записи с указанным номером
 QString ClipboardRecords::getRecordText(int n) const
 {
