@@ -24,7 +24,7 @@ extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 
 
-// Это набор данных данные конечной таблицы, с которыми удобно работать
+// Это набор данных конечной таблицы, с которыми удобно работать
 
 // Конструктор
 RecordTableData::RecordTableData(QObject *pobj) : QObject(pobj)
@@ -63,8 +63,8 @@ QString RecordTableData::getField(QString name, int pos) const
  if(fixedParameters.isRecordFieldAvailable(name)==false)
   critical_error("RecordTableData::get_field() : get unavailable field "+name);
  
- QMap<QString, QString> lineTmp;
- lineTmp=tableData.at(pos).fieldList;
+ QMap<QString, QString> recordFields;
+ recordFields=tableData.at(pos).fieldList;
 
  QString result="";
 
@@ -72,14 +72,14 @@ QString RecordTableData::getField(QString name, int pos) const
  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
  // то расшифровка невозможна
  if(fixedParameters.recordFieldCryptedList().contains(name))
-  if(lineTmp.contains("crypt"))
-   if(lineTmp["crypt"]=="1")
+  if(recordFields.contains("crypt"))
+   if(recordFields["crypt"]=="1")
     if(globalParameters.getCryptKey().length()==0)
   return QString();
 
 
  // Если поле с таким названием есть
- if(lineTmp.contains(name))
+ if(recordFields.contains(name))
   {
    // Нужно определить, зашифровано поле или нет
 
@@ -90,18 +90,18 @@ QString RecordTableData::getField(QString name, int pos) const
    // и поле crypt установлено в 1
    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
    if(fixedParameters.recordFieldCryptedList().contains(name))
-    if(lineTmp.contains("crypt"))
-     if(lineTmp["crypt"]=="1")
-      if(lineTmp[name].length()>0)
+    if(recordFields.contains("crypt"))
+     if(recordFields["crypt"]=="1")
+      if(recordFields[name].length()>0)
        isCrypt=true;
 
    // Если поле не подлежит шифрованию
    if(isCrypt==false)
-    result=lineTmp[name]; // Возвращается значение поля
+    result=recordFields[name]; // Возвращается значение поля
    else
     {
      // Поле расшифровывается
-     result=decryptString(globalParameters.getCryptKey(), lineTmp[name]);
+     result=decryptString(globalParameters.getCryptKey(), recordFields[name]);
     }
   }
 

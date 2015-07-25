@@ -10,29 +10,10 @@
 #include <QString>
 #include <QByteArray>
 
+#include "Record.h"
+
+
 class TreeItem;
-
-
-// Структура данных одной записи
-struct RecordData
-{
-  QString text;
-  QMap<QString, QString> fieldList;
-  QMap<QString, QString> attachList;
-  QMap<QString, QByteArray> pictureFiles;
-  QMap<QString, QByteArray> attachFiles;
-};
-
-
-// Структура данных одной записи без содержимого файлов картинок и приаттаченных файлов
-// Нужна для особых случаев для ускорения работы
-struct RecordExemplar
-{
-  QString text;
-  QMap<QString, QString> fieldList; // Хранятся пары: Имя поля (атрибута XML) - Значение
-  QMap<QString, QString> attachList; // Хранятся пары: id - Имя файла
-};
-
 
 class RecordTableData : public QObject
 {
@@ -123,8 +104,8 @@ private:
 
     QMap<QString, QString> getMergeFields(int pos, QMap<QString, QString> fields);
 
-    // Таблица с инфополями записей
-    QList< RecordExemplar > tableData;
+    // Таблица записей (в нормальном виде содержит только "легкие" объекты записей)
+    QList< Record > tableData;
 
     // Ссылка на ветку, которой принадлежит данная таблица
     TreeItem *treeItem;
@@ -135,4 +116,3 @@ private:
 
 
 #endif /* __RECORDTABLEDATA_H__ */
-
