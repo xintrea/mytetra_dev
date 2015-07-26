@@ -173,29 +173,23 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");  // Указатель на контроллер таблицы конечных записей
    for(int i=0; i<clipboardRecords->getCount(); i++)
     {
-     // Данные записи (текстовые)
-     QMap<QString, QString> exemplar=clipboardRecords->getRecordFieldList(i);
-     QString text=exemplar["text"]; // Текст записи
-     exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
-
+     // Полные данные записи
+     Record record=clipboardRecords->getRecord(i);
 
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      // В этот момент вид таблицы конечных записей показывает таблицу, из которой совершается Drag
      // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
-     recordTableController->removeRowById( exemplar["id"] );
+     recordTableController->removeRowById( record.fieldList["id"] );
 
      // Если таблица конечных записей после удаления перемещенной записи стала пустой
      if(recordTableController->getRowCount()==0)
-       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы невидно было текста последней удаленной записи
+       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы не видно было текста последней удаленной записи
      find_object<RecordTableScreen>("recordTableScreen")->toolsUpdate();
-
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                       0,
-                                      text,
-                                      exemplar,
-                                      clipboardRecords->getRecordPictureFiles(i) );
+                                      record);
 
      // Сохранение дерева веток
      find_object<TreeScreen>("treeScreen")->saveKnowTree();
