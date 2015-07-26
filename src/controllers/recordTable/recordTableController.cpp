@@ -283,10 +283,15 @@ void RecordTableController::setSelectionToId(QString id)
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
-  // Номер записи в Source данных
-  int pos=table->getPosById(id);
+  // Если таблица конечных данных задана
+  // (Не задана таблица может быть по причине если ветка зашифрована и введен неверный пароль, или при вводе пароля была нажата отмена)
+  if(table!=NULL)
+  {
+    // Номер записи в Source данных
+    int pos=table->getPosById(id);
 
-  view->setSelectionToPos( convertSourcePosToProxyPos(pos) );
+    view->setSelectionToPos( convertSourcePosToProxyPos(pos) );
+  }
 }
 
 
