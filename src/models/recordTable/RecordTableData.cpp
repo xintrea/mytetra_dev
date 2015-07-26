@@ -502,6 +502,7 @@ QMap<QString, QString> RecordTableData::getAttachList(int pos) const
 
 
 // Получение легкого образа записи
+// Поля, которые зашифрованы, расшифровываются
 Record RecordTableData::getRecordLite(int pos)
 {
  // Если индекс недопустимый, возвращается пустая запись
@@ -512,6 +513,10 @@ Record RecordTableData::getRecordLite(int pos)
  if(!tableData.at(pos).isLite())
    critical_error("In RecordTableData::getRecordLite() try get fat record");
 
+
+ // Доделать с расшифровкой
+
+
  return tableData.at(pos);
 }
 
@@ -519,16 +524,8 @@ Record RecordTableData::getRecordLite(int pos)
 // Получение полного образа записи
 Record RecordTableData::getRecordFat(int pos)
 {
- // Если индекс недопустимый, возвращается пустая запись
- if(pos<0 || pos>=size())
-   return Record();
-
- // Хранимая в дереве запись не может быть "тяжелой"
- if(!tableData.at(pos).isLite())
-   critical_error("In RecordTableData::getRecordFat() try get source fat record");
-
  // Копия записи из дерева
- Record resultRecord=tableData.at(pos);
+ Record resultRecord=getRecordLite(pos);
 
  // Превращение копии записи в представление с полным содержимым
  resultRecord.switchToFat();
