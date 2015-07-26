@@ -51,7 +51,7 @@ void ClipboardBranch::print(void) const
   {
    qDebug() << "Record:";
 
-   QMap<QString, QString> current_record_fields=current_record.fields;
+   QMap<QString, QString> current_record_fields=current_record.fieldList;
    foreach(QString field_name, current_record_fields.keys ())
     if(field_name=="id" || field_name=="name")
      qDebug() << field_name << ":" << current_record_fields.value(field_name);
@@ -115,10 +115,6 @@ void ClipboardBranch::addBranch( QString parent_id, QMap<QString, QString> branc
 void ClipboardBranch::addRecord(QString branch_id, Record record)
 {
  // todo: Сделать проверку, есть ли ветка с указанным id
-
- record.fields=record_fields;
- record.pictures=record_files;
-
  branchData.record.insert(branch_id, record);
 }
 
