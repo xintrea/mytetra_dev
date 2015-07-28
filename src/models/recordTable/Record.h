@@ -32,6 +32,8 @@ public:
   QString getField(QString name) const;
   void setField(QString name, QString value);
 
+  QMap<QString, QString> getFieldList() const;
+
   QMap<QString, QString> getAttachList() const;
   void setAttachList(QMap<QString, QString> list);
 

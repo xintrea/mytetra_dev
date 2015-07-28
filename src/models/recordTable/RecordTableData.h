@@ -37,9 +37,6 @@ public:
 
     // Установка значения указанного поля для указанного элемента
     void setField(QString name, QString value, int pos);
-   
-    // Получение всех инфополей указанного элемента
-    QMap<QString, QString> getFieldList(int pos) const;
 
     // Получение списка приаттаченных файлов указанного элемента
     QMap<QString, QString> getAttachList(int pos) const;
@@ -97,6 +94,7 @@ public:
     void checkAndCreateTextFile(int pos, QString fullFileName);
 
 private:
+
     // Функция заполнения таблицы из DOM-документа
     void setupDataFromDom(QDomElement *domModel);
 

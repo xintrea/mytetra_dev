@@ -687,7 +687,7 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
 
  foreach(Record record, records)
  {
-  qDebug() << "Add table record "+record.fieldList["name"];
+  qDebug() << "Add table record "+record.getField("name");
   newitem->recordtableGetTableData()->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                                          0,
                                                          record);

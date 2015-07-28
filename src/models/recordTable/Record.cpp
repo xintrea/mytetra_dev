@@ -156,6 +156,59 @@ void Record::setField(QString name, QString value)
 }
 
 
+// Получение значений всех полей
+// Поля, которые могут быть у записи, но не заданы, не передаются
+// Поля, которые зашифрованы, расшифровываются
+QMap<QString, QString> Record::getFieldList() const
+{
+  // Список имен инфополей
+  QStringList fieldNames=fixedParameters.recordFieldAvailableList();
+
+  QMap<QString, QString> resultFieldList;
+
+  // Проверяется, используется ли шифрование
+  bool isCrypt=false;
+
+  if(fieldList.contains("crypt"))
+    if(fieldList["crypt"]=="1")
+      isCrypt=true;
+
+
+  // Перебираются названия полей
+  for(int i=0;i<fieldNames.size();++i)
+  {
+    QString currName=fieldNames.at(i);
+
+    // Если поле с таким именем существует
+    if(fieldList.contains( currName ))
+    {
+      QString result="";
+
+      if(isCrypt==false)
+        result=fieldList[currName]; // Напрямую значение поля
+      else
+      {
+        // Присутствует шифрование
+
+        // Если поле не подлежит шифрованию (не все поля в зашифрованной ветке шифруются. Например, не шифруется ID записи)
+        if(fixedParameters.recordFieldCryptedList().contains(currName)==false)
+          result=fieldList[currName]; // Напрямую значение поля
+        else
+          if(globalParameters.getCryptKey().length()>0 &&
+             fixedParameters.recordFieldCryptedList().contains(currName))
+            result=decryptString(globalParameters.getCryptKey(), fieldList[currName]); // Расшифровывается значение поля
+      }
+
+      resultFieldList[currName]=result;
+    }
+  }
+
+  qDebug() << "Record::getFieldList() : "<<resultFieldList;
+
+  return resultFieldList;
+}
+
+
 QMap<QString, QString> Record::getAttachList() const
 {
 
@@ -230,3 +283,54 @@ void Record::setAttachFiles(QMap<QString, QByteArray> iAttachFiles)
   attachFiles=iAttachFiles;
 }
 
+
+// Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
+void Record::flushFatAttributes()
+{
+ // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+ // то зашифровать текст невозможно
+ if(getField("crypt", pos)=="1" &&
+    globalParameters.getCryptKey().length()==0)
+  critical_error("RecordTableData::set_text() : Try save text for crypt record while password not setted.");
+
+ // Заполняются имена директории и полей
+ // Директория при проверке создается если ее небыло
+ QString nameDirFull;
+ QString nameFileFull;
+ if(checkAndFillFileDir(pos, nameDirFull, nameFileFull)==false)
+  critical_error("RecordTableData::set_text() as String : For record "+QString::number(pos)+" can not set field \"dir\" or \"file\"");
+
+ // Если шифровать ненужно
+ if(getField("crypt", pos)=="" || getField("crypt", pos)=="0")
+  {
+   // Текст сохраняется в файл
+   QFile wfile(nameFileFull);
+
+   if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+    critical_error("Cant open text file "+nameFileFull+" for write.");
+
+   QTextStream out(&wfile);
+   out.setCodec("UTF-8");
+   out << text;
+  }
+ else if(getField("crypt", pos)=="1")
+  {
+   // Текст шифруется
+   QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), text);
+
+   // В файл сохраняются зашифрованные данные
+   QFile wfile(nameFileFull);
+
+   if(!wfile.open(QIODevice::WriteOnly))
+    critical_error("Cant open binary file "+nameFileFull+" for write.");
+
+   wfile.write(encryptData);
+  }
+ else
+  critical_error("RecordTableData::set_text() : Unavailable crypt field value \""+getField("crypt", pos)+"\"");
+
+ // Если есть какие-то файлы, сопровождащие запись,
+ // они вставляются в конечную директорию
+ if(iPictureFiles.size()>0)
+  save_files_to_directory(nameDirFull, iPictureFiles);
+}
