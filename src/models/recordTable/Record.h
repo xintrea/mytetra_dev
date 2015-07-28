@@ -26,13 +26,14 @@ public:
   Record();
   virtual ~Record();
 
-  // Основные текстовые данные открыты, чтобы с ними можно было работать напрямую,
-  // чтобы не тратитить производительность на геттеры-сеттеры
-  QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов)
-  QMap<QString, QString> attachList; // Перечень прикрепляемых файлов
-
   QString getText() const;
   void setText(QString iText);
+
+  QString getField(QString name) const;
+  void setField(QString name, QString value);
+
+  QMap<QString, QString> getAttachList() const;
+  void setAttachList(QMap<QString, QString> list);
 
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
@@ -50,6 +51,12 @@ protected:
   bool liteFlag;
 
   // Установка содержимого свойств происходит в вышестоящем коде
+
+  // Легкие свойства
+  QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов)
+  QMap<QString, QString> attachList; // Перечень прикрепляемых файлов
+
+  // Полновесные свойства
   QString text; // Содержимое файла с текстом записи
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)

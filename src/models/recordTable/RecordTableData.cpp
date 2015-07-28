@@ -60,55 +60,7 @@ QString RecordTableData::getField(QString name, int pos) const
     critical_error("RecordTableData::getField() : get unavailable record index "+i);
   }
 
-  // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
-    critical_error("RecordTableData::getField() : get unavailable field "+name);
-
-  QMap<QString, QString> recordFields;
-  recordFields=tableData.at(pos).fieldList;
-
-  QString result="";
-
-
-  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
-  // то расшифровка невозможна
-  if(fixedParameters.recordFieldCryptedList().contains(name))
-    if(recordFields.contains("crypt"))
-      if(recordFields["crypt"]=="1")
-        if(globalParameters.getCryptKey().length()==0)
-          return QString();
-
-
-  // Если поле с таким названием есть
-  if(recordFields.contains(name))
-  {
-    // Нужно определить, зашифровано поле или нет
-
-    bool isCrypt=false;
-
-    // Если имя поля принадлежит списку полей, которые могут шифроваться
-    // и в наборе полей есть поле crypt
-    // и поле crypt установлено в 1
-    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-    if(fixedParameters.recordFieldCryptedList().contains(name))
-      if(recordFields.contains("crypt"))
-        if(recordFields["crypt"]=="1")
-          if(recordFields[name].length()>0)
-            isCrypt=true;
-
-    // Если поле не подлежит шифрованию
-    if(isCrypt==false)
-      result=recordFields[name]; // Возвращается значение поля
-    else
-    {
-      // Поле расшифровывается
-      result=decryptString(globalParameters.getCryptKey(), recordFields[name]);
-    }
-  }
-
-  // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
-
-  return result;
+  return tableData.at(pos).getField(name);
 }
 
 
@@ -123,38 +75,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
     critical_error("In RecordTableData::setField() unavailable record index "+i+" in table while field "+name+" try set to "+value);
   }
 
-
-  // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
-    critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
-
-
-  bool isCrypt=false;
-
-  // Если имя поля принадлежит списку полей, которые могут шифроваться
-  // и в наборе полей есть поле crypt
-  // и поле crypt установлено в 1
-  // и поле не пустое (пустые данные ненужно шифровать)
-  if(fixedParameters.recordFieldCryptedList().contains(name))
-    if((tableData[pos]).fieldList.contains("crypt"))
-      if((tableData[pos].fieldList)["crypt"]=="1")
-        if(value.length()>0)
-        {
-          if(globalParameters.getCryptKey().length()>0)
-            isCrypt=true;
-          else
-            critical_error("In RecordTableData::set_field() can not set data to crypt field "+name+". Password not setted");
-        }
-
-
-  // Если нужно шифровать, поле шифруется
-  if(isCrypt==true)
-    value=encryptString(globalParameters.getCryptKey(), value);
-
-  // Устанавливается значение поля
-  (tableData[pos]).fieldList.insert(name, value);
-
-  // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
+ tableData[pos].setField(name, value);
 }
 
 
@@ -919,7 +840,7 @@ void RecordTableData::moveDn(int pos)
 
 
 // Переключение таблицы в зашифрованное состояние
-// Добавить шифрацию имени приаттаченных файлов и содержимого файлов
+// todo: Добавить шифрацию имени приаттаченных файлов и содержимого файлов
 void RecordTableData::switchToEncrypt(void)
 {
  // Перебор записей
