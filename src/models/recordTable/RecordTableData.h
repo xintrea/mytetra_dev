@@ -29,8 +29,6 @@ public:
     void setTextAndPictures(int pos,
                             const QString &text,
                             const QMap<QString, QByteArray> &picturesFiles=(QMap<QString, QByteArray>()) );
-
-    bool checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull);
     
     // Получение значения указанного поля для указанного элемента
     QString getField(QString name, int pos) const;

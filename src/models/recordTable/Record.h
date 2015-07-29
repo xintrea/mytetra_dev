@@ -27,6 +27,7 @@ public:
   virtual ~Record();
 
   QString getText() const;
+  QString getTextDirect() const;
   void setText(QString iText);
 
   QString getField(QString name) const;
@@ -48,6 +49,8 @@ public:
   void switchToLite();
   void switchToFat();
 
+  void pushFatAttributes();
+
 protected:
 
   bool liteFlag;
@@ -64,6 +67,13 @@ protected:
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
 
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
+
+  QString getFullDirName() const;
+  QString getFullTextFileName() const;
+  QString getFullFileName(QString fileName) const;
+
+  void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
+  void checkAndCreateTextFile();
 
 };
 

@@ -85,69 +85,10 @@ QString RecordTableData::getText(int pos)
 {
  // Если индекс недопустимый, возвращается пустая строка
  if(pos<0 || pos>=size()) 
-  return QString();
+   return QString();
 
-
-
- // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
- // то расшифровка невозможна
- if(getField("crypt", pos)=="1" &&
-    globalParameters.getCryptKey().length()==0)
-  return QString();
-
-
- // Выясняются значения инфополей записи
- QMap<QString, QString> tmpFieldList;
- tmpFieldList=tableData.at(pos).getFieldList(); // Раньше было index.row()
-
- // Выясняется полное имя файла с текстом записи
- QString fileName;
- fileName=mytetraConfig.get_tetradir()+"/base/"+tmpFieldList["dir"]+"/"+tmpFieldList["file"];
-
- QFile f(fileName);
-
- checkAndCreateTextFile(pos, fileName);
-
- // Открывается файл
- if(!f.open(QIODevice::ReadOnly))
-  critical_error("File "+fileName+" not readable. Check permission.");
-
- // Если незашифровано
- if(getField("crypt", pos)=="" || getField("crypt", pos)=="0")
-  {
-   qDebug() << "RecordTableData::get_text() : return data direct";
-   return QString::fromUtf8( f.readAll() );
-  }
- else
-  {
-   qDebug() << "RecordTableData::get_text() : return data after decrypt";
-   return decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
-  }
+ return tableData[pos].getTextDirect();
 }
-
-
-// В функцию должно передаваться полное имя файла
-void RecordTableData::checkAndCreateTextFile(int pos, QString fillFileName)
-{
- QFile f(fillFileName);
-
- // Если нужный файл не существует
- if(!f.exists())
-  {
-   // Выводится уведомление что будет создан пустой текст записи
-   QMessageBox msgBox;
-   msgBox.setWindowTitle(tr("Warning!"));
-   msgBox.setText( tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fillFileName) );
-   msgBox.setIcon(QMessageBox::Information);
-   msgBox.exec();
-
-   // Создается пустой текст записи
-   QString text="";
-   QMap<QString, QByteArray> pictureFiles;
-   setTextAndPictures(pos, text, pictureFiles);
-  }
-}
-
 
 
 // Функция, которая заменяет стандартную функцию редактора по считыванию
@@ -252,40 +193,6 @@ void RecordTableData::editorSaveCallback(QObject *editor,
  // Вызывается сохранение картинок
  // В данной реализации картинки сохраняются незашифрованными
  currEditor->save_textarea_images(Editor::SAVE_IMAGES_REMOVE_UNUSED);
-}
-
-
-// Функция проверяет наличие полей dir и file (они используются для текста)
-// проверяет их правильность и заполняет полные имена директории и файла
-bool RecordTableData::checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull)
-{
-  // Если у записи не установлены поля dir и file
- if(tableData.at(pos).getFieldList().contains("dir")==false ||
-    tableData.at(pos).getFieldList().contains("file")==false)
-  {
-   nameDirFull="";
-   nameFileFull="";
-   return false;
-  }
-
- // Выясняются имена директории и файла
- QString nameDir=(tableData.at(pos).getFieldList())["dir"];
- QString nameFile=(tableData.at(pos).getFieldList())["file"];
-
- // Полные имена директории и файла
- nameDirFull=mytetraConfig.get_tetradir()+"/base/"+nameDir;
- nameFileFull=nameDirFull+"/"+nameFile;
-
- // Проверяется наличие директории, куда будет вставляться файл с текстом записи
- QDir recordDir(nameDirFull);
- if(!recordDir.exists())
-  {
-   // Создается новая директория в директории base
-   QDir directory(mytetraConfig.get_tetradir()+"/base");
-   directory.mkdir(nameDir);
-  }
-
- return true;
 }
 
 

@@ -232,6 +232,43 @@ QString Record::getText() const
 }
 
 
+// Получение значения текста напрямую из файла, без заполнения свойства text
+// Так как заполнение свойства не происходит, объект может бы легким. Проверки на легкость не требуется
+QString Record::getTextDirect() const
+{
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то расшифровка невозможна
+  if(fieldList.value("crypt")=="1" &&
+     globalParameters.getCryptKey().length()==0)
+   return QString();
+
+  // Выясняется полное имя файла с текстом записи
+  QString fileName=getFullTextFileName();
+
+  checkAndCreateTextFile();
+
+  QFile f(fileName);
+
+  // Открывается файл
+  if(!f.open(QIODevice::ReadOnly))
+   critical_error("File "+fileName+" not readable. Check permission.");
+
+  // Если незашифровано
+  if(fieldList.value("crypt").length()==0 ||fieldList.value("crypt")=="0")
+   {
+    qDebug() << "Record::getTextDirect() : return direct data";
+    return QString::fromUtf8( f.readAll() );
+   }
+  else
+   {
+    qDebug() << "Record::getTextDirect( : return direct data after decrypt";
+    return decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
+   }
+
+  return text;
+}
+
+
 void Record::setText(QString iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
@@ -244,7 +281,7 @@ void Record::setText(QString iText)
 
 QMap<QString, QByteArray> Record::getPictureFiles() const
 {
-  // У легкого объекта невозможно запросить картики, если так происходит - это ошибка вызывающей логики
+  // У легкого объекта невозможно запросить картинки, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
     critical_error("Cant get picture files from lite record object"+getIdAndNameAsString());
 
@@ -285,52 +322,136 @@ void Record::setAttachFiles(QMap<QString, QByteArray> iAttachFiles)
 
 
 // Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
-void Record::flushFatAttributes()
+void Record::pushFatAttributes()
 {
- // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
- // то зашифровать текст невозможно
- if(getField("crypt", pos)=="1" &&
-    globalParameters.getCryptKey().length()==0)
-  critical_error("RecordTableData::set_text() : Try save text for crypt record while password not setted.");
+  // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
+  if(liteFlag==true)
+    critical_error("Cant push lite record object"+getIdAndNameAsString());
 
- // Заполняются имена директории и полей
- // Директория при проверке создается если ее небыло
- QString nameDirFull;
- QString nameFileFull;
- if(checkAndFillFileDir(pos, nameDirFull, nameFileFull)==false)
-  critical_error("RecordTableData::set_text() as String : For record "+QString::number(pos)+" can not set field \"dir\" or \"file\"");
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то зашифровать текст невозможно
+  if(fieldList.value("crypt")=="1" &&
+     globalParameters.getCryptKey().length()==0)
+    critical_error("Record::pushFatAttributes() : Try save text for crypt record while password not setted.");
 
- // Если шифровать ненужно
- if(getField("crypt", pos)=="" || getField("crypt", pos)=="0")
+  // Заполняются имена директории и полей
+  // Директория при проверке создается если ее небыло
+  QString dirName;
+  QString fileName;
+  checkAndFillFileDir(dirName, fileName);
+
+  // Запись файла с текстом записи
+  saveText(text);
+
+  // Если есть файлы картинок, они вставляются в конечную директорию
+  if(pictureFiles.size()>0)
+    save_files_to_directory(dirName, pictureFiles);
+
+  // Если есть приаттаченные файлы, они вставляются в конечную директорию
+  if(attachFiles.size()>0)
+    save_files_to_directory(dirName, attachFiles);
+}
+
+
+void Record::saveText(QString iText)
+{
+  QString fileName=getFullTextFileName();
+
+  // Если шифровать ненужно
+  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
   {
-   // Текст сохраняется в файл
-   QFile wfile(nameFileFull);
+    // Текст сохраняется в файл
+    QFile wfile(fileName);
 
-   if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-    critical_error("Cant open text file "+nameFileFull+" for write.");
+    if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+      critical_error("Cant open text file "+fileName=+" for write.");
 
-   QTextStream out(&wfile);
-   out.setCodec("UTF-8");
-   out << text;
+    QTextStream out(&wfile);
+    out.setCodec("UTF-8");
+    out << iText;
   }
- else if(getField("crypt", pos)=="1")
+  else if(fieldList.value("crypt")=="1")
   {
-   // Текст шифруется
-   QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), text);
+    // Текст шифруется
+    QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), iText);
 
-   // В файл сохраняются зашифрованные данные
-   QFile wfile(nameFileFull);
+    // В файл сохраняются зашифрованные данные
+    QFile wfile(fileName=);
 
-   if(!wfile.open(QIODevice::WriteOnly))
-    critical_error("Cant open binary file "+nameFileFull+" for write.");
+    if(!wfile.open(QIODevice::WriteOnly))
+      critical_error("Cant open binary file "+fileName+" for write.");
 
-   wfile.write(encryptData);
+    wfile.write(encryptData);
   }
- else
-  critical_error("RecordTableData::set_text() : Unavailable crypt field value \""+getField("crypt", pos)+"\"");
+  else
+    critical_error("Record::saveText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+}
 
- // Если есть какие-то файлы, сопровождащие запись,
- // они вставляются в конечную директорию
- if(iPictureFiles.size()>0)
-  save_files_to_directory(nameDirFull, iPictureFiles);
+
+// Полное имя директории записи
+QString Record::getFullDirName() const
+{
+ if(fieldList.contains("dir")==false)
+   critical_error("Record::getFullDirName() : Not present dir field");
+
+ return mytetraConfig.get_tetradir()+"/base/"+fieldList.value("dir");
+}
+
+
+// Полное имя файла с текстом записи
+QString Record::getFullTextFileName() const
+{
+  if(fieldList.contains("file")==false)
+    critical_error("Record::getFullDirName() : Not present file field");
+
+  return getFullDirName()+"/"+fieldList.value("file");
+}
+
+
+// Полное имя произвольного файла в каталоге записи
+QString Record::getFullFileName(QString fileName) const
+{
+  return getFullDirName()+"/"+fileName;
+}
+
+
+// Функция проверяет наличие полей dir и file (они используются для текста записи)
+// проверяет их правильность и заполняет в переданных параметрах полные имена директории и файла
+void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
+{
+ // Полные имена директории и файла
+ iDirName=getFullDirName();
+ iFileName=getFullTextFileName();
+
+ // Проверяется наличие директории, куда будет вставляться файл с текстом записи
+ QDir recordDir(iDirName);
+ if(!recordDir.exists())
+  {
+   // Создается новая директория в директории base
+   QDir directory(mytetraConfig.get_tetradir()+"/base");
+   directory.mkdir(dirName);
+  }
+}
+
+
+// В функцию должно передаваться полное имя файла
+void Record::checkAndCreateTextFile()
+{
+ QString fileName=getFullTextFileName();
+
+ QFile f(fileName);
+
+ // Если нужный файл не существует
+ if(!f.exists())
+  {
+   // Выводится уведомление что будет создан пустой текст записи
+   QMessageBox msgBox;
+   msgBox.setWindowTitle(tr("Warning!"));
+   msgBox.setText( tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName) );
+   msgBox.setIcon(QMessageBox::Information);
+   msgBox.exec();
+
+   // Создается пустой текст записи
+   saveText("");
+  }
 }
