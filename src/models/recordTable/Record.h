@@ -41,8 +41,12 @@ public:
   void switchToLite();
   void switchToFat();
 
-  void switchToEncryptLite(void);
-  void switchToEncryptFat(void);
+  // Шифрация
+  void switchToEncryptAndSaveLite(void);
+  void switchToEncryptAndSaveFat(void);
+
+  // Расшифровка
+  void switchToDecryptAndSaveLite(void);
 
   void pushFatAttributes();
 

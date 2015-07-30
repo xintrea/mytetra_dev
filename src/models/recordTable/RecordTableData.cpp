@@ -609,15 +609,15 @@ void RecordTableData::moveDn(int pos)
 // todo: Добавить шифрацию имени приаттаченных файлов и содержимого файлов
 void RecordTableData::switchToEncrypt(void)
 {
- // Перебор записей
- for(int i=0; i<size(); i++)
+  // Перебор записей
+  for(int i=0; i<size(); i++)
   {
-   // Если запись уже зашифрована, ее шифровать ненужно
-   if(getField("crypt", i)=="1")
-    continue;
+    // Если запись уже зашифрована, ее шифровать ненужно
+    if(getField("crypt", i)=="1")
+      continue;
 
-   // Шифрация записи
-   tableData.at(i).switchToEncrypt();
+    // Шифрация записи
+    tableData.at(i).switchToEncryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
   }
 }
 
@@ -633,54 +633,15 @@ void RecordTableData::switchToDecrypt(void)
    if(getField("crypt", i)=="" || getField("crypt", i)=="0")
     continue;
 
-   // ------------------------
-   // Расшифровка полей записи
-   // ------------------------
-
-   // Поля записей, расшифрованные
-   QMap<QString, QString> recordFields=tableData.at(i).getFieldList();
-
-   // Затем устанавливается флаг что шифрации нет
-   setField("crypt", "0", i);
-
-   // Все поля, подлежащие шифрованию, заполняются расшифрованными значениями
-   foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
-   {
-    // Если в полях записей присутствует очередное разрешенное имя поля
-    // И это поле непустое
-    // Поле расшифровывается
-    if(recordFields.contains(fieldName))
-     if(recordFields[fieldName].length()>0)
-      {
-       // Устанавливаются значения расшифрованными данными
-       setField(fieldName, recordFields[fieldName], i);
-
-       /*
-       set_field(fieldName,
-                 decryptString(globalParameters.getCryptKey(), recordFields[fieldName]),
-                 i);
-       */
-      }
-   }
-
-   // ----------------------------------
-   // Расшифровка файла с текстом записи
-   // ----------------------------------
-   // set_text_internal(i, decryptStringFromByteArray(globalParameters.getCryptKey(), get_text_as_byte_array(i)) );
-   QString nameDirFull;
-   QString nameFileFull;
-   if(checkAndFillFileDir(i, nameDirFull, nameFileFull)==false)
-    critical_error("RecordTableData::switchToDecrypt() : For record "+QString::number(i)+" can not set field \"dir\" or \"file\"");
-   decryptFile(globalParameters.getCryptKey(), nameFileFull);
-
-   // Устанавливается флаг что запись не зашифрована
-   setField("crypt", "0", i);
+   // Расшифровка записи
+   tableData.at(i).switchToDecryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
   }
 }
 
 
 // Метод, возвращающий набор полей и их значений, полученный путем слияния
 // данных указанной записи и переданного набора полей
+// Todo: метод не используется, подумать, а не убрать ли его
 QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QString> fields)
 {
  QMap<QString, QString> resultFields;

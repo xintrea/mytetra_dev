@@ -388,11 +388,11 @@ void Record::switchToEncryptAndSaveLite(void)
 {
   // Метод обрабатывает только легкий объект
   if(liteFlag==false)
-    critical_error("Cant call switchToEncryptLite() for non lite record object "+getIdAndNameAsString());
+    critical_error("Cant call switchToEncryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
 
   // Нельзя шифровать уже зашифрованную запись
   if(fieldList.value("crypt")=="1")
-    critical_error("Cant call switchToEncryptLite() for crypt record object "+getIdAndNameAsString());
+    critical_error("Cant call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
 
   // Зашифровываются поля записи
   switchToEncryptFields();
@@ -433,8 +433,40 @@ void Record::switchToEncryptAndSaveFat(void)
 }
 
 
+// Расшифровка записи с легкими данными
+void Record::switchToDecryptAndSaveLite(void)
+{
+  // Метод обрабатывает только легкий объект
+  if(liteFlag==false)
+    critical_error("Cant call switchToDecryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
+
+  // Нельзя расшифровать не зашифрованную запись
+  if(fieldList.value("crypt")!="1")
+    critical_error("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
+
+  // Расшифровка полей
+  fieldList=getFieldList();
+
+  // Расшифровка файла с текстом записи
+  QString dirName;
+  QString fileName;
+  checkAndFillFileDir(dirName, fileName);
+  decryptFile(globalParameters.getCryptKey(), fileName);
+
+  // Расшифровка приаттаченных файлов
+  foreach(QString fileId, attachFiles.keys())
+  {
+    QString fileName=getFullFileName(fileId+".bin");
+    decryptFile(globalParameters.getCryptKey(), fileName);
+  }
+
+  // Устанавливается флаг что шифрации нет
+  fieldList["crypt"]="0";
+}
+
+
 // Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
-// Исходные данные должны быт нешифрованы. Они будут зашифровано по необходимости
+// Исходные данные должны быт нешифрованы. Они будут зашифрованы по необходимости
 void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
