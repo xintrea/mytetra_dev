@@ -203,7 +203,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 // Todo: сделать работу с шифрованием
 QMap<QString, QString> RecordTableData::getAttachList(int pos) const
 {
-  return tableData.at(pos).attachList;
+  return tableData.at(pos).getAttachList();
 }
 
 
@@ -237,7 +237,7 @@ Record RecordTableData::getRecordFat(int pos)
  resultRecord.setText( getText(pos) );
 
  // Добавление бинарных образов файлов картинок и приаттаченных файлов
- QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.fieldList.value("dir");
+ QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getFieldList().value("dir");
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
  resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
@@ -297,7 +297,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
         QString name=attcurr.name();
         QString value=attcurr.value();
 
-        currentRecordData.fieldList[name]=value;
+        currentRecordData.getFieldList()[name]=value;
 
         // Распечатка считанных данных в консоль
         // qDebug() << "Read record attr " << name << value;
@@ -315,7 +315,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
           {
             QString id=currentFile.attribute("id"); // Идентификатор файла
             QString name=currentFile.attribute("name"); // Имя файла
-            currentRecordData.attachList[id]=name;
+            currentRecordData.insertToAttachList(id, name);
           }
 
           currentFile=currentFile.nextSiblingElement();
@@ -354,7 +354,7 @@ QDomDocument RecordTableData::exportDataToDom(void)
   QDomElement elem = doc.createElement("record");
 
   QMap<QString, QString> lineTmp;
-  lineTmp=tableData.at(i).fieldList;
+  lineTmp=tableData.at(i).getFieldList();
 
   // Перебираются допустимые имена полей
   for(int j=0; j<fieldsNamesAvailable.size(); ++j)
@@ -402,19 +402,19 @@ int RecordTableData::insertNewRecord(int mode,
   // Если нет, то это значит что запись была вырезана, но хранится в буфере,
   // и ее желательно вставить с прежним ID и прежним именем директории
   KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
-  if(record.fieldList["id"].length()==0 ||
-     dataModel->isRecordIdExists( record.fieldList["id"] ) )
+  if(record.getField("id").length()==0 ||
+     dataModel->isRecordIdExists( record.getField("id") ) )
    {
     // Создается новая запись (ID был пустой) или
     // Запись с таким ID в дереве есть, поэтому выделяются новый ID и новая директория хранения (чтобы не затереть существующие)
 
     // Директория хранения записи и файл
-    record.fieldList["dir"]=get_unical_id();
-    record.fieldList["file"]="text.html";
+    record.setField("dir", get_unical_id());
+    record.setField("file", "text.html");
 
     // Уникальный идентификатор XML записи
     QString id=get_unical_id();
-    record.fieldList["id"]=id;
+    record.setField("id", id);
    }
 
 

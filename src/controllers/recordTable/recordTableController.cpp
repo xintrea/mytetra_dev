@@ -501,10 +501,10 @@ void RecordTableController::addNewRecord(int mode)
  Record record;
  record.switchToFat();
  record.setText( addNewRecordWin.getField("text") );
- record.fieldList["name"]=addNewRecordWin.getField("name");
- record.fieldList["author"]=addNewRecordWin.getField("author");
- record.fieldList["url"]   =addNewRecordWin.getField("url");
- record.fieldList["tags"]  =addNewRecordWin.getField("tags");
+ record.setField("name")=addNewRecordWin.getField("name");
+ record.setField("author")=addNewRecordWin.getField("author");
+ record.setField("url")   =addNewRecordWin.getField("url");
+ record.setField("tags")  =addNewRecordWin.getField("tags");
  record.setPictureFiles( get_files_from_directory(directory, "*.png") );
  record.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 

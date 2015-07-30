@@ -61,7 +61,7 @@ void ClipboardRecords::print(void) const
     qDebug() << record.getText();
 
     // Перебор полей в записи
-    QMap<QString, QString> fieldList=record.fieldList;
+    QMap<QString, QString> fieldList=record.getFieldList();
     QMapIterator<QString, QString> currentField(fieldList);
     while(currentField.hasNext())
     {  
@@ -70,7 +70,7 @@ void ClipboardRecords::print(void) const
     }
 
     // Перебор информации о праттаченных файлах в записи
-    QMap<QString, QString> attachFiles=record.attachList;
+    QMap<QString, QString> attachFiles=record.getAttachList();
     QMapIterator<QString, QString> currentFile(attachFiles);
     while(currentFile.hasNext())
     {  
@@ -118,7 +118,7 @@ QString ClipboardRecords::getRecordText(int n) const
 QMap<QString, QString> ClipboardRecords::getRecordFieldList(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).fieldList;
+  return records.table.at(n).getFieldList();
  else
   {
    critical_error("In ClipboardRecords::getRecordFieldTable() unavailable number "+QString::number(n));
@@ -131,7 +131,7 @@ QMap<QString, QString> ClipboardRecords::getRecordFieldList(int n) const
 QMap<QString, QString> ClipboardRecords::getRecordAttachList(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).attachList;
+  return records.table.at(n).getAttachList();
  else
   {
    critical_error("In ClipboardRecords::getRecordAttachTable() unavailable number "+QString::number(n));

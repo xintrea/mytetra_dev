@@ -29,6 +29,7 @@ public:
 
   QMap<QString, QString> getAttachList() const;
   void setAttachList(QMap<QString, QString> list);
+  void insertToAttachList(QString fileId, QString fileName);
 
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
@@ -76,7 +77,7 @@ protected:
   void switchToEncryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
-  void checkAndCreateTextFile();
+  void checkAndCreateTextFile() const;
 
 };
 

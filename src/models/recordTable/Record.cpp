@@ -1,5 +1,12 @@
+#include <QObject>
+#include <QMessageBox>
+
 #include "main.h"
 #include "Record.h"
+
+#include "models/appConfig/AppConfig.h"
+#include "libraries/FixedParameters.h"
+#include "libraries/GlobalParameters.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -211,16 +218,26 @@ QMap<QString, QString> Record::getFieldList() const
 }
 
 
+// todo: доделать метод
 QMap<QString, QString> Record::getAttachList() const
 {
 
 }
 
 
+// todo: доделать метод
 void Record::setAttachList(QMap<QString, QString> list)
 {
 
 }
+
+
+void Record::insertToAttachList(QString fileId, QString fileName)
+{
+  attachList.insert(fileId, fileName);
+}
+
+
 
 
 // Тяжелые свойства устанавливаются и берутся через геттеры и сеттеры
@@ -292,7 +309,7 @@ void Record::saveTextDirect(QString iText)
     QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-      critical_error("Cant open text file "+fileName=+" for write.");
+      critical_error("Cant open text file "+fileName+" for write.");
 
     QTextStream out(&wfile);
     out.setCodec("UTF-8");
@@ -304,7 +321,7 @@ void Record::saveTextDirect(QString iText)
     QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), iText);
 
     // В файл сохраняются зашифрованные данные
-    QFile wfile(fileName=);
+    QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly))
       critical_error("Cant open binary file "+fileName+" for write.");
@@ -536,27 +553,28 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 
  QDir recordDir(iDirName);
 
- if(!recordDir.isReadable)
-   critical_error("Record::checkAndFillFileDir() : Directory "+dirName+" is not readable");
+ if(!recordDir.isReadable())
+   critical_error("Record::checkAndFillFileDir() : Directory "+iDirName+" is not readable");
 
- if(!recordDir.isWritable)
-   critical_error("Record::checkAndFillFileDir() : Directory "+dirName+" is not writable");
+ // Оказывается, что у QDir нет возможности проверить доступность на запись в директорию
+ // if(!recordDir.isWritable())
+ //  critical_error("Record::checkAndFillFileDir() : Directory "+iDirName+" is not writable");
 
  // Проверяется наличие директории, куда будет вставляться файл с текстом записи
  if(!recordDir.exists())
   {
    // Создается новая директория в директории base
    QDir directory(mytetraConfig.get_tetradir()+"/base");
-   result=directory.mkdir(dirName);
+   bool result=directory.mkdir(iDirName);
 
    if(!result)
-     critical_error("Record::checkAndFillFileDir() : Can't create directory "+dirName);
+     critical_error("Record::checkAndFillFileDir() : Can't create directory "+iDirName);
   }
 }
 
 
 // В функцию должно передаваться полное имя файла
-void Record::checkAndCreateTextFile()
+void Record::checkAndCreateTextFile() const
 {
  QString fileName=getFullTextFileName();
 
