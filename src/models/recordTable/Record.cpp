@@ -362,33 +362,27 @@ void Record::switchToEncryptAndSaveLite(void)
   if(liteFlag==false)
     critical_error("Cant call switchToEncryptLite() for non lite record object "+getIdAndNameAsString());
 
-  // В легком объекте данные не из полей находятся в файлах
+  // Нельзя шифровать уже зашифрованную запись
+  if(fieldList.value("crypt")=="1")
+    critical_error("Cant call switchToEncryptLite() for crypt record object "+getIdAndNameAsString());
 
   // Зашифровываются поля записи
   switchToEncryptFields();
 
+  // В легком объекте данные не из полей находятся в файлах
+
   // Шифрация файла с текстом записи
-  saveText();
+  QString dirName;
+  QString fileName;
+  checkAndFillFileDir(dirName, fileName);
+  encryptFile(globalParameters.getCryptKey(), fileName);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // set_text_internal(i, encryptStringToByteArray(globalParameters.getCryptKey(), get_text(i)) );
-  QString nameDirFull;
-  QString nameFileFull;
-  if(checkAndFillFileDir(i, nameDirFull, nameFileFull)==false)
-    critical_error("RecordTableData::switchToEncrypt() : For record "+QString::number(i)+" can not set field \"dir\" or \"file\"");
-  encryptFile(globalParameters.getCryptKey(), nameFileFull);
+  // Шифрование приаттаченных файлов
+  foreach(QString fileId, attachFiles.keys())
+  {
+    QString fileName=getFullFileName(fileId+".bin");
+    encryptFile(globalParameters.getCryptKey(), fileName);
+  }
 }
 
 
@@ -398,6 +392,10 @@ void Record::switchToEncryptAndSaveFat(void)
   // Метод обрабатывает только тяжелый объект
   if(liteFlag==true)
     critical_error("Cant call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
+
+  // Нельзя шифровать уже зашифрованную запись
+  if(fieldList.value("crypt")=="1")
+    critical_error("Cant call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
 
   // Зашифровываются поля записи
   switchToEncryptFields();
@@ -511,13 +509,23 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
  iDirName=getFullDirName();
  iFileName=getFullTextFileName();
 
- // Проверяется наличие директории, куда будет вставляться файл с текстом записи
  QDir recordDir(iDirName);
+
+ if(!recordDir.isReadable)
+   critical_error("Record::checkAndFillFileDir() : Directory "+dirName+" is not readable");
+
+ if(!recordDir.isWritable)
+   critical_error("Record::checkAndFillFileDir() : Directory "+dirName+" is not writable");
+
+ // Проверяется наличие директории, куда будет вставляться файл с текстом записи
  if(!recordDir.exists())
   {
    // Создается новая директория в директории base
    QDir directory(mytetraConfig.get_tetradir()+"/base");
-   directory.mkdir(dirName);
+   result=directory.mkdir(dirName);
+
+   if(!result)
+     critical_error("Record::checkAndFillFileDir() : Can't create directory "+dirName);
   }
 }
 
