@@ -8,17 +8,9 @@
 
 // Класс одной записи в таблице записей
 
-// Структура данных одной записи без содержимого файлов картинок и приаттаченных файлов
-// Нужна для особых случаев для ускорения работы
-/*
-struct RecordExemplar
-{
-  QString text;
-  QMap<QString, QString> fieldList; // Хранятся пары: Имя поля (атрибута XML) - Значение
-  QMap<QString, QString> attachList; // Хранятся пары: id - Имя файла
-};
-*/
-
+// В полях записей с crypt=0 хранятся незашифрованные данные
+// В полях записей с crypt=1 хранятся зашифрованные данные
+// Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
 class Record
 {
@@ -69,7 +61,7 @@ protected:
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
 
-  void saveText(QString iText);
+  void saveTextDirect(QString iText);
 
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 

@@ -95,6 +95,7 @@ QString RecordTableData::getText(int pos)
 // редактируемого текста
 // Ее вызывает редактор, передавая указатель на себя
 // и ссылку на переменную loadText, которую надо заполнить
+// Внимание! Метод не содержит работы с данными записи. Подумать, где его разместить
 void RecordTableData::editorLoadCallback(QObject *editor,
                                          QString &loadText)
 {
@@ -142,6 +143,7 @@ void RecordTableData::editorLoadCallback(QObject *editor,
 // редактируемого текста
 // Ее вызывает редактор, передавая указатель на себя
 // и текст который надо записать в переменной saveText
+// Внимание! Метод не содержит работы с данными записи. Подумать, где его разместить
 void RecordTableData::editorSaveCallback(QObject *editor,
                                          QString saveText)
 {
@@ -235,7 +237,7 @@ Record RecordTableData::getRecordFat(int pos)
  resultRecord.setText( getText(pos) );
 
  // Добавление бинарных образов файлов картинок и приаттаченных файлов
- QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.fieldList["dir"];
+ QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.fieldList.value("dir");
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
  resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
@@ -391,6 +393,10 @@ int RecordTableData::insertNewRecord(int mode,
 {
   qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
 
+  // Мотод должен принять полновесный объект записи
+  if(record.isLite()==true)
+    critical_error("RecordTableData::insertNewRecord() can't insert lite record");
+
   // Выясняется, есть ли в дереве запись с указанным ID
   // Если есть, то генерируются новые ID для записи и новая директория хранения
   // Если нет, то это значит что запись была вырезана, но хранится в буфере,
@@ -411,12 +417,14 @@ int RecordTableData::insertNewRecord(int mode,
     record.fieldList["id"]=id;
    }
 
+
   // В список переданных полей добавляются вычислимые в данном месте поля
 
   // Время создания данной записи
   QDateTime ctime_dt=QDateTime::currentDateTime();
   QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
   record.fieldList["ctime"]=ctime;
+
 
   // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
   bool isCrypt=false;
@@ -429,71 +437,35 @@ int RecordTableData::insertNewRecord(int mode,
       critical_error("RecordTableData::insertNewRecord() : Can not insert data to crypt branch. Password not setted.");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-  // Наличие шифрации
+  // Запись полновесных данных с учетом шифрации
   if(isCrypt)
-    record.fieldList["crypt"]="1";
+    record.switchToEncryptAndSaveFat();
   else
-    record.fieldList["crypt"]="0";
+    record.pushFatAttributes();
 
-  // Перед добавлением полей, которые могут быть зашифрованы, устанавливается значение поля наличия шифрования
-  setField("crypt", record.fieldList["crypt"], insertPos);
-
-
-  // Устанавливается весь набор полей
-  QMapIterator<QString, QString> i(record.fieldList);
-  while(i.hasNext())
-   {
-    i.next();
-
-    qDebug() << "RecordTableData::insert_new_record() : Set field " << i.key() << " value " << i.value();
-    setField(i.key(), i.value(), insertPos);
-   }
-
-
-  // Добавляется текст и файлы изображений
-  setTextAndPictures(insertPos, record.getText(), record.getPictureFiles());
-
-  qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
-
-
-
-  // Добавляются инфополя объекта
-  int insertPos=0;
-  Record emptyRecord;
+  // Запись переключается в легкий режим чтобы быть добавленной в таблицу конечных записей
+  record.switchToLite();
 
   // Вначале добавляется пустая запись (чтобы у записи появился
   if(mode==ADD_NEW_RECORD_TO_END) // В конец списка
    {
-    tableData << emptyRecord;
+    tableData << record;
     insertPos=tableData.size()-1;
    }
   else if(mode==ADD_NEW_RECORD_BEFORE) // Перед указанной позицией
    {
-    tableData.insert(pos, emptyRecord);
+    tableData.insert(pos, record);
     insertPos=pos;
    }
   else if(mode==ADD_NEW_RECORD_AFTER) // После указанной позиции
    {
-    tableData.insert(pos+1, emptyRecord);
+    tableData.insert(pos+1, record);
     insertPos=pos+1;
    }
 
-  // Запись заполняется данными
-  
+  qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
 
-  // Возвращается номера строки, на которую должна быть установлена засветка
-  // после выхода из данного метода
+  // Возвращается номера строки, на которую должна быть установлена засветка после выхода из данного метода
   return insertPos;
 }
 

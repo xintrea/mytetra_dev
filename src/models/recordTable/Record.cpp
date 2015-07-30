@@ -36,6 +36,11 @@ bool Record::isLite() const
 
 void Record::switchToLite()
 {
+  // Переключение возможно только из полновесного состояния
+  if(liteFlag==true)
+    critical_error("Record::switchToLite() : Record "+getIdAndNameAsString()+" already lite");
+
+  text="";
   pictureFiles.clear();
   attachFiles.clear();
 
@@ -46,11 +51,8 @@ void Record::switchToLite()
 void Record::switchToFat()
 {
   // Переключение возможно только из легкого состояния
-  if(liteFlag!=true || pictureFiles.count()>0 || attachFiles.count()>0)
-  {
+  if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0 || attachFiles.count()>0)
     critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
-    return;
-  }
 
   liteFlag=false;
 }
@@ -279,6 +281,41 @@ void Record::setText(QString iText)
 }
 
 
+void Record::saveTextDirect(QString iText)
+{
+  QString fileName=getFullTextFileName();
+
+  // Если шифровать ненужно
+  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
+  {
+    // Текст сохраняется в файл
+    QFile wfile(fileName);
+
+    if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+      critical_error("Cant open text file "+fileName=+" for write.");
+
+    QTextStream out(&wfile);
+    out.setCodec("UTF-8");
+    out << iText;
+  }
+  else if(fieldList.value("crypt")=="1")
+  {
+    // Текст шифруется
+    QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), iText);
+
+    // В файл сохраняются зашифрованные данные
+    QFile wfile(fileName=);
+
+    if(!wfile.open(QIODevice::WriteOnly))
+      critical_error("Cant open binary file "+fileName+" for write.");
+
+    wfile.write(encryptData);
+  }
+  else
+    critical_error("Record::saveTextDirect() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+}
+
+
 QMap<QString, QByteArray> Record::getPictureFiles() const
 {
   // У легкого объекта невозможно запросить картинки, если так происходит - это ошибка вызывающей логики
@@ -330,8 +367,8 @@ void Record::switchToEncryptFields(void)
   // Устанавливается поле (флаг) что запись зашифрована
   fieldList["crypt"]="1";
 
-  // Для шифрации просто пересохраняются поля.
-  // В момент, когда поле сохраняется, оно будет сохранено зашифрованным так как у записи установлен флаг шифрования
+  // Для шифрации просто переустанавливаются поля.
+  // В момент, когда поле переустанавливается, оно получит зашифрованное значение так как у записи установлен флаг шифрования
 
   // Выбираются поля, разрешенные для шифрования
   foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
@@ -341,16 +378,7 @@ void Record::switchToEncryptFields(void)
     // Поле шифруется
     if(fieldList.contains(fieldName))
       if(fieldList[fieldName].length()>0)
-      {
-        // Устанавливаются значения, при установке произойдет шифрация
-        setField(fieldName, fieldList.value(fieldName) );
-
-        /*
-        set_field(fieldName,
-              encryptString(globalParameters.getCryptKey(), recordFields[fieldName]),
-              i);
-        */
-      }
+        setField(fieldName, fieldList.value(fieldName) ); // Устанавливаются значения, при установке произойдет шифрация
   }
 }
 
@@ -426,7 +454,7 @@ void Record::pushFatAttributes()
   checkAndFillFileDir(dirName, fileName);
 
   // Запись файла с текстом записи, при необходимости текст в вызываемой функции будет зашифрован
-  saveText(text);
+  saveTextDirect(text);
 
   // Если есть файлы картинок, они вставляются в конечную директорию (картинки не шифруются)
   if(pictureFiles.size()>0)
@@ -436,41 +464,6 @@ void Record::pushFatAttributes()
   // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
   if(attachFiles.size()>0)
     save_files_to_directory(dirName, attachFiles);
-}
-
-
-void Record::saveText(QString iText)
-{
-  QString fileName=getFullTextFileName();
-
-  // Если шифровать ненужно
-  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
-  {
-    // Текст сохраняется в файл
-    QFile wfile(fileName);
-
-    if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-      critical_error("Cant open text file "+fileName=+" for write.");
-
-    QTextStream out(&wfile);
-    out.setCodec("UTF-8");
-    out << iText;
-  }
-  else if(fieldList.value("crypt")=="1")
-  {
-    // Текст шифруется
-    QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), iText);
-
-    // В файл сохраняются зашифрованные данные
-    QFile wfile(fileName=);
-
-    if(!wfile.open(QIODevice::WriteOnly))
-      critical_error("Cant open binary file "+fileName+" for write.");
-
-    wfile.write(encryptData);
-  }
-  else
-    critical_error("Record::saveText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 }
 
 
@@ -548,6 +541,6 @@ void Record::checkAndCreateTextFile()
    msgBox.exec();
 
    // Создается пустой текст записи
-   saveText("");
+   saveTextDirect("");
   }
 }
