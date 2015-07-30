@@ -117,6 +117,7 @@ void RecordTableData::editorLoadCallback(QObject *editor,
    workWithCrypt=true;
   }
 
+ // Файл, с которым работает редактор
  QString fileName=currEditor->get_work_directory()+"/"+currEditor->get_file_name();
 
  QFile f(fileName);
@@ -216,10 +217,7 @@ Record RecordTableData::getRecordLite(int pos)
  if(!tableData.at(pos).isLite())
    critical_error("In RecordTableData::getRecordLite() try get fat record");
 
-
- // Доделать с расшифровкой
-
-
+ // Todo: доделать с расшифровкой
  return tableData.at(pos);
 }
 
@@ -241,6 +239,7 @@ Record RecordTableData::getRecordFat(int pos)
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
  resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
+ // Todo: проверить расшифровку
  return resultRecord;
 }
 
@@ -384,32 +383,13 @@ QDomDocument RecordTableData::exportDataToDom(void)
 // ADD_NEW_RECORD_BEFORE - перед указанной позицией, pos - номер позиции
 // ADD_NEW_RECORD_AFTER - после указанной позиции, pos - номер позиции
 // Метод принимает "тяжелый" объект записи
+// Объект для вставки всегда приходит незашифрованный
 // todo: добавить сохранение таблицы приаттаченных файлов и содержимого файлов
 int RecordTableData::insertNewRecord(int mode,
                                      int pos,
                                      Record record)
 {
   qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
-
-  // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
-  bool isCrypt=false;
-  if(treeItem!=NULL)
-   if(treeItem->getField("crypt")=="1")
-    {
-     if(globalParameters.getCryptKey().length()>0)
-      isCrypt=true;
-     else
-      critical_error("RecordTableData::insert_new_record() : Can not insert data to crypt branch. Password not setted.");
-    }
-
-
-  // В список переданных полей добавляются вычислимые в данном месте поля
-
-  // Наличие шифрации
-  if(isCrypt)
-    record.fieldList["crypt"]="1";
-  else
-    record.fieldList["crypt"]="0";
 
   // Выясняется, есть ли в дереве запись с указанным ID
   // Если есть, то генерируются новые ID для записи и новая директория хранения
@@ -431,18 +411,68 @@ int RecordTableData::insertNewRecord(int mode,
     record.fieldList["id"]=id;
    }
 
+  // В список переданных полей добавляются вычислимые в данном месте поля
 
   // Время создания данной записи
   QDateTime ctime_dt=QDateTime::currentDateTime();
   QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
   record.fieldList["ctime"]=ctime;
-  
+
+  // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
+  bool isCrypt=false;
+  if(treeItem!=NULL)
+   if(treeItem->getField("crypt")=="1")
+    {
+     if(globalParameters.getCryptKey().length()>0)
+      isCrypt=true;
+     else
+      critical_error("RecordTableData::insertNewRecord() : Can not insert data to crypt branch. Password not setted.");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+  // Наличие шифрации
+  if(isCrypt)
+    record.fieldList["crypt"]="1";
+  else
+    record.fieldList["crypt"]="0";
+
+  // Перед добавлением полей, которые могут быть зашифрованы, устанавливается значение поля наличия шифрования
+  setField("crypt", record.fieldList["crypt"], insertPos);
+
+
+  // Устанавливается весь набор полей
+  QMapIterator<QString, QString> i(record.fieldList);
+  while(i.hasNext())
+   {
+    i.next();
+
+    qDebug() << "RecordTableData::insert_new_record() : Set field " << i.key() << " value " << i.value();
+    setField(i.key(), i.value(), insertPos);
+   }
+
+
+  // Добавляется текст и файлы изображений
+  setTextAndPictures(insertPos, record.getText(), record.getPictureFiles());
+
+  qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
+
+
 
   // Добавляются инфополя объекта
   int insertPos=0;
   Record emptyRecord;
 
-  // Вначале добавляется пустая запись
+  // Вначале добавляется пустая запись (чтобы у записи появился
   if(mode==ADD_NEW_RECORD_TO_END) // В конец списка
    {
     tableData << emptyRecord;
@@ -461,24 +491,6 @@ int RecordTableData::insertNewRecord(int mode,
 
   // Запись заполняется данными
   
-  // Вначале на всякий случай устанавливается значение поля наличия шифрования
-  setField("crypt", record.fieldList["crypt"], insertPos);
-
-  // Устанавливается весь набор полей
-  QMapIterator<QString, QString> i(record.fieldList);
-  while(i.hasNext())
-   {
-    i.next();
-
-    qDebug() << "RecordTableData::insert_new_record() : Set field " << i.key() << " value " << i.value();
-    setField(i.key(), i.value(), insertPos);
-   }
-
-
-  // Добавляется текст и файлы изображений
-  setTextAndPictures(insertPos, record.getText(), record.getPictureFiles());
-
-  qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
 
   // Возвращается номера строки, на которую должна быть установлена засветка
   // после выхода из данного метода
@@ -632,47 +644,8 @@ void RecordTableData::switchToEncrypt(void)
    if(getField("crypt", i)=="1")
     continue;
 
-   // ---------------------
-   // Шифрация полей записи
-   // ---------------------
-
-
-   // Поля записей, незашифрованные
-   QMap<QString, QString> recordFields=tableData.at(i).getFieldList();
-
-   // Устанавливается поле что запись зашифрована
-   setField("crypt", "1", i);
-
-   // Выбираются поля, разрешенные для шифрования
-   foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
-   {
-    // Если в полях записей присутствует очередное разрешенное имя поля
-    // И это поле непустое
-    // Поле шифруется
-    if(recordFields.contains(fieldName))
-     if(recordFields[fieldName].length()>0)
-      {
-       // Устанавливаются значения, при установке произойдет шифрация
-       setField(fieldName, recordFields[fieldName], i);
-
-       /*
-       set_field(fieldName,
-                 encryptString(globalParameters.getCryptKey(), recordFields[fieldName]),
-                 i);
-       */
-      }
-   }
-   
-
-   // -------------------------------
-   // Шифрация файла с текстом записи
-   // -------------------------------
-   // set_text_internal(i, encryptStringToByteArray(globalParameters.getCryptKey(), get_text(i)) );
-   QString nameDirFull;
-   QString nameFileFull;
-   if(checkAndFillFileDir(i, nameDirFull, nameFileFull)==false)
-    critical_error("RecordTableData::switchToEncrypt() : For record "+QString::number(i)+" can not set field \"dir\" or \"file\"");
-   encryptFile(globalParameters.getCryptKey(), nameFileFull);
+   // Шифрация записи
+   tableData.at(i).switchToEncrypt();
   }
 }
 

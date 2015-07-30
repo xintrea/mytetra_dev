@@ -49,6 +49,9 @@ public:
   void switchToLite();
   void switchToFat();
 
+  void switchToEncryptLite(void);
+  void switchToEncryptFat(void);
+
   void pushFatAttributes();
 
 protected:
@@ -66,11 +69,15 @@ protected:
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
   QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
 
+  void saveText(QString iText);
+
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
   QString getFullDirName() const;
   QString getFullTextFileName() const;
   QString getFullFileName(QString fileName) const;
+
+  void switchToEncryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
   void checkAndCreateTextFile();

@@ -240,7 +240,7 @@ QString Record::getTextDirect() const
   // то расшифровка невозможна
   if(fieldList.value("crypt")=="1" &&
      globalParameters.getCryptKey().length()==0)
-   return QString();
+    return QString();
 
   // Выясняется полное имя файла с текстом записи
   QString fileName=getFullTextFileName();
@@ -251,19 +251,19 @@ QString Record::getTextDirect() const
 
   // Открывается файл
   if(!f.open(QIODevice::ReadOnly))
-   critical_error("File "+fileName+" not readable. Check permission.");
+    critical_error("File "+fileName+" not readable. Check permission.");
 
   // Если незашифровано
   if(fieldList.value("crypt").length()==0 ||fieldList.value("crypt")=="0")
-   {
+  {
     qDebug() << "Record::getTextDirect() : return direct data";
     return QString::fromUtf8( f.readAll() );
-   }
+  }
   else
-   {
+  {
     qDebug() << "Record::getTextDirect( : return direct data after decrypt";
     return decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
-   }
+  }
 
   return text;
 }
@@ -321,7 +321,94 @@ void Record::setAttachFiles(QMap<QString, QByteArray> iAttachFiles)
 }
 
 
+// Приватная функция, шифрует только поля
+void Record::switchToEncryptFields(void)
+{
+  if(fieldList.value("crypt")=="1")
+    return;
+
+  // Устанавливается поле (флаг) что запись зашифрована
+  fieldList["crypt"]="1";
+
+  // Для шифрации просто пересохраняются поля.
+  // В момент, когда поле сохраняется, оно будет сохранено зашифрованным так как у записи установлен флаг шифрования
+
+  // Выбираются поля, разрешенные для шифрования
+  foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
+  {
+    // Если в полях записей присутствует очередное разрешенное имя поля
+    // И это поле непустое
+    // Поле шифруется
+    if(fieldList.contains(fieldName))
+      if(fieldList[fieldName].length()>0)
+      {
+        // Устанавливаются значения, при установке произойдет шифрация
+        setField(fieldName, fieldList.value(fieldName) );
+
+        /*
+        set_field(fieldName,
+              encryptString(globalParameters.getCryptKey(), recordFields[fieldName]),
+              i);
+        */
+      }
+  }
+}
+
+
+// Шифрование записи с легкими данными
+void Record::switchToEncryptAndSaveLite(void)
+{
+  // Метод обрабатывает только легкий объект
+  if(liteFlag==false)
+    critical_error("Cant call switchToEncryptLite() for non lite record object "+getIdAndNameAsString());
+
+  // В легком объекте данные не из полей находятся в файлах
+
+  // Зашифровываются поля записи
+  switchToEncryptFields();
+
+  // Шифрация файла с текстом записи
+  saveText();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // set_text_internal(i, encryptStringToByteArray(globalParameters.getCryptKey(), get_text(i)) );
+  QString nameDirFull;
+  QString nameFileFull;
+  if(checkAndFillFileDir(i, nameDirFull, nameFileFull)==false)
+    critical_error("RecordTableData::switchToEncrypt() : For record "+QString::number(i)+" can not set field \"dir\" or \"file\"");
+  encryptFile(globalParameters.getCryptKey(), nameFileFull);
+}
+
+
+// Шифрование записи с полновесными данными
+void Record::switchToEncryptAndSaveFat(void)
+{
+  // Метод обрабатывает только тяжелый объект
+  if(liteFlag==true)
+    critical_error("Cant call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
+
+  // Зашифровываются поля записи
+  switchToEncryptFields();
+
+  // Тяжелые данные записываются в хранилище, при записи будет произведена шифрация
+  pushFatAttributes();
+}
+
+
 // Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
+// Исходные данные должны быт нешифрованы. Они будут зашифровано по необходимости
 void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
@@ -340,14 +427,15 @@ void Record::pushFatAttributes()
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
 
-  // Запись файла с текстом записи
+  // Запись файла с текстом записи, при необходимости текст в вызываемой функции будет зашифрован
   saveText(text);
 
-  // Если есть файлы картинок, они вставляются в конечную директорию
+  // Если есть файлы картинок, они вставляются в конечную директорию (картинки не шифруются)
   if(pictureFiles.size()>0)
     save_files_to_directory(dirName, pictureFiles);
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
+  // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
   if(attachFiles.size()>0)
     save_files_to_directory(dirName, attachFiles);
 }
