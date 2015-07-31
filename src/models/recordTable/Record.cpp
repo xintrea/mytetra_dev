@@ -227,14 +227,14 @@ QMap<QString, QString> Record::getFieldList() const
 // todo: доделать метод
 QMap<QString, QString> Record::getAttachList() const
 {
-
+  return QMap<QString, QString>();
 }
 
 
 // todo: доделать метод
 void Record::setAttachList(QMap<QString, QString> list)
 {
-
+  Q_UNUSED(list);
 }
 
 
@@ -242,8 +242,6 @@ void Record::insertToAttachList(QString fileId, QString fileName)
 {
   attachList.insert(fileId, fileName);
 }
-
-
 
 
 // Тяжелые свойства устанавливаются и берутся через геттеры и сеттеры
@@ -467,7 +465,7 @@ void Record::switchToDecryptAndSaveLite(void)
   if(fieldList.value("crypt")!="1")
     critical_error("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
 
-  // Расшифровка полей
+  // Расшифровка полей (имеено так, так как getFieldList() возвращает расшифрованные данные)
   fieldList=getFieldList();
 
   // Расшифровка файла с текстом записи
