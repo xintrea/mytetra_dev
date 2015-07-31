@@ -237,7 +237,7 @@ Record RecordTableData::getRecordFat(int pos)
  resultRecord.setText( getText(pos) );
 
  // Добавление бинарных образов файлов картинок и приаттаченных файлов
- QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getFieldList().value("dir");
+ QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getField("dir");
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
  resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
@@ -297,7 +297,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
         QString name=attcurr.name();
         QString value=attcurr.value();
 
-        currentRecordData.getFieldList()[name]=value;
+        currentRecordData.setField(name, value);
 
         // Распечатка считанных данных в консоль
         // qDebug() << "Read record attr " << name << value;
@@ -423,7 +423,7 @@ int RecordTableData::insertNewRecord(int mode,
   // Время создания данной записи
   QDateTime ctime_dt=QDateTime::currentDateTime();
   QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
-  record.fieldList["ctime"]=ctime;
+  record.setField("ctime", ctime);
 
 
   // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
@@ -446,7 +446,8 @@ int RecordTableData::insertNewRecord(int mode,
   // Запись переключается в легкий режим чтобы быть добавленной в таблицу конечных записей
   record.switchToLite();
 
-  // Вначале добавляется пустая запись (чтобы у записи появился
+  // Запись добавляется в таблицу конечных записей
+  int insertPos=-1;
   if(mode==ADD_NEW_RECORD_TO_END) // В конец списка
    {
     tableData << record;
@@ -617,7 +618,7 @@ void RecordTableData::switchToEncrypt(void)
       continue;
 
     // Шифрация записи
-    tableData.at(i).switchToEncryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
+    tableData[i].switchToEncryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
   }
 }
 
@@ -634,7 +635,7 @@ void RecordTableData::switchToDecrypt(void)
     continue;
 
    // Расшифровка записи
-   tableData.at(i).switchToDecryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
+   tableData[i].switchToDecryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
   }
 }
 
@@ -666,7 +667,7 @@ QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QS
      // Иначе в переданном списке нет поля с текущим допустимым именем
 
      // Проверяется, есть ли уже поле с таким именем в таблице сущаствующих полей
-     if((tableData.at(pos).getFieldList()).contains(currentName))
+     if(tableData.at(pos).isFieldExists(currentName))
       resultFields[currentName]=getField(currentName, pos); // Запоминается значение
     }
   }

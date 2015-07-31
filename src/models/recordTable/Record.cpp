@@ -165,6 +165,12 @@ void Record::setField(QString name, QString value)
 }
 
 
+bool Record::isFieldExists(QString name) const
+{
+  return fieldList.contains(name);
+}
+
+
 // Получение значений всех полей
 // Поля, которые могут быть у записи, но не заданы, не передаются
 // Поля, которые зашифрованы, расшифровываются
@@ -253,7 +259,7 @@ QString Record::getText() const
 
 // Получение значения текста напрямую из файла, без заполнения свойства text
 // Так как заполнение свойства не происходит, объект может бы легким. Проверки на легкость не требуется
-QString Record::getTextDirect() const
+QString Record::getTextDirect()
 {
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -574,7 +580,7 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 
 
 // В функцию должно передаваться полное имя файла
-void Record::checkAndCreateTextFile() const
+void Record::checkAndCreateTextFile()
 {
  QString fileName=getFullTextFileName();
 
@@ -585,12 +591,12 @@ void Record::checkAndCreateTextFile() const
   {
    // Выводится уведомление что будет создан пустой текст записи
    QMessageBox msgBox;
-   msgBox.setWindowTitle(tr("Warning!"));
-   msgBox.setText( tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName) );
+   msgBox.setWindowTitle(QObject::tr("Warning!"));
+   msgBox.setText( QObject::tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName) );
    msgBox.setIcon(QMessageBox::Information);
    msgBox.exec();
 
    // Создается пустой текст записи
-   saveTextDirect("");
+   saveTextDirect( QString() );
   }
 }

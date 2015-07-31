@@ -19,11 +19,12 @@ public:
   virtual ~Record();
 
   QString getText() const;
-  QString getTextDirect() const;
+  QString getTextDirect();
   void setText(QString iText);
 
   QString getField(QString name) const;
   void setField(QString name, QString value);
+  bool isFieldExists(QString name) const;
 
   QMap<QString, QString> getFieldList() const;
 
@@ -77,7 +78,7 @@ protected:
   void switchToEncryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
-  void checkAndCreateTextFile() const;
+  void checkAndCreateTextFile();
 
 };
 
