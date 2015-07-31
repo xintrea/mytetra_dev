@@ -72,6 +72,8 @@ protected:
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
   QString getFullDirName() const;
+  QString getShortDirName() const;
+
   QString getFullTextFileName() const;
   QString getFullFileName(QString fileName) const;
 

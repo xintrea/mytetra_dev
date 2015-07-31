@@ -530,6 +530,16 @@ QString Record::getFullDirName() const
 }
 
 
+// Короткое имя директории записи
+QString Record::getShortDirName() const
+{
+ if(fieldList.contains("dir")==false)
+   critical_error("Record::getShortDirName() : Not present dir field");
+
+ return fieldList.value("dir");
+}
+
+
 // Полное имя файла с текстом записи
 QString Record::getFullTextFileName() const
 {
@@ -557,8 +567,9 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 
  QDir recordDir(iDirName);
 
- if(!recordDir.isReadable())
-   critical_error("Record::checkAndFillFileDir() : Directory "+iDirName+" is not readable");
+ // ПРоверки на чтение и запись в этом месте бессмысленны, так как директории просто может не существовать
+ // if(!recordDir.isReadable())
+ //   critical_error("Record::checkAndFillFileDir() : Directory "+iDirName+" is not readable");
 
  // Оказывается, что у QDir нет возможности проверить доступность на запись в директорию
  // if(!recordDir.isWritable())
@@ -569,10 +580,10 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
   {
    // Создается новая директория в директории base
    QDir directory(mytetraConfig.get_tetradir()+"/base");
-   bool result=directory.mkdir(iDirName);
+   bool result=directory.mkdir( getShortDirName() );
 
    if(!result)
-     critical_error("Record::checkAndFillFileDir() : Can't create directory "+iDirName);
+     critical_error("Record::checkAndFillFileDir() : Can't create directory '"+getShortDirName()+"'");
   }
 }
 
