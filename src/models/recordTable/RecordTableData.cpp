@@ -440,8 +440,10 @@ int RecordTableData::insertNewRecord(int mode,
     }
 
   // Запись полновесных данных с учетом шифрации
-  if(isCrypt && record.getField("crypt")!="1")
+  if(isCrypt && record.getField("crypt")!="1") // В зашифрованную ветку незашифрованную запись
     record.switchToEncryptAndSaveFat();
+  else if (!isCrypt && record.getField("crypt")=="1") // В незашифрованную ветку зашифрованную запись
+    record.switchToDecryptAndSaveFat();
   else
     record.pushFatAttributes();
 

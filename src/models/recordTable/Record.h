@@ -53,6 +53,7 @@ public:
 
   // Расшифровка
   void switchToDecryptAndSaveLite(void);
+  void switchToDecryptAndSaveFat(void);
 
   void pushFatAttributes();
 
@@ -82,6 +83,7 @@ protected:
   QString getFullFileName(QString fileName) const;
 
   void switchToEncryptFields(void);
+  void switchToDecryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
   void checkAndCreateTextFile();

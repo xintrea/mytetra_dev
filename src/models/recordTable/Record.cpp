@@ -79,7 +79,7 @@ QString Record::getIdAndNameAsString() const
 }
 
 
-
+// Метод возвращает расшифрованные данные, если запись была зашифрована
 QString Record::getField(QString name) const
 {
   // Если имя поля недопустимо
@@ -430,6 +430,29 @@ void Record::switchToEncryptFields(void)
 }
 
 
+// Приватная функция, расшифровывает только поля
+void Record::switchToDecryptFields(void)
+{
+  // Нельзя расшифровать незашифрованную запись
+  if(fieldList.value("crypt")!="1")
+    return;
+
+  // Выбираются поля, разрешенные для шифрования
+  foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
+  {
+    // Если в полях записей присутствует очередное разрешенное имя поля
+    // И это поле непустое
+    // Поле расшифровывается
+    if(fieldList.contains(fieldName))
+      if(fieldList[fieldName].length()>0)
+        setFieldSource(fieldName, getField(fieldName) );
+  }
+
+  // Устанавливается поле (флаг) что запись не зашифрована
+  fieldList["crypt"]="0";
+}
+
+
 // Шифрование записи с легкими данными
 void Record::switchToEncryptAndSaveLite(void)
 {
@@ -509,6 +532,24 @@ void Record::switchToDecryptAndSaveLite(void)
 
   // Устанавливается флаг что шифрации нет
   fieldList["crypt"]="0";
+}
+
+
+void Record::switchToDecryptAndSaveFat(void)
+{
+  // Метод обрабатывает только тяжелый объект
+  if(liteFlag==true)
+    critical_error("Cant call switchToDecryptAndSaveFat() for non fat record object "+getIdAndNameAsString());
+
+  // Нельзя расшифровать не зашифрованную запись
+  if(fieldList.value("crypt")!="1")
+    critical_error("Cant call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
+
+  // Расшифровываются поля записи
+  switchToDecryptFields();
+
+  // Тяжелые данные записываются в хранилище, при записи будет произведена шифрация
+  pushFatAttributes();
 }
 
 
