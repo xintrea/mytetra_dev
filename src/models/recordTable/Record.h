@@ -26,6 +26,10 @@ public:
   void setField(QString name, QString value);
   bool isFieldExists(QString name) const;
 
+  // Установка и чтение данных без преобразований. Используется при генерации/чтении XML
+  QString getFieldSource(QString name) const;
+  void setFieldSource(QString name, QString value);
+
   QMap<QString, QString> getFieldList() const;
 
   QMap<QString, QString> getAttachList() const;

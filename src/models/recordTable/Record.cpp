@@ -150,7 +150,7 @@ void Record::setField(QString name, QString value)
           if(globalParameters.getCryptKey().length()>0)
             isCrypt=true;
           else
-            critical_error("In RecordTableData::set_field() can not set data to crypt field "+name+". Password not setted");
+            critical_error("In RecordTableData::setField() can not set data to crypt field "+name+". Password not setted");
         }
 
 
@@ -168,6 +168,32 @@ void Record::setField(QString name, QString value)
 bool Record::isFieldExists(QString name) const
 {
   return fieldList.contains(name);
+}
+
+
+QString Record::getFieldSource(QString name) const
+{
+  // Если имя поля недопустимо
+  if(fixedParameters.isRecordFieldAvailable(name)==false)
+    critical_error("RecordTableData::getFieldSource() : get unavailable field "+name);
+
+  // Если поле с таким названием есть
+  if(fieldList.contains(name))
+    return fieldList[name]; // Возвращается значение поля
+  else
+    return QString();
+}
+
+
+void Record::setFieldSource(QString name, QString value)
+{
+  // Если имя поля недопустимо
+  if(fixedParameters.isRecordFieldAvailable(name)==false)
+    critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
+
+  // Устанавливается значение поля
+  fieldList.insert(name, value);
+
 }
 
 

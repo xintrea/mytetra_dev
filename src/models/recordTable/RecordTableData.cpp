@@ -297,7 +297,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
         QString name=attcurr.name();
         QString value=attcurr.value();
 
-        currentRecordData.setField(name, value);
+        currentRecordData.setFieldSource(name, value);
 
         // Распечатка считанных данных в консоль
         // qDebug() << "Read record attr " << name << value;
@@ -337,42 +337,44 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
 // Преобразование таблицы конечных записей в Dom документ
 QDomDocument RecordTableData::exportDataToDom(void)
 {
- // Если у ветки нет таблицы конечных записей, возвращается пустой документ
- if(tableData.size()==0)
-   return QDomDocument();
- 
- QDomDocument doc;
+  // Если у ветки нет таблицы конечных записей, возвращается пустой документ
+  if(tableData.size()==0)
+    return QDomDocument();
 
- QDomElement recordTableDomData = doc.createElement("recordtable");
- doc.appendChild(recordTableDomData);
+  QDomDocument doc;
 
- QStringList fieldsNamesAvailable=fixedParameters.recordFieldAvailableList();
+  QDomElement recordTableDomData = doc.createElement("recordtable");
+  doc.appendChild(recordTableDomData);
 
- // Пробегаются все записи в таблице
- for(int i=0; i<tableData.size(); i++)
- {
-  QDomElement elem = doc.createElement("record");
+  QStringList fieldsNamesAvailable=fixedParameters.recordFieldAvailableList();
 
-  QMap<QString, QString> lineTmp;
-  lineTmp=tableData.at(i).getFieldList();
+  // Пробегаются все записи в таблице
+  for(int i=0; i<tableData.size(); i++)
+  {
+    QDomElement elem = doc.createElement("record");
 
-  // Перебираются допустимые имена полей
-  for(int j=0; j<fieldsNamesAvailable.size(); ++j)
-   {
-    QString currentFieldName=fieldsNamesAvailable.at(j);
+    // QMap<QString, QString> lineTmp;
+    // lineTmp=tableData.at(i).getFieldList();
+    // QMap<QString, QString> lineTmp;
+    // lineTmp=tableData.at(i).getFieldListDirect();
 
-    // Устанавливается значение поля как атрибут DOM-узла
-    if(lineTmp.contains(currentFieldName))
-     elem.setAttribute(currentFieldName, lineTmp[currentFieldName]);
-   }
+    // Перебираются допустимые имена полей
+    for(int j=0; j<fieldsNamesAvailable.size(); ++j)
+    {
+      QString currentFieldName=fieldsNamesAvailable.at(j);
 
-  // К элементу recordtabledata прикрепляются конечные записи
-  doc.firstChild().appendChild(elem);
- }
+      // Устанавливается значение поля как атрибут DOM-узла
+      if(tableData.at(i).isFieldExists(currentFieldName))
+        elem.setAttribute(currentFieldName, tableData.at(i).getFieldSource(currentFieldName));
+    }
 
- // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
+    // К элементу recordtabledata прикрепляются конечные записи
+    doc.firstChild().appendChild(elem);
+  }
 
- return doc;
+  // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
+
+  return doc;
 }
 
 
