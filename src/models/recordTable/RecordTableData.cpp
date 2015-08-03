@@ -523,17 +523,19 @@ void RecordTableData::deleteRecord(int i)
 
 void RecordTableData::deleteRecordById(QString id)
 {
-  for(int i=0;i<size();i++)
+  for(int i=0; i<size(); i++)
     if(getField("id", i)==id)
-      deleteRecord(i);
+      deleteRecord(i); // Так как id уникальный, удаляться будет только одна запись
 }
 
 
 // Удаление всех элементов таблицы конечных записей
 void RecordTableData::deleteAllRecords(void)
 {
-  for(int i=0;i<size();i++)
-    deleteRecord(i);
+  int tableSize=size(); // Запоминается размер таблицы, так как он при удалении меняется
+
+  for(int i=0; i<tableSize; i++)
+    deleteRecord(0); // Удаляется самая первая запись много раз
 }
 
 

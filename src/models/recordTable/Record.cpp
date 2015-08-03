@@ -591,21 +591,45 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 // В функцию должно передаваться полное имя файла
 void Record::checkAndCreateTextFile()
 {
- QString fileName=getFullTextFileName();
+  QString fileName=getFullTextFileName();
 
- QFile f(fileName);
+  QFile f(fileName);
+  QFileInfo fileInfo(f);
 
- // Если нужный файл не существует
- if(!f.exists())
+  // Если директория с файлом не существует
+  if(!fileInfo.absoluteDir().exists())
   {
-   // Выводится уведомление что будет создан пустой текст записи
-   QMessageBox msgBox;
-   msgBox.setWindowTitle(QObject::tr("Warning!"));
-   msgBox.setText( QObject::tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName) );
-   msgBox.setIcon(QMessageBox::Information);
-   msgBox.exec();
+    QString messageText=QObject::tr("Database consistency was broken.\n Directory %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileInfo.absoluteDir().absolutePath());
 
-   // Создается пустой текст записи
-   saveTextDirect( QString() );
+    qWarning() << messageText;
+
+    // Выводится уведомление что будет создана пустая директория записи
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QObject::tr("Warning!"));
+    msgBox.setText( messageText );
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+
+    // Создается пустая директория записи
+    QDir tempDir("/");
+    tempDir.mkpath( fileInfo.absoluteDir().absolutePath() );
+  }
+
+  // Если файл записи не существует
+  if(!f.exists())
+  {
+    QString messageText=QObject::tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName);
+
+    qWarning() << messageText;
+
+    // Выводится уведомление что будет создан пустой текст записи
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QObject::tr("Warning!"));
+    msgBox.setText( messageText );
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+
+    // Создается пустой текст записи
+    saveTextDirect( QString() );
   }
 }
