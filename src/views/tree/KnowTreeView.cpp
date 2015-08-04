@@ -176,7 +176,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Выводится уведомление что невозможен перенос без пароля
      QMessageBox msgBox;
      msgBox.setWindowTitle(tr("Warning!"));
-     msgBox.setText( tr("Cant move tree item to encrypt item. Please open crypt item (entry password) before.") );
+     msgBox.setText( tr("Cant move this item to encrypt item. Please open crypt item (entry password) before.") );
      msgBox.setIcon(QMessageBox::Information);
      msgBox.exec();
 
