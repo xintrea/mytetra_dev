@@ -14,16 +14,18 @@ public:
   // Возможные типы аттача - файл или линк на файл
   enum attachType{typeFile, typeLink};
 
-  int getType();
+  int getType() const;
 
   void setId(QString iId);
-  QString getId();
+  QString getId() const;
 
   void setFileName(QString iFileName);
-  QString getFileName();
+  QString getFileName() const;
 
   bool setLink(QString iLink);
-  QString getLink();
+  QString getLink() const;
+
+  qint64 getFileSize() const;
 
 protected:
 

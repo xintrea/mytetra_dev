@@ -149,7 +149,8 @@ HEADERS = src/main.h \
     src/controllers/recordTable/recordTableController.h \
     src/views/recordTable/RecordTablePrint.h \
     src/models/recordTable/Record.h \
-    src/models/recordTable/Attach.h
+    src/models/recordTable/Attach.h \
+    src/models/recordTable/AttachTableModel.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -234,7 +235,8 @@ SOURCES = src/main.cpp \
     src/controllers/recordTable/recordTableController.cpp \
     src/views/recordTable/RecordTablePrint.cpp \
     src/models/recordTable/Record.cpp \
-    src/models/recordTable/Attach.cpp
+    src/models/recordTable/Attach.cpp \
+    src/models/recordTable/AttachTableModel.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

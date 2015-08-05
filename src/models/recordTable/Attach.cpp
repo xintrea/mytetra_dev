@@ -22,7 +22,7 @@ Attach::~Attach()
 }
 
 
-int Attach::getType()
+int Attach::getType() const
 {
   return type;
 }
@@ -34,7 +34,7 @@ void Attach::setId(QString iId)
 }
 
 
-QString Attach::getId()
+QString Attach::getId() const
 {
   return id;
 }
@@ -50,7 +50,7 @@ void Attach::setFileName(QString iFileName)
 }
 
 
-QString Attach::getFileName()
+QString Attach::getFileName() const
 {
   if(type!=typeFile)
     critical_error("Can't get file name from non-file attach.");
@@ -85,7 +85,7 @@ bool Attach::setLink(QString iLink)
 }
 
 
-QString Attach::getLink()
+QString Attach::getLink() const
 {
   if(type!=typeLink)
     critical_error("Can't get link from non-link attach.");
@@ -93,3 +93,22 @@ QString Attach::getLink()
   return link;
 }
 
+
+// Размер аттача в байтах
+qint64 Attach::getFileSize() const
+{
+  QString tempFileName;
+
+  if(type==typeFile)
+    tempFileName=fileName; // todo: Добавить путь к файлу
+
+  if(type==typeLink)
+    tempFileName=link;
+
+  QFile tempFile(tempFileName);
+
+  if(!tempFile.exists())
+    return 0;
+  else
+    return tempFile.size();
+}
