@@ -1,16 +1,21 @@
 #ifndef ATTACHTABLEDATA_H
 #define ATTACHTABLEDATA_H
 
+#include <QList>
+
+class Record;
 
 class AttachTableData
 {
 public:
   AttachTableData(Record *iRecord);
-  vitual ~AttachTableData();
+  virtual ~AttachTableData();
 
-  QString getShortFileName(row);
-  QString getFullFileName(row);
-  qint64 getFileSize(row);
+  int size();
+
+  QString getShortFileName(int row);
+  QString getFullFileName(int row);
+  qint64 getFileSize(int row);
 
 protected:
 

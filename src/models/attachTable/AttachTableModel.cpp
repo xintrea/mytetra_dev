@@ -1,15 +1,17 @@
 #include "AttachTableModel.h"
+#include "Attach.h"
+#include "AttachTableData.h"
 
 
 AttachTableModel::AttachTableModel(QObject *parent) : QAbstractTableModel(parent)
 {
-  attachList = new QList<Attach>();
+  table=NULL;
 }
 
 
 AttachTableModel::~AttachTableModel()
 {
-  delete attachList;
+  delete table;
 }
 
 
@@ -27,7 +29,7 @@ int AttachTableModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return attachList->size();
+  return table->size();
 }
 
 
@@ -46,7 +48,7 @@ QVariant AttachTableModel::getCell(int row, int column) const
 {
   switch (column) {
     case 0:
-      return QVariant(table->getFileName(row));
+      return QVariant(table->getShortFileName(row));
     case 1:
       return QVariant(table->getFileSize(row));
     default:

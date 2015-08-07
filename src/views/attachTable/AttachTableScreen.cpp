@@ -61,22 +61,18 @@ void AttachTableScreen::setupSignals(void)
   connect(actionAttachFile, SIGNAL(triggered()), attachTableController, SLOT(onAttachFile()));
   connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
   connect(actionDeleteFile, SIGNAL(triggered()), attachTableController, SLOT(onDeleteFile()));
-
-
 }
 
 
 void AttachTableScreen::assembly(void)
 {
 
-  recordTableScreenLayout=new QVBoxLayout();
-  recordTableScreenLayout->setObjectName("recordtablescreen_QVBoxLayout");
+  screenLayout=new QVBoxLayout(); // todo: Добавить this?
 
-  recordTableScreenLayout->addLayout(recordTableToolsLayout);
-  recordTableScreenLayout->addWidget(treePathLabel);
-  recordTableScreenLayout->addWidget(recordTableController->getView());
+  screenLayout->addWidget(treePathLabel);
+  screenLayout->addWidget(recordTableController->getView());
 
-  setLayout(recordTableScreenLayout);
+  setLayout(screenLayout);
 
   // Границы убираются, так как данный объект будет использоваться как виджет
   QLayout *lt;
