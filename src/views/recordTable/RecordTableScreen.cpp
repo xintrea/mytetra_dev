@@ -193,15 +193,15 @@ void RecordTableScreen::setupUI(void)
  insert_action_as_button(toolsLine, actionMoveDn);
 
 
- findLine=new QToolBar(this);
+ extraToolsLine=new QToolBar(this);
 
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
-   insert_action_as_button(findLine, actionSyncro);
-   insert_action_as_button(findLine, actionWalkHistoryPrevious);
-   insert_action_as_button(findLine, actionWalkHistoryNext);
+   insert_action_as_button(extraToolsLine, actionSyncro);
+   insert_action_as_button(extraToolsLine, actionWalkHistoryPrevious);
+   insert_action_as_button(extraToolsLine, actionWalkHistoryNext);
  }
- insert_action_as_button(findLine, actionFindInBase);
+ insert_action_as_button(extraToolsLine, actionFindInBase);
 
  treePathLabel=new QLabel(this);
  treePathLabel->setWordWrap(true);
@@ -221,7 +221,7 @@ void RecordTableScreen::assembly(void)
  recordTableToolsLayout=new QHBoxLayout();
  recordTableToolsLayout->addWidget(toolsLine);
  recordTableToolsLayout->addStretch();
- recordTableToolsLayout->addWidget(findLine);
+ recordTableToolsLayout->addWidget(extraToolsLine);
  
  recordTableScreenLayout=new QVBoxLayout();
  recordTableScreenLayout->setObjectName("recordtablescreen_QVBoxLayout");

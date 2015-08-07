@@ -5,6 +5,11 @@
 #include <QAbstractTableModel>
 
 #include "Attach.h"
+#include "AttachTableData.h"
+
+#define ATTACH_TABLE_DATA_ROLE Qt::UserRole+50
+#define ATTACH_ROLE Qt::UserRole+51
+#define ATTACH_ID_ROLE  Qt::UserRole+52
 
 
 class AttachTableModel : public QAbstractTableModel
@@ -16,15 +21,18 @@ public:
   int columnCount(const QModelIndex & parent = QModelIndex()) const;
   int rowCount(const QModelIndex & parent = QModelIndex()) const;
   QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+  bool setData(const QModelIndex &index, const QVariant &value, int role);
   QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  /*
   void addAttach(Attach& newAttach);
   void delAttach(const QModelIndex & index);
   Attach& getAttach(const QModelIndex & index) const;
+  */
 
 private:
-  QList<Attach> *attachList;
-  QVariant getData(int num, int position) const;
+  AttachTableData *table;
+  QVariant getCell(int row, int column) const;
 
 };
 

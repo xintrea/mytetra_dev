@@ -13,6 +13,7 @@ AttachTableModel::~AttachTableModel()
 }
 
 
+// Число столбцов
 int AttachTableModel::columnCount(const QModelIndex & parent) const
 {
   Q_UNUSED(parent);
@@ -21,6 +22,7 @@ int AttachTableModel::columnCount(const QModelIndex & parent) const
 }
 
 
+// Число файлов
 int AttachTableModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
@@ -29,25 +31,64 @@ int AttachTableModel::rowCount(const QModelIndex& parent) const
 }
 
 
+// Получение данных
 QVariant AttachTableModel::data(const QModelIndex& index, int role) const
 {
   if (index.isValid() && role == Qt::DisplayRole)
-    return getData(index.row(), index.column());
+    return getCell(index.row(), index.column());
 
   return QVariant();
 }
 
 
-QVariant AttachTableModel::getData(int num, int position) const
+// Получение значения ячейки, защищенный метод
+QVariant AttachTableModel::getCell(int row, int column) const
 {
-  switch (position) {
+  switch (column) {
     case 0:
-      return QVariant(attachList->at(num).getFileName());
+      return QVariant(table->getFileName(row));
     case 1:
-      return QVariant(attachList->at(num).getFileSize());
+      return QVariant(table->getFileSize(row));
     default:
       return QVariant();
   }
+}
+
+
+// Сохранение вводимых данных по указанному индексу
+bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+  // Если таблица данных не создана
+  if(table==NULL)
+    return false;
+
+  // Если таблица пустая
+  if(table->size()==0)
+    return false;
+
+  // Если индекс недопустимый
+  if(!index.isValid() && role!=ATTACH_TABLE_DATA_ROLE)
+    return false;
+
+  // Если происходит установка ссылки на таблицу с данными
+  if(role==ATTACH_TABLE_DATA_ROLE)
+  {
+    table=value.value<AttachTableDataPointer>();
+    return true;
+  }
+
+  // Если происходит редактирование
+  if(role==Qt::EditRole)
+  {
+    // todo: Дописать эту часть
+
+    emit dataChanged(index,index); // Посылается сигнал что данные были изменены
+
+    return true;
+  }
+
+  // Во всех остальных случаях
+  return false;
 }
 
 
@@ -70,6 +111,7 @@ QVariant AttachTableModel::headerData(int section, Qt::Orientation orientation, 
 }
 
 
+/*
 void AttachTableModel::addAttach(Attach& newAttach)
 {
    beginInsertRows(QModelIndex(), attachList->size(), attachList->size());
@@ -89,3 +131,4 @@ Attach& AttachTableModel::getAttach(const QModelIndex & index) const
 {
   return (*attachList)[index.row()];
 }
+*/

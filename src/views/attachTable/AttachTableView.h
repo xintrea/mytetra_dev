@@ -5,10 +5,15 @@
 #include <QWidget>
 #include <QTableView>
 
+
+// Отображение таблицы с файлами (только таблица)
+
 class AttachTableView : public QTableView
 {
+  Q_OBJECT
+
 public:
-  AttachTableView();
+  AttachTableView(QWidget *parent=0);
   virtual ~AttachTableView();
 };
 

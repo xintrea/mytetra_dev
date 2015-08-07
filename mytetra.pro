@@ -151,7 +151,10 @@ HEADERS = src/main.h \
     src/models/recordTable/Record.h \
     src/models/attachTable/Attach.h \
     src/models/attachTable/AttachTableModel.h \
-    src/views/attachTable/AttachTableView.h
+    src/views/attachTable/AttachTableView.h \
+    src/views/attachTable/AttachTableScreen.h \
+    src/controllers/attachTable/attachTableController.h \
+    src/models/attachTable/AttachTableData.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -238,7 +241,10 @@ SOURCES = src/main.cpp \
     src/models/recordTable/Record.cpp \
     src/models/attachTable/Attach.cpp \
     src/models/attachTable/AttachTableModel.cpp \
-    src/views/attachTable/AttachTableView.cpp
+    src/views/attachTable/AttachTableView.cpp \
+    src/views/attachTable/AttachTableScreen.cpp \
+    src/controllers/attachTable/attachTableController.cpp \
+    src/models/attachTable/AttachTableData.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
