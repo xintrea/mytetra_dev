@@ -55,6 +55,8 @@ void RecordTableView::setController(RecordTableController *pController)
 // Пришлось ввести метод init, так как инициализация невозможна без
 // созданных в parent QAction, а создать в parent QAction можно только
 // при наличии ссылки на данный объект
+// Причина в том, что одни и те же QAction используются в двух местах -
+// в RecordTableScreen и здесь в контекстном меню
 void RecordTableView::init(void)
 {
  qDebug() << "RecordTableView::init()";

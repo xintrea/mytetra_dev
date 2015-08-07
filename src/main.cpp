@@ -431,7 +431,7 @@ bool compare_QStringList_len(const QStringList &list1, const QStringList &list2)
 }
 
 
-void insert_action_as_button(QToolBar *tools_line, QAction *action)
+void insertActionAsButton(QToolBar *tools_line, QAction *action)
 {
  tools_line->addAction(action);
  qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);

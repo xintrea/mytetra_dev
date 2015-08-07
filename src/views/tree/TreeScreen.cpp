@@ -164,29 +164,29 @@ void TreeScreen::setupUI(void)
  toolsLine->setIconSize(tool_bar_icon_size);
  */
 
- insert_action_as_button(toolsLine, actionList["insSubbranch"]);
- insert_action_as_button(toolsLine, actionList["insBranch"]);
+ insertActionAsButton(toolsLine, actionList["insSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["insBranch"]);
 
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
-   insert_action_as_button(toolsLine, actionList["editBranch"]);
-   insert_action_as_button(toolsLine, actionList["delBranch"]);
+   insertActionAsButton(toolsLine, actionList["editBranch"]);
+   insertActionAsButton(toolsLine, actionList["delBranch"]);
  }
 
  toolsLine->addSeparator();
 
- insert_action_as_button(toolsLine, actionList["expandAllSubbranch"]);
- insert_action_as_button(toolsLine, actionList["collapseAllSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["expandAllSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["collapseAllSubbranch"]);
 
  toolsLine->addSeparator();
 
- insert_action_as_button(toolsLine, actionList["moveUpBranch"]);
- insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
+ insertActionAsButton(toolsLine, actionList["moveUpBranch"]);
+ insertActionAsButton(toolsLine, actionList["moveDnBranch"]);
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
    toolsLine->addSeparator();
-   insert_action_as_button(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
+   insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
  }
 
 

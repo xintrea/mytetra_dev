@@ -2,8 +2,14 @@
 #define ATTACHTABLESCREEN_H
 
 #include <QWidget>
+#include <QToolBar>
+#include <QVBoxLayout>
 
 class AttachTableView;
+class AttachTableController;
+
+
+// Виджет
 
 class AttachTableScreen : public QWidget
 {
@@ -17,16 +23,26 @@ signals:
 public slots:
 
 protected:
+
+  void setupActions(void);
+  void setupUI(void);
+  void setupSignals(void);
+  void assembly(void);
+
+
+  // Контроллер таблицы приаттаченных файлов
+  AttachTableController *attachTableController;
+
+  // Таблица приаттаченных файлов (представление)
+  AttachTableView *attachTableView;
+
+  // Экранные элементы
   QToolBar *toolsLine;
-
   QVBoxLayout *screenLayout;
-
   QAction *actionAdd;
   QAction *actionEdit;
   QAction *actionDelete;
 
-  // Таблица приаттаченных файлов
-  AttachTableView *attachTableView;
 };
 
 #endif // ATTACHTABLESCREEN_H

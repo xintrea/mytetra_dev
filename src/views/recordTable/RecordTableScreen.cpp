@@ -34,6 +34,7 @@ RecordTableScreen::RecordTableScreen(QWidget *parent) : QWidget(parent)
 
   recordTableController->init();
 
+
   setupUI();
  
   setupSignals();
@@ -173,35 +174,35 @@ void RecordTableScreen::setupUI(void)
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
-   insert_action_as_button(toolsLine, actionBack);
+   insertActionAsButton(toolsLine, actionBack);
    toolsLine->addSeparator();
  }
 
- insert_action_as_button(toolsLine, actionAddNewToEnd);
+ insertActionAsButton(toolsLine, actionAddNewToEnd);
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
-   insert_action_as_button(toolsLine, actionEditField);
-   insert_action_as_button(toolsLine, actionDelete);
+   insertActionAsButton(toolsLine, actionEditField);
+   insertActionAsButton(toolsLine, actionDelete);
  }
 
  toolsLine->addSeparator();
- insert_action_as_button(toolsLine, actionCut);
- insert_action_as_button(toolsLine, actionCopy);
- insert_action_as_button(toolsLine, actionPaste);
+ insertActionAsButton(toolsLine, actionCut);
+ insertActionAsButton(toolsLine, actionCopy);
+ insertActionAsButton(toolsLine, actionPaste);
  toolsLine->addSeparator();
- insert_action_as_button(toolsLine, actionMoveUp);
- insert_action_as_button(toolsLine, actionMoveDn);
+ insertActionAsButton(toolsLine, actionMoveUp);
+ insertActionAsButton(toolsLine, actionMoveDn);
 
 
  extraToolsLine=new QToolBar(this);
 
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
-   insert_action_as_button(extraToolsLine, actionSyncro);
-   insert_action_as_button(extraToolsLine, actionWalkHistoryPrevious);
-   insert_action_as_button(extraToolsLine, actionWalkHistoryNext);
+   insertActionAsButton(extraToolsLine, actionSyncro);
+   insertActionAsButton(extraToolsLine, actionWalkHistoryPrevious);
+   insertActionAsButton(extraToolsLine, actionWalkHistoryNext);
  }
- insert_action_as_button(extraToolsLine, actionFindInBase);
+ insertActionAsButton(extraToolsLine, actionFindInBase);
 
  treePathLabel=new QLabel(this);
  treePathLabel->setWordWrap(true);

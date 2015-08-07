@@ -15,6 +15,10 @@ class AttachTableView : public QTableView
 public:
   AttachTableView(QWidget *parent=0);
   virtual ~AttachTableView();
+
+protected:
+  AttachTableController *controller;
+
 };
 
 #endif // __ATTACHTABLEVIEW_H__
