@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QAction>
 
 class AttachTableView;
 class AttachTableController;
@@ -39,9 +40,9 @@ protected:
   // Экранные элементы
   QToolBar *toolsLine;
   QVBoxLayout *screenLayout;
-  QAction *actionAdd;
-  QAction *actionEdit;
-  QAction *actionDelete;
+  QAction *actionAttachFile;
+  QAction *actionEditFileName;
+  QAction *actionDeleteFile;
 
 };
 

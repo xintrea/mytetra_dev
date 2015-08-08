@@ -6,14 +6,18 @@
 AttachTableData::AttachTableData(Record *iRecord)
 {
   attachTable=new QList< Attach >();
-
-  record=iRecord; // Запоминается ссылка на запись, которой принадлежит данная таблица файлов
 }
 
 
 AttachTableData::~AttachTableData()
 {
   delete attachTable;
+}
+
+
+void setParentRecord(Record iRecord)
+{
+  record=iRecord; // Запоминается ссылка на запись, которой принадлежит данная таблица файлов
 }
 
 

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QTableView>
 
+class AttachTableController;
 
 // Отображение таблицы с файлами (только таблица)
 
@@ -15,6 +16,8 @@ class AttachTableView : public QTableView
 public:
   AttachTableView(QWidget *parent=0);
   virtual ~AttachTableView();
+
+  void setController(AttachTableController *pController);
 
 protected:
   AttachTableController *controller;

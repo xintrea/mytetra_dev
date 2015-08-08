@@ -8,8 +8,10 @@ class Record;
 class AttachTableData
 {
 public:
-  AttachTableData(Record *iRecord);
+  AttachTableData();
   virtual ~AttachTableData();
+
+  void setParentRecord(Record iRecord);
 
   int size();
 

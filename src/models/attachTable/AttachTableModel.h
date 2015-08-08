@@ -10,9 +10,10 @@
 
 class AttachTableData;
 
-
 class AttachTableModel : public QAbstractTableModel
 {
+  Q_OBJECT
+
 public:
   AttachTableModel(QObject *parent);
   virtual ~AttachTableModel();

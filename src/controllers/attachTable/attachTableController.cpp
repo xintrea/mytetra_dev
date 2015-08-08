@@ -20,17 +20,24 @@ AttachTableController::AttachTableController(QObject *parent) : QObject(parent)
   view->setController(this);
 
   // Создание модели данных (тонкой обертки над AttachTableData)
-  attachTableModel=new AttachTableModel(this);
-  attachTableModel->setObjectName("attachTableModel");
+  model=new AttachTableModel(this);
+  model->setObjectName("attachTableModel");
 
   // Модель данных задается для вида
-  view->setModel(attachTableModel);
+  view->setModel(model);
 }
 
 
 AttachTableController::~AttachTableController()
 {
+  delete view;
+  delete model;
+}
 
+
+AttachTableView *AttachTableController::getView(void)
+{
+ return view;
 }
 
 

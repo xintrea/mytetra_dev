@@ -16,6 +16,11 @@ public:
   AttachTableController(QObject *parent = 0);
   virtual ~AttachTableController();
 
+  AttachTableView *getView(void);
+
+protected:
+  AttachTableView *view;
+  AttachTableModel *model;
 
 };
 

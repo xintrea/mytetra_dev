@@ -8,7 +8,7 @@ AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
 {
   // Инициализируется контроллер списка файлов
   attachTableController=new AttachTableController(this);
-  recordTableController->setObjectName("recordTableController");
+  attachTableController->setObjectName("recordTableController");
 
   setupActions();
   setupUI();
@@ -69,8 +69,8 @@ void AttachTableScreen::assembly(void)
 
   screenLayout=new QVBoxLayout(); // todo: Добавить this?
 
-  screenLayout->addWidget(treePathLabel);
-  screenLayout->addWidget(recordTableController->getView());
+  screenLayout->addWidget(toolsLine);
+  screenLayout->addWidget(attachTableController->getView());
 
   setLayout(screenLayout);
 
