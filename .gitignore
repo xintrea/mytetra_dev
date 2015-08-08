@@ -1,5 +1,7 @@
 # Ignore directories
 /build
+/release
+/misc
 /qtc-gdbmacros
 Makefile
 qdevelop-settings.db

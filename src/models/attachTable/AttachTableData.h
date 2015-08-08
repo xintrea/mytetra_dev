@@ -4,11 +4,9 @@
 #include <QList>
 #include <QMetaType>
 
-#include "Attach.h"
-#include "models/recordTable/Record.h"
 
-// class Record;
-// class Attach;
+class Record;
+class Attach;
 
 class AttachTableData
 {

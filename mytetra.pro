@@ -150,11 +150,11 @@ HEADERS = src/main.h \
     src/views/recordTable/RecordTablePrint.h \
     src/models/recordTable/Record.h \
     src/models/attachTable/Attach.h \
+    src/models/attachTable/AttachTableData.h \
     src/models/attachTable/AttachTableModel.h \
     src/views/attachTable/AttachTableView.h \
     src/views/attachTable/AttachTableScreen.h \
-    src/controllers/attachTable/attachTableController.h \
-    src/models/attachTable/AttachTableData.h
+    src/controllers/attachTable/attachTableController.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -181,7 +181,7 @@ HEADERS+=\
     src/libraries/crypt/Pbkdf2Qt.h \
     src/libraries/crypt/RC5Simple.h \
     src/libraries/crypt/Password.h \
-    src/libraries/MtComboBox.h \ 
+    src/libraries/MtComboBox.h \
     src/libraries/MtTableWidget.h \
     src/views/tree/KnowTreeView.h \
     src/libraries/MtStyledItemDelegate.h
@@ -240,11 +240,11 @@ SOURCES = src/main.cpp \
     src/views/recordTable/RecordTablePrint.cpp \
     src/models/recordTable/Record.cpp \
     src/models/attachTable/Attach.cpp \
+    src/models/attachTable/AttachTableData.cpp \
     src/models/attachTable/AttachTableModel.cpp \
     src/views/attachTable/AttachTableView.cpp \
     src/views/attachTable/AttachTableScreen.cpp \
-    src/controllers/attachTable/attachTableController.cpp \
-    src/models/attachTable/AttachTableData.cpp
+    src/controllers/attachTable/attachTableController.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
