@@ -1,3 +1,4 @@
+#include "main.h"
 #include "AttachTableModel.h"
 #include "Attach.h"
 #include "AttachTableData.h"
@@ -28,6 +29,9 @@ int AttachTableModel::columnCount(const QModelIndex & parent) const
 int AttachTableModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
+
+  if(table==NULL)
+    return 0;
 
   return table->size();
 }

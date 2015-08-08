@@ -11,6 +11,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/attachTable/AttachTableScreen.h"
 
 
 extern GlobalParameters globalParameters;
@@ -112,7 +113,6 @@ void MetaEditor::setupUI(void)
 
  // QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
  recordTagsContainer = new QWidget();
- // recordTagsContainer->setBackgroundRole(QPalette::Dark); // Чтобы видеть область виджета
  recordTagsContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
  recordTagsContainer->setLayout(recordTagsLayout);
 
@@ -124,6 +124,8 @@ void MetaEditor::setupUI(void)
  recordTagsScrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff ); // Убирается вертикальная полоса прокрутки
  recordTagsScrollArea->setFrameShape(QFrame::NoFrame); // Убирается тонкая линия вокруг QScrollArea
  recordTagsScrollArea->setWidget(recordTagsContainer);
+
+ attachTableScreen=new AttachTableScreen(this);
 }
 
 
@@ -137,12 +139,13 @@ void MetaEditor::metaAssembly(void)
  metaEditorAssemblyLayout->addWidget(recordName,              2,0, 1,2);
  metaEditorAssemblyLayout->addWidget(recordAuthor,            3,0, 1,2);
  metaEditorAssemblyLayout->addWidget(textArea,                4,0, 1,2);
+ metaEditorAssemblyLayout->addWidget(attachTableScreen,       5,0, 1,2);
 
- metaEditorAssemblyLayout->addWidget(labelUrl,                5,0);
- metaEditorAssemblyLayout->addWidget(recordUrl,               5,1);
+ metaEditorAssemblyLayout->addWidget(labelUrl,                6,0);
+ metaEditorAssemblyLayout->addWidget(recordUrl,               6,1);
 
- metaEditorAssemblyLayout->addWidget(labelTags,               6,0);
- metaEditorAssemblyLayout->addWidget(recordTagsScrollArea,    6,1); // Было addLayout(recordTagsLayout ...)
+ metaEditorAssemblyLayout->addWidget(labelTags,               7,0);
+ metaEditorAssemblyLayout->addWidget(recordTagsScrollArea,    7,1); // Было addLayout(recordTagsLayout ...)
 
  metaEditorAssemblyLayout->setColumnStretch(1,1);
 

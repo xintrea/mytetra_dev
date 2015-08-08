@@ -10,7 +10,7 @@
 class QHBoxLayout;
 class QGridLayout;
 class QScrollArea;
-
+class AttachTableScreen;
 
 class MetaEditor: public Editor
 {
@@ -58,6 +58,8 @@ private:
  QString recordTagsText;
  QStringList recordTagsTextList;
  QList<QLabel*> recordTagsLabels;
+
+ AttachTableScreen *attachTableScreen;
 
  // Группировалка всех инфополей и редактора
  QGridLayout *metaEditorAssemblyLayout;
