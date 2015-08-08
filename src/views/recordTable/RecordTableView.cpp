@@ -71,6 +71,9 @@ void RecordTableView::init(void)
  // Растягивание последней секции до размеров виджета
  horizontalHeader()->setStretchLastSection(true);
 
+ // Заголовки не должны выглядеть нажатыми
+ horizontalHeader()->setHighlightSections(false);
+
  // Горизонтальные заголовки делаются перемещяемыми
  #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
  horizontalHeader()->setMovable(true);

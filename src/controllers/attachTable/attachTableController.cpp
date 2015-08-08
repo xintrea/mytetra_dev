@@ -19,6 +19,7 @@ AttachTableController::AttachTableController(QObject *parent) : QObject(parent)
   view=new AttachTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
   view->setObjectName("attachTableView");
   view->setController(this);
+  view->horizontalHeader()->hide(); // Вид должен быть компактным, заголовки ненужны
 
   // Создание модели данных (тонкой обертки над AttachTableData)
   model=new AttachTableModel(this);

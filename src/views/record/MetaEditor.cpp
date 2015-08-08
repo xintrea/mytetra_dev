@@ -1,6 +1,7 @@
 #include <QBoxLayout>
 #include <QGridLayout>
 #include <QScrollArea>
+#include <QSplitter>
 #include <QtDebug>
 
 #include "main.h"
@@ -138,8 +139,19 @@ void MetaEditor::metaAssembly(void)
  metaEditorAssemblyLayout->addWidget(treePath,                1,0, 1,2);
  metaEditorAssemblyLayout->addWidget(recordName,              2,0, 1,2);
  metaEditorAssemblyLayout->addWidget(recordAuthor,            3,0, 1,2);
+
  metaEditorAssemblyLayout->addWidget(textArea,                4,0, 1,2);
  metaEditorAssemblyLayout->addWidget(attachTableScreen,       5,0, 1,2);
+
+ /*
+ editorAndFileTableSplitter=new QSplitter(Qt::Vertical, this);
+ editorAndFileTableSplitter->addWidget(textArea); // Редактор
+ editorAndFileTableSplitter->addWidget(attachTableScreen); // Прикрепляемые файлы
+ editorAndFileTableSplitter->setCollapsible(0,false); // Редактор не может смыкаться
+ editorAndFileTableSplitter->setCollapsible(1,false); // Список файлов не может смыкаться
+
+ metaEditorAssemblyLayout->addWidget(editorAndFileTableSplitter, 4,0, 1,2);
+ */
 
  metaEditorAssemblyLayout->addWidget(labelUrl,                6,0);
  metaEditorAssemblyLayout->addWidget(recordUrl,               6,1);

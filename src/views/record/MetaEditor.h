@@ -10,6 +10,7 @@
 class QHBoxLayout;
 class QGridLayout;
 class QScrollArea;
+class QSplitter;
 class AttachTableScreen;
 
 class MetaEditor: public Editor
@@ -58,6 +59,8 @@ private:
  QString recordTagsText;
  QStringList recordTagsTextList;
  QList<QLabel*> recordTagsLabels;
+
+ QSplitter *editorAndFileTableSplitter;
 
  AttachTableScreen *attachTableScreen;
 
