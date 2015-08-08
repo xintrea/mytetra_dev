@@ -1,6 +1,7 @@
 #include "main.h"
 
 #include "AttachTableScreen.h"
+#include "AttachTableView.h"
 #include "controllers/attachTable/attachTableController.h"
 
 

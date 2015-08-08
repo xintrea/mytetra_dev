@@ -3,12 +3,15 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QVariant>
+
+#include "AttachTableData.h"
 
 #define ATTACH_TABLE_DATA_ROLE Qt::UserRole+50
 #define ATTACH_ROLE Qt::UserRole+51
 #define ATTACH_ID_ROLE  Qt::UserRole+52
 
-class AttachTableData;
+// class AttachTableData;
 
 class AttachTableModel : public QAbstractTableModel
 {

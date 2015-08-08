@@ -3,7 +3,7 @@
 #include "models/recordTable/Record.h"
 
 
-AttachTableData::AttachTableData(Record *iRecord)
+AttachTableData::AttachTableData()
 {
   attachTable=new QList< Attach >();
 }
@@ -15,7 +15,7 @@ AttachTableData::~AttachTableData()
 }
 
 
-void setParentRecord(Record iRecord)
+void AttachTableData::setParentRecord(Record *iRecord)
 {
   record=iRecord; // Запоминается ссылка на запись, которой принадлежит данная таблица файлов
 }

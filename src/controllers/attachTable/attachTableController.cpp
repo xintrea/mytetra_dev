@@ -4,6 +4,7 @@
 #include "main.h"
 #include "attachTableController.h"
 #include "views/attachTable/AttachTableView.h"
+#include "models/attachTable/AttachTableModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 

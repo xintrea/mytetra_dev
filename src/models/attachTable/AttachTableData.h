@@ -2,8 +2,13 @@
 #define ATTACHTABLEDATA_H
 
 #include <QList>
+#include <QMetaType>
 
-class Record;
+#include "Attach.h"
+#include "models/recordTable/Record.h"
+
+// class Record;
+// class Attach;
 
 class AttachTableData
 {
@@ -11,7 +16,7 @@ public:
   AttachTableData();
   virtual ~AttachTableData();
 
-  void setParentRecord(Record iRecord);
+  void setParentRecord(Record *iRecord);
 
   int size();
 
