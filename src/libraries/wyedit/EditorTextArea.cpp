@@ -284,7 +284,9 @@ void EditorTextArea::resizeEvent(QResizeEvent *event)
  QTextEdit::resizeEvent(event);
 
  // Надо обновить геометрию виджета настройки отступов
- qobject_cast<Editor *>(parent())->update_indentline_geometry();
+ Editor *pEditor=qobject_cast<Editor *>(parent());
+ if(pEditor!=NULL)
+   pEditor->update_indentline_geometry();
 }
 
 

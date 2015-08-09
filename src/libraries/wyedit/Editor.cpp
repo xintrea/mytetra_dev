@@ -200,6 +200,7 @@ void Editor::setup_signals(void)
  connect(back, SIGNAL(clicked()), this, SLOT(on_back_clicked()));
  connect(findInBase, SIGNAL(clicked()), this, SLOT(on_find_in_base_clicked()));
  connect(showText, SIGNAL(clicked()), this, SLOT(on_show_text_clicked()));
+ connect(toAttach, SIGNAL(clicked()), this, SLOT(on_to_attach_clicked()));
 
  connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(on_cursor_position_changed()));
  connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(on_selection_changed()));
@@ -243,251 +244,256 @@ void Editor::setup_signals(void)
 // Создание объектов кнопок для линейки форматирования текста
 void Editor::setup_buttons(void)
 {
- // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
- // имена объектов кнопок должны начинаться на "editor_tb"
+  // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
+  // имена объектов кнопок должны начинаться на "editor_tb"
 
- // Кнопка Bold
- bold = new QToolButton(this);
- bold->setShortcut(QKeySequence(QKeySequence::Bold));
- bold->setStatusTip(tr("Bold (Ctrl+B)"));
- bold->setIcon(QIcon(":/resource/pic/edit_bold.svg"));
- bold->setObjectName("editor_tb_bold");
+  // Кнопка Bold
+  bold = new QToolButton(this);
+  bold->setShortcut(QKeySequence(QKeySequence::Bold));
+  bold->setStatusTip(tr("Bold (Ctrl+B)"));
+  bold->setIcon(QIcon(":/resource/pic/edit_bold.svg"));
+  bold->setObjectName("editor_tb_bold");
 
- // Кнопка Italic
- italic = new QToolButton(this);
- italic->setShortcut(QKeySequence(QKeySequence::Italic));
- italic->setStatusTip(tr("Italic (Ctrl+I)"));
- italic->setIcon(QIcon(":/resource/pic/edit_italic.svg"));
- italic->setObjectName("editor_tb_italic");
+  // Кнопка Italic
+  italic = new QToolButton(this);
+  italic->setShortcut(QKeySequence(QKeySequence::Italic));
+  italic->setStatusTip(tr("Italic (Ctrl+I)"));
+  italic->setIcon(QIcon(":/resource/pic/edit_italic.svg"));
+  italic->setObjectName("editor_tb_italic");
 
- // Кнопка Underline
- underline = new QToolButton(this);
- underline->setShortcut(QKeySequence(QKeySequence::Underline));
- underline->setStatusTip(tr("Underline (Ctrl+U)"));
- underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
- underline->setObjectName("editor_tb_underline");
+  // Кнопка Underline
+  underline = new QToolButton(this);
+  underline->setShortcut(QKeySequence(QKeySequence::Underline));
+  underline->setStatusTip(tr("Underline (Ctrl+U)"));
+  underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
+  underline->setObjectName("editor_tb_underline");
 
- // Кнопка Monospace
- monospace = new QToolButton(this);
- monospace->setShortcut(QKeySequence(tr("Ctrl+T")));
- monospace->setStatusTip(tr("Monospace (Ctrl+T)"));
- monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
- monospace->setObjectName("editor_tb_monospace");
+  // Кнопка Monospace
+  monospace = new QToolButton(this);
+  monospace->setShortcut(QKeySequence(tr("Ctrl+T")));
+  monospace->setStatusTip(tr("Monospace (Ctrl+T)"));
+  monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
+  monospace->setObjectName("editor_tb_monospace");
 
- // Кнопка Code
- code = new QToolButton(this);
- code->setShortcut(QKeySequence(tr("Ctrl+M")));
- code->setStatusTip(tr("Code (Ctrl+M). Select a whole paragraphs to format text as code."));
- code->setIcon(QIcon(":/resource/pic/edit_code.svg"));
- code->setObjectName("editor_tb_code");
+  // Кнопка Code
+  code = new QToolButton(this);
+  code->setShortcut(QKeySequence(tr("Ctrl+M")));
+  code->setStatusTip(tr("Code (Ctrl+M). Select a whole paragraphs to format text as code."));
+  code->setIcon(QIcon(":/resource/pic/edit_code.svg"));
+  code->setObjectName("editor_tb_code");
 
- // Кнопка Clear
- clear = new QToolButton(this);
- clear->setShortcut(QKeySequence(tr("Ctrl+K")));
- clear->setStatusTip(tr("Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case."));
- clear->setIcon(QIcon(":/resource/pic/edit_clear.svg"));
- clear->setObjectName("editor_tb_clear");
-
-
- // Кнопка нумерованного списка
- numericList = new QToolButton(this);
- numericList->setStatusTip(tr("Numeric list"));
- numericList->setIcon(QIcon(":/resource/pic/edit_listnumeric.svg"));
- numericList->setObjectName("editor_tb_numericlist");
-
- // Кнопка списка с точками
- dotList = new QToolButton(this);
- dotList->setStatusTip(tr("Marked list"));
- dotList->setIcon(QIcon(":/resource/pic/edit_listdot.svg"));
- dotList->setObjectName("editor_tb_dotlist");
-
- 
- // Кнопка увеличения отступа
- indentPlus = new QToolButton(this);
- indentPlus->setStatusTip(tr("Increase indent"));
- indentPlus->setIcon(QIcon(":/resource/pic/edit_indentplus.svg"));
- indentPlus->setObjectName("editor_tb_indentplus");
-
- // Кнопка уменьшения отступа
- indentMinus = new QToolButton(this);
- indentMinus->setStatusTip(tr("Decrease indent"));
- indentMinus->setIcon(QIcon(":/resource/pic/edit_indentminus.svg"));
- indentMinus->setObjectName("editor_tb_indentminus");
-
- 
- // Кнопка выравнивания по левому краю
- alignLeft = new QToolButton(this);
- alignLeft->setShortcut(QKeySequence(tr("Ctrl+L")));
- alignLeft->setStatusTip(tr("Align left (Ctrl+L)"));
- alignLeft->setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
- alignLeft->setObjectName("editor_tb_alignleft");
- 
- // Кнопка выравнивания по центру
- alignCenter = new QToolButton(this);
- alignCenter->setShortcut(QKeySequence(tr("Ctrl+E")));
- alignCenter->setStatusTip(tr("Align center (Ctrl+E)"));
- alignCenter->setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
- alignCenter->setObjectName("editor_tb_aligncenter");
-
- // Кнопка выравнивания по правому краю
- alignRight = new QToolButton(this);
- alignRight->setShortcut(QKeySequence(tr("Ctrl+R")));
- alignRight->setStatusTip(tr("Align right (Ctrl+R)"));
- alignRight->setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
- alignRight->setObjectName("editor_tb_alignright");
-
- // Кнопка выравнивания по ширине
- alignWidth = new QToolButton(this);
- alignWidth->setShortcut(QKeySequence(tr("Ctrl+J")));
- alignWidth->setStatusTip(tr("Align width (Ctrl+J)"));
- alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
- alignWidth->setObjectName("editor_tb_alignwidth");
-
- 
- // Выбор шрифта
- fontSelect = new QFontComboBox(this);
- fontSelect->setObjectName("editor_tb_fontselect");
-
- // Пустой пункт в конце списка шрифтов, используется для обозначения что в 
- // выделенном тексте несколько шрифтов
- fontSelect->addItem(" ");
- fontSelect->setItemIcon((fontSelect->count())-1,QIcon(":/resource/pic/edit_font_many.svg"));
+  // Кнопка Clear
+  clear = new QToolButton(this);
+  clear->setShortcut(QKeySequence(tr("Ctrl+K")));
+  clear->setStatusTip(tr("Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case."));
+  clear->setIcon(QIcon(":/resource/pic/edit_clear.svg"));
+  clear->setObjectName("editor_tb_clear");
 
 
- // Выбор размера шрифта
- fontSize=new MtComboBox(this);
- for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++) 
-  fontSize->addItem(QString("%1").arg(i),i);
- fontSize->setCurrentIndex(fontSize->findData(10));
- fontSize->setMinimumContentsLength(3);
- fontSize->setEditable(true);
- QValidator *fontsizeValidator = new QIntValidator(MINIMUM_ALLOWED_FONT_SIZE, MAXIMUM_ALLOWED_FONT_SIZE, this);
- fontSize->setValidator(fontsizeValidator);
- fontSize->setObjectName("editor_tb_fontsize");
+  // Кнопка нумерованного списка
+  numericList = new QToolButton(this);
+  numericList->setStatusTip(tr("Numeric list"));
+  numericList->setIcon(QIcon(":/resource/pic/edit_listnumeric.svg"));
+  numericList->setObjectName("editor_tb_numericlist");
 
- // Пустой пункт в конце списка размеров шрифтов, используется для обозначения
- // что в выделенном тексте несколько размеров
- fontSize->addItem(" ",0);
+  // Кнопка списка с точками
+  dotList = new QToolButton(this);
+  dotList->setStatusTip(tr("Marked list"));
+  dotList->setIcon(QIcon(":/resource/pic/edit_listdot.svg"));
+  dotList->setObjectName("editor_tb_dotlist");
 
 
- // Кнопка выбора цвета шрифта
- fontColor=new QToolButton(this);
- // fontColor->setShortcut(QKeySequence(tr("Ctrl+F")));
- fontColor->setStatusTip(tr("Text color"));
- fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
- fontColor->setObjectName("editor_tb_fontcolor");
+  // Кнопка увеличения отступа
+  indentPlus = new QToolButton(this);
+  indentPlus->setStatusTip(tr("Increase indent"));
+  indentPlus->setIcon(QIcon(":/resource/pic/edit_indentplus.svg"));
+  indentPlus->setObjectName("editor_tb_indentplus");
+
+  // Кнопка уменьшения отступа
+  indentMinus = new QToolButton(this);
+  indentMinus->setStatusTip(tr("Decrease indent"));
+  indentMinus->setIcon(QIcon(":/resource/pic/edit_indentminus.svg"));
+  indentMinus->setObjectName("editor_tb_indentminus");
 
 
- // Кнопка вызова виджета поиска текста
- findText=new QToolButton(this);
- findText->setShortcut(QKeySequence(tr("Ctrl+F")));
- findText->setStatusTip(tr("Find text (Ctrl+F)"));
- findText->setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
- findText->setObjectName("editor_tb_findtext");
+  // Кнопка выравнивания по левому краю
+  alignLeft = new QToolButton(this);
+  alignLeft->setShortcut(QKeySequence(tr("Ctrl+L")));
+  alignLeft->setStatusTip(tr("Align left (Ctrl+L)"));
+  alignLeft->setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
+  alignLeft->setObjectName("editor_tb_alignleft");
 
- // Кнопка вызова виджета конфигурирования редактора
- settings = new QToolButton(this);
- settings->setStatusTip(tr("Editor settings"));
- settings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
- settings->setObjectName("editor_tb_settings");
+  // Кнопка выравнивания по центру
+  alignCenter = new QToolButton(this);
+  alignCenter->setShortcut(QKeySequence(tr("Ctrl+E")));
+  alignCenter->setStatusTip(tr("Align center (Ctrl+E)"));
+  alignCenter->setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
+  alignCenter->setObjectName("editor_tb_aligncenter");
 
- // Кнопка просмотра HTML кода
- showHtml = new QToolButton(this);
- showHtml->setStatusTip(tr("Edit HTML code"));
- showHtml->setIcon(QIcon(":/resource/pic/edit_showhtml.svg"));
- showHtml->setObjectName("editor_tb_showhtml");
+  // Кнопка выравнивания по правому краю
+  alignRight = new QToolButton(this);
+  alignRight->setShortcut(QKeySequence(tr("Ctrl+R")));
+  alignRight->setStatusTip(tr("Align right (Ctrl+R)"));
+  alignRight->setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
+  alignRight->setObjectName("editor_tb_alignright");
 
- // Кнопка включения отображения символов фарматирования
- showFormatting = new QToolButton(this);
- showFormatting->setStatusTip(tr("Show special chars"));
- showFormatting->setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
- showFormatting->setObjectName("editor_tb_showformatting");
-
- // Кнопка добавления новой таблицы
- createTable = new QToolButton(this);
- createTable->setStatusTip(tr("Create a new table"));
- createTable->setIcon(QIcon(":/resource/pic/edit_createtable.svg"));
- createTable->setObjectName("editor_tb_createtable");
-
- tableRemoveRow = new QToolButton(this);
- tableRemoveRow->setStatusTip(tr("Remove row(s)"));
- tableRemoveRow->setIcon(QIcon(":/resource/pic/edit_table_remove_row.svg"));
- tableRemoveRow->setObjectName("editor_tb_table_remove_row");
-
- tableRemoveCol = new QToolButton(this);
- tableRemoveCol->setStatusTip(tr("Remove column(s)"));
- tableRemoveCol->setIcon(QIcon(":/resource/pic/edit_table_remove_col.svg"));
- tableRemoveCol->setObjectName("editor_tb_table_remove_col");
-
- tableAddRow = new QToolButton(this);
- tableAddRow->setStatusTip(tr("Add row(s)"));
- tableAddRow->setIcon(QIcon(":/resource/pic/edit_table_add_row.svg"));
- tableAddRow->setObjectName("editor_tb_table_add_row");
-
- tableAddCol = new QToolButton(this);
- tableAddCol->setStatusTip(tr("Add column(s)"));
- tableAddCol->setIcon(QIcon(":/resource/pic/edit_table_add_col.svg"));
- tableAddCol->setObjectName("editor_tb_table_add_col");
-
- tableMergeCells = new QToolButton(this);
- tableMergeCells->setStatusTip(tr("Merge cells"));
- tableMergeCells->setIcon(QIcon(":/resource/pic/edit_table_merge_cells.svg"));
- tableMergeCells->setObjectName("editor_tb_table_merge_cells");
-
- tableSplitCell = new QToolButton(this);
- tableSplitCell->setStatusTip(tr("Split cell"));
- tableSplitCell->setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
- tableSplitCell->setObjectName("editor_tb_table_split_cell");
-
- insertImageFromFile = new QToolButton(this);
- insertImageFromFile->setStatusTip(tr("Insert image from file / edit image properties of selected image"));
- insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
- insertImageFromFile->setObjectName("editor_tb_insert_image_from_file");
-
- expandEditArea = new QToolButton(this);
- expandEditArea->setStatusTip(tr("Expand edit area"));
- expandEditArea->setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
- expandEditArea->setObjectName("editor_tb_expand_edit_area");
-
- expandToolsLines = new QToolButton(this);
- expandToolsLines->setStatusTip(tr("Expand tools"));
- expandToolsLines->setIcon(QIcon(":/resource/pic/edit_expand_tools_lines.svg"));
- expandToolsLines->setObjectName("editor_tb_expand_tools_lines");
-
- save = new QToolButton(this);
- save->setStatusTip(tr("Save (Ctrl+S)"));
- save->setShortcut(QKeySequence(tr("Ctrl+S")));
- save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
- save->setObjectName("editor_tb_save");
+  // Кнопка выравнивания по ширине
+  alignWidth = new QToolButton(this);
+  alignWidth->setShortcut(QKeySequence(tr("Ctrl+J")));
+  alignWidth->setStatusTip(tr("Align width (Ctrl+J)"));
+  alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
+  alignWidth->setObjectName("editor_tb_alignwidth");
 
 
- // Кнопка "назад", используется в мобильном интерфейсе
- back = new QToolButton(this);
- back->setStatusTip(tr("Back"));
- back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
- back->setObjectName("editor_tb_back");
+  // Выбор шрифта
+  fontSelect = new QFontComboBox(this);
+  fontSelect->setObjectName("editor_tb_fontselect");
 
- // Кнопка "поиск по базе", используется в мобильном интерфейсе
- findInBase = new QToolButton(this);
- findInBase->setStatusTip(tr("Find in base"));
- findInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
- findInBase->setObjectName("editor_tb_find_in_base");
+  // Пустой пункт в конце списка шрифтов, используется для обозначения что в
+  // выделенном тексте несколько шрифтов
+  fontSelect->addItem(" ");
+  fontSelect->setItemIcon((fontSelect->count())-1,QIcon(":/resource/pic/edit_font_many.svg"));
 
 
- // Кнопка "показать текст" для просмотра текста в отдельном окне
- showText = new QToolButton(this);
- showText->setStatusTip(tr("Show text in detached window"));
- showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
- showText->setObjectName("editor_tb_show_text");
+  // Выбор размера шрифта
+  fontSize=new MtComboBox(this);
+  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++)
+    fontSize->addItem(QString("%1").arg(i),i);
+  fontSize->setCurrentIndex(fontSize->findData(10));
+  fontSize->setMinimumContentsLength(3);
+  fontSize->setEditable(true);
+  QValidator *fontsizeValidator = new QIntValidator(MINIMUM_ALLOWED_FONT_SIZE, MAXIMUM_ALLOWED_FONT_SIZE, this);
+  fontSize->setValidator(fontsizeValidator);
+  fontSize->setObjectName("editor_tb_fontsize");
+
+  // Пустой пункт в конце списка размеров шрифтов, используется для обозначения
+  // что в выделенном тексте несколько размеров
+  fontSize->addItem(" ",0);
 
 
- // Виджет настройки отступов
- indentSlider=new IndentSlider(this->width(), 16, this);
- indentSlider->setObjectName("editor_tb_indentslider");
+  // Кнопка выбора цвета шрифта
+  fontColor=new QToolButton(this);
+  // fontColor->setShortcut(QKeySequence(tr("Ctrl+F")));
+  fontColor->setStatusTip(tr("Text color"));
+  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
+  fontColor->setObjectName("editor_tb_fontcolor");
 
 
- // Все только что созданные элементы скрываются
- hide_all_tools_elements();
+  // Кнопка вызова виджета поиска текста
+  findText=new QToolButton(this);
+  findText->setShortcut(QKeySequence(tr("Ctrl+F")));
+  findText->setStatusTip(tr("Find text (Ctrl+F)"));
+  findText->setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
+  findText->setObjectName("editor_tb_findtext");
+
+  // Кнопка вызова виджета конфигурирования редактора
+  settings = new QToolButton(this);
+  settings->setStatusTip(tr("Editor settings"));
+  settings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
+  settings->setObjectName("editor_tb_settings");
+
+  // Кнопка просмотра HTML кода
+  showHtml = new QToolButton(this);
+  showHtml->setStatusTip(tr("Edit HTML code"));
+  showHtml->setIcon(QIcon(":/resource/pic/edit_showhtml.svg"));
+  showHtml->setObjectName("editor_tb_showhtml");
+
+  // Кнопка включения отображения символов фарматирования
+  showFormatting = new QToolButton(this);
+  showFormatting->setStatusTip(tr("Show special chars"));
+  showFormatting->setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
+  showFormatting->setObjectName("editor_tb_showformatting");
+
+  // Кнопка добавления новой таблицы
+  createTable = new QToolButton(this);
+  createTable->setStatusTip(tr("Create a new table"));
+  createTable->setIcon(QIcon(":/resource/pic/edit_createtable.svg"));
+  createTable->setObjectName("editor_tb_createtable");
+
+  tableRemoveRow = new QToolButton(this);
+  tableRemoveRow->setStatusTip(tr("Remove row(s)"));
+  tableRemoveRow->setIcon(QIcon(":/resource/pic/edit_table_remove_row.svg"));
+  tableRemoveRow->setObjectName("editor_tb_table_remove_row");
+
+  tableRemoveCol = new QToolButton(this);
+  tableRemoveCol->setStatusTip(tr("Remove column(s)"));
+  tableRemoveCol->setIcon(QIcon(":/resource/pic/edit_table_remove_col.svg"));
+  tableRemoveCol->setObjectName("editor_tb_table_remove_col");
+
+  tableAddRow = new QToolButton(this);
+  tableAddRow->setStatusTip(tr("Add row(s)"));
+  tableAddRow->setIcon(QIcon(":/resource/pic/edit_table_add_row.svg"));
+  tableAddRow->setObjectName("editor_tb_table_add_row");
+
+  tableAddCol = new QToolButton(this);
+  tableAddCol->setStatusTip(tr("Add column(s)"));
+  tableAddCol->setIcon(QIcon(":/resource/pic/edit_table_add_col.svg"));
+  tableAddCol->setObjectName("editor_tb_table_add_col");
+
+  tableMergeCells = new QToolButton(this);
+  tableMergeCells->setStatusTip(tr("Merge cells"));
+  tableMergeCells->setIcon(QIcon(":/resource/pic/edit_table_merge_cells.svg"));
+  tableMergeCells->setObjectName("editor_tb_table_merge_cells");
+
+  tableSplitCell = new QToolButton(this);
+  tableSplitCell->setStatusTip(tr("Split cell"));
+  tableSplitCell->setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
+  tableSplitCell->setObjectName("editor_tb_table_split_cell");
+
+  insertImageFromFile = new QToolButton(this);
+  insertImageFromFile->setStatusTip(tr("Insert image from file / edit image properties of selected image"));
+  insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
+  insertImageFromFile->setObjectName("editor_tb_insert_image_from_file");
+
+  expandEditArea = new QToolButton(this);
+  expandEditArea->setStatusTip(tr("Expand edit area"));
+  expandEditArea->setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
+  expandEditArea->setObjectName("editor_tb_expand_edit_area");
+
+  expandToolsLines = new QToolButton(this);
+  expandToolsLines->setStatusTip(tr("Expand tools"));
+  expandToolsLines->setIcon(QIcon(":/resource/pic/edit_expand_tools_lines.svg"));
+  expandToolsLines->setObjectName("editor_tb_expand_tools_lines");
+
+  save = new QToolButton(this);
+  save->setStatusTip(tr("Save (Ctrl+S)"));
+  save->setShortcut(QKeySequence(tr("Ctrl+S")));
+  save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
+  save->setObjectName("editor_tb_save");
+
+
+  // Кнопка "назад", используется в мобильном интерфейсе
+  back = new QToolButton(this);
+  back->setStatusTip(tr("Back"));
+  back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
+  back->setObjectName("editor_tb_back");
+
+  // Кнопка "поиск по базе", используется в мобильном интерфейсе
+  findInBase = new QToolButton(this);
+  findInBase->setStatusTip(tr("Find in base"));
+  findInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+  findInBase->setObjectName("editor_tb_find_in_base");
+
+
+  // Кнопка "показать текст" для просмотра текста в отдельном окне
+  showText = new QToolButton(this);
+  showText->setStatusTip(tr("Show text in detached window"));
+  showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
+  showText->setObjectName("editor_tb_show_text");
+
+  // Кнопка переключения на аттачи
+  toAttach = new QToolButton(this);
+  toAttach->setStatusTip(tr("Show attach files"));
+  toAttach->setIcon(QIcon(":/resource/pic/attach.svg"));
+  toAttach->setObjectName("editor_tb_attach");
+
+  // Виджет настройки отступов
+  indentSlider=new IndentSlider(this->width(), 16, this);
+  indentSlider->setObjectName("editor_tb_indentslider");
+
+
+  // Все только что созданные элементы скрываются
+  hide_all_tools_elements();
 }
 
 
@@ -2798,6 +2804,12 @@ void Editor::on_back_clicked(void)
 }
 
 
+void Editor::on_to_attach_clicked(void)
+{
+  attach_callback_func();
+}
+
+
 void Editor::on_find_in_base_clicked(void)
 {
   emit wyeditFindInBaseClicked();
@@ -2837,15 +2849,21 @@ void Editor::set_save_callback(void (*func)(QObject *editor, QString saveString)
 }
 
 
+void Editor::set_load_callback(void (*func)(QObject *editor, QString &String))
+{
+  load_callback_func=func;
+}
+
+
 void Editor::set_back_callback(void (*func)(void))
 {
   back_callback_func=func;
 }
 
 
-void Editor::set_load_callback(void (*func)(QObject *editor, QString &String))
+void Editor::set_attach_callback(void (*func)(void))
 {
-  load_callback_func=func;
+  attach_callback_func=func;
 }
 
 

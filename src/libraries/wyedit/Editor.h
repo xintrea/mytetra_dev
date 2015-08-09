@@ -123,7 +123,7 @@ public:
  QToolButton   *settings;
  
  QFontComboBox *fontSelect;
- MtComboBox     *fontSize;
+ MtComboBox    *fontSize;
  QToolButton   *fontColor;
  
  QToolButton   *showHtml;
@@ -151,6 +151,7 @@ public:
 
  QToolButton   *showText;
 
+ QToolButton   *toAttach;
 
  IndentSlider  *indentSlider;
 
@@ -202,6 +203,9 @@ public:
 
  // Метод установки функции переключения на предыдущее окно (для мобильного интерфейса)
  void set_back_callback(void (*func)(void));
+
+ // Метод установки функции нажатия на кнопку Attach
+ void set_attach_callback(void (*func)(void));
 
  // Методы установки и чтения произвольных нестандартных данных 
  // которые может хранить объект редактора
@@ -301,6 +305,7 @@ private slots:
  void on_back_clicked(void);
  void on_find_in_base_clicked(void);
  void on_show_text_clicked(void);
+ void on_to_attach_clicked(void);
 
  void on_cursor_position_changed(void); // Слот, контролирущий перемещение курсора
  void on_selection_changed(void);
@@ -404,6 +409,9 @@ private:
 
  // Указатель на функцию переключения на предыдущее окно (для мобильного интерфейса)
  void (*back_callback_func)(void);
+
+ // Указатель на функцию открытия присоединенных файлов
+ void (*attach_callback_func)(void);
 
  // Поля для хранения произвольных данных
  // Обычно используются для запоминания нестандартного набора данных

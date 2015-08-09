@@ -21,26 +21,29 @@ extern AppConfig mytetraConfig;
 
 MetaEditor::MetaEditor(void) : Editor()
 {
- Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
+  Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
 
- Editor::initEnableAssembly(false);
- Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
- Editor::initEnableRandomSeed(false);
+  Editor::initEnableAssembly(false);
+  Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
+  Editor::initEnableRandomSeed(false);
 
- if(mytetraConfig.getInterfaceMode()=="desktop")
-   Editor::init(Editor::WYEDIT_DESKTOP_MODE);
- else if(mytetraConfig.getInterfaceMode()=="mobile")
-   Editor::init(Editor::WYEDIT_MOBILE_MODE);
- else
-   critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+    Editor::init(Editor::WYEDIT_DESKTOP_MODE);
+  else if(mytetraConfig.getInterfaceMode()=="mobile")
+    Editor::init(Editor::WYEDIT_MOBILE_MODE);
+  else
+    critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
- setupLabels();
- setupUI();
- metaAssembly();
+  setupLabels();
+  setupUI();
+  metaAssembly();
 
- setupSignals();
+  setupSignals();
 
- update_indentline_geometry();
+  // В редакторе устанавливается функция обратного вызова на кнопку Attach
+  set_attach_callback( toAttachCallback );
+
+  update_indentline_geometry();
 }
 
 
@@ -52,8 +55,8 @@ MetaEditor::~MetaEditor(void)
 
 void MetaEditor::setupSignals(void)
 {
- connect(this, SIGNAL(setFindTextSignal(QString)),
-         globalParameters.getFindScreen(), SLOT(setFindText(QString)) );
+  connect(this, SIGNAL(setFindTextSignal(QString)),
+          globalParameters.getFindScreen(), SLOT(setFindText(QString)) );
 
 }
 
@@ -132,43 +135,64 @@ void MetaEditor::setupUI(void)
 
 void MetaEditor::metaAssembly(void)
 {
- metaEditorAssemblyLayout=new QGridLayout(this);
- metaEditorAssemblyLayout->setObjectName("metaeditor_assembly_layout");
+  // Сборка виджета редактирования текста (основной виджет)
+  editorMainScreen=new QWidget(this);
+  editorMainLayer=new QGridLayout(editorMainScreen);
 
- metaEditorAssemblyLayout->addLayout(textformatButtonsLayout, 0,0, 1,2);
- metaEditorAssemblyLayout->addWidget(treePath,                1,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordName,              2,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordAuthor,            3,0, 1,2);
+  editorMainLayer->addLayout(textformatButtonsLayout, 0,0, 1,2);
+  editorMainLayer->addWidget(treePath,                1,0, 1,2);
+  editorMainLayer->addWidget(recordName,              2,0, 1,2);
+  editorMainLayer->addWidget(recordAuthor,            3,0, 1,2);
+  editorMainLayer->addWidget(textArea,                4,0, 1,2);
 
- metaEditorAssemblyLayout->addWidget(textArea,                4,0, 1,2);
- metaEditorAssemblyLayout->addWidget(attachTableScreen,       5,0, 1,2);
+  editorMainLayer->addWidget(labelUrl,                5,0);
+  editorMainLayer->addWidget(recordUrl,               5,1);
 
- /*
- editorAndFileTableSplitter=new QSplitter(Qt::Vertical, this);
- editorAndFileTableSplitter->addWidget(textArea); // Редактор
- editorAndFileTableSplitter->addWidget(attachTableScreen); // Прикрепляемые файлы
- editorAndFileTableSplitter->setCollapsible(0,false); // Редактор не может смыкаться
- editorAndFileTableSplitter->setCollapsible(1,false); // Список файлов не может смыкаться
+  editorMainLayer->addWidget(labelTags,               6,0);
+  editorMainLayer->addWidget(recordTagsScrollArea,    6,1); // Было addLayout(recordTagsLayout ...)
 
- metaEditorAssemblyLayout->addWidget(editorAndFileTableSplitter, 4,0, 1,2);
- */
+  editorMainLayer->setColumnStretch(1,1);
 
- metaEditorAssemblyLayout->addWidget(labelUrl,                6,0);
- metaEditorAssemblyLayout->addWidget(recordUrl,               6,1);
+  editorMainScreen->setLayout(editorMainLayer);
 
- metaEditorAssemblyLayout->addWidget(labelTags,               7,0);
- metaEditorAssemblyLayout->addWidget(recordTagsScrollArea,    7,1); // Было addLayout(recordTagsLayout ...)
 
- metaEditorAssemblyLayout->setColumnStretch(1,1);
+  // Сборка виджетов в один слой
+  metaEditorJoinLayer=new QVBoxLayout(this);
+  metaEditorJoinLayer->addWidget(editorMainScreen);
+  metaEditorJoinLayer->addWidget(attachTableScreen);
 
- // Полученый виджет устанавливается для текущего окна
- setLayout(metaEditorAssemblyLayout);
+  this->setLayout(metaEditorJoinLayer);
 
- // Границы убираются, так как данный объект будет использоваться
- // как виджет
- QLayout *lt;
- lt=layout();
- lt->setContentsMargins(0,2,0,0);
+
+  // Границы убираются, так как данный объект будет использоваться как виджет
+  QLayout *lt;
+  lt=layout();
+  lt->setContentsMargins(0,2,0,0);
+
+  // По-умолчанию отображается слой редатирования
+  switchToEditorLayout();
+}
+
+
+void MetaEditor::switchToEditorLayout(void)
+{
+  editorMainScreen->show();
+  attachTableScreen->hide();
+}
+
+
+void MetaEditor::switchToAttachLayout(void)
+{
+  editorMainScreen->hide();
+  attachTableScreen->show();
+}
+
+
+// Статическая функция, обрабатывает клик в редакторе по кнопке переключения на список прикрепляемых файлов
+void MetaEditor::toAttachCallback(void)
+{
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  edView->switchToAttachLayout();
 }
 
 
