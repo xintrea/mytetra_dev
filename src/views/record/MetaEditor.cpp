@@ -153,6 +153,8 @@ void MetaEditor::metaAssembly(void)
 
   editorMainLayer->setColumnStretch(1,1);
 
+  editorMainLayer->setContentsMargins(0,0,0,0);
+
   editorMainScreen->setLayout(editorMainLayer);
 
 

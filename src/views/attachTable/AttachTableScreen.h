@@ -43,6 +43,7 @@ protected:
   QAction *actionAttachFile;
   QAction *actionEditFileName;
   QAction *actionDeleteFile;
+  QAction *actionSwitchToEditor;
 
 };
 

@@ -336,6 +336,8 @@ void EditorConfig::update_version_process(void)
   update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
  if(fromVersion<=6)
   update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
+ if(fromVersion<=7)
+  update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
 }
 
 
@@ -485,6 +487,25 @@ QStringList EditorConfig::get_parameter_table_7(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_8(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 6
+ table << get_parameter_table_7(false);
+
+ // В параметр tools_line_1 добавляется "attach"
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -535,6 +556,12 @@ QString EditorConfig::update_version_change_value(int versionFrom,
   {
     if(!result.contains("show_text"))
       result=result+",show_text";
+  }
+
+  if(versionFrom==7 && versionTo==8 && name=="tools_line_1")
+  {
+    if(!result.contains("attach"))
+      result=result+",attach";
   }
 
   return result;

@@ -40,14 +40,14 @@ public:
 
  static void toAttachCallback(void);
 
+ void switchToEditorLayout(void);
+ void switchToAttachLayout(void);
+
 private:
  void setupLabels(void);
  void setupUI(void);
  void metaAssembly(void);
  void setupSignals(void);
-
- void switchToEditorLayout(void);
- void switchToAttachLayout(void);
 
  QLabel *treePath; // Надпись Path (только для мобильного интерфейса)
 

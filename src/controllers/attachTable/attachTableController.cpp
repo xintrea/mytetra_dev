@@ -7,6 +7,7 @@
 #include "models/attachTable/AttachTableModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
+#include "views/record/MetaEditor.h"
 
 
 extern GlobalParameters globalParameters;
@@ -43,3 +44,8 @@ AttachTableView *AttachTableController::getView(void)
 }
 
 
+void AttachTableController::onSwitchToEditor(void)
+{
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  edView->switchToEditorLayout();
+}

@@ -18,6 +18,11 @@ public:
 
   AttachTableView *getView(void);
 
+public slots:
+
+  void onSwitchToEditor(void);
+
+
 protected:
   AttachTableView *view;
   AttachTableModel *model;
