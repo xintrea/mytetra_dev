@@ -28,7 +28,6 @@ public:
 
  QString getField(QString name);
  QString getImagesDirectory(void);
- void deleteImagesDirectory(void);
 
 private slots:
 

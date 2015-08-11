@@ -4,14 +4,14 @@
 #include "main.h"
 
 #include "Attach.h"
+#include "AttachTableData.h"
 
-
-Attach::Attach(int iType, Record *iParent)
+Attach::Attach(int iType, AttachTableData *iParentTable)
 {
   if(iType!=typeFile && iType!=typeLink)
     critical_error("Incorrect attach type in Attach constructor: "+QString::number(iType));
 
-  parent=iParent;
+  parentTable=iParentTable;
   type=iType;
 }
 

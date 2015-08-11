@@ -9,7 +9,7 @@ AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
 {
   // Инициализируется контроллер списка файлов
   attachTableController=new AttachTableController(this);
-  attachTableController->setObjectName("recordTableController");
+  attachTableController->setObjectName("attachTableController");
 
   setupActions();
   setupUI();

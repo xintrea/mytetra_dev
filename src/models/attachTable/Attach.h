@@ -3,12 +3,12 @@
 
 #include <QString>
 
-class Record;
+class AttachTableData;
 
 class Attach
 {
 public:
-  Attach(int iType, Record *iParent);
+  Attach(int iType, AttachTableData *iParentTable);
   virtual ~Attach();
 
   // Возможные типы аттача - файл или линк на файл
@@ -29,7 +29,7 @@ public:
 
 protected:
 
-  Record *parent;
+  AttachTableData *parentTable;
   int     type; // Тип аттача (файл или линк на файл)
 
   QString id; // Идентификатор (служит так же техническим именем файла в базе, без расширения .bin)

@@ -251,6 +251,7 @@ QString create_temp_directory(void)
 }
 
 
+// Удаление директории вместе со всеми поддиректориями и файлами
 bool remove_directory(const QString &dirName)
 {
   bool result = true;

@@ -246,6 +246,16 @@ Record RecordTableData::getRecordFat(int pos)
 }
 
 
+Record *RecordTableData::getRecord(int pos)
+{
+  // Если индекс недопустимый, возвращается пустая запись
+  if(pos<0 || pos>=size())
+    return NULL;
+
+  return &(tableData[pos]);
+}
+
+
 // Инициализация таблицы данных на основе переданного DOM-элемента
 void RecordTableData::init(TreeItem *item, QDomElement domModel)
 {

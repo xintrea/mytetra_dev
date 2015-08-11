@@ -20,6 +20,10 @@ public:
 
 public slots:
 
+  void onAttachFile(void);
+  void onEditFileName(void);
+  void onDeleteFile(void);
+
   void onSwitchToEditor(void);
 
 

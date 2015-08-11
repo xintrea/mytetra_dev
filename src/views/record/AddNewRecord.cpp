@@ -139,13 +139,6 @@ QString AddNewRecord::getImagesDirectory(void)
 }
 
 
-void AddNewRecord::deleteImagesDirectory(void)
-{
- if(imagesDirName.length())
-  remove_directory(imagesDirName);
-}
-
-
 // Получение полей, заполненных в окне добавления записи
 QString AddNewRecord::getField(QString name)
 {

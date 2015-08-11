@@ -42,6 +42,7 @@ public:
     // Получение образа записи
     Record getRecordLite(int pos);
     Record getRecordFat(int pos);
+    Record *getRecord(int pos);
 
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);

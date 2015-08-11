@@ -146,7 +146,6 @@ HEADERS = src/main.h \
     src/libraries/FixedParameters.h \
     src/libraries/WindowSwitcher.h \
     src/libraries/wyedit/EditorShowText.h \
-    src/controllers/recordTable/recordTableController.h \
     src/views/recordTable/RecordTablePrint.h \
     src/models/recordTable/Record.h \
     src/models/attachTable/Attach.h \
@@ -154,7 +153,8 @@ HEADERS = src/main.h \
     src/models/attachTable/AttachTableModel.h \
     src/views/attachTable/AttachTableView.h \
     src/views/attachTable/AttachTableScreen.h \
-    src/controllers/attachTable/attachTableController.h
+    src/controllers/attachTable/AttachTableController.h \
+    src/controllers/recordTable/RecordTableController.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -236,7 +236,6 @@ SOURCES = src/main.cpp \
     src/libraries/FixedParameters.cpp \
     src/libraries/WindowSwitcher.cpp \
     src/libraries/wyedit/EditorShowText.cpp \
-    src/controllers/recordTable/recordTableController.cpp \
     src/views/recordTable/RecordTablePrint.cpp \
     src/models/recordTable/Record.cpp \
     src/models/attachTable/Attach.cpp \
@@ -244,7 +243,8 @@ SOURCES = src/main.cpp \
     src/models/attachTable/AttachTableModel.cpp \
     src/views/attachTable/AttachTableView.cpp \
     src/views/attachTable/AttachTableScreen.cpp \
-    src/controllers/attachTable/attachTableController.cpp
+    src/controllers/recordTable/RecordTableController.cpp \
+    src/controllers/attachTable/AttachTableController.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

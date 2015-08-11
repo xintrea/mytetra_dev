@@ -2584,7 +2584,8 @@ void Editor::on_insert_image_from_file_clicked(void)
    QStringList files=imageSelectDialog.selectedFiles();
 
    // Если ни один файл не выбран
-   if(files.size()==0) return;
+   if(files.size()==0)
+     return;
 
    // Перебираются файлы выбранных картинок
    for(int i=0; i<files.size(); ++i)

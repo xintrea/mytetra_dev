@@ -2,7 +2,7 @@
 #include <QHeaderView>
 
 #include "main.h"
-#include "recordTableController.h"
+#include "RecordTableController.h"
 #include "views/record/MetaEditor.h"
 #include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
