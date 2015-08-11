@@ -7,12 +7,15 @@
 
 class Record;
 class Attach;
+class QDomElement;
 
 class AttachTableData
 {
 public:
-  AttachTableData();
+  AttachTableData(Record *iRecord);
   virtual ~AttachTableData();
+
+  void setupDataFromDom(QDomElement iDomElement);
 
   void setParentRecord(Record *iRecord);
 
@@ -21,6 +24,8 @@ public:
   QString getShortFileName(int row);
   QString getFullFileName(int row);
   qint64 getFileSize(int row);
+
+  print(void);
 
 protected:
 

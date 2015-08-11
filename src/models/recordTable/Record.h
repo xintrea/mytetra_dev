@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMap>
 #include <QByteArray>
+#include <QDomElement>
 
 
 // Класс одной записи в таблице записей
@@ -12,11 +13,15 @@
 // В полях записей с crypt=1 хранятся зашифрованные данные
 // Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
+class AttachTableData;
+
 class Record
 {
 public:
   Record();
   virtual ~Record();
+
+  setupDataFromDom(QDomElement iDomElement);
 
   QString getText() const;
   QString getTextDirect();
@@ -34,13 +39,12 @@ public:
 
   QMap<QString, QString> getAttachList() const;
   void setAttachList(QMap<QString, QString> list);
-  void insertToAttachList(QString fileId, QString fileName);
 
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
-  QMap<QString, QByteArray> getAttachFiles() const;
-  void setAttachFiles(QMap<QString, QByteArray> iAttachFiles);
+  AttachTableData *getAttachFiles() const;
+  void setAttachFiles(AttachTableData *iAttachTable);
 
   bool isNull() const;
   bool isLite() const;
@@ -65,12 +69,13 @@ protected:
 
   // Легкие свойства
   QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов) ИмяАтрибута - Значение
-  QMap<QString, QString> attachList; // Перечень прикрепляемых файлов id - Аттач
 
   // Полновесные свойства
   QString text; // Содержимое файла с текстом записи
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
-  QMap<QString, QByteArray> attachFiles; // Содержимое прикрепляемых файлов (используется при переносе через буфер обмена, при DragAndDrop)
+
+  // Таблица прикрепляемых файлов
+  AttachTableData *attachTable;
 
   void saveTextDirect(QString iText);
 

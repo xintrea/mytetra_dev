@@ -141,22 +141,22 @@ void KnowTreeModel::setupModelData(QDomDocument *dommodel, TreeItem *parent)
 
 
 // Рекурсивный обход DOM дерева и извлечение из него узлов
-void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
+void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
 {
- TreeItem *prnt = parent;
+ TreeItem *parent = iParent;
 
  // У данного Dom-элемента ищется таблица конечных записей
- // и XML записи заполняются в Item таблицу конечных записей
- prnt->recordtableInit(n);
+ // и данные заполняются в Item-таблицу конечных записей
+ parent->recordtableInit(domElement);
 
  // Пробегаются все DOM элементы текущего уровня
  // и рекурсивно вызывается обработка подуровней
- while(!n.isNull())
+ while(!domElement.isNull())
  {
-  if(n.tagName()=="node")
+  if(domElement.tagName()=="node")
    {
     // Обнаруженый подузел прикрепляется к текущему элементу
-    prnt->insertChildren(prnt->childCount(), 1, 1);
+    parent->insertChildren(parent->childCount(), 1, 1);
 
     /*
     QString line1,line_name,line_id;
@@ -166,10 +166,10 @@ void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
     qDebug() << "Read node " << line1 << " " << line_id<< " " << line_name;
     */
 
-    // Определяются атрибуты узла
-    QDomNamedNodeMap attributeMap = n.attributes();
+    // Определяются атрибуты узла дерева разделов
+    QDomNamedNodeMap attributeMap = domElement.attributes();
 
-    // Перебираются атрибуты узла
+    // Перебираются атрибуты узла дерева разделов
     for(int i = 0; i<attributeMap.count(); ++i)
      {
       QDomNode attribute = attributeMap.item(i);
@@ -177,17 +177,17 @@ void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
       QString name=attribute.nodeName();
       QString value=attribute.nodeValue();
 
-      // В дерево данных устанавливаются считанные атрибуты
-      prnt->child(prnt->childCount()-1)->setFieldDirect(name ,value);
+      // В дерево разделов устанавливаются считанные атрибуты
+      parent->child(parent->childCount()-1)->setFieldDirect(name ,value);
      }
 
 
     // Вызов перебора оставшегося DOM дерева с прикреплением обнаруженных объектов
     // к только что созданному элементу
-    parseNodeElement(n.firstChildElement(), prnt->child(prnt->childCount()-1) );
+    parseNodeElement(domElement.firstChildElement(), parent->child(parent->childCount()-1) );
 
    }
-  n = n.nextSiblingElement();
+  domElement = domElement.nextSiblingElement();
  }
 
 }

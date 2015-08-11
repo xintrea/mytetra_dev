@@ -257,13 +257,13 @@ Record *RecordTableData::getRecord(int pos)
 
 
 // Инициализация таблицы данных на основе переданного DOM-элемента
-void RecordTableData::init(TreeItem *item, QDomElement domModel)
+void RecordTableData::init(TreeItem *item, QDomElement iDomElement)
 {
   // Создание таблицы
-  if(!domModel.isNull())
+  if(!iDomElement.isNull())
    {
-    QDomElement *dml=&domModel;
-    setupDataFromDom(dml);
+    QDomElement *domElement=&iDomElement;
+    setupDataFromDom(domElement);
    }
 
   // Запоминается ссылка на ветку, которой принадлежит данная таблица
@@ -292,46 +292,7 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
      {
       // Структура, куда будет помещена текущая запись
       Record currentRecordData;
-
-
-      // Получение списка всех атрибутов текущего элемента
-      QDomNamedNodeMap attList;
-      attList=currentRec.attributes();
-
-      // Перебор атрибутов в списке и добавление их в объект одной записи
-      int i;
-      for(i=0; i<attList.count(); i++)
-       {
-        QDomAttr attcurr=attList.item(i).toAttr();
-
-        QString name=attcurr.name();
-        QString value=attcurr.value();
-
-        currentRecordData.setFieldSource(name, value);
-
-        // Распечатка считанных данных в консоль
-        // qDebug() << "Read record attr " << name << value;
-       }
-
-      // Проверка, есть ли у записи таблица файлов
-      if(!currentRec.firstChildElement("files").isNull())
-      {
-        QDomElement currentFile=currentRec.firstChildElement("files").firstChildElement("file");
-
-        // Перебор тегов <file ...>
-        while(!currentFile.isNull())
-        {
-          if(currentFile.tagName()=="file")
-          {
-            QString id=currentFile.attribute("id"); // Идентификатор файла
-            QString name=currentFile.attribute("name"); // Имя файла
-            currentRecordData.insertToAttachList(id, name);
-          }
-
-          currentFile=currentFile.nextSiblingElement();
-        }
-
-      }
+      currentRecordData.setupDataFromDom(currentRec);
 
       // Текущая запись добавляется в таблицу конечных записей
       tableData << currentRecordData;

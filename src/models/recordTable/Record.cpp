@@ -1,5 +1,6 @@
 #include <QObject>
 #include <QMessageBox>
+#include <QDomElement>
 
 #include "main.h"
 #include "Record.h"
@@ -7,6 +8,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
+#include "models/attachTable/AttachTableData.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -16,12 +18,49 @@ extern GlobalParameters globalParameters;
 Record::Record()
 {
   liteFlag=true; // По-умолчанию объект легкий
+
+  attachTable=NULL;
 }
 
 
 Record::~Record()
 {
+  delete attachTable;
+}
 
+
+// На вход этой функции подается элемент <record>
+void setupDataFromDom(QDomElement iDomElement)
+{
+  // Получение списка всех атрибутов текущего элемента
+  QDomNamedNodeMap attList;
+  attList=iDomElement.attributes();
+
+  // Перебор атрибутов в списке и добавление их в запись
+  int i;
+  for(i=0; i<attList.count(); i++)
+  {
+    QDomAttr attcurr=attList.item(i).toAttr();
+
+    QString name=attcurr.name();
+    QString value=attcurr.value();
+
+    this->setFieldSource(name, value);
+
+    // Распечатка считанных данных в консоль
+    // qDebug() << "Read record attr " << name << value;
+  }
+
+
+  // Проверка, есть ли у переданного DOM-элемента таблица файлов
+  if(!iDomElement.firstChildElement("files").isNull())
+  {
+    // Создание объекта таблицы приаттаченных файлов
+    attachTable=new attachTable(this);
+
+    // Заполнение тыблицы приаттаченных файлов
+    attachTable->setupDataFromDom( iDomElement.firstChildElement("files") );
+  }
 }
 
 
@@ -250,23 +289,18 @@ QMap<QString, QString> Record::getFieldList() const
 }
 
 
-// todo: доделать метод
-QMap<QString, QString> Record::getAttachList() const
+AttachTableData *Record::getAttachTable() const
 {
-  return QMap<QString, QString>();
+  return attachTable;
 }
 
 
-// todo: доделать метод
-void Record::setAttachList(QMap<QString, QString> list)
+void Record::setAttachTable(AttachTableData *iAttachTable)
 {
-  Q_UNUSED(list);
-}
+  if(iAttachTable==NULL)
+    critical_error("Record::setAttachTable() : Can`t set null attach table. Set only real attach table.");
 
-
-void Record::insertToAttachList(QString fileId, QString fileName)
-{
-  attachList.insert(fileId, fileName);
+  attachTable=iAttachTable;
 }
 
 

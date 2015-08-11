@@ -22,6 +22,16 @@ Attach::~Attach()
 }
 
 
+// На вход метода подается тег <file>
+void Attach::setupDataFromDom(QDomElement iDomElement)
+{
+  type=iDomElement.attribute("type").toInt();
+  id=iDomElement.attribute("id");
+  fileName=iDomElement.attribute("fileName");
+  link=iDomElement.attribute("link");
+}
+
+
 int Attach::getType() const
 {
   return type;

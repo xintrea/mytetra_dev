@@ -14,6 +14,8 @@ public:
   // Возможные типы аттача - файл или линк на файл
   enum attachType{typeFile, typeLink};
 
+  void setupDataFromDom(QDomElement iDomElement);
+
   int getType() const;
 
   void setId(QString iId);
