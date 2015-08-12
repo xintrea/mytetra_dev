@@ -17,6 +17,11 @@ class AttachTableData;
 
 class Record
 {
+
+  // К закрытым функциям может иметь доступ объекты приаттаченного файла
+  friend class Attach;
+  friend class AttachTableData;
+
 public:
   Record();
   virtual ~Record();

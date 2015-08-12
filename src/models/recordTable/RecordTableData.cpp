@@ -230,7 +230,7 @@ Record RecordTableData::getRecordFat(int pos)
  // Копия записи из дерева
  Record resultRecord=getRecordLite(pos);
 
- // Превращение копии записи в представление с полным содержимым
+ // Превращение копии записи на режим с хранением полного содержимого
  resultRecord.switchToFat();
 
  // Добавление текста записи

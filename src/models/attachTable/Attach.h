@@ -29,7 +29,18 @@ public:
 
   qint64 getFileSize() const;
 
+  // todo: подумать, может унаследовать Attach и Record от общего класса LiteFatObject
+  bool isNull() const;
+  bool isLite() const;
+  void switchToLite();
+  void switchToFat();
+
+  void pushFatDataToDisk();
+  void popFatDataFromDisk();
+
 protected:
+
+  bool liteFlag;
 
   AttachTableData *parentTable;
   int     type; // Тип аттача (файл или линк на файл)
@@ -38,6 +49,7 @@ protected:
   QString fileName; // Имя файла. Так файл отображается в интерфейсе, при экспорте назначается это имя
   QString link; // Линк на файл
 
+  QByteArray *fileContent; // Содержимое файла, используется в режиме полных данных
 };
 
 #endif // __ATTACH_H__

@@ -11,14 +11,21 @@ Attach::Attach(int iType, AttachTableData *iParentTable)
   if(iType!=typeFile && iType!=typeLink)
     critical_error("Incorrect attach type in Attach constructor: "+QString::number(iType));
 
+  liteFlag=true; // По-умолчанию легкий объект
+
   parentTable=iParentTable;
   type=iType;
+
+  fileContent=NULL;
 }
 
 
 Attach::~Attach()
 {
+  if(fileContent!=NULL)
+    fileContent->clear();
 
+  delete *fileContent;
 }
 
 
@@ -29,6 +36,83 @@ void Attach::setupDataFromDom(QDomElement iDomElement)
   id=iDomElement.attribute("id");
   fileName=iDomElement.attribute("fileName");
   link=iDomElement.attribute("link");
+}
+
+
+bool Attach::isNull() const
+{
+  // Заполненный аттач не может содержать пустой id
+  if(id.length()==0)
+    return true;
+  else
+    return false;
+}
+
+
+bool Attach::isLite() const
+{
+  return liteFlag;
+}
+
+
+void Attach::switchToLite()
+{
+  // Переключение возможно только из полновесного состояния
+  if(liteFlag==true)
+    critical_error("Can't switch attach to lite state. Attach id: "+id()+" File name: "+fileName);
+
+  if(fileContent!=NULL)
+    fileContent->clear();
+  fileContent=NULL;
+
+  liteFlag=true;
+}
+
+
+void Attach::switchToFat()
+{
+  // Переключение возможно только из легкого состояния
+  if(liteFlag!=true)
+    critical_error("Unavailable switching attach object to fat state. Attach Id: "+id+" File name: "+fileName);
+
+  fileContent=new QByteArray();
+
+  liteFlag=false;
+}
+
+
+void Attach::pushFatDataToDisk()
+{
+
+}
+
+
+// Втаскивание в объект содержимого файла с диска
+void Attach::popFatDataFromDisk()
+{
+  // Втаскивание возможно только в полновесном состоянии
+  if(liteFlag==true)
+    critical_error("Can't' pop data for lite attach. Attach id: "+id()+" File name: "+fileName);
+
+  if(fileConten==NULL)
+    critical_error("Incorrect initialise fat state for attach. Attach id: "+id()+" File name: "+fileName);
+
+  fileConten->clean();
+
+  QString innerFileName=id+".bin";
+  QString innerDirName=getFullDirName();
+
+
+
+
+
+
+
+
+
+
+
+  fileContent->append( (get_files_from_directory(directory, "*.bin")).value("") ;
 }
 
 
