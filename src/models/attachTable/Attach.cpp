@@ -5,18 +5,23 @@
 
 #include "Attach.h"
 #include "AttachTableData.h"
+#include "models/recordTable/Record.h"
+
+
+Attach::Attach(AttachTableData *iParentTable)
+{
+  init(iParentTable);
+}
+
 
 Attach::Attach(int iType, AttachTableData *iParentTable)
 {
   if(iType!=typeFile && iType!=typeLink)
     critical_error("Incorrect attach type in Attach constructor: "+QString::number(iType));
 
-  liteFlag=true; // По-умолчанию легкий объект
-
-  parentTable=iParentTable;
   type=iType;
 
-  fileContent=NULL;
+  init(iParentTable);
 }
 
 
@@ -25,7 +30,17 @@ Attach::~Attach()
   if(fileContent!=NULL)
     fileContent->clear();
 
-  delete *fileContent;
+  delete fileContent;
+}
+
+
+void Attach::init(AttachTableData *iParentTable)
+{
+  liteFlag=true; // По-умолчанию легкий объект
+
+  parentTable=iParentTable;
+
+  fileContent=NULL;
 }
 
 
@@ -59,7 +74,7 @@ void Attach::switchToLite()
 {
   // Переключение возможно только из полновесного состояния
   if(liteFlag==true)
-    critical_error("Can't switch attach to lite state. Attach id: "+id()+" File name: "+fileName);
+    critical_error("Can't switch attach to lite state. Attach id: "+id+" File name: "+fileName);
 
   if(fileContent!=NULL)
   {
@@ -86,7 +101,35 @@ void Attach::switchToFat()
 
 void Attach::pushFatDataToDisk()
 {
+  if(type!=typeFile)
+    critical_error("Can't push fat data for non-file attach.");
 
+  if(liteFlag==true)
+    critical_error("Can't push fat data for lite attach. Attach id: "+id+" File name: "+fileName);
+
+  QString innerFileName=id+".bin";
+  QString innerDirName=parentTable->record->getFullDirName();
+
+  QByteArray fileContentData(*fileContent);
+  QMap<QString, QByteArray> fileList;
+  fileList[innerFileName]=fileContentData;
+  save_files_to_directory(innerDirName, fileList);
+}
+
+
+// ТО же самое что и pushFatDataToDisk, только в нужную директорию
+void Attach::pushFatDataToDirectory(QString dirName)
+{
+  if(type!=typeFile)
+    critical_error("Can't save to directory "+dirName+" non-file attach.");
+
+  if(liteFlag==true)
+    critical_error("Can't save to directory lite attach. Attach id: "+id+" File name: "+fileName);
+
+  QByteArray fileContentData(*fileContent);
+  QMap<QString, QByteArray> fileList;
+  fileList[id+".bin"]=fileContentData;
+  save_files_to_directory(dirName, fileList);
 }
 
 
@@ -95,18 +138,18 @@ void Attach::popFatDataFromDisk()
 {
   // Втаскивание возможно только в полновесном состоянии
   if(liteFlag==true)
-    critical_error("Can't' pop data for lite attach. Attach id: "+id()+" File name: "+fileName);
+    critical_error("Can't' pop data for lite attach. Attach id: "+id+" File name: "+fileName);
 
   // Объет содержимого контента должен быть создан (нормально создается в момент переключения в Fat режим)
   if(fileContent==NULL)
-    critical_error("Incorrect initialise fat state for attach. Attach id: "+id()+" File name: "+fileName);
+    critical_error("Incorrect initialise fat state for attach. Attach id: "+id+" File name: "+fileName);
 
-  fileContent->clean();
+  fileContent->clear();
 
   QString innerFileName=id+".bin";
   QString innerDirName=parentTable->record->getFullDirName();
 
-  fileContent->append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) ;
+  fileContent->append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) );
 }
 
 
@@ -199,4 +242,18 @@ qint64 Attach::getFileSize() const
     return 0;
   else
     return tempFile.size();
+}
+
+
+// todo: дописать
+void Attach::encrypt()
+{
+
+}
+
+
+// todo: дописать
+void Attach::decrypt()
+{
+
 }

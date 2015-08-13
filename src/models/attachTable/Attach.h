@@ -8,6 +8,7 @@ class AttachTableData;
 class Attach
 {
 public:
+  Attach(AttachTableData *iParentTable);
   Attach(int iType, AttachTableData *iParentTable);
   virtual ~Attach();
 
@@ -36,9 +37,16 @@ public:
   void switchToFat();
 
   void pushFatDataToDisk();
+  void pushFatDataToDirectory(QString dirName);
   void popFatDataFromDisk();
 
+  void encrypt();
+  void decrypt();
+
+
 protected:
+
+  void init(AttachTableData *iParentTable);
 
   bool liteFlag;
 

@@ -1,5 +1,7 @@
 #include <QDomElement>
+#include <QDebug>
 
+#include "main.h"
 #include "AttachTableData.h"
 #include "Attach.h"
 #include "models/recordTable/Record.h"
@@ -14,10 +16,21 @@ AttachTableData::AttachTableData(Record *iRecord)
 
 
 // Конструктор копирования
+/*
 AttachTableData::AttachTableData(const AttachTableData &obj)
 {
-  attachTable=new QList< Attach >(obj->attachTable); // "Глубокое" копирование таблицы прикрепляемых файлов
-  record=obj->record; // А ссылка на запись просто копируется
+  attachTable=new QList< Attach >(obj.attachTable); // "Глубокое" копирование таблицы прикрепляемых файлов
+  record=obj.record; // А ссылка на запись просто копируется
+}
+*/
+
+
+// Пустой конструктор, он требуется для Q_DECLARE_METATYPE в QMimeData
+AttachTableData::AttachTableData()
+{
+  attachTable=NULL;
+
+  record=NULL;
 }
 
 
@@ -33,25 +46,22 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
   // Первый файл
   QDomElement currentFile=iDomElement.firstChildElement("files").firstChildElement("file");
 
-  // Если в таблице прикрепленых файлов есть хотя бы один первый файл
-  if(currentFile!=NULL)
+  // Перебор тегов <file ...>
+  while(!currentFile.isNull())
   {
-    // Перебор тегов <file ...>
-    while(!currentFile.isNull())
+    if(currentFile.tagName()=="file")
     {
-      if(currentFile.tagName()=="file")
-      {
-        // Создается объект аттача
-        Attach attach;
-        attach.setupDataFromDom(currentFile);
+      // Создается объект аттача
+      Attach attach(this);
+      attach.setupDataFromDom(currentFile);
 
-        // Аттач добавляется в таблицу приаттаченных файлов
-        attachTable->append(attach);
-      }
-
-      currentFile=currentFile.nextSiblingElement();
+      // Аттач добавляется в таблицу приаттаченных файлов
+      attachTable->append(attach);
     }
+
+    currentFile=currentFile.nextSiblingElement();
   }
+
 
 }
 
@@ -116,4 +126,27 @@ void AttachTableData::switchAllAttachToFat()
     attachTable->at(i).switchToFat();
     attachTable->at(i).popFatDataFromDisk();
   }
+}
+
+
+void AttachTableData::encrypt()
+{
+  for(int i=0; i<attachTable->size(); ++i)
+    attachTable->at(i).encrypt();
+}
+
+
+void AttachTableData::decrypt()
+{
+  for(int i=0; i<attachTable->size(); ++i)
+    attachTable->at(i).decrypt();
+}
+
+
+void AttachTableData::saveAttachFilesToDirectory(QString dirName)
+{
+  for(int i=0; i<attachTable->size(); ++i)
+    if(attachTable->at(i).getType()==Attach::typeFile) // Сохраняются только файлы, не линки
+      if(!attachTable->at(i).isLite())
+        attachTable->at(i).pushFatDataToDirectory(dirName);
 }

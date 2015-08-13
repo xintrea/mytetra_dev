@@ -11,9 +11,12 @@ class QDomElement;
 
 class AttachTableData
 {
+  friend class Attach;
+
 public:
   AttachTableData(Record *iRecord);
-  AttachTableData(const AttachTableData &obj);
+  // AttachTableData(const AttachTableData &obj);
+  AttachTableData();
   virtual ~AttachTableData();
 
   void setupDataFromDom(QDomElement iDomElement);
@@ -29,7 +32,12 @@ public:
   void switchAllAttachToLite();
   void switchAllAttachToFat();
 
-  print(void);
+  void print();
+
+  void encrypt();
+  void decrypt();
+
+  void saveAttachFilesToDirectory(QString dirName);
 
 protected:
 

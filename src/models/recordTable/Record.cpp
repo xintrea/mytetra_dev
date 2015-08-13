@@ -30,7 +30,7 @@ Record::~Record()
 
 
 // На вход этой функции подается элемент <record>
-void setupDataFromDom(QDomElement iDomElement)
+void Record::setupDataFromDom(QDomElement iDomElement)
 {
   // Получение списка всех атрибутов текущего элемента
   QDomNamedNodeMap attList;
@@ -56,7 +56,7 @@ void setupDataFromDom(QDomElement iDomElement)
   if(!iDomElement.firstChildElement("files").isNull())
   {
     // Создание объекта таблицы приаттаченных файлов
-    attachTable=new attachTable(this);
+    attachTable=new AttachTableData(this);
 
     // Заполнение тыблицы приаттаченных файлов
     attachTable->setupDataFromDom( iDomElement.firstChildElement("files") );
@@ -98,7 +98,7 @@ void Record::switchToLite()
 void Record::switchToFat()
 {
   // Переключение возможно только из легкого состояния
-  if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0 || attachFiles.count()>0)
+  if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0 || attachTable->size()>0)
     critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
 
   attachTable->switchAllAttachToFat();
@@ -294,12 +294,20 @@ QMap<QString, QString> Record::getFieldList() const
 
 AttachTableData *Record::getAttachTable() const
 {
+  // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
+  if(liteFlag==true)
+    critical_error("Cant get attach files from lite record object"+getIdAndNameAsString());
+
   return attachTable;
 }
 
 
 void Record::setAttachTable(AttachTableData *iAttachTable)
 {
+  // Легкому объекту невозможно установить таблицу аттачей, если так происходит это ошибка вызывающей логики
+  if(liteFlag==true)
+    critical_error("Cant set attach files for lite record object"+getIdAndNameAsString());
+
   if(iAttachTable==NULL)
     critical_error("Record::setAttachTable() : Can`t set null attach table. Set only real attach table.");
 
@@ -421,26 +429,6 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 }
 
 
-AttachTableData *Record::getAttachFiles() const
-{
-  // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
-  if(liteFlag==true)
-    critical_error("Cant get attach files from lite record object"+getIdAndNameAsString());
-
-  return attachTable;
-}
-
-
-void Record::setAttachFiles(AttachTableData *iAttachFiles)
-{
-  // Легкому объекту невозможно установить картики, если так происходит - это ошибка вызывающей логики
-  if(liteFlag==true)
-    critical_error("Cant set attach files for lite record object"+getIdAndNameAsString());
-
-  attachFiles=iAttachFiles;
-}
-
-
 // Приватная функция, шифрует только поля
 void Record::switchToEncryptFields(void)
 {
@@ -512,11 +500,7 @@ void Record::switchToEncryptAndSaveLite(void)
   encryptFile(globalParameters.getCryptKey(), fileName);
 
   // Шифрование приаттаченных файлов
-  foreach(QString fileId, attachFiles.keys())
-  {
-    QString fileName=getFullFileName(fileId+".bin");
-    encryptFile(globalParameters.getCryptKey(), fileName);
-  }
+  attachTable->encrypt();
 }
 
 
@@ -560,11 +544,7 @@ void Record::switchToDecryptAndSaveLite(void)
   decryptFile(globalParameters.getCryptKey(), fileName);
 
   // Расшифровка приаттаченных файлов
-  foreach(QString fileId, attachFiles.keys())
-  {
-    QString fileName=getFullFileName(fileId+".bin");
-    decryptFile(globalParameters.getCryptKey(), fileName);
-  }
+  attachTable->decrypt();
 
   // Устанавливается флаг что шифрации нет
   fieldList["crypt"]="0";
@@ -618,8 +598,8 @@ void Record::pushFatAttributes()
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
   // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
-  if(attachFiles.size()>0)
-    save_files_to_directory(dirName, attachFiles);
+  if(attachTable->size()>0)
+    attachTable->saveAttachFilesToDirectory(dirName);
 }
 
 

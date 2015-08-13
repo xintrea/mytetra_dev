@@ -26,7 +26,7 @@ public:
   Record();
   virtual ~Record();
 
-  setupDataFromDom(QDomElement iDomElement);
+  void setupDataFromDom(QDomElement iDomElement);
 
   QString getText() const;
   QString getTextDirect();
@@ -48,8 +48,8 @@ public:
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
-  AttachTableData *getAttachFiles() const;
-  void setAttachFiles(AttachTableData *iAttachTable);
+  AttachTableData *getAttachTable() const;
+  void setAttachTable(AttachTableData *iAttachTable);
 
   bool isNull() const;
   bool isLite() const;
