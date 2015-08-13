@@ -8,6 +8,7 @@
 
 // class Record;
 #include "models/recordTable/Record.h"
+#include "models/attachTable/AttachTableData.h"
  
 // Определяется структура данных набора записей
 // которая будет передаваться через буфер обмена
@@ -37,7 +38,7 @@ public:
   QMap<QString, QString> getRecordFieldList(int n) const;
   QMap<QString, QString> getRecordAttachList(int n) const;
   QMap<QString, QByteArray > getRecordPictureFiles(int n) const;
-  QMap<QString, QByteArray > getRecordAttachFiles(int n) const;
+  // AttachTableData *getRecordAttachFiles(int n) const;
 
   // Этот метод QMimeData надо переопределить, так как он виртуальный
   QStringList formats() const;

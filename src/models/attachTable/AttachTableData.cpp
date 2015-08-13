@@ -13,6 +13,14 @@ AttachTableData::AttachTableData(Record *iRecord)
 }
 
 
+// Конструктор копирования
+AttachTableData::AttachTableData(const AttachTableData &obj)
+{
+  attachTable=new QList< Attach >(obj->attachTable); // "Глубокое" копирование таблицы прикрепляемых файлов
+  record=obj->record; // А ссылка на запись просто копируется
+}
+
+
 AttachTableData::~AttachTableData()
 {
   delete attachTable;
@@ -84,8 +92,28 @@ qint64 AttachTableData::getFileSize(int row)
 // Пачать содержимого таблицы конечных файлов
 void AttachTableData::print()
 {
-  for(int i=0; i<attachTable.size(); ++i)
+  for(int i=0; i<attachTable->size(); ++i)
   {
     qDebug() << "File: " << attachTable->at(i).getId() << " Type: " << attachTable->at(i).getType();
+  }
+}
+
+
+void AttachTableData::switchAllAttachToLite()
+{
+  for(int i=0; i<attachTable->size(); ++i)
+  {
+    attachTable->at(i).pushFatDataToDisk();
+    attachTable->at(i).switchToLite();
+  }
+}
+
+
+void AttachTableData::switchAllAttachToFat()
+{
+  for(int i=0; i<attachTable->size(); ++i)
+  {
+    attachTable->at(i).switchToFat();
+    attachTable->at(i).popFatDataFromDisk();
   }
 }

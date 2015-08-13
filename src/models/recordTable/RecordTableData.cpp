@@ -239,7 +239,6 @@ Record RecordTableData::getRecordFat(int pos)
  // Добавление бинарных образов файлов картинок и приаттаченных файлов
  QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getField("dir");
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
- resultRecord.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
  // Todo: проверить расшифровку
  return resultRecord;

@@ -62,7 +62,10 @@ void Attach::switchToLite()
     critical_error("Can't switch attach to lite state. Attach id: "+id()+" File name: "+fileName);
 
   if(fileContent!=NULL)
+  {
     fileContent->clear();
+    delete fileContent;
+  }
   fileContent=NULL;
 
   liteFlag=true;
@@ -94,25 +97,16 @@ void Attach::popFatDataFromDisk()
   if(liteFlag==true)
     critical_error("Can't' pop data for lite attach. Attach id: "+id()+" File name: "+fileName);
 
-  if(fileConten==NULL)
+  // Объет содержимого контента должен быть создан (нормально создается в момент переключения в Fat режим)
+  if(fileContent==NULL)
     critical_error("Incorrect initialise fat state for attach. Attach id: "+id()+" File name: "+fileName);
 
-  fileConten->clean();
+  fileContent->clean();
 
   QString innerFileName=id+".bin";
-  QString innerDirName=getFullDirName();
+  QString innerDirName=parentTable->record->getFullDirName();
 
-
-
-
-
-
-
-
-
-
-
-  fileContent->append( (get_files_from_directory(directory, "*.bin")).value("") ;
+  fileContent->append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) ;
 }
 
 

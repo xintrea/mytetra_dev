@@ -13,6 +13,7 @@ class AttachTableData
 {
 public:
   AttachTableData(Record *iRecord);
+  AttachTableData(const AttachTableData &obj);
   virtual ~AttachTableData();
 
   void setupDataFromDom(QDomElement iDomElement);
@@ -24,6 +25,9 @@ public:
   QString getShortFileName(int row);
   QString getFullFileName(int row);
   qint64 getFileSize(int row);
+
+  void switchAllAttachToLite();
+  void switchAllAttachToFat();
 
   print(void);
 

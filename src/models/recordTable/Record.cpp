@@ -88,7 +88,8 @@ void Record::switchToLite()
 
   text="";
   pictureFiles.clear();
-  attachFiles.clear();
+
+  attachTable->switchAllAttachToLite();
 
   liteFlag=true;
 }
@@ -99,6 +100,8 @@ void Record::switchToFat()
   // Переключение возможно только из легкого состояния
   if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0 || attachFiles.count()>0)
     critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
+
+  attachTable->switchAllAttachToFat();
 
   liteFlag=false;
 }
@@ -418,18 +421,17 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 }
 
 
-QMap<QString, QByteArray> Record::getAttachFiles() const
+AttachTableData *Record::getAttachFiles() const
 {
   // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
     critical_error("Cant get attach files from lite record object"+getIdAndNameAsString());
 
-  return pictureFiles;
+  return attachTable;
 }
 
 
-// todo: Переделать на копирование по ссылке
-void Record::setAttachFiles(QMap<QString, QByteArray> iAttachFiles)
+void Record::setAttachFiles(AttachTableData *iAttachFiles)
 {
   // Легкому объекту невозможно установить картики, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)

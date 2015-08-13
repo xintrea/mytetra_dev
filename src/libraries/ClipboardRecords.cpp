@@ -8,6 +8,7 @@
 
 #include "main.h"
 #include "models/recordTable/Record.h"
+#include "models/attachTable/AttachTableData.h"
 #include "ClipboardRecords.h"
 
 
@@ -154,17 +155,17 @@ QMap<QString, QByteArray> ClipboardRecords::getRecordPictureFiles(int n) const
 
 
 // Получение приаттаченных файлов
-QMap<QString, QByteArray> ClipboardRecords::getRecordAttachFiles(int n) const
+/*
+AttachTableData *ClipboardRecords::getRecordAttachFiles(int n) const
 {
  if(n<records.table.size())
   return records.table.at(n).getAttachFiles();
  else
   {
    critical_error("In ClipboardRecords::getRecordAttachFiles() unavailable number "+QString::number(n));
-   return QMap<QString, QByteArray>();
   }
 }
-
+*/
 
 QStringList ClipboardRecords::formats() const
 {
