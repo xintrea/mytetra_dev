@@ -98,7 +98,15 @@ bool EditorTextArea::eventFilter(QObject *o, QEvent *e)
   if(e->type()==QEvent::Hide || e->type()==QEvent::Show)
    {
     // Надо обновить геометрию виджета настройки отступов
-    qobject_cast<Editor *>(parent())->update_indentline_geometry();
+    Editor *ed=qobject_cast<Editor *>(parent());
+
+    if(ed==NULL)
+    {
+      qWarning() << "Bad reference to Editor";
+      // critical_error("Bad reference to Editor");
+    }
+    else
+      ed->update_indentline_geometry();
    }
 
  return false; // Продолжать оработку событий дальше
