@@ -89,7 +89,9 @@ void Record::switchToLite()
   text="";
   pictureFiles.clear();
 
-  attachTable->switchAllAttachToLite();
+  // Если таблица приаттаченных файлов существует для этой записи
+  if(attachTable!=NULL)
+    attachTable->switchAllAttachToLite();
 
   liteFlag=true;
 }
@@ -98,10 +100,12 @@ void Record::switchToLite()
 void Record::switchToFat()
 {
   // Переключение возможно только из легкого состояния
-  if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0 || attachTable->size()>0)
+  if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0)
     critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
 
-  attachTable->switchAllAttachToFat();
+  // Если таблица приаттаченных файлов существует для этой записи
+  if(attachTable!=NULL)
+    attachTable->switchAllAttachToFat();
 
   liteFlag=false;
 }
@@ -500,7 +504,8 @@ void Record::switchToEncryptAndSaveLite(void)
   encryptFile(globalParameters.getCryptKey(), fileName);
 
   // Шифрование приаттаченных файлов
-  attachTable->encrypt();
+  if(attachTable!=NULL)
+    attachTable->encrypt();
 }
 
 
@@ -544,7 +549,8 @@ void Record::switchToDecryptAndSaveLite(void)
   decryptFile(globalParameters.getCryptKey(), fileName);
 
   // Расшифровка приаттаченных файлов
-  attachTable->decrypt();
+  if(attachTable!=NULL)
+    attachTable->decrypt();
 
   // Устанавливается флаг что шифрации нет
   fieldList["crypt"]="0";
@@ -598,8 +604,9 @@ void Record::pushFatAttributes()
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
   // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
-  if(attachTable->size()>0)
-    attachTable->saveAttachFilesToDirectory(dirName);
+  if(attachTable!=NULL)
+    if(attachTable->size()>0)
+      attachTable->saveAttachFilesToDirectory(dirName);
 }
 
 
