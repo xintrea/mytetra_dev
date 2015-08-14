@@ -71,7 +71,8 @@ void ClipboardRecords::print(void) const
     }
 
     // Перебор информации о праттаченных файлах в записи
-    record.getAttachTable()->print();
+    if(record.getAttachTable()!=NULL)
+      record.getAttachTable()->print();
   }
 }
 
