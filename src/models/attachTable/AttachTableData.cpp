@@ -112,8 +112,8 @@ void AttachTableData::switchAllAttachToLite()
 {
   for(int i=0; i<attachTable->size(); ++i)
   {
-    attachTable->at(i).pushFatDataToDisk();
-    attachTable->at(i).switchToLite();
+    (*attachTable)[i].pushFatDataToDisk();
+    (*attachTable)[i].switchToLite();
   }
 }
 
@@ -122,8 +122,8 @@ void AttachTableData::switchAllAttachToFat()
 {
   for(int i=0; i<attachTable->size(); ++i)
   {
-    attachTable->at(i).switchToFat();
-    attachTable->at(i).popFatDataFromDisk();
+    (*attachTable)[i].switchToFat();
+    (*attachTable)[i].popFatDataFromDisk();
   }
 }
 
@@ -131,14 +131,14 @@ void AttachTableData::switchAllAttachToFat()
 void AttachTableData::encrypt()
 {
   for(int i=0; i<attachTable->size(); ++i)
-    attachTable->at(i).encrypt();
+    (*attachTable)[i].encrypt();
 }
 
 
 void AttachTableData::decrypt()
 {
   for(int i=0; i<attachTable->size(); ++i)
-    attachTable->at(i).decrypt();
+    (*attachTable)[i].decrypt();
 }
 
 
@@ -147,5 +147,5 @@ void AttachTableData::saveAttachFilesToDirectory(QString dirName)
   for(int i=0; i<attachTable->size(); ++i)
     if(attachTable->at(i).getType()==Attach::typeFile) // Сохраняются только файлы, не линки
       if(!attachTable->at(i).isLite())
-        attachTable->at(i).pushFatDataToDirectory(dirName);
+        (*attachTable)[i].pushFatDataToDirectory(dirName);
 }

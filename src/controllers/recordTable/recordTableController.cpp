@@ -507,7 +507,11 @@ void RecordTableController::addNewRecord(int mode)
  record.setField("url",    addNewRecordWin.getField("url"));
  record.setField("tags",   addNewRecordWin.getField("tags"));
  record.setPictureFiles( get_files_from_directory(directory, "*.png") );
- record.setAttachFiles( get_files_from_directory(directory, "*.bin") );
+
+ // Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
+ // Запись должна быть создана, потом можно аттачить файлы.
+ // Это ограничение для "ленивого" программинга, но пока так
+ // record.setAttachFiles( get_files_from_directory(directory, "*.bin") );
 
  // Временная директория с картинками и приаттаченными файлами удаляется
  remove_directory(directory);
