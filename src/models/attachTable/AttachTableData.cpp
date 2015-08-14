@@ -10,7 +10,6 @@
 AttachTableData::AttachTableData(Record *iRecord)
 {
   attachTable=new QList< Attach >();
-
   record=iRecord;
 }
 
@@ -28,14 +27,14 @@ AttachTableData::AttachTableData(const AttachTableData &obj)
 // Пустой конструктор, он требуется для Q_DECLARE_METATYPE в QMimeData
 AttachTableData::AttachTableData()
 {
-  attachTable=NULL;
-
+  attachTable=new QList< Attach >();
   record=NULL;
 }
 
 
 AttachTableData::~AttachTableData()
 {
+  attachTable->clear();
   delete attachTable;
 }
 

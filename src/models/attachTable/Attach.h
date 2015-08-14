@@ -7,6 +7,8 @@ class AttachTableData;
 
 class Attach
 {
+  friend class AttachTableData;
+
 public:
   Attach(AttachTableData *iParentTable);
   Attach(int iType, AttachTableData *iParentTable);
