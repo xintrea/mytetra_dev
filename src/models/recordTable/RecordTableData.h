@@ -36,9 +36,6 @@ public:
     // Установка значения указанного поля для указанного элемента
     void setField(QString name, QString value, int pos);
 
-    // Получение списка приаттаченных файлов указанного элемента
-    QMap<QString, QString> getAttachList(int pos) const;
-    
     // Получение образа записи
     Record getRecordLite(int pos);
     Record getRecordFat(int pos);
@@ -91,6 +88,7 @@ public:
     void setWorkPos(int pos);
 
     void checkAndCreateTextFile(int pos, QString fullFileName);
+
 
 private:
 

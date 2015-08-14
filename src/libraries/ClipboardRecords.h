@@ -36,8 +36,8 @@ public:
   Record getRecord(int n) const;
   QString getRecordText(int n) const;
   QMap<QString, QString> getRecordFieldList(int n) const;
-  QMap<QString, QString> getRecordAttachList(int n) const;
   QMap<QString, QByteArray > getRecordPictureFiles(int n) const;
+  AttachTableData *getRecordAttachTable(int n) const;
   // AttachTableData *getRecordAttachFiles(int n) const;
 
   // Этот метод QMimeData надо переопределить, так как он виртуальный

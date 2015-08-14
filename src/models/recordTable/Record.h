@@ -42,9 +42,6 @@ public:
 
   QMap<QString, QString> getFieldList() const;
 
-  QMap<QString, QString> getAttachList() const;
-  void setAttachList(QMap<QString, QString> list);
-
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 

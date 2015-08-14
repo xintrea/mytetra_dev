@@ -199,14 +199,6 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 }
 
 
-// Получение списка приаттаченных файлов указанного элемента
-// Todo: сделать работу с шифрованием
-QMap<QString, QString> RecordTableData::getAttachList(int pos) const
-{
-  return tableData.at(pos).getAttachList();
-}
-
-
 // Получение легкого образа записи
 // Поля, которые зашифрованы, расшифровываются
 Record RecordTableData::getRecordLite(int pos)
