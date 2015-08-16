@@ -258,6 +258,10 @@ signals:
 
  void wyeditFindInBaseClicked();
 
+public slots:
+
+ void onUpdateIndentlineGeometrySlot(void);
+
 private slots:
 
  // Действия в области редактирования

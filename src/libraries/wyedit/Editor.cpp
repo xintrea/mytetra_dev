@@ -238,6 +238,9 @@ void Editor::setup_signals(void)
  // Вызов диалога поиска в тексте
  connect(findDialog, SIGNAL(find_text(const QString &, QTextDocument::FindFlags)),
          this, SLOT(on_findtext_signal_detect(const QString &, QTextDocument::FindFlags)) );
+
+ connect(textArea, SIGNAL(updateIndentlineGeometrySignal()),
+         this, SLOT(onUpdateIndentlineGeometrySlot()) );
 }
 
 
@@ -636,6 +639,12 @@ void Editor::assembly(void)
  QLayout *lt;
  lt=layout();
  lt->setContentsMargins(0,2,0,0);
+}
+
+
+void Editor::onUpdateIndentlineGeometrySlot()
+{
+  update_indentline_geometry();
 }
 
 
