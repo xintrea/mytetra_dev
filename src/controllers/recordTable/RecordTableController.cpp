@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "RecordTableController.h"
+#include "controllers/attachTable/AttachTableController.h"
 #include "views/record/MetaEditor.h"
 #include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
@@ -165,6 +166,11 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
     edView->setCursorPosition( walkHistory.getCursorPosition(id) );
     edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
+
+
+  // Устанавливается таблица приаттаченных файлов
+  AttachTableController *attachTableController=find_object<AttachTableController>("attachTableController");
+  attachTableController->setAttachTable( table->getRecord(pos)->getAttachTable() );
 }
 
 

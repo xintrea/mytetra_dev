@@ -33,7 +33,7 @@ public:
   qint64 getFileSize() const;
 
   // todo: подумать, может унаследовать Attach и Record от общего класса LiteFatObject
-  bool isNull() const;
+  bool isEmpty() const;
   bool isLite() const;
   void switchToLite();
   void switchToFat();

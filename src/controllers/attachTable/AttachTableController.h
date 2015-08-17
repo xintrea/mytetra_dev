@@ -7,6 +7,7 @@
 class Attach;
 class AttachTableView;
 class AttachTableModel;
+class AttachTableData;
 
 class AttachTableController : public QObject
 {
@@ -17,6 +18,7 @@ public:
   virtual ~AttachTableController();
 
   AttachTableView *getView(void);
+  void setAttachTable(AttachTableData *attachTableData);
 
 public slots:
 

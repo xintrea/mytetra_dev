@@ -9,6 +9,7 @@
 
 AttachTableData::AttachTableData(Record *iRecord)
 {
+  liteFlag=true;
   attachTable=new QList< Attach >();
   record=iRecord;
 }
@@ -27,6 +28,7 @@ AttachTableData::AttachTableData(const AttachTableData &obj)
 // Пустой конструктор, он требуется для Q_DECLARE_METATYPE в QMimeData
 AttachTableData::AttachTableData()
 {
+  liteFlag=true;
   attachTable=new QList< Attach >();
   record=NULL;
 }
@@ -62,6 +64,24 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
   }
 
 
+}
+
+
+bool AttachTableData::isEmpty() const
+{
+  if(attachTable==NULL)
+    return true;
+  else
+    if(attachTable->size()==0)
+      return true;
+    else
+      return false;
+}
+
+
+bool AttachTableData::isLite() const
+{
+  return liteFlag;
 }
 
 
@@ -108,23 +128,35 @@ void AttachTableData::print()
 }
 
 
-void AttachTableData::switchAllAttachToLite()
+void AttachTableData::switchToLite()
 {
+  // Переключение возможно только из полновесного состояния
+  if(liteFlag==true)
+    critical_error("Can't switch attach table to lite state");
+
   for(int i=0; i<attachTable->size(); ++i)
   {
     (*attachTable)[i].pushFatDataToDisk();
     (*attachTable)[i].switchToLite();
   }
+
+  liteFlag=true;
 }
 
 
-void AttachTableData::switchAllAttachToFat()
+void AttachTableData::switchToFat()
 {
+  // Переключение возможно только из легкого состояния
+  if(liteFlag!=true)
+    critical_error("Unavailable switching attach table to fat state");
+
   for(int i=0; i<attachTable->size(); ++i)
   {
     (*attachTable)[i].switchToFat();
     (*attachTable)[i].popFatDataFromDisk();
   }
+
+  liteFlag=false;
 }
 
 

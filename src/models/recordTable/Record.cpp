@@ -64,7 +64,7 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 }
 
 
-bool Record::isNull() const
+bool Record::isEmpty() const
 {
   // Заполненная запись не может содержать пустые свойства
   if(fieldList.count()==0)
@@ -91,7 +91,7 @@ void Record::switchToLite()
 
   // Если таблица приаттаченных файлов существует для этой записи
   if(attachTable!=NULL)
-    attachTable->switchAllAttachToLite();
+    attachTable->switchToLite();
 
   liteFlag=true;
 }
@@ -105,7 +105,7 @@ void Record::switchToFat()
 
   // Если таблица приаттаченных файлов существует для этой записи
   if(attachTable!=NULL)
-    attachTable->switchAllAttachToFat();
+    attachTable->switchToFat();
 
   liteFlag=false;
 }
@@ -299,8 +299,14 @@ QMap<QString, QString> Record::getFieldList() const
 AttachTableData *Record::getAttachTable() const
 {
   // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
-  if(liteFlag==true)
-    critical_error("Cant get attach files from lite record object"+getIdAndNameAsString());
+  // if(liteFlag==true && attachTable->is)
+  //   critical_error("Cant get attach files from lite record object "+getIdAndNameAsString());
+
+  if(attachTable==NULL)
+    return NULL;
+
+  if(this->isLite()!=attachTable->isLite())
+    critical_error("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   return attachTable;
 }
@@ -309,8 +315,11 @@ AttachTableData *Record::getAttachTable() const
 void Record::setAttachTable(AttachTableData *iAttachTable)
 {
   // Легкому объекту невозможно установить таблицу аттачей, если так происходит это ошибка вызывающей логики
-  if(liteFlag==true)
-    critical_error("Cant set attach files for lite record object"+getIdAndNameAsString());
+  // if(liteFlag==true)
+  //   critical_error("Cant set attach files for lite record object "+getIdAndNameAsString());
+
+  if(this->isLite()!=attachTable->isLite())
+    critical_error("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   if(iAttachTable==NULL)
     critical_error("Record::setAttachTable() : Can`t set null attach table. Set only real attach table.");

@@ -29,8 +29,11 @@ public:
   QString getFullFileName(int row);
   qint64 getFileSize(int row);
 
-  void switchAllAttachToLite();
-  void switchAllAttachToFat();
+  bool isEmpty() const;
+  bool isLite() const;
+
+  void switchToLite();
+  void switchToFat();
 
   void print();
 
@@ -46,6 +49,8 @@ protected:
 
   // Какой записи принадлежит таблица файлов
   Record *record;
+
+  bool liteFlag;
 };
 
 // Регистрация в QVariant типа AttachTableData

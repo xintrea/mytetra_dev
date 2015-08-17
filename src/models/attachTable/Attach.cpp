@@ -54,7 +54,7 @@ void Attach::setupDataFromDom(QDomElement iDomElement)
 }
 
 
-bool Attach::isNull() const
+bool Attach::isEmpty() const
 {
   // Заполненный аттач не может содержать пустой id
   if(id.length()==0)

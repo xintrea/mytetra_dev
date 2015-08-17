@@ -48,7 +48,7 @@ public:
   AttachTableData *getAttachTable() const;
   void setAttachTable(AttachTableData *iAttachTable);
 
-  bool isNull() const;
+  bool isEmpty() const;
   bool isLite() const;
   void switchToLite();
   void switchToFat();

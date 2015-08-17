@@ -6,6 +6,7 @@
 #include "AttachTableController.h"
 #include "views/attachTable/AttachTableView.h"
 #include "models/attachTable/AttachTableModel.h"
+#include "models/attachTable/AttachTableData.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "views/record/MetaEditor.h"
@@ -41,7 +42,13 @@ AttachTableController::~AttachTableController()
 
 AttachTableView *AttachTableController::getView(void)
 {
- return view;
+  return view;
+}
+
+
+void AttachTableController::setAttachTable(AttachTableData *attachTableData)
+{
+  model->setData(QModelIndex(), QVariant::fromValue(attachTableData), ATTACH_TABLE_DATA_ROLE);
 }
 
 
@@ -67,6 +74,8 @@ void AttachTableController::onAttachFile(void)
   {
     // Текущее имя файла
     QString currFileName=files.at(i);
+
+    qDebug() << "Select file from disk: " << currFileName;
 
   } // Закончился цикл перебора файлов
 }
