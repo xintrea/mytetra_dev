@@ -14,7 +14,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/GlobalParameters.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;

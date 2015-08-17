@@ -1,5 +1,5 @@
 #include "AttachTableView.h"
-#include "controllers/attachTable/attachTableController.h"
+#include "controllers/attachTable/AttachTableController.h"
 
 
 AttachTableView::AttachTableView(QWidget *parent) : QTableView(parent)

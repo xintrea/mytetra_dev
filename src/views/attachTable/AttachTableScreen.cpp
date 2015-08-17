@@ -2,7 +2,7 @@
 
 #include "AttachTableScreen.h"
 #include "AttachTableView.h"
-#include "controllers/attachTable/attachTableController.h"
+#include "controllers/attachTable/AttachTableController.h"
 
 
 AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)

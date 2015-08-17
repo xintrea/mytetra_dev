@@ -15,7 +15,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/record/MetaEditor.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;

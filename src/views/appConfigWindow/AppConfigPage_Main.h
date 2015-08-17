@@ -7,6 +7,7 @@
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QLabel>
+#include <QToolButton>
 
 #include "ConfigPage.h"
 #include "libraries/MtComboBox.h"
