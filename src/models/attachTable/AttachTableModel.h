@@ -7,9 +7,9 @@
 
 #include "AttachTableData.h"
 
-#define ATTACH_TABLE_DATA_ROLE Qt::UserRole+50
-#define ATTACH_ROLE Qt::UserRole+51
-#define ATTACH_ID_ROLE  Qt::UserRole+52
+#define ATTACH_TABLE_DATA_ROLE Qt::UserRole+50 // Установка/получение ссылки на таблицу с данными
+#define ATTACH_ROLE Qt::UserRole+51 // Установка/получение объекта Attach
+#define ATTACH_ID_ROLE  Qt::UserRole+52 // Установка/получение идентификатора аттача
 
 // class AttachTableData;
 
