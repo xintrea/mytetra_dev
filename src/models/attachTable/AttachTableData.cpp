@@ -10,7 +10,7 @@
 AttachTableData::AttachTableData(Record *iRecord)
 {
   liteFlag=true;
-  attachTable=new QList< Attach >();
+  attachTable.clear();
   record=iRecord;
 }
 
@@ -29,15 +29,14 @@ AttachTableData::AttachTableData(const AttachTableData &obj)
 AttachTableData::AttachTableData()
 {
   liteFlag=true;
-  attachTable=new QList< Attach >();
+  attachTable.clear();
   record=NULL;
 }
 
 
 AttachTableData::~AttachTableData()
 {
-  attachTable->clear();
-  delete attachTable;
+  attachTable.clear();
 }
 
 
@@ -52,12 +51,11 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
   {
     if(currentFile.tagName()=="file")
     {
-      // Создается объект аттача
       Attach attach(this);
       attach.setupDataFromDom(currentFile);
 
       // Аттач добавляется в таблицу приаттаченных файлов
-      attachTable->append(attach);
+      attachTable.append(attach);
     }
 
     currentFile=currentFile.nextSiblingElement();
@@ -69,13 +67,10 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
 
 bool AttachTableData::isEmpty() const
 {
-  if(attachTable==NULL)
+  if(attachTable.size()==0)
     return true;
   else
-    if(attachTable->size()==0)
-      return true;
-    else
-      return false;
+    return false;
 }
 
 
@@ -92,38 +87,46 @@ void AttachTableData::setParentRecord(Record *iRecord)
 }
 
 
+void AttachTableData::clear()
+{
+  attachTable.clear();
+  record=NULL;
+  liteFlag=true;
+}
+
+
 int AttachTableData::size()
 {
-  return attachTable->size();
+  return attachTable.size();
 }
 
 
 // Имя файла без пути
 QString AttachTableData::getShortFileName(int row)
 {
-  return attachTable->at(row).getFileName();
+  return attachTable.at(row).getFileName();
 }
 
 
 // Имя файла с путем
 QString AttachTableData::getFullFileName(int row)
 {
-  return "/catalog.../"+attachTable->at(row).getFileName(); // todo: Доделать
+  return "/catalog.../"+attachTable.at(row).getFileName(); // todo: Доделать
 }
 
 
 qint64 AttachTableData::getFileSize(int row)
 {
-  return attachTable->at(row).getFileSize();
+  return attachTable.at(row).getFileSize();
 }
 
 
 // Пачать содержимого таблицы конечных файлов
 void AttachTableData::print()
 {
-  for(int i=0; i<attachTable->size(); ++i)
+  for(int i=0; i<attachTable.size(); ++i)
   {
-    qDebug() << "File: " << attachTable->at(i).getId() << " Type: " << attachTable->at(i).getType();
+    qDebug() << "File: " << attachTable.at(i).getId() << " Type: " << attachTable.at(i).getType();
   }
 }
 
@@ -134,10 +137,10 @@ void AttachTableData::switchToLite()
   if(liteFlag==true)
     critical_error("Can't switch attach table to lite state");
 
-  for(int i=0; i<attachTable->size(); ++i)
+  for(int i=0; i<attachTable.size(); ++i)
   {
-    (*attachTable)[i].pushFatDataToDisk();
-    (*attachTable)[i].switchToLite();
+    attachTable[i].pushFatDataToDisk(); // Тяжелые данные сохраняются на диск
+    attachTable[i].switchToLite();
   }
 
   liteFlag=true;
@@ -150,10 +153,10 @@ void AttachTableData::switchToFat()
   if(liteFlag!=true)
     critical_error("Unavailable switching attach table to fat state");
 
-  for(int i=0; i<attachTable->size(); ++i)
+  for(int i=0; i<attachTable.size(); ++i)
   {
-    (*attachTable)[i].switchToFat();
-    (*attachTable)[i].popFatDataFromDisk();
+    attachTable[i].switchToFat();
+    attachTable[i].popFatDataFromDisk(); // Тяжелые данные засасываются с диска в память
   }
 
   liteFlag=false;
@@ -162,22 +165,22 @@ void AttachTableData::switchToFat()
 
 void AttachTableData::encrypt()
 {
-  for(int i=0; i<attachTable->size(); ++i)
-    (*attachTable)[i].encrypt();
+  for(int i=0; i<attachTable.size(); ++i)
+    attachTable[i].encrypt();
 }
 
 
 void AttachTableData::decrypt()
 {
-  for(int i=0; i<attachTable->size(); ++i)
-    (*attachTable)[i].decrypt();
+  for(int i=0; i<attachTable.size(); ++i)
+    attachTable[i].decrypt();
 }
 
 
 void AttachTableData::saveAttachFilesToDirectory(QString dirName)
 {
-  for(int i=0; i<attachTable->size(); ++i)
-    if(attachTable->at(i).getType()==Attach::typeFile) // Сохраняются только файлы, не линки
-      if(!attachTable->at(i).isLite())
-        (*attachTable)[i].pushFatDataToDirectory(dirName);
+  for(int i=0; i<attachTable.size(); ++i)
+    if(attachTable.at(i).getType()==Attach::typeFile) // Сохраняются только файлы, не линки
+      if(!attachTable.at(i).isLite())
+        attachTable[i].pushFatDataToDirectory(dirName);
 }

@@ -6,6 +6,8 @@
 #include <QByteArray>
 #include <QDomElement>
 
+#include "models/attachTable/Attach.h"
+#include "models/attachTable/AttachTableData.h"
 
 // Класс одной записи в таблице записей
 
@@ -13,7 +15,8 @@
 // В полях записей с crypt=1 хранятся зашифрованные данные
 // Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
-class AttachTableData;
+// class Attach;
+// class AttachTableData;
 
 class Record
 {
@@ -45,8 +48,9 @@ public:
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
-  AttachTableData *getAttachTable() const;
-  void setAttachTable(AttachTableData *iAttachTable);
+  AttachTableData getAttachTable() const;
+  AttachTableData *getAttachTablePointer();
+  void setAttachTable(AttachTableData iAttachTable);
 
   bool isEmpty() const;
   bool isLite() const;
@@ -77,7 +81,7 @@ protected:
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
 
   // Таблица прикрепляемых файлов
-  AttachTableData *attachTable;
+  AttachTableData attachTable;
 
   void saveTextDirect(QString iText);
 

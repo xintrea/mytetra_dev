@@ -27,20 +27,15 @@ Attach::Attach(int iType, AttachTableData *iParentTable)
 
 Attach::~Attach()
 {
-  if(fileContent!=NULL)
-    fileContent->clear();
-
-  delete fileContent;
+  fileContent.clear();
 }
 
 
 void Attach::init(AttachTableData *iParentTable)
 {
   liteFlag=true; // По-умолчанию легкий объект
-
   parentTable=iParentTable;
-
-  fileContent=NULL;
+  fileContent.clear();
 }
 
 
@@ -76,12 +71,7 @@ void Attach::switchToLite()
   if(liteFlag==true)
     critical_error("Can't switch attach to lite state. Attach id: "+id+" File name: "+fileName);
 
-  if(fileContent!=NULL)
-  {
-    fileContent->clear();
-    delete fileContent;
-  }
-  fileContent=NULL;
+  fileContent.clear();
 
   liteFlag=true;
 }
@@ -92,8 +82,6 @@ void Attach::switchToFat()
   // Переключение возможно только из легкого состояния
   if(liteFlag!=true)
     critical_error("Unavailable switching attach object to fat state. Attach Id: "+id+" File name: "+fileName);
-
-  fileContent=new QByteArray();
 
   liteFlag=false;
 }
@@ -110,9 +98,8 @@ void Attach::pushFatDataToDisk()
   QString innerFileName=id+".bin";
   QString innerDirName=parentTable->record->getFullDirName();
 
-  QByteArray fileContentData(*fileContent);
   QMap<QString, QByteArray> fileList;
-  fileList[innerFileName]=fileContentData;
+  fileList[innerFileName]=fileContent;
   save_files_to_directory(innerDirName, fileList);
 }
 
@@ -126,9 +113,8 @@ void Attach::pushFatDataToDirectory(QString dirName)
   if(liteFlag==true)
     critical_error("Can't save to directory lite attach. Attach id: "+id+" File name: "+fileName);
 
-  QByteArray fileContentData(*fileContent);
   QMap<QString, QByteArray> fileList;
-  fileList[id+".bin"]=fileContentData;
+  fileList[id+".bin"]=fileContent;
   save_files_to_directory(dirName, fileList);
 }
 
@@ -140,16 +126,12 @@ void Attach::popFatDataFromDisk()
   if(liteFlag==true)
     critical_error("Can't' pop data for lite attach. Attach id: "+id+" File name: "+fileName);
 
-  // Объет содержимого контента должен быть создан (нормально создается в момент переключения в Fat режим)
-  if(fileContent==NULL)
-    critical_error("Incorrect initialise fat state for attach. Attach id: "+id+" File name: "+fileName);
-
-  fileContent->clear();
+  fileContent.clear();
 
   QString innerFileName=id+".bin";
   QString innerDirName=parentTable->record->getFullDirName();
 
-  fileContent->append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) );
+  fileContent.append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) );
 }
 
 

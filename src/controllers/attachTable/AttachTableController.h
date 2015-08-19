@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QModelIndexList>
 
-class Attach;
+#include "models/attachTable/Attach.h"
+// class Attach;
+
 class AttachTableView;
 class AttachTableModel;
 class AttachTableData;

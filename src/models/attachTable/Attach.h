@@ -2,6 +2,9 @@
 #define __ATTACH_H__
 
 #include <QString>
+#include <QByteArray>
+#include <QDomElement>
+
 
 class AttachTableData;
 
@@ -52,14 +55,14 @@ protected:
 
   bool liteFlag;
 
-  AttachTableData *parentTable;
+  AttachTableData *parentTable; // Указатель на таблицу приаттаченных файлов, которой принадлежит данный аттач
   int     type; // Тип аттача (файл или линк на файл)
 
   QString id; // Идентификатор (служит так же техническим именем файла в базе, без расширения .bin)
   QString fileName; // Имя файла. Так файл отображается в интерфейсе, при экспорте назначается это имя
   QString link; // Линк на файл
 
-  QByteArray *fileContent; // Содержимое файла, используется в режиме полных данных
+  QByteArray fileContent; // Содержимое файла, используется в режиме полных данных
 };
 
 #endif // __ATTACH_H__

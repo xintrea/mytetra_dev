@@ -23,6 +23,7 @@ public:
 
   void setParentRecord(Record *iRecord);
 
+  void clear();
   int size();
 
   QString getShortFileName(int row);
@@ -44,13 +45,13 @@ public:
 
 protected:
 
+  bool liteFlag;
+
   // Перечень файлов и их свойств
-  QList< Attach > *attachTable;
+  QList< Attach > attachTable;
 
   // Какой записи принадлежит таблица файлов
   Record *record;
-
-  bool liteFlag;
 };
 
 // Регистрация в QVariant типа AttachTableData

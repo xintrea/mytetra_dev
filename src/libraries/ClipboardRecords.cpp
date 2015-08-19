@@ -71,8 +71,8 @@ void ClipboardRecords::print(void) const
     }
 
     // Перебор информации о праттаченных файлах в записи
-    if(record.getAttachTable()!=NULL)
-      record.getAttachTable()->print();
+    if(record.getAttachTable().size()>0)
+      record.getAttachTable().print();
   }
 }
 
@@ -123,14 +123,14 @@ QMap<QString, QString> ClipboardRecords::getRecordFieldList(int n) const
 
 
 // Получение информации о приаттаченных файлах для записи с указанным номером
-AttachTableData *ClipboardRecords::getRecordAttachTable(int n) const
+AttachTableData ClipboardRecords::getRecordAttachTable(int n) const
 {
   if(n<records.table.size())
     return getRecord(n).getAttachTable();
   else
   {
     critical_error("In ClipboardRecords::getRecordAttachTable() unavailable number "+QString::number(n));
-    return NULL;
+    return AttachTableData();
   }
 }
 

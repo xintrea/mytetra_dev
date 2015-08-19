@@ -18,14 +18,12 @@ extern GlobalParameters globalParameters;
 Record::Record()
 {
   liteFlag=true; // По-умолчанию объект легкий
-
-  attachTable=NULL;
 }
 
 
 Record::~Record()
 {
-  delete attachTable;
+
 }
 
 
@@ -55,11 +53,10 @@ void Record::setupDataFromDom(QDomElement iDomElement)
   // Проверка, есть ли у переданного DOM-элемента таблица файлов
   if(!iDomElement.firstChildElement("files").isNull())
   {
-    // Создание объекта таблицы приаттаченных файлов
-    attachTable=new AttachTableData(this);
+    attachTable.clear();
 
     // Заполнение тыблицы приаттаченных файлов
-    attachTable->setupDataFromDom( iDomElement.firstChildElement("files") );
+    attachTable.setupDataFromDom( iDomElement.firstChildElement("files") );
   }
 }
 
@@ -89,9 +86,7 @@ void Record::switchToLite()
   text="";
   pictureFiles.clear();
 
-  // Если таблица приаттаченных файлов существует для этой записи
-  if(attachTable!=NULL)
-    attachTable->switchToLite();
+  attachTable.switchToLite();
 
   liteFlag=true;
 }
@@ -103,9 +98,7 @@ void Record::switchToFat()
   if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0)
     critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
 
-  // Если таблица приаттаченных файлов существует для этой записи
-  if(attachTable!=NULL)
-    attachTable->switchToFat();
+  attachTable.switchToFat();
 
   liteFlag=false;
 }
@@ -296,36 +289,68 @@ QMap<QString, QString> Record::getFieldList() const
 }
 
 
-AttachTableData *Record::getAttachTable() const
+AttachTableData Record::getAttachTable() const
 {
-  // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
-  // if(liteFlag==true && attachTable->is)
-  //   critical_error("Cant get attach files from lite record object "+getIdAndNameAsString());
-
-  if(attachTable==NULL)
-    return NULL;
-
-  if(this->isLite()!=attachTable->isLite())
+  if(this->isLite()!=attachTable.isLite())
     critical_error("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   return attachTable;
 }
 
 
+AttachTableData *Record::getAttachTablePointer()
+{
+  if(this->isLite()!=attachTable.isLite())
+    critical_error("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+
+  return &attachTable;
+}
+
+
+
+/*
+AttachTableData *Record::getAttachTable() const
+{
+  // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
+  // if(liteFlag==true && attachTable.is)
+  //   critical_error("Cant get attach files from lite record object "+getIdAndNameAsString());
+
+  if(attachTable.size()==0)
+    return NULL;
+
+  if(this->isLite()!=attachTable.isLite())
+    critical_error("Pointer getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+
+  return &attachTable;
+}
+*/
+
+
+void Record::setAttachTable(AttachTableData iAttachTable)
+{
+  if(this->isLite()!=attachTable.isLite())
+    critical_error("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+
+  attachTable=iAttachTable;
+}
+
+
+/*
 void Record::setAttachTable(AttachTableData *iAttachTable)
 {
   // Легкому объекту невозможно установить таблицу аттачей, если так происходит это ошибка вызывающей логики
   // if(liteFlag==true)
   //   critical_error("Cant set attach files for lite record object "+getIdAndNameAsString());
 
-  if(this->isLite()!=attachTable->isLite())
+  if(this->isLite()!=attachTable.isLite())
     critical_error("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   if(iAttachTable==NULL)
     critical_error("Record::setAttachTable() : Can`t set null attach table. Set only real attach table.");
 
-  attachTable=iAttachTable;
+  attachTable=*iAttachTable;
 }
+*/
 
 
 // Тяжелые свойства устанавливаются и берутся через геттеры и сеттеры
@@ -513,8 +538,7 @@ void Record::switchToEncryptAndSaveLite(void)
   encryptFile(globalParameters.getCryptKey(), fileName);
 
   // Шифрование приаттаченных файлов
-  if(attachTable!=NULL)
-    attachTable->encrypt();
+  attachTable.encrypt();
 }
 
 
@@ -558,8 +582,7 @@ void Record::switchToDecryptAndSaveLite(void)
   decryptFile(globalParameters.getCryptKey(), fileName);
 
   // Расшифровка приаттаченных файлов
-  if(attachTable!=NULL)
-    attachTable->decrypt();
+  attachTable.decrypt();
 
   // Устанавливается флаг что шифрации нет
   fieldList["crypt"]="0";
@@ -613,9 +636,8 @@ void Record::pushFatAttributes()
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
   // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
-  if(attachTable!=NULL)
-    if(attachTable->size()>0)
-      attachTable->saveAttachFilesToDirectory(dirName);
+  if(attachTable.size()>0)
+    attachTable.saveAttachFilesToDirectory(dirName);
 }
 
 
