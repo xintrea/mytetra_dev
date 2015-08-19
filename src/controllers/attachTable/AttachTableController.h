@@ -5,11 +5,14 @@
 #include <QModelIndexList>
 
 #include "models/attachTable/Attach.h"
-// class Attach;
+#include "views/attachTable/AttachTableView.h"
+#include "models/attachTable/AttachTableModel.h"
+#include "models/attachTable/AttachTableData.h"
 
-class AttachTableView;
-class AttachTableModel;
-class AttachTableData;
+// class Attach;
+// class AttachTableView;
+// class AttachTableModel;
+// class AttachTableData;
 
 class AttachTableController : public QObject
 {

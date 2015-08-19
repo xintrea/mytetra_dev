@@ -3,11 +3,11 @@
 
 #include <QList>
 #include <QMetaType>
+#include <QDomElement>
 
+#include "models/attachTable/Attach.h"
 
 class Record;
-class Attach;
-class QDomElement;
 
 class AttachTableData
 {
