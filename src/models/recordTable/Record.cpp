@@ -61,6 +61,24 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 }
 
 
+QDomElement Record::exportDataToDom(QDomDocument doc) const
+{
+  QDomElement elem=doc.createElement("record");
+
+  // Перебираются допустимые имена полей
+  for(int j=0; j<fixedParameters.recordFieldAvailableList().size(); ++j)
+  {
+    QString currentFieldName=fixedParameters.recordFieldAvailableList().at(j);
+
+    // Устанавливается значение поля как атрибут DOM-узла
+    if(isFieldExists(currentFieldName))
+      elem.setAttribute(currentFieldName, getFieldSource(currentFieldName));
+  }
+
+  return elem;
+}
+
+
 bool Record::isEmpty() const
 {
   // Заполненная запись не может содержать пустые свойства

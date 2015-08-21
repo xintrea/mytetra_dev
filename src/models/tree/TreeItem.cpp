@@ -573,9 +573,9 @@ int TreeItem::recordtableGetRowCount(void)
 }
 
 
-QDomDocument TreeItem::recordtableExportDataToDom(void)
+QDomElement TreeItem::recordtableExportDataToDom(QDomDocument doc)
 {
- return recordsTable.exportDataToDom();
+ return recordsTable.exportDataToDom( doc );
 }
 
 

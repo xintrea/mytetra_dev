@@ -106,7 +106,7 @@ class TreeItem
     void recordtableDeleteAllRecords(void);
     
     // Преобразование таблицы конечных записей в DOM представление, "промежуточный" метод
-    QDomDocument recordtableExportDataToDom(void);
+    QDomElement recordtableExportDataToDom(QDomDocument doc);
 
     // Взятие ссылки на данные конечных записей
     RecordTableData *recordtableGetTableData(void);

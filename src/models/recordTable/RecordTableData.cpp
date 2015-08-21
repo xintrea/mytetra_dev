@@ -10,7 +10,6 @@
 
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
-#include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
 #include "models/tree/TreeItem.h"
 #include "libraries/WalkHistory.h"
@@ -20,7 +19,6 @@
 #include "libraries/wyedit/Editor.h"
 
 extern AppConfig mytetraConfig;
-extern FixedParameters fixedParameters;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 
@@ -297,46 +295,21 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
 
 
 // Преобразование таблицы конечных записей в Dom документ
-QDomDocument RecordTableData::exportDataToDom(void)
+QDomElement RecordTableData::exportDataToDom(QDomDocument doc) const
 {
   // Если у ветки нет таблицы конечных записей, возвращается пустой документ
   if(tableData.size()==0)
-    return QDomDocument();
+    return QDomElement();
 
-  QDomDocument doc;
-
-  QDomElement recordTableDomData = doc.createElement("recordtable");
-  doc.appendChild(recordTableDomData);
-
-  QStringList fieldsNamesAvailable=fixedParameters.recordFieldAvailableList();
+  QDomElement recordTableDomData=doc.createElement("recordtable");
 
   // Пробегаются все записи в таблице
   for(int i=0; i<tableData.size(); i++)
-  {
-    QDomElement elem = doc.createElement("record");
-
-    // QMap<QString, QString> lineTmp;
-    // lineTmp=tableData.at(i).getFieldList();
-    // QMap<QString, QString> lineTmp;
-    // lineTmp=tableData.at(i).getFieldListDirect();
-
-    // Перебираются допустимые имена полей
-    for(int j=0; j<fieldsNamesAvailable.size(); ++j)
-    {
-      QString currentFieldName=fieldsNamesAvailable.at(j);
-
-      // Устанавливается значение поля как атрибут DOM-узла
-      if(tableData.at(i).isFieldExists(currentFieldName))
-        elem.setAttribute(currentFieldName, tableData.at(i).getFieldSource(currentFieldName));
-    }
-
-    // К элементу recordtabledata прикрепляются конечные записи
-    doc.firstChild().appendChild(elem);
-  }
+    recordTableDomData.appendChild( tableData.at(i).exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
 
   // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
 
-  return doc;
+  return recordTableDomData;
 }
 
 
@@ -605,42 +578,6 @@ void RecordTableData::switchToDecrypt(void)
    // Расшифровка записи
    tableData[i].switchToDecryptAndSaveLite(); // В таблице конечных записей хранятся легкие записи
   }
-}
-
-
-// Метод, возвращающий набор полей и их значений, полученный путем слияния
-// данных указанной записи и переданного набора полей
-// Todo: метод не используется, подумать, а не убрать ли его
-QMap<QString, QString> RecordTableData::getMergeFields(int pos, QMap<QString, QString> fields)
-{
- QMap<QString, QString> resultFields;
-
- // Если номер позиции превышает количество записей в таблице
- if(pos>=size())
-  critical_error("In RecordTableData::getMergeFields bad record pos "+QString::number(pos));
-
- // Список допустимых имен инфополей
- QStringList fieldNames=fixedParameters.recordFieldAvailableList();
-
- // Перебираются допустимые имена полей
- for(int i=0; i<fieldNames.size(); ++i)
-  {
-   QString currentName=fieldNames.at(i);
-
-   // Если поле с таким именем существует в переданном списке
-   if(fields.contains( currentName ))
-    resultFields[currentName]=fields[currentName]; // Запоминается значение
-   else
-    {
-     // Иначе в переданном списке нет поля с текущим допустимым именем
-
-     // Проверяется, есть ли уже поле с таким именем в таблице сущаствующих полей
-     if(tableData.at(pos).isFieldExists(currentName))
-      resultFields[currentName]=getField(currentName, pos); // Запоминается значение
-    }
-  }
-
- return resultFields;
 }
 
 

@@ -220,19 +220,13 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
    // Обработка таблицы конечных записей
 
    // Получение Dom дерева таблицы конечных записей
-   QDomDocument rectab=currItem->recordtableExportDataToDom();
-
-   // qDebug() << "In parsetreetodom() rectab " << rectab.toString();
-
-   // Получаем корневой элемент документа
-   QDomElement e = rectab.documentElement(); 
+   // В метод передается QDomDocument, на основе кторого будут создаваться элементы
+   QDomElement recordTableDom=currItem->recordtableExportDataToDom( xmlData.ownerDocument() );
 
    // Dom дерево таблицы конечных записей добавляется
    // как подчиненный элемент к текущему элементу
-   if(!e.isNull())
-    xmlData.appendChild(e.cloneNode());
-   else
-    qDebug() << "No convert QDomDocument to element for recordtable";
+   if(!recordTableDom.isNull())
+    xmlData.appendChild(recordTableDom.cloneNode());
   }
 
  // Обработка каждой подчиненной ветки

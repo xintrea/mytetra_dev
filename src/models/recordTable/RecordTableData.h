@@ -51,7 +51,7 @@ public:
     int size(void) const;
 
     // Функция создания DOM-документа из данных таблицы конечных записей
-    QDomDocument exportDataToDom(void);
+    QDomElement exportDataToDom(QDomDocument doc) const;
 
     // Получение ссылки на объект ветки, которой принадлежит таблица
     TreeItem *getItem(void);
@@ -94,8 +94,6 @@ private:
 
     // Функция заполнения таблицы из DOM-документа
     void setupDataFromDom(QDomElement *domModel);
-
-    QMap<QString, QString> getMergeFields(int pos, QMap<QString, QString> fields);
 
     // Таблица записей (в нормальном виде содержит только "легкие" объекты записей)
     QList< Record > tableData;
