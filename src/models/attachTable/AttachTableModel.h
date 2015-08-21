@@ -11,6 +11,9 @@
 #define ATTACH_ROLE Qt::UserRole+51 // Установка/получение объекта Attach
 #define ATTACH_ID_ROLE  Qt::UserRole+52 // Установка/получение идентификатора аттача
 
+#define ATTACH_COLUMNS 2
+
+
 // class AttachTableData;
 
 class AttachTableModel : public QAbstractTableModel

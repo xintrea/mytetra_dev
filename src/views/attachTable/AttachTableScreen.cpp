@@ -42,6 +42,11 @@ void AttachTableScreen::setupActions(void)
   actionDeleteFile->setStatusTip(tr("Delete file"));
   actionDeleteFile->setIcon(QIcon(":/resource/pic/attach_delete.svg"));
 
+
+  // Информация о таблице (для отладки)
+  actionInfo = new QAction(tr("Attach Info"), this);
+  actionInfo->setStatusTip(tr("Attach Info"));
+
   // Переключение на редактор
   actionSwitchToEditor = new QAction(tr("Return to editor"), this);
   actionSwitchToEditor->setStatusTip(tr("Return to editor"));
@@ -58,6 +63,7 @@ void AttachTableScreen::setupUI(void)
   insertActionAsButton(toolsLine, actionAttachFile);
   insertActionAsButton(toolsLine, actionEditFileName);
   insertActionAsButton(toolsLine, actionDeleteFile);
+  insertActionAsButton(toolsLine, actionInfo);
 
   toolsLine->addSeparator();
 
@@ -71,6 +77,7 @@ void AttachTableScreen::setupSignals(void)
   connect(actionAttachFile, SIGNAL(triggered()), attachTableController, SLOT(onAttachFile()));
   connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
   connect(actionDeleteFile, SIGNAL(triggered()), attachTableController, SLOT(onDeleteFile()));
+  connect(actionInfo, SIGNAL(triggered()), attachTableController, SLOT(onInfo()));
 
   connect(actionSwitchToEditor, SIGNAL(triggered()), attachTableController, SLOT(onSwitchToEditor()));
 }

@@ -178,8 +178,8 @@ void MetaEditor::metaAssembly(void)
 
 void MetaEditor::switchToEditorLayout(void)
 {
+  attachTableScreen->hide(); // Что бы небыло мерцания, вначале нужно делать сокрытие текущего виджета
   editorMainScreen->show();
-  attachTableScreen->hide();
 }
 
 

@@ -30,6 +30,7 @@ public slots:
   void onAttachFile(void);
   void onEditFileName(void);
   void onDeleteFile(void);
+  void onInfo(void);
 
   void onSwitchToEditor(void);
 

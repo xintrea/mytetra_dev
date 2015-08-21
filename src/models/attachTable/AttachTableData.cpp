@@ -44,23 +44,19 @@ AttachTableData::~AttachTableData()
 void AttachTableData::setupDataFromDom(QDomElement iDomElement)
 {
   // Первый файл
-  QDomElement currentFile=iDomElement.firstChildElement("files").firstChildElement("file");
+  QDomElement currentFile=iDomElement.firstChildElement("file");
 
   // Перебор тегов <file ...>
   while(!currentFile.isNull())
   {
-    if(currentFile.tagName()=="file")
-    {
-      Attach attach(this);
-      attach.setupDataFromDom(currentFile);
+    Attach attach(this);
+    attach.setupDataFromDom(currentFile);
 
-      // Аттач добавляется в таблицу приаттаченных файлов
-      attachTable.append(attach);
-    }
+    // Аттач добавляется в таблицу приаттаченных файлов
+    attachTable.append(attach);
 
-    currentFile=currentFile.nextSiblingElement();
+    currentFile=currentFile.nextSiblingElement("file");
   }
-
 
 }
 

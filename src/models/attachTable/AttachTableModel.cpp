@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "main.h"
 #include "AttachTableModel.h"
 #include "Attach.h"
@@ -21,7 +23,7 @@ int AttachTableModel::columnCount(const QModelIndex & parent) const
 {
   Q_UNUSED(parent);
 
-  return 2; // Имя файла и размер
+  return ATTACH_COLUMNS; // Имя файла и размер
 }
 
 
@@ -64,14 +66,6 @@ QVariant AttachTableModel::getCell(int row, int column) const
 // Сохранение вводимых данных по указанному индексу
 bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-  // Если таблица данных не создана
-  if(table==NULL)
-    return false;
-
-  // Если таблица пустая
-  if(table->size()==0)
-    return false;
-
   // Если индекс недопустимый
   if(!index.isValid() && role!=ATTACH_TABLE_DATA_ROLE)
     return false;
@@ -80,8 +74,24 @@ bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, 
   if(role==ATTACH_TABLE_DATA_ROLE)
   {
     table=value.value<AttachTableDataPointer>();
+
+    QModelIndex startIndex=createIndex(0, 0);
+    QModelIndex stopIndex=createIndex(table->size(), ATTACH_COLUMNS-1 );
+
+    qDebug() << "Set new data to AttachTableModel with rows: " << table->size();
+
+    emit dataChanged(startIndex, stopIndex);
+
     return true;
   }
+
+  // Если таблица данных не создана
+  if(table==NULL)
+    return false;
+
+  // Если таблица пустая
+  if(table->size()==0)
+    return false;
 
   // Если происходит редактирование
   if(role==Qt::EditRole)

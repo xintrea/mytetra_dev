@@ -44,6 +44,7 @@ protected:
   QAction *actionEditFileName;
   QAction *actionDeleteFile;
   QAction *actionSwitchToEditor;
+  QAction *actionInfo;
 
 };
 

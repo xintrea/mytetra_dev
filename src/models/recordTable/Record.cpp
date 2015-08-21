@@ -53,10 +53,10 @@ void Record::setupDataFromDom(QDomElement iDomElement)
   // Проверка, есть ли у переданного DOM-элемента таблица файлов
   if(!iDomElement.firstChildElement("files").isNull())
   {
-    attachTable.clear();
-
     // Заполнение тыблицы приаттаченных файлов
+    attachTable.clear(); // Подумать, возможно эта команда не нужна
     attachTable.setupDataFromDom( iDomElement.firstChildElement("files") );
+    attachTable.setParentRecord(this);
   }
 }
 
