@@ -19,6 +19,8 @@ public:
 
   void setController(AttachTableController *pController);
 
+  virtual void resizeEvent(QResizeEvent *event);
+
 protected:
   AttachTableController *controller;
 
