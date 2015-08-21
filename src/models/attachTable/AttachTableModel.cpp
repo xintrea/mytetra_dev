@@ -73,14 +73,13 @@ bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, 
   // Если происходит установка ссылки на таблицу с данными
   if(role==ATTACH_TABLE_DATA_ROLE)
   {
+    beginResetModel();
+
+    // Устанавливается данные переданной по указателю таблицы
     table=value.value<AttachTableDataPointer>();
-
-    QModelIndex startIndex=createIndex(0, 0);
-    QModelIndex stopIndex=createIndex(table->size(), ATTACH_COLUMNS-1 );
-
     qDebug() << "Set new data to AttachTableModel with rows: " << table->size();
 
-    emit dataChanged(startIndex, stopIndex);
+    endResetModel();
 
     return true;
   }
