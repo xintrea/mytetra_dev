@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QHeaderView>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include "main.h"
 #include "AttachTableController.h"
@@ -46,9 +47,15 @@ AttachTableView *AttachTableController::getView(void)
 }
 
 
-void AttachTableController::setAttachTable(AttachTableData *attachTableData)
+void AttachTableController::setAttachTableData(AttachTableData *attachTableData)
 {
   model->setData(QModelIndex(), QVariant::fromValue(attachTableData), ATTACH_TABLE_DATA_ROLE);
+}
+
+
+AttachTableData *AttachTableController::getAttachTableData()
+{
+  return (model->data(QModelIndex(), ATTACH_TABLE_DATA_ROLE)).value<AttachTableData *>();
 }
 
 
@@ -69,6 +76,15 @@ void AttachTableController::onAttachFile(void)
   if(files.size()==0)
     return;
 
+  // Указатель на данные таблицы приаттаченных файлов
+  AttachTableData *attachTableData=getAttachTableData();
+
+  if(attachTableData==NULL)
+    critical_error("Unset attach table data in AttachTableController::onAttachFile()");
+
+  // В данных прописывается свзязанная с данными модель
+  attachTableData->setRelatedAttachTableModel(model);
+
   // Перебираются файлы выбранных картинок
   for(int i=0; i<files.size(); ++i)
   {
@@ -76,6 +92,29 @@ void AttachTableController::onAttachFile(void)
     QString currFileName=files.at(i);
 
     qDebug() << "Select file from disk: " << currFileName;
+
+    // Конструируется Attach, который нужно добавить
+    QString id=get_unical_id();
+    Attach attach(Attach::typeFile, attachTableData);
+    attach.setId( id );
+    attach.setFileName(currFileName);
+
+    // Файл аттача копируется в базу
+    bool result=attach.copyFileToBase(currFileName, id);
+
+    if(result)
+    {
+      // Данные аттача добавляются в таблицу приаттаченных файлов
+      attachTableData->addAttach(attach);
+    }
+    else
+    {
+      QMessageBox msgBox;
+      msgBox.setText(tr("An error occurred while copying file(s). File(s) can't attach."));
+      msgBox.exec();
+
+      break;
+    }
 
   } // Закончился цикл перебора файлов
 }

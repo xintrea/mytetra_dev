@@ -49,15 +49,13 @@ void Record::setupDataFromDom(QDomElement iDomElement)
     // qDebug() << "Read record attr " << name << value;
   }
 
+  // Инициализируется таблица прикрепляемых файлов
+  attachTable.clear(); // Подумать, возможно эта команда не нужна
+  attachTable.setParentRecord(this);
 
-  // Проверка, есть ли у переданного DOM-элемента таблица файлов
+  // Проверка, есть ли у переданного DOM-элемента таблица файлов для заполнения
   if(!iDomElement.firstChildElement("files").isNull())
-  {
-    // Заполнение тыблицы приаттаченных файлов
-    attachTable.clear(); // Подумать, возможно эта команда не нужна
-    attachTable.setupDataFromDom( iDomElement.firstChildElement("files") );
-    attachTable.setParentRecord(this);
-  }
+    attachTable.setupDataFromDom( iDomElement.firstChildElement("files") ); // Заполнение таблицы приаттаченных файлов
 }
 
 

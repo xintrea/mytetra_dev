@@ -45,6 +45,17 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
   if (index.isValid() && role == Qt::DisplayRole)
     return getCell(index.row(), index.column());
 
+  if(role==ATTACH_TABLE_DATA_ROLE)
+  {
+    if(table==NULL)
+      return QVariant(0);
+    else
+    {
+      QVariant variant = QVariant::fromValue(table);
+      return variant;
+    }
+  }
+
   return QVariant();
 }
 
@@ -66,6 +77,25 @@ QVariant AttachTableModel::getCell(int row, int column) const
 // Сохранение вводимых данных по указанному индексу
 bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+  if(role==ATTACH_COMMAND_RESET_MODEL)
+  {
+    beginResetModel();
+    endResetModel();
+    return true;
+  }
+
+  if(role==ATTACH_COMMAND_BEGIN_RESET_MODEL)
+  {
+    beginResetModel();
+    return true;
+  }
+
+  if(role==ATTACH_COMMAND_END_RESET_MODEL)
+  {
+    endResetModel();
+    return true;
+  }
+
   // Если индекс недопустимый
   if(!index.isValid() && role!=ATTACH_TABLE_DATA_ROLE)
     return false;

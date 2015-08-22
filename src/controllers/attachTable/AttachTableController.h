@@ -23,7 +23,8 @@ public:
   virtual ~AttachTableController();
 
   AttachTableView *getView(void);
-  void setAttachTable(AttachTableData *attachTableData);
+  void setAttachTableData(AttachTableData *attachTableData);
+  AttachTableData *getAttachTableData();
 
 public slots:
 

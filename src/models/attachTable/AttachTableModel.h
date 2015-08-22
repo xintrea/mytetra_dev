@@ -7,9 +7,12 @@
 
 #include "AttachTableData.h"
 
-#define ATTACH_TABLE_DATA_ROLE Qt::UserRole+50 // Установка/получение ссылки на таблицу с данными
-#define ATTACH_ROLE Qt::UserRole+51 // Установка/получение объекта Attach
-#define ATTACH_ID_ROLE  Qt::UserRole+52 // Установка/получение идентификатора аттача
+#define ATTACH_TABLE_DATA_ROLE           Qt::UserRole+50 // Установка/получение ссылки на таблицу с данными
+#define ATTACH_ROLE                      Qt::UserRole+51 // Установка/получение объекта Attach
+#define ATTACH_ID_ROLE                   Qt::UserRole+52 // Установка/получение идентификатора аттача
+#define ATTACH_COMMAND_RESET_MODEL       Qt::UserRole+53 // Команда перечитывания модели. Используется при изменении данных в data-объекте
+#define ATTACH_COMMAND_BEGIN_RESET_MODEL Qt::UserRole+54
+#define ATTACH_COMMAND_END_RESET_MODEL   Qt::UserRole+55
 
 #define ATTACH_COLUMNS 2
 

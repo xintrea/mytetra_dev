@@ -284,7 +284,6 @@ int RecordTableModel::addTableData(int mode,
                                    posIndex.row(),
                                    record);
 
-
  endResetModel(); // Подумать, возможно нужно заменить на endInsertRows
 
  return selPos;

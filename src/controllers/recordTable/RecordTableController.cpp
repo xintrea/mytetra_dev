@@ -170,7 +170,7 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 
   // Устанавливается таблица приаттаченных файлов
   AttachTableController *attachTableController=find_object<AttachTableController>("attachTableController");
-  attachTableController->setAttachTable( table->getRecord(pos)->getAttachTablePointer() );
+  attachTableController->setAttachTableData( table->getRecord(pos)->getAttachTablePointer() );
 }
 
 

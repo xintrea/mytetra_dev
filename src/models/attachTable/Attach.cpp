@@ -135,7 +135,7 @@ void Attach::pushFatDataToDisk()
 }
 
 
-// ТО же самое что и pushFatDataToDisk, только в нужную директорию
+// То же самое что и pushFatDataToDisk, только в нужную директорию
 void Attach::pushFatDataToDirectory(QString dirName)
 {
   if(type!=typeFile)
@@ -163,6 +163,37 @@ void Attach::popFatDataFromDisk()
   QString innerDirName=parentTable->record->getFullDirName();
 
   fileContent.append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) );
+}
+
+
+// fullFileName - имя файла с полным путем, который нужно скопировать в каталог записи
+// id - идентификатор аттача. Файл должен сохраниться в каталоге записи с именем <id>.bin
+bool Attach::copyFileToBase(QString iFileName, QString id)
+{
+  QString recordDir=parentTable->record->getFullDirName();
+  QString resultFileName=recordDir+"/"+id+".bin";
+
+  QFile file(iFileName);
+
+  if(file.exists()==false)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(QObject::tr("Can't open file %1. File not exists.").arg(iFileName));
+    msgBox.exec();
+
+    return false;
+  }
+
+  bool result=file.copy(resultFileName);
+
+  if(result==false)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(recordDir).arg(resultFileName));
+    msgBox.exec();
+  }
+
+  return result;
 }
 
 

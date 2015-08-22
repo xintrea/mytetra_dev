@@ -8,6 +8,7 @@
 #include "models/attachTable/Attach.h"
 
 class Record;
+class AttachTableModel;
 
 class AttachTableData
 {
@@ -23,9 +24,12 @@ public:
   QDomElement exportDataToDom(QDomDocument *doc) const;
 
   void setParentRecord(Record *iRecord);
+  void setRelatedAttachTableModel(AttachTableModel *model);
 
   void clear();
   int size() const;
+
+  void addAttach(Attach attach); // Добавление аттача в таблицу приаттаченных файлов
 
   QString getShortFileName(int row);
   QString getFullFileName(int row);
@@ -53,6 +57,8 @@ protected:
 
   // Какой записи принадлежит таблица файлов
   Record *record;
+
+  AttachTableModel *relatedAttachTableModel;
 };
 
 // Регистрация в QVariant типа AttachTableData

@@ -47,6 +47,8 @@ public:
   void pushFatDataToDirectory(QString dirName);
   void popFatDataFromDisk();
 
+  bool copyFileToBase(QString iFileName, QString id);
+
   void encrypt();
   void decrypt();
 

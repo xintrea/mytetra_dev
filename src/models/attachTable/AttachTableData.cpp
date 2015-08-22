@@ -2,8 +2,9 @@
 #include <QDebug>
 
 #include "main.h"
-#include "AttachTableData.h"
 #include "Attach.h"
+#include "AttachTableData.h"
+#include "AttachTableModel.h"
 #include "models/recordTable/Record.h"
 
 
@@ -12,6 +13,7 @@ AttachTableData::AttachTableData(Record *iRecord)
   liteFlag=true;
   attachTable.clear();
   record=iRecord;
+  relatedAttachTableModel=NULL;
 }
 
 
@@ -31,6 +33,7 @@ AttachTableData::AttachTableData()
   liteFlag=true;
   attachTable.clear();
   record=NULL;
+  relatedAttachTableModel=NULL;
 }
 
 
@@ -77,6 +80,12 @@ QDomElement AttachTableData::exportDataToDom(QDomDocument *doc) const
 }
 
 
+void AttachTableData::setRelatedAttachTableModel(AttachTableModel *model)
+{
+  relatedAttachTableModel=model;
+}
+
+
 bool AttachTableData::isEmpty() const
 {
   if(attachTable.size()==0)
@@ -110,6 +119,19 @@ void AttachTableData::clear()
 int AttachTableData::size() const
 {
   return attachTable.size();
+}
+
+
+void AttachTableData::addAttach(Attach attach)
+{
+  if(relatedAttachTableModel!=NULL)
+    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACH_COMMAND_BEGIN_RESET_MODEL);
+
+  // Аттач добавляется в таблицу приаттаченных файлов
+  attachTable.append(attach);
+
+  if(relatedAttachTableModel!=NULL)
+    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACH_COMMAND_END_RESET_MODEL);
 }
 
 
