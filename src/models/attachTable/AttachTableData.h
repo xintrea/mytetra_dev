@@ -20,11 +20,12 @@ public:
   virtual ~AttachTableData();
 
   void setupDataFromDom(QDomElement iDomElement);
+  QDomElement exportDataToDom(QDomDocument *doc) const;
 
   void setParentRecord(Record *iRecord);
 
   void clear();
-  int size();
+  int size() const;
 
   QString getShortFileName(int row);
   QString getFullFileName(int row);

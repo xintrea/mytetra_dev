@@ -30,7 +30,7 @@ public:
   virtual ~Record();
 
   void setupDataFromDom(QDomElement iDomElement);
-  QDomElement exportDataToDom(QDomDocument doc) const;
+  QDomElement exportDataToDom(QDomDocument *doc) const;
 
   QString getText() const;
   QString getTextDirect();

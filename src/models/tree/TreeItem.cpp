@@ -573,7 +573,7 @@ int TreeItem::recordtableGetRowCount(void)
 }
 
 
-QDomElement TreeItem::recordtableExportDataToDom(QDomDocument doc)
+QDomElement TreeItem::recordtableExportDataToDom(QDomDocument *doc)
 {
  return recordsTable.exportDataToDom( doc );
 }

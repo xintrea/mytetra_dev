@@ -201,7 +201,7 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 
  // qDebug() << "New element for export" << xmlnode_to_string(elm);
 
- parseTreeToDom(elm, root);
+ parseTreeToDom(&doc, elm, root);
 
  // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlnode_to_string(elm);
 
@@ -210,7 +210,7 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 
 
 // Рекурсивное преобразование Item-элементов в Dom дерево
-void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
+void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem)
 {
 
  // Если в ветке присутсвует таблица конечных записей
@@ -221,7 +221,7 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
 
    // Получение Dom дерева таблицы конечных записей
    // В метод передается QDomDocument, на основе кторого будут создаваться элементы
-   QDomElement recordTableDom=currItem->recordtableExportDataToDom( xmlData.ownerDocument() );
+   QDomElement recordTableDom=currItem->recordtableExportDataToDom( doc );
 
    // Dom дерево таблицы конечных записей добавляется
    // как подчиненный элемент к текущему элементу
@@ -234,8 +234,7 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
  for(i=0;i<currItem->childCount();i++)
   {
    // Временный элемент, куда будет внесена текущая перебираемая ветка
-   QDomDocument doc;
-   QDomElement  tempelement = doc.createElement("node");
+   QDomElement  tempElement = doc->createElement("node");
 
    // Получение всех полей для данной ветки
    QMap<QString, QString> fields=currItem->child(i)->getAllFieldsDirect();
@@ -247,18 +246,18 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
      fields_iterator.next();
 
      // Установка для временного элемента значения перебираемого поля как атрибута
-     tempelement.setAttribute(fields_iterator.key(), fields_iterator.value());
+     tempElement.setAttribute(fields_iterator.key(), fields_iterator.value());
     }
 
 
    // Добавление временного элемента к основному документу
-   xmlData.appendChild(tempelement);
+   xmlData.appendChild(tempElement);
 
    // qDebug() << "In parsetreetodom() current construct doc " << xmlnode_to_string(*xmldata);
 
    // Рекурсивная обработка
    QDomElement workElement=xmlData.lastChildElement();
-   parseTreeToDom(workElement, currItem->child(i) );
+   parseTreeToDom(doc, workElement, currItem->child(i) );
   }
 
 }

@@ -61,6 +61,22 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
 }
 
 
+QDomElement AttachTableData::exportDataToDom(QDomDocument *doc) const
+{
+  // Если у записи нет таблицы приаттаченных файлов
+  if(attachTable.size()==0)
+    return QDomElement();
+
+  QDomElement attachTableDom=doc->createElement("files");
+
+  // Пробегаются все приаттаченные файлы
+  for(int i=0; i<attachTable.size(); i++)
+    attachTableDom.appendChild( attachTable.at(i).exportDataToDom( doc ) ); // К элементу files прикрепляются элементы file
+
+  return attachTableDom;
+}
+
+
 bool AttachTableData::isEmpty() const
 {
   if(attachTable.size()==0)
@@ -91,7 +107,7 @@ void AttachTableData::clear()
 }
 
 
-int AttachTableData::size()
+int AttachTableData::size() const
 {
   return attachTable.size();
 }

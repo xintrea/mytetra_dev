@@ -39,6 +39,15 @@ void Attach::init(AttachTableData *iParentTable)
 }
 
 
+QStringList Attach::fieldAvailableList(void)
+{
+  QStringList list;
+  list << "id" << "fileName" << "link" << "type";
+
+  return list;
+}
+
+
 // На вход метода подается тег <file>
 void Attach::setupDataFromDom(QDomElement iDomElement)
 {
@@ -46,6 +55,28 @@ void Attach::setupDataFromDom(QDomElement iDomElement)
   id=iDomElement.attribute("id");
   fileName=iDomElement.attribute("fileName");
   link=iDomElement.attribute("link");
+}
+
+
+QDomElement Attach::exportDataToDom(QDomDocument *doc) const
+{
+  QDomElement elem=doc->createElement("file");
+
+  if(id.size()>0)
+    elem.setAttribute("id", id);
+
+  if(fileName.size()>0)
+    elem.setAttribute("fileName", fileName);
+
+  if(link.size()>0)
+    elem.setAttribute("link", link);
+
+  if(type!=Attach::typeFile && getType()!=Attach::typeLink)
+    critical_error("Bad type value in Attach::exportDataToDom()");
+  else
+    elem.setAttribute("type", getTypeAsName());
+
+  return elem;
 }
 
 
@@ -138,6 +169,17 @@ void Attach::popFatDataFromDisk()
 int Attach::getType() const
 {
   return type;
+}
+
+QString Attach::getTypeAsName() const
+{
+  if(type==Attach::typeFile)
+    return "file";
+
+  if(type==Attach::typeLink)
+    return "link";
+
+  return "";
 }
 
 

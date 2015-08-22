@@ -21,8 +21,10 @@ public:
   enum attachType{typeFile, typeLink};
 
   void setupDataFromDom(QDomElement iDomElement);
+  QDomElement exportDataToDom(QDomDocument *doc) const;
 
   int getType() const;
+  QString getTypeAsName() const;
 
   void setId(QString iId);
   QString getId() const;
@@ -52,6 +54,8 @@ public:
 protected:
 
   void init(AttachTableData *iParentTable);
+
+  QStringList fieldAvailableList(void);
 
   bool liteFlag;
 

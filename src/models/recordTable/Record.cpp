@@ -61,9 +61,9 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 }
 
 
-QDomElement Record::exportDataToDom(QDomDocument doc) const
+QDomElement Record::exportDataToDom(QDomDocument *doc) const
 {
-  QDomElement elem=doc.createElement("record");
+  QDomElement elem=doc->createElement("record");
 
   // Перебираются допустимые имена полей
   for(int j=0; j<fixedParameters.recordFieldAvailableList().size(); ++j)
@@ -74,6 +74,10 @@ QDomElement Record::exportDataToDom(QDomDocument doc) const
     if(isFieldExists(currentFieldName))
       elem.setAttribute(currentFieldName, getFieldSource(currentFieldName));
   }
+
+  // К элементу записи прикрепляется элемент таблицы приаттаченных файлов, если таковые есть
+  if(attachTable.size()>0)
+    elem.appendChild( attachTable.exportDataToDom(doc) );
 
   return elem;
 }

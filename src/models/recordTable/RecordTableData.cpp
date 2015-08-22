@@ -295,13 +295,13 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
 
 
 // Преобразование таблицы конечных записей в Dom документ
-QDomElement RecordTableData::exportDataToDom(QDomDocument doc) const
+QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
 {
   // Если у ветки нет таблицы конечных записей, возвращается пустой документ
   if(tableData.size()==0)
     return QDomElement();
 
-  QDomElement recordTableDomData=doc.createElement("recordtable");
+  QDomElement recordTableDomData=doc->createElement("recordtable");
 
   // Пробегаются все записи в таблице
   for(int i=0; i<tableData.size(); i++)
