@@ -53,10 +53,12 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
   while(!currentFile.isNull())
   {
     Attach attach(this);
-    attach.setupDataFromDom(currentFile);
 
-    // Аттач добавляется в таблицу приаттаченных файлов
+    // Аттач добавляется в таблицу приаттаченных файлов и размещается в памяти
     attachTable.append(attach);
+
+    // После размещения в памяти инициализируется начальными данными
+    attachTable.last().setupDataFromDom(currentFile);
 
     currentFile=currentFile.nextSiblingElement("file");
   }

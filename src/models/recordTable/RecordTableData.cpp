@@ -273,22 +273,22 @@ void RecordTableData::setupDataFromDom(QDomElement *domModel)
     return;
  
   // Определяется указатель на первый элемент с записью
-  QDomElement currentRec=domModel->firstChildElement();
+  QDomElement currentRecordDom=domModel->firstChildElement("record");
   
-  while(!currentRec.isNull())
-   {
-    if(currentRec.tagName()=="record")
-     {
-      // Структура, куда будет помещена текущая запись
-      Record currentRecordData;
-      currentRecordData.setupDataFromDom(currentRec);
+  while(!currentRecordDom.isNull())
+  {
+    // Структура, куда будет помещена текущая запись
+    Record currentRecord;
 
-      // Текущая запись добавляется в таблицу конечных записей
-      tableData << currentRecordData;
-     }
+    // Текущая запись добавляется в таблицу конечных записей (и располагается по определенному адресу в памяти)
+    tableData << currentRecord;
 
-    currentRec=currentRec.nextSiblingElement();
-   } // Закрылся цикл перебора тегов <record ...>
+    // Запись инициализируется данными. Она должна инициализироватся после размещения в списке tableData,
+    // чтобы в подчиненных объектах прописались правильные указатели на данную запись
+    (tableData.last()).setupDataFromDom(currentRecordDom);
+
+    currentRecordDom=currentRecordDom.nextSiblingElement("record");
+  } // Закрылся цикл перебора тегов <record ...>
 
   return;
 }

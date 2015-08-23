@@ -11,6 +11,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "views/record/MetaEditor.h"
+#include "views/tree/TreeScreen.h"
 
 
 extern GlobalParameters globalParameters;
@@ -117,6 +118,9 @@ void AttachTableController::onAttachFile(void)
     }
 
   } // Закончился цикл перебора файлов
+
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 

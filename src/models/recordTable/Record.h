@@ -82,7 +82,7 @@ protected:
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
 
   // Таблица прикрепляемых файлов
-  AttachTableData attachTable;
+  AttachTableData attachTableData;
 
   void saveTextDirect(QString iText);
 
