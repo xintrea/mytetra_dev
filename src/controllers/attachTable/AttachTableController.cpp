@@ -86,22 +86,37 @@ void AttachTableController::onAttachFile(void)
   // В данных прописывается свзязанная с данными модель
   attachTableData->setRelatedAttachTableModel(model);
 
-  // Перебираются файлы выбранных картинок
+  // Перебираются выбранные в диалоге файлы
   for(int i=0; i<files.size(); ++i)
   {
-    // Текущее имя файла
-    QString currFileName=files.at(i);
+    // Текущее полное имя файла
+    QString currFullFileName=files.at(i);
 
-    qDebug() << "Select file from disk: " << currFileName;
+    QFileInfo currFileInfo(currFullFileName);
+
+    // Если пользователь выбрал директорию (директорию выбирать нельзя, пока что можно выбирать только файлы)
+    if(currFileInfo.isDir())
+    {
+      QMessageBox msgBox;
+      msgBox.setText(tr("Can't add directory. Please, select files."));
+      msgBox.exec();
+
+      break;
+    }
+
+    qDebug() << "Select file from disk: " << currFullFileName;
+
+    // Текущее короткое имя файла
+    QString currShortFileName=currFileInfo.fileName();
 
     // Конструируется Attach, который нужно добавить
     QString id=get_unical_id();
     Attach attach(Attach::typeFile, attachTableData);
     attach.setId( id );
-    attach.setFileName(currFileName);
+    attach.setFileName(currShortFileName);
 
     // Файл аттача копируется в базу
-    bool result=attach.copyFileToBase(currFileName, id);
+    bool result=attach.copyFileToBase(currFullFileName, id);
 
     if(result)
     {

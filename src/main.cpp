@@ -24,7 +24,6 @@
 #include "libraries/qtSingleApplication5/qtsingleapplication.h"
 #endif
 
-
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/WindowSwitcher.h"

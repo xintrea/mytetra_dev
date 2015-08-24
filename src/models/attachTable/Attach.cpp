@@ -286,7 +286,10 @@ qint64 Attach::getFileSize() const
   QString tempFileName;
 
   if(type==typeFile)
-    tempFileName=fileName; // todo: Добавить путь к файлу
+  {
+    QString recordDir=parentTable->record->getFullDirName();
+    tempFileName=recordDir+"/"+id+".bin";
+  }
 
   if(type==typeLink)
     tempFileName=link;
