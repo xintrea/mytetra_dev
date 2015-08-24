@@ -1,5 +1,6 @@
 #include <QDomElement>
 #include <QDebug>
+#include <QFileInfo>
 
 #include "main.h"
 #include "Attach.h"
@@ -137,17 +138,31 @@ void AttachTableData::addAttach(Attach attach)
 }
 
 
-// Имя файла без пути
-QString AttachTableData::getShortFileName(int row)
+// Видимое имя файла без пути
+QString AttachTableData::getFileName(int row)
 {
   return attachTable.at(row).getFileName();
 }
 
 
-// Имя файла с путем
-QString AttachTableData::getFullFileName(int row)
+// Внутреннее имя файла без пути
+QString AttachTableData::getInnerFileName(int row)
 {
-  return "/catalog.../"+attachTable.at(row).getFileName(); // todo: Доделать
+  return attachTable.at(row).getInnerFileName();
+}
+
+
+// Внутреннее имя файла с путем
+QString AttachTableData::getFullInnerFileName(int row)
+{
+  return attachTable.at(row).getFullInnerFileName();
+}
+
+
+// Внутреннее имя файла с абсолютным путем
+QString AttachTableData::getAbsoluteInnerFileName(int row)
+{
+  return attachTable.at(row).getAbsoluteInnerFileName();
 }
 
 

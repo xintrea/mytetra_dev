@@ -19,6 +19,8 @@ public:
 
   void setController(AttachTableController *pController);
 
+  int getFirstSelectionPos(void);
+
   virtual void resizeEvent(QResizeEvent *event);
 
 protected:

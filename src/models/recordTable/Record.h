@@ -27,6 +27,7 @@ class Record
 
 public:
   Record();
+  Record(const Record &obj);
   virtual ~Record();
 
   void setupDataFromDom(QDomElement iDomElement);
@@ -70,6 +71,10 @@ public:
 
 protected:
 
+  // ---------------------------------------------------------------------
+  // Свойства класса (не забыть перечислить все в конструкторе копривания)
+  // ---------------------------------------------------------------------
+
   bool liteFlag;
 
   // Установка содержимого свойств происходит в вышестоящем коде
@@ -83,6 +88,11 @@ protected:
 
   // Таблица прикрепляемых файлов
   AttachTableData attachTableData;
+
+
+  // -----------------
+  // Защищенные методы
+  // -----------------
 
   void saveTextDirect(QString iText);
 

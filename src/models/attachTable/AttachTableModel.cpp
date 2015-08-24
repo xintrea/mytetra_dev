@@ -64,9 +64,9 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
 QVariant AttachTableModel::getCell(int row, int column) const
 {
   switch (column) {
-    case 0:
-      return QVariant(table->getShortFileName(row));
-    case 1:
+    case ATTACH_COLUMN_FILENAME:
+      return QVariant(table->getFileName(row));
+    case ATTACH_COLUMN_FILESIZE:
       return QVariant(table->getFileSize(row));
     default:
       return QVariant();

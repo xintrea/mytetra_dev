@@ -32,3 +32,16 @@ void AttachTableView::resizeEvent(QResizeEvent *event)
   // Отрисовка родительского класса
   QTableView::resizeEvent(event);
 }
+
+
+// Получение номера первого выделенного элемента
+int AttachTableView::getFirstSelectionPos(void)
+{
+ // Получение списка выделенных Item-элементов
+ QModelIndexList selectItems=selectionModel()->selectedIndexes();
+
+ if(selectItems.isEmpty())
+  return -1; // Если ничего не выделено
+ else
+  return (selectItems.at(0)).row(); // Индекс первого выделенного элемента
+}

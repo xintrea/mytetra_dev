@@ -2,6 +2,7 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "main.h"
 #include "AttachTableController.h"
@@ -115,8 +116,12 @@ void AttachTableController::onAttachFile(void)
     attach.setId( id );
     attach.setFileName(currShortFileName);
 
+    qDebug() << "Before copy file " << currFullFileName;
+
     // Файл аттача копируется в базу
-    bool result=attach.copyFileToBase(currFullFileName, id);
+    bool result=attach.copyFileToBase(currFullFileName);
+
+    qDebug() << "After copy file";
 
     if(result)
     {
@@ -148,6 +153,40 @@ void AttachTableController::onEditFileName(void)
 void AttachTableController::onDeleteFile(void)
 {
 
+}
+
+
+void AttachTableController::onOpenFile(void)
+{
+  qDebug() << "In slot AttachTableController::onOpenFile()";
+
+  // Получение списка выделенных Item-элементов
+  QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
+
+  AttachTableData *attachTableData=getAttachTableData();
+
+  // Перебор выделенных элементов. Так как имеем несколько столбцов, то для одной строки будет несколько QModelIndex
+  int previousRow=-1;
+  for(int i=0; i<selectItems.size(); i++)
+  {
+    int row=selectItems.at(i).row();
+
+    // Строка обратабывается только один раз
+    if(row!=previousRow)
+    {
+      previousRow=row;
+
+      QString fullFileName=attachTableData->getAbsoluteInnerFileName(row);
+      qDebug() << "Open file: "+fullFileName;
+
+      // QUrl urlFile;
+      // urlFile.fromLocalFile(fullFileName);
+      QUrl urlFile("file:/"+fullFileName);
+
+      // Открытие файла средствами операционной системы
+      QDesktopServices::openUrl(urlFile);
+    }
+  }
 }
 
 

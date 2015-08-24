@@ -31,8 +31,10 @@ public:
 
   void addAttach(Attach attach); // Добавление аттача в таблицу приаттаченных файлов
 
-  QString getShortFileName(int row);
-  QString getFullFileName(int row);
+  QString getFileName(int row);
+  QString getInnerFileName(int row);
+  QString getFullInnerFileName(int row);
+  QString getAbsoluteInnerFileName(int row);
   qint64 getFileSize(int row);
 
   bool isEmpty() const;

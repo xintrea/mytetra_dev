@@ -15,9 +15,24 @@ extern FixedParameters fixedParameters;
 extern GlobalParameters globalParameters;
 
 
-Record::Record() // : attachTableData(this)
+Record::Record() : attachTableData(this)
 {
   liteFlag=true; // По-умолчанию объект легкий
+}
+
+
+// Конструктор копирования
+Record::Record(const Record &obj)
+{
+  // Скопировать нужно каждый кусочек класса, сами они не копируются
+  liteFlag=obj.liteFlag;
+  fieldList=obj.fieldList;
+  text=obj.text;
+  pictureFiles=obj.pictureFiles;
+  attachTableData=obj.attachTableData;
+
+  // Обратный указатель во включенном объекте должен указывать на новый экземпляр
+  attachTableData.setParentRecord(this);
 }
 
 

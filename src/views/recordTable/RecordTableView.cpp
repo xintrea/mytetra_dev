@@ -293,7 +293,7 @@ int RecordTableView::getFirstSelectionPos(void)
  if(selectItems.isEmpty())
   return -1; // Если ничего не выделено
  else
-  return (selectItems.at(0)).row(); // Индекс первого выделенного элемента
+  return (selectItems.at(0)).row(); // Номер первого выделенного элемента
 }
 
 

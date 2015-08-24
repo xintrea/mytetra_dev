@@ -31,6 +31,10 @@ public:
 
   void setFileName(QString iFileName);
   QString getFileName() const;
+  QString getInnerFileName() const;
+  QString getFullInnerFileName() const;
+  QString getFullInnerDirName() const;
+  QString getAbsoluteInnerFileName() const;
 
   bool setLink(QString iLink);
   QString getLink() const;
@@ -47,7 +51,7 @@ public:
   void pushFatDataToDirectory(QString dirName);
   void popFatDataFromDisk();
 
-  bool copyFileToBase(QString iFileName, QString id);
+  bool copyFileToBase(QString iFileName);
 
   void encrypt();
   void decrypt();

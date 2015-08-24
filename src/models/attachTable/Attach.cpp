@@ -1,5 +1,7 @@
 #include <QFile>
+#include <QFileInfo>
 #include <QMessageBox>
+#include <QDebug>
 
 #include "main.h"
 
@@ -126,7 +128,7 @@ void Attach::pushFatDataToDisk()
   if(liteFlag==true)
     critical_error("Can't push fat data for lite attach. Attach id: "+id+" File name: "+fileName);
 
-  QString innerFileName=id+".bin";
+  QString innerFileName=getInnerFileName();
   QString innerDirName=parentTable->record->getFullDirName();
 
   QMap<QString, QByteArray> fileList;
@@ -145,7 +147,7 @@ void Attach::pushFatDataToDirectory(QString dirName)
     critical_error("Can't save to directory lite attach. Attach id: "+id+" File name: "+fileName);
 
   QMap<QString, QByteArray> fileList;
-  fileList[id+".bin"]=fileContent;
+  fileList[ getInnerFileName() ]=fileContent;
   save_files_to_directory(dirName, fileList);
 }
 
@@ -159,7 +161,7 @@ void Attach::popFatDataFromDisk()
 
   fileContent.clear();
 
-  QString innerFileName=id+".bin";
+  QString innerFileName=getInnerFileName();
   QString innerDirName=parentTable->record->getFullDirName();
 
   fileContent.append( (get_files_from_directory(innerDirName, innerFileName)).value(innerFileName) );
@@ -167,13 +169,15 @@ void Attach::popFatDataFromDisk()
 
 
 // fullFileName - имя файла с полным путем, который нужно скопировать в каталог записи
-// id - идентификатор аттача. Файл должен сохраниться в каталоге записи с именем <id>.bin
-bool Attach::copyFileToBase(QString iFileName, QString id)
+bool Attach::copyFileToBase(QString iFileName)
 {
-  QString recordDir=parentTable->record->getFullDirName();
-  QString resultFileName=recordDir+"/"+id+".bin";
+  qDebug() << "Before check file. iFileName: "+iFileName;
+  qDebug() << "Inner file name: "+getFullInnerFileName();
 
+  // Проверка наличия исходного файла
   QFile file(iFileName);
+
+  qDebug() << "Check file finish";
 
   if(file.exists()==false)
   {
@@ -184,12 +188,16 @@ bool Attach::copyFileToBase(QString iFileName, QString id)
     return false;
   }
 
-  bool result=file.copy(resultFileName);
+  qDebug() << "Before real copy file.";
+
+  bool result=file.copy( getFullInnerFileName() );
+
+  qDebug() << "After real copy file.";
 
   if(result==false)
   {
     QMessageBox msgBox;
-    msgBox.setText(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(recordDir).arg(resultFileName));
+    msgBox.setText(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
     msgBox.exec();
   }
 
@@ -245,6 +253,47 @@ QString Attach::getFileName() const
 }
 
 
+// Внутрисистемное имя файла (без пути)
+QString Attach::getInnerFileName() const
+{
+  if(type!=typeFile)
+    critical_error("Can't get file name from non-file attach.");
+
+  // Выясняется расширение по видимому имени файла
+  QFileInfo fileInfo(fileName);
+  QString suffix=fileInfo.suffix();
+
+  QString innerFileName=id+"."+suffix;
+
+  return innerFileName;
+}
+
+
+// Внутрисистемное имя файла с путем
+QString Attach::getFullInnerFileName() const
+{
+  QString resultFileName=getFullInnerDirName()+"/"+getInnerFileName();
+
+  return resultFileName;
+}
+
+
+// Внутрисистемное имя файла с абсолютным путем
+QString Attach::getAbsoluteInnerFileName() const
+{
+  QFileInfo fileInfo( getFullInnerFileName() );
+
+  return fileInfo.absoluteFilePath();
+}
+
+
+// Внутрисистемный путь к файлу (полный)
+QString Attach::getFullInnerDirName() const
+{
+  return parentTable->record->getFullDirName();
+}
+
+
 bool Attach::setLink(QString iLink)
 {
   if(type!=typeLink)
@@ -288,7 +337,7 @@ qint64 Attach::getFileSize() const
   if(type==typeFile)
   {
     QString recordDir=parentTable->record->getFullDirName();
-    tempFileName=recordDir+"/"+id+".bin";
+    tempFileName=recordDir+"/"+getInnerFileName();
   }
 
   if(type==typeLink)
