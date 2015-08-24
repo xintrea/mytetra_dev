@@ -19,6 +19,8 @@ public:
   AttachTableScreen(QWidget *parent = 0);
   virtual ~AttachTableScreen();
 
+  void clearAll(void);
+
 signals:
 
 public slots:

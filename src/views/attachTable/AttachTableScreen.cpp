@@ -106,3 +106,11 @@ void AttachTableScreen::assembly(void)
   lt=layout();
   lt->setContentsMargins(0,0,0,0);
 }
+
+
+// Очистка таблицы приаттаченных файлов
+// Вызывается в моменты, когда ни одна запись не выбрана или содержимое записи недоступно
+void AttachTableScreen::clearAll()
+{
+  attachTableController->setAttachTableData(NULL);
+}

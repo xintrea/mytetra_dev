@@ -201,12 +201,12 @@ void MetaEditor::toAttachCallback(void)
 // Слот для установки значений инфополей на экране
 void MetaEditor::setField(QString n, QString v)
 {
- if     (n=="name")  setName(v);
- else if(n=="author")setAuthor(v);
- else if(n=="url")   setUrl(v);
- else if(n=="tags")  setTags(v);
- else
-  critical_error("metaeditor.set_field Undestand field "+n+" with value "+v);
+  if     (n=="name")  setName(v);
+  else if(n=="author")setAuthor(v);
+  else if(n=="url")   setUrl(v);
+  else if(n=="tags")  setTags(v);
+  else
+    critical_error("metaeditor.set_field Undestand field "+n+" with value "+v);
 }
 
 
@@ -214,6 +214,7 @@ void MetaEditor::clearAll(void)
 {
  qDebug() << "MetaEditor::clearAll()" ;
 
+ // Очистка для слоя редактора
  setName("");
  setAuthor("");
  setUrl("");
@@ -224,57 +225,60 @@ void MetaEditor::clearAll(void)
  set_file_name("");
 
  clearAllMiscField();
+
+ // Очистка для слоя приаттаченных файлов
+ attachTableScreen->clearAll();
 }
 
 
 void MetaEditor::setTreePath(QString path)
 {
- treePath->setVisible(true);
- treePath->setText(tr("<b>Path: </b>")+path);
+  treePath->setVisible(true);
+  treePath->setText(tr("<b>Path: </b>")+path);
 }
 
 
 void MetaEditor::setName(QString name)
 {
- recordName->setVisible(true);
- recordName->setText("<b>"+name+"</b>");
+  recordName->setVisible(true);
+  recordName->setText("<b>"+name+"</b>");
 }
 
 
 void MetaEditor::setAuthor(QString author)
 {
- if(author.length()==0)
- {
-  recordAuthor->setVisible(false);
-  recordAuthor->setText("");
- }
- else
- {
-  recordAuthor->setVisible(true);
-  recordAuthor->setText("<i>"+author+"</i>");
- }
+  if(author.length()==0)
+  {
+    recordAuthor->setVisible(false);
+    recordAuthor->setText("");
+  }
+  else
+  {
+    recordAuthor->setVisible(true);
+    recordAuthor->setText("<i>"+author+"</i>");
+  }
 }
 
 
 void MetaEditor::setUrl(QString url)
 {
- if(url.length()==0)
- {
-  labelUrl->setVisible(false);
-  recordUrl->setVisible(false);
+  if(url.length()==0)
+  {
+    labelUrl->setVisible(false);
+    recordUrl->setVisible(false);
 
-  recordUrl->setText("");
- }
- else
- {
-  labelUrl->setVisible(true);
-  recordUrl->setVisible(true);
-
-  if(url.size()>64)
-   recordUrl->setText("<a href=\""+url+"\">"+url.left(64)+"...</a>");
+    recordUrl->setText("");
+  }
   else
-   recordUrl->setText("<a href=\""+url+"\">"+url+"</a>");
- }
+  {
+    labelUrl->setVisible(true);
+    recordUrl->setVisible(true);
+
+    if(url.size()>64)
+      recordUrl->setText("<a href=\""+url+"\">"+url.left(64)+"...</a>");
+    else
+      recordUrl->setText("<a href=\""+url+"\">"+url+"</a>");
+  }
 }
 
 

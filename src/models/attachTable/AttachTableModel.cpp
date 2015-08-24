@@ -107,7 +107,11 @@ bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
     // Устанавливается данные переданной по указателю таблицы
     table=value.value<AttachTableDataPointer>();
-    qDebug() << "Set new data to AttachTableModel with rows: " << table->size();
+
+    if(table!=NULL)
+      qDebug() << "Set new data to AttachTableModel with rows: " << table->size();
+    else
+      qDebug() << "Set new AttachTableModel to NULL data";
 
     endResetModel();
 
