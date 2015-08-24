@@ -17,6 +17,8 @@ public:
   AttachTableView(QWidget *parent=0);
   virtual ~AttachTableView();
 
+  void init(void);
+
   void setController(AttachTableController *pController);
 
   int getFirstSelectionPos(void);
@@ -24,8 +26,11 @@ public:
   virtual void resizeEvent(QResizeEvent *event);
 
 protected:
-  AttachTableController *controller;
 
+  void setupSignals(void);
+
+
+  AttachTableController *controller;
 };
 
 #endif // __ATTACHTABLEVIEW_H__

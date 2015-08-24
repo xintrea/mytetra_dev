@@ -17,6 +17,20 @@ AttachTableView::~AttachTableView()
 }
 
 
+void AttachTableView::init(void)
+{
+  setupSignals();
+}
+
+
+void AttachTableView::setupSignals(void)
+{
+  // Сигнал чтобы открыть на просмотр/редактирование файл по двойному клику
+  connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
+          controller, SLOT(onOpenFile(void)));
+}
+
+
 void AttachTableView::setController(AttachTableController *pController)
 {
   controller=pController;

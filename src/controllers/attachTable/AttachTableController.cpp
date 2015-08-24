@@ -25,7 +25,7 @@ AttachTableController::AttachTableController(QObject *parent) : QObject(parent)
   view=new AttachTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
   view->setObjectName("attachTableView");
   view->setController(this);
-  // view->horizontalHeader()->hide(); // Вид должен быть компактным, заголовки ненужны
+  view->init(); // Инициализация запускается только после установки контроллера
 
   // Создание модели данных (тонкой обертки над AttachTableData)
   model=new AttachTableModel(this);
@@ -181,7 +181,7 @@ void AttachTableController::onOpenFile(void)
 
       // QUrl urlFile;
       // urlFile.fromLocalFile(fullFileName);
-      QUrl urlFile("file:/"+fullFileName);
+      QUrl urlFile("file:"+fullFileName);
 
       // Открытие файла средствами операционной системы
       QDesktopServices::openUrl(urlFile);
