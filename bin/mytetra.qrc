@@ -91,5 +91,7 @@
         <file>resource/pic/attach_delete.svg</file>
         <file>resource/pic/attach_edit.svg</file>
         <file>resource/pic/attach_switch_to_editor.svg</file>
+        <file>resource/pic/attach_preview.svg</file>
+        <file>resource/pic/attach_info.svg</file>
     </qresource>
 </RCC>

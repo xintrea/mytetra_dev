@@ -50,6 +50,7 @@ void AttachTableScreen::setupActions(void)
   // Информация о таблице (для отладки)
   actionInfo = new QAction(tr("Attach Info"), this);
   actionInfo->setStatusTip(tr("Attach Info"));
+  actionInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
 
   // Переключение на редактор
   actionSwitchToEditor = new QAction(tr("Return to editor"), this);
