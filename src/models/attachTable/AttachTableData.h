@@ -30,11 +30,23 @@ public:
   int size() const;
 
   void addAttach(Attach attach); // Добавление аттача в таблицу приаттаченных файлов
+  void deleteAttach(QString id); // Удаление аттача по идентификатору
+
+  int getRowById(QString id);
+  QString getIdByRow(int row);
 
   QString getFileName(int row);
+  QString getFileNameById(QString id);
+
   QString getInnerFileName(int row);
+  QString getInnerFileNameById(QString id);
+
   QString getFullInnerFileName(int row);
+  QString getFullInnerFileNameById(QString id);
+
   QString getAbsoluteInnerFileName(int row);
+  QString getAbsoluteInnerFileNameById(QString id);
+
   qint64 getFileSize(int row);
 
   bool isEmpty() const;

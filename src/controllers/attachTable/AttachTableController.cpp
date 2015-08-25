@@ -51,17 +51,17 @@ AttachTableView *AttachTableController::getView(void)
 
 void AttachTableController::setAttachTableData(AttachTableData *attachTableData)
 {
-  model->setData(QModelIndex(), QVariant::fromValue(attachTableData), ATTACH_TABLE_DATA_ROLE);
+  model->setData(QModelIndex(), QVariant::fromValue(attachTableData), ATTACHTABLE_ROLE_TABLE_DATA);
 }
 
 
 AttachTableData *AttachTableController::getAttachTableData()
 {
-  return (model->data(QModelIndex(), ATTACH_TABLE_DATA_ROLE)).value<AttachTableData *>();
+  return (model->data(QModelIndex(), ATTACHTABLE_ROLE_TABLE_DATA)).value<AttachTableData *>();
 }
 
 
-void AttachTableController::onAttachFile(void)
+void AttachTableController::onAddAttach(void)
 {
   // Диалог выбора файлов
   QFileDialog fileSelectDialog;
@@ -150,42 +150,47 @@ void AttachTableController::onEditFileName(void)
 }
 
 
-void AttachTableController::onDeleteFile(void)
+void AttachTableController::onDeleteAttach(void)
 {
+  qDebug() << "In slot AttachTableController::onDeleteFile()";
 
-}
+  QMessageBox msgBox;
+  msgBox.setText(tr("Do you want to delete attach file(s)?"));
+  msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+  msgBox.setDefaultButton(QMessageBox::Cancel);
+  int ret = msgBox.exec();
 
-
-void AttachTableController::onOpenFile(void)
-{
-  qDebug() << "In slot AttachTableController::onOpenFile()";
-
-  // Получение списка выделенных Item-элементов
-  QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
+  if(ret!=QMessageBox::Ok)
+    return;
 
   AttachTableData *attachTableData=getAttachTableData();
 
-  // Перебор выделенных элементов. Так как имеем несколько столбцов, то для одной строки будет несколько QModelIndex
-  int previousRow=-1;
-  for(int i=0; i<selectItems.size(); i++)
+  QList<QString> selectedId=getSelectedId();
+
+  foreach( QString id, selectedId )
+    attachTableData->deleteAttach(id);
+}
+
+
+void AttachTableController::onOpenAttach(void)
+{
+  qDebug() << "In slot AttachTableController::onOpenFile()";
+
+  AttachTableData *attachTableData=getAttachTableData();
+
+  QList<QString> selectedId=getSelectedId();
+
+  foreach( QString id, selectedId )
   {
-    int row=selectItems.at(i).row();
+    QString fullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
+    qDebug() << "Open file: "+fullFileName;
 
-    // Строка обратабывается только один раз
-    if(row!=previousRow)
-    {
-      previousRow=row;
+    // QUrl urlFile;
+    // urlFile.fromLocalFile(fullFileName);
+    QUrl urlFile("file:"+fullFileName);
 
-      QString fullFileName=attachTableData->getAbsoluteInnerFileName(row);
-      qDebug() << "Open file: "+fullFileName;
-
-      // QUrl urlFile;
-      // urlFile.fromLocalFile(fullFileName);
-      QUrl urlFile("file:"+fullFileName);
-
-      // Открытие файла средствами операционной системы
-      QDesktopServices::openUrl(urlFile);
-    }
+    // Открытие файла средствами операционной системы
+    QDesktopServices::openUrl(urlFile);
   }
 }
 
@@ -197,7 +202,36 @@ void AttachTableController::onSwitchToEditor(void)
 }
 
 
-void AttachTableController::onInfo(void)
+void AttachTableController::onShowAttachInfo(void)
 {
   qDebug() << "Model row: " << model->rowCount();
+}
+
+
+// Получение списка идентификаторов аттачей, выделенных в представлении
+QList<QString> AttachTableController::getSelectedId(void)
+{
+  qDebug() << "In slot AttachTableController::onDeleteFile()";
+
+  QList<QString> selectedId;
+
+  // Получение списка выделенных в таблице на экране Item-элементов
+  QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
+
+  // Перебор выделенных элементов. Так как имеем несколько столбцов, то для одной строки будет несколько QModelIndex
+  int previousRow=-1;
+  for(int i=0; i<selectItems.size(); i++)
+  {
+    int row=selectItems.at(i).row();
+
+    // Строка обратабывается только один раз (из-за того что для одной строки несколько QModelIndex)
+    if(row!=previousRow)
+    {
+      previousRow=row;
+
+      selectedId.append( model->data(selectItems.at(i), ATTACHTABLE_ROLE_ID).toString() );
+    }
+  }
+
+  return selectedId;
 }

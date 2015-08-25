@@ -42,13 +42,13 @@ protected:
   // Экранные элементы
   QToolBar *toolsLine;
   QVBoxLayout *screenLayout;
-  QAction *actionAttachFile;
+  QAction *actionAddAttach;
   QAction *actionEditFileName;
-  QAction *actionDeleteFile;
-  QAction *actionOpenFile;
+  QAction *actionDeleteAttach;
+  QAction *actionOpenAttach;
 
   QAction *actionSwitchToEditor;
-  QAction *actionInfo;
+  QAction *showAttachInfo;
 
 };
 

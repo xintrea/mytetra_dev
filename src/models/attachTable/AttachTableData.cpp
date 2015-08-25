@@ -128,13 +128,56 @@ int AttachTableData::size() const
 void AttachTableData::addAttach(Attach attach)
 {
   if(relatedAttachTableModel!=NULL)
-    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACH_COMMAND_BEGIN_RESET_MODEL);
+    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACHTABLE_COMMAND_BEGIN_RESET_MODEL);
 
   // Аттач добавляется в таблицу приаттаченных файлов
   attachTable.append(attach);
 
   if(relatedAttachTableModel!=NULL)
-    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACH_COMMAND_END_RESET_MODEL);
+    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACHTABLE_COMMAND_END_RESET_MODEL);
+}
+
+
+void AttachTableData::deleteAttach(QString id)
+{
+  int row=getRowById(id);
+
+  if(row<0)
+    return;
+
+  // Сначала уничтожается файл
+  attachTable[row].removeFile();
+
+  // Если связанной модели нет
+  if(relatedAttachTableModel==NULL)
+  {
+    attachTable.removeAt(row); // Просто удаляется запись в данных
+    return;
+  }
+  else
+  {
+    // Иначе связанная модель есть
+
+    relatedAttachTableModel->setData(QModelIndex(), row, ATTACHTABLE_COMMAND_BEGIN_REMOVE_ROW);
+    attachTable.removeAt(row); // Удаляется запись в данных
+    relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACHTABLE_COMMAND_END_REMOVE_ROW);
+  }
+}
+
+
+int AttachTableData::getRowById(QString id)
+{
+  for(int i=0; i<attachTable.size(); i++)
+    if(attachTable.at(i).getId()==id)
+      return i;
+
+  return -1;
+}
+
+
+QString AttachTableData::getIdByRow(int row)
+{
+  return attachTable.at(row).getId();
 }
 
 
@@ -145,10 +188,34 @@ QString AttachTableData::getFileName(int row)
 }
 
 
+// Видимое имя файла без пути по Id
+QString AttachTableData::getFileNameById(QString id)
+{
+  int row=getRowById(id);
+
+  if(row>=0)
+    return getFileName(row);
+  else
+    return "";
+}
+
+
 // Внутреннее имя файла без пути
 QString AttachTableData::getInnerFileName(int row)
 {
   return attachTable.at(row).getInnerFileName();
+}
+
+
+// Внутреннее имя файла без пути по Id
+QString AttachTableData::getInnerFileNameById(QString id)
+{
+  int row=getRowById(id);
+
+  if(row>=0)
+    return getInnerFileName(row);
+  else
+    return "";
 }
 
 
@@ -159,10 +226,34 @@ QString AttachTableData::getFullInnerFileName(int row)
 }
 
 
+// Внутреннее имя файла с путем по Id
+QString AttachTableData::getFullInnerFileNameById(QString id)
+{
+  int row=getRowById(id);
+
+  if(row>=0)
+    return getFullInnerFileName(row);
+  else
+    return "";
+}
+
+
 // Внутреннее имя файла с абсолютным путем
 QString AttachTableData::getAbsoluteInnerFileName(int row)
 {
   return attachTable.at(row).getAbsoluteInnerFileName();
+}
+
+
+// Внутреннее имя файла с абсолютным путем по Id
+QString AttachTableData::getAbsoluteInnerFileNameById(QString id)
+{
+  int row=getRowById(id);
+
+  if(row>=0)
+    return getAbsoluteInnerFileName(row);
+  else
+    return "";
 }
 
 

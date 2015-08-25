@@ -23,7 +23,7 @@ int AttachTableModel::columnCount(const QModelIndex & parent) const
 {
   Q_UNUSED(parent);
 
-  return ATTACH_COLUMNS; // Имя файла и размер
+  return ATTACHTABLE_COLUMNS; // Имя файла и размер
 }
 
 
@@ -45,15 +45,22 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
   if (index.isValid() && role == Qt::DisplayRole)
     return getCell(index.row(), index.column());
 
-  if(role==ATTACH_TABLE_DATA_ROLE)
+  // Указатель на связанные с моделью данные
+  if(role==ATTACHTABLE_ROLE_TABLE_DATA)
   {
     if(table==NULL)
       return QVariant(0);
     else
-    {
-      QVariant variant = QVariant::fromValue(table);
-      return variant;
-    }
+      return QVariant::fromValue(table);
+  }
+
+  // Идентификатор аттача
+  if(role==ATTACHTABLE_ROLE_ID)
+  {
+    int row=index.row();
+    QString id=table->getIdByRow(row);
+
+    return QVariant::fromValue(id);
   }
 
   return QVariant();
@@ -64,9 +71,9 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
 QVariant AttachTableModel::getCell(int row, int column) const
 {
   switch (column) {
-    case ATTACH_COLUMN_FILENAME:
+    case ATTACHTABLE_COLUMN_FILENAME:
       return QVariant(table->getFileName(row));
-    case ATTACH_COLUMN_FILESIZE:
+    case ATTACHTABLE_COLUMN_FILESIZE:
       return QVariant(table->getFileSize(row));
     default:
       return QVariant();
@@ -77,31 +84,50 @@ QVariant AttachTableModel::getCell(int row, int column) const
 // Сохранение вводимых данных по указанному индексу
 bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-  if(role==ATTACH_COMMAND_RESET_MODEL)
+  if(role==ATTACHTABLE_COMMAND_RESET_MODEL)
   {
     beginResetModel();
     endResetModel();
     return true;
   }
 
-  if(role==ATTACH_COMMAND_BEGIN_RESET_MODEL)
+  if(role==ATTACHTABLE_COMMAND_BEGIN_RESET_MODEL)
   {
     beginResetModel();
     return true;
   }
 
-  if(role==ATTACH_COMMAND_END_RESET_MODEL)
+  if(role==ATTACHTABLE_COMMAND_END_RESET_MODEL)
   {
     endResetModel();
+    return true;
+  }
+
+  if(role==ATTACHTABLE_COMMAND_BEGIN_REMOVE_ROW)
+  {
+    beginRemoveRows(QModelIndex(), value.toInt(), value.toInt());
+    return true;
+  }
+
+  if(role==ATTACHTABLE_COMMAND_BEGIN_REMOVE_ROWS)
+  {
+    typeIntPair pair=value.value<typeIntPair>();
+    beginRemoveRows(QModelIndex(), pair.first, pair.second);
+    return true;
+  }
+
+  if(role==ATTACHTABLE_COMMAND_END_REMOVE_ROW || role==ATTACHTABLE_COMMAND_END_REMOVE_ROWS)
+  {
+    endRemoveRows();
     return true;
   }
 
   // Если индекс недопустимый
-  if(!index.isValid() && role!=ATTACH_TABLE_DATA_ROLE)
+  if(!index.isValid() && role!=ATTACHTABLE_ROLE_TABLE_DATA)
     return false;
 
   // Если происходит установка ссылки на таблицу с данными
-  if(role==ATTACH_TABLE_DATA_ROLE)
+  if(role==ATTACHTABLE_ROLE_TABLE_DATA)
   {
     beginResetModel();
 

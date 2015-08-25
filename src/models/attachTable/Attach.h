@@ -52,6 +52,7 @@ public:
   void popFatDataFromDisk();
 
   bool copyFileToBase(QString iFileName);
+  void removeFile();
 
   void encrypt();
   void decrypt();

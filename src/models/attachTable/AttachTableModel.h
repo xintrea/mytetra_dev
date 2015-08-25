@@ -4,20 +4,27 @@
 #include <QObject>
 #include <QAbstractTableModel>
 #include <QVariant>
+#include <QPair>
 
 #include "AttachTableData.h"
 
-#define ATTACH_COLUMN_FILENAME 0
-#define ATTACH_COLUMN_FILESIZE 1
-#define ATTACH_COLUMNS 2
+#define ATTACHTABLE_COLUMN_FILENAME 0
+#define ATTACHTABLE_COLUMN_FILESIZE 1
+#define ATTACHTABLE_COLUMNS 2
 
-#define ATTACH_TABLE_DATA_ROLE           Qt::UserRole+50 // Установка/получение ссылки на таблицу с данными
-#define ATTACH_ROLE                      Qt::UserRole+51 // Установка/получение объекта Attach
-#define ATTACH_ID_ROLE                   Qt::UserRole+52 // Установка/получение идентификатора аттача
-#define ATTACH_COMMAND_RESET_MODEL       Qt::UserRole+53 // Команда перечитывания модели. Используется при изменении данных в data-объекте
-#define ATTACH_COMMAND_BEGIN_RESET_MODEL Qt::UserRole+54
-#define ATTACH_COMMAND_END_RESET_MODEL   Qt::UserRole+55
+#define ATTACHTABLE_ROLE_TABLE_DATA           Qt::UserRole+50 // Установка/получение ссылки на таблицу с данными
+#define ATTACHTABLE_ROLE_ATTACH               Qt::UserRole+51 // Установка/получение объекта Attach
+#define ATTACHTABLE_ROLE_ID                   Qt::UserRole+52 // Установка/получение идентификатора аттача
+#define ATTACHTABLE_COMMAND_RESET_MODEL       Qt::UserRole+53 // Команда перечитывания модели. Используется при изменении данных в data-объекте
+#define ATTACHTABLE_COMMAND_BEGIN_RESET_MODEL Qt::UserRole+54
+#define ATTACHTABLE_COMMAND_END_RESET_MODEL   Qt::UserRole+55
+#define ATTACHTABLE_COMMAND_BEGIN_REMOVE_ROW  Qt::UserRole+56 // Подготовка модели перед удалением одной строки
+#define ATTACHTABLE_COMMAND_BEGIN_REMOVE_ROWS Qt::UserRole+57 // Подготовка модели перед удалением набора строк
+#define ATTACHTABLE_COMMAND_END_REMOVE_ROW    Qt::UserRole+58
+#define ATTACHTABLE_COMMAND_END_REMOVE_ROWS   Qt::UserRole+59
 
+typedef QPair<int, int> typeIntPair;
+Q_DECLARE_METATYPE(typeIntPair);
 
 // class AttachTableData;
 

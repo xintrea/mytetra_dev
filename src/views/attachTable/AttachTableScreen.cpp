@@ -28,9 +28,9 @@ AttachTableScreen::~AttachTableScreen()
 void AttachTableScreen::setupActions(void)
 {
   // Добавление файла
-  actionAttachFile = new QAction(tr("Attach file"), this);
-  actionAttachFile->setStatusTip(tr("Attach file"));
-  actionAttachFile->setIcon(QIcon(":/resource/pic/attach_add.svg"));
+  actionAddAttach = new QAction(tr("Attach file"), this);
+  actionAddAttach->setStatusTip(tr("Attach file"));
+  actionAddAttach->setIcon(QIcon(":/resource/pic/attach_add.svg"));
 
   // Редактирование информации о файле (имени файла)
   actionEditFileName = new QAction(tr("Edit file name"), this);
@@ -38,19 +38,19 @@ void AttachTableScreen::setupActions(void)
   actionEditFileName->setIcon(QIcon(":/resource/pic/attach_edit.svg"));
 
   // Удаление файла
-  actionDeleteFile = new QAction(tr("Delete file"), this);
-  actionDeleteFile->setStatusTip(tr("Delete file"));
-  actionDeleteFile->setIcon(QIcon(":/resource/pic/attach_delete.svg"));
+  actionDeleteAttach = new QAction(tr("Delete file"), this);
+  actionDeleteAttach->setStatusTip(tr("Delete file"));
+  actionDeleteAttach->setIcon(QIcon(":/resource/pic/attach_delete.svg"));
 
   // Просмотр файла
-  actionOpenFile = new QAction(tr("Preview file"), this);
-  actionOpenFile->setStatusTip(tr("Preview file"));
-  actionOpenFile->setIcon(QIcon(":/resource/pic/attach_preview.svg"));
+  actionOpenAttach = new QAction(tr("Preview file"), this);
+  actionOpenAttach->setStatusTip(tr("Preview file"));
+  actionOpenAttach->setIcon(QIcon(":/resource/pic/attach_preview.svg"));
 
   // Информация о таблице (для отладки)
-  actionInfo = new QAction(tr("Attach Info"), this);
-  actionInfo->setStatusTip(tr("Attach Info"));
-  actionInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
+  showAttachInfo = new QAction(tr("Attach info"), this);
+  showAttachInfo->setStatusTip(tr("Attach info"));
+  showAttachInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
 
   // Переключение на редактор
   actionSwitchToEditor = new QAction(tr("Return to editor"), this);
@@ -65,11 +65,11 @@ void AttachTableScreen::setupUI(void)
   toolsLine=new QToolBar(this);
 
   // Создание кнопок на тулбаре
-  insertActionAsButton(toolsLine, actionAttachFile);
+  insertActionAsButton(toolsLine, actionAddAttach);
   insertActionAsButton(toolsLine, actionEditFileName);
-  insertActionAsButton(toolsLine, actionDeleteFile);
-  insertActionAsButton(toolsLine, actionOpenFile);
-  insertActionAsButton(toolsLine, actionInfo);
+  insertActionAsButton(toolsLine, actionDeleteAttach);
+  insertActionAsButton(toolsLine, actionOpenAttach);
+  insertActionAsButton(toolsLine, showAttachInfo);
 
   toolsLine->addSeparator();
 
@@ -80,12 +80,12 @@ void AttachTableScreen::setupUI(void)
 void AttachTableScreen::setupSignals(void)
 {
   // Связывание действий
-  connect(actionAttachFile, SIGNAL(triggered()), attachTableController, SLOT(onAttachFile()));
+  connect(actionAddAttach, SIGNAL(triggered()), attachTableController, SLOT(onAddAttach()));
   connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
-  connect(actionDeleteFile, SIGNAL(triggered()), attachTableController, SLOT(onDeleteFile()));
-  connect(actionOpenFile, SIGNAL(triggered()), attachTableController, SLOT(onOpenFile()));
+  connect(actionDeleteAttach, SIGNAL(triggered()), attachTableController, SLOT(onDeleteAttach()));
+  connect(actionOpenAttach, SIGNAL(triggered()), attachTableController, SLOT(onOpenAttach()));
 
-  connect(actionInfo, SIGNAL(triggered()), attachTableController, SLOT(onInfo()));
+  connect(showAttachInfo, SIGNAL(triggered()), attachTableController, SLOT(onShowAttachInfo()));
 
   connect(actionSwitchToEditor, SIGNAL(triggered()), attachTableController, SLOT(onSwitchToEditor()));
 }

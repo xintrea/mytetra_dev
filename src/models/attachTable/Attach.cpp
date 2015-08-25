@@ -205,6 +205,29 @@ bool Attach::copyFileToBase(QString iFileName)
 }
 
 
+// Удаление файла с диска
+void Attach::removeFile()
+{
+  if(type!=typeFile)
+    return;
+
+  // Проверка наличия файла
+  QFile file(getFullInnerFileName());
+
+  if(file.exists()==false)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(QObject::tr("Can't delete file %1 on disk. File not exists.").arg(getFullInnerFileName()));
+    msgBox.exec();
+
+    return;
+  }
+
+  file.setPermissions(QFile::ReadOther | QFile::WriteOther);
+  file.remove();
+}
+
+
 int Attach::getType() const
 {
   return type;

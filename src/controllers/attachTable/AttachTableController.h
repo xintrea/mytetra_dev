@@ -26,13 +26,15 @@ public:
   void setAttachTableData(AttachTableData *attachTableData);
   AttachTableData *getAttachTableData();
 
+  QList<QString> getSelectedId(void);
+
 public slots:
 
-  void onAttachFile(void);
+  void onAddAttach(void);
   void onEditFileName(void);
-  void onDeleteFile(void);
-  void onOpenFile(void);
-  void onInfo(void);
+  void onDeleteAttach(void);
+  void onOpenAttach(void);
+  void onShowAttachInfo(void);
 
   void onSwitchToEditor(void);
 
