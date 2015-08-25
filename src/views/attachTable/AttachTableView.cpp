@@ -27,7 +27,7 @@ void AttachTableView::setupSignals(void)
 {
   // Сигнал чтобы открыть на просмотр/редактирование файл по двойному клику
   connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
-          controller, SLOT(onOpenFile(void)));
+          controller, SLOT(onOpenAttach())(void)));
 }
 
 

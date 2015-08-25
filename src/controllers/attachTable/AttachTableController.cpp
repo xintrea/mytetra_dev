@@ -174,7 +174,7 @@ void AttachTableController::onDeleteAttach(void)
 
 void AttachTableController::onOpenAttach(void)
 {
-  qDebug() << "In slot AttachTableController::onOpenFile()";
+  qDebug() << "In slot AttachTableController::onOpenAttach()";
 
   AttachTableData *attachTableData=getAttachTableData();
 
