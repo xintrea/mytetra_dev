@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QTableView>
+#include <QMenu>
 
 class AttachTableController;
 
@@ -28,9 +29,11 @@ public:
 protected:
 
   void setupSignals(void);
-
+  void assemblyContextMenu(void);
 
   AttachTableController *controller;
+
+  QMenu *contextMenu;
 };
 
 #endif // __ATTACHTABLEVIEW_H__

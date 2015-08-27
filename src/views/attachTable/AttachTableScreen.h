@@ -21,6 +21,12 @@ public:
 
   void clearAll(void);
 
+  QAction *actionAddAttach;
+  QAction *actionEditFileName;
+  QAction *actionDeleteAttach;
+  QAction *actionOpenAttach;
+  QAction *actionShowAttachInfo;
+
 signals:
 
 public slots:
@@ -42,13 +48,8 @@ protected:
   // Экранные элементы
   QToolBar *toolsLine;
   QVBoxLayout *screenLayout;
-  QAction *actionAddAttach;
-  QAction *actionEditFileName;
-  QAction *actionDeleteAttach;
-  QAction *actionOpenAttach;
 
   QAction *actionSwitchToEditor;
-  QAction *showAttachInfo;
 
 };
 

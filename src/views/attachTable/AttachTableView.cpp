@@ -1,6 +1,9 @@
 #include <QHeaderView>
+#include <QMenu>
 
+#include "main.h"
 #include "AttachTableView.h"
+#include "AttachTableScreen.h"
 #include "controllers/attachTable/AttachTableController.h"
 
 
@@ -20,6 +23,7 @@ AttachTableView::~AttachTableView()
 void AttachTableView::init(void)
 {
   setupSignals();
+  assemblyContextMenu();
 }
 
 
@@ -34,6 +38,22 @@ void AttachTableView::setupSignals(void)
 void AttachTableView::setController(AttachTableController *pController)
 {
   controller=pController;
+}
+
+
+void AttachTableView::assemblyContextMenu(void)
+{
+  // Конструирование меню
+  contextMenu=new QMenu(this);
+
+  AttachTableScreen *screenPointer=find_object<AttachTableScreen>("attachTableScreen");
+
+  contextMenu->addAction(screenPointer->actionAddAttach);
+  contextMenu->addAction(screenPointer->actionEditFileName);
+  contextMenu->addAction(screenPointer->actionDeleteAttach);
+  contextMenu->addSeparator();
+  contextMenu->addAction(screenPointer->actionOpenAttach);
+  contextMenu->addAction(screenPointer->actionShowAttachInfo);
 }
 
 

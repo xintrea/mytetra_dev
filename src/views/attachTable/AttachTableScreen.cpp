@@ -7,6 +7,9 @@
 
 AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
 {
+  // По факту этот класс - синглтон. Синглтон сам задает себе имя
+  this->setObjectName("attachTableScreen");
+
   // Инициализируется контроллер списка файлов
   attachTableController=new AttachTableController(this);
   attachTableController->setObjectName("attachTableController");
@@ -48,9 +51,9 @@ void AttachTableScreen::setupActions(void)
   actionOpenAttach->setIcon(QIcon(":/resource/pic/attach_preview.svg"));
 
   // Информация о таблице (для отладки)
-  showAttachInfo = new QAction(tr("Attach info"), this);
-  showAttachInfo->setStatusTip(tr("Attach info"));
-  showAttachInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
+  actionShowAttachInfo = new QAction(tr("Attach info"), this);
+  actionShowAttachInfo->setStatusTip(tr("Attach info"));
+  actionShowAttachInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
 
   // Переключение на редактор
   actionSwitchToEditor = new QAction(tr("Return to editor"), this);
@@ -69,7 +72,7 @@ void AttachTableScreen::setupUI(void)
   insertActionAsButton(toolsLine, actionEditFileName);
   insertActionAsButton(toolsLine, actionDeleteAttach);
   insertActionAsButton(toolsLine, actionOpenAttach);
-  insertActionAsButton(toolsLine, showAttachInfo);
+  insertActionAsButton(toolsLine, actionShowAttachInfo);
 
   toolsLine->addSeparator();
 
@@ -85,7 +88,7 @@ void AttachTableScreen::setupSignals(void)
   connect(actionDeleteAttach, SIGNAL(triggered()), attachTableController, SLOT(onDeleteAttach()));
   connect(actionOpenAttach, SIGNAL(triggered()), attachTableController, SLOT(onOpenAttach()));
 
-  connect(showAttachInfo, SIGNAL(triggered()), attachTableController, SLOT(onShowAttachInfo()));
+  connect(actionShowAttachInfo, SIGNAL(triggered()), attachTableController, SLOT(onShowAttachInfo()));
 
   connect(actionSwitchToEditor, SIGNAL(triggered()), attachTableController, SLOT(onSwitchToEditor()));
 }

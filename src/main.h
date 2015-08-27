@@ -122,6 +122,13 @@ template <class X> inline X *find_object(QString objectName)
    // Если объекта с указанным именем не найдено
    // print_object_tree();
    printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
+
+
+   QList<QWidget *> widgets = pMainWindow->findChildren<QWidget *>();
+   foreach (QWidget* b, widgets)
+     printf("Obj: %s\n", qPrintable( b->objectName() ) );
+
+
    exit(1);
    return NULL;
   }
