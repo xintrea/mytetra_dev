@@ -127,7 +127,7 @@ bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, 
     return false;
 
   // Если происходит установка ссылки на таблицу с данными
-  if(role==ATTACHTABLE_ROLE_TABLE_DATA)
+  if(role==ATTACHTABLE_ROLE_TABLE_DATA || role==ATTACHTABLE_ROLE_TABLE_DATA_ONLY)
   {
     beginResetModel();
 
@@ -140,6 +140,10 @@ bool AttachTableModel::setData(const QModelIndex &index, const QVariant &value, 
       qDebug() << "Set new AttachTableModel to NULL data";
 
     endResetModel();
+
+    // Устанавливается перекрестная ссылка в связанных данных
+    if(role==ATTACHTABLE_ROLE_TABLE_DATA && table!=NULL)
+      table->setRelatedAttachTableModelOnly(this);
 
     return true;
   }

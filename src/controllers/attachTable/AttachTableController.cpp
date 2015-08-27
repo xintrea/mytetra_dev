@@ -52,12 +52,7 @@ AttachTableView *AttachTableController::getView(void)
 // Основной метод установки указателя на данные
 void AttachTableController::setAttachTableData(AttachTableData *attachTableData)
 {
-  // Установка в модели указателя на данные
   model->setData(QModelIndex(), QVariant::fromValue(attachTableData), ATTACHTABLE_ROLE_TABLE_DATA);
-
-  // Установка в данных указателя на модель (указатели друг на друга у модели и данных перекрестные)
-  if(attachTableData!=NULL)
-    attachTableData->setRelatedAttachTableModel(model);
 }
 
 

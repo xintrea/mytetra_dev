@@ -25,6 +25,7 @@ public:
 
   void setParentRecord(Record *iRecord);
   void setRelatedAttachTableModel(AttachTableModel *model);
+  void setRelatedAttachTableModelOnly(AttachTableModel *model);
 
   void clear();
   int size() const;

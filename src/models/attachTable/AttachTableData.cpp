@@ -85,6 +85,16 @@ QDomElement AttachTableData::exportDataToDom(QDomDocument *doc) const
 
 void AttachTableData::setRelatedAttachTableModel(AttachTableModel *model)
 {
+  // Запоминание указателя на модель
+  relatedAttachTableModel=model;
+
+  // В модели устанавливается указатель на текущие данные (перекрестная ссылка)
+  relatedAttachTableModel->setData(QModelIndex(), QVariant::fromValue(this), ATTACHTABLE_ROLE_TABLE_DATA_ONLY);
+}
+
+
+void AttachTableData::setRelatedAttachTableModelOnly(AttachTableModel *model)
+{
   relatedAttachTableModel=model;
 }
 
