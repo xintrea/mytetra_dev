@@ -167,6 +167,9 @@ void AttachTableController::onDeleteAttach(void)
 
   foreach( QString id, selectedId )
     attachTableData->deleteAttach(id);
+
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -193,16 +196,16 @@ void AttachTableController::onOpenAttach(void)
 }
 
 
+void AttachTableController::onShowAttachInfo(void)
+{
+  qDebug() << "Model row: " << model->rowCount();
+}
+
+
 void AttachTableController::onSwitchToEditor(void)
 {
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
   edView->switchToEditorLayout();
-}
-
-
-void AttachTableController::onShowAttachInfo(void)
-{
-  qDebug() << "Model row: " << model->rowCount();
 }
 
 
