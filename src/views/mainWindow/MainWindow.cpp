@@ -27,6 +27,7 @@ extern TrashMonitoring trashMonitoring;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 
+
 MainWindow::MainWindow() : QMainWindow()
 {
  extern QObject *pMainWindow;
@@ -63,44 +64,49 @@ MainWindow::MainWindow() : QMainWindow()
 
 MainWindow::~MainWindow()
 {
- saveAllState();
+  saveAllState();
   
- delete treeScreen;
- delete recordTableScreen;
- delete editorScreen;
+  delete treeScreen;
+  delete recordTableScreen;
+  delete findScreenDisp;
+  delete editorScreen;
+  delete statusBar;
+  delete windowSwitcher;
 }
 
 
 void MainWindow::setupUI(void)
 {
- treeScreen=new TreeScreen;
- treeScreen->setObjectName("treeScreen");
- globalParameters.setTreeScreen(treeScreen);
+  // При создании объектов не указывается parent, так как он буден задан в момент вставки в layout в методе assembly()
 
- recordTableScreen=new RecordTableScreen();
- recordTableScreen->setObjectName("recordTableScreen");
- globalParameters.setRecordTableScreen(recordTableScreen);
+  treeScreen=new TreeScreen;
+  treeScreen->setObjectName("treeScreen");
+  globalParameters.setTreeScreen(treeScreen);
 
- findScreenDisp=new FindScreen();
- findScreenDisp->setObjectName("findScreenDisp");
- globalParameters.setFindScreen(findScreenDisp);
+  recordTableScreen=new RecordTableScreen();
+  recordTableScreen->setObjectName("recordTableScreen");
+  globalParameters.setRecordTableScreen(recordTableScreen);
 
- editorScreen=new MetaEditor();
- editorScreen->setObjectName("editorScreen");
- globalParameters.setMetaEditor(editorScreen);
+  findScreenDisp=new FindScreen();
+  findScreenDisp->setObjectName("findScreenDisp");
+  globalParameters.setFindScreen(findScreenDisp);
 
- statusBar=new QStatusBar();
- statusBar->setObjectName("statusBar");
- setStatusBar(statusBar);
- globalParameters.setStatusBar(statusBar);
+  editorScreen=new MetaEditor();
+  editorScreen->setObjectName("editorScreen");
+  globalParameters.setMetaEditor(editorScreen);
 
- // Вспомогательный объект переключения окон, используется в мобильном интерфейсе
- windowSwitcher=new WindowSwitcher();
- windowSwitcher->setObjectName("windowSwitcher");
- globalParameters.setWindowSwitcher(windowSwitcher);
+  statusBar=new QStatusBar();
+  statusBar->setObjectName("statusBar");
+  setStatusBar(statusBar);
+  globalParameters.setStatusBar(statusBar);
 
- // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
- // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  // Вспомогательный объект переключения окон, используется в мобильном интерфейсе
+  windowSwitcher=new WindowSwitcher();
+  windowSwitcher->setObjectName("windowSwitcher");
+  globalParameters.setWindowSwitcher(windowSwitcher);
+
+  // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
+  // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 }
 
 

@@ -10,11 +10,13 @@ AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
   // По факту этот класс - синглтон. Синглтон сам задает себе имя
   this->setObjectName("attachTableScreen");
 
+  // Создаются действия. Они используются как в данном классе (на кнопках), так и в контекстном меню в AttachTableView
+  setupActions();
+
   // Инициализируется контроллер списка файлов
   attachTableController=new AttachTableController(this);
   attachTableController->setObjectName("attachTableController");
 
-  setupActions();
   setupUI();
   setupSignals();
   assembly();

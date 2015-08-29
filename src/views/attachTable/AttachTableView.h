@@ -26,6 +26,12 @@ public:
 
   virtual void resizeEvent(QResizeEvent *event);
 
+
+protected slots:
+
+  void onCustomContextMenuRequested(const QPoint &pos);
+
+
 protected:
 
   void setupSignals(void);

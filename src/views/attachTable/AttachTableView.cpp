@@ -11,6 +11,12 @@ AttachTableView::AttachTableView(QWidget *parent) : QTableView(parent)
 {
   this->horizontalHeader()->setStretchLastSection( true );
   this->setSelectionBehavior(QAbstractItemView::SelectRows); // Выделяется вся строка
+
+  // Настройка области виджета для кинетической прокрутки
+  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+
+  // Разрешение принимать жест QTapAndHoldGesture
+  grabGesture(Qt::TapAndHoldGesture);
 }
 
 
@@ -23,12 +29,22 @@ AttachTableView::~AttachTableView()
 void AttachTableView::init(void)
 {
   setupSignals();
+
   assemblyContextMenu();
+  setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 
 void AttachTableView::setupSignals(void)
 {
+  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
+  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
+          this,SLOT(onCustomContextMenuRequested(const QPoint &)));
+
+  // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+  connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
+          this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+
   // Сигнал чтобы открыть на просмотр/редактирование файл по двойному клику
   connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
           controller, SLOT(onOpenAttach(void)));
@@ -46,7 +62,9 @@ void AttachTableView::assemblyContextMenu(void)
   // Конструирование меню
   contextMenu=new QMenu(this);
 
-  AttachTableScreen *screenPointer=find_object<AttachTableScreen>("attachTableScreen");
+  // find_object() не работает, потому что при инициализации еще не вызван метод assembly() у attachTableScreen, и этому объекту не задан родитель layout
+  // AttachTableScreen *screenPointer=find_object<AttachTableScreen>("attachTableScreen");
+  AttachTableScreen *screenPointer=qobject_cast<AttachTableScreen *>(controller->parent());
 
   contextMenu->addAction(screenPointer->actionAddAttach);
   contextMenu->addAction(screenPointer->actionEditFileName);
@@ -65,6 +83,14 @@ void AttachTableView::resizeEvent(QResizeEvent *event)
 
   // Отрисовка родительского класса
   QTableView::resizeEvent(event);
+}
+
+
+// Открытие контекстного меню в таблице приаттаченных файлов
+void AttachTableView::onCustomContextMenuRequested(const QPoint &pos)
+{
+  // Включение отображения меню на экране
+  contextMenu->exec( viewport()->mapToGlobal(pos) );
 }
 
 

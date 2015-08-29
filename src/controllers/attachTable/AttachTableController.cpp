@@ -152,6 +152,19 @@ void AttachTableController::onDeleteAttach(void)
 {
   qDebug() << "In slot AttachTableController::onDeleteFile()";
 
+  QList<QString> selectedId=getSelectedId();
+
+  // Если ни один аттач не выбран
+  if(selectedId.size()==0)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please select any attach(es) for delete."));
+    msgBox.exec();
+
+    return;
+  }
+
+  // Запрос подтверждения об удалении
   QMessageBox msgBox;
   msgBox.setText(tr("Do you want to delete attach file(s)?"));
   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -161,12 +174,13 @@ void AttachTableController::onDeleteAttach(void)
   if(ret!=QMessageBox::Ok)
     return;
 
-  AttachTableData *attachTableData=getAttachTableData();
 
-  QList<QString> selectedId=getSelectedId();
+  // Удаление выбранных аттачей
+  AttachTableData *attachTableData=getAttachTableData();
 
   foreach( QString id, selectedId )
     attachTableData->deleteAttach(id);
+
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();

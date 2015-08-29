@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  135
+#define APPLICATION_RELEASE_MICROVERSION  136
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -123,11 +123,13 @@ template <class X> inline X *find_object(QString objectName)
    // print_object_tree();
    printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
 
+   print_object_tree();
 
+   /*
    QList<QWidget *> widgets = pMainWindow->findChildren<QWidget *>();
    foreach (QWidget* b, widgets)
      printf("Obj: %s\n", qPrintable( b->objectName() ) );
-
+   */
 
    exit(1);
    return NULL;
