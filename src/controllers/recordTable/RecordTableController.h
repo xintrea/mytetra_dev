@@ -96,6 +96,10 @@ public slots:
   void onPrintClick(void);
 
 protected:
+
+  void initMetaEditorAtClickToRecord(const int pos);
+  void initAttachTableAtClickToRecord(const int pos);
+
   RecordTableView *view;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
   RecordTableProxyModel *recordProxyModel;

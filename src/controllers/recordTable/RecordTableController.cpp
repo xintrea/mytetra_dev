@@ -76,8 +76,16 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 
   // Позиция записи в списке
   int pos=sourceIndex.row();
-
   qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
+
+  initMetaEditorAtClickToRecord(pos);
+  initAttachTableAtClickToRecord(pos);
+}
+
+
+void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
+{
+  // Внимание! Наверно, всю эту логику следует перенести в MetaEditor. А здесь только получить данные из таблицы
 
   // Выясняется указатель на объект редактирования текста записи
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
@@ -166,7 +174,13 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
     edView->setCursorPosition( walkHistory.getCursorPosition(id) );
     edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
+}
 
+
+void RecordTableController::initAttachTableAtClickToRecord(const int pos)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
 
   // Устанавливается таблица приаттаченных файлов
   AttachTableController *attachTableController=find_object<AttachTableController>("attachTableController");
@@ -864,12 +878,6 @@ void RecordTableController::onRecordTableConfigChange(void)
 
 void RecordTableController::onPrintClick(void)
 {
-  /*
-  QMessageBox msgBox;
-  msgBox.setText("Print notes table");
-  msgBox.exec();
-  */
-
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
   RecordTablePrint printDialog(parentPointer);
@@ -877,8 +885,5 @@ void RecordTableController::onPrintClick(void)
   printDialog.generateHtmlTableFromModel();
   printDialog.setTitleToHtml( recordSourceModel->getTableData()->getItem()->getPathAsNameWithDelimeter(" / ") );
   printDialog.exec();
-
-  // if(dialog.exec()!=QDialog::Accepted)
-  //   return;
 }
 
