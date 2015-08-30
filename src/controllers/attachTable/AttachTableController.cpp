@@ -256,8 +256,29 @@ void AttachTableController::onOpenAttach(void)
 
 void AttachTableController::onShowAttachInfo(void)
 {
-  qDebug() << "Model row: " << model->rowCount();
+  QList<QString> selectedId=getSelectedId();
+
+  // Если ни один аттач не выбран
+  if(selectedId.size()==0)
+    return;
+
+  // Если выбрано больше одного аттача
+  if(selectedId.size()>1)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please select single attach for see info."));
+    msgBox.exec();
+
+    return;
+  }
+
+  QMessageBox msgBox;
+  msgBox.setText("Info about attach file");
+  msgBox.setDetailedText("This is moltiline\ndetailed text");
+  msgBox.exec();
 }
+
+
 
 
 void AttachTableController::onSwitchToEditor(void)

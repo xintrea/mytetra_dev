@@ -154,7 +154,8 @@ HEADERS = src/main.h \
     src/views/attachTable/AttachTableView.h \
     src/views/attachTable/AttachTableScreen.h \
     src/controllers/attachTable/AttachTableController.h \
-    src/controllers/recordTable/RecordTableController.h
+    src/controllers/recordTable/RecordTableController.h \
+    src/views/dialog/MessageBox.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -244,7 +245,8 @@ SOURCES = src/main.cpp \
     src/views/attachTable/AttachTableView.cpp \
     src/views/attachTable/AttachTableScreen.cpp \
     src/controllers/recordTable/RecordTableController.cpp \
-    src/controllers/attachTable/AttachTableController.cpp
+    src/controllers/attachTable/AttachTableController.cpp \
+    src/views/dialog/MessageBox.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
