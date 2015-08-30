@@ -29,6 +29,7 @@ public:
   void setId(QString iId);
   QString getId() const;
 
+  // Работа с именем файла
   void setFileName(QString iFileName);
   QString getFileName() const;
   QString getInnerFileName() const;

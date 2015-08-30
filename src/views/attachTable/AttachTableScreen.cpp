@@ -114,8 +114,9 @@ void AttachTableScreen::assembly(void)
 
 
 // Очистка таблицы приаттаченных файлов
+// Список на экране должен быть пустой
 // Вызывается в моменты, когда ни одна запись не выбрана или содержимое записи недоступно
-void AttachTableScreen::clearAll()
+void AttachTableScreen::clear()
 {
   attachTableController->setAttachTableData(NULL);
 }

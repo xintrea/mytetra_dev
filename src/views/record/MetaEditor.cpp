@@ -227,7 +227,7 @@ void MetaEditor::clearAll(void)
  clearAllMiscField();
 
  // Очистка для слоя приаттаченных файлов
- attachTableScreen->clearAll();
+ attachTableScreen->clear();
 }
 
 

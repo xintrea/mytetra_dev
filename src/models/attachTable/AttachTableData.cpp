@@ -134,7 +134,19 @@ int AttachTableData::size() const
   return attachTable.size();
 }
 
+// Получение объекта аттача
+Attach AttachTableData::getAttach(QString id)
+{
+  int row=getRowById(id);
 
+  if(row<0)
+    critical_error("Attach with ID: "+id+" not found");
+
+  return attachTable.at(row);
+}
+
+
+// Добавление аттача
 void AttachTableData::addAttach(Attach attach)
 {
   if(relatedAttachTableModel!=NULL)
@@ -148,6 +160,19 @@ void AttachTableData::addAttach(Attach attach)
 }
 
 
+// Изменение данных аттача
+void AttachTableData::modifyAttach(QString id, Attach iAttach)
+{
+  int row=getRowById(id);
+
+  if(row<0)
+    return;
+
+  attachTable[row]=iAttach;
+}
+
+
+// Удаление аттача
 void AttachTableData::deleteAttach(QString id)
 {
   int row=getRowById(id);

@@ -19,7 +19,7 @@ public:
   AttachTableScreen(QWidget *parent = 0);
   virtual ~AttachTableScreen();
 
-  void clearAll(void);
+  void clear(void);
 
   QAction *actionAddAttach;
   QAction *actionEditFileName;

@@ -30,7 +30,9 @@ public:
   void clear();
   int size() const;
 
+  Attach getAttach(QString id); // Получение объекта аттача
   void addAttach(Attach attach); // Добавление аттача в таблицу приаттаченных файлов
+  void modifyAttach(QString id, Attach iAttach); // Изменение данных аттача
   void deleteAttach(QString id); // Удаление аттача по идентификатору
 
   int getRowById(QString id);

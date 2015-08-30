@@ -144,14 +144,60 @@ void AttachTableController::onAddAttach(void)
 
 void AttachTableController::onEditFileName(void)
 {
+  QList<QString> selectedId=getSelectedId();
 
+  // Если ни один аттач не выбран
+  if(selectedId.size()==0)
+    return;
+
+  // Если выбрано больше одного аттача
+  if(selectedId.size()>1)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please select single attach for edit."));
+    msgBox.exec();
+
+    return;
+  }
+
+  // Имя файла выбранного аттача
+  QString id=selectedId.at(0);
+  AttachTableData *attachTableData=getAttachTableData();
+  QString fileName=attachTableData->getFileNameById(id);
+
+  // Запрос нового имени файла
+  bool isOk;
+  QString newFileName = QInputDialog::getText(view,
+                                              tr("File name editing"),
+                                              tr("File name:"),
+                                              QLineEdit::Normal,
+                                              fileName,
+                                              &isOk);
+
+  if(!isOk)
+    return; // Была нажата кнопка Cancel
+
+  if(newFileName.size()==0)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Cant save file with empty name."));
+    msgBox.exec();
+
+    return;
+  }
+
+  // Данные изменяются
+  Attach tempAttach=attachTableData->getAttach(id);
+  tempAttach.setFileName(newFileName);
+  attachTableData->modifyAttach(id, tempAttach);
+
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
 void AttachTableController::onDeleteAttach(void)
 {
-  qDebug() << "In slot AttachTableController::onDeleteFile()";
-
   QList<QString> selectedId=getSelectedId();
 
   // Если ни один аттач не выбран
@@ -189,8 +235,6 @@ void AttachTableController::onDeleteAttach(void)
 
 void AttachTableController::onOpenAttach(void)
 {
-  qDebug() << "In slot AttachTableController::onOpenAttach()";
-
   AttachTableData *attachTableData=getAttachTableData();
 
   QList<QString> selectedId=getSelectedId();
@@ -226,8 +270,6 @@ void AttachTableController::onSwitchToEditor(void)
 // Получение списка идентификаторов аттачей, выделенных в представлении
 QList<QString> AttachTableController::getSelectedId(void)
 {
-  qDebug() << "In slot AttachTableController::onDeleteFile()";
-
   QList<QString> selectedId;
 
   // Получение списка выделенных в таблице на экране Item-элементов
