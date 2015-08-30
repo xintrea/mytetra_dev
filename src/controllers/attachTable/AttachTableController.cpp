@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QDialogButtonBox>
 
 #include "main.h"
 #include "AttachTableController.h"
@@ -13,6 +14,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
+#include "views/dialog/MessageBox.h"
 
 
 extern GlobalParameters globalParameters;
@@ -272,13 +274,26 @@ void AttachTableController::onShowAttachInfo(void)
     return;
   }
 
-  QMessageBox msgBox;
-  msgBox.setText("Info about attach file");
-  msgBox.setDetailedText("This is moltiline\ndetailed text");
-  msgBox.exec();
+  QString id=selectedId.at(0);
+  AttachTableData *attachTableData=getAttachTableData();
+
+  MessageBox messageBox;
+  messageBox.setText("Attach file info");
+  messageBox.setDetailedText(QString("<pre><p style='font-family:monospace'>")+\
+                             "<b>Attach:</b> "+attachTableData->getFileNameById(id)+"\n"+\
+                             "<b>Attach ID:</b> "+id+"\n"+\
+                             "<b>Attach type:</b> "+attachTableData->getAttach(id).getTypeAsName()+"\n"+\
+                             "<b>File size:</b> "+QString::number( attachTableData->getAttach(id).getFileSize() )+" bytes\n"+\
+                             "<b>Full path:</b> "+attachTableData->getAbsoluteInnerFileNameById(id)+\
+                             "</p></pre>"
+                             );
+  messageBox.setDetailedTextReadOnly(true);
+  messageBox.setStandardButtons(QDialogButtonBox::Ok); // Для двух кнопок можно так: QDialogButtonBox::Ok | QDialogButtonBox::Cancel
+
+  // int result=messageBox.exec();
+  // qDebug() << "Result code: " << result;
+  messageBox.exec();
 }
-
-
 
 
 void AttachTableController::onSwitchToEditor(void)
