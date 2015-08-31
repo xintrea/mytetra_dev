@@ -56,197 +56,197 @@ QObject *pMainWindow;
 
 void logprint(char *lpszText, ...)
 {
- va_list argList;
- FILE *pFile;
+  va_list argList;
+  FILE *pFile;
 
- // инициализируем список аргументов
- va_start(argList, lpszText);
+  // инициализируем список аргументов
+  va_start(argList, lpszText);
 
- // открываем лог-файл для добавления данных
- if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
- {
-  printf("\nLog file not writable\n");
+  // открываем лог-файл для добавления данных
+  if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
+  {
+    printf("\nLog file not writable\n");
+    return;
+  }
+
+  // пишем текст в файл
+  vfprintf(pFile, lpszText, argList);
+  // putc('\n', pFile);
+
+  // пишем текст на экран
+  vprintf(lpszText, argList);
+
+  // закрываем файл
+  fclose(pFile);
+  va_end(argList);
+
+  // успешное завершение
   return;
- }
-
- // пишем текст в файл
- vfprintf(pFile, lpszText, argList);
- // putc('\n', pFile);
-
- // пишем текст на экран
- vprintf(lpszText, argList);
-
- // закрываем файл
- fclose(pFile);
- va_end(argList);
-
- // успешное завершение
- return;
 }
 
 
 void critical_error(QString message)
 {
- qDebug() << " ";
- qDebug() << "---------------";
- qDebug() << "Critical error!";
- qDebug() << "---------------";
- qDebug() << message;
- qDebug() << "---------------";
- qDebug() << " ";
+  qDebug() << " ";
+  qDebug() << "---------------";
+  qDebug() << "Critical error!";
+  qDebug() << "---------------";
+  qDebug() << message;
+  qDebug() << "---------------";
+  qDebug() << " ";
 
- QMessageBox::critical(qobject_cast<QWidget *>(pMainWindow), "Critical error",
-                             message+"\n\n Programm was closed.",
-                             QMessageBox::Ok); 
+  QMessageBox::critical(qobject_cast<QWidget *>(pMainWindow), "Critical error",
+                        message+"\n\n Programm was closed.",
+                        QMessageBox::Ok);
 
- exit(1);
+  exit(1);
 }
 
 
 void info_window(QString i)
 {
- QTextEdit *textArea=new QTextEdit;
- textArea->setPlainText(i);
+  QTextEdit *textArea=new QTextEdit;
+  textArea->setPlainText(i);
 
- QPushButton *closeButton=new QPushButton;
- closeButton->setText(QObject::tr("Close"));
- closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+  QPushButton *closeButton=new QPushButton;
+  closeButton->setText(QObject::tr("Close"));
+  closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
 
- QVBoxLayout *assemblyLayout=new QVBoxLayout;
- assemblyLayout->addWidget(textArea);
- assemblyLayout->addWidget(closeButton,0,Qt::AlignRight);
+  QVBoxLayout *assemblyLayout=new QVBoxLayout;
+  assemblyLayout->addWidget(textArea);
+  assemblyLayout->addWidget(closeButton,0,Qt::AlignRight);
 
- QWidget *win=new QWidget;
- win->setLayout(assemblyLayout);
- win->setWindowModality(Qt::ApplicationModal);
+  QWidget *win=new QWidget;
+  win->setLayout(assemblyLayout);
+  win->setWindowModality(Qt::ApplicationModal);
 
- QObject::connect(closeButton,SIGNAL(clicked()),win,SLOT(close ()));
+  QObject::connect(closeButton,SIGNAL(clicked()),win,SLOT(close ()));
 
- win->show();
+  win->show();
 }
 
 
 QString xmlnode_to_string(QDomNode xmlData)
 {
- // Если узел представляет собой полностью документ
- if(xmlData.isDocument())
- {
-  // Значит этот узел можно напрямую преобразовать 
-  // в документ, а потом в XML строку
-  return xmlData.toDocument().toString();
- }
- else
- {
-  // Иначе узел не является документом, и его нужно обрабатывать по-другому
- 
-  // Строка, где будет размещен XML код
-  QString xmlcode;
- 
-  // Поток, связаный со строкой, в который будет направляться XML код узла
-  QTextStream stream(&xmlcode, QIODevice::WriteOnly);
- 
-  // XML документ записывается в поток, после чего автоматом окажется в строке xmlcode
-  xmlData.save(stream, 1);
- 
-  return xmlcode;
- }
+  // Если узел представляет собой полностью документ
+  if(xmlData.isDocument())
+  {
+    // Значит этот узел можно напрямую преобразовать
+    // в документ, а потом в XML строку
+    return xmlData.toDocument().toString();
+  }
+  else
+  {
+    // Иначе узел не является документом, и его нужно обрабатывать по-другому
+
+    // Строка, где будет размещен XML код
+    QString xmlcode;
+
+    // Поток, связаный со строкой, в который будет направляться XML код узла
+    QTextStream stream(&xmlcode, QIODevice::WriteOnly);
+
+    // XML документ записывается в поток, после чего автоматом окажется в строке xmlcode
+    xmlData.save(stream, 1);
+
+    return xmlcode;
+  }
 }
 
 
 // Удаление директории с копированием содержимого в корзину
 void remove_directory_to_trash(QString nameDirFrom)
 {
- QDir dirfrom(nameDirFrom);
- QStringList fileList=dirfrom.entryList();
+  QDir dirfrom(nameDirFrom);
+  QStringList fileList=dirfrom.entryList();
 
- QString nameDirTo=mytetraConfig.get_trashdir();
+  QString nameDirTo=mytetraConfig.get_trashdir();
 
- // Перебор всех файлов в удаляемой директории
- for(int i=0;i<fileList.size();i++)
- {
-  // Директории с именами "." и ".." обрабатывать не нужно
-  if(fileList.at(i)=="." || fileList.at(i)=="..")continue;
+  // Перебор всех файлов в удаляемой директории
+  for(int i=0;i<fileList.size();i++)
+  {
+    // Директории с именами "." и ".." обрабатывать не нужно
+    if(fileList.at(i)=="." || fileList.at(i)=="..")continue;
 
-  // Исходный файл, который будет перенесен в корзину
-  QString fileNameFrom=nameDirFrom+"/"+fileList.at(i);
+    // Исходный файл, который будет перенесен в корзину
+    QString fileNameFrom=nameDirFrom+"/"+fileList.at(i);
 
-  // Конечный файл, который должен лежать в корзине
-  QString fileNameToShort;
-  QString fileNameTo;
-  bool targetFileFree=false;
-  do {
-   fileNameToShort=get_unical_id()+"_"+fileList.at(i);
-   fileNameTo       =nameDirTo+"/"+fileNameToShort;
-  
-   if(QFile::exists(fileNameTo)) targetFileFree=false;
-   else targetFileFree=true;
-  } while(!targetFileFree);
+    // Конечный файл, который должен лежать в корзине
+    QString fileNameToShort;
+    QString fileNameTo;
+    bool targetFileFree=false;
+    do {
+      fileNameToShort=get_unical_id()+"_"+fileList.at(i);
+      fileNameTo       =nameDirTo+"/"+fileNameToShort;
 
-  qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
+      if(QFile::exists(fileNameTo)) targetFileFree=false;
+      else targetFileFree=true;
+    } while(!targetFileFree);
 
-  // Перенос файла в корзину
-  if( QFile::rename(fileNameFrom,fileNameTo)==true )
-   trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+    qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
+
+    // Перенос файла в корзину
+    if( QFile::rename(fileNameFrom,fileNameTo)==true )
+      trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+    else
+      critical_error("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
+  }
+
+  // Удаление директории
+  // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
+  // директорию, на которую указывает объект, поэтому удаление происходит
+  // через дополнительный QDir объект, который указывает на директорию
+  // где лежит бинарник.
+  // Если в rmdir() передать относительный путь, то будет удалена директория
+  // относительно директории бинарника.
+  // Если в rmdir() передать асолютный путь, то будет удалена директория
+  // по абсолютному пути
+  QDir applicationdir(QCoreApplication::applicationDirPath());
+  qDebug() << "Try delete directory " << nameDirFrom;
+  if(!applicationdir.rmdir(nameDirFrom))
+    qDebug() << "Directory " << nameDirFrom << " NOT deleted";
   else
-   critical_error("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
- }
-
- // Удаление директории
- // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
- // директорию, на которую указывает объект, поэтому удаление происходит
- // через дополнительный QDir объект, который указывает на директорию
- // где лежит бинарник.
- // Если в rmdir() передать относительный путь, то будет удалена директория
- // относительно директории бинарника.
- // Если в rmdir() передать асолютный путь, то будет удалена директория
- // по абсолютному пути
- QDir applicationdir(QCoreApplication::applicationDirPath());
- qDebug() << "Try delete directory " << nameDirFrom;
- if(!applicationdir.rmdir(nameDirFrom))
-  qDebug() << "Directory " << nameDirFrom << " NOT deleted";
- else
-  qDebug() << "Directory " << nameDirFrom << " delete succesfull";
+    qDebug() << "Directory " << nameDirFrom << " delete succesfull";
 }
 
 
 // Удаление файла с копированием его копии в корзину
 void remove_file_to_trash(QString fileNameFrom)
 {
- // Получение короткого имени исходного файла
- QFileInfo fileInfo(fileNameFrom);
- QString fileNameFromShort=fileInfo.fileName();
- 
- // Получение имени файла для сохранения в корзине
- QString fileNameToShort=get_unical_id()+"_"+fileNameFromShort;
- QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
- 
- qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
- 
- // Файл перемещается в корзину
- if( QFile::rename(fileNameFrom,fileNameTo)==true )
-  trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
- else
-  critical_error("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
+  // Получение короткого имени исходного файла
+  QFileInfo fileInfo(fileNameFrom);
+  QString fileNameFromShort=fileInfo.fileName();
+
+  // Получение имени файла для сохранения в корзине
+  QString fileNameToShort=get_unical_id()+"_"+fileNameFromShort;
+  QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
+
+  qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
+
+  // Файл перемещается в корзину
+  if( QFile::rename(fileNameFrom,fileNameTo)==true )
+    trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  else
+    critical_error("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
 }
 
 
 // Создание временной директории
 QString create_temp_directory(void)
 {
- QDir dir;
- QString systemTempDirName=dir.tempPath();
+  QDir dir;
+  QString systemTempDirName=dir.tempPath();
 
- QString temp_dir_name="mytetra"+get_unical_id();
+  QString temp_dir_name="mytetra"+get_unical_id();
 
- // Создается директория
- dir.setPath(systemTempDirName);
- dir.mkdir(temp_dir_name);
+  // Создается директория
+  dir.setPath(systemTempDirName);
+  dir.mkdir(temp_dir_name);
 
- QString createTempDirName=systemTempDirName+"/"+temp_dir_name;
+  QString createTempDirName=systemTempDirName+"/"+temp_dir_name;
 
- qDebug() << "Create temporary directory "+createTempDirName;
+  qDebug() << "Create temporary directory "+createTempDirName;
 
- return createTempDirName;
+  return createTempDirName;
 }
 
 
@@ -257,20 +257,20 @@ bool remove_directory(const QString &dirName)
   QDir dir(dirName);
 
   if (dir.exists(dirName))
-   {
+  {
     Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst))
-     {
+    {
       if (info.isDir())
-       result = remove_directory(info.absoluteFilePath());
+        result = remove_directory(info.absoluteFilePath());
       else
-       result = QFile::remove(info.absoluteFilePath());
+        result = QFile::remove(info.absoluteFilePath());
 
       if(!result)
-       return result;
-     }
+        return result;
+    }
 
     result = dir.rmdir(dirName);
-   }
+  }
 
   return result;
 }
@@ -284,14 +284,14 @@ bool copy_directory(const QString &fromName, const QString &toName)
   QDir toDir(toName);
 
   if (fromDir.exists() && toDir.exists())
-   {
+  {
     Q_FOREACH(QFileInfo info, fromDir.entryInfoList(QDir::Files))
-     {
+    {
       QFile::copy(info.absoluteFilePath(), toName+"/"+info.fileName());
-     }
+    }
 
     return true;
-   }
+  }
 
   return false;
 }
@@ -300,66 +300,66 @@ bool copy_directory(const QString &fromName, const QString &toName)
 // Получение списка файлов с их содержимым в указанной директории
 QMap<QString, QByteArray> get_files_from_directory(QString dirName, QString fileMask)
 {
- QMap<QString, QByteArray> result;
- QDir directory(dirName);
+  QMap<QString, QByteArray> result;
+  QDir directory(dirName);
 
- if(directory.exists())
+  if(directory.exists())
   {
-   QStringList filter;
-   filter << fileMask;
-   
-   foreach(QFileInfo info, directory.entryInfoList(filter, QDir::Files))
+    QStringList filter;
+    filter << fileMask;
+
+    foreach(QFileInfo info, directory.entryInfoList(filter, QDir::Files))
     {
-     QFile f(info.absoluteFilePath());
-     if(!f.open(QIODevice::ReadOnly))
-      critical_error("get_files_from_directory() : File '"+info.absoluteFilePath()+"' open error");
+      QFile f(info.absoluteFilePath());
+      if(!f.open(QIODevice::ReadOnly))
+        critical_error("get_files_from_directory() : File '"+info.absoluteFilePath()+"' open error");
 
-     // Содержимое файла
-     QByteArray b = f.readAll();
+      // Содержимое файла
+      QByteArray b = f.readAll();
 
-     // Содержимое файла сохраняется с ключем в виде имени файла
-     result.insert(info.fileName(), b);
+      // Содержимое файла сохраняется с ключем в виде имени файла
+      result.insert(info.fileName(), b);
     }
   }
- else
-  qDebug() << "get_files_from_directory() : Can not find directory" << dirName;
+  else
+    qDebug() << "get_files_from_directory() : Can not find directory" << dirName;
 
- return result;
+  return result;
 }
 
 
 bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList)
 {
- qDebug() << "save_files_to_directory() : Directory name " << dirName;
+  qDebug() << "save_files_to_directory() : Directory name " << dirName;
 
- QDir directory(dirName);
+  QDir directory(dirName);
 
- // Если директория существует
- if(directory.exists())
+  // Если директория существует
+  if(directory.exists())
   {
-   foreach (QString filename, fileList.keys())
-   {
-    qDebug() << "save_files_to_directory() : Save file " << filename;
+    foreach (QString filename, fileList.keys())
+    {
+      qDebug() << "save_files_to_directory() : Save file " << filename;
 
-    QFile file(dirName+"/"+filename);
+      QFile file(dirName+"/"+filename);
 
-    // Файл открывается для записи
-    if(!file.open(QIODevice::WriteOnly))
-     {
-      qDebug() << "save_files_to_directory() : Can not save file '" << filename << "' to directory '" << dirName << "'";
-      return false;
-     }
+      // Файл открывается для записи
+      if(!file.open(QIODevice::WriteOnly))
+      {
+        qDebug() << "save_files_to_directory() : Can not save file '" << filename << "' to directory '" << dirName << "'";
+        return false;
+      }
 
-    // Данные сохраняются в файл
-    file.write(fileList.value(filename));
-   }
+      // Данные сохраняются в файл
+      file.write(fileList.value(filename));
+    }
 
-   return true;
+    return true;
   }
- else
+  else
   {
-   qDebug() << "save_files_to_directory() : Can not find directory" << dirName;
-   return false;
+    qDebug() << "save_files_to_directory() : Can not find directory" << dirName;
+    return false;
   }
 }
 
@@ -367,7 +367,7 @@ bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList
 // Преобразование из QString в обычный char
 char* fromQStringToChar( const QString& str )
 {
- /*
+  /*
  char *tmpC=new char [str.size() + 1];
  QVariant var;
 
@@ -382,35 +382,35 @@ char* fromQStringToChar( const QString& str )
  return tmpC;
  */
 
- return str.toLocal8Bit().data();
+  return str.toLocal8Bit().data();
 }
 
 
 // Рекурсивная печать дерева объектов, т.к. dumpObjectInfo() и dumpObjectTree() не работают
 void print_object_tree_recurse(QObject *pobj)
 {
- static int indent=0;
+  static int indent=0;
 
- QObjectList olist;
+  QObjectList olist;
 
- olist=pobj->children();
+  olist=pobj->children();
 
- for(int i=0;i<olist.size();++i)
+  for(int i=0;i<olist.size();++i)
   {
-   QObject *currobj;
-   currobj=olist.at(i);
+    QObject *currobj;
+    currobj=olist.at(i);
 
-   QString indentline=".";
-   for(int j=0;j<indent;j++)indentline=indentline+".";
+    QString indentline=".";
+    for(int j=0;j<indent;j++)indentline=indentline+".";
 
-   if((currobj->objectName()).length()==0)
-    qDebug("%s%s",fromQStringToChar(indentline), currobj->metaObject()->className() );
-   else
-    qDebug("%s%s, NAME %s",fromQStringToChar(indentline), currobj->metaObject()->className(), fromQStringToChar(currobj->objectName()) );
+    if((currobj->objectName()).length()==0)
+      qDebug("%s%s",fromQStringToChar(indentline), currobj->metaObject()->className() );
+    else
+      qDebug("%s%s, NAME %s",fromQStringToChar(indentline), currobj->metaObject()->className(), fromQStringToChar(currobj->objectName()) );
 
-   indent++;
-   print_object_tree_recurse(currobj);
-   indent--;
+    indent++;
+    print_object_tree_recurse(currobj);
+    indent--;
   }
 }
 
@@ -418,37 +418,37 @@ void print_object_tree_recurse(QObject *pobj)
 // Печать дерева объектов, основная функция
 void print_object_tree(void)
 {
- qDebug() << "Object tree";
+  qDebug() << "Object tree";
 
- print_object_tree_recurse(pMainWindow);
+  print_object_tree_recurse(pMainWindow);
 }
 
 
 // Функция для сортировки массива из QStringList исходя из длин списков
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2)
 {
- return list1.size() < list2.size();
+  return list1.size() < list2.size();
 }
 
 
 void insertActionAsButton(QToolBar *tools_line, QAction *action)
 {
- tools_line->addAction(action);
- qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
+  tools_line->addAction(action);
+  qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
 }
 
 
 int imax(int x1, int x2)
 {
- if(x1>x2)return x1;
- else return x2;
+  if(x1>x2)return x1;
+  else return x2;
 }
 
 
 int imin(int x1, int x2)
 {
- if(x1<x2)return x1;
- else return x2;
+  if(x1<x2)return x1;
+  else return x2;
 }
 
 
