@@ -1,5 +1,5 @@
-#ifndef MESSAGEBOX_H
-#define MESSAGEBOX_H
+#ifndef __REDUCEMESSAGEBOX_H__
+#define __REDUCEMESSAGEBOX_H__
 
 #include <QDialog>
 #include <QLabel>
@@ -12,12 +12,12 @@
 // (т. к. в Windows невозможно скопировать текст, отображаемый в QMessageBox)
 
 
-class MessageBox : public QDialog
+class ReduceMessageBox : public QDialog
 {
   Q_OBJECT
 
 public:
-  MessageBox(QWidget *parent = 0);
+  ReduceMessageBox(QWidget *parent = 0);
 
   void setText(QString iText);
   void setDetailedText(QString iDetailedText);
@@ -38,4 +38,4 @@ protected:
 
 };
 
-#endif // MESSAGEBOX_H
+#endif // __REDUCEMESSAGEBOX_H__

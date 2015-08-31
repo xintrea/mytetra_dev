@@ -14,7 +14,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
-#include "views/dialog/MessageBox.h"
+#include "views/dialog/ReduceMessageBox.h"
 
 
 extern GlobalParameters globalParameters;
@@ -277,7 +277,7 @@ void AttachTableController::onShowAttachInfo(void)
   QString id=selectedId.at(0);
   AttachTableData *attachTableData=getAttachTableData();
 
-  MessageBox messageBox;
+  ReduceMessageBox messageBox;
   messageBox.setText("Attach file info");
   messageBox.setDetailedText(QString("<pre><p style='font-family:monospace'>")+\
                              "<b>Attach:</b> "+attachTableData->getFileNameById(id)+"\n"+\

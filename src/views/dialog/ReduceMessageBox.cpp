@@ -1,12 +1,12 @@
 #include <QVBoxLayout>
 
 #include "main.h"
-#include "MessageBox.h"
+#include "ReduceMessageBox.h"
 #include "views/mainWindow/MainWindow.h"
 
 
 
-MessageBox::MessageBox(QWidget *parent) : QDialog(parent)
+ReduceMessageBox::ReduceMessageBox(QWidget *parent) : QDialog(parent)
 {
   setupUI();
   setupSignals();
@@ -14,7 +14,7 @@ MessageBox::MessageBox(QWidget *parent) : QDialog(parent)
 }
 
 
-void MessageBox::setupUI(void)
+void ReduceMessageBox::setupUI(void)
 {
   int w=find_object<MainWindow>("mainwindow")->width();
   int h=find_object<MainWindow>("mainwindow")->height();
@@ -23,14 +23,14 @@ void MessageBox::setupUI(void)
 }
 
 
-void MessageBox::setupSignals(void)
+void ReduceMessageBox::setupSignals(void)
 {
   connect(&buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
   connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
-void MessageBox::assembly(void)
+void ReduceMessageBox::assembly(void)
 {
   // Размещалка элементов
   QVBoxLayout *layout=new QVBoxLayout(this);
@@ -41,25 +41,25 @@ void MessageBox::assembly(void)
 }
 
 
-void MessageBox::setText(QString iText)
+void ReduceMessageBox::setText(QString iText)
 {
   text.setText(iText);
 }
 
 
-void MessageBox::setDetailedText(QString iDetailedText)
+void ReduceMessageBox::setDetailedText(QString iDetailedText)
 {
   detailedText.setText(iDetailedText);
 }
 
 
-void MessageBox::setDetailedTextReadOnly(bool iReadOnly)
+void ReduceMessageBox::setDetailedTextReadOnly(bool iReadOnly)
 {
   detailedText.setReadOnly(iReadOnly);
 }
 
 
-void MessageBox::setStandardButtons(QFlags<QDialogButtonBox::StandardButton> buttons)
+void ReduceMessageBox::setStandardButtons(QFlags<QDialogButtonBox::StandardButton> buttons)
 {
   buttonBox.setStandardButtons(buttons);
 }
