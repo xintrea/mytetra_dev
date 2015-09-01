@@ -72,6 +72,13 @@ void AttachTableController::onAddAttach(void)
   fileSelectDialog.setNameFilter("*");
   fileSelectDialog.setWindowTitle(tr("Attach file"));
   fileSelectDialog.setDirectory(QDir::homePath());
+
+  // Если существует каталог, открытый при предыдущем выборе файла
+  QDir appendDir( mytetraConfig.getAttachAppendDir() );
+  if( appendDir.exists() )
+    fileSelectDialog.setDirectory( mytetraConfig.getAttachAppendDir() );
+
+  // Отрисовка диалога выбора
   fileSelectDialog.exec();
 
   // Выясняется список выбранных файлов
@@ -80,6 +87,9 @@ void AttachTableController::onAddAttach(void)
   // Если ни один файл не выбран
   if(files.size()==0)
     return;
+
+  // Запоминается директория, в которой был сделан выбор
+  mytetraConfig.setAttachAppendDir( fileSelectDialog.directory().absolutePath() );
 
   // Указатель на данные таблицы приаттаченных файлов
   AttachTableData *attachTableData=getAttachTableData();
