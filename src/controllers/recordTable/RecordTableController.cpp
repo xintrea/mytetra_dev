@@ -174,6 +174,12 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
     edView->setCursorPosition( walkHistory.getCursorPosition(id) );
     edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
+
+  // Обновление иконки аттачей
+  if( table->getRecord(pos)->getAttachTablePointer()->size()==0 )
+    edView->toAttach->setIcon( edView->iconAttachNotExists ); // Если нет приаттаченных файлов
+  else
+    edView->toAttach->setIcon( edView->iconAttachExists ); // Есть приаттаченные файлы
 }
 
 

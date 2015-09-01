@@ -226,6 +226,9 @@ void MetaEditor::clearAll(void)
 
  clearAllMiscField();
 
+ // Иконка аттачей должна показывать что аттачей нет
+ toAttach->setIcon( iconAttachNotExists );
+
  // Очистка для слоя приаттаченных файлов
  attachTableScreen->clear();
 }

@@ -152,6 +152,8 @@ public:
  QToolButton   *showText;
 
  QToolButton   *toAttach;
+ QIcon         iconAttachExists; // Иконка, когда аттачи есть
+ QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
  IndentSlider  *indentSlider;
 

@@ -141,6 +141,13 @@ void AttachTableController::onAddAttach(void)
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
+
+  // Обновление иконки аттачей в редакторе
+  if(attachTableData->size()>0)
+  {
+    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+    edView->toAttach->setIcon( edView->iconAttachExists );
+  }
 }
 
 
@@ -232,6 +239,13 @@ void AttachTableController::onDeleteAttach(void)
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
+
+  // Обновление иконки аттачей в редакторе
+  if(attachTableData->size()==0)
+  {
+    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+    edView->toAttach->setIcon( edView->iconAttachNotExists );
+  }
 }
 
 

@@ -46,7 +46,51 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 
 Editor::~Editor(void)
 {
-
+  delete editorConfig;
+  delete bold;
+  delete italic;
+  delete underline;
+  delete monospace;
+  delete code;
+  delete clear;
+  delete numericList;
+  delete dotList;
+  delete indentPlus;
+  delete indentMinus;
+  delete alignLeft;
+  delete alignCenter;
+  delete alignRight;
+  delete alignWidth;
+  delete settings;
+  delete fontSelect;
+  delete fontSize;
+  delete fontColor;
+  delete showHtml;
+  delete infoArea;
+  delete findText;
+  delete showFormatting;
+  delete createTable;
+  delete tableRemoveRow;
+  delete tableRemoveCol;
+  delete tableAddRow;
+  delete tableAddCol;
+  delete tableMergeCells;
+  delete tableSplitCell;
+  delete insertImageFromFile;
+  delete expandEditArea;
+  delete expandToolsLines;
+  delete save;
+  delete back;
+  delete findInBase;
+  delete showText;
+  delete toAttach;
+  delete indentSlider;
+  delete textformatButtonsLayout;
+  delete toolsLine1;
+  delete toolsLine2;
+  delete buttonsAndEditLayout;
+  delete editorContextMenu;
+  delete textArea;
 }
 
 
@@ -485,9 +529,11 @@ void Editor::setup_buttons(void)
   showText->setObjectName("editor_tb_show_text");
 
   // Кнопка переключения на аттачи
+  iconAttachNotExists = QIcon(":/resource/pic/attach.svg");
+  iconAttachExists = QIcon(":/resource/pic/attach_exists.svg");
   toAttach = new QToolButton(this);
   toAttach->setStatusTip(tr("Show attach files"));
-  toAttach->setIcon(QIcon(":/resource/pic/attach.svg"));
+  toAttach->setIcon(iconAttachNotExists);
   toAttach->setObjectName("editor_tb_attach");
 
   // Виджет настройки отступов

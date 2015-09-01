@@ -93,5 +93,6 @@
         <file>resource/pic/attach_switch_to_editor.svg</file>
         <file>resource/pic/attach_preview.svg</file>
         <file>resource/pic/attach_info.svg</file>
+        <file>resource/pic/attach_exists.svg</file>
     </qresource>
 </RCC>
