@@ -190,6 +190,14 @@ public:
     QString getCustomDateTimeFormat(void);
     void setCustomDateTimeFormat(QString format);
 
+    // Путь на диске по которому пользователь открывал файлы чтобы приаттачить их к записи
+    QString getAttachAppendDir(void);
+    void setAttachAppendDir(QString dir);
+
+    // Путь на диске по которому пользователь сохранял (Сохранить как...)приаттаченные файлы
+    QString getAttachSaveAsDir(void);
+    void setAttachSaveAsDir(QString dir);
+
 
 private:
 

@@ -730,6 +730,30 @@ void AppConfig::setCustomDateTimeFormat(QString format)
 }
 
 
+// Путь на диске по которому пользователь открывал файлы чтобы приаттачить их к записи
+QString AppConfig::getAttachAppendDir(void)
+{
+  return get_parameter("attachAppendDir");
+}
+
+void AppConfig::setAttachAppendDir(QString dir)
+{
+  conf->setValue("attachAppendDir", dir);
+}
+
+
+// Путь на диске по которому пользователь сохранял (Сохранить как...)приаттаченные файлы
+QString AppConfig::getAttachSaveAsDir(void)
+{
+  return get_parameter("attachSaveAsDir");
+}
+
+void AppConfig::setAttachSaveAsDir(QString dir)
+{
+  conf->setValue("attachSaveAsDir", dir);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
