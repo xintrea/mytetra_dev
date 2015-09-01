@@ -868,7 +868,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 24
+ // Последняя версия на данный момент - 25
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -915,6 +915,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(22, 23, get_parameter_table_22(), get_parameter_table_23());
  if(fromVersion<=23)
   updater.update_version(23, 24, get_parameter_table_23(), get_parameter_table_24());
+ if(fromVersion<=24)
+  updater.update_version(24, 25, get_parameter_table_24(), get_parameter_table_25());
 }
 
 
@@ -1403,6 +1405,25 @@ QStringList AppConfig::get_parameter_table_24(bool withEndSignature)
 
  table << "enableCustomDateTimeFormat" << "bool" << "false";
  table << "customDateTimeFormat" << "QString" << "";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_25(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 24
+ table << get_parameter_table_24(false);
+
+ table << "attachAppendDir" << "QString" << "";
+ table << "attachSaveAsDir" << "QString" << "";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
