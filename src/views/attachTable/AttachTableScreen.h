@@ -25,6 +25,7 @@ public:
   QAction *actionEditFileName;
   QAction *actionDeleteAttach;
   QAction *actionOpenAttach;
+  QAction *actionSaveAsAttach;
   QAction *actionShowAttachInfo;
 
 signals:

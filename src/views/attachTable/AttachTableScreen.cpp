@@ -52,7 +52,12 @@ void AttachTableScreen::setupActions(void)
   actionOpenAttach->setStatusTip(tr("Preview file"));
   actionOpenAttach->setIcon(QIcon(":/resource/pic/attach_preview.svg"));
 
-  // Информация о таблице (для отладки)
+  // Сохранить как... файл
+  actionSaveAsAttach = new QAction(tr("Save as..."), this);
+  actionSaveAsAttach->setStatusTip(tr("Save as..."));
+  actionSaveAsAttach->setIcon(QIcon(":/resource/pic/attach_save_as.svg"));
+
+  // Информация об аттаче
   actionShowAttachInfo = new QAction(tr("Attach info"), this);
   actionShowAttachInfo->setStatusTip(tr("Attach info"));
   actionShowAttachInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
@@ -74,6 +79,7 @@ void AttachTableScreen::setupUI(void)
   insertActionAsButton(toolsLine, actionEditFileName);
   insertActionAsButton(toolsLine, actionDeleteAttach);
   insertActionAsButton(toolsLine, actionOpenAttach);
+  insertActionAsButton(toolsLine, actionSaveAsAttach);
   insertActionAsButton(toolsLine, actionShowAttachInfo);
 
   toolsLine->addSeparator();
@@ -89,6 +95,7 @@ void AttachTableScreen::setupSignals(void)
   connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
   connect(actionDeleteAttach, SIGNAL(triggered()), attachTableController, SLOT(onDeleteAttach()));
   connect(actionOpenAttach, SIGNAL(triggered()), attachTableController, SLOT(onOpenAttach()));
+  connect(actionSaveAsAttach, SIGNAL(triggered()), attachTableController, SLOT(onSaveAsAttach()));
 
   connect(actionShowAttachInfo, SIGNAL(triggered()), attachTableController, SLOT(onShowAttachInfo()));
 

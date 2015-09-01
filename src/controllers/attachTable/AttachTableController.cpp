@@ -76,7 +76,7 @@ void AttachTableController::onAddAttach(void)
   // Если существует каталог, открытый при предыдущем выборе файла
   QDir appendDir( mytetraConfig.getAttachAppendDir() );
   if( appendDir.exists() )
-    fileSelectDialog.setDirectory( mytetraConfig.getAttachAppendDir() );
+    fileSelectDialog.setDirectory( appendDir );
 
   // Отрисовка диалога выбора
   fileSelectDialog.exec();
@@ -157,6 +157,149 @@ void AttachTableController::onAddAttach(void)
   {
     MetaEditor *edView=find_object<MetaEditor>("editorScreen");
     edView->toAttach->setIcon( edView->iconAttachExists );
+  }
+}
+
+
+void AttachTableController::onSaveAsAttach(void)
+{
+  QList<QString> selectedId=getSelectedId();
+
+  // Если ни один аттач не выбран
+  if(selectedId.size()==0)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Please select any attach(es) for save to your directory."));
+    msgBox.exec();
+
+    return;
+  }
+
+  // Если выбран только один аттач
+  if(selectedId.size()==1)
+  {
+    // Диалог выбора имени файла
+    QFileDialog fileSelectDialog;
+    fileSelectDialog.setFileMode(QFileDialog::ExistingFile); // Один файл
+    fileSelectDialog.setWindowTitle(tr("Save as..."));
+    fileSelectDialog.setDirectory(QDir::homePath());
+
+    // Если существует каталог, открытый при предыдущем сохранении
+    QDir saveAsDir( mytetraConfig.getAttachSaveAsDir() );
+    if( saveAsDir.exists() )
+      fileSelectDialog.setDirectory( saveAsDir );
+
+    // В диалоге устанавливается имя файла выбранного аттача
+    QString id=selectedId.at(0);
+    AttachTableData *attachTableData=getAttachTableData();
+    QString fileName=attachTableData->getFileNameById(id);
+    QString fullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
+    fileSelectDialog.selectFile(fileName);
+
+    // Отрисовка диалога выбора
+    fileSelectDialog.exec();
+
+    // Запоминается директория, в которой был сделан выбор
+    mytetraConfig.setAttachAppendDir( fileSelectDialog.directory().absolutePath() );
+
+
+    // Выясняется список выбранных файлов
+    QStringList selectFiles=fileSelectDialog.selectedFiles();
+
+    // Должен быть выбран только один файл
+    if(selectFiles.size()!=1)
+    {
+      QMessageBox msgBox;
+      msgBox.setText(tr("For save sigle file you must set single result file name."));
+      msgBox.exec();
+
+      return;
+    }
+
+
+    // Проверка наличия исходного файла (ведь по каким-то причинам его может не быть, например после какого-нибудь сбоя)
+    QFile file(fullFileName);
+
+    if(file.exists()==false)
+    {
+      QMessageBox msgBox;
+      msgBox.setText(QObject::tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fullFileName));
+      msgBox.exec();
+
+      return;
+    }
+
+
+    // Указанный пользователем файл для сохранения аттача
+    QString targetFileName=selectFiles.at(0);
+
+    // Сохранение
+    bool result=file.copy( targetFileName );
+
+    if(!result)
+    {
+      QMessageBox msgBox;
+      msgBox.setText(QObject::tr("Can't save file %1 to %2. Any i/o problem.").arg(fileName).arg(targetFileName));
+      msgBox.exec();
+
+      return;
+    }
+  }
+  else if(selectedId.size()>1) // Если выбрано несколько аттачей
+  {
+    // Диалог выбора имени директории
+    QFileDialog fileSelectDialog;
+    fileSelectDialog.setFileMode(QFileDialog::DirectoryOnly); // Выбор директории
+    fileSelectDialog.setWindowTitle(tr("Save attaches to directory..."));
+    fileSelectDialog.setDirectory(QDir::homePath());
+
+    // Если существует каталог, открытый при предыдущем сохранении
+    QDir saveAsDir( mytetraConfig.getAttachSaveAsDir() );
+    if( saveAsDir.exists() )
+      fileSelectDialog.setDirectory( saveAsDir );
+
+    // Отрисовка диалога выбора
+    fileSelectDialog.exec();
+
+    // Запоминается директория, в которой был сделан выбор
+    mytetraConfig.setAttachAppendDir( fileSelectDialog.directory().absolutePath() );
+
+
+    // Выбранная директория
+    QString toDir=fileSelectDialog.directory().absolutePath();
+
+    AttachTableData *attachTableData=getAttachTableData();
+
+    // Перебор выбранных для сохранения аттачей
+    foreach(QString id, selectedId)
+    {
+      QString fileName=attachTableData->getFileNameById(id);
+      QString fromFileName=attachTableData->getInnerFileNameById(id);
+      QString fromFullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
+      QString toFullFileName=toDir+"/"+fileName;
+
+      QFile file(fromFullFileName);
+
+      if(file.exists()==false)
+      {
+        QMessageBox msgBox;
+        msgBox.setText(QObject::tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fromFullFileName));
+        msgBox.exec();
+
+        return;
+      }
+
+      bool result=file.copy(toFullFileName);
+
+      if(!result)
+      {
+        QMessageBox msgBox;
+        msgBox.setText(QObject::tr("Can't save file %1 to directory %2. Any i/o problem.").arg(fileName).arg(toFullFileName));
+        msgBox.exec();
+
+        return;
+      }
+    }
   }
 }
 

@@ -35,6 +35,7 @@ public slots:
   void onDeleteAttach(void);
   void onOpenAttach(void);
   void onShowAttachInfo(void);
+  void onSaveAsAttach(void);
 
   void onSwitchToEditor(void);
 
