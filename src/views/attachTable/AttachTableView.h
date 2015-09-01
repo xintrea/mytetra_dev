@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QTableView>
 #include <QMenu>
+#include <QGestureEvent>
+#include <QTapAndHoldGesture>
 
 class AttachTableController;
 
@@ -24,7 +26,10 @@ public:
 
   int getFirstSelectionPos(void);
 
-  virtual void resizeEvent(QResizeEvent *event);
+
+signals:
+
+  void tapAndHoldGestureFinished(const QPoint &);
 
 
 protected slots:
@@ -36,6 +41,11 @@ protected:
 
   void setupSignals(void);
   void assemblyContextMenu(void);
+
+  bool event(QEvent *event);
+  virtual void resizeEvent(QResizeEvent *event);
+  bool gestureEvent(QGestureEvent *event);
+  void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
   AttachTableController *controller;
 

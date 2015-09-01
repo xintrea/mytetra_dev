@@ -1,10 +1,14 @@
 #include <QHeaderView>
 #include <QMenu>
+#include <QDebug>
 
 #include "main.h"
 #include "AttachTableView.h"
 #include "AttachTableScreen.h"
 #include "controllers/attachTable/AttachTableController.h"
+#include "libraries/GlobalParameters.h"
+
+extern GlobalParameters globalParameters;
 
 
 AttachTableView::AttachTableView(QWidget *parent) : QTableView(parent)
@@ -75,14 +79,53 @@ void AttachTableView::assemblyContextMenu(void)
 }
 
 
+// Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)
+bool AttachTableView::event(QEvent *event)
+{
+  if (event->type() == QEvent::Gesture)
+  {
+    qDebug() << "In gesture event(): " << event << " Event type: " << event->type();
+    return gestureEvent(static_cast<QGestureEvent*>(event));
+  }
+
+  return QTableView::event(event);
+}
+
+
 void AttachTableView::resizeEvent(QResizeEvent *event)
 {
+  // Первый столбец должен занимать 80% ширины при любом размере таблицы
   QRect viewRect = this->rect();
   float columnWidth = (float) viewRect.width() * 0.8;
   this->setColumnWidth( 0, columnWidth );
 
   // Отрисовка родительского класса
   QTableView::resizeEvent(event);
+}
+
+
+// Обработчик жестов
+// Вызывается из обработчика событий event()
+bool AttachTableView::gestureEvent(QGestureEvent *event)
+{
+  qDebug() << "In gestureEvent()" << event;
+
+  if (QGesture *gesture = event->gesture(Qt::TapAndHoldGesture))
+    tapAndHoldGestureTriggered(static_cast<QTapAndHoldGesture *>(gesture));
+
+  return true;
+}
+
+
+// Обработчик жеста TapAndHoldGesture
+// Вызывается из обработчика жестов gestureEvent()
+void AttachTableView::tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture)
+{
+  qDebug() << "In tapAndHoldGestureTriggered()" << gesture;
+
+  if(gesture->state()==Qt::GestureFinished)
+    if(globalParameters.getTargetOs()=="android")
+      emit tapAndHoldGestureFinished( mapFromGlobal(gesture->position().toPoint()) );
 }
 
 
