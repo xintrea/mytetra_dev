@@ -19,6 +19,7 @@ class AttachTableController : public QObject
   Q_OBJECT
 
 public:
+
   AttachTableController(QObject *parent = 0);
   virtual ~AttachTableController();
 
@@ -31,6 +32,7 @@ public:
 public slots:
 
   void onAddAttach(void);
+  void onAddLink(void);
   void onEditFileName(void);
   void onDeleteAttach(void);
   void onOpenAttach(void);
@@ -41,6 +43,10 @@ public slots:
 
 
 protected:
+
+  void addSmart(int attachType);
+  QStringList selectFilesForAdding(int attachType);
+
   AttachTableView *view;
   AttachTableModel *model;
 

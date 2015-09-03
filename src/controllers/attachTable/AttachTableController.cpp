@@ -66,36 +66,28 @@ AttachTableData *AttachTableController::getAttachTableData()
 
 void AttachTableController::onAddAttach(void)
 {
-  // Диалог выбора файлов
-  QFileDialog fileSelectDialog;
-  fileSelectDialog.setFileMode(QFileDialog::ExistingFiles); // QFileDialog::ExistingFile
-  fileSelectDialog.setNameFilter("*");
-  fileSelectDialog.setWindowTitle(tr("Attach file"));
-  fileSelectDialog.setDirectory(QDir::homePath());
+  addSmart(Attach::typeFile);
+}
 
-  // Если существует каталог, открытый при предыдущем выборе файла
-  QDir appendDir( mytetraConfig.getAttachAppendDir() );
-  if( appendDir.exists() )
-    fileSelectDialog.setDirectory( appendDir );
 
-  // Отрисовка диалога выбора
-  fileSelectDialog.exec();
+void AttachTableController::onAddLink()
+{
+  addSmart(Attach::typeLink);
+}
 
-  // Выясняется список выбранных файлов
-  QStringList files=fileSelectDialog.selectedFiles();
 
-  // Если ни один файл не выбран
+void AttachTableController::addSmart(int attachType)
+{
+  QStringList files=selectFilesForAdding(attachType);
+
   if(files.size()==0)
-    return;
-
-  // Запоминается директория, в которой был сделан выбор
-  mytetraConfig.setAttachAppendDir( fileSelectDialog.directory().absolutePath() );
+    return; // Если ни один файл не выбран
 
   // Указатель на данные таблицы приаттаченных файлов
   AttachTableData *attachTableData=getAttachTableData();
 
   if(attachTableData==NULL)
-    critical_error("Unset attach table data in AttachTableController::onAttachFile()");
+    critical_error("Unset attach table data in AttachTableController::addSmart()");
 
   // Перебираются выбранные в диалоге файлы
   for(int i=0; i<files.size(); ++i)
@@ -120,18 +112,24 @@ void AttachTableController::onAddAttach(void)
     // Текущее короткое имя файла
     QString currShortFileName=currFileInfo.fileName();
 
-    // Конструируется Attach, который нужно добавить
+    // Идентификатор аттача
     QString id=get_unical_id();
-    Attach attach(Attach::typeFile, attachTableData);
+
+    // Конструируется Attach, который нужно добавить
+    Attach attach(attachType, attachTableData);
     attach.setId( id );
     attach.setFileName(currShortFileName);
 
-    qDebug() << "Before copy file " << currFullFileName;
-
-    // Файл аттача копируется в базу
-    bool result=attach.copyFileToBase(currFullFileName);
-
-    qDebug() << "After copy file";
+    bool result=false;
+    if(attachType==Attach::typeFile)
+      result=attach.copyFileToBase(currFullFileName); // Файл аттача копируется в базу
+    else if(attachType==Attach::typeLink)
+    {
+      attach.setLink(currFullFileName); // Запоминается куда указывает линк
+      result=true;
+    }
+    else
+      critical_error("Unsupport adding mode");
 
     if(result)
     {
@@ -158,6 +156,42 @@ void AttachTableController::onAddAttach(void)
     MetaEditor *edView=find_object<MetaEditor>("editorScreen");
     edView->toAttach->setIcon( edView->iconAttachExists );
   }
+}
+
+
+QStringList AttachTableController::selectFilesForAdding(int attachType)
+{
+  // Диалог выбора файлов
+  QFileDialog fileSelectDialog;
+
+  QString title;
+  if(attachType==Attach::typeFile)
+    title=tr("Attach file");
+  if(attachType==Attach::typeLink)
+    title=tr("Add link to file");
+
+  fileSelectDialog.setWindowTitle(title);
+
+  fileSelectDialog.setFileMode(QFileDialog::ExistingFiles); // QFileDialog::ExistingFile
+  fileSelectDialog.setNameFilter("*");
+  fileSelectDialog.setDirectory(QDir::homePath());
+
+  // Если существует каталог, открытый при предыдущем выборе файла
+  QDir appendDir( mytetraConfig.getAttachAppendDir() );
+  if( appendDir.exists() )
+    fileSelectDialog.setDirectory( appendDir );
+
+  // Отрисовка диалога выбора
+  fileSelectDialog.exec();
+
+  // Выясняется список выбранных файлов
+  QStringList files=fileSelectDialog.selectedFiles();
+
+  // Запоминается директория, в которой был сделан выбор
+  if(files.size()>0)
+    mytetraConfig.setAttachAppendDir( fileSelectDialog.directory().absolutePath() );
+
+  return files;
 }
 
 

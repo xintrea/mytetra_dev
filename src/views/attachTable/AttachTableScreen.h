@@ -22,6 +22,7 @@ public:
   void clear(void);
 
   QAction *actionAddAttach;
+  QAction *actionAddLink;
   QAction *actionEditFileName;
   QAction *actionDeleteAttach;
   QAction *actionOpenAttach;
