@@ -206,7 +206,7 @@ void AttachTableController::onSaveAsAttach(void)
 
 
     // Запоминается директория, в которой был сделан выбор
-    mytetraConfig.setAttachSaveAsdDir( fileSelectDialog.directory().absolutePath() );
+    mytetraConfig.setAttachSaveAsDir( fileSelectDialog.directory().absolutePath() );
 
 
     // Выясняется список выбранных файлов
@@ -271,7 +271,7 @@ void AttachTableController::onSaveAsAttach(void)
 
 
     // Запоминается директория, в которой был сделан выбор
-    mytetraConfig.setAttachSaveAsdDir( fileSelectDialog.directory().absolutePath() );
+    mytetraConfig.setAttachSaveAsDir( fileSelectDialog.directory().absolutePath() );
 
 
     // Выбранная директория
