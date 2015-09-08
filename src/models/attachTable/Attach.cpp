@@ -181,10 +181,7 @@ bool Attach::copyFileToBase(QString iFileName)
 
   if(file.exists()==false)
   {
-    QMessageBox msgBox;
-    msgBox.setText(QObject::tr("Can't open file %1. File not exists.").arg(iFileName));
-    msgBox.exec();
-
+    showMessageBox(QObject::tr("Can't open file %1. File not exists.").arg(iFileName));
     return false;
   }
 
@@ -195,11 +192,7 @@ bool Attach::copyFileToBase(QString iFileName)
   qDebug() << "After real copy file.";
 
   if(result==false)
-  {
-    QMessageBox msgBox;
-    msgBox.setText(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
-    msgBox.exec();
-  }
+    showMessageBox(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
 
   return result;
 }
@@ -216,10 +209,7 @@ void Attach::removeFile()
 
   if(file.exists()==false)
   {
-    QMessageBox msgBox;
-    msgBox.setText(QObject::tr("Can't delete file %1 on disk. File not exists.").arg(getFullInnerFileName()));
-    msgBox.exec();
-
+    showMessageBox(QObject::tr("Can't delete file %1 on disk. File not exists.").arg(getFullInnerFileName()));
     return;
   }
 
@@ -260,18 +250,23 @@ QString Attach::getId() const
 // Короткое имя файла (т. е. без пути)
 void Attach::setFileName(QString iFileName)
 {
-  if(type!=typeFile)
-    critical_error("Can't set file name to non-file attach.");
-
-  fileName=iFileName;
+  if(type==typeFile)
+    fileName=iFileName;
+  if(type==typeLink)
+  {
+    if(fileName.length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача) и новое имя не пустое
+    {
+      showMessageBox(QObject::tr("Can't modify file name for link type attach."));
+      return;
+    }
+    else
+      fileName=iFileName;
+  }
 }
 
 
 QString Attach::getFileName() const
 {
-  if(type!=typeFile)
-    critical_error("Can't get file name from non-file attach.");
-
   return fileName;
 }
 

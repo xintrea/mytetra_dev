@@ -100,10 +100,7 @@ void AttachTableController::addSmart(int attachType)
     // Если пользователь выбрал директорию (директорию выбирать нельзя, пока что можно выбирать только файлы)
     if(currFileInfo.isDir())
     {
-      QMessageBox msgBox;
-      msgBox.setText(tr("Can't add directory. Please, select files."));
-      msgBox.exec();
-
+      showMessageBox(tr("Can't add directory. Please, select files."));
       break;
     }
 
@@ -138,10 +135,7 @@ void AttachTableController::addSmart(int attachType)
     }
     else
     {
-      QMessageBox msgBox;
-      msgBox.setText(tr("An error occurred while copying file(s). File(s) can't attach."));
-      msgBox.exec();
-
+      showMessageBox(tr("An error occurred while copying file(s). File(s) can't attach."));
       break;
     }
 
@@ -203,10 +197,7 @@ void AttachTableController::onSaveAsAttach(void)
   // Если ни один аттач не выбран
   if(selectedId.size()==0)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Please select any attach(es) for save to your directory."));
-    msgBox.exec();
-
+    showMessageBox(tr("Please select any attach(es) for save to your directory."));
     return;
   }
 
@@ -249,10 +240,7 @@ void AttachTableController::onSaveAsAttach(void)
     // Должен быть выбран только один файл
     if(selectFiles.size()!=1)
     {
-      QMessageBox msgBox;
-      msgBox.setText(tr("For save sigle file you must set single result file name."));
-      msgBox.exec();
-
+      showMessageBox(tr("For save sigle file you must set single result file name."));
       return;
     }
 
@@ -262,10 +250,7 @@ void AttachTableController::onSaveAsAttach(void)
 
     if(file.exists()==false)
     {
-      QMessageBox msgBox;
-      msgBox.setText(QObject::tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fullFileName));
-      msgBox.exec();
-
+      showMessageBox(tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fullFileName));
       return;
     }
 
@@ -278,10 +263,7 @@ void AttachTableController::onSaveAsAttach(void)
 
     if(!result)
     {
-      QMessageBox msgBox;
-      msgBox.setText(QObject::tr("Can't save file %1 to %2. Any i/o problem.").arg(fileName).arg(targetFileName));
-      msgBox.exec();
-
+      showMessageBox(tr("Can't save file %1 to %2. Any i/o problem.").arg(fileName).arg(targetFileName));
       return;
     }
   }
@@ -325,10 +307,7 @@ void AttachTableController::onSaveAsAttach(void)
 
       if(file.exists()==false)
       {
-        QMessageBox msgBox;
-        msgBox.setText(QObject::tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fromFullFileName));
-        msgBox.exec();
-
+        showMessageBox(tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fromFullFileName));
         return;
       }
 
@@ -336,10 +315,7 @@ void AttachTableController::onSaveAsAttach(void)
 
       if(!result)
       {
-        QMessageBox msgBox;
-        msgBox.setText(QObject::tr("Can't save file %1 to directory %2. Any i/o problem.").arg(fileName).arg(toFullFileName));
-        msgBox.exec();
-
+        showMessageBox(tr("Can't save file %1 to directory %2. Any i/o problem.").arg(fileName).arg(toFullFileName));
         return;
       }
     }
@@ -358,10 +334,7 @@ void AttachTableController::onEditFileName(void)
   // Если выбрано больше одного аттача
   if(selectedId.size()>1)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Please select single attach for edit."));
-    msgBox.exec();
-
+    showMessageBox(tr("Please select single attach for edit."));
     return;
   }
 
@@ -384,10 +357,7 @@ void AttachTableController::onEditFileName(void)
 
   if(newFileName.size()==0)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Cant save file with empty name."));
-    msgBox.exec();
-
+    showMessageBox(tr("Cant save file with empty name."));
     return;
   }
 
@@ -408,10 +378,7 @@ void AttachTableController::onDeleteAttach(void)
   // Если ни один аттач не выбран
   if(selectedId.size()==0)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Please select any attach(es) for delete."));
-    msgBox.exec();
-
+    showMessageBox(tr("Please select any attach(es) for delete."));
     return;
   }
 
@@ -477,10 +444,7 @@ void AttachTableController::onShowAttachInfo(void)
   // Если выбрано больше одного аттача
   if(selectedId.size()>1)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Please select single attach for see info."));
-    msgBox.exec();
-
+    showMessageBox(tr("Please select single attach for see info."));
     return;
   }
 

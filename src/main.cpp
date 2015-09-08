@@ -541,6 +541,15 @@ void setDebugMessageHandler()
 }
 
 
+// Выдача на экран простого окна с сообщением
+void showMessageBox(QString message)
+{
+  QMessageBox msgBox;
+  msgBox.setText(message);
+  msgBox.exec();
+}
+
+
 int getScreenSizeY(void)
 {
 #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
