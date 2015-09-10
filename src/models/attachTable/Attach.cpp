@@ -53,7 +53,7 @@ QStringList Attach::fieldAvailableList(void)
 // На вход метода подается тег <file>
 void Attach::setupDataFromDom(QDomElement iDomElement)
 {
-  type=iDomElement.attribute("type").toInt();
+  type=convertTypeFromName( iDomElement.attribute("type") );
   id=iDomElement.attribute("id");
   fileName=iDomElement.attribute("fileName");
   link=iDomElement.attribute("link");
@@ -235,6 +235,19 @@ QString Attach::getTypeAsName() const
 }
 
 
+int Attach::convertTypeFromName(QString iName) const
+{
+  if(iName=="file")
+    return typeFile;
+
+  if(iName=="link")
+    return typeLink;
+
+  critical_error("Bad atach type in convertTypeFromName(): "+iName);
+  return 0;
+}
+
+
 void Attach::setId(QString iId)
 {
   id=iId;
@@ -274,25 +287,41 @@ QString Attach::getFileName() const
 // Внутрисистемное имя файла (без пути)
 QString Attach::getInnerFileName() const
 {
-  if(type!=typeFile)
-    critical_error("Can't get file name from non-file attach.");
+  if(type==typeFile) // Для файла
+  {
+    // Выясняется расширение по видимому имени файла
+    QFileInfo fileInfo(fileName);
+    QString suffix=fileInfo.suffix();
 
-  // Выясняется расширение по видимому имени файла
-  QFileInfo fileInfo(fileName);
-  QString suffix=fileInfo.suffix();
+    QString innerFileName=id+"."+suffix;
 
-  QString innerFileName=id+"."+suffix;
+    return innerFileName;
+  }
 
-  return innerFileName;
+  if(type==typeLink) // Для линка просто возвращается имя файла, куда указывает линк
+    return fileName;
+
+  critical_error("Bad attach type in getInnerFileName():"+QString::number(type));
+
+  return "";
 }
 
 
 // Внутрисистемное имя файла с путем
 QString Attach::getFullInnerFileName() const
 {
-  QString resultFileName=getFullInnerDirName()+"/"+getInnerFileName();
+  if(type==typeFile) // Для файла
+  {
+    QString resultFileName=getFullInnerDirName()+"/"+getInnerFileName();
+    return resultFileName;
+  }
 
-  return resultFileName;
+  if(type==typeLink) // Для линка
+    return getLink();
+
+  critical_error("Bad attach type in getFullInnerFileName():"+QString::number(type));
+
+  return "";
 }
 
 

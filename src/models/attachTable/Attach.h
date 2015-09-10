@@ -25,6 +25,7 @@ public:
 
   int getType() const;
   QString getTypeAsName() const;
+  int convertTypeFromName(QString iName) const;
 
   void setId(QString iId);
   QString getId() const;
