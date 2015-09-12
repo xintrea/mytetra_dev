@@ -62,7 +62,7 @@ void ClipboardRecords::print(void) const
     qDebug() << record.getText();
 
     // Перебор полей в записи
-    QMap<QString, QString> fieldList=record.getFieldList();
+    QMap<QString, QString> fieldList=record.getNaturalFieldList();
     QMapIterator<QString, QString> currentField(fieldList);
     while(currentField.hasNext())
     {  
@@ -113,7 +113,7 @@ QString ClipboardRecords::getRecordText(int n) const
 QMap<QString, QString> ClipboardRecords::getRecordFieldList(int n) const
 {
  if(n<records.table.size())
-  return records.table.at(n).getFieldList();
+  return records.table.at(n).getNaturalFieldList();
  else
   {
    critical_error("In ClipboardRecords::getRecordFieldTable() unavailable number "+QString::number(n));

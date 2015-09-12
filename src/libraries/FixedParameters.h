@@ -16,7 +16,13 @@ public:
  virtual ~FixedParameters();
 
  QStringList recordFieldAvailableList(void) const;
+ QStringList recordNaturalFieldAvailableList(void) const;
+ QStringList recordCalculableFieldAvailableList(void) const;
+
  bool isRecordFieldAvailable(QString name) const;
+ bool isRecordFieldNatural(QString name) const;
+ bool isRecordFieldCalculable(QString name) const;
+
  QStringList recordFieldCryptedList(void) const;
  QMap<QString, QString> recordFieldDescription(QStringList list) const;
 

@@ -58,7 +58,7 @@ void Record::setupDataFromDom(QDomElement iDomElement)
     QString name=attcurr.name();
     QString value=attcurr.value();
 
-    this->setFieldSource(name, value);
+    this->setNaturalFieldSource(name, value);
 
     // Распечатка считанных данных в консоль
     // qDebug() << "Read record attr " << name << value;
@@ -78,14 +78,16 @@ QDomElement Record::exportDataToDom(QDomDocument *doc) const
 {
   QDomElement elem=doc->createElement("record");
 
-  // Перебираются допустимые имена полей
-  for(int j=0; j<fixedParameters.recordFieldAvailableList().size(); ++j)
+  // Перебираются допустимые имена полей, доступных для сохранения
+  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList();
+  int availableFieldListSize=availableFieldList.size();
+  for(int j=0; j<availableFieldListSize; ++j)
   {
-    QString currentFieldName=fixedParameters.recordFieldAvailableList().at(j);
+    QString currentFieldName=availableFieldList.at(j);
 
     // Устанавливается значение поля как атрибут DOM-узла
-    if(isFieldExists(currentFieldName))
-      elem.setAttribute(currentFieldName, getFieldSource(currentFieldName));
+    if(isNaturalFieldExists(currentFieldName))
+      elem.setAttribute(currentFieldName, getNaturalFieldSource(currentFieldName));
   }
 
   // К элементу записи прикрепляется элемент таблицы приаттаченных файлов, если таковые есть
@@ -153,6 +155,7 @@ QString Record::getIdAndNameAsString() const
 }
 
 
+// Получение значения поля
 // Метод возвращает расшифрованные данные, если запись была зашифрована
 QString Record::getField(QString name) const
 {
@@ -162,43 +165,53 @@ QString Record::getField(QString name) const
 
   QString result="";
 
-  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
-  // то расшифровка невозможна
-  if(fixedParameters.recordFieldCryptedList().contains(name))
-    if(fieldList.contains("crypt"))
-      if(fieldList["crypt"]=="1")
-        if(globalParameters.getCryptKey().length()==0)
-          return QString();
-
-
-  // Если поле с таким названием есть
-  if(fieldList.contains(name))
+  // Для настоящего поля
+  if(fixedParameters.isRecordFieldNatural(name))
   {
-    // Нужно определить, зашифровано поле или нет
-
-    bool isCrypt=false;
-
-    // Если имя поля принадлежит списку полей, которые могут шифроваться
-    // и в наборе полей есть поле crypt
-    // и поле crypt установлено в 1
-    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
+    // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+    // то расшифровка невозможна
     if(fixedParameters.recordFieldCryptedList().contains(name))
       if(fieldList.contains("crypt"))
         if(fieldList["crypt"]=="1")
-          if(fieldList[name].length()>0)
-            isCrypt=true;
+          if(globalParameters.getCryptKey().length()==0)
+            return QString();
 
-    // Если поле не подлежит шифрованию
-    if(isCrypt==false)
-      result=fieldList[name]; // Возвращается значение поля
-    else
+
+    // Если поле с таким названием есть
+    if(fieldList.contains(name))
     {
-      // Поле расшифровывается
-      result=decryptString(globalParameters.getCryptKey(), fieldList[name]);
+      // Нужно определить, зашифровано поле или нет
+
+      bool isCrypt=false;
+
+      // Если имя поля принадлежит списку полей, которые могут шифроваться
+      // и в наборе полей есть поле crypt
+      // и поле crypt установлено в 1
+      // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
+      if(fixedParameters.recordFieldCryptedList().contains(name))
+        if(fieldList.contains("crypt"))
+          if(fieldList["crypt"]=="1")
+            if(fieldList[name].length()>0)
+              isCrypt=true;
+
+      // Если поле не подлежит шифрованию
+      if(isCrypt==false)
+        result=fieldList[name]; // Возвращается значение поля
+      else
+      {
+        // Поле расшифровывается
+        result=decryptString(globalParameters.getCryptKey(), fieldList[name]);
+      }
     }
+
+    // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
   }
 
-  // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
+  // Для вычислимого поля
+  if(fixedParameters.isRecordFieldCalculable(name))
+  {
+    result="100"; // todo: Заглушка
+  }
 
   return result;
 }
@@ -207,7 +220,7 @@ QString Record::getField(QString name) const
 void Record::setField(QString name, QString value)
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
+  if(fixedParameters.isRecordFieldNatural(name)==false)
     critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
 
   bool isCrypt=false;
@@ -239,17 +252,17 @@ void Record::setField(QString name, QString value)
 }
 
 
-bool Record::isFieldExists(QString name) const
+bool Record::isNaturalFieldExists(QString name) const
 {
   return fieldList.contains(name);
 }
 
 
-QString Record::getFieldSource(QString name) const
+QString Record::getNaturalFieldSource(QString name) const
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
-    critical_error("RecordTableData::getFieldSource() : get unavailable field "+name);
+  if(fixedParameters.isRecordFieldNatural(name)==false)
+    critical_error("RecordTableData::getNaturalFieldSource() : get unavailable field "+name);
 
   // Если поле с таким названием есть
   if(fieldList.contains(name))
@@ -259,25 +272,24 @@ QString Record::getFieldSource(QString name) const
 }
 
 
-void Record::setFieldSource(QString name, QString value)
+void Record::setNaturalFieldSource(QString name, QString value)
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
-    critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
+  if(fixedParameters.isRecordFieldNatural(name)==false)
+    critical_error("In RecordTableData::setNaturalFieldSource() unavailable field name "+name+" try set to "+value);
 
   // Устанавливается значение поля
   fieldList.insert(name, value);
-
 }
 
 
-// Получение значений всех полей
+// Получение значений всех натуральных (невычислимых) полей
 // Поля, которые могут быть у записи, но не заданы, не передаются
 // Поля, которые зашифрованы, расшифровываются
-QMap<QString, QString> Record::getFieldList() const
+QMap<QString, QString> Record::getNaturalFieldList() const
 {
   // Список имен инфополей
-  QStringList fieldNames=fixedParameters.recordFieldAvailableList();
+  QStringList fieldNames=fixedParameters.recordNaturalFieldAvailableList();
 
   QMap<QString, QString> resultFieldList;
 
@@ -542,7 +554,7 @@ void Record::switchToDecryptFields(void)
     // Поле расшифровывается
     if(fieldList.contains(fieldName))
       if(fieldList[fieldName].length()>0)
-        setFieldSource(fieldName, getField(fieldName) );
+        setNaturalFieldSource(fieldName, getField(fieldName) );
   }
 
   // Устанавливается поле (флаг) что запись не зашифрована
@@ -607,8 +619,8 @@ void Record::switchToDecryptAndSaveLite(void)
   if(fieldList.value("crypt")!="1")
     critical_error("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
 
-  // Расшифровка полей (имеено так, так как getFieldList() возвращает расшифрованные данные)
-  fieldList=getFieldList();
+  // Расшифровка полей (имеено так, так как getNaturalFieldList() возвращает расшифрованные данные)
+  fieldList=getNaturalFieldList();
 
   // Расшифровка файла с текстом записи
   QString dirName;

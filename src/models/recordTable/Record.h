@@ -39,13 +39,13 @@ public:
 
   QString getField(QString name) const;
   void setField(QString name, QString value);
-  bool isFieldExists(QString name) const;
+  bool isNaturalFieldExists(QString name) const;
 
   // Установка и чтение данных без преобразований. Используется при генерации/чтении XML
-  QString getFieldSource(QString name) const;
-  void setFieldSource(QString name, QString value);
+  QString getNaturalFieldSource(QString name) const;
+  void setNaturalFieldSource(QString name, QString value);
 
-  QMap<QString, QString> getFieldList() const;
+  QMap<QString, QString> getNaturalFieldList() const;
 
   QMap<QString, QByteArray> getPictureFiles() const;
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);

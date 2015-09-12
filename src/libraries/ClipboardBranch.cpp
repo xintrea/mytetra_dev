@@ -51,7 +51,7 @@ void ClipboardBranch::print(void) const
   {
    qDebug() << "Record:";
 
-   QMap<QString, QString> current_record_fields=current_record.getFieldList();
+   QMap<QString, QString> current_record_fields=current_record.getNaturalFieldList();
    foreach(QString field_name, current_record_fields.keys ())
     if(field_name=="id" || field_name=="name")
      qDebug() << field_name << ":" << current_record_fields.value(field_name);
