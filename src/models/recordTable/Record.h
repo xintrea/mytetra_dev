@@ -110,6 +110,9 @@ protected:
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
   void checkAndCreateTextFile();
 
+  QString getNaturalField(QString name) const;
+  QString getCalculableField(QString name) const;
+
 };
 
 #endif // __RECORD_H__

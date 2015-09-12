@@ -21,55 +21,43 @@ FixedParameters::~FixedParameters()
 // Перечень всех допустимых полей - натуральных и вычислимых
 QStringList FixedParameters::recordFieldAvailableList(void) const
 {
- // Для скорости задаются напрямую, не вызываются функции формирования из натурального и вычислимого списка полей
+  // Для скорости задаются напрямую, не вызывая функции формирования из натурального и вычислимого списка полей
 
- QStringList names;
-
- names << "id";
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
- names << "ctime";
- names << "dir";
- names << "file";
- names << "crypt";
-
- names << "hasAttach"; // Вычислимое поле
- names << "attachCount"; // Вычислимое поле
-
- return names;
+  return (QStringList() << "id" \
+                        << "name" \
+                        << "author" \
+                        << "url" \
+                        << "tags" \
+                        << "ctime" \
+                        << "dir" \
+                        << "file" \
+                        << "crypt" \
+                        \
+                        << "hasAttach" \
+                        << "attachCount");
 }
 
 
 // Перечень всех натуральных полей - то есть тех, которые напрямую хранятся в XML тегах
 QStringList FixedParameters::recordNaturalFieldAvailableList(void) const
 {
- QStringList names;
-
- names << "id";
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
- names << "ctime";
- names << "dir";
- names << "file";
- names << "crypt";
-
- return names;
+  return (QStringList() << "id" \
+                        << "name" \
+                        << "author" \
+                        << "url" \
+                        << "tags" \
+                        << "ctime" \
+                        << "dir" \
+                        << "file" \
+                        << "crypt" );
 }
 
 
 // Перечень всех вычислимых полей - такие поля нигде не сохраняются
 QStringList FixedParameters::recordCalculableFieldAvailableList(void) const
 {
- QStringList names;
-
- names << "hasAttach";
- names << "attachCount";
-
- return names;
+  return (QStringList() << "hasAttach" \
+                        << "attachCount");
 }
 
 

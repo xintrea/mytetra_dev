@@ -60,8 +60,10 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 
       QString field=table->getField(fieldName, index.row());
 
+
       // Некоторые данные при отрисовке в таблице преобразуются в "экранные" представления
       // Преобразование возможно только для отображаемой в таблице информации
+
       if( role==Qt::DisplayRole && fieldName=="ctime")
       {
         // Преобразование временного штампа в дату и время
@@ -70,10 +72,21 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
           return fieldDateTime.toString(Qt::SystemLocaleDate);
         else
           return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
+      }
+      else if( role==Qt::DisplayRole && fieldName=="hasAttach") // Наличие аттачей
+      {
+        if(field=="0")
+          return ""; // Если аттачей нет, выводится пустая строка. Это повышает читабельность
+        else
+          return tr("Yes"); // На русский перевести как "Есть"
+      }
+      else if( role==Qt::DisplayRole && fieldName=="attachCount") // Количество аттачей
+      {
+        if(field=="0")
+          return ""; // Если количество аттачей нуливое, выводится пустая строка. Это повышает читабельность
+        else
+          return field;
 
-        // QDate fieldDate=fieldDateTime.date();
-        // QTime fieldTime=fieldDateTime.time();
-        // return fieldDate.toString(Qt::SystemLocaleDate)+" "+fieldTime.toString(Qt::SystemLocaleDate);
       }
       else
         return field;

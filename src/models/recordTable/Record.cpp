@@ -163,63 +163,90 @@ QString Record::getField(QString name) const
   if(fixedParameters.isRecordFieldAvailable(name)==false)
     critical_error("RecordTableData::getField() : get unavailable field "+name);
 
-  QString result="";
-
   // Для настоящего поля
   if(fixedParameters.isRecordFieldNatural(name))
-  {
-    // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
-    // то расшифровка невозможна
-    if(fixedParameters.recordFieldCryptedList().contains(name))
-      if(fieldList.contains("crypt"))
-        if(fieldList["crypt"]=="1")
-          if(globalParameters.getCryptKey().length()==0)
-            return QString();
-
-
-    // Если поле с таким названием есть
-    if(fieldList.contains(name))
-    {
-      // Нужно определить, зашифровано поле или нет
-
-      bool isCrypt=false;
-
-      // Если имя поля принадлежит списку полей, которые могут шифроваться
-      // и в наборе полей есть поле crypt
-      // и поле crypt установлено в 1
-      // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-      if(fixedParameters.recordFieldCryptedList().contains(name))
-        if(fieldList.contains("crypt"))
-          if(fieldList["crypt"]=="1")
-            if(fieldList[name].length()>0)
-              isCrypt=true;
-
-      // Если поле не подлежит шифрованию
-      if(isCrypt==false)
-        result=fieldList[name]; // Возвращается значение поля
-      else
-      {
-        // Поле расшифровывается
-        result=decryptString(globalParameters.getCryptKey(), fieldList[name]);
-      }
-    }
-
-    // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
-  }
+    return getNaturalField(name);
 
   // Для вычислимого поля
   if(fixedParameters.isRecordFieldCalculable(name))
+    return getCalculableField(name);
+
+  return "";
+}
+
+
+// Защищенная функция
+// Проверка допустимости имени происходит в вызывающем коде
+QString Record::getNaturalField(QString name) const
+{
+  QString result="";
+
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то расшифровка невозможна
+  if(fixedParameters.recordFieldCryptedList().contains(name))
+    if(fieldList.contains("crypt"))
+      if(fieldList["crypt"]=="1")
+        if(globalParameters.getCryptKey().length()==0)
+          return QString();
+
+
+  // Если поле с таким названием есть
+  if(fieldList.contains(name))
   {
-    result="100"; // todo: Заглушка
+    // Нужно определить, зашифровано поле или нет
+
+    bool isCrypt=false;
+
+    // Если имя поля принадлежит списку полей, которые могут шифроваться
+    // и в наборе полей есть поле crypt
+    // и поле crypt установлено в 1
+    // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
+    if(fixedParameters.recordFieldCryptedList().contains(name))
+      if(fieldList.contains("crypt"))
+        if(fieldList["crypt"]=="1")
+          if(fieldList[name].length()>0)
+            isCrypt=true;
+
+    // Если поле не подлежит шифрованию
+    if(isCrypt==false)
+      result=fieldList[name]; // Возвращается значение поля
+    else
+    {
+      // Поле расшифровывается
+      result=decryptString(globalParameters.getCryptKey(), fieldList[name]);
+    }
   }
+
+  // qDebug() << "RecordTableData::get_field : pos" << pos <<"name"<<name<<"value"<<result;
 
   return result;
 }
 
 
+// Защищенная функция
+// Проверка допустимости имени происходит в вызывающем коде
+QString Record::getCalculableField(QString name) const
+{
+  // Наличие аттачей
+  if(name=="hasAttach")
+  {
+    if(this->attachTableData.size()>0)
+      return "1";
+    else
+      return "0";
+  }
+
+  // Количество аттачей
+  if(name=="attachCount")
+    return QString::number( this->attachTableData.size() );
+
+  return "";
+}
+
+
 void Record::setField(QString name, QString value)
 {
-  // Если имя поля недопустимо
+  // Если имя поля недопустимо (установить значение можно только для натурального поля)
   if(fixedParameters.isRecordFieldNatural(name)==false)
     critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
 
