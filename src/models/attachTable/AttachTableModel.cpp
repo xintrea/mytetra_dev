@@ -63,6 +63,20 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
     return QVariant::fromValue(id);
   }
 
+  // В колонке с именем файла отображается иконка файла или линка
+  if(role==Qt::DecorationRole && index.column()==ATTACHTABLE_COLUMN_FILENAME)
+  {
+    int row=index.row();
+    QString id=table->getIdByRow(row);
+    int attachType=table->getAttach(id).getType();
+
+    if(attachType==Attach::typeFile)
+      return QIcon(":/resource/pic/attach_is_file.svg");
+
+    if(attachType==Attach::typeLink)
+      return QIcon(":/resource/pic/attach_is_link.svg");
+  }
+
   return QVariant();
 }
 

@@ -96,5 +96,7 @@
         <file>resource/pic/attach_exists.svg</file>
         <file>resource/pic/attach_save_as.svg</file>
         <file>resource/pic/attach_add_link.svg</file>
+        <file>resource/pic/attach_is_file.svg</file>
+        <file>resource/pic/attach_is_link.svg</file>
     </qresource>
 </RCC>

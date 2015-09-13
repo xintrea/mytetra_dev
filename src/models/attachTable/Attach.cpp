@@ -223,6 +223,7 @@ int Attach::getType() const
   return type;
 }
 
+
 QString Attach::getTypeAsName() const
 {
   if(type==Attach::typeFile)
