@@ -403,7 +403,21 @@ qint64 Attach::getFileSize() const
 // todo: дописать
 void Attach::encrypt()
 {
+  // Шифруется файл
+  if(type==typeFile)
+    encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
+  // Шифруется имя файла
+  if(fileName.length()>0)
+    fileName=encryptString(globalParameters.getCryptKey(), fileName);
+
+  // Шифруется линк на файл
+  if(link.length()>0)
+    link=encryptString(globalParameters.getCryptKey(), link);
+
+  // Шифруется содержимое файла в памяти, если таковое есть
+  if(liteFlag==false)
+    fileContent=encryptString(globalParameters.getCryptKey(), link);
 }
 
 
