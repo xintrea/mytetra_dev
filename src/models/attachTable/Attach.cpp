@@ -404,7 +404,6 @@ qint64 Attach::getFileSize() const
 }
 
 
-// todo: дописать
 void Attach::encrypt()
 {
   // Шифруется файл
@@ -419,15 +418,27 @@ void Attach::encrypt()
   if(link.length()>0)
     link=CryptService::encryptString(globalParameters.getCryptKey(), link);
 
-  // todo: дописать обязательно
   // Шифруется содержимое файла в памяти, если таковое есть
-  // if(liteFlag==false)
-  //   fileContent=CryptService::encryptString(globalParameters.getCryptKey(), link);
+  if(liteFlag==false)
+    fileContent=CryptService::encryptByteArray(globalParameters.getCryptKey(), fileContent);
 }
 
 
-// todo: дописать
 void Attach::decrypt()
 {
+  // Расшифровывается файл
+  if(type==typeFile)
+    CryptService::decryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
+  // Расшифровывается имя файла
+  if(fileName.length()>0)
+    fileName=CryptService::decryptString(globalParameters.getCryptKey(), fileName);
+
+  // Расшифровывается линк на файл
+  if(link.length()>0)
+    link=CryptService::decryptString(globalParameters.getCryptKey(), link);
+
+  // Расшифровывается содержимое файла в памяти, если таковое есть
+  if(liteFlag==false)
+    fileContent=CryptService::decryptByteArray(globalParameters.getCryptKey(), fileContent);
 }

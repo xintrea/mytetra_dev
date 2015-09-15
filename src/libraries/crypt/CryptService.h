@@ -23,6 +23,9 @@ public:
   static QString encryptString(QByteArray key, QString line);
   static QString decryptString(QByteArray key, QString line);
 
+  static QByteArray encryptByteArray(QByteArray key, QByteArray data);
+  static QByteArray decryptByteArray(QByteArray key, QByteArray data);
+
   static QByteArray encryptStringToByteArray(QByteArray key, QString line);
   static QString decryptStringFromByteArray(QByteArray key, QByteArray data);
 

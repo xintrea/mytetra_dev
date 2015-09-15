@@ -137,9 +137,60 @@ QString CryptService::decryptString(QByteArray key, QString line)
 }
 
 
+QByteArray CryptService::encryptByteArray(QByteArray key, QByteArray data)
+{
+  if(data.size()==0)
+    return QByteArray();
+
+  vector<unsigned char> vectorKey;
+  convertByteArrayToVector(key, vectorKey);
+
+  vector<unsigned char> vectorDataIn;
+  convertByteArrayToVector(data, vectorDataIn);
+
+  vector<unsigned char> vectorDataOut;
+
+  // Шифрация
+  RC5Simple rc5;
+  rc5.RC5_SetKey(vectorKey);
+  rc5.RC5_Encrypt(vectorDataIn, vectorDataOut);
+
+  QByteArray result;
+  convertVectorToByteArray(vectorDataOut, result);
+
+  return result;
+}
+
+
+QByteArray CryptService::decryptByteArray(QByteArray key, QByteArray data)
+{
+  if(data.size()==0)
+    return QByteArray();
+
+  vector<unsigned char> vectorKey;
+  convertByteArrayToVector(key, vectorKey);
+
+  vector<unsigned char> vectorDataIn;
+  convertByteArrayToVector(data, vectorDataIn);
+
+  vector<unsigned char> vectorDataOut;
+
+  // Дешифрация
+  RC5Simple rc5;
+  rc5.RC5_SetKey(vectorKey);
+  rc5.RC5_Decrypt(vectorDataIn, vectorDataOut);
+
+  QByteArray result;
+  convertVectorToByteArray(vectorDataOut, result);
+
+  return result;
+}
+
+
 QByteArray CryptService::encryptStringToByteArray(QByteArray key, QString line)
 {
- if(line=="") return QByteArray();
+ if(line=="")
+   return QByteArray();
 
  vector<unsigned char> vectorKey;
  convertByteArrayToVector(key, vectorKey);
@@ -163,7 +214,8 @@ QByteArray CryptService::encryptStringToByteArray(QByteArray key, QString line)
 
 QString CryptService::decryptStringFromByteArray(QByteArray key, QByteArray data)
 {
- if(data.length()==0) return QString();
+ if(data.length()==0)
+   return QString();
 
  vector<unsigned char> vectorKey;
  convertByteArrayToVector(key, vectorKey);

@@ -63,7 +63,6 @@ void AttachTableData::setupDataFromDom(QDomElement iDomElement)
 
     currentFile=currentFile.nextSiblingElement("file");
   }
-
 }
 
 
@@ -114,7 +113,6 @@ bool AttachTableData::isLite() const
 }
 
 
-// todo: Подумать, может быть этот метод не нужен
 void AttachTableData::setParentRecord(Record *iRecord)
 {
   record=iRecord; // Запоминается ссылка на запись, которой принадлежит данная таблица файлов
