@@ -5,6 +5,7 @@
 #include "TreeItem.h"
 #include "main.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/crypt/CryptService.h"
 
 extern GlobalParameters globalParameters;
 
@@ -92,7 +93,7 @@ QString TreeItem::getField(QString name)
     if(fieldsTable["crypt"]=="1")
      {
       if(globalParameters.getCryptKey().length()>0)
-       itemName=decryptString(globalParameters.getCryptKey(), itemName);
+       itemName=CryptService::decryptString(globalParameters.getCryptKey(), itemName);
       else
        itemName=QString(QObject::tr("Closed"));
      }
@@ -130,7 +131,7 @@ QString TreeItem::getField(QString name)
         {
          if(globalParameters.getCryptKey().length()>0 &&
             value!="")
-          value=decryptString(globalParameters.getCryptKey(), value);
+          value=CryptService::decryptString(globalParameters.getCryptKey(), value);
          else
           value="";
         }
@@ -195,7 +196,7 @@ void TreeItem::setField(QString name, QString value)
         {
          // Если поле непустое, поле зашифровывается
          if(value!="")
-          value=encryptString(globalParameters.getCryptKey(), value);
+          value=CryptService::encryptString(globalParameters.getCryptKey(), value);
         }
        else // Иначе пароль не установлен
         critical_error("TreeItem::setField() : Can not encrypt field \""+name+"\". Password not setted.");
@@ -521,7 +522,7 @@ void TreeItem::switchToEncrypt(void)
  fieldsTable["crypt"]="1";
 
  // Шифруется имя ветки
- fieldsTable["name"]=encryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
+ fieldsTable["name"]=CryptService::encryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
 
 
  // Шифрация конечных записей для этой ветки
@@ -548,7 +549,7 @@ void TreeItem::switchToDecrypt(void)
  fieldsTable["crypt"]="0";
 
  // Расшифровка имени ветки
- fieldsTable["name"]=decryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
+ fieldsTable["name"]=CryptService::decryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
 
 
  // Дешифрация конечных записей для этой ветки

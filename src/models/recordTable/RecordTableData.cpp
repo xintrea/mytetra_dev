@@ -15,6 +15,7 @@
 #include "libraries/WalkHistory.h"
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
+#include "libraries/crypt/CryptService.h"
 
 #include "libraries/wyedit/Editor.h"
 
@@ -133,7 +134,7 @@ void RecordTableData::editorLoadCallback(QObject *editor,
  if(workWithCrypt==false)
   loadText=QString::fromUtf8( f.readAll() );
  else
-  loadText=decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
+  loadText=CryptService::decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
 }
 
 
@@ -179,7 +180,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
  else
   {
    // Текст шифруется
-   QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), saveText);
+   QByteArray encryptData=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), saveText);
 
    // В файл сохраняются зашифрованные данные
    QFile wfile(fileName);

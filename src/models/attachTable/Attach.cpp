@@ -8,6 +8,10 @@
 #include "Attach.h"
 #include "AttachTableData.h"
 #include "models/recordTable/Record.h"
+#include "libraries/crypt/CryptService.h"
+#include "libraries/GlobalParameters.h"
+
+extern GlobalParameters globalParameters;
 
 
 Attach::Attach(AttachTableData *iParentTable)
@@ -405,19 +409,20 @@ void Attach::encrypt()
 {
   // Шифруется файл
   if(type==typeFile)
-    encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
+    CryptService::encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
   // Шифруется имя файла
   if(fileName.length()>0)
-    fileName=encryptString(globalParameters.getCryptKey(), fileName);
+    fileName=CryptService::encryptString(globalParameters.getCryptKey(), fileName);
 
   // Шифруется линк на файл
   if(link.length()>0)
-    link=encryptString(globalParameters.getCryptKey(), link);
+    link=CryptService::encryptString(globalParameters.getCryptKey(), link);
 
+  // todo: дописать обязательно
   // Шифруется содержимое файла в памяти, если таковое есть
-  if(liteFlag==false)
-    fileContent=encryptString(globalParameters.getCryptKey(), link);
+  // if(liteFlag==false)
+  //   fileContent=CryptService::encryptString(globalParameters.getCryptKey(), link);
 }
 
 

@@ -9,6 +9,7 @@
 #include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
 #include "models/attachTable/AttachTableData.h"
+#include "libraries/crypt/CryptService.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -213,7 +214,7 @@ QString Record::getNaturalField(QString name) const
     else
     {
       // Поле расшифровывается
-      result=decryptString(globalParameters.getCryptKey(), fieldList[name]);
+      result=CryptService::decryptString(globalParameters.getCryptKey(), fieldList[name]);
     }
   }
 
@@ -270,7 +271,7 @@ void Record::setField(QString name, QString value)
 
   // Если нужно шифровать, поле шифруется
   if(isCrypt==true)
-    value=encryptString(globalParameters.getCryptKey(), value);
+    value=CryptService::encryptString(globalParameters.getCryptKey(), value);
 
   // Устанавливается значение поля
   fieldList.insert(name, value);
@@ -350,7 +351,7 @@ QMap<QString, QString> Record::getNaturalFieldList() const
         else
           if(globalParameters.getCryptKey().length()>0 &&
              fixedParameters.recordFieldCryptedList().contains(currName))
-            result=decryptString(globalParameters.getCryptKey(), fieldList[currName]); // Расшифровывается значение поля
+            result=CryptService::decryptString(globalParameters.getCryptKey(), fieldList[currName]); // Расшифровывается значение поля
       }
 
       resultFieldList[currName]=result;
@@ -468,7 +469,7 @@ QString Record::getTextDirect()
   else
   {
     qDebug() << "Record::getTextDirect( : return direct data after decrypt";
-    return decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
+    return CryptService::decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
   }
 
   return text;
@@ -505,7 +506,7 @@ void Record::saveTextDirect(QString iText)
   else if(fieldList.value("crypt")=="1")
   {
     // Текст шифруется
-    QByteArray encryptData=encryptStringToByteArray(globalParameters.getCryptKey(), iText);
+    QByteArray encryptData=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), iText);
 
     // В файл сохраняются зашифрованные данные
     QFile wfile(fileName);
@@ -609,7 +610,7 @@ void Record::switchToEncryptAndSaveLite(void)
   QString dirName;
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
-  encryptFile(globalParameters.getCryptKey(), fileName);
+  CryptService::encryptFile(globalParameters.getCryptKey(), fileName);
 
   // Шифрование приаттаченных файлов
   attachTableData.encrypt();
@@ -653,7 +654,7 @@ void Record::switchToDecryptAndSaveLite(void)
   QString dirName;
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
-  decryptFile(globalParameters.getCryptKey(), fileName);
+  CryptService::decryptFile(globalParameters.getCryptKey(), fileName);
 
   // Расшифровка приаттаченных файлов
   attachTableData.decrypt();

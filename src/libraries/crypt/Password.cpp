@@ -7,6 +7,7 @@
 #include "main.h"
 #include "Password.h"
 #include "Pbkdf2Qt.h"
+#include "CryptService.h"
 
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
@@ -216,7 +217,7 @@ bool Password::checkMiddleHash(void)
  QByteArray checkData=QByteArray::fromBase64( dataBaseConfig.get_middle_hash_check_data().toLatin1() );
 
  // Проверочные данные расшифровыватся с помощью ключа
- QString line=decryptStringFromByteArray(key, checkData);
+ QString line=CryptService::decryptStringFromByteArray(key, checkData);
 
 
  // Сравниватся проверочные данные
@@ -301,7 +302,7 @@ QByteArray Password::calculateMiddleHashCheckData(QByteArray middleHash)
  QString stringForCheck=SAVED_PASSWORD_CHECKING_LINE;
 
  // Шифруется проверочная строка (результат в кодировке Base64)
- QString encrypt=encryptString(key, stringForCheck);
+ QString encrypt=CryptService::encryptString(key, stringForCheck);
 
  // Base64 преобразуется в набор байт
  QByteArray checkData=QByteArray::fromBase64(encrypt.toLatin1());
