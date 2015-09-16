@@ -2,6 +2,7 @@
 #define __ATTACH_H__
 
 #include <QString>
+#include <QMap>
 #include <QByteArray>
 #include <QDomElement>
 
@@ -17,29 +18,17 @@ public:
   Attach(int iType, AttachTableData *iParentTable);
   virtual ~Attach();
 
-  // Возможные типы аттача - файл или линк на файл
-  enum attachType{typeFile, typeLink};
-
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
 
-  int getType() const;
-  QString getTypeAsName() const;
-  int convertTypeFromName(QString iName) const;
-
-  void setId(QString iId);
-  QString getId() const;
-
   // Работа с именем файла
   void setFileName(QString iFileName);
-  QString getFileName() const;
   QString getInnerFileName() const;
   QString getFullInnerFileName() const;
   QString getFullInnerDirName() const;
   QString getAbsoluteInnerFileName() const;
 
   bool setLink(QString iLink);
-  QString getLink() const;
 
   qint64 getFileSize() const;
 
@@ -64,16 +53,21 @@ protected:
 
   void init(AttachTableData *iParentTable);
 
-  QStringList fieldAvailableList(void);
+  QStringList fieldAvailableList(void) const;
 
   bool liteFlag;
 
   AttachTableData *parentTable; // Указатель на таблицу приаттаченных файлов, которой принадлежит данный аттач
-  int     type; // Тип аттача (файл или линк на файл)
 
+  QMap<QString, QString> fields;
+
+  /*
+  QString type; // Тип аттача ("file" или "link")
   QString id; // Идентификатор (служит так же техническим именем файла в базе, без расширения .bin)
   QString fileName; // Имя файла. Так файл отображается в интерфейсе, при экспорте назначается это имя
   QString link; // Линк на файл
+  QString crypt; // Зашифрованный ли это аттач ("0" или "1")
+  */
 
   QByteArray fileContent; // Содержимое файла, используется в режиме полных данных
 };

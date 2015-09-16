@@ -20,12 +20,12 @@ Attach::Attach(AttachTableData *iParentTable)
 }
 
 
-Attach::Attach(int iType, AttachTableData *iParentTable)
+Attach::Attach(QString iType, AttachTableData *iParentTable)
 {
   if(iType!=typeFile && iType!=typeLink)
     critical_error("Incorrect attach type in Attach constructor: "+QString::number(iType));
 
-  type=iType;
+  setField("type", iType);
 
   init(iParentTable);
 }
@@ -45,22 +45,18 @@ void Attach::init(AttachTableData *iParentTable)
 }
 
 
-QStringList Attach::fieldAvailableList(void)
+QStringList Attach::fieldAvailableList(void) const
 {
-  QStringList list;
-  list << "id" << "fileName" << "link" << "type";
-
-  return list;
+  return QStringList() << "id" << "fileName" << "link" << "type" << "crypt";
 }
 
 
 // На вход метода подается тег <file>
 void Attach::setupDataFromDom(QDomElement iDomElement)
 {
-  type=convertTypeFromName( iDomElement.attribute("type") );
-  id=iDomElement.attribute("id");
-  fileName=iDomElement.attribute("fileName");
-  link=iDomElement.attribute("link");
+  fieldsName=fieldAvailableList();
+  foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
+    fields[fieldName]=iDomElement.attribute(fieldName);
 }
 
 
@@ -68,19 +64,10 @@ QDomElement Attach::exportDataToDom(QDomDocument *doc) const
 {
   QDomElement elem=doc->createElement("file");
 
-  if(id.size()>0)
-    elem.setAttribute("id", id);
-
-  if(fileName.size()>0)
-    elem.setAttribute("fileName", fileName);
-
-  if(link.size()>0)
-    elem.setAttribute("link", link);
-
-  if(type!=Attach::typeFile && getType()!=Attach::typeLink)
-    critical_error("Bad type value in Attach::exportDataToDom()");
-  else
-    elem.setAttribute("type", getTypeAsName());
+  fieldsName=fieldAvailableList();
+  foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
+    if( fields[fieldName].size()>0 )
+      elem.setAttribute(fieldName, fields[fieldName]);
 
   return elem;
 }
@@ -89,7 +76,7 @@ QDomElement Attach::exportDataToDom(QDomDocument *doc) const
 bool Attach::isEmpty() const
 {
   // Заполненный аттач не может содержать пустой id
-  if(id.length()==0)
+  if(fields.contains("id")==false || getField("id").length()==0)
     return true;
   else
     return false;
@@ -106,7 +93,7 @@ void Attach::switchToLite()
 {
   // Переключение возможно только из полновесного состояния
   if(liteFlag==true)
-    critical_error("Can't switch attach to lite state. Attach id: "+id+" File name: "+fileName);
+    critical_error("Can't switch attach to lite state. Attach id: "+getField("id")+" File name: "+getField("fileName"));
 
   fileContent.clear();
 
@@ -118,7 +105,7 @@ void Attach::switchToFat()
 {
   // Переключение возможно только из легкого состояния
   if(liteFlag!=true)
-    critical_error("Unavailable switching attach object to fat state. Attach Id: "+id+" File name: "+fileName);
+    critical_error("Unavailable switching attach object to fat state. Attach Id: "+getField("id")+" File name: "+getField("fileName"));
 
   liteFlag=false;
 }
@@ -126,11 +113,11 @@ void Attach::switchToFat()
 
 void Attach::pushFatDataToDisk()
 {
-  if(type!=typeFile)
+  if(getField("type")!="file")
     critical_error("Can't push fat data for non-file attach.");
 
   if(liteFlag==true)
-    critical_error("Can't push fat data for lite attach. Attach id: "+id+" File name: "+fileName);
+    critical_error("Can't push fat data for lite attach. Attach id: "+getField("id")+" File name: "+getField("fileName"));
 
   QString innerFileName=getInnerFileName();
   QString innerDirName=parentTable->record->getFullDirName();
@@ -144,11 +131,11 @@ void Attach::pushFatDataToDisk()
 // То же самое что и pushFatDataToDisk, только в нужную директорию
 void Attach::pushFatDataToDirectory(QString dirName)
 {
-  if(type!=typeFile)
+  if(getField("type")!="file")
     critical_error("Can't save to directory "+dirName+" non-file attach.");
 
   if(liteFlag==true)
-    critical_error("Can't save to directory lite attach. Attach id: "+id+" File name: "+fileName);
+    critical_error("Can't save to directory lite attach. Attach id: "+getField("id")+" File name: "+getField("fileName"));
 
   QMap<QString, QByteArray> fileList;
   fileList[ getInnerFileName() ]=fileContent;
@@ -161,7 +148,7 @@ void Attach::popFatDataFromDisk()
 {
   // Втаскивание возможно только в полновесном состоянии
   if(liteFlag==true)
-    critical_error("Can't' pop data for lite attach. Attach id: "+id+" File name: "+fileName);
+    critical_error("Can't' pop data for lite attach. Attach id: "+getField("id")+" File name: "+getField("fileName"));
 
   fileContent.clear();
 
@@ -205,15 +192,15 @@ bool Attach::copyFileToBase(QString iFileName)
 // Удаление файла с диска
 void Attach::removeFile()
 {
-  if(type!=typeFile)
+  if(getField("type")!="file")
     return;
 
   // Проверка наличия файла
-  QFile file(getFullInnerFileName());
+  QFile file( getFullInnerFileName() );
 
   if(file.exists()==false)
   {
-    showMessageBox(QObject::tr("Can't delete file %1 on disk. File not exists.").arg(getFullInnerFileName()));
+    showMessageBox(QObject::tr("Can't delete file %1 on disk. File not exists.").arg( getFullInnerFileName() ));
     return;
   }
 
@@ -222,130 +209,25 @@ void Attach::removeFile()
 }
 
 
-int Attach::getType() const
-{
-  return type;
-}
 
 
-QString Attach::getTypeAsName() const
-{
-  if(type==Attach::typeFile)
-    return "file";
-
-  if(type==Attach::typeLink)
-    return "link";
-
-  return "";
-}
-
-
-int Attach::convertTypeFromName(QString iName) const
-{
-  if(iName=="file")
-    return typeFile;
-
-  if(iName=="link")
-    return typeLink;
-
-  critical_error("Bad atach type in convertTypeFromName(): "+iName);
-  return 0;
-}
-
-
-void Attach::setId(QString iId)
-{
-  id=iId;
-}
-
-
-QString Attach::getId() const
-{
-  return id;
-}
-
-
+// todo: подумать, код этого метода нужно использовать в методе setField()
 // Короткое имя файла (т. е. без пути)
 void Attach::setFileName(QString iFileName)
 {
-  if(type==typeFile)
-    fileName=iFileName;
-  if(type==typeLink)
+  if(getField("type")=="file")
+    setField("fileName", iFileName);
+  if(getField("type")=="link")
   {
-    if(fileName.length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача) и новое имя не пустое
+    if(getField("fileName").length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
     {
       showMessageBox(QObject::tr("Can't modify file name for link type attach."));
       return;
     }
     else
-      fileName=iFileName;
+      setField("fileName", iFileName);
   }
 }
-
-
-QString Attach::getFileName() const
-{
-  return fileName;
-}
-
-
-// Внутрисистемное имя файла (без пути)
-QString Attach::getInnerFileName() const
-{
-  if(type==typeFile) // Для файла
-  {
-    // Выясняется расширение по видимому имени файла
-    QFileInfo fileInfo(fileName);
-    QString suffix=fileInfo.suffix();
-
-    QString innerFileName=id+"."+suffix;
-
-    return innerFileName;
-  }
-
-  if(type==typeLink) // Для линка просто возвращается имя файла, куда указывает линк
-    return fileName;
-
-  critical_error("Bad attach type in getInnerFileName():"+QString::number(type));
-
-  return "";
-}
-
-
-// Внутрисистемное имя файла с путем
-QString Attach::getFullInnerFileName() const
-{
-  if(type==typeFile) // Для файла
-  {
-    QString resultFileName=getFullInnerDirName()+"/"+getInnerFileName();
-    return resultFileName;
-  }
-
-  if(type==typeLink) // Для линка
-    return getLink();
-
-  critical_error("Bad attach type in getFullInnerFileName():"+QString::number(type));
-
-  return "";
-}
-
-
-// Внутрисистемное имя файла с абсолютным путем
-QString Attach::getAbsoluteInnerFileName() const
-{
-  QFileInfo fileInfo( getFullInnerFileName() );
-
-  return fileInfo.absoluteFilePath();
-}
-
-
-// Внутрисистемный путь к файлу (полный)
-QString Attach::getFullInnerDirName() const
-{
-  return parentTable->record->getFullDirName();
-}
-
-
 bool Attach::setLink(QString iLink)
 {
   if(type!=typeLink)
@@ -370,14 +252,72 @@ bool Attach::setLink(QString iLink)
     return true;
   }
 }
-
-
 QString Attach::getLink() const
 {
   if(type!=typeLink)
     critical_error("Can't get link from non-link attach.");
 
   return link;
+}
+
+
+
+
+// Внутрисистемное имя файла (без пути)
+// Внутрисистемное имя складывается из идентификатора аттача и расширения, взятого от имени файла
+QString Attach::getInnerFileName() const
+{
+  if(getField("type")=="file") // Для файла
+  {
+    // Выясняется расширение по видимому имени файла
+    QFileInfo fileInfo( getField("fileName") );
+    QString suffix=fileInfo.suffix();
+
+    QString innerFileName=id+"."+suffix;
+
+    return innerFileName;
+  }
+
+  if(getField("type")=="link") // Для линка просто возвращается имя файла, куда указывает линк
+    return getField("fileName");
+
+  critical_error("Bad attach type in getInnerFileName():"+getField("type"));
+
+  return "";
+}
+
+
+// Внутрисистемное имя файла с путем
+QString Attach::getFullInnerFileName() const
+{
+  if(getField("type")=="file") // Для файла
+  {
+    QString resultFileName=getFullInnerDirName()+"/"+getInnerFileName();
+    return resultFileName;
+  }
+
+  if(getField("type")=="link") // Для линка
+    return getLink();
+
+  critical_error("Bad attach type in getFullInnerFileName():"+getField("type"));
+
+  return "";
+}
+
+
+// Внутрисистемное имя файла с абсолютным путем
+QString Attach::getAbsoluteInnerFileName() const
+{
+  QFileInfo fileInfo( getFullInnerFileName() );
+
+  return fileInfo.absoluteFilePath();
+}
+
+
+// Внутрисистемный путь к файлу (полный)
+QString Attach::getFullInnerDirName() const
+{
+  return parentTable->record->getFullDirName();
 }
 
 
