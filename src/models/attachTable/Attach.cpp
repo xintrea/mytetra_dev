@@ -190,6 +190,9 @@ QString Attach::setField(QString name, QString value)
 }
 
 
+
+
+
 // todo: подумать, код этого метода нужно использовать в методе setField()
 // Короткое имя файла (т. е. без пути)
 void Attach::setFileName(QString iFileName)
@@ -238,6 +241,9 @@ QString Attach::getLink() const
 
   return link;
 }
+
+
+
 
 
 void Attach::pushFatDataToDisk()
