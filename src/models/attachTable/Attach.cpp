@@ -45,9 +45,17 @@ void Attach::init(AttachTableData *iParentTable)
 }
 
 
+// Допустимые имена полей
 QStringList Attach::fieldAvailableList(void) const
 {
   return QStringList() << "id" << "fileName" << "link" << "type" << "crypt";
+}
+
+
+// Имена полей, которые шифруются
+QStringList Attach::fieldCryptedList(void) const
+{
+  return QStringList() << "fileName" << "link";
 }
 
 
@@ -108,6 +116,127 @@ void Attach::switchToFat()
     critical_error("Unavailable switching attach object to fat state. Attach Id: "+getField("id")+" File name: "+getField("fileName"));
 
   liteFlag=false;
+}
+
+
+// Получение значения поля
+// Метод возвращает расшифрованные данные, если запись была зашифрована
+QString Attach::getField(QString iFieldName)
+{
+  // Если имя поля недопустимо
+  if(fieldAvailableList().contains(name)==false)
+    critical_error("Attach::getField() : get unavailable field "+name);
+
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то расшифровка невозможна
+  if(fieldCryptedList().contains(name))
+    if(fields.contains("crypt"))
+      if(fields["crypt"]=="1")
+        if(globalParameters.getCryptKey().length()==0)
+          return QString();
+
+  bool isCrypt=false;
+
+  // Если имя поля принадлежит списку полей, которые могут шифроваться
+  // и в наборе полей есть поле crypt
+  // и поле crypt установлено в 1
+  // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
+  if(fieldCryptedList().contains(name))
+    if(fields.contains("crypt"))
+      if(fields["crypt"]=="1")
+        if(fields[name].length()>0)
+          isCrypt=true;
+
+  // Если поле не подлежит шифрованию
+  if(isCrypt==false)
+    return fields[name]; // Возвращается значение поля
+  else
+    return CryptService::decryptString(globalParameters.getCryptKey(), fields[name]); // Поле расшифровывается
+}
+
+
+// Установка значения поля
+// Метод принимает незашифрованные данные, и шфирует их если запись является зашифрованой
+QString Attach::setField(QString name, QString value)
+{
+  // Если имя поля недопустимо
+  if(fieldAvailableList().contains(name)==false)
+    critical_error("Attach::setField() : get unavailable field "+name);
+
+  bool isCrypt=false;
+
+  // Если имя поля принадлежит списку полей, которые могут шифроваться
+  // и в наборе полей есть поле crypt
+  // и поле crypt установлено в 1
+  // и поле не пустое (пустые данные ненужно шифровать)
+  if(fieldCryptedList().contains(name))
+    if(fields.contains("crypt"))
+      if(fields["crypt"]=="1")
+        if(value.length()>0)
+        {
+          if(globalParameters.getCryptKey().length()>0)
+            isCrypt=true;
+          else
+            critical_error("In Attach::setField() can not set data to crypt field "+name+". Password not setted");
+        }
+
+
+  // Если нужно шифровать, поле шифруется
+  if(isCrypt==true)
+    value=CryptService::encryptString(globalParameters.getCryptKey(), value);
+
+  // Устанавливается значение поля
+  fields.insert(name, value);
+}
+
+
+// todo: подумать, код этого метода нужно использовать в методе setField()
+// Короткое имя файла (т. е. без пути)
+void Attach::setFileName(QString iFileName)
+{
+  if(getField("type")=="file")
+    setField("fileName", iFileName);
+  if(getField("type")=="link")
+  {
+    if(getField("fileName").length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
+    {
+      showMessageBox(QObject::tr("Can't modify file name for link type attach."));
+      return;
+    }
+    else
+      setField("fileName", iFileName);
+  }
+}
+bool Attach::setLink(QString iLink)
+{
+  if(type!=typeLink)
+    critical_error("Can't set link to non-link attach.");
+
+  QFile tempFile(iLink);
+
+  // Если файла, на который ссылается линк, не существует
+  if(!tempFile.exists())
+  {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QObject::tr("Warning!"));
+    msgBox.setText( QObject::tr("Bad link. File not found.") );
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+
+    return false;
+  }
+  else
+  {
+    link=iLink;
+    return true;
+  }
+}
+QString Attach::getLink() const
+{
+  if(type!=typeLink)
+    critical_error("Can't get link from non-link attach.");
+
+  return link;
 }
 
 
@@ -207,60 +336,6 @@ void Attach::removeFile()
   file.setPermissions(QFile::ReadOther | QFile::WriteOther);
   file.remove();
 }
-
-
-
-
-// todo: подумать, код этого метода нужно использовать в методе setField()
-// Короткое имя файла (т. е. без пути)
-void Attach::setFileName(QString iFileName)
-{
-  if(getField("type")=="file")
-    setField("fileName", iFileName);
-  if(getField("type")=="link")
-  {
-    if(getField("fileName").length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
-    {
-      showMessageBox(QObject::tr("Can't modify file name for link type attach."));
-      return;
-    }
-    else
-      setField("fileName", iFileName);
-  }
-}
-bool Attach::setLink(QString iLink)
-{
-  if(type!=typeLink)
-    critical_error("Can't set link to non-link attach.");
-
-  QFile tempFile(iLink);
-
-  // Если файла, на который ссылается линк, не существует
-  if(!tempFile.exists())
-  {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle(QObject::tr("Warning!"));
-    msgBox.setText( QObject::tr("Bad link. File not found.") );
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.exec();
-
-    return false;
-  }
-  else
-  {
-    link=iLink;
-    return true;
-  }
-}
-QString Attach::getLink() const
-{
-  if(type!=typeLink)
-    critical_error("Can't get link from non-link attach.");
-
-  return link;
-}
-
-
 
 
 // Внутрисистемное имя файла (без пути)
