@@ -252,6 +252,19 @@ QString Attach::setField(QString name, QString value)
 }
 
 
+// Установка значения поля напрямую
+// Используеся при шифрации-дешифрации данных аттача
+QString Attach::setFieldSource(QString name, QString value)
+{
+  // Если имя поля недопустимо
+  if(fieldAvailableList().contains(name)==false)
+    critical_error("Attach::setField() : set unavailable field "+name);
+
+  // Устанавливается значение поля
+  fields.insert(name, value);
+}
+
+
 void Attach::pushFatDataToDisk()
 {
   if(getField("type")!="file")
@@ -413,14 +426,14 @@ qint64 Attach::getFileSize() const
 {
   QString tempFileName;
 
-  if(type==typeFile)
+  if(fields["type"]=="file")
   {
     QString recordDir=parentTable->record->getFullDirName();
     tempFileName=recordDir+"/"+getInnerFileName();
   }
 
-  if(type==typeLink)
-    tempFileName=link;
+  if(fields["type"]=="link")
+    tempFileName=getField("link");
 
   QFile tempFile(tempFileName);
 
@@ -433,39 +446,33 @@ qint64 Attach::getFileSize() const
 
 void Attach::encrypt()
 {
+  // Шифруются поля, которые подлежат шифрованию
+  foreach( QString fieldName, fieldCryptedList() )
+    if(getFields(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::encryptString( globalParameters.getCryptKey(), getFields(fieldName)));
+
   // Шифруется файл
-  if(type==typeFile)
+  if(getFields("type")=="file")
     CryptService::encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
-  // Шифруется имя файла
-  if(fileName.length()>0)
-    fileName=CryptService::encryptString(globalParameters.getCryptKey(), fileName);
-
-  // Шифруется линк на файл
-  if(link.length()>0)
-    link=CryptService::encryptString(globalParameters.getCryptKey(), link);
-
   // Шифруется содержимое файла в памяти, если таковое есть
-  if(liteFlag==false)
+  if(liteFlag==false && fileContent.length()>0)
     fileContent=CryptService::encryptByteArray(globalParameters.getCryptKey(), fileContent);
 }
 
 
 void Attach::decrypt()
 {
+  // Расшифровываются поля, которые подлежат шифрованию
+  foreach( QString fieldName, fieldCryptedList() )
+    if(getFields(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getFields(fieldName)));
+
   // Расшифровывается файл
-  if(type==typeFile)
+  if(getFields("type")=="file")
     CryptService::decryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
-  // Расшифровывается имя файла
-  if(fileName.length()>0)
-    fileName=CryptService::decryptString(globalParameters.getCryptKey(), fileName);
-
-  // Расшифровывается линк на файл
-  if(link.length()>0)
-    link=CryptService::decryptString(globalParameters.getCryptKey(), link);
-
   // Расшифровывается содержимое файла в памяти, если таковое есть
-  if(liteFlag==false)
+  if(liteFlag==false && fileContent.length()>0)
     fileContent=CryptService::decryptByteArray(globalParameters.getCryptKey(), fileContent);
 }

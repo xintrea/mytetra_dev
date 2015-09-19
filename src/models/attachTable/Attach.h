@@ -60,6 +60,8 @@ protected:
   QStringList fieldCryptedList(void) const;
   QStringList typeAvailableList(void) const;
 
+  QString setFieldSource(QString name, QString value);
+
   bool liteFlag;
 
   AttachTableData *parentTable; // Указатель на таблицу приаттаченных файлов, которой принадлежит данный аттач
