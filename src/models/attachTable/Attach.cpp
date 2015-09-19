@@ -14,16 +14,19 @@
 extern GlobalParameters globalParameters;
 
 
+// Конструктор прикрепляемого файла
 Attach::Attach(AttachTableData *iParentTable)
 {
   init(iParentTable);
 }
 
 
+// Конструктор прикрепляемого файла с указанием типа прикрепления
+// в настоящий момент есть два типа прикрепления - просто файл "file" или линк на файл "link"
 Attach::Attach(QString iType, AttachTableData *iParentTable)
 {
-  if(iType!=typeFile && iType!=typeLink)
-    critical_error("Incorrect attach type in Attach constructor: "+QString::number(iType));
+  if( !typeAvailableList().contains(iType) )
+    critical_error("Incorrect attach type in Attach constructor: "+iType);
 
   setField("type", iType);
 
@@ -56,6 +59,13 @@ QStringList Attach::fieldAvailableList(void) const
 QStringList Attach::fieldCryptedList(void) const
 {
   return QStringList() << "fileName" << "link";
+}
+
+
+// Допустимые типы аттачей
+QStringList Attach::typeAvailableList(void) const
+{
+  return QStringList() << "file" << "link";
 }
 
 

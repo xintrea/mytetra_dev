@@ -57,6 +57,8 @@ protected:
   void init(AttachTableData *iParentTable);
 
   QStringList fieldAvailableList(void) const;
+  QStringList fieldCryptedList(void) const;
+  QStringList typeAvailableList(void) const;
 
   bool liteFlag;
 
