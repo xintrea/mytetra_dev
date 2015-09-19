@@ -176,7 +176,11 @@ QStringList AttachTableController::selectFilesForAdding(QString attachType)
     fileSelectDialog.setDirectory( appendDir );
 
   // Отрисовка диалога выбора
-  fileSelectDialog.exec();
+  int dialogResult=fileSelectDialog.exec();
+
+  // Если была нажата отмена
+  if(dialogResult==QDialog::Rejected)
+    return QStringList();
 
   // Выясняется список выбранных файлов
   QStringList files=fileSelectDialog.selectedFiles();
