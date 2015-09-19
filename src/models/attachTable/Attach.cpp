@@ -131,11 +131,26 @@ void Attach::switchToFat()
 
 // Получение значения поля
 // Метод возвращает расшифрованные данные, если запись была зашифрована
-QString Attach::getField(QString iFieldName)
+QString Attach::getField(QString name)
 {
   // Если имя поля недопустимо
   if(fieldAvailableList().contains(name)==false)
     critical_error("Attach::getField() : get unavailable field "+name);
+
+
+  // ------------------------------------------
+  // Проверки и действия для разных типов полей
+  // ------------------------------------------
+
+  // Если запрашивается линк на файл
+  if(name=="link")
+    if(fields["type"]!="link") // И тип аттача не является линком
+      critical_error("Attach::getField() : Can't get link from non-link attach.");
+
+
+  // -----------------------
+  // Получение значения поля
+  // -----------------------
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -171,7 +186,45 @@ QString Attach::setField(QString name, QString value)
 {
   // Если имя поля недопустимо
   if(fieldAvailableList().contains(name)==false)
-    critical_error("Attach::setField() : get unavailable field "+name);
+    critical_error("Attach::setField() : set unavailable field "+name);
+
+
+  // ------------------------------------------
+  // Проверки и действия для разных типов полей
+  // ------------------------------------------
+
+  // Поле с типом аттача
+  if(name=="type")
+    if( !typeAvailableList().contains(value) )
+      critical_error("Attach::setField() : Incorrect attach type : "+value);
+
+  // Поле с именем файла
+  if(name=="fileName")
+    if(getField("type")=="link") // Если устанавливается имя файла для линка
+      if(getField("fileName").length()>0 && value.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
+      {
+        // Имя файла для линка менять нельзя
+        showMessageBox(QObject::tr("Can't modify file name for link type attach."));
+        return;
+      }
+
+  // Поле со ссылкой на файл (содержит путь к файлу, на который указывает линк)
+  if(name=="link")
+  {
+    QFile tempFile(value);
+
+    // Если файла, на который ссылается линк, не существует
+    if(!tempFile.exists())
+    {
+      showMessageBox(QObject::tr("Bad link. File not found."));
+      return;
+    }
+  }
+
+
+  // -----------------------
+  // Установка значения поля
+  // -----------------------
 
   bool isCrypt=false;
 
@@ -190,70 +243,13 @@ QString Attach::setField(QString name, QString value)
             critical_error("In Attach::setField() can not set data to crypt field "+name+". Password not setted");
         }
 
-
-  // Если нужно шифровать, поле шифруется
+  // Если нужно шифровать, значение поля шифруется
   if(isCrypt==true)
     value=CryptService::encryptString(globalParameters.getCryptKey(), value);
 
   // Устанавливается значение поля
   fields.insert(name, value);
 }
-
-
-
-
-
-// todo: подумать, код этого метода нужно использовать в методе setField()
-// Короткое имя файла (т. е. без пути)
-void Attach::setFileName(QString iFileName)
-{
-  if(getField("type")=="file")
-    setField("fileName", iFileName);
-  if(getField("type")=="link")
-  {
-    if(getField("fileName").length()>0 && iFileName.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
-    {
-      showMessageBox(QObject::tr("Can't modify file name for link type attach."));
-      return;
-    }
-    else
-      setField("fileName", iFileName);
-  }
-}
-bool Attach::setLink(QString iLink)
-{
-  if(type!=typeLink)
-    critical_error("Can't set link to non-link attach.");
-
-  QFile tempFile(iLink);
-
-  // Если файла, на который ссылается линк, не существует
-  if(!tempFile.exists())
-  {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle(QObject::tr("Warning!"));
-    msgBox.setText( QObject::tr("Bad link. File not found.") );
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.exec();
-
-    return false;
-  }
-  else
-  {
-    link=iLink;
-    return true;
-  }
-}
-QString Attach::getLink() const
-{
-  if(type!=typeLink)
-    critical_error("Can't get link from non-link attach.");
-
-  return link;
-}
-
-
-
 
 
 void Attach::pushFatDataToDisk()

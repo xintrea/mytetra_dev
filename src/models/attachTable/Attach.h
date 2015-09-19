@@ -21,7 +21,7 @@ public:
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
 
-  QString getField(QString iFieldName);
+  QString getField(QString name);
   QString setField(QString name, QString value);
 
   // Работа с именем файла
