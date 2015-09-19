@@ -66,17 +66,17 @@ AttachTableData *AttachTableController::getAttachTableData()
 
 void AttachTableController::onAddAttach(void)
 {
-  addSmart(Attach::typeFile);
+  addSmart("file");
 }
 
 
 void AttachTableController::onAddLink()
 {
-  addSmart(Attach::typeLink);
+  addSmart("link");
 }
 
 
-void AttachTableController::addSmart(int attachType)
+void AttachTableController::addSmart(QString attachType)
 {
   QStringList files=selectFilesForAdding(attachType);
 
@@ -114,13 +114,13 @@ void AttachTableController::addSmart(int attachType)
 
     // Конструируется Attach, который нужно добавить
     Attach attach(attachType, attachTableData);
-    attach.setId( id );
-    attach.setFileName(currShortFileName);
+    attach.setField("id", id);
+    attach.setField("fileName", currShortFileName);
 
     bool result=false;
-    if(attachType==Attach::typeFile)
+    if(attachType=="file")
       result=attach.copyFileToBase(currFullFileName); // Файл аттача копируется в базу
-    else if(attachType==Attach::typeLink)
+    else if(attachType=="link")
     {
       attach.setLink(currFullFileName); // Запоминается куда указывает линк
       result=true;
@@ -153,15 +153,15 @@ void AttachTableController::addSmart(int attachType)
 }
 
 
-QStringList AttachTableController::selectFilesForAdding(int attachType)
+QStringList AttachTableController::selectFilesForAdding(QString attachType)
 {
   // Диалог выбора файлов
   QFileDialog fileSelectDialog;
 
   QString title;
-  if(attachType==Attach::typeFile)
+  if(attachType=="file")
     title=tr("Attach file");
-  if(attachType==Attach::typeLink)
+  if(attachType=="link")
     title=tr("Add link to file");
 
   fileSelectDialog.setWindowTitle(title);
@@ -456,7 +456,7 @@ void AttachTableController::onShowAttachInfo(void)
   messageBox.setDetailedText(QString("<pre><p style='font-family:monospace'>")+\
                              "<b>Attach:</b> "+attachTableData->getFileNameById(id)+"\n"+\
                              "<b>Attach ID:</b> "+id+"\n"+\
-                             "<b>Attach type:</b> "+attachTableData->getAttach(id).getTypeAsName()+"\n"+\
+                             "<b>Attach type:</b> "+attachTableData->getAttach(id).getField("type")+"\n"+\
                              "<b>File size:</b> "+QString::number( attachTableData->getAttach(id).getFileSize() )+" bytes\n"+\
                              "<b>Full path:</b> "+attachTableData->getAbsoluteInnerFileNameById(id)+\
                              "</p></pre>"

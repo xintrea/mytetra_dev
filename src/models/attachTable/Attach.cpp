@@ -72,7 +72,7 @@ QStringList Attach::typeAvailableList(void) const
 // На вход метода подается тег <file>
 void Attach::setupDataFromDom(QDomElement iDomElement)
 {
-  fieldsName=fieldAvailableList();
+  QStringList fieldsName=fieldAvailableList();
   foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
     fields[fieldName]=iDomElement.attribute(fieldName);
 }
@@ -82,7 +82,7 @@ QDomElement Attach::exportDataToDom(QDomDocument *doc) const
 {
   QDomElement elem=doc->createElement("file");
 
-  fieldsName=fieldAvailableList();
+  QStringList fieldsName=fieldAvailableList();
   foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
     if( fields[fieldName].size()>0 )
       elem.setAttribute(fieldName, fields[fieldName]);
@@ -131,7 +131,7 @@ void Attach::switchToFat()
 
 // Получение значения поля
 // Метод возвращает расшифрованные данные, если запись была зашифрована
-QString Attach::getField(QString name)
+QString Attach::getField(QString name) const
 {
   // Если имя поля недопустимо
   if(fieldAvailableList().contains(name)==false)
@@ -182,7 +182,7 @@ QString Attach::getField(QString name)
 
 // Установка значения поля
 // Метод принимает незашифрованные данные, и шфирует их если запись является зашифрованой
-QString Attach::setField(QString name, QString value)
+void Attach::setField(QString name, QString value)
 {
   // Если имя поля недопустимо
   if(fieldAvailableList().contains(name)==false)
@@ -252,9 +252,10 @@ QString Attach::setField(QString name, QString value)
 }
 
 
-// Установка значения поля напрямую
+// Защищенный метод - Установка значения поля напрямую
 // Используеся при шифрации-дешифрации данных аттача
-QString Attach::setFieldSource(QString name, QString value)
+// todo: подумать, может быть отказаться от этого метода
+void Attach::setFieldSource(QString name, QString value)
 {
   // Если имя поля недопустимо
   if(fieldAvailableList().contains(name)==false)
@@ -373,7 +374,7 @@ QString Attach::getInnerFileName() const
     QFileInfo fileInfo( getField("fileName") );
     QString suffix=fileInfo.suffix();
 
-    QString innerFileName=id+"."+suffix;
+    QString innerFileName=getField("id")+"."+suffix;
 
     return innerFileName;
   }
@@ -397,7 +398,7 @@ QString Attach::getFullInnerFileName() const
   }
 
   if(getField("type")=="link") // Для линка
-    return getLink();
+    return getField("link");
 
   critical_error("Bad attach type in getFullInnerFileName():"+getField("type"));
 
@@ -448,11 +449,11 @@ void Attach::encrypt()
 {
   // Шифруются поля, которые подлежат шифрованию
   foreach( QString fieldName, fieldCryptedList() )
-    if(getFields(fieldName).length()>0)
-      setFieldSource(fieldName, CryptService::encryptString( globalParameters.getCryptKey(), getFields(fieldName)));
+    if(getField(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::encryptString( globalParameters.getCryptKey(), getField(fieldName)));
 
   // Шифруется файл
-  if(getFields("type")=="file")
+  if(getField("type")=="file")
     CryptService::encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
   // Шифруется содержимое файла в памяти, если таковое есть
@@ -465,11 +466,11 @@ void Attach::decrypt()
 {
   // Расшифровываются поля, которые подлежат шифрованию
   foreach( QString fieldName, fieldCryptedList() )
-    if(getFields(fieldName).length()>0)
-      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getFields(fieldName)));
+    if(getField(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getField(fieldName)));
 
   // Расшифровывается файл
-  if(getFields("type")=="file")
+  if(getField("type")=="file")
     CryptService::decryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
   // Расшифровывается содержимое файла в памяти, если таковое есть

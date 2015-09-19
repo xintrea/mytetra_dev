@@ -202,7 +202,7 @@ void AttachTableData::deleteAttach(QString id)
 int AttachTableData::getRowById(QString id)
 {
   for(int i=0; i<attachTable.size(); i++)
-    if(attachTable.at(i).getId()==id)
+    if(attachTable.at(i).getField("id")==id)
       return i;
 
   return -1;
@@ -211,14 +211,14 @@ int AttachTableData::getRowById(QString id)
 
 QString AttachTableData::getIdByRow(int row)
 {
-  return attachTable.at(row).getId();
+  return attachTable.at(row).getField("id");
 }
 
 
 // Видимое имя файла без пути
 QString AttachTableData::getFileName(int row)
 {
-  return attachTable.at(row).getFileName();
+  return attachTable.at(row).getField("fileName");
 }
 
 
@@ -302,7 +302,7 @@ void AttachTableData::print()
 {
   for(int i=0; i<attachTable.size(); ++i)
   {
-    qDebug() << "File: " << attachTable.at(i).getId() << " Type: " << attachTable.at(i).getType();
+    qDebug() << "File: " << attachTable.at(i).getField("id") << " Type: " << attachTable.at(i).getField("type");
   }
 }
 
@@ -356,7 +356,7 @@ void AttachTableData::decrypt()
 void AttachTableData::saveAttachFilesToDirectory(QString dirName)
 {
   for(int i=0; i<attachTable.size(); ++i)
-    if(attachTable.at(i).getType()==Attach::typeFile) // Сохраняются только файлы, не линки
+    if(attachTable.at(i).getField("type")=="file") // Сохраняются только файлы, не линки
       if(!attachTable.at(i).isLite())
         attachTable[i].pushFatDataToDirectory(dirName);
 }

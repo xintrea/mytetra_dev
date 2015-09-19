@@ -44,8 +44,8 @@ public slots:
 
 protected:
 
-  void addSmart(int attachType);
-  QStringList selectFilesForAdding(int attachType);
+  void addSmart(QString attachType);
+  QStringList selectFilesForAdding(QString attachType);
 
   AttachTableView *view;
   AttachTableModel *model;

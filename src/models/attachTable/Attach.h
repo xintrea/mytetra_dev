@@ -15,14 +15,14 @@ class Attach
 
 public:
   Attach(AttachTableData *iParentTable);
-  Attach(int iType, AttachTableData *iParentTable);
+  Attach(QString iType, AttachTableData *iParentTable);
   virtual ~Attach();
 
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
 
-  QString getField(QString name);
-  QString setField(QString name, QString value);
+  QString getField(QString name) const;
+  void setField(QString name, QString value);
 
   // Работа с именем файла
   void setFileName(QString iFileName);
@@ -60,7 +60,7 @@ protected:
   QStringList fieldCryptedList(void) const;
   QStringList typeAvailableList(void) const;
 
-  QString setFieldSource(QString name, QString value);
+  void setFieldSource(QString name, QString value);
 
   bool liteFlag;
 

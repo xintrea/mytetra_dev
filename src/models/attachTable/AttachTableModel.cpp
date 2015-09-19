@@ -68,12 +68,12 @@ QVariant AttachTableModel::data(const QModelIndex& index, int role) const
   {
     int row=index.row();
     QString id=table->getIdByRow(row);
-    int attachType=table->getAttach(id).getType();
+    QString attachType=table->getAttach(id).getField("type");
 
-    if(attachType==Attach::typeFile)
+    if(attachType=="file")
       return QIcon(":/resource/pic/attach_is_file.svg");
 
-    if(attachType==Attach::typeLink)
+    if(attachType=="link")
       return QIcon(":/resource/pic/attach_is_link.svg");
   }
 
