@@ -122,7 +122,7 @@ void AttachTableController::addSmart(QString attachType)
       result=attach.copyFileToBase(currFullFileName); // Файл аттача копируется в базу
     else if(attachType=="link")
     {
-      attach.setLink(currFullFileName); // Запоминается куда указывает линк
+      attach.setField("link", currFullFileName); // Запоминается куда указывает линк
       result=true;
     }
     else
@@ -363,7 +363,7 @@ void AttachTableController::onEditFileName(void)
 
   // Данные изменяются
   Attach tempAttach=attachTableData->getAttach(id);
-  tempAttach.setFileName(newFileName);
+  tempAttach.setField("fileName", newFileName);
   attachTableData->modifyAttach(id, tempAttach);
 
   // Сохранение дерева веток
