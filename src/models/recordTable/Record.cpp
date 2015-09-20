@@ -33,7 +33,7 @@ Record::Record(const Record &obj)
   attachTableData=obj.attachTableData;
 
   // Обратный указатель во включенном объекте должен указывать на новый экземпляр
-  attachTableData.setParentRecord(this);
+  attachTableData.setRecord(this);
 }
 
 
@@ -67,7 +67,7 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 
   // Инициализируется таблица прикрепляемых файлов
   attachTableData.clear(); // Подумать, возможно эта команда не нужна
-  attachTableData.setParentRecord(this);
+  attachTableData.setRecord(this);
 
   // Проверка, есть ли у переданного DOM-элемента таблица файлов для заполнения
   if(!iDomElement.firstChildElement("files").isNull())

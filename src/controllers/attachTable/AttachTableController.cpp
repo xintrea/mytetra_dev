@@ -128,6 +128,12 @@ void AttachTableController::addSmart(QString attachType)
     else
       critical_error("Unsupport adding mode");
 
+
+    // Если запись, к которой добавляется аттач, зашифрована
+    if( attachTableData->isRecordCrypt() )
+      attach.encrypt();
+
+
     if(result)
     {
       // Данные аттача добавляются в таблицу приаттаченных файлов

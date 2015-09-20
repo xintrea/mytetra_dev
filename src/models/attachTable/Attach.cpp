@@ -74,7 +74,7 @@ void Attach::setupDataFromDom(QDomElement iDomElement)
 {
   QStringList fieldsName=fieldAvailableList();
   foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
-    fields[fieldName]=iDomElement.attribute(fieldName);
+    fields[fieldName]=iDomElement.attribute(fieldName); // Напрямую устанавливаются значения из XML файла
 }
 
 
@@ -447,10 +447,14 @@ qint64 Attach::getFileSize() const
 
 void Attach::encrypt()
 {
-  // Шифруются поля, которые подлежат шифрованию
-  foreach( QString fieldName, fieldCryptedList() )
-    if(getField(fieldName).length()>0)
-      setFieldSource(fieldName, CryptService::encryptString( globalParameters.getCryptKey(), getField(fieldName)));
+  // В этом методе важна последовательность действий,
+  // чтобы не получилась ситуации, когда часть данных зашифрована,
+  // а другая пытается их использовать, а флаг шифрации еще не установлен
+
+  // Если аттач уже зашифрован, значит есть какая-то ошибка в логике выше
+  if(getField("crypt")=="1")
+    critical_error("Attach::encrypt() : Cant encrypt already encrypted attach.");
+
 
   // Шифруется файл
   if(getField("type")=="file")
@@ -459,15 +463,30 @@ void Attach::encrypt()
   // Шифруется содержимое файла в памяти, если таковое есть
   if(liteFlag==false && fileContent.length()>0)
     fileContent=CryptService::encryptByteArray(globalParameters.getCryptKey(), fileContent);
+
+
+  // Шифруются поля, которые подлежат шифрованию
+  foreach( QString fieldName, fieldCryptedList() )
+  {
+    // У аттача с типом file не должно быть обращений к полю link (оно не должно использоваться)
+    if(getField("type")=="file" && fieldName=="link")
+      continue;
+
+    // Если поле с указанным именем существует
+    if(getField(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::encryptString( globalParameters.getCryptKey(), getField(fieldName)));
+  }
+
+  // Устанавливается флаг, что запись зашифрована
+  setField("crypt", "1");
 }
 
 
 void Attach::decrypt()
 {
-  // Расшифровываются поля, которые подлежат шифрованию
-  foreach( QString fieldName, fieldCryptedList() )
-    if(getField(fieldName).length()>0)
-      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getField(fieldName)));
+  // Если аттач не зашифрован, и происходит расшифровка, значит есть какая-то ошибка в логике выше
+  if(getField("crypt")!="1")
+    critical_error("Attach::decrypt() : Cant decrypt unencrypted attach.");
 
   // Расшифровывается файл
   if(getField("type")=="file")
@@ -476,4 +495,19 @@ void Attach::decrypt()
   // Расшифровывается содержимое файла в памяти, если таковое есть
   if(liteFlag==false && fileContent.length()>0)
     fileContent=CryptService::decryptByteArray(globalParameters.getCryptKey(), fileContent);
+
+  // Расшифровываются поля, которые подлежат шифрованию
+  foreach( QString fieldName, fieldCryptedList() )
+  {
+    // У аттача с типом file не должно быть обращений к полю link (оно не должно использоваться)
+    if(getField("type")=="file" && fieldName=="link")
+      continue;
+
+    // Если поле с указанным именем существует
+    if(getField(fieldName).length()>0)
+      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getField(fieldName)));
+  }
+
+  // Устанавливается флаг, что запись не зашифрована
+  setField("crypt", ""); // Отсутсвие значения предпочтительней, так как тогда в XML-данные не будет попадать атрибут crypt="0"
 }

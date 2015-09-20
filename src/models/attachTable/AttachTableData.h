@@ -23,7 +23,7 @@ public:
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
 
-  void setParentRecord(Record *iRecord);
+  void setRecord(Record *iRecord);
   void setRelatedAttachTableModel(AttachTableModel *model);
   void setRelatedAttachTableModelOnly(AttachTableModel *model);
 
@@ -60,6 +60,7 @@ public:
 
   void print();
 
+  bool isRecordCrypt();
   void encrypt();
   void decrypt();
 

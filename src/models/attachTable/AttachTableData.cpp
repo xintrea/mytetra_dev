@@ -113,7 +113,7 @@ bool AttachTableData::isLite() const
 }
 
 
-void AttachTableData::setParentRecord(Record *iRecord)
+void AttachTableData::setRecord(Record *iRecord)
 {
   record=iRecord; // Запоминается ссылка на запись, которой принадлежит данная таблица файлов
 }
@@ -336,6 +336,15 @@ void AttachTableData::switchToFat()
   }
 
   liteFlag=false;
+}
+
+
+bool AttachTableData::isRecordCrypt()
+{
+  if( record->getField("crypt")=="1" )
+    return true;
+  else
+    return false;
 }
 
 
