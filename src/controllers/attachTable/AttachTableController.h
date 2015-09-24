@@ -46,6 +46,7 @@ protected:
 
   void addSmart(QString attachType);
   QStringList selectFilesForAdding(QString attachType);
+  void saveAttachToUserPlace(QString fromFullFileName, QString toFullFileName, QString attachType, bool isAttachCrypt);
 
   AttachTableView *view;
   AttachTableModel *model;

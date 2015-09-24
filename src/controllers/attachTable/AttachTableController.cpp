@@ -12,6 +12,7 @@
 #include "models/attachTable/AttachTableData.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/crypt/CryptService.h"
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"
@@ -230,6 +231,7 @@ void AttachTableController::onSaveAsAttach(void)
     // В диалоге устанавливается имя файла выбранного аттача
     QString id=selectedId.at(0);
     AttachTableData *attachTableData=getAttachTableData();
+    QString attachType=attachTableData->getAttach(id).getField("type");
     QString fileName=attachTableData->getFileNameById(id);
     QString fullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
     fileSelectDialog.selectFile(fileName);
@@ -254,28 +256,11 @@ void AttachTableController::onSaveAsAttach(void)
       return;
     }
 
-
-    // Проверка наличия исходного файла (ведь по каким-то причинам его может не быть, например после какого-нибудь сбоя)
-    QFile file(fullFileName);
-
-    if(file.exists()==false)
-    {
-      showMessageBox(tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fullFileName));
-      return;
-    }
-
-
-    // Указанный пользователем файл для сохранения аттача
+    // Указанное пользователем имя файла для сохранения аттача, взятое из формы ввода
     QString targetFileName=selectFiles.at(0);
 
-    // Сохранение
-    bool result=file.copy( targetFileName );
-
-    if(!result)
-    {
-      showMessageBox(tr("Can't save file %1 to %2. Any i/o problem.").arg(fileName).arg(targetFileName));
-      return;
-    }
+    // Непосредственное сохранение файла
+    saveAttachToUserPlace(fullFileName, targetFileName, attachType, attachTableData->isRecordCrypt());
   }
   else if(selectedId.size()>1) // Если выбрано несколько аттачей
   {
@@ -308,28 +293,42 @@ void AttachTableController::onSaveAsAttach(void)
     // Перебор выбранных для сохранения аттачей
     foreach(QString id, selectedId)
     {
+      QString attachType=attachTableData->getAttach(id).getField("type");
       QString fileName=attachTableData->getFileNameById(id);
       QString fromFileName=attachTableData->getInnerFileNameById(id);
       QString fromFullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
       QString toFullFileName=toDir+"/"+fileName;
 
-      QFile file(fromFullFileName);
-
-      if(file.exists()==false)
-      {
-        showMessageBox(tr("Can't save file %1. File %2 not exists in database.").arg(fileName).arg(fromFullFileName));
-        return;
-      }
-
-      bool result=file.copy(toFullFileName);
-
-      if(!result)
-      {
-        showMessageBox(tr("Can't save file %1 to directory %2. Any i/o problem.").arg(fileName).arg(toFullFileName));
-        return;
-      }
+      // Непосредственное сохранение файла
+      saveAttachToUserPlace(fromFullFileName, toFullFileName, attachType, attachTableData->isRecordCrypt());
     }
   }
+}
+
+
+void AttachTableController::saveAttachToUserPlace(QString fromFullFileName, QString toFullFileName, QString attachType, bool isAttachCrypt)
+{
+  // Проверка наличия исходного файла (ведь по каким-то причинам его может не быть, например после какого-нибудь сбоя)
+  QFile file(fromFullFileName);
+
+  if(file.exists()==false)
+  {
+    showMessageBox(tr("Can't save file. File %1 not exists in database.").arg(fromFullFileName));
+    return;
+  }
+
+  // Сохранение
+  bool result=file.copy( toFullFileName );
+
+  if(!result)
+  {
+    showMessageBox(tr("Can't save file %1. Any i/o problem.").arg(toFullFileName));
+    return;
+  }
+
+  // Расшифровка файла, если он был зашифрован и данные хранились в базе (то есть, это именно тип file, а не линк на файл)
+  if(isAttachCrypt && attachType=="file")
+    CryptService::decryptFile(globalParameters.getCryptKey(), toFullFileName);
 }
 
 
