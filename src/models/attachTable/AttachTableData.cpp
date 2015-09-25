@@ -315,7 +315,10 @@ void AttachTableData::switchToLite()
 
   for(int i=0; i<attachTable.size(); ++i)
   {
-    attachTable[i].pushFatDataToDisk(); // Тяжелые данные сохраняются на диск
+    // Тяжелые данные сохраняются на диск
+    if(attachTable[i].getField("type")=="file")
+      attachTable[i].pushFatDataToDisk();
+
     attachTable[i].switchToLite();
   }
 
@@ -332,7 +335,10 @@ void AttachTableData::switchToFat()
   for(int i=0; i<attachTable.size(); ++i)
   {
     attachTable[i].switchToFat();
-    attachTable[i].popFatDataFromDisk(); // Тяжелые данные засасываются с диска в память
+
+    // Тяжелые данные засасываются с диска в память
+    if(attachTable[i].getField("type")=="file")
+      attachTable[i].popFatDataFromDisk();
   }
 
   liteFlag=false;
