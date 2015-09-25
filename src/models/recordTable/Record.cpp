@@ -121,7 +121,7 @@ void Record::switchToLite()
   if(liteFlag==true)
     critical_error("Record::switchToLite() : Record "+getIdAndNameAsString()+" already lite");
 
-  text="";
+  text.clear();
   pictureFiles.clear();
 
   attachTableData.switchToLite();
@@ -130,6 +130,9 @@ void Record::switchToLite()
 }
 
 
+// Метод используется только при следующих действиях:
+// - добавление новой записи
+// - помещение записи в буфер обмена
 void Record::switchToFat()
 {
   // Переключение возможно только из легкого состояния
@@ -428,26 +431,44 @@ void Record::setAttachTable(AttachTableData *iAttachTable)
 */
 
 
-// Тяжелые свойства устанавливаются и берутся через геттеры и сеттеры
+// Получение текста записи из памяти
+// Если запись зашифрована, возвращаемый текст будет расшифрован
 QString Record::getText() const
 {
-  // У легкого объекта невозможно запросить текст, если так происходит - это ошибка вызывающей логики
+  // У легкого объекта невозможно запросить текст из памяти, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
     critical_error("Cant get text from lite record object"+getIdAndNameAsString());
 
-  return text;
-}
-
-
-// Получение значения текста напрямую из файла, без заполнения свойства text
-// Так как заполнение свойства не происходит, объект может бы легким. Проверки на легкость не требуется
-QString Record::getTextDirect()
-{
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
   if(fieldList.value("crypt")=="1" &&
      globalParameters.getCryptKey().length()==0)
-    return QString();
+    return "";
+
+  // Если шифровать ненужно
+  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
+    return QString(text); // Текст просто преобразуется из QByteArray
+  else if(fieldList.value("crypt")=="1") // Если нужно шифровать
+    return CryptService::decryptStringFromByteArray(globalParameters.getCryptKey(), text);
+  else
+    critical_error("Record::getText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+
+  return "";
+}
+
+
+// Получение значения текста напрямую из файла, без заполнения свойства text
+QString Record::getTextDirect()
+{
+  // У тяжелого объекта невозможно получить текст записи из файла (у тяжелого объекта текст записи хранится в памяти)
+  if(liteFlag==false)
+    critical_error("Cant run Record::getTextDirect() for non lite record "+getIdAndNameAsString());
+
+  // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
+  // то расшифровка невозможна
+  if(fieldList.value("crypt")=="1" &&
+     globalParameters.getCryptKey().length()==0)
+    return "";
 
   // Выясняется полное имя файла с текстом записи
   QString fileName=getFullTextFileName();
@@ -468,24 +489,34 @@ QString Record::getTextDirect()
   }
   else
   {
-    qDebug() << "Record::getTextDirect( : return direct data after decrypt";
+    qDebug() << "Record::getTextDirect() : return direct data after decrypt";
     return CryptService::decryptStringFromByteArray(globalParameters.getCryptKey(), f.readAll()); // Если зашифровано
   }
 
-  return text;
+  return "";
 }
 
 
+// Установка текста записи как свойства объекта
+// Принимает незашифрованные данные, сохраняет их в памяти, при записи шифрует если запись зашифрована
 void Record::setText(QString iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
     critical_error("Cant set text for lite record object"+getIdAndNameAsString());
 
-  text=iText;
+  // Если шифровать ненужно
+  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
+    text=iText.toUtf8(); // Текст просто запоминается в виде QByteArray
+  else if(fieldList.value("crypt")=="1") // Если нужно шифровать
+    text=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), iText);
+  else
+    critical_error("Record::setText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 }
 
 
+// Сохранение текста записи на диск без установки текста записи как свойства
+// Принимает незашифрованные данные, сохраняет в файл, при записи шифрует если запись зашифрована
 void Record::saveTextDirect(QString iText)
 {
   QString fileName=getFullTextFileName();
@@ -518,6 +549,22 @@ void Record::saveTextDirect(QString iText)
   }
   else
     critical_error("Record::saveTextDirect() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+}
+
+
+// Запись текста записи, хранимого в памяти, на диск
+void Record::saveText()
+{
+  QString fileName=getFullTextFileName();
+
+  // В файл сохраняются зашифрованные данные
+  QFile wfile(fileName);
+
+  if(!wfile.open(QIODevice::WriteOnly))
+    critical_error("Record::saveText() : Cant open binary file "+fileName+" for write.");
+
+  // Сохраняется QByteArray с текстом записи (в QByteArray могут быть как зашифрованные, так и не зашифрованные данные)
+  wfile.write(text);
 }
 
 
@@ -683,7 +730,6 @@ void Record::switchToDecryptAndSaveFat(void)
 
 
 // Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
-// Исходные данные должны быт нешифрованы. Они будут зашифрованы по необходимости
 void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
@@ -702,8 +748,8 @@ void Record::pushFatAttributes()
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
 
-  // Запись файла с текстом записи, при необходимости текст в вызываемой функции будет зашифрован
-  saveTextDirect(text);
+  // Запись файла с текстом записи
+  saveText();
 
   // Если есть файлы картинок, они вставляются в конечную директорию (картинки не шифруются)
   if(pictureFiles.size()>0)

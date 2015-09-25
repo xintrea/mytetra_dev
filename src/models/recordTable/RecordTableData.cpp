@@ -79,6 +79,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
 
 
 // Получение значения текста указанной записи
+// Метод возвращает расшифрованные данные
 // Если возникнет проблема, что файла с текстом записи нет, будет создан пустой файл
 QString RecordTableData::getText(int pos)
 {
@@ -198,8 +199,8 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 }
 
 
-// Получение легкого образа записи
-// Поля, которые зашифрованы, расшифровываются
+// Получение копии легкого образа записи
+// Эти образы используются для хранения в дереве знаний
 Record RecordTableData::getRecordLite(int pos)
 {
  // Если индекс недопустимый, возвращается пустая запись
@@ -210,12 +211,12 @@ Record RecordTableData::getRecordLite(int pos)
  if(!tableData.at(pos).isLite())
    critical_error("In RecordTableData::getRecordLite() try get fat record");
 
- // Todo: доделать с расшифровкой
  return tableData.at(pos);
 }
 
 
-// Получение полного образа записи
+// Получение копии полного образа записи
+// Возвращается запись с "сырыми" данными. Если запись была зашифрована, метод вернет зашифрованные данные
 Record RecordTableData::getRecordFat(int pos)
 {
  // Копия записи из дерева
@@ -225,13 +226,12 @@ Record RecordTableData::getRecordFat(int pos)
  resultRecord.switchToFat();
 
  // Добавление текста записи
- resultRecord.setText( getText(pos) );
+ resultRecord.setText( getText(pos) ); // todo: Здесь должна быть установка зашифрованных данных, если запись зашифрована (разобраться)
 
- // Добавление бинарных образов файлов картинок и приаттаченных файлов
+ // Добавление бинарных образов файлов картинок
  QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getField("dir");
  resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
 
- // Todo: проверить расшифровку
  return resultRecord;
 }
 
@@ -323,8 +323,7 @@ QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
 // ADD_NEW_RECORD_BEFORE - перед указанной позицией, pos - номер позиции
 // ADD_NEW_RECORD_AFTER - после указанной позиции, pos - номер позиции
 // Метод принимает "тяжелый" объект записи
-// Объект для вставки всегда приходит незашифрованный
-// todo: добавить сохранение таблицы приаттаченных файлов и содержимого файлов
+// Объект для вставки приходит как незашифрованным, так и зашифрованным
 int RecordTableData::insertNewRecord(int mode,
                                      int pos,
                                      Record record)

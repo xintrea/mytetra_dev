@@ -83,7 +83,7 @@ protected:
   QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов) ИмяАтрибута - Значение
 
   // Полновесные свойства
-  QString text; // Содержимое файла с текстом записи
+  QByteArray text; // Содержимое файла с текстом записи
   QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
 
   // Таблица прикрепляемых файлов
@@ -95,6 +95,7 @@ protected:
   // -----------------
 
   void saveTextDirect(QString iText);
+  void saveText();
 
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
