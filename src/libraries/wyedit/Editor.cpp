@@ -66,7 +66,6 @@ Editor::~Editor(void)
   delete fontSize;
   delete fontColor;
   delete showHtml;
-  delete infoArea;
   delete findText;
   delete showFormatting;
   delete createTable;

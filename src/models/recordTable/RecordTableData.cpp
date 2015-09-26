@@ -27,10 +27,8 @@ extern WalkHistory walkHistory;
 // Это набор данных конечной таблицы, с которыми удобно работать
 
 // Конструктор
-RecordTableData::RecordTableData(QObject *pobj) : QObject(pobj)
+RecordTableData::RecordTableData(void)
 {
- Q_UNUSED(pobj);
-
  treeItem=NULL;
 
  workPos=-1;

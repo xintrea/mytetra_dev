@@ -14,12 +14,11 @@ class TreeItem;
 class Record;
 
 
-class RecordTableData : public QObject
+class RecordTableData
 {
-    Q_OBJECT
 
 public:
-    RecordTableData(QObject *pobj=0);
+    RecordTableData(void);
     virtual ~RecordTableData();
 
     // Получение текста указанной записи
