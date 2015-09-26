@@ -649,19 +649,19 @@ void Record::switchToEncryptAndSaveLite(void)
   if(fieldList.value("crypt")=="1")
     critical_error("Cant call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
 
-  // Зашифровываются поля записи
-  switchToEncryptFields();
-
   // В легком объекте данные не из полей находятся в файлах
 
-  // Шифрация файла с текстом записи
+  // Шифрация файла с текстом записи на диске
   QString dirName;
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
   CryptService::encryptFile(globalParameters.getCryptKey(), fileName);
 
-  // Шифрование приаттаченных файлов
-  attachTableData.encrypt();
+  // Шифрование приаттаченных файлов на диске
+  attachTableData.encrypt(Attach::areaFile);
+
+  // Зашифровываются поля записи (здесь же устанавливается флаг crypt)
+  switchToEncryptFields();
 }
 
 
@@ -676,10 +676,16 @@ void Record::switchToEncryptAndSaveFat(void)
   if(fieldList.value("crypt")=="1")
     critical_error("Cant call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
 
-  // Зашифровываются поля записи
+  // Зашифровывается текст записи в памяти
+  text=CryptService::encryptByteArray(globalParameters.getCryptKey(), text);
+
+  // Зашифровываются аттачи в памяти
+  attachTableData.encrypt(Attach::areaMemory);
+
+  // Зашифровываются поля записи (здесь же устанавливается флаг crypt)
   switchToEncryptFields();
 
-  // Тяжелые данные записываются в хранилище, при записи будет произведена шифрация
+  // Тяжелые данные записываются в хранилище
   pushFatAttributes();
 }
 
@@ -695,20 +701,20 @@ void Record::switchToDecryptAndSaveLite(void)
   if(fieldList.value("crypt")!="1")
     critical_error("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
 
-  // Расшифровка полей (имеено так, так как getNaturalFieldList() возвращает расшифрованные данные)
-  fieldList=getNaturalFieldList();
-
-  // Расшифровка файла с текстом записи
+  // Расшифровка файла с текстом записи на диске
   QString dirName;
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
   CryptService::decryptFile(globalParameters.getCryptKey(), fileName);
 
-  // Расшифровка приаттаченных файлов
-  attachTableData.decrypt();
+  // Расшифровка приаттаченных файлов на диске
+  attachTableData.decrypt(Attach::areaFile);
+
+  // Расшифровка полей (здесь же происходит установка флага crypt в конечное значение)
+  switchToDecryptFields(); // Ранее было fieldList=getNaturalFieldList(); (имеено так, так как getNaturalFieldList() возвращает расшифрованные данные)
 
   // Устанавливается флаг что шифрации нет
-  fieldList["crypt"]="0";
+  // fieldList["crypt"]="0"; // Похоже, что команда не нужна, так как в switchToDecryptFields() флаг уже установлен
 }
 
 
@@ -722,15 +728,22 @@ void Record::switchToDecryptAndSaveFat(void)
   if(fieldList.value("crypt")!="1")
     critical_error("Cant call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
 
-  // Расшифровываются поля записи
+  // Расшифровывается текст записи в памяти
+  text=CryptService::decryptByteArray(globalParameters.getCryptKey(), text);
+
+  // Расшифровываются аттачи в памяти
+  attachTableData.decrypt(Attach::areaMemory);
+
+  // Расшифровываются поля записи (здесь же происходит установка флага crypt в конечное значение)
   switchToDecryptFields();
 
-  // Тяжелые данные записываются в хранилище, при записи будет произведена шифрация
+  // Тяжелые данные записываются в хранилище
   pushFatAttributes();
 }
 
 
-// Запись "тяжелых" атрибутов (текста, картинок, приаттаченных файлов) на диск
+// Запись "тяжелых" атрибутов (текста, картинок и приаттаченных файлов) на диск
+// Запись происходит в явном виде, то, что хранится в Fat-атрибутах, без шифрации-дешифрации
 void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
@@ -752,12 +765,11 @@ void Record::pushFatAttributes()
   // Запись файла с текстом записи
   saveText();
 
-  // Если есть файлы картинок, они вставляются в конечную директорию (картинки не шифруются)
+  // Если есть файлы картинок, они вставляются в конечную директорию
   if(pictureFiles.size()>0)
     save_files_to_directory(dirName, pictureFiles);
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
-  // todo: сделать шифрование приаттаченных файлов, если запись зашифрована
   if(attachTableData.size()>0)
     attachTableData.saveAttachFilesToDirectory(dirName);
 }

@@ -451,7 +451,8 @@ qint64 Attach::getFileSize() const
 }
 
 
-void Attach::encrypt()
+// Шифрация аттача на диске и в памяти
+void Attach::encrypt(unsigned int area)
 {
   // В этом методе важна последовательность действий,
   // чтобы не получилась ситуации, когда часть данных зашифрована,
@@ -463,12 +464,14 @@ void Attach::encrypt()
 
 
   // Шифруется файл
-  if(getField("type")=="file")
-    CryptService::encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
+  if(area & areaFile)
+    if(getField("type")=="file")
+      CryptService::encryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
   // Шифруется содержимое файла в памяти, если таковое есть
-  if(liteFlag==false && fileContent.length()>0)
-    fileContent=CryptService::encryptByteArray(globalParameters.getCryptKey(), fileContent);
+  if(area & areaMemory)
+    if(liteFlag==false && fileContent.length()>0)
+      fileContent=CryptService::encryptByteArray(globalParameters.getCryptKey(), fileContent);
 
 
   // Шифруются поля, которые подлежат шифрованию
@@ -488,19 +491,22 @@ void Attach::encrypt()
 }
 
 
-void Attach::decrypt()
+// Расшифровка аттача на диске и в памяти
+void Attach::decrypt(unsigned int area)
 {
   // Если аттач не зашифрован, и происходит расшифровка, значит есть какая-то ошибка в логике выше
   if(getField("crypt")!="1")
     critical_error("Attach::decrypt() : Cant decrypt unencrypted attach.");
 
   // Расшифровывается файл
-  if(getField("type")=="file")
-    CryptService::decryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
+  if(area & areaFile)
+    if(getField("type")=="file")
+      CryptService::decryptFile(globalParameters.getCryptKey(), getFullInnerFileName());
 
   // Расшифровывается содержимое файла в памяти, если таковое есть
-  if(liteFlag==false && fileContent.length()>0)
-    fileContent=CryptService::decryptByteArray(globalParameters.getCryptKey(), fileContent);
+  if(area & areaMemory)
+    if(liteFlag==false && fileContent.length()>0)
+      fileContent=CryptService::decryptByteArray(globalParameters.getCryptKey(), fileContent);
 
   // Расшифровываются поля, которые подлежат шифрованию
   foreach( QString fieldName, fieldCryptedList() )
@@ -509,9 +515,9 @@ void Attach::decrypt()
     if(getField("type")=="file" && fieldName=="link")
       continue;
 
-    // Если поле с указанным именем существует
+    // Если поле с указанным именем существует и содержит данные, оно расшифровывается из исходных зашифрованных данных
     if(getField(fieldName).length()>0)
-      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), getField(fieldName)));
+      setFieldSource(fieldName, CryptService::decryptString( globalParameters.getCryptKey(), fields[fieldName]));
   }
 
   // Устанавливается флаг, что запись не зашифрована

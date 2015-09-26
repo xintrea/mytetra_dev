@@ -61,8 +61,8 @@ public:
   void print();
 
   bool isRecordCrypt();
-  void encrypt();
-  void decrypt();
+  void encrypt(unsigned int area);
+  void decrypt(unsigned int area);
 
   void saveAttachFilesToDirectory(QString dirName);
 

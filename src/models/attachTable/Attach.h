@@ -14,9 +14,14 @@ class Attach
   friend class AttachTableData;
 
 public:
+
+  enum EncryptDecryptArea{areaMemory=0x1, areaFile=0x2, areaAll=0xFF};
+
+
   Attach(AttachTableData *iParentTable);
   Attach(QString iType, AttachTableData *iParentTable);
   virtual ~Attach();
+
 
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
@@ -48,8 +53,8 @@ public:
   bool copyFileToBase(QString iFileName);
   void removeFile();
 
-  void encrypt();
-  void decrypt();
+  void encrypt(unsigned int area=areaAll);
+  void decrypt(unsigned int area=areaAll);
 
 
 protected:

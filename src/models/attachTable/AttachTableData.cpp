@@ -357,17 +357,17 @@ bool AttachTableData::isRecordCrypt()
 }
 
 
-void AttachTableData::encrypt()
+void AttachTableData::encrypt(unsigned int area)
 {
   for(int i=0; i<attachTable.size(); ++i)
-    attachTable[i].encrypt();
+    attachTable[i].encrypt(area);
 }
 
 
-void AttachTableData::decrypt()
+void AttachTableData::decrypt(unsigned int area)
 {
   for(int i=0; i<attachTable.size(); ++i)
-    attachTable[i].decrypt();
+    attachTable[i].decrypt(area);
 }
 
 
