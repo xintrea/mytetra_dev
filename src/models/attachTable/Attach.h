@@ -55,6 +55,7 @@ public:
 protected:
 
   void init(AttachTableData *iParentTable);
+  void setParentTable(AttachTableData *iParentTable); // Защищенный метод, который может вызвать только этот класс и AttachTableData
 
   QStringList fieldAvailableList(void) const;
   QStringList fieldCryptedList(void) const;
@@ -67,14 +68,6 @@ protected:
   AttachTableData *parentTable; // Указатель на таблицу приаттаченных файлов, которой принадлежит данный аттач
 
   QMap<QString, QString> fields;
-
-  /*
-  QString type; // Тип аттача ("file" или "link")
-  QString id; // Идентификатор (служит так же техническим именем файла в базе, без расширения .bin)
-  QString fileName; // Имя файла. Так файл отображается в интерфейсе, при экспорте назначается это имя
-  QString link; // Линк на файл
-  QString crypt; // Зашифрованный ли это аттач ("0" или "1")
-  */
 
   QByteArray fileContent; // Содержимое файла, используется в режиме полных данных
 };

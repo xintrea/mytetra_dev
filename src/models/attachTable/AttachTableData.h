@@ -66,6 +66,9 @@ public:
 
   void saveAttachFilesToDirectory(QString dirName);
 
+  // Обновление ссылок на таблицу аттачей внутри аттачей
+  void updateAttachTableBackLink();
+
 protected:
 
   bool liteFlag;

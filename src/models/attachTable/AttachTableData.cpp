@@ -133,6 +133,9 @@ int AttachTableData::size() const
 }
 
 
+
+
+
 // Получение объекта аттача
 Attach AttachTableData::getAttach(QString id)
 {
@@ -374,4 +377,12 @@ void AttachTableData::saveAttachFilesToDirectory(QString dirName)
     if(attachTable.at(i).getField("type")=="file") // Сохраняются только файлы, не линки
       if(!attachTable.at(i).isLite())
         attachTable[i].pushFatDataToDirectory(dirName);
+}
+
+
+// Обновление ссылок на таблицу аттачей внутри объектов-аттачей
+void AttachTableData::updateAttachTableBackLink()
+{
+  for(int i=0; i<attachTable.size(); ++i)
+    attachTable[i].setParentTable(this);
 }

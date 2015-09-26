@@ -48,6 +48,12 @@ void Attach::init(AttachTableData *iParentTable)
 }
 
 
+void Attach::setParentTable(AttachTableData *iParentTable)
+{
+  parentTable=iParentTable;
+}
+
+
 // Допустимые имена полей
 QStringList Attach::fieldAvailableList(void) const
 {

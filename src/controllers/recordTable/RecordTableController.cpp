@@ -274,6 +274,18 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
     // Образ записи, включающий все текстовые данные (текст записи, свойства записи, перечень приаттаченных файлов)
     Record record=table->getRecordFat( index.row() );
 
+
+
+
+
+
+
+
+
+
+
+
+
     clipboardRecords->addRecord( record );
    }
 }

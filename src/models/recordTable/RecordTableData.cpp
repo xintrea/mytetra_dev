@@ -222,11 +222,11 @@ Record RecordTableData::getRecordFat(int pos)
  // Копия записи из дерева
  Record resultRecord=getRecordLite(pos);
 
- // Превращение копии записи на режим с хранением полного содержимого
+ // Переключение копии записи на режим с хранением полного содержимого
  resultRecord.switchToFat();
 
  // Добавление текста записи
- resultRecord.setText( getText(pos) ); // todo: Здесь должна быть установка зашифрованных данных, если запись зашифрована (разобраться)
+ resultRecord.setText( getText(pos) );
 
  // Добавление бинарных образов файлов картинок
  QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getField("dir");

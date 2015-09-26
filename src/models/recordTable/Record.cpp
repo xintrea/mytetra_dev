@@ -34,6 +34,7 @@ Record::Record(const Record &obj)
 
   // Обратный указатель во включенном объекте должен указывать на новый экземпляр
   attachTableData.setRecord(this);
+  attachTableData.updateAttachTableBackLink();
 }
 
 
