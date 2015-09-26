@@ -1894,14 +1894,16 @@ bool Editor::is_key_for_tool_line_update(QKeyEvent *event)
 // Cлот отлавливает нажатия клавиш
 void Editor::keyPressEvent(QKeyEvent *event)
 {
- if(is_key_for_tool_line_update(event)) update_tool_line_to_actual_format();
+ if(is_key_for_tool_line_update(event))
+   update_tool_line_to_actual_format();
 }
 
 
 // Cлот отлавливает отжатия клавиш
 void Editor::keyReleaseEvent(QKeyEvent * event)
 {
- if(is_key_for_tool_line_update(event)) update_tool_line_to_actual_format();
+ if(is_key_for_tool_line_update(event))
+   update_tool_line_to_actual_format();
 }
 
 

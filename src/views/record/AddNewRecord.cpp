@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QTextDocumentFragment>
 #include <QDir>
+#include <QKeyEvent>
 
 #include "AddNewRecord.h"
 #include "main.h"
@@ -28,6 +29,8 @@ AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(paren
  setupUI();
  setupSignals();
  assembly();
+
+ setupEventFilter();
 }
 
 AddNewRecord::~AddNewRecord()
@@ -90,6 +93,35 @@ void AddNewRecord::assembly(void)
  // QWidget *wdgt=new QWidget;
  // wdgt->setLayout(vbl);
  // setCentralWidget(wdgt);
+}
+
+
+void AddNewRecord::setupEventFilter(void)
+{
+  // Для области редактирования задается eventFilter (используется для отлова нажатия на ESC)
+  recordTextEditor->installEventFilter(this);
+}
+
+
+bool AddNewRecord::eventFilter(QObject *object, QEvent *event)
+{
+  qDebug() << "Editor::eventFilter()";
+
+  // Отслеживание нажатия ESC в области редактирования текста
+  if (object == recordTextEditor)
+  {
+    if(event->type() == QEvent::KeyPress)
+    {
+      QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+      if (keyEvent->key() == Qt::Key_Escape)
+      {
+        // qDebug() << "Press ESC key";
+        close();
+        return true;
+      }
+    }
+  }
+  return true;
 }
 
 

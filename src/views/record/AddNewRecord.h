@@ -48,6 +48,10 @@ private:
  void setupUI(void);
  void setupSignals(void);
  void assembly(void);
+
+ void setupEventFilter(void);
+
+ virtual bool eventFilter(QObject *object, QEvent *event);
 };
 
 #endif // __ADDNEWRECORD_H__
