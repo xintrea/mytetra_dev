@@ -131,7 +131,7 @@ QMap<QString, QString> ClipboardBranch::getBranchFieldsById(QString id)
     return current_branch;
  }
 
- critical_error("Can not find id "+id+" in clipboard data");
+ criticalError("Can not find id "+id+" in clipboard data");
  exit(1);
  return QMap<QString, QString>();
 }

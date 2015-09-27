@@ -105,7 +105,7 @@ QString RecordInfoFieldsEditor::getField(QString name)
  if(infoField->checkFieldName(name)==true)
   return infoField->getField(name);
  else
-  critical_error("Can not get field "+name+" in editrecord method get_field");
+  criticalError("Can not get field "+name+" in editrecord method get_field");
 
  return QString();
 }
@@ -116,6 +116,6 @@ void RecordInfoFieldsEditor::setField(QString name, QString value)
  if(infoField->checkFieldName(name)==true)
   infoField->setField(name,value);
  else
-  critical_error("Can not set field "+name+" in editrecord method set_field");
+  criticalError("Can not set field "+name+" in editrecord method set_field");
 }
 

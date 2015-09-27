@@ -143,7 +143,7 @@ QString TreeItem::getField(QString name)
   }
  else
   {
-   critical_error("In TreeItem::get_field() unavailable name '"+name+"'");
+   criticalError("In TreeItem::get_field() unavailable name '"+name+"'");
    exit(1);
    return "";
   }
@@ -199,14 +199,14 @@ void TreeItem::setField(QString name, QString value)
           value=CryptService::encryptString(globalParameters.getCryptKey(), value);
         }
        else // Иначе пароль не установлен
-        critical_error("TreeItem::setField() : Can not encrypt field \""+name+"\". Password not setted.");
+        criticalError("TreeItem::setField() : Can not encrypt field \""+name+"\". Password not setted.");
       }
    
    // qDebug() << "Set to item data " << name << value;
    fieldsTable[name]=value;
   } 
  else
-  critical_error("TreeItem::setField() : Set unavailable field \""+ name +"\" to item of branch tree");
+  criticalError("TreeItem::setField() : Set unavailable field \""+ name +"\" to item of branch tree");
 }
 
 
@@ -219,7 +219,7 @@ void TreeItem::setFieldDirect(QString name, QString value)
    fieldsTable[name]=value;
   }
  else
-  critical_error("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
+  criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
 }
 
 
@@ -267,7 +267,7 @@ QString TreeItem::getId()
   return (fieldsTable["id"]);
  else
   {
-   critical_error("In TreeItem data getting field with unavailable name 'id'");
+   criticalError("In TreeItem data getting field with unavailable name 'id'");
    exit(1);
    return "";
   }

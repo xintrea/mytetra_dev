@@ -14,6 +14,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/wyedit/Editor.h"
+#include "libraries/DiskHelper.h"
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
@@ -151,7 +152,7 @@ void AddNewRecord::okClick(void)
   }
 
  // Картинки сохраняются
- imagesDirName=create_temp_directory();
+ imagesDirName=DiskHelper::createTempDirectory();
  recordTextEditor->set_work_directory(imagesDirName);
  recordTextEditor->save_textarea_images(Editor::SAVE_IMAGES_SIMPLE);
 
@@ -163,7 +164,7 @@ QString AddNewRecord::getImagesDirectory(void)
 {
  if(imagesDirName.length()==0)
   {
-   critical_error("In add new record function can not generate temp directory with saved images.");
+   criticalError("In add new record function can not generate temp directory with saved images.");
    return "";
   }
 

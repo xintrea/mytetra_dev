@@ -187,7 +187,7 @@ QString InfoFieldEnter::getField(QString name)
    if(name=="tags")  return  recordTags->text();
   }
  else
-  critical_error("Can not get field "+name+" in InfoFieldEnter method get_field");
+  criticalError("Can not get field "+name+" in InfoFieldEnter method get_field");
 
  return QString();
 }
@@ -203,5 +203,5 @@ void InfoFieldEnter::setField(QString name,QString value)
    if(name=="tags")  recordTags->setText(value);
   }
  else
-  critical_error("Can not set field "+name+" in InfoFieldEnter method set_field");
+  criticalError("Can not set field "+name+" in InfoFieldEnter method set_field");
 }

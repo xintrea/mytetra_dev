@@ -248,7 +248,7 @@ bool RecordTableModel::removeRows(int row, int count, const QModelIndex &parent)
 
   if(row<0 || row>=rowCount() || (row+count-1)<0 || (row+count-1)>=rowCount())
   {
-    critical_error("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
+    criticalError("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
     return false;
   }
 

@@ -16,6 +16,7 @@
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
 #include "libraries/crypt/CryptService.h"
+#include "libraries/DiskHelper.h"
 
 #include "libraries/wyedit/Editor.h"
 
@@ -54,7 +55,7 @@ QString RecordTableData::getField(QString name, int pos) const
   {
     QString i;
     i.setNum(pos);
-    critical_error("RecordTableData::getField() : get unavailable record index "+i);
+    criticalError("RecordTableData::getField() : get unavailable record index "+i);
   }
 
   return tableData.at(pos).getField(name);
@@ -69,7 +70,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
   {
     QString i;
     i.setNum(pos);
-    critical_error("In RecordTableData::setField() unavailable record index "+i+" in table while field "+name+" try set to "+value);
+    criticalError("In RecordTableData::setField() unavailable record index "+i+" in table while field "+name+" try set to "+value);
   }
 
  tableData[pos].setField(name, value);
@@ -123,11 +124,11 @@ void RecordTableData::editorLoadCallback(QObject *editor,
 
   // Если нужный файл не существует
  if(!f.exists())
-  critical_error("File "+fileName+" not found");
+  criticalError("File "+fileName+" not found");
 
  // Открывается файл
  if(!f.open(QIODevice::ReadOnly))
-  critical_error("File "+fileName+" not readable. Check permission.");
+  criticalError("File "+fileName+" not readable. Check permission.");
 
  // Если незашифровано
  if(workWithCrypt==false)
@@ -170,7 +171,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
    QFile wfile(fileName);
 
    if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-    critical_error("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
+    criticalError("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
 
    QTextStream out(&wfile);
    out.setCodec("UTF-8");
@@ -185,7 +186,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
    QFile wfile(fileName);
 
    if(!wfile.open(QIODevice::WriteOnly))
-    critical_error("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
+    criticalError("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
 
    wfile.write(encryptData);
   }
@@ -207,7 +208,7 @@ Record RecordTableData::getRecordLite(int pos)
 
  // Хранимая в дереве запись не может быть "тяжелой"
  if(!tableData.at(pos).isLite())
-   critical_error("In RecordTableData::getRecordLite() try get fat record");
+   criticalError("In RecordTableData::getRecordLite() try get fat record");
 
  return tableData.at(pos);
 }
@@ -228,7 +229,7 @@ Record RecordTableData::getRecordFat(int pos)
 
  // Добавление бинарных образов файлов картинок
  QString directory=mytetraConfig.get_tetradir()+"/base/"+resultRecord.getField("dir");
- resultRecord.setPictureFiles( get_files_from_directory(directory, "*.png") );
+ resultRecord.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
 
  return resultRecord;
 }
@@ -330,7 +331,7 @@ int RecordTableData::insertNewRecord(int mode,
 
   // Мотод должен принять полновесный объект записи
   if(record.isLite()==true)
-    critical_error("RecordTableData::insertNewRecord() can't insert lite record");
+    criticalError("RecordTableData::insertNewRecord() can't insert lite record");
 
   // Выясняется, есть ли в дереве запись с указанным ID
   // Если есть, то генерируются новые ID для записи и новая директория хранения
@@ -369,7 +370,7 @@ int RecordTableData::insertNewRecord(int mode,
      if(globalParameters.getCryptKey().length()>0)
       isCrypt=true;
      else
-      critical_error("RecordTableData::insertNewRecord() : Can not insert data to crypt branch. Password not setted.");
+      criticalError("RecordTableData::insertNewRecord() : Can not insert data to crypt branch. Password not setted.");
     }
 
   // Запись полновесных данных с учетом шифрации
@@ -438,7 +439,7 @@ void RecordTableData::deleteRecord(int i)
  // Удаление директории и файлов внутри, с сохранением в резервной директории
  QString dirForDelete=mytetraConfig.get_tetradir()+"/base/"+getField("dir",i);
  qDebug() << "Remove dir " << dirForDelete;
- remove_directory_to_trash( dirForDelete );
+ DiskHelper::removeDirectoryToTrash( dirForDelete );
 
 
  // Удаление позиции курсора из истории

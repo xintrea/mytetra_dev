@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  155
+#define APPLICATION_RELEASE_MICROVERSION  156
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -47,18 +47,9 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-void logprint(char *lpszText, ...);
-void critical_error(QString message);
-void info_window(QString i);
-QString xmlnode_to_string(QDomNode xmlData);
-
-void remove_directory_to_trash(QString nameDirFrom);
-void remove_file_to_trash(QString fileNameFrom);
-QString create_temp_directory(void);
-bool remove_directory(const QString &dirName);
-bool copy_directory(const QString &fromName, const QString &toName);
-QMap<QString, QByteArray> get_files_from_directory(QString dirName, QString fileMask="*");
-bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList);
+void logPrint(char *lpszText, ...);
+void criticalError(QString message);
+QString xmlNodeToString(QDomNode xmlData);
 
 void print_object_tree(void);
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2);

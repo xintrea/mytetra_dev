@@ -23,6 +23,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
+#include "libraries/DiskHelper.h"
 
 
 extern GlobalParameters globalParameters;
@@ -532,15 +533,15 @@ void RecordTableController::addNewRecord(int mode)
  record.setField("author", addNewRecordWin.getField("author"));
  record.setField("url",    addNewRecordWin.getField("url"));
  record.setField("tags",   addNewRecordWin.getField("tags"));
- record.setPictureFiles( get_files_from_directory(directory, "*.png") );
+ record.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
 
  // Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
  // Запись должна быть создана, потом можно аттачить файлы.
  // Это ограничение для "ленивого" программинга, но пока так
- // record.setAttachFiles( get_files_from_directory(directory, "*.bin") );
+ // record.setAttachFiles( DiskHelper::getFilesFromDirectory(directory, "*.bin") );
 
  // Временная директория с картинками и приаттаченными файлами удаляется
- remove_directory(directory);
+ DiskHelper::removeDirectory(directory);
 
  // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
  addNew(mode, record);

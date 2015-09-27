@@ -83,7 +83,7 @@ QString DataBaseConfig::get_parameter(QString name)
  QString t=conf->value(name).toString();
 
  if(t.length()==0)
-  critical_error("In database config not found parameter " + name);
+  criticalError("In database config not found parameter " + name);
 
  return t;
 }

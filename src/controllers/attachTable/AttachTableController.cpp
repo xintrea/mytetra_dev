@@ -88,7 +88,7 @@ void AttachTableController::addSmart(QString attachType)
   AttachTableData *attachTableData=getAttachTableData();
 
   if(attachTableData==NULL)
-    critical_error("Unset attach table data in AttachTableController::addSmart()");
+    criticalError("Unset attach table data in AttachTableController::addSmart()");
 
   // Перебираются выбранные в диалоге файлы
   for(int i=0; i<files.size(); ++i)
@@ -127,7 +127,7 @@ void AttachTableController::addSmart(QString attachType)
       result=true;
     }
     else
-      critical_error("Unsupport adding mode");
+      criticalError("Unsupport adding mode");
 
 
     // Если запись, к которой добавляется аттач, зашифрована

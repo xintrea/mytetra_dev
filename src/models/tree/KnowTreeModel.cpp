@@ -13,6 +13,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
+#include "libraries/DiskHelper.h"
 
 extern AppConfig mytetraConfig;
 
@@ -52,7 +53,7 @@ void KnowTreeModel::init(QDomDocument *domModel)
   // Проверка формата XML-файла
   if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
    {
-    critical_error(tr("Unsupported format version for data base."));
+    criticalError(tr("Unsupported format version for data base."));
     return;
    }
 
@@ -199,11 +200,11 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
  QDomDocument doc;
  QDomElement elm=doc.createElement("content");
 
- // qDebug() << "New element for export" << xmlnode_to_string(elm);
+ // qDebug() << "New element for export" << xmlNodeToString(elm);
 
  parseTreeToDom(&doc, elm, root);
 
- // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlnode_to_string(elm);
+ // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 
  return elm;
 }
@@ -253,7 +254,7 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, Tree
    // Добавление временного элемента к основному документу
    xmlData.appendChild(tempElement);
 
-   // qDebug() << "In parsetreetodom() current construct doc " << xmlnode_to_string(*xmldata);
+   // qDebug() << "In parsetreetodom() current construct doc " << xmlNodeToString(*xmldata);
 
    // Рекурсивная обработка
    QDomElement workElement=xmlData.lastChildElement();
@@ -268,7 +269,7 @@ void KnowTreeModel::save()
 {
  // Если имя файла небыло проинициализировано
  if(xmlFileName=="")
-  critical_error(tr("In KnowTreeModel can't set file name for XML file"));
+  criticalError(tr("In KnowTreeModel can't set file name for XML file"));
 
  // Коструирование DOM документа для записи в файл
  QDomDocument doc("mytetradoc");
@@ -298,7 +299,7 @@ void KnowTreeModel::save()
  // qDebug() << "Doc document for write " << doc.toString();
 
  // Перенос текущего файла дерева в корзину
- remove_file_to_trash(xmlFileName);
+ DiskHelper::removeFileToTrash(xmlFileName);
 
  // Запись DOM данных в файл
  QFile wfile(xmlFileName);

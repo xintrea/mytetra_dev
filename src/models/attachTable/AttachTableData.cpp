@@ -142,7 +142,7 @@ Attach AttachTableData::getAttach(QString id)
   int row=getRowById(id);
 
   if(row<0)
-    critical_error("Attach with ID: "+id+" not found");
+    criticalError("Attach with ID: "+id+" not found");
 
   return attachTable.at(row);
 }
@@ -314,7 +314,7 @@ void AttachTableData::switchToLite()
 {
   // Переключение возможно только из полновесного состояния
   if(liteFlag==true)
-    critical_error("Can't switch attach table to lite state");
+    criticalError("Can't switch attach table to lite state");
 
   for(int i=0; i<attachTable.size(); ++i)
   {
@@ -333,7 +333,7 @@ void AttachTableData::switchToFat()
 {
   // Переключение возможно только из легкого состояния
   if(liteFlag!=true)
-    critical_error("Unavailable switching attach table to fat state");
+    criticalError("Unavailable switching attach table to fat state");
 
   for(int i=0; i<attachTable.size(); ++i)
   {

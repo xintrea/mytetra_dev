@@ -32,7 +32,7 @@ MetaEditor::MetaEditor(void) : Editor()
   else if(mytetraConfig.getInterfaceMode()=="mobile")
     Editor::init(Editor::WYEDIT_MOBILE_MODE);
   else
-    critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
+    criticalError("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
   setupLabels();
   setupUI();
@@ -206,7 +206,7 @@ void MetaEditor::setField(QString n, QString v)
   else if(n=="url")   setUrl(v);
   else if(n=="tags")  setTags(v);
   else
-    critical_error("metaeditor.set_field Undestand field "+n+" with value "+v);
+    criticalError("metaeditor.set_field Undestand field "+n+" with value "+v);
 }
 
 

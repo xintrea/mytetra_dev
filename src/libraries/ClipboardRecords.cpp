@@ -90,7 +90,7 @@ Record ClipboardRecords::getRecord(int n) const
    return records.table.at(n);
   else
    {
-    critical_error("In ClipboardRecords::getRecord() unavailable number "+QString::number(n));
+    criticalError("In ClipboardRecords::getRecord() unavailable number "+QString::number(n));
     return Record();
    }
 }
@@ -103,7 +103,7 @@ QString ClipboardRecords::getRecordText(int n) const
   return records.table.at(n).getText();
  else
   {
-   critical_error("In ClipboardRecords::getRecordText() unavailable number "+QString::number(n));
+   criticalError("In ClipboardRecords::getRecordText() unavailable number "+QString::number(n));
    return QString();
   }
 }
@@ -116,7 +116,7 @@ QMap<QString, QString> ClipboardRecords::getRecordFieldList(int n) const
   return records.table.at(n).getNaturalFieldList();
  else
   {
-   critical_error("In ClipboardRecords::getRecordFieldTable() unavailable number "+QString::number(n));
+   criticalError("In ClipboardRecords::getRecordFieldTable() unavailable number "+QString::number(n));
    return QMap<QString, QString>();
   } 
 }
@@ -129,7 +129,7 @@ AttachTableData ClipboardRecords::getRecordAttachTable(int n) const
     return getRecord(n).getAttachTable();
   else
   {
-    critical_error("In ClipboardRecords::getRecordAttachTable() unavailable number "+QString::number(n));
+    criticalError("In ClipboardRecords::getRecordAttachTable() unavailable number "+QString::number(n));
     return AttachTableData();
   }
 }
@@ -142,7 +142,7 @@ QMap<QString, QByteArray> ClipboardRecords::getRecordPictureFiles(int n) const
   return records.table.at(n).getPictureFiles();
  else
   {
-   critical_error("In ClipboardRecords::getRecordPictureFiles() unavailable number "+QString::number(n));
+   criticalError("In ClipboardRecords::getRecordPictureFiles() unavailable number "+QString::number(n));
    return QMap<QString, QByteArray>();
   }
 }

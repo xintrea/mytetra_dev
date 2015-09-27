@@ -10,6 +10,7 @@
 #include "libraries/GlobalParameters.h"
 #include "models/attachTable/AttachTableData.h"
 #include "libraries/crypt/CryptService.h"
+#include "libraries/DiskHelper.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -120,7 +121,7 @@ void Record::switchToLite()
 {
   // Переключение возможно только из полновесного состояния
   if(liteFlag==true)
-    critical_error("Record::switchToLite() : Record "+getIdAndNameAsString()+" already lite");
+    criticalError("Record::switchToLite() : Record "+getIdAndNameAsString()+" already lite");
 
   text.clear();
   pictureFiles.clear();
@@ -138,7 +139,7 @@ void Record::switchToFat()
 {
   // Переключение возможно только из легкого состояния
   if(liteFlag!=true || text.length()>0 || pictureFiles.count()>0)
-    critical_error("Unavailable switching record object to fat state. "+getIdAndNameAsString());
+    criticalError("Unavailable switching record object to fat state. "+getIdAndNameAsString());
 
   attachTableData.switchToFat();
 
@@ -166,7 +167,7 @@ QString Record::getField(QString name) const
 {
   // Если имя поля недопустимо
   if(fixedParameters.isRecordFieldAvailable(name)==false)
-    critical_error("RecordTableData::getField() : get unavailable field "+name);
+    criticalError("RecordTableData::getField() : get unavailable field "+name);
 
   // Для настоящего поля
   if(fixedParameters.isRecordFieldNatural(name))
@@ -253,7 +254,7 @@ void Record::setField(QString name, QString value)
 {
   // Если имя поля недопустимо (установить значение можно только для натурального поля)
   if(fixedParameters.isRecordFieldNatural(name)==false)
-    critical_error("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
+    criticalError("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
 
   bool isCrypt=false;
 
@@ -269,7 +270,7 @@ void Record::setField(QString name, QString value)
           if(globalParameters.getCryptKey().length()>0)
             isCrypt=true;
           else
-            critical_error("In RecordTableData::setField() can not set data to crypt field "+name+". Password not setted");
+            criticalError("In RecordTableData::setField() can not set data to crypt field "+name+". Password not setted");
         }
 
 
@@ -294,7 +295,7 @@ QString Record::getNaturalFieldSource(QString name) const
 {
   // Если имя поля недопустимо
   if(fixedParameters.isRecordFieldNatural(name)==false)
-    critical_error("RecordTableData::getNaturalFieldSource() : get unavailable field "+name);
+    criticalError("RecordTableData::getNaturalFieldSource() : get unavailable field "+name);
 
   // Если поле с таким названием есть
   if(fieldList.contains(name))
@@ -308,7 +309,7 @@ void Record::setNaturalFieldSource(QString name, QString value)
 {
   // Если имя поля недопустимо
   if(fixedParameters.isRecordFieldNatural(name)==false)
-    critical_error("In RecordTableData::setNaturalFieldSource() unavailable field name "+name+" try set to "+value);
+    criticalError("In RecordTableData::setNaturalFieldSource() unavailable field name "+name+" try set to "+value);
 
   // Устанавливается значение поля
   fieldList.insert(name, value);
@@ -371,7 +372,7 @@ QMap<QString, QString> Record::getNaturalFieldList() const
 AttachTableData Record::getAttachTable() const
 {
   if(this->isLite()!=attachTableData.isLite())
-    critical_error("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   return attachTableData;
 }
@@ -380,7 +381,7 @@ AttachTableData Record::getAttachTable() const
 AttachTableData *Record::getAttachTablePointer()
 {
   if(this->isLite()!=attachTableData.isLite())
-    critical_error("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   return &attachTableData;
 }
@@ -408,7 +409,7 @@ AttachTableData *Record::getAttachTable() const
 void Record::setAttachTable(AttachTableData iAttachTable)
 {
   if(this->isLite()!=attachTableData.isLite())
-    critical_error("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   attachTableData=iAttachTable;
 }
@@ -438,7 +439,7 @@ QString Record::getText() const
 {
   // У легкого объекта невозможно запросить текст из памяти, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    critical_error("Cant get text from lite record object"+getIdAndNameAsString());
+    criticalError("Cant get text from lite record object"+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -452,7 +453,7 @@ QString Record::getText() const
   else if(fieldList.value("crypt")=="1") // Если нужно шифровать
     return CryptService::decryptStringFromByteArray(globalParameters.getCryptKey(), text);
   else
-    critical_error("Record::getText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+    criticalError("Record::getText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 
   return "";
 }
@@ -463,7 +464,7 @@ QString Record::getTextDirect()
 {
   // У тяжелого объекта невозможно получить текст записи из файла (у тяжелого объекта текст записи хранится в памяти)
   if(liteFlag==false)
-    critical_error("Cant run Record::getTextDirect() for non lite record "+getIdAndNameAsString());
+    criticalError("Cant run Record::getTextDirect() for non lite record "+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -480,7 +481,7 @@ QString Record::getTextDirect()
 
   // Открывается файл
   if(!f.open(QIODevice::ReadOnly))
-    critical_error("File "+fileName+" not readable. Check permission.");
+    criticalError("File "+fileName+" not readable. Check permission.");
 
   // Если незашифровано
   if(fieldList.value("crypt").length()==0 ||fieldList.value("crypt")=="0")
@@ -504,7 +505,7 @@ void Record::setText(QString iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    critical_error("Cant set text for lite record object"+getIdAndNameAsString());
+    criticalError("Cant set text for lite record object"+getIdAndNameAsString());
 
   // Если шифровать ненужно
   if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
@@ -512,7 +513,7 @@ void Record::setText(QString iText)
   else if(fieldList.value("crypt")=="1") // Если нужно шифровать
     text=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), iText);
   else
-    critical_error("Record::setText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+    criticalError("Record::setText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 }
 
 
@@ -529,7 +530,7 @@ void Record::saveTextDirect(QString iText)
     QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-      critical_error("Cant open text file "+fileName+" for write.");
+      criticalError("Cant open text file "+fileName+" for write.");
 
     QTextStream out(&wfile);
     out.setCodec("UTF-8");
@@ -544,12 +545,12 @@ void Record::saveTextDirect(QString iText)
     QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly))
-      critical_error("Cant open binary file "+fileName+" for write.");
+      criticalError("Cant open binary file "+fileName+" for write.");
 
     wfile.write(encryptData);
   }
   else
-    critical_error("Record::saveTextDirect() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+    criticalError("Record::saveTextDirect() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 }
 
 
@@ -562,7 +563,7 @@ void Record::saveText()
   QFile wfile(fileName);
 
   if(!wfile.open(QIODevice::WriteOnly))
-    critical_error("Record::saveText() : Cant open binary file "+fileName+" for write.");
+    criticalError("Record::saveText() : Cant open binary file "+fileName+" for write.");
 
   // Сохраняется QByteArray с текстом записи (в QByteArray могут быть как зашифрованные, так и не зашифрованные данные)
   wfile.write(text);
@@ -573,7 +574,7 @@ QMap<QString, QByteArray> Record::getPictureFiles() const
 {
   // У легкого объекта невозможно запросить картинки, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    critical_error("Cant get picture files from lite record object"+getIdAndNameAsString());
+    criticalError("Cant get picture files from lite record object"+getIdAndNameAsString());
 
   return pictureFiles;
 }
@@ -584,7 +585,7 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 {
   // Легкому объекту невозможно установить картики, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    critical_error("Cant set picture files for lite record object"+getIdAndNameAsString());
+    criticalError("Cant set picture files for lite record object"+getIdAndNameAsString());
 
   pictureFiles=iPictureFiles;
 }
@@ -643,11 +644,11 @@ void Record::switchToEncryptAndSaveLite(void)
 {
   // Метод обрабатывает только легкий объект
   if(liteFlag==false)
-    critical_error("Cant call switchToEncryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToEncryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
 
   // Нельзя шифровать уже зашифрованную запись
   if(fieldList.value("crypt")=="1")
-    critical_error("Cant call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
 
   // В легком объекте данные не из полей находятся в файлах
 
@@ -670,11 +671,11 @@ void Record::switchToEncryptAndSaveFat(void)
 {
   // Метод обрабатывает только тяжелый объект
   if(liteFlag==true)
-    critical_error("Cant call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
 
   // Нельзя шифровать уже зашифрованную запись
   if(fieldList.value("crypt")=="1")
-    critical_error("Cant call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
 
   // Зашифровывается текст записи в памяти
   text=CryptService::encryptByteArray(globalParameters.getCryptKey(), text);
@@ -695,11 +696,11 @@ void Record::switchToDecryptAndSaveLite(void)
 {
   // Метод обрабатывает только легкий объект
   if(liteFlag==false)
-    critical_error("Cant call switchToDecryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToDecryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
 
   // Нельзя расшифровать не зашифрованную запись
   if(fieldList.value("crypt")!="1")
-    critical_error("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
 
   // Расшифровка файла с текстом записи на диске
   QString dirName;
@@ -722,11 +723,11 @@ void Record::switchToDecryptAndSaveFat(void)
 {
   // Метод обрабатывает только тяжелый объект
   if(liteFlag==true)
-    critical_error("Cant call switchToDecryptAndSaveFat() for non fat record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToDecryptAndSaveFat() for non fat record object "+getIdAndNameAsString());
 
   // Нельзя расшифровать не зашифрованную запись
   if(fieldList.value("crypt")!="1")
-    critical_error("Cant call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
+    criticalError("Cant call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
 
   // Расшифровывается текст записи в памяти
   text=CryptService::decryptByteArray(globalParameters.getCryptKey(), text);
@@ -748,13 +749,13 @@ void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
   if(liteFlag==true)
-    critical_error("Cant push lite record object"+getIdAndNameAsString());
+    criticalError("Cant push lite record object"+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то зашифровать текст невозможно
   if(fieldList.value("crypt")=="1" &&
      globalParameters.getCryptKey().length()==0)
-    critical_error("Record::pushFatAttributes() : Try save text for crypt record while password not setted.");
+    criticalError("Record::pushFatAttributes() : Try save text for crypt record while password not setted.");
 
   // Заполняются имена директории и полей
   // Директория при проверке создается если ее небыло
@@ -767,7 +768,7 @@ void Record::pushFatAttributes()
 
   // Если есть файлы картинок, они вставляются в конечную директорию
   if(pictureFiles.size()>0)
-    save_files_to_directory(dirName, pictureFiles);
+    DiskHelper::saveFilesToDirectory(dirName, pictureFiles);
 
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
   if(attachTableData.size()>0)
@@ -779,7 +780,7 @@ void Record::pushFatAttributes()
 QString Record::getFullDirName() const
 {
  if(fieldList.contains("dir")==false)
-   critical_error("Record::getFullDirName() : Not present dir field");
+   criticalError("Record::getFullDirName() : Not present dir field");
 
  return mytetraConfig.get_tetradir()+"/base/"+fieldList.value("dir");
 }
@@ -789,7 +790,7 @@ QString Record::getFullDirName() const
 QString Record::getShortDirName() const
 {
  if(fieldList.contains("dir")==false)
-   critical_error("Record::getShortDirName() : Not present dir field");
+   criticalError("Record::getShortDirName() : Not present dir field");
 
  return fieldList.value("dir");
 }
@@ -799,7 +800,7 @@ QString Record::getShortDirName() const
 QString Record::getFullTextFileName() const
 {
   if(fieldList.contains("file")==false)
-    critical_error("Record::getFullDirName() : Not present file field");
+    criticalError("Record::getFullDirName() : Not present file field");
 
   return getFullDirName()+"/"+fieldList.value("file");
 }
@@ -838,7 +839,7 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
    bool result=directory.mkdir( getShortDirName() );
 
    if(!result)
-     critical_error("Record::checkAndFillFileDir() : Can't create directory '"+getShortDirName()+"'");
+     criticalError("Record::checkAndFillFileDir() : Can't create directory '"+getShortDirName()+"'");
   }
 }
 

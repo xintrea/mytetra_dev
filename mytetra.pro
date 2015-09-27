@@ -157,7 +157,8 @@ HEADERS = src/main.h \
     src/controllers/recordTable/RecordTableController.h \
     src/views/dialog/ReduceMessageBox.h \
     src/views/dialog/OverTextToolButton.h \
-    src/libraries/crypt/CryptService.h
+    src/libraries/crypt/CryptService.h \
+    src/libraries/DiskHelper.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -250,7 +251,8 @@ SOURCES = src/main.cpp \
     src/controllers/attachTable/AttachTableController.cpp \
     src/views/dialog/ReduceMessageBox.cpp \
     src/views/dialog/OverTextToolButton.cpp \
-    src/libraries/crypt/CryptService.cpp
+    src/libraries/crypt/CryptService.cpp \
+    src/libraries/DiskHelper.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

@@ -184,7 +184,7 @@ TreeItem *TreeModel::getItem(QStringList path) const
 
   // Если очередной идентификатор пути не был найден
   if(found==0)
-   critical_error("Detect bad path in getItem() method "+path.join(","));
+   criticalError("Detect bad path in getItem() method "+path.join(","));
  }
 
  return curritem;

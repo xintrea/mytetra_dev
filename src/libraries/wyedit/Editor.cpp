@@ -29,6 +29,8 @@
 #include "EditorMultiLineInputDialog.h"
 
 #include "../../main.h"
+#include "libraries/DiskHelper.h"
+
 
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {
@@ -610,7 +612,7 @@ void Editor::insert_button_to_tools_line(QString toolName, QToolBar *line)
       }
     }
    else
-    critical_error("WyEdit: Can not find editor tool with name '"+toolName+"'. Please check editor *.ini file");
+    criticalError("WyEdit: Can not find editor tool with name '"+toolName+"'. Please check editor *.ini file");
   }
 }
 
@@ -770,7 +772,7 @@ bool Editor::set_work_directory(QString dirName)
   }
  else
   {
-   critical_error("WyEdit: Can not set work directory to "+dirName+". Directory not exists.");
+   criticalError("WyEdit: Can not set work directory to "+dirName+". Directory not exists.");
    return false;
   }
 }
@@ -799,7 +801,7 @@ bool Editor::save_textarea_text()
 {
  if(workFileName.length()==0)
   {
-   critical_error("WyEdit: Save function. Not setted work file name for editor.");
+   criticalError("WyEdit: Save function. Not setted work file name for editor.");
    return false;
   }
 
@@ -810,7 +812,7 @@ bool Editor::save_textarea_text()
 
  if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-   critical_error("WyEdit: Cant open file "+fullFileName+" for write.");
+   criticalError("WyEdit: Cant open file "+fullFileName+" for write.");
    return false;
   }
 
@@ -834,7 +836,7 @@ bool Editor::save_textarea_images(int mode=SAVE_IMAGES_SIMPLE)
 
  if(workDirectory.length()==0)
   {
-   critical_error("WyEdit: Save images function. Not setted work directory.");
+   criticalError("WyEdit: Save images function. Not setted work directory.");
    return false;
   }
 
@@ -922,7 +924,7 @@ void Editor::save_textarea(void)
    if( QFileInfo( get_work_directory()+"/"+get_file_name() ).exists() )
     {
      qDebug() << "File exists. Remove it.";
-     remove_file_to_trash(get_work_directory()+"/"+get_file_name());
+     DiskHelper::removeFileToTrash(get_work_directory()+"/"+get_file_name());
     }
    else
     qDebug() << "Cant remove file. File not exists.";
@@ -966,13 +968,13 @@ bool Editor::load_textarea()
 
  if(workFileName.length()==0)
   {
-   critical_error("WyEdit: Load function. Not setted work file name for editor.");
+   criticalError("WyEdit: Load function. Not setted work file name for editor.");
    return false;
   }
 
  if(workDirectory.length()==0)
   {
-   critical_error("WyEdit: Not setted work directory for editor.");
+   criticalError("WyEdit: Not setted work directory for editor.");
    return false;
   }
 
@@ -989,14 +991,14 @@ bool Editor::load_textarea()
    // Если нужный файл не существует
    if(!f.exists())
     {
-     critical_error("WyEdit: File "+fileName+" not found");
+     criticalError("WyEdit: File "+fileName+" not found");
      return false;
     }
 
    // Если нужный файл недоступен для чтения
    if(!f.open(QIODevice::ReadOnly))
     {
-     critical_error("WyEdit: File "+fileName+" not readable. Check permission.");
+     criticalError("WyEdit: File "+fileName+" not readable. Check permission.");
      return false;
     }
 
@@ -2050,8 +2052,6 @@ void Editor::set_outline_button_higlight(int button, bool active)
 // Показывание окна с исходным текстом HTML
 void Editor::on_showhtml_clicked(void)
 {
- // info_window(textArea->toHtml());
-
  EditorMultiLineInputDialog dialog(this);
 
  dialog.set_text(textArea->toHtml());
@@ -2952,7 +2952,7 @@ void Editor::setDirFileEmptyReaction(int mode)
      mode==DIRFILEEMPTY_REACTION_SUPPRESS_ERROR)
     dirFileEmptyReaction=mode;
   else
-    critical_error("Editor::setDirFileEmptyReaction() : Unsupport mode "+QString::number(mode));
+    criticalError("Editor::setDirFileEmptyReaction() : Unsupport mode "+QString::number(mode));
 }
 
 

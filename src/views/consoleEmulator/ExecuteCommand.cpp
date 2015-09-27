@@ -39,7 +39,7 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
 
  if(shell.length()==0)
  {
-   critical_error("Can't detect sh, bash or cmd shell.");
+   criticalError("Can't detect sh, bash or cmd shell.");
    return;
  }
 
@@ -96,7 +96,7 @@ void ExecuteCommand::run(void)
 {
  // Если командный интерпретатор не установлен
  if(shell.length()==0)
-  critical_error("ExecuteCommand::run() : Not detect available shell");
+  criticalError("ExecuteCommand::run() : Not detect available shell");
 
  // Выясняется полная команда, которая будет запущена в QProcess
  // QString commandLine=shell.toAscii()+" \""+command.toAscii()+"\"";

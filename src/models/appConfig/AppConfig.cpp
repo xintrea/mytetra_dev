@@ -37,7 +37,7 @@ void AppConfig::init(void)
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);
  if(!confFile.exists())
-  critical_error("File "+configFileName+" not found.");
+  criticalError("File "+configFileName+" not found.");
 
  // Создается указатель на объект хранилища конфигурации
  conf=new QSettings(configFileName, QSettings::IniFormat);
@@ -68,7 +68,7 @@ QString AppConfig::get_parameter(QString name)
  if(conf->contains(name))
   return conf->value(name).toString();
  else
-  critical_error("In config not found parameter " + name);
+  criticalError("In config not found parameter " + name);
 
  return QString();
 }
@@ -211,7 +211,7 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
  if(state=="0" || state=="1")
   conf->setValue("addnewrecord_expand_info",state);
  else
-  critical_error("Set unavailable value for addnewrecord_expand_info "+state);
+  criticalError("Set unavailable value for addnewrecord_expand_info "+state);
 }
 
 
@@ -406,7 +406,7 @@ void AppConfig::set_howpassrequest(QString mode)
  if(mode=="atClickOnCryptBranch" || mode=="atStartProgram")
   conf->setValue("howpassrequest", mode);
  else
-  critical_error("Set unavailable value for howpassrequest "+mode);
+  criticalError("Set unavailable value for howpassrequest "+mode);
 }
 
 
