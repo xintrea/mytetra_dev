@@ -92,6 +92,31 @@ void DiskHelper::removeFileToTrash(QString fileNameFrom)
 }
 
 
+// Копирование файла в корзину
+// Функция возвращает полное имя файла копии
+QString DiskHelper::copyFileToTrash(QString fileNameFrom)
+{
+  // Получение короткого имени исходного файла
+  QFileInfo fileInfo(fileNameFrom);
+  QString fileNameFromShort=fileInfo.fileName();
+
+  // Получение имени файла для сохранения в корзине
+  QString fileNameToShort=get_unical_id()+"_"+fileNameFromShort;
+  QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
+
+  qDebug() << "Copy file from " << fileNameFrom << " to " << fileNameTo;
+
+  // Файл копируется в корзину
+  if( QFile::copy(fileNameFrom, fileNameTo)==true )
+    trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  else
+    criticalError("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
+
+  QFileInfo fileInfoTo(fileNameTo);
+  return fileInfoTo.absoluteFilePath();
+}
+
+
 // Создание временной директории
 QString DiskHelper::createTempDirectory(void)
 {

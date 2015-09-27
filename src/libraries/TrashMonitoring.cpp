@@ -95,7 +95,10 @@ void TrashMonitoring::update(void)
  // суммарный размер файлов превышает предельно допустимый размер корзины
  while(filesTable.size() > mytetraConfig.get_trashmaxfilecount() ||
        dirSize > mytetraConfig.get_trashsize()*1000000)
-  removeOldesFile();
+   if(filesTable.size()==1) // Оставляется последний файл, какого бы размера он не был
+     break;
+   else
+    removeOldesFile();
 }
 
 

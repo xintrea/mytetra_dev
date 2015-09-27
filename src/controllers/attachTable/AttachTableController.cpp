@@ -13,6 +13,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/CryptService.h"
+#include "libraries/DiskHelper.h"
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"
@@ -421,6 +422,7 @@ void AttachTableController::onDeleteAttach(void)
 }
 
 
+// Открытие аттача (аттачей) на просмотр
 void AttachTableController::onOpenAttach(void)
 {
   AttachTableData *attachTableData=getAttachTableData();
@@ -430,6 +432,14 @@ void AttachTableController::onOpenAttach(void)
   foreach( QString id, selectedId )
   {
     QString fullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
+
+    // Если запись зашифрована и открывается файл (не линк), аттач надо скопировать в директорию корзины и расшифровать
+    if( attachTableData->isRecordCrypt() && attachTableData->getAttach(id).getField("type")=="file")
+    {
+      fullFileName=DiskHelper::copyFileToTrash(fullFileName); // Копирование
+      CryptService::decryptFile(globalParameters.getCryptKey(), fullFileName); // Расшифровка
+    }
+
     qDebug() << "Open file: "+fullFileName;
 
     // QUrl urlFile;
