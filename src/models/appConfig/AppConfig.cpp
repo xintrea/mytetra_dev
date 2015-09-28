@@ -1455,7 +1455,7 @@ QStringList AppConfig::get_parameter_table_26(bool withEndSignature)
  // Старые параметры, аналогичные версии 25
  table << get_parameter_table_25(false);
 
- table << "enableDecryptFileToTrashDirectory" << "bool" << "true";
+ table << "enableDecryptFileToTrashDirectory" << "bool" << "false";
 
  if(withEndSignature)
   table << "0" << "0" << "0";

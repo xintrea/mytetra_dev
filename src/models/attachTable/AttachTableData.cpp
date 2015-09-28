@@ -40,7 +40,7 @@ AttachTableData::AttachTableData()
 
 AttachTableData::~AttachTableData()
 {
-  attachTable.clear();
+
 }
 
 

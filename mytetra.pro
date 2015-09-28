@@ -6,8 +6,8 @@ TARGET_OS=ANY_OS
 
 
 # Flags for profile application
-# QMAKE_CXXFLAGS_DEBUG += -pg
-# QMAKE_LFLAGS_DEBUG += -pg
+QMAKE_CXXFLAGS_DEBUG += -pg
+QMAKE_LFLAGS_DEBUG += -pg
 
 # Create define variable in C++ code
 DEFINES+="ANY_OS=1"

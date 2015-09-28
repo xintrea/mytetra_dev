@@ -443,7 +443,7 @@ void AttachTableController::onOpenAttach(void)
       }
       else
       {
-        showMessageBox(tr("Can't preview attach file %1.\n\nUse \"Save As...\" button or enable decrypt to temporary file in settings.").arg(fullFileName));
+        showMessageBox(tr("Can't preview encrypted attach file %1.\n\nUse \"Save As...\" button or enable decrypt to temporary file in settings.").arg(fullFileName));
         continue;
       }
     }
