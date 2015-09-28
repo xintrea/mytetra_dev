@@ -754,6 +754,18 @@ void AppConfig::setAttachSaveAsDir(QString dir)
 }
 
 
+// Разрешать ли для просмотра расшифровывать зашифрованные файлы в директорию корзины MyTetra
+bool AppConfig::getEnableDecryptFileToTrashDirectory(void)
+{
+  return conf->value("enableDecryptFileToTrashDirectory").toBool();
+}
+
+void AppConfig::setEnableDecryptFileToTrashDirectory(bool state)
+{
+  conf->setValue("enableDecryptFileToTrashDirectory", state);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -868,7 +880,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 25
+ // Последняя версия на данный момент - 26
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -917,6 +929,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(23, 24, get_parameter_table_23(), get_parameter_table_24());
  if(fromVersion<=24)
   updater.update_version(24, 25, get_parameter_table_24(), get_parameter_table_25());
+ if(fromVersion<=25)
+  updater.update_version(25, 26, get_parameter_table_25(), get_parameter_table_26());
 }
 
 
@@ -1424,6 +1438,24 @@ QStringList AppConfig::get_parameter_table_25(bool withEndSignature)
 
  table << "attachAppendDir" << "QString" << "";
  table << "attachSaveAsDir" << "QString" << "";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_26(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 25
+ table << get_parameter_table_25(false);
+
+ table << "enableDecryptFileToTrashDirectory" << "bool" << "true";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
