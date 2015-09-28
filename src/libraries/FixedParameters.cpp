@@ -9,6 +9,36 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent);
 
+  recordFieldAvailableList=(QStringList() << "id" \
+                                          << "name" \
+                                          << "author" \
+                                          << "url" \
+                                          << "tags" \
+                                          << "ctime" \
+                                          << "dir" \
+                                          << "file" \
+                                          << "crypt" \
+                                                            \
+                                          << "hasAttach" \
+                                          << "attachCount");
+
+  recordNaturalFieldAvailableList=(QStringList() << "id" \
+                                                 << "name" \
+                                                 << "author" \
+                                                 << "url" \
+                                                 << "tags" \
+                                                 << "ctime" \
+                                                 << "dir" \
+                                                 << "file" \
+                                                 << "crypt" );
+
+  recordCalculableFieldAvailableList=(QStringList() << "hasAttach" \
+                                                    << "attachCount");
+
+  recordFieldCryptedList=(QStringList() << "name" \
+                                        << "author" \
+                                        << "url" \
+                                        << "tags");
 }
 
 
@@ -18,6 +48,7 @@ FixedParameters::~FixedParameters()
 }
 
 
+/*
 // Перечень всех допустимых полей - натуральных и вычислимых
 QStringList FixedParameters::recordFieldAvailableList(void) const
 {
@@ -59,11 +90,12 @@ QStringList FixedParameters::recordCalculableFieldAvailableList(void) const
   return (QStringList() << "hasAttach" \
                         << "attachCount");
 }
+*/
 
 
 bool FixedParameters::isRecordFieldAvailable(QString name) const
 {
- if(recordFieldAvailableList().contains(name))
+ if(recordFieldAvailableList.contains(name))
   return true;
  else
   return false;
@@ -72,7 +104,7 @@ bool FixedParameters::isRecordFieldAvailable(QString name) const
 
 bool FixedParameters::isRecordFieldNatural(QString name) const
 {
- if(recordNaturalFieldAvailableList().contains(name))
+ if(recordNaturalFieldAvailableList.contains(name))
   return true;
  else
   return false;
@@ -82,7 +114,7 @@ bool FixedParameters::isRecordFieldNatural(QString name) const
 
 bool FixedParameters::isRecordFieldCalculable(QString name) const
 {
- if(recordCalculableFieldAvailableList().contains(name))
+ if(recordCalculableFieldAvailableList.contains(name))
   return true;
  else
   return false;
@@ -121,6 +153,7 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
 }
 
 
+/*
 QStringList FixedParameters::recordFieldCryptedList(void) const
 {
  QStringList names;
@@ -132,3 +165,4 @@ QStringList FixedParameters::recordFieldCryptedList(void) const
 
  return names;
 }
+*/

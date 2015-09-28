@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QStringList>
 
 // Неизменяемые параметры, то есть параметры, которые заданы жестко в текущей версии MyTetra
 
@@ -15,15 +16,15 @@ public:
  FixedParameters(QObject *parent=0);
  virtual ~FixedParameters();
 
- QStringList recordFieldAvailableList(void) const;
- QStringList recordNaturalFieldAvailableList(void) const;
- QStringList recordCalculableFieldAvailableList(void) const;
+ QStringList recordFieldAvailableList;
+ QStringList recordNaturalFieldAvailableList;
+ QStringList recordCalculableFieldAvailableList;
+ QStringList recordFieldCryptedList;
 
  bool isRecordFieldAvailable(QString name) const;
  bool isRecordFieldNatural(QString name) const;
  bool isRecordFieldCalculable(QString name) const;
 
- QStringList recordFieldCryptedList(void) const;
  QMap<QString, QString> recordFieldDescription(QStringList list) const;
 
 signals:

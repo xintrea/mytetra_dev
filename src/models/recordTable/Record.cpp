@@ -82,7 +82,7 @@ QDomElement Record::exportDataToDom(QDomDocument *doc) const
   QDomElement elem=doc->createElement("record");
 
   // Перебираются допустимые имена полей, доступных для сохранения
-  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList();
+  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList;
   int availableFieldListSize=availableFieldList.size();
   for(int j=0; j<availableFieldListSize; ++j)
   {
@@ -189,7 +189,7 @@ QString Record::getNaturalField(QString name) const
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
-  if(fixedParameters.recordFieldCryptedList().contains(name))
+  if(fixedParameters.recordFieldCryptedList.contains(name))
     if(fieldList.contains("crypt"))
       if(fieldList["crypt"]=="1")
         if(globalParameters.getCryptKey().length()==0)
@@ -207,7 +207,7 @@ QString Record::getNaturalField(QString name) const
     // и в наборе полей есть поле crypt
     // и поле crypt установлено в 1
     // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-    if(fixedParameters.recordFieldCryptedList().contains(name))
+    if(fixedParameters.recordFieldCryptedList.contains(name))
       if(fieldList.contains("crypt"))
         if(fieldList["crypt"]=="1")
           if(fieldList[name].length()>0)
@@ -262,7 +262,7 @@ void Record::setField(QString name, QString value)
   // и в наборе полей есть поле crypt
   // и поле crypt установлено в 1
   // и поле не пустое (пустые данные ненужно шифровать)
-  if(fixedParameters.recordFieldCryptedList().contains(name))
+  if(fixedParameters.recordFieldCryptedList.contains(name))
     if(fieldList.contains("crypt"))
       if(fieldList["crypt"]=="1")
         if(value.length()>0)
@@ -322,7 +322,7 @@ void Record::setNaturalFieldSource(QString name, QString value)
 QMap<QString, QString> Record::getNaturalFieldList() const
 {
   // Список имен инфополей
-  QStringList fieldNames=fixedParameters.recordNaturalFieldAvailableList();
+  QStringList fieldNames=fixedParameters.recordNaturalFieldAvailableList;
 
   QMap<QString, QString> resultFieldList;
 
@@ -351,11 +351,11 @@ QMap<QString, QString> Record::getNaturalFieldList() const
         // Присутствует шифрование
 
         // Если поле не подлежит шифрованию (не все поля в зашифрованной ветке шифруются. Например, не шифруется ID записи)
-        if(fixedParameters.recordFieldCryptedList().contains(currName)==false)
+        if(fixedParameters.recordFieldCryptedList.contains(currName)==false)
           result=fieldList[currName]; // Напрямую значение поля
         else
           if(globalParameters.getCryptKey().length()>0 &&
-             fixedParameters.recordFieldCryptedList().contains(currName))
+             fixedParameters.recordFieldCryptedList.contains(currName))
             result=CryptService::decryptString(globalParameters.getCryptKey(), fieldList[currName]); // Расшифровывается значение поля
       }
 
@@ -604,7 +604,7 @@ void Record::switchToEncryptFields(void)
   // В момент, когда поле переустанавливается, оно получит зашифрованное значение так как у записи установлен флаг шифрования
 
   // Выбираются поля, разрешенные для шифрования
-  foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
+  foreach(QString fieldName, fixedParameters.recordFieldCryptedList)
   {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое
@@ -624,7 +624,7 @@ void Record::switchToDecryptFields(void)
     return;
 
   // Выбираются поля, разрешенные для шифрования
-  foreach(QString fieldName, fixedParameters.recordFieldCryptedList())
+  foreach(QString fieldName, fixedParameters.recordFieldCryptedList)
   {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое

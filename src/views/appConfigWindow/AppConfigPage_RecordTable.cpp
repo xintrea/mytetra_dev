@@ -19,7 +19,7 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
 {
   qDebug() << "Create record table config page";
 
-  QStringList allFieldNames=fixedParameters.recordFieldAvailableList();
+  QStringList allFieldNames=fixedParameters.recordFieldAvailableList;
   QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( allFieldNames );
   QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
