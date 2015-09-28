@@ -14,7 +14,7 @@ AttachTableModel::AttachTableModel(QObject *parent) : QAbstractTableModel(parent
 
 AttachTableModel::~AttachTableModel()
 {
-  delete table;
+  // delete table; // Закомментировано - удалять здесь table нельзя, так как table существует в рамках коллекции таблиц конечных записей
 }
 
 

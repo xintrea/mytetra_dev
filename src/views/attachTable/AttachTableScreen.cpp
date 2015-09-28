@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "main.h"
 
 #include "AttachTableScreen.h"

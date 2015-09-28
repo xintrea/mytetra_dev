@@ -64,6 +64,8 @@ MainWindow::MainWindow() : QMainWindow()
 
 MainWindow::~MainWindow()
 {
+  qDebug() << "Destruct MainWindow, this: " << this;
+
   saveAllState();
   
   delete treeScreen;

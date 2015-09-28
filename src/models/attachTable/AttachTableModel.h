@@ -50,7 +50,7 @@ public:
   */
 
 private:
-  AttachTableData *table;
+  AttachTableData *table; // С какими данными работает модель
   QVariant getCell(int row, int column) const;
 
 };
