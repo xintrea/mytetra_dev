@@ -436,8 +436,16 @@ void AttachTableController::onOpenAttach(void)
     // Если запись зашифрована и открывается файл (не линк), аттач надо скопировать в директорию корзины и расшифровать
     if( attachTableData->isRecordCrypt() && attachTableData->getAttach(id).getField("type")=="file")
     {
-      fullFileName=DiskHelper::copyFileToTrash(fullFileName); // Копирование
-      CryptService::decryptFile(globalParameters.getCryptKey(), fullFileName); // Расшифровка
+      if(mytetraConfig.getEnableDecryptFileToTrashDirectory())
+      {
+        fullFileName=DiskHelper::copyFileToTrash(fullFileName); // Копирование
+        CryptService::decryptFile(globalParameters.getCryptKey(), fullFileName); // Расшифровка
+      }
+      else
+      {
+        showMessageBox(tr("Can't preview attach file %1.\n\nUse \"Save As...\" button or enable decrypt to temporary file in settings.").arg(fullFileName));
+        continue;
+      }
     }
 
     qDebug() << "Open file: "+fullFileName;
