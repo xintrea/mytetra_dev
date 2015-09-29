@@ -295,7 +295,7 @@ void KnowTreeModel::save()
  // Добавление корневого элемента в DOM документ
  doc.appendChild(rootelement);
 
- // Рспечатка на экран, что будет выводиться в XML файл
+ // Распечатка на экран, что будет выводиться в XML файл
  // qDebug() << "Doc document for write " << doc.toString();
 
  // Перенос текущего файла дерева в корзину
