@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  101
+#define APPLICATION_RELEASE_MICROVERSION  162
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -47,22 +47,13 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-void logprint(char *lpszText, ...);
-void critical_error(QString message);
-void info_window(QString i);
-QString xmlnode_to_string(QDomNode xmlData);
-
-void remove_directory_to_trash(QString nameDirFrom);
-void remove_file_to_trash(QString fileNameFrom);
-QString create_temp_directory(void);
-bool remove_directory(const QString &dirName);
-bool copy_directory(const QString &fromName, const QString &toName);
-QMap<QString, QByteArray> get_files_from_directory(QString dirName, QString fileMask="*");
-bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList);
+void logPrint(char *lpszText, ...);
+void criticalError(QString message);
+QString xmlNodeToString(QDomNode xmlData);
 
 void print_object_tree(void);
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2);
-void insert_action_as_button(QToolBar *tools_line, QAction *action);
+void insertActionAsButton(QToolBar *tools_line, QAction *action);
 int imax(int x1, int x2);
 int imin(int x1, int x2);
 void myMessageOutput(QtMsgType type, const char *msg);
@@ -71,21 +62,15 @@ QString get_unical_id(void);
 int get_milli_count(void);
 void init_random(void);
 
-void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec);
-void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba);
-QString encryptString(QByteArray key, QString line);
-QString decryptString(QByteArray key, QString line);
-QByteArray encryptStringToByteArray(QByteArray key, QString line);
-QString decryptStringFromByteArray(QByteArray key, QByteArray data);
-void encryptFile(QByteArray key, QString fileName);
-void decryptFile(QByteArray key, QString fileName);
-void encDecFileSmart(QByteArray key, QString fileName, int mode);
-
 void setKineticScrollArea(QAbstractItemView *object);
 
 int getScreenSizeX(void);
 int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
+
+
+void showMessageBox(QString message); // Выдача на экран простого окна с сообщением
+
 
 // template <class X> inline X *find_object(QString n);
 
@@ -122,6 +107,15 @@ template <class X> inline X *find_object(QString objectName)
    // Если объекта с указанным именем не найдено
    // print_object_tree();
    printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
+
+   print_object_tree();
+
+   /*
+   QList<QWidget *> widgets = pMainWindow->findChildren<QWidget *>();
+   foreach (QWidget* b, widgets)
+     printf("Obj: %s\n", qPrintable( b->objectName() ) );
+   */
+
    exit(1);
    return NULL;
   }

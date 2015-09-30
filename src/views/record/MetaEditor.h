@@ -10,7 +10,8 @@
 class QHBoxLayout;
 class QGridLayout;
 class QScrollArea;
-
+class QSplitter;
+class AttachTableScreen;
 
 class MetaEditor: public Editor
 {
@@ -37,6 +38,11 @@ public:
  void setUrl     (QString url);
  void setTags    (QString tags);
 
+ static void toAttachCallback(void);
+
+ void switchToEditorLayout(void);
+ void switchToAttachLayout(void);
+
 private:
  void setupLabels(void);
  void setupUI(void);
@@ -59,8 +65,17 @@ private:
  QStringList recordTagsTextList;
  QList<QLabel*> recordTagsLabels;
 
- // Группировалка всех инфополей и редактора
- QGridLayout *metaEditorAssemblyLayout;
+ QSplitter *editorAndFileTableSplitter;
+
+ // Виджет слоя прикрепляемых файлов
+ AttachTableScreen *attachTableScreen;
+
+ // Виджет слоя редактирования текста
+ QGridLayout *editorMainLayer;
+ QWidget *editorMainScreen;
+
+ // Группировалка виджетов всех слоев (слоя редактирования и слоя прикрепляемых файлов)
+ QVBoxLayout *metaEditorJoinLayer;
 
 };
 

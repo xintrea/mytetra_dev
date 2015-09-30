@@ -9,7 +9,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/FixedParameters.h"
 #include "models/recordTable/RecordTableModel.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -19,7 +19,7 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
 {
   qDebug() << "Create record table config page";
 
-  QStringList allFieldNames=fixedParameters.recordFieldAvailableList();
+  QStringList allFieldNames=fixedParameters.recordFieldAvailableList;
   QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( allFieldNames );
   QStringList showFields=mytetraConfig.getRecordTableShowFields();
 

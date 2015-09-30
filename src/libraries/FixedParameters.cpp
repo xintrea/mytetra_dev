@@ -9,6 +9,36 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent);
 
+  recordFieldAvailableList=(QStringList() << "id" \
+                                          << "name" \
+                                          << "author" \
+                                          << "url" \
+                                          << "tags" \
+                                          << "ctime" \
+                                          << "dir" \
+                                          << "file" \
+                                          << "crypt" \
+                                                            \
+                                          << "hasAttach" \
+                                          << "attachCount");
+
+  recordNaturalFieldAvailableList=(QStringList() << "id" \
+                                                 << "name" \
+                                                 << "author" \
+                                                 << "url" \
+                                                 << "tags" \
+                                                 << "ctime" \
+                                                 << "dir" \
+                                                 << "file" \
+                                                 << "crypt" );
+
+  recordCalculableFieldAvailableList=(QStringList() << "hasAttach" \
+                                                    << "attachCount");
+
+  recordFieldCryptedList=(QStringList() << "name" \
+                                        << "author" \
+                                        << "url" \
+                                        << "tags");
 }
 
 
@@ -18,27 +48,73 @@ FixedParameters::~FixedParameters()
 }
 
 
+/*
+// Перечень всех допустимых полей - натуральных и вычислимых
 QStringList FixedParameters::recordFieldAvailableList(void) const
 {
- QStringList names;
+  // Для скорости задаются напрямую, не вызывая функции формирования из натурального и вычислимого списка полей
 
- names << "id";
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
- names << "ctime";
- names << "dir";
- names << "file";
- names << "crypt";
-
- return names;
+  return (QStringList() << "id" \
+                        << "name" \
+                        << "author" \
+                        << "url" \
+                        << "tags" \
+                        << "ctime" \
+                        << "dir" \
+                        << "file" \
+                        << "crypt" \
+                        \
+                        << "hasAttach" \
+                        << "attachCount");
 }
+
+
+// Перечень всех натуральных полей - то есть тех, которые напрямую хранятся в XML тегах
+QStringList FixedParameters::recordNaturalFieldAvailableList(void) const
+{
+  return (QStringList() << "id" \
+                        << "name" \
+                        << "author" \
+                        << "url" \
+                        << "tags" \
+                        << "ctime" \
+                        << "dir" \
+                        << "file" \
+                        << "crypt" );
+}
+
+
+// Перечень всех вычислимых полей - такие поля нигде не сохраняются
+QStringList FixedParameters::recordCalculableFieldAvailableList(void) const
+{
+  return (QStringList() << "hasAttach" \
+                        << "attachCount");
+}
+*/
 
 
 bool FixedParameters::isRecordFieldAvailable(QString name) const
 {
- if(recordFieldAvailableList().contains(name))
+ if(recordFieldAvailableList.contains(name))
+  return true;
+ else
+  return false;
+}
+
+
+bool FixedParameters::isRecordFieldNatural(QString name) const
+{
+ if(recordNaturalFieldAvailableList.contains(name))
+  return true;
+ else
+  return false;
+}
+
+
+
+bool FixedParameters::isRecordFieldCalculable(QString name) const
+{
+ if(recordCalculableFieldAvailableList.contains(name))
   return true;
  else
   return false;
@@ -59,6 +135,9 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
  names["dir"]=tr("Directory name");
  names["file"]=tr("File name");
  names["crypt"]=tr("Is crypt");
+ names["hasAttach"]=tr("Has attachs");
+ names["attachCount"]=tr("Attachs count");
+
 
  // Удаляются строчки, которых нет в переданном списке
  QMutableMapIterator<QString, QString> iterator(names);
@@ -74,6 +153,7 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
 }
 
 
+/*
 QStringList FixedParameters::recordFieldCryptedList(void) const
 {
  QStringList names;
@@ -85,3 +165,4 @@ QStringList FixedParameters::recordFieldCryptedList(void) const
 
  return names;
 }
+*/

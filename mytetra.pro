@@ -146,8 +146,19 @@ HEADERS = src/main.h \
     src/libraries/FixedParameters.h \
     src/libraries/WindowSwitcher.h \
     src/libraries/wyedit/EditorShowText.h \
-    src/controllers/recordTable/recordTableController.h \
-    src/views/recordTable/RecordTablePrint.h
+    src/views/recordTable/RecordTablePrint.h \
+    src/models/recordTable/Record.h \
+    src/models/attachTable/Attach.h \
+    src/models/attachTable/AttachTableData.h \
+    src/models/attachTable/AttachTableModel.h \
+    src/views/attachTable/AttachTableView.h \
+    src/views/attachTable/AttachTableScreen.h \
+    src/controllers/attachTable/AttachTableController.h \
+    src/controllers/recordTable/RecordTableController.h \
+    src/views/dialog/ReduceMessageBox.h \
+    src/views/dialog/OverTextToolButton.h \
+    src/libraries/crypt/CryptService.h \
+    src/libraries/DiskHelper.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -174,7 +185,7 @@ HEADERS+=\
     src/libraries/crypt/Pbkdf2Qt.h \
     src/libraries/crypt/RC5Simple.h \
     src/libraries/crypt/Password.h \
-    src/libraries/MtComboBox.h \ 
+    src/libraries/MtComboBox.h \
     src/libraries/MtTableWidget.h \
     src/views/tree/KnowTreeView.h \
     src/libraries/MtStyledItemDelegate.h
@@ -229,8 +240,19 @@ SOURCES = src/main.cpp \
     src/libraries/FixedParameters.cpp \
     src/libraries/WindowSwitcher.cpp \
     src/libraries/wyedit/EditorShowText.cpp \
-    src/controllers/recordTable/recordTableController.cpp \
-    src/views/recordTable/RecordTablePrint.cpp
+    src/views/recordTable/RecordTablePrint.cpp \
+    src/models/recordTable/Record.cpp \
+    src/models/attachTable/Attach.cpp \
+    src/models/attachTable/AttachTableData.cpp \
+    src/models/attachTable/AttachTableModel.cpp \
+    src/views/attachTable/AttachTableView.cpp \
+    src/views/attachTable/AttachTableScreen.cpp \
+    src/controllers/recordTable/RecordTableController.cpp \
+    src/controllers/attachTable/AttachTableController.cpp \
+    src/views/dialog/ReduceMessageBox.cpp \
+    src/views/dialog/OverTextToolButton.cpp \
+    src/libraries/crypt/CryptService.cpp \
+    src/libraries/DiskHelper.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

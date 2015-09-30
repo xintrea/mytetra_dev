@@ -37,7 +37,7 @@ void AppConfig::init(void)
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);
  if(!confFile.exists())
-  critical_error("File "+configFileName+" not found.");
+  criticalError("File "+configFileName+" not found.");
 
  // Создается указатель на объект хранилища конфигурации
  conf=new QSettings(configFileName, QSettings::IniFormat);
@@ -68,7 +68,7 @@ QString AppConfig::get_parameter(QString name)
  if(conf->contains(name))
   return conf->value(name).toString();
  else
-  critical_error("In config not found parameter " + name);
+  criticalError("In config not found parameter " + name);
 
  return QString();
 }
@@ -211,7 +211,7 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
  if(state=="0" || state=="1")
   conf->setValue("addnewrecord_expand_info",state);
  else
-  critical_error("Set unavailable value for addnewrecord_expand_info "+state);
+  criticalError("Set unavailable value for addnewrecord_expand_info "+state);
 }
 
 
@@ -406,7 +406,7 @@ void AppConfig::set_howpassrequest(QString mode)
  if(mode=="atClickOnCryptBranch" || mode=="atStartProgram")
   conf->setValue("howpassrequest", mode);
  else
-  critical_error("Set unavailable value for howpassrequest "+mode);
+  criticalError("Set unavailable value for howpassrequest "+mode);
 }
 
 
@@ -730,6 +730,42 @@ void AppConfig::setCustomDateTimeFormat(QString format)
 }
 
 
+// Путь на диске по которому пользователь открывал файлы чтобы приаттачить их к записи
+QString AppConfig::getAttachAppendDir(void)
+{
+  return get_parameter("attachAppendDir");
+}
+
+void AppConfig::setAttachAppendDir(QString dir)
+{
+  conf->setValue("attachAppendDir", dir);
+}
+
+
+// Путь на диске по которому пользователь сохранял (Сохранить как...)приаттаченные файлы
+QString AppConfig::getAttachSaveAsDir(void)
+{
+  return get_parameter("attachSaveAsDir");
+}
+
+void AppConfig::setAttachSaveAsDir(QString dir)
+{
+  conf->setValue("attachSaveAsDir", dir);
+}
+
+
+// Разрешать ли для просмотра расшифровывать зашифрованные файлы в директорию корзины MyTetra
+bool AppConfig::getEnableDecryptFileToTrashDirectory(void)
+{
+  return conf->value("enableDecryptFileToTrashDirectory").toBool();
+}
+
+void AppConfig::setEnableDecryptFileToTrashDirectory(bool state)
+{
+  conf->setValue("enableDecryptFileToTrashDirectory", state);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -844,7 +880,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 24
+ // Последняя версия на данный момент - 26
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -891,6 +927,10 @@ void AppConfig::update_version_process(void)
   updater.update_version(22, 23, get_parameter_table_22(), get_parameter_table_23());
  if(fromVersion<=23)
   updater.update_version(23, 24, get_parameter_table_23(), get_parameter_table_24());
+ if(fromVersion<=24)
+  updater.update_version(24, 25, get_parameter_table_24(), get_parameter_table_25());
+ if(fromVersion<=25)
+  updater.update_version(25, 26, get_parameter_table_25(), get_parameter_table_26());
 }
 
 
@@ -1379,6 +1419,43 @@ QStringList AppConfig::get_parameter_table_24(bool withEndSignature)
 
  table << "enableCustomDateTimeFormat" << "bool" << "false";
  table << "customDateTimeFormat" << "QString" << "";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_25(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 24
+ table << get_parameter_table_24(false);
+
+ table << "attachAppendDir" << "QString" << "";
+ table << "attachSaveAsDir" << "QString" << "";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_26(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 25
+ table << get_parameter_table_25(false);
+
+ table << "enableDecryptFileToTrashDirectory" << "bool" << "false";
 
  if(withEndSignature)
   table << "0" << "0" << "0";

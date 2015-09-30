@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QTextDocumentFragment>
 #include <QDir>
+#include <QKeyEvent>
 
 #include "AddNewRecord.h"
 #include "main.h"
@@ -13,6 +14,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/wyedit/Editor.h"
+#include "libraries/DiskHelper.h"
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
@@ -28,6 +30,8 @@ AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(paren
  setupUI();
  setupSignals();
  assembly();
+
+ setupEventFilter();
 }
 
 AddNewRecord::~AddNewRecord()
@@ -45,7 +49,7 @@ void AddNewRecord::setupUI(void)
 
  // Редактор текста записи
  recordTextEditor=new Editor();
- recordTextEditor->setDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text") );
+ recordTextEditor->setDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
  recordTextEditor->initEnableAssembly(true);
  recordTextEditor->initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
  recordTextEditor->initEnableRandomSeed(false);
@@ -93,6 +97,35 @@ void AddNewRecord::assembly(void)
 }
 
 
+void AddNewRecord::setupEventFilter(void)
+{
+  // Для области редактирования задается eventFilter (используется для отлова нажатия на ESC)
+  recordTextEditor->installEventFilter(this);
+}
+
+
+bool AddNewRecord::eventFilter(QObject *object, QEvent *event)
+{
+  qDebug() << "Editor::eventFilter()";
+
+  // Отслеживание нажатия ESC в области редактирования текста
+  if (object == recordTextEditor)
+  {
+    if(event->type() == QEvent::KeyPress)
+    {
+      QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+      if (keyEvent->key() == Qt::Key_Escape)
+      {
+        // qDebug() << "Press ESC key";
+        close();
+        return true;
+      }
+    }
+  }
+  return true;
+}
+
+
 void AddNewRecord::okClick(void)
 {
  QString message="";
@@ -119,7 +152,7 @@ void AddNewRecord::okClick(void)
   }
 
  // Картинки сохраняются
- imagesDirName=create_temp_directory();
+ imagesDirName=DiskHelper::createTempDirectory();
  recordTextEditor->set_work_directory(imagesDirName);
  recordTextEditor->save_textarea_images(Editor::SAVE_IMAGES_SIMPLE);
 
@@ -131,18 +164,11 @@ QString AddNewRecord::getImagesDirectory(void)
 {
  if(imagesDirName.length()==0)
   {
-   critical_error("In add new record function can not generate temp directory with saved images.");
+   criticalError("In add new record function can not generate temp directory with saved images.");
    return "";
   }
 
  return imagesDirName;
-}
-
-
-void AddNewRecord::deleteImagesDirectory(void)
-{
- if(imagesDirName.length())
-  remove_directory(imagesDirName);
 }
 
 

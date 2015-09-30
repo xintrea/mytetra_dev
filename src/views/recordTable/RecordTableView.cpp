@@ -17,7 +17,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/WindowSwitcher.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;
@@ -55,6 +55,8 @@ void RecordTableView::setController(RecordTableController *pController)
 // Пришлось ввести метод init, так как инициализация невозможна без
 // созданных в parent QAction, а создать в parent QAction можно только
 // при наличии ссылки на данный объект
+// Причина в том, что одни и те же QAction используются в двух местах -
+// в RecordTableScreen и здесь в контекстном меню
 void RecordTableView::init(void)
 {
  qDebug() << "RecordTableView::init()";
@@ -68,6 +70,9 @@ void RecordTableView::init(void)
 
  // Растягивание последней секции до размеров виджета
  horizontalHeader()->setStretchLastSection(true);
+
+ // Заголовки не должны выглядеть нажатыми
+ horizontalHeader()->setHighlightSections(false);
 
  // Горизонтальные заголовки делаются перемещяемыми
  #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
@@ -288,7 +293,7 @@ int RecordTableView::getFirstSelectionPos(void)
  if(selectItems.isEmpty())
   return -1; // Если ничего не выделено
  else
-  return (selectItems.at(0)).row(); // Индекс первого выделенного элемента
+  return (selectItems.at(0)).row(); // Номер первого выделенного элемента
 }
 
 

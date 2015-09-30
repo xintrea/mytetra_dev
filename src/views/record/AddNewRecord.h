@@ -28,7 +28,6 @@ public:
 
  QString getField(QString name);
  QString getImagesDirectory(void);
- void deleteImagesDirectory(void);
 
 private slots:
 
@@ -49,6 +48,10 @@ private:
  void setupUI(void);
  void setupSignals(void);
  void assembly(void);
+
+ void setupEventFilter(void);
+
+ virtual bool eventFilter(QObject *object, QEvent *event);
 };
 
 #endif // __ADDNEWRECORD_H__

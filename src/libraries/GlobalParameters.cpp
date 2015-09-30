@@ -180,7 +180,7 @@ void GlobalParameters::createStandartProgramFiles(void)
   }
  else
   {
-   critical_error("Can not created directory \""+dataDirName+"\" in user directory \""+QDir::homePath()+"\"");
+   criticalError("Can not created directory \""+dataDirName+"\" in user directory \""+QDir::homePath()+"\"");
    exit(0);
   }
 }
@@ -314,7 +314,7 @@ bool GlobalParameters::findWorkDirectory(void)
     return true;
    else
     {
-     critical_error("Can not set work directory as '"+workDirectory+"'. System problem.");
+     criticalError("Can not set work directory as '"+workDirectory+"'. System problem.");
      return false;
     }
   }

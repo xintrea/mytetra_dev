@@ -1,6 +1,7 @@
 #include <QBoxLayout>
 #include <QGridLayout>
 #include <QScrollArea>
+#include <QSplitter>
 #include <QtDebug>
 
 #include "main.h"
@@ -11,6 +12,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/attachTable/AttachTableScreen.h"
 
 
 extern GlobalParameters globalParameters;
@@ -19,26 +21,29 @@ extern AppConfig mytetraConfig;
 
 MetaEditor::MetaEditor(void) : Editor()
 {
- Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
+  Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
 
- Editor::initEnableAssembly(false);
- Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
- Editor::initEnableRandomSeed(false);
+  Editor::initEnableAssembly(false);
+  Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
+  Editor::initEnableRandomSeed(false);
 
- if(mytetraConfig.getInterfaceMode()=="desktop")
-   Editor::init(Editor::WYEDIT_DESKTOP_MODE);
- else if(mytetraConfig.getInterfaceMode()=="mobile")
-   Editor::init(Editor::WYEDIT_MOBILE_MODE);
- else
-   critical_error("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+    Editor::init(Editor::WYEDIT_DESKTOP_MODE);
+  else if(mytetraConfig.getInterfaceMode()=="mobile")
+    Editor::init(Editor::WYEDIT_MOBILE_MODE);
+  else
+    criticalError("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
- setupLabels();
- setupUI();
- metaAssembly();
+  setupLabels();
+  setupUI();
+  metaAssembly();
 
- setupSignals();
+  setupSignals();
 
- update_indentline_geometry();
+  // В редакторе устанавливается функция обратного вызова на кнопку Attach
+  set_attach_callback( toAttachCallback );
+
+  update_indentline_geometry();
 }
 
 
@@ -50,8 +55,8 @@ MetaEditor::~MetaEditor(void)
 
 void MetaEditor::setupSignals(void)
 {
- connect(this, SIGNAL(setFindTextSignal(QString)),
-         globalParameters.getFindScreen(), SLOT(setFindText(QString)) );
+  connect(this, SIGNAL(setFindTextSignal(QString)),
+          globalParameters.getFindScreen(), SLOT(setFindText(QString)) );
 
 }
 
@@ -112,7 +117,6 @@ void MetaEditor::setupUI(void)
 
  // QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
  recordTagsContainer = new QWidget();
- // recordTagsContainer->setBackgroundRole(QPalette::Dark); // Чтобы видеть область виджета
  recordTagsContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
  recordTagsContainer->setLayout(recordTagsLayout);
 
@@ -124,48 +128,85 @@ void MetaEditor::setupUI(void)
  recordTagsScrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff ); // Убирается вертикальная полоса прокрутки
  recordTagsScrollArea->setFrameShape(QFrame::NoFrame); // Убирается тонкая линия вокруг QScrollArea
  recordTagsScrollArea->setWidget(recordTagsContainer);
+
+ attachTableScreen=new AttachTableScreen(this);
 }
 
 
 void MetaEditor::metaAssembly(void)
 {
- metaEditorAssemblyLayout=new QGridLayout(this);
- metaEditorAssemblyLayout->setObjectName("metaeditor_assembly_layout");
+  // Сборка виджета редактирования текста (основной виджет)
+  editorMainScreen=new QWidget(this);
+  editorMainLayer=new QGridLayout(editorMainScreen);
 
- metaEditorAssemblyLayout->addLayout(textformatButtonsLayout, 0,0, 1,2);
- metaEditorAssemblyLayout->addWidget(treePath,                1,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordName,              2,0, 1,2);
- metaEditorAssemblyLayout->addWidget(recordAuthor,            3,0, 1,2);
- metaEditorAssemblyLayout->addWidget(textArea,                4,0, 1,2);
+  editorMainLayer->addLayout(textformatButtonsLayout, 0,0, 1,2);
+  editorMainLayer->addWidget(treePath,                1,0, 1,2);
+  editorMainLayer->addWidget(recordName,              2,0, 1,2);
+  editorMainLayer->addWidget(recordAuthor,            3,0, 1,2);
+  editorMainLayer->addWidget(textArea,                4,0, 1,2);
 
- metaEditorAssemblyLayout->addWidget(labelUrl,                5,0);
- metaEditorAssemblyLayout->addWidget(recordUrl,               5,1);
+  editorMainLayer->addWidget(labelUrl,                5,0);
+  editorMainLayer->addWidget(recordUrl,               5,1);
 
- metaEditorAssemblyLayout->addWidget(labelTags,               6,0);
- metaEditorAssemblyLayout->addWidget(recordTagsScrollArea,    6,1); // Было addLayout(recordTagsLayout ...)
+  editorMainLayer->addWidget(labelTags,               6,0);
+  editorMainLayer->addWidget(recordTagsScrollArea,    6,1); // Было addLayout(recordTagsLayout ...)
 
- metaEditorAssemblyLayout->setColumnStretch(1,1);
+  editorMainLayer->setColumnStretch(1,1);
 
- // Полученый виджет устанавливается для текущего окна
- setLayout(metaEditorAssemblyLayout);
+  editorMainLayer->setContentsMargins(0,0,0,0);
 
- // Границы убираются, так как данный объект будет использоваться
- // как виджет
- QLayout *lt;
- lt=layout();
- lt->setContentsMargins(0,2,0,0);
+  editorMainScreen->setLayout(editorMainLayer);
+
+
+  // Сборка виджетов в один слой
+  metaEditorJoinLayer=new QVBoxLayout(this);
+  metaEditorJoinLayer->addWidget(editorMainScreen);
+  metaEditorJoinLayer->addWidget(attachTableScreen);
+
+  this->setLayout(metaEditorJoinLayer);
+
+
+  // Границы убираются, так как данный объект будет использоваться как виджет
+  QLayout *lt;
+  lt=layout();
+  lt->setContentsMargins(0,2,0,0);
+
+  // По-умолчанию отображается слой редатирования
+  switchToEditorLayout();
+}
+
+
+void MetaEditor::switchToEditorLayout(void)
+{
+  attachTableScreen->hide(); // Что бы небыло мерцания, вначале нужно делать сокрытие текущего виджета
+  editorMainScreen->show();
+}
+
+
+void MetaEditor::switchToAttachLayout(void)
+{
+  editorMainScreen->hide();
+  attachTableScreen->show();
+}
+
+
+// Статическая функция, обрабатывает клик в редакторе по кнопке переключения на список прикрепляемых файлов
+void MetaEditor::toAttachCallback(void)
+{
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  edView->switchToAttachLayout();
 }
 
 
 // Слот для установки значений инфополей на экране
 void MetaEditor::setField(QString n, QString v)
 {
- if     (n=="name")  setName(v);
- else if(n=="author")setAuthor(v);
- else if(n=="url")   setUrl(v);
- else if(n=="tags")  setTags(v);
- else
-  critical_error("metaeditor.set_field Undestand field "+n+" with value "+v);
+  if     (n=="name")  setName(v);
+  else if(n=="author")setAuthor(v);
+  else if(n=="url")   setUrl(v);
+  else if(n=="tags")  setTags(v);
+  else
+    criticalError("metaeditor.set_field Undestand field "+n+" with value "+v);
 }
 
 
@@ -173,6 +214,7 @@ void MetaEditor::clearAll(void)
 {
  qDebug() << "MetaEditor::clearAll()" ;
 
+ // Очистка для слоя редактора
  setName("");
  setAuthor("");
  setUrl("");
@@ -183,57 +225,63 @@ void MetaEditor::clearAll(void)
  set_file_name("");
 
  clearAllMiscField();
+
+ // Иконка аттачей должна показывать что аттачей нет
+ toAttach->setIcon( iconAttachNotExists );
+
+ // Очистка для слоя приаттаченных файлов
+ attachTableScreen->clear();
 }
 
 
 void MetaEditor::setTreePath(QString path)
 {
- treePath->setVisible(true);
- treePath->setText(tr("<b>Path: </b>")+path);
+  treePath->setVisible(true);
+  treePath->setText(tr("<b>Path: </b>")+path);
 }
 
 
 void MetaEditor::setName(QString name)
 {
- recordName->setVisible(true);
- recordName->setText("<b>"+name+"</b>");
+  recordName->setVisible(true);
+  recordName->setText("<b>"+name+"</b>");
 }
 
 
 void MetaEditor::setAuthor(QString author)
 {
- if(author.length()==0)
- {
-  recordAuthor->setVisible(false);
-  recordAuthor->setText("");
- }
- else
- {
-  recordAuthor->setVisible(true);
-  recordAuthor->setText("<i>"+author+"</i>");
- }
+  if(author.length()==0)
+  {
+    recordAuthor->setVisible(false);
+    recordAuthor->setText("");
+  }
+  else
+  {
+    recordAuthor->setVisible(true);
+    recordAuthor->setText("<i>"+author+"</i>");
+  }
 }
 
 
 void MetaEditor::setUrl(QString url)
 {
- if(url.length()==0)
- {
-  labelUrl->setVisible(false);
-  recordUrl->setVisible(false);
+  if(url.length()==0)
+  {
+    labelUrl->setVisible(false);
+    recordUrl->setVisible(false);
 
-  recordUrl->setText("");
- }
- else
- {
-  labelUrl->setVisible(true);
-  recordUrl->setVisible(true);
-
-  if(url.size()>64)
-   recordUrl->setText("<a href=\""+url+"\">"+url.left(64)+"...</a>");
+    recordUrl->setText("");
+  }
   else
-   recordUrl->setText("<a href=\""+url+"\">"+url+"</a>");
- }
+  {
+    labelUrl->setVisible(true);
+    recordUrl->setVisible(true);
+
+    if(url.size()>64)
+      recordUrl->setText("<a href=\""+url+"\">"+url.left(64)+"...</a>");
+    else
+      recordUrl->setText("<a href=\""+url+"\">"+url+"</a>");
+  }
 }
 
 

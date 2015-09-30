@@ -62,7 +62,7 @@ private slots:
 
 private:
  QToolBar *toolsLine;
- QToolBar *findLine;
+ QToolBar *extraToolsLine;
 
  QLabel *treePathLabel;
  QString treePath;

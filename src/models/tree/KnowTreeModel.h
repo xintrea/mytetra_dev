@@ -85,7 +85,7 @@ private:
     void parseNodeElement(QDomElement n, TreeItem *parent);
 
     // Преобразование Item в DOM модель
-    void parseTreeToDom(QDomElement &xmlData, TreeItem *currItem);
+    void parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem);
     
     // Перемещение ветки вверх или вниз
     QModelIndex moveUpDnBranch(const QModelIndex &index,int direction);

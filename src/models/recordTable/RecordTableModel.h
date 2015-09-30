@@ -12,6 +12,7 @@
 #define RECORD_ID_ROLE  Qt::UserRole+12
 #define SORT_ROLE       Qt::UserRole+13
 
+class Record;
 class RecordTableData;
 
 class RecordTableModel : public QAbstractTableModel
@@ -56,9 +57,7 @@ private:
     // Добавление записей
     int addTableData(int mode,
                      QModelIndex posIndex,
-                     QMap<QString, QString> fields,
-                     QString text,
-                     QMap<QString, QByteArray> files);
+                     Record record);
 
     void onRecordTableConfigChange(void);
 

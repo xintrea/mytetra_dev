@@ -11,44 +11,34 @@
 #include <QByteArray>
 
 class TreeItem;
+class Record;
 
-struct RecordData
-{
-  QMap<QString, QString> fields; // Хранятся пары: Имя поля (атрибута XML) - Значение
-  QMap<QString, QString> files; // Хранятся пары: id - Имя файла
-};
 
-class RecordTableData : public QObject
+class RecordTableData
 {
-    Q_OBJECT
 
 public:
-    RecordTableData(QObject *pobj=0);
+    RecordTableData(void);
     virtual ~RecordTableData();
 
     // Получение текста указанной записи
     QString getText(int pos);
 
-    // QByteArray get_text_as_byte_array(int pos) const;
-
-    // Установка текста указанной записи
-    void setRecordData(int pos,
-                       const QString &text,
-                       const QMap<QString, QByteArray> &files=(QMap<QString, QByteArray>()) );
-
-    bool checkAndFillFileDir(int pos, QString &nameDirFull, QString &nameFileFull);
+    // Установка текста и картинок указанной записи
+    void setTextAndPictures(int pos,
+                            const QString &text,
+                            const QMap<QString, QByteArray> &picturesFiles=(QMap<QString, QByteArray>()) );
     
     // Получение значения указанного поля для указанного элемента
     QString getField(QString name, int pos) const;
 
     // Установка значения указанного поля для указанного элемента
     void setField(QString name, QString value, int pos);
-   
-    // Получение всех инфополей указанного элемента
-    QMap<QString, QString> getFields(int pos) const;
-    
-    // Получение полного образа записи
-    QMap<QString, QString> getRecordExemplar(int pos);
+
+    // Получение образа записи
+    Record getRecordLite(int pos);
+    Record getRecordFat(int pos);
+    Record *getRecord(int pos);
 
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);
@@ -60,16 +50,14 @@ public:
     int size(void) const;
 
     // Функция создания DOM-документа из данных таблицы конечных записей
-    QDomDocument exportDataToDom(void);
+    QDomElement exportDataToDom(QDomDocument *doc) const;
 
     // Получение ссылки на объект ветки, которой принадлежит таблица
     TreeItem *getItem(void);
 
     int insertNewRecord(int mode,
                         int pos,
-                        QMap<QString, QString> fields,
-                        QString text,
-                        QMap<QString, QByteArray> files = (QMap<QString, QByteArray>()) );
+                        Record record);
 
     void editRecordFields(int pos,
                           QMap<QString, QString> editFields);
@@ -100,22 +88,14 @@ public:
 
     void checkAndCreateTextFile(int pos, QString fullFileName);
 
+
 private:
+
     // Функция заполнения таблицы из DOM-документа
     void setupDataFromDom(QDomElement *domModel);
 
-    QMap<QString, QString> getMergeFields(int pos, QMap<QString, QString> fields);
-
-    /*
-    void setRecordDataSmart(int pos,
-                            int mode,
-                            const QString &textString,
-                            const QByteArray &textByteArray,
-                            const QMap<QString, QByteArray> &files);
-    */
-
-    // Таблица с инфополями записей
-    QList< RecordData > tableData;
+    // Таблица записей (в нормальном виде содержит только "легкие" объекты записей)
+    QList< Record > tableData;
 
     // Ссылка на ветку, которой принадлежит данная таблица
     TreeItem *treeItem;
@@ -124,25 +104,5 @@ private:
     int workPos;
 };
 
-/*
-// Тип RecordTableData добавляется в QVariant
-Q_DECLARE_METATYPE(RecordTableData)
-
-// Тип *RecordTableData добавляется в QVariant (называется RecordTableDataPointer)
-typedef RecordTableData* RecordTableDataPointer;
-Q_DECLARE_METATYPE(RecordTableDataPointer)
-
-// Тип для передачи записи в виде QVariant в момент добавления, содержит и режим добавления, и позицию добавления
-struct OneRecordTableData
-{
-  int mode;
-  int pos;
-  QMap<QString, QString> fields;
-  QString text;
-  QMap<QString, QByteArray> files;
-};
-Q_DECLARE_METATYPE(OneRecordTableData)
-*/
 
 #endif /* __RECORDTABLEDATA_H__ */
-

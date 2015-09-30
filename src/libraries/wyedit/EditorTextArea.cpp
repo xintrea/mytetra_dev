@@ -96,10 +96,7 @@ bool EditorTextArea::eventFilter(QObject *o, QEvent *e)
  // Обработка показа или скрытия области прокрутки редактора
  if(o==this->verticalScrollBar())
   if(e->type()==QEvent::Hide || e->type()==QEvent::Show)
-   {
-    // Надо обновить геометрию виджета настройки отступов
-    qobject_cast<Editor *>(parent())->update_indentline_geometry();
-   }
+    emit updateIndentlineGeometrySignal();
 
  return false; // Продолжать оработку событий дальше
 }
@@ -284,7 +281,7 @@ void EditorTextArea::resizeEvent(QResizeEvent *event)
  QTextEdit::resizeEvent(event);
 
  // Надо обновить геометрию виджета настройки отступов
- qobject_cast<Editor *>(parent())->update_indentline_geometry();
+ emit updateIndentlineGeometrySignal();
 }
 
 

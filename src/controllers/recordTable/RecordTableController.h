@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QModelIndexList>
 
-
+class Record;
 class RecordTableView;
 class RecordTableData;
 class RecordTableModel;
@@ -96,16 +96,17 @@ public slots:
   void onPrintClick(void);
 
 protected:
+
+  void initMetaEditorAtClickToRecord(const int pos);
+  void initAttachTableAtClickToRecord(const int pos);
+
   RecordTableView *view;
   RecordTableModel *recordSourceModel; // Класс, расширенный от QAbstractTableModel
   RecordTableProxyModel *recordProxyModel;
 
   void addNewRecord(int mode);
 
-  void addNew(int mode,
-              QMap<QString, QString> fields,
-              QString text,
-              QMap<QString, QByteArray> files=(QMap<QString, QByteArray>()) );
+  void addNew(int mode, Record record);
 
   void editField(int pos,
                  QString name,

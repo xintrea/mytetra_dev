@@ -5,6 +5,7 @@
 #include "TreeItem.h"
 #include "main.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/crypt/CryptService.h"
 
 extern GlobalParameters globalParameters;
 
@@ -92,7 +93,7 @@ QString TreeItem::getField(QString name)
     if(fieldsTable["crypt"]=="1")
      {
       if(globalParameters.getCryptKey().length()>0)
-       itemName=decryptString(globalParameters.getCryptKey(), itemName);
+       itemName=CryptService::decryptString(globalParameters.getCryptKey(), itemName);
       else
        itemName=QString(QObject::tr("Closed"));
      }
@@ -130,7 +131,7 @@ QString TreeItem::getField(QString name)
         {
          if(globalParameters.getCryptKey().length()>0 &&
             value!="")
-          value=decryptString(globalParameters.getCryptKey(), value);
+          value=CryptService::decryptString(globalParameters.getCryptKey(), value);
          else
           value="";
         }
@@ -142,7 +143,7 @@ QString TreeItem::getField(QString name)
   }
  else
   {
-   critical_error("In TreeItem::get_field() unavailable name '"+name+"'");
+   criticalError("In TreeItem::get_field() unavailable name '"+name+"'");
    exit(1);
    return "";
   }
@@ -195,17 +196,17 @@ void TreeItem::setField(QString name, QString value)
         {
          // Если поле непустое, поле зашифровывается
          if(value!="")
-          value=encryptString(globalParameters.getCryptKey(), value);
+          value=CryptService::encryptString(globalParameters.getCryptKey(), value);
         }
        else // Иначе пароль не установлен
-        critical_error("TreeItem::setField() : Can not encrypt field \""+name+"\". Password not setted.");
+        criticalError("TreeItem::setField() : Can not encrypt field \""+name+"\". Password not setted.");
       }
    
    // qDebug() << "Set to item data " << name << value;
    fieldsTable[name]=value;
   } 
  else
-  critical_error("TreeItem::setField() : Set unavailable field \""+ name +"\" to item of branch tree");
+  criticalError("TreeItem::setField() : Set unavailable field \""+ name +"\" to item of branch tree");
 }
 
 
@@ -218,7 +219,7 @@ void TreeItem::setFieldDirect(QString name, QString value)
    fieldsTable[name]=value;
   }
  else
-  critical_error("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
+  criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
 }
 
 
@@ -266,7 +267,7 @@ QString TreeItem::getId()
   return (fieldsTable["id"]);
  else
   {
-   critical_error("In TreeItem data getting field with unavailable name 'id'");
+   criticalError("In TreeItem data getting field with unavailable name 'id'");
    exit(1);
    return "";
   }
@@ -521,7 +522,7 @@ void TreeItem::switchToEncrypt(void)
  fieldsTable["crypt"]="1";
 
  // Шифруется имя ветки
- fieldsTable["name"]=encryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
+ fieldsTable["name"]=CryptService::encryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
 
 
  // Шифрация конечных записей для этой ветки
@@ -548,7 +549,7 @@ void TreeItem::switchToDecrypt(void)
  fieldsTable["crypt"]="0";
 
  // Расшифровка имени ветки
- fieldsTable["name"]=decryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
+ fieldsTable["name"]=CryptService::decryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
 
 
  // Дешифрация конечных записей для этой ветки
@@ -573,9 +574,9 @@ int TreeItem::recordtableGetRowCount(void)
 }
 
 
-QDomDocument TreeItem::recordtableExportDataToDom(void)
+QDomElement TreeItem::recordtableExportDataToDom(QDomDocument *doc)
 {
- return recordsTable.exportDataToDom();
+ return recordsTable.exportDataToDom( doc );
 }
 
 

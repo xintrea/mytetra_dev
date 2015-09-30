@@ -16,11 +16,11 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
  
  // Проверяется, есть ли файл конфигурации
  if(fileinfo.exists()==false)
-  critical_error("Editor config file "+config_file_name+" not found.");
+  criticalError("Editor config file "+config_file_name+" not found.");
  
  // Проверяется, доступен ли файл конфигурации на чтение или запись
  if(fileinfo.isWritable()==false || fileinfo.isReadable()==false)
-  critical_error("Editor config file "+config_file_name+" not writable or readable. Please check file permission.");
+  criticalError("Editor config file "+config_file_name+" not writable or readable. Please check file permission.");
 
  // Полное имя файла конфигурации разбивается на путь и имя файла
  QString file_name=fileinfo.fileName();
@@ -50,7 +50,7 @@ QString EditorConfig::get_parameter(QString name)
  QString t=conf->value(name).toString();
 
  if(t.length()==0)
-  critical_error("In editor config not found parameter " + name);
+  criticalError("In editor config not found parameter " + name);
 
  return t;
 }
@@ -336,6 +336,8 @@ void EditorConfig::update_version_process(void)
   update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
  if(fromVersion<=6)
   update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
+ if(fromVersion<=7)
+  update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
 }
 
 
@@ -485,6 +487,25 @@ QStringList EditorConfig::get_parameter_table_7(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_8(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 6
+ table << get_parameter_table_7(false);
+
+ // В параметр tools_line_1 добавляется "attach"
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -500,7 +521,7 @@ QString EditorConfig::update_version_allowcollision(int versionFrom,
                                                     QString toValue)
 {
 
- critical_error("Error while update config version \nFrom: "+(QString::number(versionFrom))+
+ criticalError("Error while update config version \nFrom: "+(QString::number(versionFrom))+
                 "\nTo: "+(QString::number(versionTo))+
                 "\nName: "+name+
                 "\nFrom type: "+fromType+
@@ -535,6 +556,12 @@ QString EditorConfig::update_version_change_value(int versionFrom,
   {
     if(!result.contains("show_text"))
       result=result+",show_text";
+  }
+
+  if(versionFrom==7 && versionTo==8 && name=="tools_line_1")
+  {
+    if(!result.contains("attach"))
+      result=result+",attach";
   }
 
   return result;
@@ -686,7 +713,7 @@ void EditorConfig::update_version(int versionFrom,
  {
   // Программа завершается
   qDebug() << "Can not compute parameter " << controlList;
-  critical_error("Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo)) );
+  criticalError("Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo)) );
  }
 
  // Конфиг обнуляется

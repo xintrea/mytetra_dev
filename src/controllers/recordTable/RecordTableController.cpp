@@ -2,7 +2,8 @@
 #include <QHeaderView>
 
 #include "main.h"
-#include "recordTableController.h"
+#include "RecordTableController.h"
+#include "controllers/attachTable/AttachTableController.h"
 #include "views/record/MetaEditor.h"
 #include "views/record/AddNewRecord.h"
 #include "views/recordTable/RecordTableView.h"
@@ -12,6 +13,7 @@
 #include "views/tree/TreeScreen.h"
 #include "views/record/RecordInfoFieldsEditor.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
+#include "models/recordTable/Record.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
@@ -21,6 +23,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
+#include "libraries/DiskHelper.h"
 
 
 extern GlobalParameters globalParameters;
@@ -74,8 +77,16 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 
   // Позиция записи в списке
   int pos=sourceIndex.row();
-
   qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
+
+  initMetaEditorAtClickToRecord(pos);
+  initAttachTableAtClickToRecord(pos);
+}
+
+
+void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
+{
+  // Внимание! Наверно, всю эту логику следует перенести в MetaEditor. А здесь только получить данные из таблицы
 
   // Выясняется указатель на объект редактирования текста записи
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
@@ -112,7 +123,8 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
   }
 
   // Перед открытием редактора происходит попытка получения текста записи
-  table->checkAndCreateTextFile(pos, fullFileName);
+  // Этот вызов создаст файл с текстом записи, если он еще не создан (подумать, переделать)
+  table->getText(pos);
 
   // Редактору задаются имя файла и директории
   // И дается команда загрузки файла
@@ -163,6 +175,23 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
     edView->setCursorPosition( walkHistory.getCursorPosition(id) );
     edView->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
+
+  // Обновление иконки аттачей
+  if( table->getRecord(pos)->getAttachTablePointer()->size()==0 )
+    edView->toAttach->setIcon( edView->iconAttachNotExists ); // Если нет приаттаченных файлов
+  else
+    edView->toAttach->setIcon( edView->iconAttachExists ); // Есть приаттаченные файлы
+}
+
+
+void RecordTableController::initAttachTableAtClickToRecord(const int pos)
+{
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  // Устанавливается таблица приаттаченных файлов
+  AttachTableController *attachTableController=find_object<AttachTableController>("attachTableController");
+  attachTableController->setAttachTableData( table->getRecord(pos)->getAttachTablePointer() );
 }
 
 
@@ -243,13 +272,10 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
    {
     QModelIndex index=convertProxyIndexToSourceIndex( itemsForCopy.at(i) );
 
-    // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-    QMap<QString, QString> exemplar=table->getRecordExemplar( index.row() );
+    // Образ записи, включающий все текстовые данные (текст записи, свойства записи, перечень приаттаченных файлов)
+    Record record=table->getRecordFat( index.row() );
 
-    // Имя директории, в которой расположена запись и ее файлы
-    QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-    clipboardRecords->addRecord( exemplar, get_files_from_directory(directory, "*.png") );
+    clipboardRecords->addRecord( record );
    }
 }
 
@@ -285,10 +311,15 @@ void RecordTableController::setSelectionToId(QString id)
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
-  // Номер записи в Source данных
-  int pos=table->getPosById(id);
+  // Если таблица конечных данных задана
+  // (Не задана таблица может быть по причине если ветка зашифрована и введен неверный пароль, или при вводе пароля была нажата отмена)
+  if(table!=NULL)
+  {
+    // Номер записи в Source данных
+    int pos=table->getPosById(id);
 
-  view->setSelectionToPos( convertSourcePosToProxyPos(pos) );
+    view->setSelectionToPos( convertSourcePosToProxyPos(pos) );
+  }
 }
 
 
@@ -438,29 +469,11 @@ void RecordTableController::paste(void)
  clipboardRecords->print();
 
  // Выясняется количество записей в буфере
- int nList=clipboardRecords->getRecordsNum();
+ int nList=clipboardRecords->getCount();
 
  // Пробегаются все записи в буфере
  for(int i=0;i<nList;i++)
-  {
-   QMap<QString, QString> fields;
-
-   // Получение из буфера полей записи с нужным номером
-   fields=clipboardRecords->getRecordFields(i);
-
-   // Запоминается текст записи
-   QString text=fields["text"];
-
-   // Текст записи из списка инфополей удаляется
-   fields.remove("text");
-
-   qDebug() << "RecordTableScreen::paste() : fields " << fields;
-
-   addNew(ADD_NEW_RECORD_TO_END,
-           fields,
-           text,
-           clipboardRecords->getRecordFiles(i));
-  }
+   addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
 
  // Обновление на экране ветки, на которой стоит засветка,
  // так как количество хранимых в ветке записей поменялось
@@ -508,35 +521,36 @@ void RecordTableController::addNewRecord(int mode)
  if(i==QDialog::Rejected)
    return; // Была нажата отмена, ничего ненужно делать
 
-
- // Имя директории, в которой расположены файлы картинок, используемые в тексте
+ // Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
  QString directory=addNewRecordWin.getImagesDirectory();
 
- // Получение набора файлов картинок в виде структуры
- QMap<QString, QByteArray> files=get_files_from_directory(directory, "*.png");
+ // todo: сделать заполнение таблицы приаттаченных файлов
 
- // Временная директория с картинками удаляется
- remove_directory(directory);
+ Record record;
+ record.switchToFat();
+ record.setText( addNewRecordWin.getField("text") );
+ record.setField("name",   addNewRecordWin.getField("name"));
+ record.setField("author", addNewRecordWin.getField("author"));
+ record.setField("url",    addNewRecordWin.getField("url"));
+ record.setField("tags",   addNewRecordWin.getField("tags"));
+ record.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
 
- QMap<QString, QString> fields;
- fields["name"]  =addNewRecordWin.getField("name");
- fields["author"]=addNewRecordWin.getField("author");
- fields["url"]   =addNewRecordWin.getField("url");
- fields["tags"]  =addNewRecordWin.getField("tags");
+ // Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
+ // Запись должна быть создана, потом можно аттачить файлы.
+ // Это ограничение для "ленивого" программинга, но пока так
+ // record.setAttachFiles( DiskHelper::getFilesFromDirectory(directory, "*.bin") );
 
- // Введенные данные добавляются
- addNew(mode,
-        fields,
-        addNewRecordWin.getField("text"),
-        files);
+ // Временная директория с картинками и приаттаченными файлами удаляется
+ DiskHelper::removeDirectory(directory);
+
+ // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
+ addNew(mode, record);
 }
 
 
 // Функция добавления новой записи в таблицу конечных записей
-void RecordTableController::addNew(int mode,
-                              QMap<QString, QString> fields,
-                              QString text,
-                              QMap<QString, QByteArray> files)
+// Принимает полный формат записи
+void RecordTableController::addNew(int mode, Record record)
 {
  qDebug() << "In add_new()";
 
@@ -545,10 +559,8 @@ void RecordTableController::addNew(int mode,
 
  // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
  int selPos=recordSourceModel->addTableData(mode,
-                                      posIndex,
-                                      fields,
-                                      text,
-                                      files);
+                                            posIndex,
+                                            record);
 
  view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
 
@@ -873,12 +885,6 @@ void RecordTableController::onRecordTableConfigChange(void)
 
 void RecordTableController::onPrintClick(void)
 {
-  /*
-  QMessageBox msgBox;
-  msgBox.setText("Print notes table");
-  msgBox.exec();
-  */
-
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
   RecordTablePrint printDialog(parentPointer);
@@ -886,8 +892,5 @@ void RecordTableController::onPrintClick(void)
   printDialog.generateHtmlTableFromModel();
   printDialog.setTitleToHtml( recordSourceModel->getTableData()->getItem()->getPathAsNameWithDelimeter(" / ") );
   printDialog.exec();
-
-  // if(dialog.exec()!=QDialog::Accepted)
-  //   return;
 }
 

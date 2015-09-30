@@ -29,8 +29,6 @@ public:
 
  void init(void);
 
- void reloadModel( void );
-
  void restoreHeaderState( void );
  void restoreColumnWidth(void);
 

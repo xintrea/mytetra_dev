@@ -361,7 +361,7 @@ int EditorAbsTable::get_cell_rowspan(int x, int y)
 int EditorAbsTable::get_cell_col_or_row_span(int x, int y, QString propName)
 {
  if(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_NULL_CELL)
-  critical_error("Detect bad table structure");
+  criticalError("Detect bad table structure");
 
  if(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_NORMAL_CELL)
   return 1;
@@ -393,7 +393,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
    splitEnable=true;
 
  if(splitEnable==false)
-  critical_error("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by horisontal to "+QString::number(div)+" parts. Method split_single_cell_by_horisontal().");
+  criticalError("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by horisontal to "+QString::number(div)+" parts. Method split_single_cell_by_horisontal().");
 
 
  // Перебирается счетчик разбиений
@@ -414,7 +414,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
      if(cells[x][i].get_cell_type()==EditorAbsTableCell::IS_NULL_CELL)
       {
        // Значит что-то не так, нулевых ячеек в этом столбце быть не должно
-       critical_error("Detect null cell while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
+       criticalError("Detect null cell while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
       }
 
 
@@ -513,7 +513,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
        if(!(cells[x][i].get_cell_type()==EditorAbsTableCell::IS_NORMAL_CELL ||
             cells[x][i].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL))
         {
-         critical_error("Detect splitting target null or sub cell while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
+         criticalError("Detect splitting target null or sub cell while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
         }
 
        // Проверяем суперячейку на colspan<2
@@ -521,7 +521,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
         {
          int colspan=cells[x][i].get_html_property("colspan").toInt();
          if(colspan>=2)
-          critical_error("Detect splitting target super cell with colspan "+QString::number(colspan)+" while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
+          criticalError("Detect splitting target super cell with colspan "+QString::number(colspan)+" while split by horisontal cell "+QString::number(x)+" "+QString::number(i));
         }
 
        // Если ячейка обычная
@@ -563,7 +563,7 @@ void EditorAbsTable::split_merged_cell_by_horisontal(int x, int y)
  // Проверка, можно ли разбивать ячейку
  if(!(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL &&
       cells[x][y].get_html_property("colspan").toInt()>=2))
-  critical_error("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by horisontal, this is not supercell with colspan>2");
+  criticalError("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by horisontal, this is not supercell with colspan>2");
 
  // На сколько частей по горизонтали можно разбить эту ячейку
  int div=cells[x][y].get_html_property("colspan").toInt();
@@ -630,7 +630,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
      splitEnable=true;
 
    if(splitEnable==false)
-     critical_error("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by vertical to "+QString::number(div)+" parts. Method split_single_cell_by_vertical().");
+     criticalError("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by vertical to "+QString::number(div)+" parts. Method split_single_cell_by_vertical().");
   }
 
 
@@ -652,7 +652,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
      if(cells[i][y].get_cell_type()==EditorAbsTableCell::IS_NULL_CELL)
       {
        // Значит что-то не так, нулевых ячеек в этой строке быть не должно
-       critical_error("Detect null cell while split by vertical cell "+QString::number(i)+" "+QString::number(y));
+       criticalError("Detect null cell while split by vertical cell "+QString::number(i)+" "+QString::number(y));
       }
 
 
@@ -751,7 +751,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
        if(!(cells[i][y].get_cell_type()==EditorAbsTableCell::IS_NORMAL_CELL ||
             cells[i][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL))
         {
-         critical_error("Detect splitting target null or sub cell while split by vertical cell "+QString::number(i)+" "+QString::number(y));
+         criticalError("Detect splitting target null or sub cell while split by vertical cell "+QString::number(i)+" "+QString::number(y));
         }
 
        // Проверяем суперячейку на rowspan<2
@@ -759,7 +759,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
         {
          int rowSpan=cells[i][y].get_html_property("rowspan").toInt();
          if(rowSpan>=2)
-          critical_error("Detect splitting target super cell with rowspan "+QString::number(rowSpan)+" while split by vertical cell "+QString::number(i)+" "+QString::number(y));
+          criticalError("Detect splitting target super cell with rowspan "+QString::number(rowSpan)+" while split by vertical cell "+QString::number(i)+" "+QString::number(y));
         }
 
        // Если ячейка обычная
@@ -805,7 +805,7 @@ void EditorAbsTable::split_merged_cell_by_vertical(int x1, int x2, int y)
   {
    if(!(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL &&
         cells[x][y].get_html_property("rowspan").toInt()>=2))
-    critical_error("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by vertical, this is not supercell with rowspan>2");
+    criticalError("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by vertical, this is not supercell with rowspan>2");
   }
 
  for(int x=x1; x<=x2; x++)

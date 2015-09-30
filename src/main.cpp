@@ -24,7 +24,6 @@
 #include "libraries/qtSingleApplication5/qtsingleapplication.h"
 #endif
 
-
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/WindowSwitcher.h"
@@ -36,10 +35,10 @@ using namespace std;
 // Фиксированные параметры программы (жестко заданные в текущей версии MyTetra)
 FixedParameters fixedParameters;
 
-// Глобальные параметры программы
+// Глобальные параметры программы (вычислимые на этапе инициализации, иногда меняющиеся в процессе выполнения программы)
 GlobalParameters globalParameters;
 
-// Конфигурация программы
+// Конфигурация программы (считанная из файла конфигурации)
 AppConfig mytetraConfig;
 
 // Конфигурация данных
@@ -55,309 +54,79 @@ WalkHistory walkHistory;
 QObject *pMainWindow;
 
 
-void logprint(char *lpszText, ...)
+void logPrint(char *lpszText, ...)
 {
- va_list argList;
- FILE *pFile;
+  va_list argList;
+  FILE *pFile;
 
- // инициализируем список аргументов
- va_start(argList, lpszText);
+  // инициализируем список аргументов
+  va_start(argList, lpszText);
 
- // открываем лог-файл для добавления данных
- if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
- {
-  printf("\nLog file not writable\n");
+  // открываем лог-файл для добавления данных
+  if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
+  {
+    printf("\nLog file not writable\n");
+    return;
+  }
+
+  // пишем текст в файл
+  vfprintf(pFile, lpszText, argList);
+  // putc('\n', pFile);
+
+  // пишем текст на экран
+  vprintf(lpszText, argList);
+
+  // закрываем файл
+  fclose(pFile);
+  va_end(argList);
+
+  // успешное завершение
   return;
- }
-
- // пишем текст в файл
- vfprintf(pFile, lpszText, argList);
- // putc('\n', pFile);
-
- // пишем текст на экран
- vprintf(lpszText, argList);
-
- // закрываем файл
- fclose(pFile);
- va_end(argList);
-
- // успешное завершение
- return;
 }
 
 
-void critical_error(QString message)
+void criticalError(QString message)
 {
- qDebug() << " ";
- qDebug() << "---------------";
- qDebug() << "Critical error!";
- qDebug() << "---------------";
- qDebug() << message;
- 
- QMessageBox::critical(qobject_cast<QWidget *>(pMainWindow), "Critical error",
-                             message+"\n\n Programm was closed.",
-                             QMessageBox::Ok); 
+  qDebug() << " ";
+  qDebug() << "---------------";
+  qDebug() << "Critical error!";
+  qDebug() << "---------------";
+  qDebug() << message;
+  qDebug() << "---------------";
+  qDebug() << " ";
 
- exit(1);
+  QMessageBox::critical(qobject_cast<QWidget *>(pMainWindow), "Critical error",
+                        message+"\n\nProgramm was closed.",
+                        QMessageBox::Ok);
+
+  exit(1);
 }
 
 
-void info_window(QString i)
+// Функция-помощник при отладке генерации XML-кода. Преобразует узел DOM в строку
+QString xmlNodeToString(QDomNode xmlData)
 {
- QTextEdit *textArea=new QTextEdit;
- textArea->setPlainText(i);
-
- QPushButton *closeButton=new QPushButton;
- closeButton->setText(QObject::tr("Close"));
- closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
-
- QVBoxLayout *assemblyLayout=new QVBoxLayout;
- assemblyLayout->addWidget(textArea);
- assemblyLayout->addWidget(closeButton,0,Qt::AlignRight);
-
- QWidget *win=new QWidget;
- win->setLayout(assemblyLayout);
- win->setWindowModality(Qt::ApplicationModal);
-
- QObject::connect(closeButton,SIGNAL(clicked()),win,SLOT(close ()));
-
- win->show();
-}
-
-
-QString xmlnode_to_string(QDomNode xmlData)
-{
- // Если узел представляет собой полностью документ
- if(xmlData.isDocument())
- {
-  // Значит этот узел можно напрямую преобразовать 
-  // в документ, а потом в XML строку
-  return xmlData.toDocument().toString();
- }
- else
- {
-  // Иначе узел не является документом, и его нужно обрабатывать по-другому
- 
-  // Строка, где будет размещен XML код
-  QString xmlcode;
- 
-  // Поток, связаный со строкой, в который будет направляться XML код узла
-  QTextStream stream(&xmlcode, QIODevice::WriteOnly);
- 
-  // XML документ записывается в поток, после чего автоматом окажется в строке xmlcode
-  xmlData.save(stream, 1);
- 
-  return xmlcode;
- }
-}
-
-
-// Удаление директории с копированием содержимого в корзину
-void remove_directory_to_trash(QString nameDirFrom)
-{
- QDir dirfrom(nameDirFrom);
- QStringList fileList=dirfrom.entryList();
-
- QString nameDirTo=mytetraConfig.get_trashdir();
-
- // Перебор всех файлов в удаляемой директории
- for(int i=0;i<fileList.size();i++)
- {
-  // Директории с именами "." и ".." обрабатывать не нужно
-  if(fileList.at(i)=="." || fileList.at(i)=="..")continue;
-
-  // Исходный файл, который будет перенесен в корзину
-  QString fileNameFrom=nameDirFrom+"/"+fileList.at(i);
-
-  // Конечный файл, который должен лежать в корзине
-  QString fileNameToShort;
-  QString fileNameTo;
-  bool targetFileFree=false;
-  do {
-   fileNameToShort=get_unical_id()+"_"+fileList.at(i);
-   fileNameTo       =nameDirTo+"/"+fileNameToShort;
-  
-   if(QFile::exists(fileNameTo)) targetFileFree=false;
-   else targetFileFree=true;
-  } while(!targetFileFree);
-
-  qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
-
-  // Перенос файла в корзину
-  if( QFile::rename(fileNameFrom,fileNameTo)==true )
-   trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  // Если узел представляет собой полностью документ
+  if(xmlData.isDocument())
+  {
+    // Значит этот узел можно напрямую преобразовать
+    // в документ, а потом в XML строку
+    return xmlData.toDocument().toString();
+  }
   else
-   critical_error("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
- }
-
- // Удаление директории
- // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
- // директорию, на которую указывает объект, поэтому удаление происходит
- // через дополнительный QDir объект, который указывает на директорию
- // где лежит бинарник.
- // Если в rmdir() передать относительный путь, то будет удалена директория
- // относительно директории бинарника.
- // Если в rmdir() передать асолютный путь, то будет удалена директория
- // по абсолютному пути
- QDir applicationdir(QCoreApplication::applicationDirPath());
- qDebug() << "Try delete directory " << nameDirFrom;
- if(!applicationdir.rmdir(nameDirFrom))
-  qDebug() << "Directory " << nameDirFrom << " NOT deleted";
- else
-  qDebug() << "Directory " << nameDirFrom << " delete succesfull";
-}
-
-
-// Удаление файла с копированием его копии в корзину
-void remove_file_to_trash(QString fileNameFrom)
-{
- // Получение короткого имени исходного файла
- QFileInfo fileInfo(fileNameFrom);
- QString fileNameFromShort=fileInfo.fileName();
- 
- // Получение имени файла для сохранения в корзине
- QString fileNameToShort=get_unical_id()+"_"+fileNameFromShort;
- QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
- 
- qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
- 
- // Файл перемещается в корзину
- if( QFile::rename(fileNameFrom,fileNameTo)==true )
-  trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
- else
-  critical_error("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
-}
-
-
-// Создание временной директории
-QString create_temp_directory(void)
-{
- QDir dir;
- QString systemTempDirName=dir.tempPath();
-
- QString temp_dir_name="mytetra"+get_unical_id();
-
- // Создается директория
- dir.setPath(systemTempDirName);
- dir.mkdir(temp_dir_name);
-
- QString createTempDirName=systemTempDirName+"/"+temp_dir_name;
-
- qDebug() << "Create temporary directory "+createTempDirName;
-
- return createTempDirName;
-}
-
-
-bool remove_directory(const QString &dirName)
-{
-  bool result = true;
-  QDir dir(dirName);
-
-  if (dir.exists(dirName))
-   {
-    Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst))
-     {
-      if (info.isDir())
-       result = remove_directory(info.absoluteFilePath());
-      else
-       result = QFile::remove(info.absoluteFilePath());
-
-      if(!result)
-       return result;
-     }
-
-    result = dir.rmdir(dirName);
-   }
-
-  return result;
-}
-
-
-// Копирование содержимого директории
-// Копируются только файлы
-bool copy_directory(const QString &fromName, const QString &toName)
-{
-  QDir fromDir(fromName);
-  QDir toDir(toName);
-
-  if (fromDir.exists() && toDir.exists())
-   {
-    Q_FOREACH(QFileInfo info, fromDir.entryInfoList(QDir::Files))
-     {
-      QFile::copy(info.absoluteFilePath(), toName+"/"+info.fileName());
-     }
-
-    return true;
-   }
-
-  return false;
-}
-
-
-// Получение списка файлов с их содержимым в указанной директории
-QMap<QString, QByteArray> get_files_from_directory(QString dirName, QString fileMask)
-{
- QMap<QString, QByteArray> result;
- QDir directory(dirName);
-
- if(directory.exists())
   {
-   QStringList filter;
-   filter << fileMask;
-   
-   foreach(QFileInfo info, directory.entryInfoList(filter, QDir::Files))
-    {
-     QFile f(info.absoluteFilePath());
-     if(!f.open(QIODevice::ReadOnly))
-      critical_error("get_files_from_directory() : File '"+info.absoluteFilePath()+"' open error");
+    // Иначе узел не является документом, и его нужно обрабатывать по-другому
 
-     // Содержимое файла
-     QByteArray b = f.readAll();
+    // Строка, где будет размещен XML код
+    QString xmlcode;
 
-     // Содержимое файла сохраняется с ключем в виде имени файла
-     result.insert(info.fileName(), b);
-    }
-  }
- else
-  qDebug() << "get_files_from_directory() : Can not find directory" << dirName;
+    // Поток, связаный со строкой, в который будет направляться XML код узла
+    QTextStream stream(&xmlcode, QIODevice::WriteOnly);
 
- return result;
-}
+    // XML документ записывается в поток, после чего автоматом окажется в строке xmlcode
+    xmlData.save(stream, 1);
 
-
-bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList)
-{
- qDebug() << "save_files_to_directory() : Directory name " << dirName;
-
- QDir directory(dirName);
-
- // Если директория существует
- if(directory.exists())
-  {
-   foreach (QString filename, fileList.keys())
-   {
-    qDebug() << "save_files_to_directory() : Save file " << filename;
-
-    QFile file(dirName+"/"+filename);
-
-    // Файл открывается для записи
-    if(!file.open(QIODevice::WriteOnly))
-     {
-      qDebug() << "save_files_to_directory() : Can not save file '" << filename << "' to directory '" << dirName << "'";
-      return false;
-     }
-
-    // Данные сохраняются в файл
-    file.write(fileList.value(filename));
-   }
-
-   return true;
-  }
- else
-  {
-   qDebug() << "save_files_to_directory() : Can not find directory" << dirName;
-   return false;
+    return xmlcode;
   }
 }
 
@@ -365,7 +134,7 @@ bool save_files_to_directory(QString dirName, QMap<QString, QByteArray> fileList
 // Преобразование из QString в обычный char
 char* fromQStringToChar( const QString& str )
 {
- /*
+  /*
  char *tmpC=new char [str.size() + 1];
  QVariant var;
 
@@ -380,35 +149,35 @@ char* fromQStringToChar( const QString& str )
  return tmpC;
  */
 
- return str.toLocal8Bit().data();
+  return str.toLocal8Bit().data();
 }
 
 
 // Рекурсивная печать дерева объектов, т.к. dumpObjectInfo() и dumpObjectTree() не работают
 void print_object_tree_recurse(QObject *pobj)
 {
- static int indent=0;
+  static int indent=0;
 
- QObjectList olist;
+  QObjectList olist;
 
- olist=pobj->children();
+  olist=pobj->children();
 
- for(int i=0;i<olist.size();++i)
+  for(int i=0;i<olist.size();++i)
   {
-   QObject *currobj;
-   currobj=olist.at(i);
+    QObject *currobj;
+    currobj=olist.at(i);
 
-   QString indentline=".";
-   for(int j=0;j<indent;j++)indentline=indentline+".";
+    QString indentline=".";
+    for(int j=0;j<indent;j++)indentline=indentline+".";
 
-   if((currobj->objectName()).length()==0)
-    qDebug("%s%s",fromQStringToChar(indentline), currobj->metaObject()->className() );
-   else
-    qDebug("%s%s, NAME %s",fromQStringToChar(indentline), currobj->metaObject()->className(), fromQStringToChar(currobj->objectName()) );
+    if((currobj->objectName()).length()==0)
+      qDebug("%s%s",fromQStringToChar(indentline), currobj->metaObject()->className() );
+    else
+      qDebug("%s%s, NAME %s",fromQStringToChar(indentline), currobj->metaObject()->className(), fromQStringToChar(currobj->objectName()) );
 
-   indent++;
-   print_object_tree_recurse(currobj);
-   indent--;
+    indent++;
+    print_object_tree_recurse(currobj);
+    indent--;
   }
 }
 
@@ -416,37 +185,37 @@ void print_object_tree_recurse(QObject *pobj)
 // Печать дерева объектов, основная функция
 void print_object_tree(void)
 {
- qDebug() << "Object tree";
+  qDebug() << "Object tree";
 
- print_object_tree_recurse(pMainWindow);
+  print_object_tree_recurse(pMainWindow);
 }
 
 
 // Функция для сортировки массива из QStringList исходя из длин списков
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2)
 {
- return list1.size() < list2.size();
+  return list1.size() < list2.size();
 }
 
 
-void insert_action_as_button(QToolBar *tools_line, QAction *action)
+void insertActionAsButton(QToolBar *tools_line, QAction *action)
 {
- tools_line->addAction(action);
- qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
+  tools_line->addAction(action);
+  qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
 }
 
 
 int imax(int x1, int x2)
 {
- if(x1>x2)return x1;
- else return x2;
+  if(x1>x2)return x1;
+  else return x2;
 }
 
 
 int imin(int x1, int x2)
 {
- if(x1<x2)return x1;
- else return x2;
+  if(x1<x2)return x1;
+  else return x2;
 }
 
 
@@ -536,6 +305,15 @@ void setDebugMessageHandler()
   }
 
  qDebug() << "Debug message after set message handler";
+}
+
+
+// Выдача на экран простого окна с сообщением
+void showMessageBox(QString message)
+{
+  QMessageBox msgBox;
+  msgBox.setText(message);
+  msgBox.exec();
 }
 
 
@@ -766,230 +544,6 @@ void init_random(void)
  unsigned int seed=seed3;
 
  srand( seed );
-}
-
-
-void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
-{
-  unsigned int size=qba.size();
-  vec.resize(size, 0);
-  memcpy(&vec[0], qba.constData(), size*sizeof(unsigned char));
-}
-
-
-void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba)
-{
-  unsigned int size=vec.size();
-  qba.clear();
-  qba.append( (const char *)&vec[0], size*sizeof(unsigned char) );
-
-  /*
-  printf("\n");
-  qDebug() << "Vector: ";
-  for(unsigned int i=0; i<size; i++)
-    printf("%02hhx", vec[i]);
-  printf("\n");
-
-  printf("\n");
-  qDebug() << "QByteArray: ";
-  for(unsigned int i=0; i<size; i++)
-    printf("%02hhx", qba.at(i));
-  printf("\n");
-  */
-}
-
-
-// Шифрация строки
-// Результирующая зашифрованная строка - это набор шифрованных байт,
-// представленный в кодировке Base64
-QString encryptString(QByteArray key, QString line)
-{
- if(line=="") return QString();
-
- // qDebug() << "Encrypt source" << line;
-
- vector<unsigned char> vectorKey;
- convertByteArrayToVector(key, vectorKey);
-
- vector<unsigned char> vectorLineIn;
- convertByteArrayToVector(line.toUtf8(), vectorLineIn);
-
- vector<unsigned char> vectorLineOut;
-
- // Шифрация
- RC5Simple rc5;
- rc5.RC5_SetKey(vectorKey);
- rc5.RC5_Encrypt(vectorLineIn, vectorLineOut);
-
-
- QByteArray result;
- convertVectorToByteArray(vectorLineOut, result);
-
- QString resultLine( result.toBase64().data() );
-
- // qDebug() << "Encrypt result" << resultLine;
-
- return resultLine;
-}
-
-
-// Расшифровка строки
-// Принимаемая зашифрованная строка - это набор шифрованных байт,
-// представленный в кодировке Base64
-QString decryptString(QByteArray key, QString line)
-{
- if(line=="") return QString();
-
- /*
- qDebug() << "Decrypt source" << line;
- qDebug() << "Decrypt source HEX" << QByteArray::fromBase64( line.toAscii() ).toHex();
- qDebug() << "Decrypt key" << key.toHex();
- */
-
- vector<unsigned char> vectorKey;
- convertByteArrayToVector(key, vectorKey);
-
- /*
- printf("Decrypt vector key ");
- for(int i=0; i<vectorKey.size(); i++)
-  printf("%.2X", vectorKey[i]);
- printf("\n");
- */
-
- vector<unsigned char> vectorLineIn;
-
- // Заменен вызов line.toAscii на line.toLatin1 чтобы шла компиляция в Qt 5.2.
- // Эта замена допустима, так как в Base64 используются только символы латиницы и ограниченный набор прочих символов
- convertByteArrayToVector(QByteArray::fromBase64( line.toLatin1() ), vectorLineIn);
-
- /*
- printf("Decrypt vector source HEX ");
- for(int i=0; i<vectorLineIn.size(); i++)
-  printf("%.2X", vectorLineIn[i]);
- printf("\n");
- */
-
- vector<unsigned char> vectorLineOut;
-
- // Дешифрация
- RC5Simple rc5;
- rc5.RC5_SetKey(vectorKey);
- rc5.RC5_Decrypt(vectorLineIn, vectorLineOut);
-
-
- QByteArray result;
- convertVectorToByteArray(vectorLineOut, result);
-
- QString resultLine=QString::fromUtf8( result.data() );
-
- // qDebug() << "Decrypt result" << resultLine;
-
- return resultLine;
-}
-
-
-QByteArray encryptStringToByteArray(QByteArray key, QString line)
-{
- if(line=="") return QByteArray();
-
- vector<unsigned char> vectorKey;
- convertByteArrayToVector(key, vectorKey);
-
- vector<unsigned char> vectorLineIn;
- convertByteArrayToVector(line.toUtf8(), vectorLineIn);
-
- vector<unsigned char> vectorLineOut;
-
- // Шифрация
- RC5Simple rc5;
- rc5.RC5_SetKey(vectorKey);
- rc5.RC5_Encrypt(vectorLineIn, vectorLineOut);
-
- QByteArray result;
- convertVectorToByteArray(vectorLineOut, result);
-
- return result;
-}
-
-
-QString decryptStringFromByteArray(QByteArray key, QByteArray data)
-{
- if(data.length()==0) return QString();
-
- vector<unsigned char> vectorKey;
- convertByteArrayToVector(key, vectorKey);
-
- vector<unsigned char> vectorDataIn;
- convertByteArrayToVector(data, vectorDataIn);
-
- vector<unsigned char> vectorDataOut;
-
- // Дешифрация
- RC5Simple rc5;
- rc5.RC5_SetKey(vectorKey);
- rc5.RC5_Decrypt(vectorDataIn, vectorDataOut);
-
-
- QByteArray result;
- convertVectorToByteArray(vectorDataOut, result);
-
- QString resultLine=QString::fromUtf8( result.data() );
-
- return resultLine;
-}
-
-
-// Шифрование файла на диске, вместо незашифрованного файла появляется зашифрованный
-void encryptFile(QByteArray key, QString fileName)
-{
- encDecFileSmart(key, fileName, 0);
-}
-
-
-// Расшифровка файла на диске, вместо зашифрованного файла появляется нешифрованный
-void decryptFile(QByteArray key, QString fileName)
-{
- encDecFileSmart(key, fileName, 1);
-}
-
-
-void encDecFileSmart(QByteArray key, QString fileName, int mode)
-{
- QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
- QFile file(fileName);
-
- if(!file.open(QIODevice::ReadOnly))
-  critical_error("encDecFileSmart() : Cant open binary file "+fileName+" for reading.");
-
- vector<unsigned char> vectorKey;
- convertByteArrayToVector(key, vectorKey);
-
- vector<unsigned char> vectorDataIn;
- convertByteArrayToVector(file.readAll(), vectorDataIn);
-
- vector<unsigned char> vectorDataOut;
-
- file.close();
-
-
- // Шифрация / дешифрация
- RC5Simple rc5;
- rc5.RC5_SetKey(vectorKey);
- if(mode==0)
-  rc5.RC5_Encrypt(vectorDataIn, vectorDataOut);
- else
-  rc5.RC5_Decrypt(vectorDataIn, vectorDataOut);
-
-
- QByteArray result;
- convertVectorToByteArray(vectorDataOut, result);
-
- if(!file.open(QIODevice::WriteOnly))
-  critical_error("encryptFile() : Cant open binary file "+fileName+" for write.");
- file.write(result);
-
- QApplication::restoreOverrideCursor();
 }
 
 

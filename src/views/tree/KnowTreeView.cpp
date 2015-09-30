@@ -15,7 +15,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/record/MetaEditor.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;
@@ -153,17 +153,35 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
 
    // Выясняется ссылка на элемент дерева (на ветку), над которым был совершен Drop
-   TreeItem *treeItem=parentPointer->knowTreeModel->getItem(index);
+   TreeItem *treeItemDrop=parentPointer->knowTreeModel->getItem(index);
 
    // Выясняется ссылка на таблицу данных ветки, над которой совершен Drop
-   RecordTableData *recordTableData=treeItem->recordtableGetTableData();
+   RecordTableData *recordTableData=treeItemDrop->recordtableGetTableData();
 
    // Исходная ветка в момент Drop (откуда переностся запись) - это выделенная курсором ветка
    QModelIndex indexFrom = find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
 
+   // Выясняется ссылка на элемент дерева (на ветку), откуда переностся запись
+   TreeItem *treeItemDrag=parentPointer->knowTreeModel->getItem(indexFrom);
+
    // Если перенос происходит в ту же самую ветку
    if(indexFrom==index)
     return;
+
+   // Если перенос происходит из не зашифрованной ветки в зашифрованную, а пароль не установлен
+   if(treeItemDrag->getField("crypt")!="1" &&
+      treeItemDrop->getField("crypt")=="1" &&
+      globalParameters.getCryptKey().length()==0)
+   {
+     // Выводится уведомление что невозможен перенос без пароля
+     QMessageBox msgBox;
+     msgBox.setWindowTitle(tr("Warning!"));
+     msgBox.setText( tr("Cant move this item to encrypt item. Please open crypt item (entry password) before.") );
+     msgBox.setIcon(QMessageBox::Information);
+     msgBox.exec();
+
+     return;
+   }
 
 
    // Перенос записей, хранящихся в MimeData
@@ -171,31 +189,25 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // но в дальнейшем планируется переносить несколько записей
    // и здесь код подготовлен для переноса нескольких записей
    RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");  // Указатель на контроллер таблицы конечных записей
-   for(int i=0; i<clipboardRecords->getRecordsNum(); i++)
+   for(int i=0; i<clipboardRecords->getCount(); i++)
     {
-     // Данные записи (текстовые)
-     QMap<QString, QString> exemplar=clipboardRecords->getRecordFields(i);
-     QString text=exemplar["text"]; // Текст записи
-     exemplar.remove("text"); // Текст удаляется из данных записи, он передается отдельно
-
+     // Полные данные записи
+     Record record=clipboardRecords->getRecord(i);
 
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      // В этот момент вид таблицы конечных записей показывает таблицу, из которой совершается Drag
      // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
-     recordTableController->removeRowById( exemplar["id"] );
+     recordTableController->removeRowById( record.getField("id") );
 
      // Если таблица конечных записей после удаления перемещенной записи стала пустой
      if(recordTableController->getRowCount()==0)
-       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы невидно было текста последней удаленной записи
+       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы не видно было текста последней удаленной записи
      find_object<RecordTableScreen>("recordTableScreen")->toolsUpdate();
-
 
      // Добавление записи в базу
      recordTableData->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                       0,
-                                      exemplar,
-                                      text,
-                                      clipboardRecords->getRecordFiles(i) );
+                                      record);
 
      // Сохранение дерева веток
      find_object<TreeScreen>("treeScreen")->saveKnowTree();

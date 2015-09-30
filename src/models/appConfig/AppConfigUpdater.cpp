@@ -26,7 +26,7 @@ void AppConfigUpdater::set_config_file(QString fileName)
  // Проверяется, есть ли файл конфигурации
  QFile conffile(fileName);
  if(!conffile.exists())
-  critical_error("appconfigupdater::set_config_file() - File "+fileName+" not found.");
+  criticalError("appconfigupdater::set_config_file() - File "+fileName+" not found.");
 
  // Создается рабочий объект для работы с конфигурацией
  conf=new QSettings(fileName, QSettings::IniFormat);
@@ -52,7 +52,7 @@ QString AppConfigUpdater::update_version_allowcollision(int versionFrom,
 
  // todo: Прописать сюда правила перевода int в bool и обратно
 
- critical_error("Error while update config version \nFrom: "+(QString::number(versionFrom))+
+ criticalError("Error while update config version \nFrom: "+(QString::number(versionFrom))+
                 "\nTo: "+(QString::number(versionTo))+
                 "\nName: "+name+
                 "\nFrom type: "+fromType+
@@ -207,7 +207,7 @@ void AppConfigUpdater::update_version(int versionFrom,
  {
   // Программа завершается
   qDebug() << "Can not compute parameter " << controlList;
-  critical_error("Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo)) );
+  criticalError("Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo)) );
  }
 
  // Конфиг обнуляется

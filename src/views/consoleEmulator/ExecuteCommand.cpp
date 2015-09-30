@@ -39,7 +39,7 @@ ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
 
  if(shell.length()==0)
  {
-   critical_error("Can't detect sh, bash or cmd shell.");
+   criticalError("Can't detect sh, bash or cmd shell.");
    return;
  }
 
@@ -81,10 +81,20 @@ void ExecuteCommand::setMessageText(QString text)
 }
 
 
-// Слот, срабатывающий когда нужно закрыть процесс
+// Слот, срабатывающий когда пользователь хочет вручную закрыть процесс
+void ExecuteCommand::manualCloseProcess(void)
+{
+ qDebug() << "Manual close process, PID" << process->pid();
+
+ closeProcess();
+
+ isManualClose=true;
+}
+
+
 void ExecuteCommand::closeProcess(void)
 {
- qDebug() << "Delete process, PID" << process->pid();
+ qDebug() << "Close process, PID" << process->pid();
 
  process->kill();
  process->terminate();
@@ -96,12 +106,14 @@ void ExecuteCommand::run(void)
 {
  // Если командный интерпретатор не установлен
  if(shell.length()==0)
-  critical_error("ExecuteCommand::run() : Not detect available shell");
+  criticalError("ExecuteCommand::run() : Not detect available shell");
+
+ isError=false;
+ isManualClose=false;
 
  // Выясняется полная команда, которая будет запущена в QProcess
  // QString commandLine=shell.toAscii()+" \""+command.toAscii()+"\"";
  QString commandLine=shell+" \""+command+"\"";
-
 
  // Создается виджет эмулятора консоли
  console=new ConsoleEmulator();
@@ -114,12 +126,10 @@ void ExecuteCommand::run(void)
  qDebug() << "Run shell" << shell;
  qDebug() << "Run command" << command;
 
- isError=false;
-
  // Создается процесс 
  process=new QProcess();
 
- connect(console, SIGNAL(cancelConsole()), this, SLOT(closeProcess()));
+ connect(console, SIGNAL(cancelConsole()), this, SLOT(manualCloseProcess()));
  connect(process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(errorHanler(QProcess::ProcessError)));
 
 
@@ -152,7 +162,7 @@ void ExecuteCommand::run(void)
  qApp->processEvents();
  printOutput(process, console); // Считываются остатки из стандартного вывода, если они есть
 
- if(isError==false && process->exitCode()==0 )
+ if((isError==false && process->exitCode()==0) || isManualClose)
   console->hide();
  else
   {

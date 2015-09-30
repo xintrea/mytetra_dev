@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Record.h"
 #include "RecordTableModel.h"
 #include "RecordTableData.h"
 
@@ -59,8 +60,10 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 
       QString field=table->getField(fieldName, index.row());
 
+
       // Некоторые данные при отрисовке в таблице преобразуются в "экранные" представления
       // Преобразование возможно только для отображаемой в таблице информации
+
       if( role==Qt::DisplayRole && fieldName=="ctime")
       {
         // Преобразование временного штампа в дату и время
@@ -69,10 +72,21 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
           return fieldDateTime.toString(Qt::SystemLocaleDate);
         else
           return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
+      }
+      else if( role==Qt::DisplayRole && fieldName=="hasAttach") // Наличие аттачей
+      {
+        if(field=="0")
+          return ""; // Если аттачей нет, выводится пустая строка. Это повышает читабельность
+        else
+          return tr("Yes"); // На русский перевести как "Есть"
+      }
+      else if( role==Qt::DisplayRole && fieldName=="attachCount") // Количество аттачей
+      {
+        if(field=="0")
+          return ""; // Если количество аттачей нуливое, выводится пустая строка. Это повышает читабельность
+        else
+          return field;
 
-        // QDate fieldDate=fieldDateTime.date();
-        // QTime fieldTime=fieldDateTime.time();
-        // return fieldDate.toString(Qt::SystemLocaleDate)+" "+fieldTime.toString(Qt::SystemLocaleDate);
       }
       else
         return field;
@@ -234,7 +248,7 @@ bool RecordTableModel::removeRows(int row, int count, const QModelIndex &parent)
 
   if(row<0 || row>=rowCount() || (row+count-1)<0 || (row+count-1)>=rowCount())
   {
-    critical_error("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
+    criticalError("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
     return false;
   }
 
@@ -274,19 +288,14 @@ RecordTableData *RecordTableModel::getTableData(void)
 // Функция возвращает позицию нового добавленного элемента
 int RecordTableModel::addTableData(int mode,
                                    QModelIndex posIndex,
-                                   QMap<QString, QString> fields,
-                                   QString text,
-                                   QMap<QString, QByteArray> files)
+                                   Record record)
 {
  beginResetModel(); // Подумать, возможно нужно заменить на beginInsertRows
 
  // Вставка новых данных в таблицу конечных записей
  int selPos=table->insertNewRecord(mode,
                                    posIndex.row(),
-                                   fields,
-                                   text,
-                                   files);
-
+                                   record);
 
  endResetModel(); // Подумать, возможно нужно заменить на endInsertRows
 

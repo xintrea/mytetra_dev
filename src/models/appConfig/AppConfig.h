@@ -190,6 +190,18 @@ public:
     QString getCustomDateTimeFormat(void);
     void setCustomDateTimeFormat(QString format);
 
+    // Путь на диске по которому пользователь открывал файлы чтобы приаттачить их к записи
+    QString getAttachAppendDir(void);
+    void setAttachAppendDir(QString dir);
+
+    // Путь на диске по которому пользователь сохранял (Сохранить как...) приаттаченные файлы
+    QString getAttachSaveAsDir(void);
+    void setAttachSaveAsDir(QString dir);
+
+    // Разрешать ли для просмотра расшифровывать зашифрованные файлы в директорию корзины MyTetra
+    bool getEnableDecryptFileToTrashDirectory(void);
+    void setEnableDecryptFileToTrashDirectory(bool state);
+
 
 private:
 
@@ -228,6 +240,8 @@ private:
     QStringList get_parameter_table_22(bool withEndSignature=true);
     QStringList get_parameter_table_23(bool withEndSignature=true);
     QStringList get_parameter_table_24(bool withEndSignature=true);
+    QStringList get_parameter_table_25(bool withEndSignature=true);
+    QStringList get_parameter_table_26(bool withEndSignature=true);
 
     bool is_init_flag;
 };

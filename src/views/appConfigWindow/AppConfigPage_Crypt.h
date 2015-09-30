@@ -48,6 +48,9 @@ protected:
   QCheckBox *autoClosePasswordEnable;
   QSpinBox  *autoClosePasswordDelay;
 
+  QGroupBox *decryptFileToTrashDirectoryBox;
+  QCheckBox *decryptFileToTrashDirectoryEnable;
+
   QString getRetrieveStatusText(void);
   QString getRetrieveButtonText(void);
   QString getRetrieveAnnotationText(void);

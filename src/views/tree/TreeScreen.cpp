@@ -22,7 +22,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/WindowSwitcher.h"
-#include "controllers/recordTable/recordTableController.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -164,29 +164,29 @@ void TreeScreen::setupUI(void)
  toolsLine->setIconSize(tool_bar_icon_size);
  */
 
- insert_action_as_button(toolsLine, actionList["insSubbranch"]);
- insert_action_as_button(toolsLine, actionList["insBranch"]);
+ insertActionAsButton(toolsLine, actionList["insSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["insBranch"]);
 
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
-   insert_action_as_button(toolsLine, actionList["editBranch"]);
-   insert_action_as_button(toolsLine, actionList["delBranch"]);
+   insertActionAsButton(toolsLine, actionList["editBranch"]);
+   insertActionAsButton(toolsLine, actionList["delBranch"]);
  }
 
  toolsLine->addSeparator();
 
- insert_action_as_button(toolsLine, actionList["expandAllSubbranch"]);
- insert_action_as_button(toolsLine, actionList["collapseAllSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["expandAllSubbranch"]);
+ insertActionAsButton(toolsLine, actionList["collapseAllSubbranch"]);
 
  toolsLine->addSeparator();
 
- insert_action_as_button(toolsLine, actionList["moveUpBranch"]);
- insert_action_as_button(toolsLine, actionList["moveDnBranch"]);
+ insertActionAsButton(toolsLine, actionList["moveUpBranch"]);
+ insertActionAsButton(toolsLine, actionList["moveDnBranch"]);
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
    toolsLine->addSeparator();
-   insert_action_as_button(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
+   insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
  }
 
 
@@ -990,17 +990,12 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
 
  // Добавление конечных записей
  curr_item_record_table=curr_item->recordtableGetTableData();
- for(int i=0; i<curr_item_record_table->size (); i++)
+ for(int i=0; i<curr_item_record_table->size(); i++)
  {
-  // Образ записи, включающий все текстовые поля (и HTML-код записи как "text")
-  QMap<QString, QString> exemplar=curr_item_record_table->getRecordExemplar(i);
+  // Полный образ записи (с файлами и текстом)
+  Record record=curr_item_record_table->getRecordFat(i);
 
-  // Имя директории, в которой расположена запись и ее файлы
-  QString directory=mytetraConfig.get_tetradir()+"/base/"+exemplar["dir"];
-
-  branch_clipboard_data->addRecord(branch_id,
-                                    exemplar,
-                                    get_files_from_directory(directory, "*.png"));
+  branch_clipboard_data->addRecord(branch_id, record);
  }
 }
 

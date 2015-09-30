@@ -25,7 +25,7 @@ public:
 
 private slots:
 
- void closeProcess(void);
+ void manualCloseProcess(void);
  void errorHanler(QProcess::ProcessError error);
 
 private:
@@ -41,8 +41,10 @@ private:
  ConsoleEmulator *console;
 
  bool isError;
+ bool isManualClose;
 
  void printOutput(QProcess *process, ConsoleEmulator *console);
+ void closeProcess(void);
 
 };
 

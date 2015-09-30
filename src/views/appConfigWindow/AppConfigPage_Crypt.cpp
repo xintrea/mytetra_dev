@@ -131,7 +131,21 @@ void AppConfigPage_Crypt::setup_ui(void)
   autoClosePasswordLayout->addWidget(autoClosePasswordDelay);
   autoClosePasswordLayout->addStretch();
   autoClosePasswordBox->setLayout(autoClosePasswordLayout);
-   
+
+
+  // Разрешать ли расшифровывать зашифрованные файлы аттачей в каталог корзины при предпросмотре
+  decryptFileToTrashDirectoryBox=new QGroupBox(this);
+  decryptFileToTrashDirectoryBox->setTitle(tr("File decrypt method for attach preview"));
+
+  decryptFileToTrashDirectoryEnable=new QCheckBox(tr("Enable temporary decrypt attach file to trash directory"));
+
+  // Устанавливается галка согласно настройке из файла конфигурации
+  decryptFileToTrashDirectoryEnable->setChecked( mytetraConfig.getEnableDecryptFileToTrashDirectory() );
+
+  // Виджеты вставляются в группировщик
+  QHBoxLayout *decryptFileToTrashDirectoryLayout=new QHBoxLayout;
+  decryptFileToTrashDirectoryLayout->addWidget(decryptFileToTrashDirectoryEnable);
+  decryptFileToTrashDirectoryBox->setLayout(decryptFileToTrashDirectoryLayout);
 }
 
 
@@ -172,6 +186,7 @@ void AppConfigPage_Crypt::assembly(void)
   central_layout->addWidget(howPassRequestBox);
   central_layout->addWidget(storePassRequestBox);
   central_layout->addWidget(autoClosePasswordBox);
+  central_layout->addWidget(decryptFileToTrashDirectoryBox);
   central_layout->addStretch();
 
   // Основной слой устанавливается
@@ -308,6 +323,9 @@ int AppConfigPage_Crypt::apply_changes(void)
      mytetraConfig.setPasswordMiddleHash("");
     }
   }
+
+ if(decryptFileToTrashDirectoryEnable->isChecked()!=mytetraConfig.getEnableDecryptFileToTrashDirectory())
+   mytetraConfig.setEnableDecryptFileToTrashDirectory( decryptFileToTrashDirectoryEnable->isChecked() );
 
  return 0;
 }

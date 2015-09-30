@@ -13,6 +13,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
+#include "libraries/DiskHelper.h"
 
 extern AppConfig mytetraConfig;
 
@@ -52,7 +53,7 @@ void KnowTreeModel::init(QDomDocument *domModel)
   // Проверка формата XML-файла
   if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
    {
-    critical_error(tr("Unsupported format version for data base."));
+    criticalError(tr("Unsupported format version for data base."));
     return;
    }
 
@@ -141,22 +142,22 @@ void KnowTreeModel::setupModelData(QDomDocument *dommodel, TreeItem *parent)
 
 
 // Рекурсивный обход DOM дерева и извлечение из него узлов
-void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
+void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
 {
- TreeItem *prnt = parent;
+ TreeItem *parent = iParent;
 
  // У данного Dom-элемента ищется таблица конечных записей
- // и XML записи заполняются в Item таблицу конечных записей
- prnt->recordtableInit(n);
+ // и данные заполняются в Item-таблицу конечных записей
+ parent->recordtableInit(domElement);
 
  // Пробегаются все DOM элементы текущего уровня
  // и рекурсивно вызывается обработка подуровней
- while(!n.isNull())
+ while(!domElement.isNull())
  {
-  if(n.tagName()=="node")
+  if(domElement.tagName()=="node")
    {
     // Обнаруженый подузел прикрепляется к текущему элементу
-    prnt->insertChildren(prnt->childCount(), 1, 1);
+    parent->insertChildren(parent->childCount(), 1, 1);
 
     /*
     QString line1,line_name,line_id;
@@ -166,10 +167,10 @@ void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
     qDebug() << "Read node " << line1 << " " << line_id<< " " << line_name;
     */
 
-    // Определяются атрибуты узла
-    QDomNamedNodeMap attributeMap = n.attributes();
+    // Определяются атрибуты узла дерева разделов
+    QDomNamedNodeMap attributeMap = domElement.attributes();
 
-    // Перебираются атрибуты узла
+    // Перебираются атрибуты узла дерева разделов
     for(int i = 0; i<attributeMap.count(); ++i)
      {
       QDomNode attribute = attributeMap.item(i);
@@ -177,17 +178,17 @@ void KnowTreeModel::parseNodeElement(QDomElement n, TreeItem *parent)
       QString name=attribute.nodeName();
       QString value=attribute.nodeValue();
 
-      // В дерево данных устанавливаются считанные атрибуты
-      prnt->child(prnt->childCount()-1)->setFieldDirect(name ,value);
+      // В дерево разделов устанавливаются считанные атрибуты
+      parent->child(parent->childCount()-1)->setFieldDirect(name ,value);
      }
 
 
     // Вызов перебора оставшегося DOM дерева с прикреплением обнаруженных объектов
     // к только что созданному элементу
-    parseNodeElement(n.firstChildElement(), prnt->child(prnt->childCount()-1) );
+    parseNodeElement(domElement.firstChildElement(), parent->child(parent->childCount()-1) );
 
    }
-  n = n.nextSiblingElement();
+  domElement = domElement.nextSiblingElement();
  }
 
 }
@@ -199,18 +200,18 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
  QDomDocument doc;
  QDomElement elm=doc.createElement("content");
 
- // qDebug() << "New element for export" << xmlnode_to_string(elm);
+ // qDebug() << "New element for export" << xmlNodeToString(elm);
 
- parseTreeToDom(elm, root);
+ parseTreeToDom(&doc, elm, root);
 
- // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlnode_to_string(elm);
+ // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 
  return elm;
 }
 
 
 // Рекурсивное преобразование Item-элементов в Dom дерево
-void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
+void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem)
 {
 
  // Если в ветке присутсвует таблица конечных записей
@@ -220,19 +221,13 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
    // Обработка таблицы конечных записей
 
    // Получение Dom дерева таблицы конечных записей
-   QDomDocument rectab=currItem->recordtableExportDataToDom();
-
-   // qDebug() << "In parsetreetodom() rectab " << rectab.toString();
-
-   // Получаем корневой элемент документа
-   QDomElement e = rectab.documentElement(); 
+   // В метод передается QDomDocument, на основе кторого будут создаваться элементы
+   QDomElement recordTableDom=currItem->recordtableExportDataToDom( doc );
 
    // Dom дерево таблицы конечных записей добавляется
    // как подчиненный элемент к текущему элементу
-   if(!e.isNull())
-    xmlData.appendChild(e.cloneNode());
-   else
-    qDebug() << "No convert QDomDocument to element for recordtable";
+   if(!recordTableDom.isNull())
+    xmlData.appendChild(recordTableDom.cloneNode());
   }
 
  // Обработка каждой подчиненной ветки
@@ -240,8 +235,7 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
  for(i=0;i<currItem->childCount();i++)
   {
    // Временный элемент, куда будет внесена текущая перебираемая ветка
-   QDomDocument doc;
-   QDomElement  tempelement = doc.createElement("node");
+   QDomElement  tempElement = doc->createElement("node");
 
    // Получение всех полей для данной ветки
    QMap<QString, QString> fields=currItem->child(i)->getAllFieldsDirect();
@@ -253,18 +247,18 @@ void KnowTreeModel::parseTreeToDom(QDomElement &xmlData, TreeItem *currItem)
      fields_iterator.next();
 
      // Установка для временного элемента значения перебираемого поля как атрибута
-     tempelement.setAttribute(fields_iterator.key(), fields_iterator.value());
+     tempElement.setAttribute(fields_iterator.key(), fields_iterator.value());
     }
 
 
    // Добавление временного элемента к основному документу
-   xmlData.appendChild(tempelement);
+   xmlData.appendChild(tempElement);
 
-   // qDebug() << "In parsetreetodom() current construct doc " << xmlnode_to_string(*xmldata);
+   // qDebug() << "In parsetreetodom() current construct doc " << xmlNodeToString(*xmldata);
 
    // Рекурсивная обработка
    QDomElement workElement=xmlData.lastChildElement();
-   parseTreeToDom(workElement, currItem->child(i) );
+   parseTreeToDom(doc, workElement, currItem->child(i) );
   }
 
 }
@@ -275,7 +269,7 @@ void KnowTreeModel::save()
 {
  // Если имя файла небыло проинициализировано
  if(xmlFileName=="")
-  critical_error(tr("In KnowTreeModel can't set file name for XML file"));
+  criticalError(tr("In KnowTreeModel can't set file name for XML file"));
 
  // Коструирование DOM документа для записи в файл
  QDomDocument doc("mytetradoc");
@@ -301,11 +295,11 @@ void KnowTreeModel::save()
  // Добавление корневого элемента в DOM документ
  doc.appendChild(rootelement);
 
- // Рспечатка на экран, что будет выводиться в XML файл
+ // Распечатка на экран, что будет выводиться в XML файл
  // qDebug() << "Doc document for write " << doc.toString();
 
  // Перенос текущего файла дерева в корзину
- remove_file_to_trash(xmlFileName);
+ DiskHelper::removeFileToTrash(xmlFileName);
 
  // Запись DOM данных в файл
  QFile wfile(xmlFileName);
@@ -683,30 +677,14 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
  // -----------------------------------------------
 
  // Выясняются данные конечных записей
- QList< CLIPB_ONE_RECORD_STRUCT > records=subbranch->getBranchRecords(startBranchId);
+ QList< Record > records=subbranch->getBranchRecords(startBranchId);
 
- foreach(CLIPB_ONE_RECORD_STRUCT record, records)
+ foreach(Record record, records)
  {
-  QMap<QString, QString> recordFields=record.fields;
-  QMap<QString, QByteArray> recordFiles=record.files;
-
-  qDebug() << "Add table record "+recordFields["name"];
-
-  // Запоминается текст записи, полученный из буфера обмена
-  QString recordText=recordFields["text"];
-
-  // Поле с текстом записи удаляется из списка инфополей
-  recordFields.remove("text");
-
-  qDebug() << "KnowTreeModel::paste_subbranch_recurse() : create branch with field" << newitem->getAllFields();
-
-
-
+  qDebug() << "Add table record "+record.getField("name");
   newitem->recordtableGetTableData()->insertNewRecord(ADD_NEW_RECORD_TO_END,
                                                          0,
-                                                         recordFields,
-                                                         recordText,
-                                                         recordFiles);
+                                                         record);
  }
 
  // --------------------

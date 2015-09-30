@@ -47,11 +47,11 @@ void ClipboardBranch::print(void) const
   QString branch_id=current_branch.value("id");
 
   // Находятся все записи, принадлежащие текущей ветке
-  foreach(CLIPB_ONE_RECORD_STRUCT current_record, branchData.record.values(branch_id))
+  foreach(Record current_record, branchData.record.values(branch_id))
   {
    qDebug() << "Record:";
 
-   QMap<QString, QString> current_record_fields=current_record.fields;
+   QMap<QString, QString> current_record_fields=current_record.getNaturalFieldList();
    foreach(QString field_name, current_record_fields.keys ())
     if(field_name=="id" || field_name=="name")
      qDebug() << field_name << ":" << current_record_fields.value(field_name);
@@ -112,17 +112,9 @@ void ClipboardBranch::addBranch( QString parent_id, QMap<QString, QString> branc
 
 
 // Добавление конечной записи
-void ClipboardBranch::addRecord(QString branch_id,
-                             QMap<QString, QString> record_fields,
-                             QMap<QString, QByteArray > record_files)
+void ClipboardBranch::addRecord(QString branch_id, Record record)
 {
  // todo: Сделать проверку, есть ли ветка с указанным id
-
- CLIPB_ONE_RECORD_STRUCT record;
-
- record.fields=record_fields;
- record.files=record_files;
-
  branchData.record.insert(branch_id, record);
 }
 
@@ -139,21 +131,21 @@ QMap<QString, QString> ClipboardBranch::getBranchFieldsById(QString id)
     return current_branch;
  }
 
- critical_error("Can not find id "+id+" in clipboard data");
+ criticalError("Can not find id "+id+" in clipboard data");
  exit(1);
  return QMap<QString, QString>();
 }
 
 
 // Получение списка записей для указанной ветки
-QList< CLIPB_ONE_RECORD_STRUCT > ClipboardBranch::getBranchRecords(QString id)
+QList< Record > ClipboardBranch::getBranchRecords(QString id)
 {
- QList< CLIPB_ONE_RECORD_STRUCT > records;
+ QList< Record > records;
 
  // Находятся записи с нужным идентификатором
  // Записи добавляются в records в последовательности задом-наперёд
  // из-за особенностей реализации foreach для QMultiMap
- foreach(CLIPB_ONE_RECORD_STRUCT current_record, branchData.record.values(id))
+ foreach(Record current_record, branchData.record.values(id))
   records.insert(0, current_record);
 
  return records;

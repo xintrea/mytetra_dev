@@ -86,5 +86,17 @@
         <file>resource/standartdata/mytetra.xml</file>
         <file>resource/standartdata/base/0000000001/text.html</file>
         <file>resource/pic/edit_show_text.svg</file>
+        <file>resource/pic/attach.svg</file>
+        <file>resource/pic/attach_add.svg</file>
+        <file>resource/pic/attach_delete.svg</file>
+        <file>resource/pic/attach_edit.svg</file>
+        <file>resource/pic/attach_switch_to_editor.svg</file>
+        <file>resource/pic/attach_preview.svg</file>
+        <file>resource/pic/attach_info.svg</file>
+        <file>resource/pic/attach_exists.svg</file>
+        <file>resource/pic/attach_save_as.svg</file>
+        <file>resource/pic/attach_add_link.svg</file>
+        <file>resource/pic/attach_is_file.svg</file>
+        <file>resource/pic/attach_is_link.svg</file>
     </qresource>
 </RCC>
