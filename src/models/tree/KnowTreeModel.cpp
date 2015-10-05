@@ -53,7 +53,7 @@ void KnowTreeModel::init(QDomDocument *domModel)
   // Проверка формата XML-файла
   if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
    {
-    criticalError(tr("Unsupported format version for data base."));
+    criticalError(tr("Unsupported format version for data base.\nPlease upgrade your MyTetra application."));
     return;
    }
 

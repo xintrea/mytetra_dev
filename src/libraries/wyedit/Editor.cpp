@@ -1377,7 +1377,7 @@ void Editor::on_clear_clicked(void)
    QTextBlockFormat format;
 
    // Убираются отступы
-   format.setLeftMargin(0);   // Убирается левый отступ (который, возможно был установлен слайдеромили кнопками изменения отступа)
+   format.setLeftMargin(0);   // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
    format.setRightMargin(0);
    format.setTopMargin(0);    // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
    format.setBottomMargin(0);

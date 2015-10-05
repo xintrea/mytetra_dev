@@ -34,11 +34,11 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  162
+#define APPLICATION_RELEASE_MICROVERSION  163
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
-#define CURRENT_FORMAT_SUBVERSION 1
+#define CURRENT_FORMAT_SUBVERSION 2
 
 
 #define ADD_NEW_RECORD_TO_END         0
