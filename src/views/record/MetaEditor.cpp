@@ -41,9 +41,9 @@ MetaEditor::MetaEditor(void) : Editor()
   setupSignals();
 
   // В редакторе устанавливается функция обратного вызова на кнопку Attach
-  set_attach_callback( toAttachCallback );
+  setAttachCallback( toAttachCallback );
 
-  update_indentline_geometry();
+  updateIndentlineGeometry();
 }
 
 
@@ -219,10 +219,10 @@ void MetaEditor::clearAll(void)
  setAuthor("");
  setUrl("");
  setTags("");
- set_textarea("");
+ setTextarea("");
 
- set_work_directory("");
- set_file_name("");
+ setWorkDirectory("");
+ setFileName("");
 
  clearAllMiscField();
 

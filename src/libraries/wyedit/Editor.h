@@ -160,7 +160,7 @@ public:
  QVBoxLayout *textformatButtonsLayout=NULL;
  QToolBar    *toolsLine1=NULL;
  QToolBar    *toolsLine2=NULL;
- void insert_button_to_tools_line(QString toolName, QToolBar *line);
+ void insertButtonToToolsLine(QString toolName, QToolBar *line);
 
  // Вертикальная группировалка линеек кнопок и области редактирования
  QVBoxLayout   *buttonsAndEditLayout=NULL;
@@ -176,37 +176,37 @@ public:
  void init(int mode);
 
  // Методы работы с textarea
- void set_textarea(QString text);
- void set_textarea_editable(bool editable);
- QString get_textarea(void);
- QTextDocument *get_textarea_document(void);
- void set_textarea_modified(bool modify);
- bool get_textarea_modified(void);
+ void setTextarea(QString text);
+ void setTextareaEditable(bool editable);
+ QString getTextarea(void);
+ QTextDocument *getTextareaDocument(void);
+ void setTextareaModified(bool modify);
+ bool getTextareaModified(void);
 
  // Абсолютный или относительный путь (т.е. директория),
  // куда будет сохраняться текст. Без завершающего слеша
- bool set_work_directory(QString dirName);
- QString get_work_directory(void);
+ bool setWorkDirectory(QString dirName);
+ QString getWorkDirectory(void);
  
  // Имя файла, куда должен сохраняться текст
  // Без пути, только имя
- void set_file_name(QString fileName);
- QString get_file_name(void);
+ void setFileName(QString fileName);
+ QString getFileName(void);
 
- void save_textarea();
- bool save_textarea_text();
- bool save_textarea_images(int mode);
- bool load_textarea();
+ void saveTextarea();
+ bool saveTextareaText();
+ bool saveTextareaImages(int mode);
+ bool loadTextarea();
 
  // Методы установки нестандартных процедур чтения и сохранения текста
- void set_save_callback(void (*func)(QObject *editor, QString saveString));
- void set_load_callback(void (*func)(QObject *editor, QString &loadString));
+ void setSaveCallback(void (*func)(QObject *editor, QString saveString));
+ void setLoadCallback(void (*func)(QObject *editor, QString &loadString));
 
  // Метод установки функции переключения на предыдущее окно (для мобильного интерфейса)
- void set_back_callback(void (*func)(void));
+ void setBackCallback(void (*func)(void));
 
  // Метод установки функции нажатия на кнопку Attach
- void set_attach_callback(void (*func)(void));
+ void setAttachCallback(void (*func)(void));
 
  // Методы установки и чтения произвольных нестандартных данных 
  // которые может хранить объект редактора
@@ -214,7 +214,7 @@ public:
  QString getMiscField(QString name);
  void clearAllMiscField(void);
 
- void update_indentline_geometry();
+ void updateIndentlineGeometry();
 
  void setDirFileEmptyReaction(int mode);
  int  getDirFileEmptyReaction(void);
@@ -266,73 +266,73 @@ public slots:
 private slots:
 
  // Действия в области редактирования
- void on_bold_clicked(void);
- void on_italic_clicked(void);
- void on_underline_clicked(void);
- void on_monospace_clicked(void);
- void on_code_clicked(void);
- void on_clear_clicked(void);
+ void onBoldClicked(void);
+ void onItalicClicked(void);
+ void onUnderlineClicked(void);
+ void onMonospaceClicked(void);
+ void onCodeClicked(void);
+ void onClearClicked(void);
 
- void on_numericlist_clicked(void);
- void on_dotlist_clicked(void);
- void on_indentplus_clicked(void);
- void on_indentminus_clicked(void);
+ void onNumericlistClicked(void);
+ void onDotlistClicked(void);
+ void onIndentplusClicked(void);
+ void onIndentminusClicked(void);
  
- void on_alignleft_clicked(void);
- void on_aligncenter_clicked(void);
- void on_alignright_clicked(void);
- void on_alignwidth_clicked(void);
+ void onAlignleftClicked(void);
+ void onAligncenterClicked(void);
+ void onAlignrightClicked(void);
+ void onAlignwidthClicked(void);
   
- void on_fontselect_changed(const QFont &font);
- void on_fontsize_changed(int i);
- void on_fontcolor_clicked();
+ void onFontselectChanged(const QFont &font);
+ void onFontsizeChanged(int i);
+ void onFontcolorClicked();
 
- void set_fontselect_on_display(QString fontName);
- void set_fontsize_on_display(int n);
+ void setFontselectOnDisplay(QString fontName);
+ void setFontsizeOnDisplay(int n);
 
- void on_showhtml_clicked(void);
- void on_findtext_clicked(void);
- void on_settings_clicked(void);
- void on_showformatting_clicked(void);
+ void onShowhtmlClicked(void);
+ void onFindtextClicked(void);
+ void onSettingsClicked(void);
+ void onShowformattingClicked(void);
 
- void on_createtable_clicked(void);
- void on_table_remove_row_clicked(void);
- void on_table_remove_col_clicked(void);
- void on_table_add_row_clicked(void);
- void on_table_add_col_clicked(void);
- void on_table_merge_cells_clicked(void);
- void on_table_split_cell_clicked(void);
+ void onCreatetableClicked(void);
+ void onTableRemoveRowClicked(void);
+ void onTableRemoveColClicked(void);
+ void onTableAddRowClicked(void);
+ void onTableAddColClicked(void);
+ void onTableMergeCellsClicked(void);
+ void onTableSplitCellClicked(void);
 
- void on_insert_image_from_file_clicked(void);
- void on_expand_edit_area_clicked(void);
- void on_expand_tools_lines_clicked(void);
- void on_save_clicked(void);
- void on_back_clicked(void);
- void on_find_in_base_clicked(void);
- void on_show_text_clicked(void);
- void on_to_attach_clicked(void);
+ void onInsertImageFromFileClicked(void);
+ void onExpandEditAreaClicked(void);
+ void onExpandToolsLinesClicked(void);
+ void onSaveClicked(void);
+ void onBackClicked(void);
+ void onFindInBaseClicked(void);
+ void onShowTextClicked(void);
+ void onToAttachClicked(void);
 
- void on_cursor_position_changed(void); // Слот, контролирущий перемещение курсора
- void on_selection_changed(void);
- void on_undo(void);
- void on_redo(void);
- void on_cut(void);
- void on_copy(void);
- void on_paste(void);
- void on_selectAll(void);
+ void onCursorPositionChanged(void); // Слот, контролирущий перемещение курсора
+ void onSelectionChanged(void);
+ void onUndo(void);
+ void onRedo(void);
+ void onCut(void);
+ void onCopy(void);
+ void onPaste(void);
+ void onSelectAll(void);
 
- void on_findtext_signal_detect(const QString &text, QTextDocument::FindFlags flags);
+ void onFindtextSignalDetect(const QString &text, QTextDocument::FindFlags flags);
 
  // Слоты обработки перемещения движков настройки отступов
- void on_indentline_change_textindent_pos(int i);
- void on_indentline_change_leftindent_pos(int i);
- void on_indentline_change_rightindent_pos(int i);
- void on_indentline_mouse_release(void);
+ void onIndentlineChangeTextindentPos(int i);
+ void onIndentlineChangeLeftindentPos(int i);
+ void onIndentlineChangeRightindentPos(int i);
+ void onIndentlineMouseRelease(void);
 
  // Открытие контекстного меню
- void on_customContextMenuRequested(const QPoint &pos);
+ void onCustomContextMenuRequested(const QPoint &pos);
 
- void on_context_menu_edit_image_properties(void);
+ void onContextMenuEditImageProperties(void);
 
  // void onModificationChanged(bool flag);
 
@@ -355,39 +355,39 @@ private:
 
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
- void setup_signals(void);
- void setup_buttons(void);
- void setup_editor_area(void);
- void assembly_buttons(void);
+ void setupSignals(void);
+ void setupButtons(void);
+ void setupEditorArea(void);
+ void assemblyButtons(void);
  void assembly(void);
- void hide_all_tools_elements(void);
- void format_to_list(QTextListFormat::Style setFormat);
- void align_text(Qt::AlignmentFlag mode);
+ void hideAllToolsElements(void);
+ void formatToList(QTextListFormat::Style setFormat);
+ void alignText(Qt::AlignmentFlag mode);
  void updateToolsLines(void);
 
- bool is_block_select(void);
- bool is_cursor_on_empty_line(void);
- bool is_cursor_on_space_line(void);
- bool is_image_select(void);
- bool is_cursor_on_image(void);
+ bool isBlockSelect(void);
+ bool isCursorOnEmptyLine(void);
+ bool isCursorOnSpaceLine(void);
+ bool isImageSelect(void);
+ bool isCursorOnImage(void);
 
- QTextImageFormat image_format_on_select(void);
- QTextImageFormat image_format_on_cursor(void);
+ QTextImageFormat imageFormatOnSelect(void);
+ QTextImageFormat imageFormatOnCursor(void);
 
- void edit_image_properties(void);
+ void editImageProperties(void);
 
- void update_tool_line_to_actual_format(void);
- void update_indentslider_to_actual_format(void);
- void update_align_button_higlight(bool activate);
- void update_outline_button_higlight(void);
- void set_outline_button_higlight(int button, bool active);
- bool is_key_for_tool_line_update(QKeyEvent *event);
+ void updateToolLineToActualFormat(void);
+ void updateIndentsliderToActualFormat(void);
+ void updateAlignButtonHiglight(bool activate);
+ void updateOutlineButtonHiglight(void);
+ void setOutlineButtonHiglight(int button, bool active);
+ bool isKeyForToolLineUpdate(QKeyEvent *event);
 
  // Метод, переключающий состояние видимости полной панели инструментов
  // Если вызывается без параметра, метод сам переключает
  // Параметр 1 - включить полную видимость
  // Параметр -1 - выключить полную видимость
- void switch_expand_tools_lines(int flag=0);
+ void switchExpandToolsLines(int flag=0);
 
  // Переопределяется слот обработки клавиш
  // нужен для определения момента undo/redo

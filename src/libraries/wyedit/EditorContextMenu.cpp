@@ -37,11 +37,11 @@ void EditorContextMenu::setup_actions(void)
 
 
 // Показывать или нет пункт редактирования свойств изображения
-void EditorContextMenu::set_edit_image_properties(bool is_image_select)
+void EditorContextMenu::set_edit_image_properties(bool isImageSelect)
 {
- qDebug() << "In EditorContextMenu::set_edit_image_properties() " << is_image_select;
+ qDebug() << "In EditorContextMenu::set_edit_image_properties() " << isImageSelect;
 
- actionEditImageProperties->setVisible(is_image_select);
+ actionEditImageProperties->setVisible(isImageSelect);
 }
 
 

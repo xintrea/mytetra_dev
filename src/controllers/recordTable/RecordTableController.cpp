@@ -101,7 +101,7 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
 
 
   // Устанавливается функция обратного вызова для записи данных
-  edView->set_save_callback(table->editorSaveCallback);
+  edView->setSaveCallback(table->editorSaveCallback);
 
   // Сохраняется текст и картинки в окне редактирования
   find_object<MainWindow>("mainwindow")->saveTextarea();
@@ -115,8 +115,8 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   qDebug() << " File " << fullFileName << "\n";
 
   // Если в окне содержимого записи уже находится выбираемая запись
-  if(edView->get_work_directory()==fullDir &&
-     edView->get_file_name()==currentFile)
+  if(edView->getWorkDirectory()==fullDir &&
+     edView->getFileName()==currentFile)
   {
     globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
     return;
@@ -128,8 +128,8 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
 
   // Редактору задаются имя файла и директории
   // И дается команда загрузки файла
-  edView->set_work_directory(fullDir);
-  edView->set_file_name(currentFile);
+  edView->setWorkDirectory(fullDir);
+  edView->setFileName(currentFile);
 
   // Если идет работа с зашифрованной записью
   // И если имя директории или имя файла пусты, то это означает что
@@ -146,9 +146,9 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   edView->setMiscField("crypt", table->getField("crypt", pos));
 
   // В редакторе устанавливается функция обратного вызова для чтения данных
-  edView->set_load_callback(table->editorLoadCallback);
+  edView->setLoadCallback(table->editorLoadCallback);
 
-  edView->load_textarea();
+  edView->loadTextarea();
   // edView->set_textarea(table->get_text(index.row()));
 
   // Заполняются прочие инфо-поля
@@ -434,7 +434,7 @@ void RecordTableController::cut(void)
  // Надо сохранить запись, так как перед копированием в буфер обмена запись
  // обязательно должна быть сохранена, иначе редактирование,
  // которое было после открытия записи и до нажатия Cut, потеряется
- find_object<MetaEditor>("editorScreen")->save_textarea();
+ find_object<MetaEditor>("editorScreen")->saveTextarea();
 
  copy();
  deleteRecords();

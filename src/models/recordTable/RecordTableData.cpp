@@ -118,7 +118,7 @@ void RecordTableData::editorLoadCallback(QObject *editor,
   }
 
  // Файл, с которым работает редактор
- QString fileName=currEditor->get_work_directory()+"/"+currEditor->get_file_name();
+ QString fileName=currEditor->getWorkDirectory()+"/"+currEditor->getFileName();
 
  QFile f(fileName);
 
@@ -162,7 +162,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
    workWithCrypt=true;
   }
 
- QString fileName=currEditor->get_work_directory()+"/"+currEditor->get_file_name();
+ QString fileName=currEditor->getWorkDirectory()+"/"+currEditor->getFileName();
 
  // Если шифровать ненужно
  if(workWithCrypt==false)
@@ -194,7 +194,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 
  // Вызывается сохранение картинок
  // В данной реализации картинки сохраняются незашифрованными
- currEditor->save_textarea_images(Editor::SAVE_IMAGES_REMOVE_UNUSED);
+ currEditor->saveTextareaImages(Editor::SAVE_IMAGES_REMOVE_UNUSED);
 }
 
 

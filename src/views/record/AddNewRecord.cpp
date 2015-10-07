@@ -153,8 +153,8 @@ void AddNewRecord::okClick(void)
 
  // Картинки сохраняются
  imagesDirName=DiskHelper::createTempDirectory();
- recordTextEditor->set_work_directory(imagesDirName);
- recordTextEditor->save_textarea_images(Editor::SAVE_IMAGES_SIMPLE);
+ recordTextEditor->setWorkDirectory(imagesDirName);
+ recordTextEditor->saveTextareaImages(Editor::SAVE_IMAGES_SIMPLE);
 
  emit(accept());
 }
@@ -182,7 +182,7 @@ QString AddNewRecord::getField(QString name)
   return infoField->getField(name);
 
  if(name=="text")
-  return recordTextEditor->get_textarea();
+  return recordTextEditor->getTextarea();
 
  // Если запрашиваемого поля нет, возвращается пустая строка
  return QString();

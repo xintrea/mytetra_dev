@@ -536,7 +536,7 @@ void MainWindow::filePrint(void)
   dlg->setWindowTitle(tr("Print Document"));
 
   if (dlg->exec() == QDialog::Accepted)
-   editorScreen->get_textarea_document()->print(&printer);
+   editorScreen->getTextareaDocument()->print(&printer);
 
   delete dlg;
 #endif
@@ -546,7 +546,7 @@ void MainWindow::filePrint(void)
 // Предпросмотр печати текущей статьи
 void MainWindow::filePrintPreview(void)
 {
-   PrintPreview *preview = new PrintPreview(editorScreen->get_textarea_document(), this);
+   PrintPreview *preview = new PrintPreview(editorScreen->getTextareaDocument(), this);
 
    preview->setModal(true);
    preview->setAttribute(Qt::WA_DeleteOnClose);
@@ -568,7 +568,7 @@ void MainWindow::filePrintPdf(void)
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setOutputFileName(fileName);
-    editorScreen->get_textarea_document()->print(&printer);
+    editorScreen->getTextareaDocument()->print(&printer);
    }
 #endif
 }
@@ -863,7 +863,7 @@ bool MainWindow::eventFilter( QObject * o, QEvent * e )
 
 void MainWindow::goWalkHistoryPrevious(void)
 {
- editorScreen->save_textarea();
+ editorScreen->saveTextarea();
 
  QString id=editorScreen->getMiscField("id");
  walkHistory.add(id,
@@ -878,7 +878,7 @@ void MainWindow::goWalkHistoryPrevious(void)
 
 void MainWindow::goWalkHistoryNext(void)
 {
- editorScreen->save_textarea();
+ editorScreen->saveTextarea();
 
  QString id=editorScreen->getMiscField("id");
  walkHistory.add(id,
@@ -945,7 +945,7 @@ void MainWindow::saveTextarea(void)
 
   qDebug() << "MainWindow::saveTextarea() : id :" << id;
 
-  editorScreen->save_textarea();
+  editorScreen->saveTextarea();
 
   walkHistory.add(id,
                   editorScreen->getCursorPosition(),

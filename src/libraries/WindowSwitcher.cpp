@@ -19,7 +19,7 @@ WindowSwitcher::WindowSwitcher(QObject *parent) : QObject(parent)
  // Редактор является встраиваемым, поэтому работа кнопки Back у него идет через callback функцию
  // MetaEditor *edView=find_object<MetaEditor>("editorScreen"); // Выясняется указатель на объект редактирования текста записи
  MetaEditor *metaEditor=globalParameters.getMetaEditor();
- metaEditor->set_back_callback( this->switchFromRecordToRecordtable ); // Устанавливается функция обратного вызова при клике на кнопку Back
+ metaEditor->setBackCallback( this->switchFromRecordToRecordtable ); // Устанавливается функция обратного вызова при клике на кнопку Back
 }
 
 

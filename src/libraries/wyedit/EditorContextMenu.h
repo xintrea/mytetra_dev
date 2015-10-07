@@ -11,7 +11,7 @@ class EditorContextMenu : public QMenu
   EditorContextMenu(QWidget *parent=0);
   ~EditorContextMenu(void);
 
- void set_edit_image_properties(bool is_image_select);
+ void set_edit_image_properties(bool isImageSelect);
 
  signals:
   void undo(void);

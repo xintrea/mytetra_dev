@@ -362,12 +362,12 @@ void RecordTableScreen::toolsUpdate(void)
   {
    qDebug() << "In table select present";
    qDebug() << "In table row count is" << recordTableController->getRowCount();
-   find_object<MetaEditor>("editorScreen")->set_textarea_editable(true);
+   find_object<MetaEditor>("editorScreen")->setTextareaEditable(true);
   }
  else
   {
    qDebug() << "In table select non present";
-   find_object<MetaEditor>("editorScreen")->set_textarea_editable(false);
+   find_object<MetaEditor>("editorScreen")->setTextareaEditable(false);
   }
 }
 
