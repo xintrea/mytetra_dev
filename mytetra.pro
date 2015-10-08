@@ -158,7 +158,8 @@ HEADERS = src/main.h \
     src/views/dialog/ReduceMessageBox.h \
     src/views/dialog/OverTextToolButton.h \
     src/libraries/crypt/CryptService.h \
-    src/libraries/DiskHelper.h
+    src/libraries/DiskHelper.h \
+    src/libraries/wyedit/EditorToolBar.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -252,7 +253,8 @@ SOURCES = src/main.cpp \
     src/views/dialog/ReduceMessageBox.cpp \
     src/views/dialog/OverTextToolButton.cpp \
     src/libraries/crypt/CryptService.cpp \
-    src/libraries/DiskHelper.cpp
+    src/libraries/DiskHelper.cpp \
+    src/libraries/wyedit/EditorToolBar.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

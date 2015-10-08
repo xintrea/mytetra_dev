@@ -78,6 +78,11 @@
 //     - В методе init() появился параметр mode, отвечащий за режим
 //       инициализации и отображения редактора - desktop или mobile
 
+// 1.7 - Основна на версии 1.6
+//     - Сделано правильное реагирование линейки отступов при
+//       переключении текста записи на новую запись в
+//       новом режиме хранения записей в памями
+
 
 #define WYEDIT_VERSION "WyEdit v.1.7 / 21.06.2015"
 
@@ -99,68 +104,11 @@ public:
  Editor(QWidget *parent=0);
  ~Editor(void);
 
+ // Объект, хранящий настройки редактора
  EditorConfig  *editorConfig=NULL;
 
- // Кнопки форматирования текста
- QToolButton   *bold=NULL;
- QToolButton   *italic=NULL;
- QToolButton   *underline=NULL;
- QToolButton   *monospace=NULL;
- QToolButton   *code=NULL;
- QToolButton   *clear=NULL;
-
- QToolButton   *numericList=NULL;
- QToolButton   *dotList=NULL;
- 
- QToolButton   *indentPlus=NULL;
- QToolButton   *indentMinus=NULL;
- 
- QToolButton   *alignLeft=NULL;
- QToolButton   *alignCenter=NULL;
- QToolButton   *alignRight=NULL;
- QToolButton   *alignWidth=NULL;
-
- QToolButton   *settings=NULL;
- 
- QFontComboBox *fontSelect=NULL;
- MtComboBox    *fontSize=NULL;
- QToolButton   *fontColor=NULL;
- 
- QToolButton   *showHtml=NULL;
-
- QToolButton   *findText=NULL;
-
- QToolButton   *showFormatting=NULL;
-
- QToolButton   *createTable=NULL;
- QToolButton   *tableRemoveRow=NULL;
- QToolButton   *tableRemoveCol=NULL;
- QToolButton   *tableAddRow=NULL;
- QToolButton   *tableAddCol=NULL;
- QToolButton   *tableMergeCells=NULL;
- QToolButton   *tableSplitCell=NULL;
-
- QToolButton   *insertImageFromFile=NULL;
- QToolButton   *expandEditArea=NULL;
- QToolButton   *expandToolsLines=NULL;
- QToolButton   *save=NULL;
-
- QToolButton   *back=NULL;
- QToolButton   *findInBase=NULL;
-
- QToolButton   *showText=NULL;
-
- QToolButton   *toAttach=NULL;
- QIcon         iconAttachExists; // Иконка, когда аттачи есть
- QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
-
+ // Виджет горизонтальной линейки отступов
  IndentSlider  *indentSlider=NULL;
-
- // Горизонтальная линейка, содержащая кнопки форматирования
- QVBoxLayout *textformatButtonsLayout=NULL;
- QToolBar    *toolsLine1=NULL;
- QToolBar    *toolsLine2=NULL;
- void insertButtonToToolsLine(QString toolName, QToolBar *line);
 
  // Вертикальная группировалка линеек кнопок и области редактирования
  QVBoxLayout   *buttonsAndEditLayout=NULL;
@@ -356,14 +304,11 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
- void setupButtons(void);
  void setupEditorArea(void);
- void assemblyButtons(void);
  void assembly(void);
- void hideAllToolsElements(void);
+
  void formatToList(QTextListFormat::Style setFormat);
  void alignText(Qt::AlignmentFlag mode);
- void updateToolsLines(void);
 
  bool isBlockSelect(void);
  bool isCursorOnEmptyLine(void);
