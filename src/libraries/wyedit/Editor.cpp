@@ -1209,9 +1209,9 @@ void Editor::setFontselectOnDisplay(QString fontName)
   flagSetFontParametersEnabled=false;
 
   if(fontName.size()>0)
-    fontSelect->setCurrentIndex(fontSelect->findText(fontName));
+    editorToolBar->fontSelect->setCurrentIndex(fontSelect->findText(fontName));
   else
-    fontSelect->setCurrentIndex(fontSelect->count()-1);
+    editorToolBar->fontSelect->setCurrentIndex(fontSelect->count()-1);
 
   currentFontFamily=fontName;
 
