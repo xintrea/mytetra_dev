@@ -13,6 +13,7 @@
 #include <QSlider>
 #include <QStringList>
 
+#include "EditorToolBar.h"
 #include "EditorFindDialog.h"
 #include "EditorShowText.h"
 
@@ -106,6 +107,9 @@ public:
 
  // Объект, хранящий настройки редактора
  EditorConfig  *editorConfig=NULL;
+
+ // Кнопки редактора
+ EditorToolBar *editorToolBar=NULL;
 
  // Виджет горизонтальной линейки отступов
  IndentSlider  *indentSlider=NULL;

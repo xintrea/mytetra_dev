@@ -49,6 +49,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 Editor::~Editor(void)
 {
   delete editorConfig;
+  delete editorToolBar;
   delete buttonsAndEditLayout;
   delete editorContextMenu;
   delete textArea;
@@ -91,7 +92,8 @@ void Editor::init(int mode)
   editorConfig=new EditorConfig(initDataConfigFileName, this);
   editorConfig->setObjectName("editorconfig");
 
-  // todo: Здесь создать EditorToolBar
+  // Создается панель с кнопками
+  editorToolBar=new EditorToolBar(this);
 
   // Создается виджет поиска, обязательно нужно указать parent чтобы
   // могли применяться флаги окна.
@@ -144,54 +146,57 @@ void Editor::init(int mode)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(bold,SIGNAL(clicked()),        this,SLOT(onBoldClicked()));
-  connect(italic,SIGNAL(clicked()),      this,SLOT(onItalicClicked()));
-  connect(underline,SIGNAL(clicked()),   this,SLOT(onUnderlineClicked()));
-  connect(monospace,SIGNAL(clicked()),   this,SLOT(onMonospaceClicked()));
-  connect(code,SIGNAL(clicked()),        this,SLOT(onCodeClicked()));
-  connect(clear,SIGNAL(clicked()),       this,SLOT(onClearClicked()));
+  connect(editorToolBar->bold,SIGNAL(clicked()),        this,SLOT(onBoldClicked()));
+  connect(editorToolBar->italic,SIGNAL(clicked()),      this,SLOT(onItalicClicked()));
+  connect(editorToolBar->underline,SIGNAL(clicked()),   this,SLOT(onUnderlineClicked()));
+  connect(editorToolBar->monospace,SIGNAL(clicked()),   this,SLOT(onMonospaceClicked()));
+  connect(editorToolBar->code,SIGNAL(clicked()),        this,SLOT(onCodeClicked()));
+  connect(editorToolBar->clear,SIGNAL(clicked()),       this,SLOT(onClearClicked()));
 
-  connect(numericList,SIGNAL(clicked()), this,SLOT(onNumericlistClicked()));
-  connect(dotList,SIGNAL(clicked()),     this,SLOT(onDotlistClicked()));
+  connect(editorToolBar->numericList,SIGNAL(clicked()), this,SLOT(onNumericlistClicked()));
+  connect(editorToolBar->dotList,SIGNAL(clicked()),     this,SLOT(onDotlistClicked()));
 
-  connect(indentPlus,SIGNAL(clicked()),  this,SLOT(onIndentplusClicked()));
-  connect(indentMinus,SIGNAL(clicked()), this,SLOT(onIndentminusClicked()));
+  connect(editorToolBar->indentPlus,SIGNAL(clicked()),  this,SLOT(onIndentplusClicked()));
+  connect(editorToolBar->indentMinus,SIGNAL(clicked()), this,SLOT(onIndentminusClicked()));
 
-  connect(alignLeft,SIGNAL(clicked()),   this,SLOT(onAlignleftClicked()));
-  connect(alignCenter,SIGNAL(clicked()), this,SLOT(onAligncenterClicked()));
-  connect(alignRight,SIGNAL(clicked()),  this,SLOT(onAlignrightClicked()));
-  connect(alignWidth,SIGNAL(clicked()),  this,SLOT(onAlignwidthClicked()));
+  connect(editorToolBar->alignLeft,SIGNAL(clicked()),   this,SLOT(onAlignleftClicked()));
+  connect(editorToolBar->alignCenter,SIGNAL(clicked()), this,SLOT(onAligncenterClicked()));
+  connect(editorToolBar->alignRight,SIGNAL(clicked()),  this,SLOT(onAlignrightClicked()));
+  connect(editorToolBar->alignWidth,SIGNAL(clicked()),  this,SLOT(onAlignwidthClicked()));
 
-  connect(fontSelect,SIGNAL(currentFontChanged(const QFont &)), this,SLOT(onFontselectChanged(const QFont &)));
-  connect(fontSize,SIGNAL(currentIndexChanged(int)),            this,SLOT(onFontsizeChanged(int)));
-  connect(fontColor,SIGNAL(clicked()),                          this,SLOT(onFontcolorClicked()));
+  connect(editorToolBar->fontSelect,SIGNAL(currentFontChanged(const QFont &)), this,SLOT(onFontselectChanged(const QFont &)));
+  connect(editorToolBar->fontSize,SIGNAL(currentIndexChanged(int)),            this,SLOT(onFontsizeChanged(int)));
+  connect(editorToolBar->fontColor,SIGNAL(clicked()),                          this,SLOT(onFontcolorClicked()));
 
-  connect(showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
-  connect(findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
-  connect(settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
-  connect(showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
+  connect(editorToolBar->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
+  connect(editorToolBar->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
+  connect(editorToolBar->settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
+  connect(editorToolBar->showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
 
-  // Работа с таблицами
-  connect(createTable,SIGNAL(clicked()),    this,SLOT(onCreatetableClicked()));
-  connect(tableRemoveRow,SIGNAL(clicked()), this,SLOT(onTableRemoveRowClicked()));
-  connect(tableRemoveCol,SIGNAL(clicked()), this,SLOT(onTableRemoveColClicked()));
-  connect(tableAddRow,SIGNAL(clicked()),    this,SLOT(onTableAddRowClicked()));
-  connect(tableAddCol,SIGNAL(clicked()),    this,SLOT(onTableAddColClicked()));
-  connect(tableMergeCells,SIGNAL(clicked()),this,SLOT(onTableMergeCellsClicked()));
-  connect(tableSplitCell,SIGNAL(clicked()), this,SLOT(onTableSplitCellClicked()));
+  // Кнопки работы с таблицами
+  connect(editorToolBar->createTable,SIGNAL(clicked()),    this,SLOT(onCreatetableClicked()));
+  connect(editorToolBar->tableRemoveRow,SIGNAL(clicked()), this,SLOT(onTableRemoveRowClicked()));
+  connect(editorToolBar->tableRemoveCol,SIGNAL(clicked()), this,SLOT(onTableRemoveColClicked()));
+  connect(editorToolBar->tableAddRow,SIGNAL(clicked()),    this,SLOT(onTableAddRowClicked()));
+  connect(editorToolBar->tableAddCol,SIGNAL(clicked()),    this,SLOT(onTableAddColClicked()));
+  connect(editorToolBar->tableMergeCells,SIGNAL(clicked()),this,SLOT(onTableMergeCellsClicked()));
+  connect(editorToolBar->tableSplitCell,SIGNAL(clicked()), this,SLOT(onTableSplitCellClicked()));
 
-  connect(insertImageFromFile, SIGNAL(clicked()), this, SLOT(onInsertImageFromFileClicked()));
-  connect(expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
-  connect(expandToolsLines, SIGNAL(clicked()), this, SLOT(onExpandToolsLinesClicked()));
-  connect(save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-  connect(back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
-  connect(findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
-  connect(showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
-  connect(toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
+  // Прочие кнопки
+  connect(editorToolBar->insertImageFromFile, SIGNAL(clicked()), this, SLOT(onInsertImageFromFileClicked()));
+  connect(editorToolBar->expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
+  connect(editorToolBar->expandToolsLines, SIGNAL(clicked()), this, SLOT(onExpandToolsLinesClicked()));
+  connect(editorToolBar->save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+  connect(editorToolBar->back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
+  connect(editorToolBar->findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
+  connect(editorToolBar->showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
+  connect(editorToolBar->toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
 
+  // Область редактирования текста
   connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(onCursorPositionChanged()));
   connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(onSelectionChanged()));
 
+  // Линейка отступов
   connect(indentSlider,SIGNAL(change_textindent_pos(int)), this,SLOT(onIndentlineChangeTextindentPos(int)));
   connect(indentSlider,SIGNAL(change_leftindent_pos(int)), this,SLOT(onIndentlineChangeLeftindentPos(int)));
   connect(indentSlider,SIGNAL(change_rightindent_pos(int)),this,SLOT(onIndentlineChangeRightindentPos(int)));
@@ -256,8 +261,8 @@ void Editor::assembly(void)
   buttonsAndEditLayout=new QVBoxLayout(this);
   buttonsAndEditLayout->setObjectName("buttons_and_edit_layout");
 
-  // Добавляются линейки кнопок
-  buttonsAndEditLayout->addLayout(textformatButtonsLayout);
+  // Добавляется виджет с кнопками редактора
+  buttonsAndEditLayout->addWidget(editorToolBar);
 
   // Добавляется область редактирования
   buttonsAndEditLayout->addWidget(textArea);

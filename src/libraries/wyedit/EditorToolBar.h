@@ -75,8 +75,10 @@ public:
   QToolBar    *toolsLine1=NULL;
   QToolBar    *toolsLine2=NULL;
 
-  // Область, содержащая линейкеи с кнопками форматирования
+  // Область, содержащая линейки с кнопками форматирования
   QVBoxLayout *textformatButtonsLayout=NULL;
+
+  void switchAttachIconExists(bool isExists);
 
 
 signals:

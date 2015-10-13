@@ -437,3 +437,11 @@ void EditorToolBar::updateToolsLines(void)
   }
 }
 
+
+void EditorToolBar::switchAttachIconExists(bool isExists)
+{
+  if(isExists)
+    toAttach->setIcon( iconAttachExists );
+  else
+    toAttach->setIcon( iconAttachNotExists );
+}
