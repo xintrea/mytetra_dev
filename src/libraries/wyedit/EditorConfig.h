@@ -6,8 +6,7 @@
 #include <QSettings>
 
 
-class EditorConfig : public QWidget
-{
+class EditorConfig : public QWidget {
     Q_OBJECT
 
 public:
@@ -30,7 +29,7 @@ public:
     bool get_monospace_font_size_apply(void);
     void set_monospace_font_size_apply(bool i);
 
-    
+
     // Настройка шрифта форматирования кода
     QString get_code_font(void);
     void    set_code_font(QString fontName);
@@ -46,7 +45,7 @@ public:
     void set_code_indent_size(int size);
     bool get_code_indent_size_apply(void);
     void set_code_indent_size_apply(bool i);
-    
+
     // Шаг изменения отступа
     int get_indent_step(void);
     void set_indent_step(int i);

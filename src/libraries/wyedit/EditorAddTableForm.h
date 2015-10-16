@@ -8,28 +8,27 @@ class QLabel;
 class QSpinBox;
 class QDialogButtonBox;
 
-class EditorAddTableForm : public QDialog
-{
- Q_OBJECT
+class EditorAddTableForm : public QDialog {
+    Q_OBJECT
 
- public:
-  EditorAddTableForm();
+public:
+    EditorAddTableForm();
 
-  int  get_columns(void);
-  int  get_rows(void);
-  int  get_width(void);
+    int  get_columns(void);
+    int  get_rows(void);
+    int  get_width(void);
 
- private:
-  QLabel *labelColumns;
-  QLabel *labelRows;
-  QLabel *labelWidth;
-  QLabel *labelPercent;
+private:
+    QLabel *labelColumns;
+    QLabel *labelRows;
+    QLabel *labelWidth;
+    QLabel *labelPercent;
 
-  QSpinBox *spinColumns;
-  QSpinBox *spinRows;
-  QSpinBox *spinWidth;
+    QSpinBox *spinColumns;
+    QSpinBox *spinRows;
+    QSpinBox *spinWidth;
 
-  QDialogButtonBox *buttonBox;
+    QDialogButtonBox *buttonBox;
 
 };
 

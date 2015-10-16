@@ -61,8 +61,7 @@ class QtLocalPeer;
 #endif
 
 
-class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QApplication
-{
+class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QApplication {
     Q_OBJECT
 
 public:
@@ -86,7 +85,10 @@ public:
 
     // Obsolete:
     void initialize(bool dummy = true)
-        { isRunning(); Q_UNUSED(dummy) }
+    {
+        isRunning();
+        Q_UNUSED(dummy)
+    }
 
 public Q_SLOTS:
     bool sendMessage(const QString &message, int timeout = 5000);
