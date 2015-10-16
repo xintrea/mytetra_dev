@@ -5,37 +5,35 @@
 #include <QDir>
 
 
-class TrashMonitoring
-{
+class TrashMonitoring {
 
 public:
- TrashMonitoring(void);
- virtual ~TrashMonitoring(void);
+    TrashMonitoring(void);
+    virtual ~TrashMonitoring(void);
 
- void init(QString trashPath);
- 
- // Функция, вызываемая после фактического добавления файла в корзину
- // принимает имя файла без пути к директории
- void addFile(QString filename);
- 
- void update(void);
+    void init(QString trashPath);
+
+// Функция, вызываемая после фактического добавления файла в корзину
+// принимает имя файла без пути к директории
+    void addFile(QString filename);
+
+    void update(void);
 
 private:
- 
- void removeOldesFile(void);
- 
- QString path;
- QDir dir;
- unsigned int dirSize;
-  
- struct FileData
- {
-  QString fileName;
-  unsigned int fileTime;
-  unsigned int fileSize;
- };
 
- QList<FileData> filesTable;
+    void removeOldesFile(void);
+
+    QString path;
+    QDir dir;
+    unsigned int dirSize;
+
+    struct FileData {
+        QString fileName;
+        unsigned int fileTime;
+        unsigned int fileSize;
+    };
+
+    QList<FileData> filesTable;
 
 };
 

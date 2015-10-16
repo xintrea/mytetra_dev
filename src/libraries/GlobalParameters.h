@@ -10,8 +10,7 @@ class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
 
-class GlobalParameters : public QObject
-{
+class GlobalParameters : public QObject {
     Q_OBJECT
 
 public:

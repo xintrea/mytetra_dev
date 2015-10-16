@@ -1,5 +1,5 @@
 mytetra_dev
-===========
+_______________________________________________________________________
 
 ENG: Central source repository for MyTetra development. 
 MyTetra official english page: [http://webhamster.ru/site/page/index/articles/projectcode/138](http://webhamster.ru/site/page/index/articles/projectcode/138)
@@ -7,25 +7,25 @@ MyTetra official english page: [http://webhamster.ru/site/page/index/articles/pr
 RUS: Основной репозитарий исходников для разработки MyTetra. 
 Официальная русскоязычная страница программы MyTetra: [http://webhamster.ru/site/page/index/articles/projectcode/105](http://webhamster.ru/site/page/index/articles/projectcode/105)
 
-Соглашение о кодировании (оформление кода)
-==========================================
+Agreement on the coding (registration code)
+_______________________________________________________________________
 
-При написании кода следует руководствоваться следующими соглашениями:
+When writing code to be guided by the following agreements:
 
-* кодировка файлов исходников: UTF-8;
-* в коде допустимы комментарии на русском и английском языках;
-* табуляция запрещена, отступы оформляются пробелами;
-* ширина отступов - 2 пробела;
-* комментарии должны иметь тот же отступ что и у кода;
-* название файла с реализацией класса строится по принципу: ЭтоМойКласс.cpp;
-* название файла с заголовком класса строится по принципу: ЭтоМойКласс.h;
-* название класса строится по принципу: ЭтоМойКласс;
-* название метода строится по принципу: этоМетодКласса;
-* название переменных строится по принципу: этоПеременная;
-* Открывающая "{" и закрывающая скобка "}" должны стоять на отдельных строчках. Недопустимо размещать открывающую скобку в строке с for(), if() и т.д.;
-* Каждый вновь создаваемый метод должен содержать комментарий, описывающий что делает метод. Так же желательно описать назначение параметров метода;
-* В заголовочном файле класса, после секции #include необходимо в комментарии написать назначение класса.
-* Каждый заголовочный файл должен иметь следующую конструкцию:
+* Source file encoding: UTF-8;
+* Comments in the code allowed the Russian and English languages;
+* Tab prohibited padding spaces are made;
+* Margin - 2 spaces;
+* Comments must have the same indentation that of the code;
+* The name of the file with the implementation of the class is based on the principle EtoMoyKlass.cpp/class.cxx;
+* The name of the file with the title of class is based on the principle EtoMoyKlass.h/class.hxx;
+* The name of the class is based on the principle EtoMoyKlass/Class;
+* The name of the method is based on the principle etoMetodKlassa/method;
+* The name of the variables is based on the principle etoPeremennaya/parameter;
+* The opening "{" and closing bracket "}" should be on separate lines. It is unacceptable to place an opening bracket in the line for (), if (), etc .;
+* Each newly created method should contain a comment that describes what the method does. So it is desirable to describe the purpose of the method parameters;
+* The header class, after the section is necessary in #include class assignment to write comments.
+* Each header file must have the following structure:
 
     ```
     #ifndef _CLIPBBRANCH_H_
@@ -34,17 +34,18 @@ RUS: Основной репозитарий исходников для раз�
     #endif // _CLIPBBRANCH_H_
     ```
 
-* Всегда следует использовать классы и контейнеры Qt вместо классов и контейнеров STL;
-* Программа MyTetra проектируется как кроссплатформенное Qt-only приложение. Программа MyTetra не должна зависеть от сторонних библиотек, не входящих в состав Qt. Если есть необходимость воспользоваться сторонней библиотекой, включаем ее исходники в проект.
+* Always use the classes, and classes instead of Qt's containers and containers STL;
+* The program is designed as a cross-platform MyTetra Qt-only application. MyTetra program should not depend on third-party libraries that are not part of Qt. If you need to use a third-party library of its source code to the project.
 
-Ветки в GIT
-===========
+Branches at GIT
+_______________________________________________________________________
 
-В системе Git создано две основных ветки.
+The system Git created two main branches.
 
-* master - основная ветка с последним стабильным релизом;
-* experimental - ветка для разработки.
+* Master - the main branch with the latest stable release;
+* Experimental - branch to develop.
 
-Помимо этих двух веток временно создаются другие ветки для реализации того или иного функционала. После завершения работ изменения вливаются в ветку experimental. После стабилизации изменений в experimental, изменения вливаются в master и выпускается релиз.
+Besides these two branches have been established in other branches for the implementation of a functional. Upon completion of the changes flow into the branch experimental. After stabilization of the changes in the experimental, the changes flow into the master and release is issued.
 
-Решив подключиться к разработке MyTetra используйте, пожалуйста, ветку experimental для получения актуального кода.
+Deciding to connect to the development MyTetra, please use the experimental branch for the current code.
+

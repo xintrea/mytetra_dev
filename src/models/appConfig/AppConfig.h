@@ -9,8 +9,7 @@
 class QRect;
 class QStringList;
 
-class AppConfig : public QObject
-{
+class AppConfig : public QObject {
     Q_OBJECT
 
 public:
@@ -33,11 +32,11 @@ public:
     // Директория с корзиной
     QString get_trashdir(void);
     bool set_trashdir(QString dirName);
-    
+
     // Максимальный размер директории корзины в мегабайтах
     unsigned int get_trashsize(void);
     bool set_trashsize(unsigned int mbSize);
-    
+
     // Максимально допустимое число файлов в корзине
     int get_trashmaxfilecount(void);
     bool set_trashmaxfilecount(int count);
@@ -60,8 +59,8 @@ public:
 
     // Геометрия основного окна
     QRect get_mainwingeometry(void);
-    void set_mainwingeometry(int x, int y, int w, int h);    
-    
+    void set_mainwingeometry(int x, int y, int w, int h);
+
 
     QList<int> get_vspl_size_list(void);
     void set_vspl_size_list(QList<int> list);
@@ -75,7 +74,7 @@ public:
     QList<int> get_splitter_size_list(QString name);
     void set_splitter_size_list(QString name, QList<int> list);
 
-    
+
     QStringList get_tree_position(void);
     void set_tree_position(QStringList list);
 
@@ -91,7 +90,7 @@ public:
 
     int get_findscreen_howextract(void);
     void set_findscreen_howextract(int pos);
-    
+
     int getFindScreenTreeSearchArea(void);
     void setFindScreenTreeSearchArea(int pos);
 
@@ -124,7 +123,7 @@ public:
 
     bool getSyncroConsoleDetails(void);
     void setSyncroConsoleDetails(bool flag);
-    
+
     int  getEditorCursorPosition(void);
     void setEditorCursorPosition(int n);
 

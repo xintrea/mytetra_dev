@@ -8,24 +8,23 @@
 // Неизменяемые параметры, то есть параметры, которые заданы жестко в текущей версии MyTetra
 
 
-class FixedParameters : public QObject
-{
- Q_OBJECT
+class FixedParameters : public QObject {
+    Q_OBJECT
 
 public:
- FixedParameters(QObject *parent=0);
- virtual ~FixedParameters();
+    FixedParameters(QObject *parent=0);
+    virtual ~FixedParameters();
 
- QStringList recordFieldAvailableList;
- QStringList recordNaturalFieldAvailableList;
- QStringList recordCalculableFieldAvailableList;
- QStringList recordFieldCryptedList;
+    QStringList recordFieldAvailableList;
+    QStringList recordNaturalFieldAvailableList;
+    QStringList recordCalculableFieldAvailableList;
+    QStringList recordFieldCryptedList;
 
- bool isRecordFieldAvailable(QString name) const;
- bool isRecordFieldNatural(QString name) const;
- bool isRecordFieldCalculable(QString name) const;
+    bool isRecordFieldAvailable(QString name) const;
+    bool isRecordFieldNatural(QString name) const;
+    bool isRecordFieldCalculable(QString name) const;
 
- QMap<QString, QString> recordFieldDescription(QStringList list) const;
+    QMap<QString, QString> recordFieldDescription(QStringList list) const;
 
 signals:
 

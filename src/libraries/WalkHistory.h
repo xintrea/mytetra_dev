@@ -14,53 +14,51 @@
 #define WALK_HISTORY_GO_PREVIOUS 1
 #define WALK_HISTORY_GO_NEXT     2
 
-struct WALK_HISTORY_DATA
-{
- int cursorPosition;
- int scrollBarPosition;
+struct WALK_HISTORY_DATA {
+    int cursorPosition;
+    int scrollBarPosition;
 };
 
 
-class WalkHistory : public QObject
-{
- Q_OBJECT
-  
+class WalkHistory : public QObject {
+    Q_OBJECT
+
 public:
- WalkHistory(void);
- ~WalkHistory(void);
+    WalkHistory(void);
+    ~WalkHistory(void);
 
- void clear(void);
+    void clear(void);
 
- void add(QString id, int cursorPosition, int scrollBarPosition, int mode=WALK_HISTORY_GO_NONE);
+    void add(QString id, int cursorPosition, int scrollBarPosition, int mode=WALK_HISTORY_GO_NONE);
 
- QString getId();
- int getCursorPosition(QString id);
- int getScrollBarPosition(QString id);
- void removeHistoryData(QString id);
+    QString getId();
+    int getCursorPosition(QString id);
+    int getScrollBarPosition(QString id);
+    void removeHistoryData(QString id);
 
- void setDrop(bool flag);
+    void setDrop(bool flag);
 
 protected:
 
-  bool dropFlag;
+    bool dropFlag;
 
-  void print(void);
+    void print(void);
 
-  // Эти методы видимо ненужны, подумать
-  void switchToPrevious(void);
-  void switchToNext(void);
+    // Эти методы видимо ненужны, подумать
+    void switchToPrevious(void);
+    void switchToNext(void);
 
-  void checkId(QString id);
+    void checkId(QString id);
 
-  // Указатель в списке истории посещения записей
-  // Обычно указывает на последнюю в списке запись
-  int historyPoint;
+    // Указатель в списке истории посещения записей
+    // Обычно указывает на последнюю в списке запись
+    int historyPoint;
 
-  // Список идентификаторов посещаемых записей
-  QStringList historyId;
+    // Список идентификаторов посещаемых записей
+    QStringList historyId;
 
-  // Для каждого идентификатора запоминается позиция курсора и прокрутки
-  QMap<QString, WALK_HISTORY_DATA> data;
+    // Для каждого идентификатора запоминается позиция курсора и прокрутки
+    QMap<QString, WALK_HISTORY_DATA> data;
 };
 
 #endif // _WALKHISTORY_H_
