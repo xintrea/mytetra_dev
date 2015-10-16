@@ -8,21 +8,20 @@
 // Виджет, похожий на QToolButton, но позволяющий писать поверх иконки
 
 
-class OverTextToolButton : public QToolButton
-{
-  Q_OBJECT
+class OverTextToolButton : public QToolButton {
+    Q_OBJECT
 
 public:
-  OverTextToolButton(QWidget *parent = 0);
+    OverTextToolButton(QWidget *parent = 0);
 
-  void setOverText(QString iText);
+    void setOverText(QString iText);
 
 
 protected:
 
-  void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event);
 
-  QString overText;
+    QString overText;
 
 };
 

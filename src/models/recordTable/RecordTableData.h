@@ -14,8 +14,7 @@ class TreeItem;
 class Record;
 
 
-class RecordTableData
-{
+class RecordTableData {
 
 public:
     RecordTableData(void);
@@ -28,7 +27,7 @@ public:
     void setTextAndPictures(int pos,
                             const QString &text,
                             const QMap<QString, QByteArray> &picturesFiles=(QMap<QString, QByteArray>()) );
-    
+
     // Получение значения указанного поля для указанного элемента
     QString getField(QString name, int pos) const;
 
@@ -45,7 +44,7 @@ public:
 
     // Удаление всех элементов таблицы конечных записей
     void deleteAllRecords(void);
-    
+
     // Количество записей в таблице данных
     int size(void) const;
 
@@ -78,10 +77,10 @@ public:
     void switchToDecrypt(void);
 
     static void editorLoadCallback(QObject *editor,
-                                     QString &loadText);
+                                   QString &loadText);
 
     static void editorSaveCallback(QObject *editor,
-                                     QString saveText);
+                                   QString saveText);
 
     int  getWorkPos(void);
     void setWorkPos(int pos);

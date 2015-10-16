@@ -17,28 +17,27 @@ extern AppConfig mytetraConfig;
 
 AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 {
- if(mytetraConfig.getInterfaceMode()=="mobile") // if(true)
- {
-   qDebug() << "Screen size X Y: " << getScreenSizeX() << getScreenSizeY();
-   this->setMinimumSize(getScreenSizeX(), getScreenSizeY());
-   this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
- }
+    if(mytetraConfig.getInterfaceMode()=="mobile") { // if(true)
+        qDebug() << "Screen size X Y: " << getScreenSizeX() << getScreenSizeY();
+        this->setMinimumSize(getScreenSizeX(), getScreenSizeY());
+        this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    }
 
- configDialog=new ConfigDialog();
- configDialog->set_window_title(tr("MyTetra settings"));
- 
- pageMain       =configDialog->add_widget(new AppConfigPage_Main(this),        tr("Main"));
- pageCrypt      =configDialog->add_widget(new AppConfigPage_Crypt(this),       tr("Crypt"));
- pageSynchro    =configDialog->add_widget(new AppConfigPage_Synchro(this),     tr("Synchro"));
- pageRecordTable=configDialog->add_widget(new AppConfigPage_RecordTable(this), tr("Note area"));
- pageMisc       =configDialog->add_widget(new AppConfigPage_Misc(this),        tr("Misc"));
+    configDialog=new ConfigDialog();
+    configDialog->set_window_title(tr("MyTetra settings"));
 
- configDialog->updateListWidth();
+    pageMain       =configDialog->add_widget(new AppConfigPage_Main(this),        tr("Main"));
+    pageCrypt      =configDialog->add_widget(new AppConfigPage_Crypt(this),       tr("Crypt"));
+    pageSynchro    =configDialog->add_widget(new AppConfigPage_Synchro(this),     tr("Synchro"));
+    pageRecordTable=configDialog->add_widget(new AppConfigPage_RecordTable(this), tr("Note area"));
+    pageMisc       =configDialog->add_widget(new AppConfigPage_Misc(this),        tr("Misc"));
 
- if(firstPageName.size()>0)
-   changePage(firstPageName);
+    configDialog->updateListWidth();
 
- configDialog->exec();
+    if(firstPageName.size()>0)
+        changePage(firstPageName);
+
+    configDialog->exec();
 }
 
 
@@ -46,16 +45,16 @@ AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
 void AppConfigDialog::changePage(QString name)
 {
 
- QListWidgetItem *item=NULL;
+    QListWidgetItem *item=NULL;
 
- if(name=="pageMain") item=pageMain;
- if(name=="pageCrypt") item=pageCrypt;
- if(name=="pageSynchro") item=pageSynchro;
- if(name=="pageRecordTable") item=pageRecordTable;
- if(name=="pageMisc") item=pageMisc;
+    if(name=="pageMain") item=pageMain;
+    if(name=="pageCrypt") item=pageCrypt;
+    if(name=="pageSynchro") item=pageSynchro;
+    if(name=="pageRecordTable") item=pageRecordTable;
+    if(name=="pageMisc") item=pageMisc;
 
- if(item!=NULL)
-   configDialog->externalChangePage(item);
- else
-   qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
+    if(item!=NULL)
+        configDialog->externalChangePage(item);
+    else
+        qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
 }

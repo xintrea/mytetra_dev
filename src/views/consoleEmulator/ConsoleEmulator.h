@@ -26,59 +26,58 @@
 // |                   [Close]                      |
 // +------------------------------------------------+
 
-class ConsoleEmulator : public QDialog
-{
- Q_OBJECT
+class ConsoleEmulator : public QDialog {
+    Q_OBJECT
 
 public:
- ConsoleEmulator(QWidget *parent=0);
- ~ConsoleEmulator();
+    ConsoleEmulator(QWidget *parent=0);
+    ~ConsoleEmulator();
 
- void setMessageText(QString text);
+    void setMessageText(QString text);
 
- void setConsoleOutput(QString text);
- void clearConsoleOutput(void);
- void addConsoleOutput(QString text);
+    void setConsoleOutput(QString text);
+    void clearConsoleOutput(void);
+    void addConsoleOutput(QString text);
 
- // Преобразование внешнего вида консольного эмулятора к отображению ошибки
- void switchToErrorView(void);
+// Преобразование внешнего вида консольного эмулятора к отображению ошибки
+    void switchToErrorView(void);
 
 public slots:
 
- // Слот срабатывающий при нажатии Cancel или при принудительном закрытии окна
- void onCancelClick(void);
+// Слот срабатывающий при нажатии Cancel или при принудительном закрытии окна
+    void onCancelClick(void);
 
- // Слот срабатывающий при клике на кнопку скрыть/показать консольный вывод
- void onDetailsClick(void);
+// Слот срабатывающий при клике на кнопку скрыть/показать консольный вывод
+    void onDetailsClick(void);
 
 signals:
 
- // Сигнал, вырабатывающийся в слоте onCancelConsole()
- void cancelConsole(void);
+// Сигнал, вырабатывающийся в слоте onCancelConsole()
+    void cancelConsole(void);
 
 private:
 
- void setupUI(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 
- // Переопределенный метод, срабатывает при принудительном закрытии окна
- void closeEvent(QCloseEvent *event);
+// Переопределенный метод, срабатывает при принудительном закрытии окна
+    void closeEvent(QCloseEvent *event);
 
- WaitClock *waitClock;
- QLabel *messageLabel;
- QPushButton *buttonCancel;
- QToolButton *buttonDetails;
+    WaitClock *waitClock;
+    QLabel *messageLabel;
+    QPushButton *buttonCancel;
+    QToolButton *buttonDetails;
 
- // Верхний блок вида "Картинка |Тут какая-то надпись| [v] | [Cancel]"
- QHBoxLayout *upToolbar;
+// Верхний блок вида "Картинка |Тут какая-то надпись| [v] | [Cancel]"
+    QHBoxLayout *upToolbar;
 
- QTextEdit *consoleOutput;
+    QTextEdit *consoleOutput;
 
- QShortcut *escShortcut;
+    QShortcut *escShortcut;
 
- // Возникала ли ошибка при выполнении команд
- bool isError;
+// Возникала ли ошибка при выполнении команд
+    bool isError;
 };
 
 #endif /* _CONSOLEEMULATOR_H_ */

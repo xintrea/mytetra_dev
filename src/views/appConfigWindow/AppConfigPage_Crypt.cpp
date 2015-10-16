@@ -21,273 +21,261 @@ extern DataBaseConfig dataBaseConfig;
 
 AppConfigPage_Crypt::AppConfigPage_Crypt(QWidget *parent) : ConfigPage(parent)
 {
-  qDebug() << "Create crypt config page";
+    qDebug() << "Create crypt config page";
 
-  setup_ui();
-  update_ui();
-  setup_signals();
-  assembly();
+    setup_ui();
+    update_ui();
+    setup_signals();
+    assembly();
 }
 
 
 AppConfigPage_Crypt::~AppConfigPage_Crypt()
 {
- 
+
 }
 
 
 void AppConfigPage_Crypt::setup_ui(void)
 {
-  // Группировщик виджетов работы с паролем
-  passRetrieveBox=new QGroupBox(this);
-  passRetrieveBox->setTitle(tr("Password settings"));
+    // Группировщик виджетов работы с паролем
+    passRetrieveBox=new QGroupBox(this);
+    passRetrieveBox->setTitle(tr("Password settings"));
 
-  // Строка состояния пароля
-  passRetrieveStatus=new QLabel(this);
-  passRetrieveStatus->setWordWrap(true);
+    // Строка состояния пароля
+    passRetrieveStatus=new QLabel(this);
+    passRetrieveStatus->setWordWrap(true);
 
-  // Кнопка запроса введения пароля
-  passRetrieveButton=new QPushButton(this);
-  passRetrieveButton->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
+    // Кнопка запроса введения пароля
+    passRetrieveButton=new QPushButton(this);
+    passRetrieveButton->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
 
-  // Строка с аннотацией
-  passRetrieveAnnotation=new QLabel(this);
-  passRetrieveAnnotation->setWordWrap(true);
+    // Строка с аннотацией
+    passRetrieveAnnotation=new QLabel(this);
+    passRetrieveAnnotation->setWordWrap(true);
 
-  // Виджеты вставляются в группировщик
-  QVBoxLayout *passRetrieveLayout = new QVBoxLayout;
-  passRetrieveLayout->addWidget(passRetrieveStatus);
-  passRetrieveLayout->addWidget(passRetrieveButton);
-  passRetrieveLayout->addWidget(passRetrieveAnnotation);
-  passRetrieveBox->setLayout(passRetrieveLayout);
-
-
-  // Группировщик виджетов выбора, как запрашивать пароль
-  howPassRequestBox=new QGroupBox(this);
-  howPassRequestBox->setTitle(tr("Access to encrypted data"));
-
-  howPassRequestRadio1=new QRadioButton(tr("Ask the password when you click on an encrypted item"));
-  howPassRequestRadio2=new QRadioButton(tr("Ask the password at MyTetra startup"));
-
-  // Точка устанавливается возле того пункта, который настроен в конфиге
-  if(mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
-   howPassRequestRadio1->setChecked(true);
-  else
-   howPassRequestRadio2->setChecked(true);
+    // Виджеты вставляются в группировщик
+    QVBoxLayout *passRetrieveLayout = new QVBoxLayout;
+    passRetrieveLayout->addWidget(passRetrieveStatus);
+    passRetrieveLayout->addWidget(passRetrieveButton);
+    passRetrieveLayout->addWidget(passRetrieveAnnotation);
+    passRetrieveBox->setLayout(passRetrieveLayout);
 
 
-  storePassRequestBox=new QGroupBox(this);
-  storePassRequestBox->setTitle(tr("Store password"));
+    // Группировщик виджетов выбора, как запрашивать пароль
+    howPassRequestBox=new QGroupBox(this);
+    howPassRequestBox->setTitle(tr("Access to encrypted data"));
 
-  passwordSaveEnable=new QCheckBox(tr("Store password locally"));
+    howPassRequestRadio1=new QRadioButton(tr("Ask the password when you click on an encrypted item"));
+    howPassRequestRadio2=new QRadioButton(tr("Ask the password at MyTetra startup"));
 
-  passwordSaveAnnotation=new QLabel(tr("Password will be saved at first next entered.<br>Stored password will be cleared if uncheck this checkbox."));
-
-  if(mytetraConfig.getPasswordSaveFlag())
-   {
-    howPassRequestRadio1->setEnabled(false);
-    howPassRequestRadio2->setEnabled(false);
-    passwordSaveEnable->setChecked(true);
-   }
-  else
-   {
-    howPassRequestRadio1->setEnabled(true);
-    howPassRequestRadio2->setEnabled(true);
-    passwordSaveEnable->setChecked(false);
-   }
+    // Точка устанавливается возле того пункта, который настроен в конфиге
+    if(mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
+        howPassRequestRadio1->setChecked(true);
+    else
+        howPassRequestRadio2->setChecked(true);
 
 
-  // Виджеты вставляются в группировщики
-  QVBoxLayout *howPassRequestLayout=new QVBoxLayout;
-  howPassRequestLayout->addWidget(howPassRequestRadio1);
-  howPassRequestLayout->addWidget(howPassRequestRadio2);
-  howPassRequestLayout->addWidget(passwordSaveEnable);
-  howPassRequestBox->setLayout(howPassRequestLayout);
+    storePassRequestBox=new QGroupBox(this);
+    storePassRequestBox->setTitle(tr("Store password"));
+
+    passwordSaveEnable=new QCheckBox(tr("Store password locally"));
+
+    passwordSaveAnnotation=new QLabel(tr("Password will be saved at first next entered.<br>Stored password will be cleared if uncheck this checkbox."));
+
+    if(mytetraConfig.getPasswordSaveFlag()) {
+        howPassRequestRadio1->setEnabled(false);
+        howPassRequestRadio2->setEnabled(false);
+        passwordSaveEnable->setChecked(true);
+    } else {
+        howPassRequestRadio1->setEnabled(true);
+        howPassRequestRadio2->setEnabled(true);
+        passwordSaveEnable->setChecked(false);
+    }
 
 
-  QVBoxLayout *storePassRequestLayout=new QVBoxLayout;
-  storePassRequestLayout->addWidget(passwordSaveEnable);
-  storePassRequestLayout->addWidget(passwordSaveAnnotation);
-  storePassRequestBox->setLayout(storePassRequestLayout);
+    // Виджеты вставляются в группировщики
+    QVBoxLayout *howPassRequestLayout=new QVBoxLayout;
+    howPassRequestLayout->addWidget(howPassRequestRadio1);
+    howPassRequestLayout->addWidget(howPassRequestRadio2);
+    howPassRequestLayout->addWidget(passwordSaveEnable);
+    howPassRequestBox->setLayout(howPassRequestLayout);
+
+
+    QVBoxLayout *storePassRequestLayout=new QVBoxLayout;
+    storePassRequestLayout->addWidget(passwordSaveEnable);
+    storePassRequestLayout->addWidget(passwordSaveAnnotation);
+    storePassRequestBox->setLayout(storePassRequestLayout);
 
 
 
-  // Группировщик настойки автозакрытия окна пароля
-  autoClosePasswordBox=new QGroupBox(this);
-  autoClosePasswordBox->setTitle(tr("Auto closing password window"));
+    // Группировщик настойки автозакрытия окна пароля
+    autoClosePasswordBox=new QGroupBox(this);
+    autoClosePasswordBox->setTitle(tr("Auto closing password window"));
 
-  autoClosePasswordEnable=new QCheckBox(tr("Enable auto closing password window, sec"), this);
-  
-  autoClosePasswordDelay=new QSpinBox(this);
-  autoClosePasswordDelay->setValue(mytetraConfig.get_autoClosePasswordDelay());
-  autoClosePasswordDelay->setRange(1, 999);
+    autoClosePasswordEnable=new QCheckBox(tr("Enable auto closing password window, sec"), this);
 
-  // Устанавливается галка и активность виджета выбора задержки
-  onAutoClosePasswordEnableToggle( mytetraConfig.get_autoClosePasswordEnable() );
+    autoClosePasswordDelay=new QSpinBox(this);
+    autoClosePasswordDelay->setValue(mytetraConfig.get_autoClosePasswordDelay());
+    autoClosePasswordDelay->setRange(1, 999);
 
-  // Виджеты вставляются в группировщик
-  QHBoxLayout *autoClosePasswordLayout=new QHBoxLayout;
-  autoClosePasswordLayout->addWidget(autoClosePasswordEnable);
-  autoClosePasswordLayout->addWidget(autoClosePasswordDelay);
-  autoClosePasswordLayout->addStretch();
-  autoClosePasswordBox->setLayout(autoClosePasswordLayout);
+    // Устанавливается галка и активность виджета выбора задержки
+    onAutoClosePasswordEnableToggle( mytetraConfig.get_autoClosePasswordEnable() );
+
+    // Виджеты вставляются в группировщик
+    QHBoxLayout *autoClosePasswordLayout=new QHBoxLayout;
+    autoClosePasswordLayout->addWidget(autoClosePasswordEnable);
+    autoClosePasswordLayout->addWidget(autoClosePasswordDelay);
+    autoClosePasswordLayout->addStretch();
+    autoClosePasswordBox->setLayout(autoClosePasswordLayout);
 
 
-  // Разрешать ли расшифровывать зашифрованные файлы аттачей в каталог корзины при предпросмотре
-  decryptFileToTrashDirectoryBox=new QGroupBox(this);
-  decryptFileToTrashDirectoryBox->setTitle(tr("File decrypt method for attach preview"));
+    // Разрешать ли расшифровывать зашифрованные файлы аттачей в каталог корзины при предпросмотре
+    decryptFileToTrashDirectoryBox=new QGroupBox(this);
+    decryptFileToTrashDirectoryBox->setTitle(tr("File decrypt method for attach preview"));
 
-  decryptFileToTrashDirectoryEnable=new QCheckBox(tr("Enable temporary decrypt attach file to trash directory"));
+    decryptFileToTrashDirectoryEnable=new QCheckBox(tr("Enable temporary decrypt attach file to trash directory"));
 
-  // Устанавливается галка согласно настройке из файла конфигурации
-  decryptFileToTrashDirectoryEnable->setChecked( mytetraConfig.getEnableDecryptFileToTrashDirectory() );
+    // Устанавливается галка согласно настройке из файла конфигурации
+    decryptFileToTrashDirectoryEnable->setChecked( mytetraConfig.getEnableDecryptFileToTrashDirectory() );
 
-  // Виджеты вставляются в группировщик
-  QHBoxLayout *decryptFileToTrashDirectoryLayout=new QHBoxLayout;
-  decryptFileToTrashDirectoryLayout->addWidget(decryptFileToTrashDirectoryEnable);
-  decryptFileToTrashDirectoryBox->setLayout(decryptFileToTrashDirectoryLayout);
+    // Виджеты вставляются в группировщик
+    QHBoxLayout *decryptFileToTrashDirectoryLayout=new QHBoxLayout;
+    decryptFileToTrashDirectoryLayout->addWidget(decryptFileToTrashDirectoryEnable);
+    decryptFileToTrashDirectoryBox->setLayout(decryptFileToTrashDirectoryLayout);
 }
 
 
 void AppConfigPage_Crypt::update_ui(void)
 {
-  // Строка состояния пароля
-  passRetrieveStatus->setText(getRetrieveStatusText());
+    // Строка состояния пароля
+    passRetrieveStatus->setText(getRetrieveStatusText());
 
-  // Кнопка запроса введения пароля
-  passRetrieveButton->setText(getRetrieveButtonText());
+    // Кнопка запроса введения пароля
+    passRetrieveButton->setText(getRetrieveButtonText());
 
-  // Строка с аннотацией
-  passRetrieveAnnotation->setText(getRetrieveAnnotationText());
+    // Строка с аннотацией
+    passRetrieveAnnotation->setText(getRetrieveAnnotationText());
 
 }
 
 
 void AppConfigPage_Crypt::setup_signals(void)
 {
- // При нажатии кнопки работы с паролем
- connect(passRetrieveButton,SIGNAL(clicked()),
-         this,SLOT(onPassRetrieveButtonClicked()));
+// При нажатии кнопки работы с паролем
+    connect(passRetrieveButton,SIGNAL(clicked()),
+            this,SLOT(onPassRetrieveButtonClicked()));
 
- // При клике на галку разрешения автозакрытия пароля
- connect(autoClosePasswordEnable, SIGNAL(toggled(bool)),
-         this, SLOT(onAutoClosePasswordEnableToggle(bool)));
+// При клике на галку разрешения автозакрытия пароля
+    connect(autoClosePasswordEnable, SIGNAL(toggled(bool)),
+            this, SLOT(onAutoClosePasswordEnableToggle(bool)));
 
- connect(passwordSaveEnable, SIGNAL(toggled(bool)),
-         this, SLOT(onPasswordSaveEnableToggle(bool)));
+    connect(passwordSaveEnable, SIGNAL(toggled(bool)),
+            this, SLOT(onPasswordSaveEnableToggle(bool)));
 }
 
 
 void AppConfigPage_Crypt::assembly(void)
 {
-  // Собирается основной слой
-  QVBoxLayout *central_layout=new QVBoxLayout();
-  central_layout->addWidget(passRetrieveBox);
-  central_layout->addWidget(howPassRequestBox);
-  central_layout->addWidget(storePassRequestBox);
-  central_layout->addWidget(autoClosePasswordBox);
-  central_layout->addWidget(decryptFileToTrashDirectoryBox);
-  central_layout->addStretch();
+    // Собирается основной слой
+    QVBoxLayout *central_layout=new QVBoxLayout();
+    central_layout->addWidget(passRetrieveBox);
+    central_layout->addWidget(howPassRequestBox);
+    central_layout->addWidget(storePassRequestBox);
+    central_layout->addWidget(autoClosePasswordBox);
+    central_layout->addWidget(decryptFileToTrashDirectoryBox);
+    central_layout->addStretch();
 
-  // Основной слой устанавливается
-  setLayout(central_layout);
+    // Основной слой устанавливается
+    setLayout(central_layout);
 }
 
 
 QString AppConfigPage_Crypt::getRetrieveStatusText(void)
 {
- QString status=tr("<b>Status:</b> ");
+    QString status=tr("<b>Status:</b> ");
 
- // Если в хранилище данных вообще не задан пароль
- if(dataBaseConfig.get_crypt_mode()==0)
-  status=status+tr("No password is set. ");
- else
-  status=status+tr("Password is set. ");
+// Если в хранилище данных вообще не задан пароль
+    if(dataBaseConfig.get_crypt_mode()==0)
+        status=status+tr("No password is set. ");
+    else
+        status=status+tr("Password is set. ");
 
- // Если пароль (точнее хеш пароля) хранится локально
- if(mytetraConfig.getPasswordSaveFlag() &&
-    mytetraConfig.getPasswordMiddleHash().length()>0)
-  status=status+tr("Password is saved locally. ");
+// Если пароль (точнее хеш пароля) хранится локально
+    if(mytetraConfig.getPasswordSaveFlag() &&
+            mytetraConfig.getPasswordMiddleHash().length()>0)
+        status=status+tr("Password is saved locally. ");
 
- return status;
+    return status;
 }
 
 
 QString AppConfigPage_Crypt::getRetrieveButtonText(void)
 {
- // Если в хранилище данных вообще не задан пароль
- if(dataBaseConfig.get_crypt_mode()==0)
-  return tr("Set a password");
- else
-  return tr("Change password");
+// Если в хранилище данных вообще не задан пароль
+    if(dataBaseConfig.get_crypt_mode()==0)
+        return tr("Set a password");
+    else
+        return tr("Change password");
 }
 
 
 QString AppConfigPage_Crypt::getRetrieveAnnotationText(void)
 {
- // Если в хранилище данных вообще не задан пароль
- if(dataBaseConfig.get_crypt_mode()==0)
-  return tr("A password will be used to encrypt the item that you selected. Use \"Encrypt item\" or \"Decrypt item\" in context menu.");
- else
-  return tr("If you change your password all encrypted item will be re-encrypted with a new password.");
+// Если в хранилище данных вообще не задан пароль
+    if(dataBaseConfig.get_crypt_mode()==0)
+        return tr("A password will be used to encrypt the item that you selected. Use \"Encrypt item\" or \"Decrypt item\" in context menu.");
+    else
+        return tr("If you change your password all encrypted item will be re-encrypted with a new password.");
 }
 
 
 // Действия при нажатии кнопки работы с паролем
 void AppConfigPage_Crypt::onPassRetrieveButtonClicked(void)
 {
- // Если в хранилище данных вообще не задан пароль
- if(dataBaseConfig.get_crypt_mode()==0)
-  {
-   // Включается диалог запроса пароля "с нуля"
+// Если в хранилище данных вообще не задан пароль
+    if(dataBaseConfig.get_crypt_mode()==0) {
+        // Включается диалог запроса пароля "с нуля"
 
-   Password password;
+        Password password;
 
-   if(password.retrievePassword()==false) return;
+        if(password.retrievePassword()==false) return;
 
-   update_ui();
-   return;
-  }
- else
-  {
-   // Включается диалог изменения пароля
-   Password password;
+        update_ui();
+        return;
+    } else {
+        // Включается диалог изменения пароля
+        Password password;
 
-   password.replacePassword();
-  }
- 
+        password.replacePassword();
+    }
+
 }
 
 
 void AppConfigPage_Crypt::onPasswordSaveEnableToggle(bool checked)
 {
- if(checked)
-  {
-   howPassRequestRadio1->setEnabled(false);
-   howPassRequestRadio2->setEnabled(false);
-  }
- else
-  {
-   howPassRequestRadio1->setEnabled(true);
-   howPassRequestRadio2->setEnabled(true);
-  }
+    if(checked) {
+        howPassRequestRadio1->setEnabled(false);
+        howPassRequestRadio2->setEnabled(false);
+    } else {
+        howPassRequestRadio1->setEnabled(true);
+        howPassRequestRadio2->setEnabled(true);
+    }
 }
 
 
 // Действие при клике на галку настройки автоматического закрытия окна пароля
 void AppConfigPage_Crypt::onAutoClosePasswordEnableToggle(bool checked)
 {
- // Устанавливается галка и активность виджета выбора задержки
- if(checked)
-  {
-   autoClosePasswordEnable->setChecked(true);
-   autoClosePasswordDelay->setEnabled(true);
-  }
- else
-  {
-   autoClosePasswordEnable->setChecked(false);
-   autoClosePasswordDelay->setEnabled(false);
-  }
+// Устанавливается галка и активность виджета выбора задержки
+    if(checked) {
+        autoClosePasswordEnable->setChecked(true);
+        autoClosePasswordDelay->setEnabled(true);
+    } else {
+        autoClosePasswordEnable->setChecked(false);
+        autoClosePasswordDelay->setEnabled(false);
+    }
 }
 
 
@@ -296,36 +284,34 @@ void AppConfigPage_Crypt::onAutoClosePasswordEnableToggle(bool checked)
 // 1 - изменения требуют перезапуска программы
 int AppConfigPage_Crypt::apply_changes(void)
 {
- qDebug() << "Apply changes crypt";
+    qDebug() << "Apply changes crypt";
 
- if(howPassRequestRadio1->isChecked() &&
-    mytetraConfig.get_howpassrequest()=="atStartProgram")
-  mytetraConfig.set_howpassrequest("atClickOnCryptBranch");
+    if(howPassRequestRadio1->isChecked() &&
+            mytetraConfig.get_howpassrequest()=="atStartProgram")
+        mytetraConfig.set_howpassrequest("atClickOnCryptBranch");
 
- if(howPassRequestRadio2->isChecked() &&
-    mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
-  mytetraConfig.set_howpassrequest("atStartProgram");
+    if(howPassRequestRadio2->isChecked() &&
+            mytetraConfig.get_howpassrequest()=="atClickOnCryptBranch")
+        mytetraConfig.set_howpassrequest("atStartProgram");
 
- if(autoClosePasswordEnable->isChecked()!=mytetraConfig.get_autoClosePasswordEnable())
-  mytetraConfig.set_autoClosePasswordEnable( autoClosePasswordEnable->isChecked() );
+    if(autoClosePasswordEnable->isChecked()!=mytetraConfig.get_autoClosePasswordEnable())
+        mytetraConfig.set_autoClosePasswordEnable( autoClosePasswordEnable->isChecked() );
 
- if(autoClosePasswordDelay->value()!=mytetraConfig.get_autoClosePasswordDelay())
-  mytetraConfig.set_autoClosePasswordDelay( autoClosePasswordDelay->value() );
+    if(autoClosePasswordDelay->value()!=mytetraConfig.get_autoClosePasswordDelay())
+        mytetraConfig.set_autoClosePasswordDelay( autoClosePasswordDelay->value() );
 
- if(passwordSaveEnable->isChecked()!=mytetraConfig.getPasswordSaveFlag())
-  {
-   mytetraConfig.setPasswordSaveFlag( passwordSaveEnable->isChecked() );
-   
-   // Если галка установлена что хранить локально пароль ненужно
-   if(!passwordSaveEnable->isChecked())
-    {
-     // Промежуточный хеш пароля удаляется 
-     mytetraConfig.setPasswordMiddleHash("");
+    if(passwordSaveEnable->isChecked()!=mytetraConfig.getPasswordSaveFlag()) {
+        mytetraConfig.setPasswordSaveFlag( passwordSaveEnable->isChecked() );
+
+        // Если галка установлена что хранить локально пароль ненужно
+        if(!passwordSaveEnable->isChecked()) {
+            // Промежуточный хеш пароля удаляется
+            mytetraConfig.setPasswordMiddleHash("");
+        }
     }
-  }
 
- if(decryptFileToTrashDirectoryEnable->isChecked()!=mytetraConfig.getEnableDecryptFileToTrashDirectory())
-   mytetraConfig.setEnableDecryptFileToTrashDirectory( decryptFileToTrashDirectoryEnable->isChecked() );
+    if(decryptFileToTrashDirectoryEnable->isChecked()!=mytetraConfig.getEnableDecryptFileToTrashDirectory())
+        mytetraConfig.setEnableDecryptFileToTrashDirectory( decryptFileToTrashDirectoryEnable->isChecked() );
 
- return 0;
+    return 0;
 }

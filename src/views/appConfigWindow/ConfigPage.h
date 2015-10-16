@@ -4,15 +4,14 @@
 #include <QWidget>
 
 
-class ConfigPage : public QWidget
-{
- Q_OBJECT
+class ConfigPage : public QWidget {
+    Q_OBJECT
 
 public:
-  ConfigPage(QWidget *parent = 0);
-  virtual ~ConfigPage();
+    ConfigPage(QWidget *parent = 0);
+    virtual ~ConfigPage();
 
-  virtual int apply_changes(void);
+    virtual int apply_changes(void);
 };
 
 

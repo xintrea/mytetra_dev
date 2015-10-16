@@ -11,9 +11,9 @@
 
 ConfigDialog::ConfigDialog()
 {
- setup_ui();
- setup_signals();
- assembly();
+    setup_ui();
+    setup_signals();
+    assembly();
 }
 
 
@@ -82,85 +82,83 @@ void ConfigDialog::assembly(void)
 
 void ConfigDialog::set_window_title(QString title)
 {
- // Строка в заголовке окна
- setWindowTitle(title);
+// Строка в заголовке окна
+    setWindowTitle(title);
 }
 
 
 QListWidgetItem *ConfigDialog::add_widget(QWidget *inswidget, QString name)
 {
- pagesWidget->addWidget(inswidget);
+    pagesWidget->addWidget(inswidget);
 
- return create_items(name);
+    return create_items(name);
 }
 
 
 // Создаются пункты для вызова нужных конфигурирующих виджетов
 QListWidgetItem *ConfigDialog::create_items(QString name)
 {
- QListWidgetItem *item = new QListWidgetItem(contentsWidget);
- item->setText(name);
- item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    QListWidgetItem *item = new QListWidgetItem(contentsWidget);
+    item->setText(name);
+    item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
- return item;
+    return item;
 }
 
 
 // Приватный слот, переключение виджета настройки при клике по списку настроечных виджетов
 void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previous)
 {
-  if (!current)
-    current = previous;
+    if (!current)
+        current = previous;
 
-  pagesWidget->setCurrentIndex(contentsWidget->row(current));
+    pagesWidget->setCurrentIndex(contentsWidget->row(current));
 
-  // scrollArea->adjustSize();
+    // scrollArea->adjustSize();
 }
 
 
 
 void ConfigDialog::externalChangePage(QListWidgetItem *item)
 {
-  contentsWidget->setCurrentItem(item);
+    contentsWidget->setCurrentItem(item);
 
-  // scrollArea->adjustSize();
+    // scrollArea->adjustSize();
 }
 
 
 void ConfigDialog::updateListWidth(void)
 {
- contentsWidget->updateGeometry();
- contentsWidget->update();
+    contentsWidget->updateGeometry();
+    contentsWidget->update();
 
- // scrollArea->adjustSize();
+// scrollArea->adjustSize();
 }
 
 
 void ConfigDialog::apply_changes(void)
 {
- int difficult_flag=0;
+    int difficult_flag=0;
 
- // Перебираются виджеты настройки
- for(int i=0;i<pagesWidget->count();i++)
-  {
-   // Выясняется указатель на виджет
-   ConfigPage *cnpg=qobject_cast<ConfigPage *>(pagesWidget->widget(i));
-    
-   // Вызывается метод apply_changes() для текущего перебираемого виджета
-   if( cnpg->apply_changes()==1 )
-    difficult_flag=1;
-  }
- 
- // Если требуется перезапустить программу для принятия изменений
- if(difficult_flag==1)
-  {
-   QMessageBox::warning(this, tr("Warning"),
-                              tr("The program will have to be restarted for changes to take effect."),
-                              QMessageBox::Ok); 
-   exit(0);
-  }
+// Перебираются виджеты настройки
+    for(int i=0; i<pagesWidget->count(); i++) {
+        // Выясняется указатель на виджет
+        ConfigPage *cnpg=qobject_cast<ConfigPage *>(pagesWidget->widget(i));
 
- // Диалог настройки закрывается
- close();
+        // Вызывается метод apply_changes() для текущего перебираемого виджета
+        if( cnpg->apply_changes()==1 )
+            difficult_flag=1;
+    }
+
+// Если требуется перезапустить программу для принятия изменений
+    if(difficult_flag==1) {
+        QMessageBox::warning(this, tr("Warning"),
+                             tr("The program will have to be restarted for changes to take effect."),
+                             QMessageBox::Ok);
+        exit(0);
+    }
+
+// Диалог настройки закрывается
+    close();
 }
 

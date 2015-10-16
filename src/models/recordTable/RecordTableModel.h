@@ -15,8 +15,7 @@
 class Record;
 class RecordTableData;
 
-class RecordTableModel : public QAbstractTableModel
-{
+class RecordTableModel : public QAbstractTableModel {
     Q_OBJECT
 
     // К закрытым (private) функциям модели может иметь доступ контроллер
@@ -30,7 +29,7 @@ public:
 
     // Интерфейс модели, предоставление данных по указанному индексу
     QVariant data(const QModelIndex &index, int role) const;
-    
+
     // Интерфейс модели, сохранение вводимых данных по указанному индексу
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 

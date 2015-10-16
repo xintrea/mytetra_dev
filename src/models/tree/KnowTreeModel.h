@@ -15,8 +15,7 @@
 
 class ClipboardBranch;
 
-class KnowTreeModel : public TreeModel
-{
+class KnowTreeModel : public TreeModel {
     Q_OBJECT
 
 public:
@@ -45,7 +44,7 @@ public:
 
     // Получение индекса подчиненного элемента с указанным номером
     QModelIndex indexChildren(const QModelIndex &parent, int n) const;
-    
+
     QModelIndex getIndexByItem(TreeItem *item);
 
     // Поиск ветки с указанным ID
@@ -53,7 +52,7 @@ public:
 
     // Возвращает общее количество записей, хранимых в дереве
     int getAllRecordCount(void);
-    
+
     // Возвращает количество записей в ветке и всех подветках
     int getRecordCountForItem(TreeItem *item);
 
@@ -86,7 +85,7 @@ private:
 
     // Преобразование Item в DOM модель
     void parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem);
-    
+
     // Перемещение ветки вверх или вниз
     QModelIndex moveUpDnBranch(const QModelIndex &index,int direction);
 

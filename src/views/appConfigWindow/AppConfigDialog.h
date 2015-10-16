@@ -6,23 +6,22 @@
 class ConfigDialog;
 class QListWidgetItem;
 
-class AppConfigDialog : public QWidget
-{
- Q_OBJECT
+class AppConfigDialog : public QWidget {
+    Q_OBJECT
 
 public:
- AppConfigDialog(QString firstPageName);
-    
+    AppConfigDialog(QString firstPageName);
+
 private:
- ConfigDialog *configDialog;
+    ConfigDialog *configDialog;
 
- QListWidgetItem *pageMain;
- QListWidgetItem *pageCrypt;
- QListWidgetItem *pageSynchro;
- QListWidgetItem *pageRecordTable;
- QListWidgetItem *pageMisc;
+    QListWidgetItem *pageMain;
+    QListWidgetItem *pageCrypt;
+    QListWidgetItem *pageSynchro;
+    QListWidgetItem *pageRecordTable;
+    QListWidgetItem *pageMisc;
 
- void changePage(QString name);
+    void changePage(QString name);
 };
 
 #endif // _APPCONFIGDIALOG_H_

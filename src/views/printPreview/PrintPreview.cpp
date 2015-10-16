@@ -39,7 +39,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     doc = document->clone();
 
     view = new PreviewView(doc);
-    
+
     doc->setUseDesignMetrics(true);
     doc->documentLayout()->setPaintDevice(view->viewport());
 
@@ -54,20 +54,20 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     QFont f(doc->defaultFont());
     f.setPointSize(10);
     doc->setDefaultFont(f);
-    
-    
+
+
     // Кнопки на панели инструментов
     QToolButton *button_print=new QToolButton(this);
     button_print->setText(tr("&Print..."));
     button_print->setShortcut(Qt::CTRL + Qt::Key_P);
     button_print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     connect(button_print, SIGNAL(clicked()), this, SLOT(print()));
-    
+
     QToolButton *button_page_setup=new QToolButton(this);
     button_page_setup->setText(tr("Page Setup..."));
     button_page_setup->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     connect(button_page_setup, SIGNAL(clicked()), this, SLOT(pageSetup()));
-    
+
     QToolButton *button_zoom_in=new QToolButton(this);
     button_zoom_in->setText(tr("Zoom In"));
     button_zoom_in->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -77,13 +77,13 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     button_zoom_out->setText(tr("Zoom Out"));
     button_zoom_out->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     connect(button_zoom_out, SIGNAL(clicked()), view, SLOT(zoomOut()));
-    
+
     QToolButton *button_close=new QToolButton(this);
     button_close->setText(tr("&Close"));
     button_close->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     connect(button_close, SIGNAL(clicked()), this, SLOT(close()));
 
-    
+
     // Панель инструментов
     QHBoxLayout *toolsbox=new QHBoxLayout();
     toolsbox->addWidget(button_print);
@@ -92,7 +92,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     toolsbox->addWidget(button_zoom_out);
     toolsbox->addWidget(button_close);
     toolsbox->addStretch();
-    
+
 
     // Сборка содержимого окна
     centralLayout=new QVBoxLayout();
@@ -100,7 +100,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     centralLayout->addWidget(view);
     centralLayout->setSpacing(1);
     centralLayout->setContentsMargins(1,1,1,1);
-    
+
     setLayout(centralLayout);
     resize(800, 600);
 }

@@ -10,8 +10,7 @@
 // Проблема описана здесь: stackoverflow.com/questions/13308341/qcombobox-abstractitemviewitem
 
 
-class MtComboBox : public QComboBox
-{
+class MtComboBox : public QComboBox {
     Q_OBJECT
 
 public:

@@ -8,27 +8,26 @@
 #include "ConfigPage.h"
 
 
-class AppConfigPage_Misc : public ConfigPage
-{
- Q_OBJECT
+class AppConfigPage_Misc : public ConfigPage {
+    Q_OBJECT
 
 public:
-  AppConfigPage_Misc(QWidget *parent = 0);
-  int apply_changes(void);
+    AppConfigPage_Misc(QWidget *parent = 0);
+    int apply_changes(void);
 
 private slots:
 
 protected:
 
-  QCheckBox *cutBranchConfirm;
-  QCheckBox *printDebugMessages;
-  QCheckBox *runInMinimizedWindow;
+    QCheckBox *cutBranchConfirm;
+    QCheckBox *printDebugMessages;
+    QCheckBox *runInMinimizedWindow;
 
-  // Объединяющая рамка
-  QGroupBox *historyBox;
+    // Объединяющая рамка
+    QGroupBox *historyBox;
 
-  QCheckBox *rememberAtHistoryNavigationCheckBox;
-  QCheckBox *rememberAtOrdinarySelectionCheckBox;
+    QCheckBox *rememberAtHistoryNavigationCheckBox;
+    QCheckBox *rememberAtOrdinarySelectionCheckBox;
 
 
 };
