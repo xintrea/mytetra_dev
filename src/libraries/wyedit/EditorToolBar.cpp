@@ -45,17 +45,16 @@ EditorToolBar::~EditorToolBar()
   delete findInBase;
   delete showText;
   delete toAttach;
-  delete indentSlider;
   delete textformatButtonsLayout;
   delete toolsLine1;
   delete toolsLine2;
 }
 
 
-// Инициализация редактора
+// Инициализация панели инструментов
 // Если mode=WYEDIT_DESKTOP_MODE - происходит обычная инициализация
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
-void EditorToolBar::init(int mode)
+void EditorToolBar::init(int iMode, EditorConfig *iEditorConfig)
 {
   // Выясняется перечень кнопок на панели инструментов
   toolsListInLine1=(editorConfig->get_tools_line_1()).split(",");
@@ -75,7 +74,8 @@ void EditorToolBar::init(int mode)
     toolsListInLine1.append("find_in_base");
   }
 
-
+  // Запоминается указатель на конфигурацию редактора
+  editorConfig=iEditorConfig;
 }
 
 
@@ -435,6 +435,12 @@ void EditorToolBar::updateToolsLines(void)
     QString b=toolsListInLine2.at(i).trimmed();
     insertButtonToToolsLine(b,toolsLine2);
   }
+}
+
+
+void EditorToolBar::setDisableToolList(QStringList toolNames)
+{
+  disableToolList=toolNames;
 }
 
 

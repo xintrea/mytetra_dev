@@ -94,6 +94,7 @@ void Editor::init(int mode)
 
   // Создается панель с кнопками
   editorToolBar=new EditorToolBar(this);
+  editorToolBar->init(mode, editorConfig);
 
   // Создается виджет поиска, обязательно нужно указать parent чтобы
   // могли применяться флаги окна.
@@ -1209,9 +1210,9 @@ void Editor::setFontselectOnDisplay(QString fontName)
   flagSetFontParametersEnabled=false;
 
   if(fontName.size()>0)
-    editorToolBar->fontSelect->setCurrentIndex(fontSelect->findText(fontName));
+    editorToolBar->fontSelect->setCurrentIndex(editorToolBar->fontSelect->findText(fontName));
   else
-    editorToolBar->fontSelect->setCurrentIndex(fontSelect->count()-1);
+    editorToolBar->fontSelect->setCurrentIndex(editorToolBar->fontSelect->count()-1);
 
   currentFontFamily=fontName;
 
@@ -1224,7 +1225,7 @@ void Editor::onFontsizeChanged(int i)
 {
   if(flagSetFontParametersEnabled==false) return;
 
-  int n=(fontSize->itemData(i)).toInt();
+  int n=(editorToolBar->fontSize->itemData(i)).toInt();
 
   if(n<MINIMUM_ALLOWED_FONT_SIZE) return;
   if(n>MAXIMUM_ALLOWED_FONT_SIZE) return;
@@ -1243,7 +1244,7 @@ void Editor::setFontsizeOnDisplay(int n)
 {
   flagSetFontParametersEnabled=false;
 
-  fontSize->setCurrentIndex(fontSize->findData(n));
+  editorToolBar->fontSize->setCurrentIndex(editorToolBar->fontSize->findData(n));
   currentFontSize=n;
 
   flagSetFontParametersEnabled=true;
@@ -1263,7 +1264,7 @@ void Editor::onFontcolorClicked()
   if(selectedColor.isValid())
   {
     // Меняется цвет кнопки
-    fontColor->setPalette(QPalette(selectedColor));
+    editorToolBar->fontColor->setPalette(QPalette(selectedColor));
 
     // Если выделение есть
     if(textArea->textCursor().hasSelection())
@@ -1577,17 +1578,17 @@ void Editor::updateAlignButtonHiglight(bool activate)
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
   palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
 
-  alignLeft->setPalette(palInactive);
-  alignCenter->setPalette(palInactive);
-  alignRight->setPalette(palInactive);
-  alignWidth->setPalette(palInactive);
+  editorToolBar->alignLeft->setPalette(palInactive);
+  editorToolBar->alignCenter->setPalette(palInactive);
+  editorToolBar->alignRight->setPalette(palInactive);
+  editorToolBar->alignWidth->setPalette(palInactive);
 
   if(activate==false)return;
 
-  if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignRight)   alignRight->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setPalette(palActive);
+  if(textArea->alignment()==Qt::AlignLeft)         editorToolBar->alignLeft->setPalette(palActive);
+  else if(textArea->alignment()==Qt::AlignHCenter) editorToolBar->alignCenter->setPalette(palActive);
+  else if(textArea->alignment()==Qt::AlignRight)   editorToolBar->alignRight->setPalette(palActive);
+  else if(textArea->alignment()==Qt::AlignJustify) editorToolBar->alignWidth->setPalette(palActive);
 }
 
 
@@ -1598,13 +1599,13 @@ void Editor::updateOutlineButtonHiglight(void)
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
   palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
 
-  bold->setPalette(palInactive);
-  italic->setPalette(palInactive);
-  underline->setPalette(palInactive);
+  editorToolBar->bold->setPalette(palInactive);
+  editorToolBar->italic->setPalette(palInactive);
+  editorToolBar->underline->setPalette(palInactive);
 
-  if(textArea->fontWeight()==QFont::Bold) bold->setPalette(palActive);
-  if(textArea->fontItalic()==true)        italic->setPalette(palActive);
-  if(textArea->fontUnderline()==true)     underline->setPalette(palActive);
+  if(textArea->fontWeight()==QFont::Bold) editorToolBar->bold->setPalette(palActive);
+  if(textArea->fontItalic()==true)        editorToolBar->italic->setPalette(palActive);
+  if(textArea->fontUnderline()==true)     editorToolBar->underline->setPalette(palActive);
 }
 
 
@@ -1616,22 +1617,22 @@ void Editor::setOutlineButtonHiglight(int button, bool active)
 
   if(button==BT_BOLD)
   {
-    if(active==false) bold->setPalette(palInactive);
-    else              bold->setPalette(palActive);
+    if(active==false) editorToolBar->bold->setPalette(palInactive);
+    else              editorToolBar->bold->setPalette(palActive);
     return;
   }
 
   if(button==BT_ITALIC)
   {
-    if(active==false) italic->setPalette(palInactive);
-    else              italic->setPalette(palActive);
+    if(active==false) editorToolBar->italic->setPalette(palInactive);
+    else              editorToolBar->italic->setPalette(palActive);
     return;
   }
 
   if(button==BT_UNDERLINE)
   {
-    if(active==false) underline->setPalette(palInactive);
-    else              underline->setPalette(palActive);
+    if(active==false) editorToolBar->underline->setPalette(palInactive);
+    else              editorToolBar->underline->setPalette(palActive);
     return;
   }
 }
@@ -1721,12 +1722,12 @@ void Editor::onShowformattingClicked(void)
   if(textArea->get_showformatting()==false)
   {
     textArea->set_showformatting(true);
-    showFormatting->setPalette(palActive);
+    editorToolBar->showFormatting->setPalette(palActive);
   }
   else
   {
     textArea->set_showformatting(false);
-    showFormatting->setPalette(palInactive);
+    editorToolBar->showFormatting->setPalette(palInactive);
   }
 }
 
@@ -2424,7 +2425,7 @@ void Editor::switchExpandToolsLines(int flag)
 
 
   // Панели распахиваются/смыкаются (кроме первой линии инструментов)
-  toolsLine2->setVisible(setFlag);
+  editorToolBar->toolsLine2->setVisible(setFlag);
   if(viewMode==WYEDIT_DESKTOP_MODE)
     indentSlider->setVisible(setFlag);
 
@@ -2553,8 +2554,7 @@ int Editor::getDirFileEmptyReaction(void)
 // Метод позволяющий управлять доступностью инcтрументов редактирования
 void Editor::setDisableToolList(QStringList toolNames)
 {
-  qDebug() << "Editor::setDisableToolList() : " << toolNames;
-  disableToolList=toolNames;
+  editorToolBar->setDisableToolList(toolNames);
 }
 
 
@@ -2583,5 +2583,11 @@ int Editor::getScrollBarPosition(void)
 void Editor::setScrollBarPosition(int n)
 {
   textArea->verticalScrollBar()->setValue(n);
+}
+
+
+void Editor::switchAttachIconExists(bool isExists)
+{
+  editorToolBar->switchAttachIconExists(isExists);
 }
 

@@ -5,9 +5,16 @@
 #include <QToolButton>
 #include <QFontComboBox>
 #include <QSpinBox>
+#include <QToolBar>
+#include <QVBoxLayout>
+
+#include "EditorConfig.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
+
+#define MINIMUM_ALLOWED_FONT_SIZE 5
+#define MAXIMUM_ALLOWED_FONT_SIZE 100
 
 
 class EditorToolBar : public QWidget
@@ -78,8 +85,11 @@ public:
   // Область, содержащая линейки с кнопками форматирования
   QVBoxLayout *textformatButtonsLayout=NULL;
 
-  void switchAttachIconExists(bool isExists);
+  void init(int iMode, EditorConfig *iEditorConfig);
 
+  void setDisableToolList(QStringList toolNames);
+
+  void switchAttachIconExists(bool isExists);
 
 signals:
 
@@ -87,6 +97,15 @@ public slots:
 
 
 protected:
+
+  // Указатель на конфигурацию редактора
+  EditorConfig  *editorConfig=NULL;
+
+  QStringList toolsListInLine1;
+  QStringList toolsListInLine2;
+
+  // Список инструментов, которые ненужно подгружать
+  QStringList disableToolList;
 
   void setupButtons(void);
   void assemblyButtons(void);

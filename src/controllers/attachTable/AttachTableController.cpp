@@ -153,11 +153,11 @@ void AttachTableController::addSmart(QString attachType)
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
   // Обновление иконки аттачей в редакторе
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
   if(attachTableData->size()>0)
-  {
-    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-    edView->toAttach->setIcon( edView->iconAttachExists );
-  }
+    edView->switchAttachIconExists(true);
+  else
+    edView->switchAttachIconExists(false);
 }
 
 
@@ -417,7 +417,7 @@ void AttachTableController::onDeleteAttach(void)
   if(attachTableData->size()==0)
   {
     MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-    edView->toAttach->setIcon( edView->iconAttachNotExists );
+    edView->switchAttachIconExists(false);
   }
 }
 

@@ -82,14 +82,10 @@
 // 1.7 - Основна на версии 1.6
 //     - Сделано правильное реагирование линейки отступов при
 //       переключении текста записи на новую запись в
-//       новом режиме хранения записей в памями
+//       новом режиме хранения записей в памяти
 
 
 #define WYEDIT_VERSION "WyEdit v.1.7 / 21.06.2015"
-
-
-#define MINIMUM_ALLOWED_FONT_SIZE 5
-#define MAXIMUM_ALLOWED_FONT_SIZE 100
 
 class EditorConfig;
 class EditorTextEdit;
@@ -109,7 +105,7 @@ public:
  EditorConfig  *editorConfig=NULL;
 
  // Кнопки редактора
- EditorToolBar *editorToolBar=NULL;
+ EditorToolBar *editorToolBar=NULL; // todo: Сделать защищенным?
 
  // Виджет горизонтальной линейки отступов
  IndentSlider  *indentSlider=NULL;
@@ -180,6 +176,7 @@ public:
  int  getScrollBarPosition(void);
  void setScrollBarPosition(int n);
 
+ void switchAttachIconExists(bool isExists);
 
  enum
  {
@@ -373,12 +370,6 @@ private:
  QMap<QString, QString> miscFields;
 
  int dirFileEmptyReaction;
-
- QStringList toolsListInLine1;
- QStringList toolsListInLine2;
-
- // Список инструментов, которые ненужно подгружать
- QStringList disableToolList;
 
  enum 
   {
