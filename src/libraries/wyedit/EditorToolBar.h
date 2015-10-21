@@ -8,6 +8,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
+#include "Editor.h"
 #include "EditorConfig.h"
 
 // Fix ugly Qt QSS bug

@@ -418,7 +418,6 @@ void EditorToolBar::assemblyButtons(void)
   }
   else
     indentSlider->setVisible(false);
-
 }
 
 

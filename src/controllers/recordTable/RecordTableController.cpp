@@ -178,9 +178,9 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
 
   // Обновление иконки аттачей
   if( table->getRecord(pos)->getAttachTablePointer()->size()==0 )
-    edView->toAttach->setIcon( edView->iconAttachNotExists ); // Если нет приаттаченных файлов
+    edView->switchAttachIconExists(false); // Если нет приаттаченных файлов
   else
-    edView->toAttach->setIcon( edView->iconAttachExists ); // Есть приаттаченные файлы
+    edView->switchAttachIconExists(true); // Есть приаттаченные файлы
 }
 
 
