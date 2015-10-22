@@ -8,9 +8,6 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include "Editor.h"
-#include "EditorConfig.h"
-
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
 
@@ -86,7 +83,7 @@ public:
   // Область, содержащая линейки с кнопками форматирования
   QVBoxLayout *textformatButtonsLayout=NULL;
 
-  void init(int iMode, EditorConfig *iEditorConfig);
+  void init();
 
   void setDisableToolList(QStringList toolNames);
 
@@ -98,9 +95,6 @@ public slots:
 
 
 protected:
-
-  // Указатель на конфигурацию редактора
-  EditorConfig  *editorConfig=NULL;
 
   QStringList toolsListInLine1;
   QStringList toolsListInLine2;

@@ -94,7 +94,7 @@ void Editor::init(int mode)
 
   // Создается панель с кнопками
   editorToolBar=new EditorToolBar(this);
-  editorToolBar->init(mode, editorConfig);
+  editorToolBar->init();
 
   // Создается виджет поиска, обязательно нужно указать parent чтобы
   // могли применяться флаги окна.

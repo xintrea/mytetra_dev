@@ -1,4 +1,5 @@
 #include "EditorToolBar.h"
+#include "Editor.h"
 
 
 EditorToolBar::EditorToolBar(QWidget *parent) : QWidget(parent)
@@ -54,28 +55,25 @@ EditorToolBar::~EditorToolBar()
 // Инициализация панели инструментов
 // Если mode=WYEDIT_DESKTOP_MODE - происходит обычная инициализация
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
-void EditorToolBar::init(int iMode, EditorConfig *iEditorConfig)
+void EditorToolBar::init()
 {
   // Выясняется перечень кнопок на панели инструментов
-  toolsListInLine1=(editorConfig->get_tools_line_1()).split(",");
-  toolsListInLine2=(editorConfig->get_tools_line_2()).split(",");
+  toolsListInLine1=(parent->editorConfig->get_tools_line_1()).split(",");
+  toolsListInLine2=(parent->editorConfig->get_tools_line_2()).split(",");
 
   // В мобильном режиме добавляется кнопка back (если ее нет)
-  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
+  if(parent->viewMode==parent->WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
   {
     toolsListInLine1.prepend("separator");
     toolsListInLine1.prepend("back");
   }
 
   // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
+  if(parent->viewMode==parent->WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
   {
     toolsListInLine1.append("separator");
     toolsListInLine1.append("find_in_base");
   }
-
-  // Запоминается указатель на конфигурацию редактора
-  editorConfig=iEditorConfig;
 }
 
 
@@ -411,13 +409,13 @@ void EditorToolBar::assemblyButtons(void)
   textformatButtonsLayout->addWidget(toolsLine2);
 
   // Виджет настройки отступов виден только в desktop интерфейсе
-  if(viewMode==WYEDIT_DESKTOP_MODE)
+  if(parent->viewMode==parent->WYEDIT_DESKTOP_MODE)
   {
-    indentSlider->setVisible(true);
+    parent->indentSlider->setVisible(true);
     textformatButtonsLayout->addWidget(indentSlider);
   }
   else
-    indentSlider->setVisible(false);
+    parent->indentSlider->setVisible(false);
 }
 
 
