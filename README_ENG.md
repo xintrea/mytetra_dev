@@ -1,8 +1,8 @@
 mytetra_dev
 ===========
 
-ENG: Central source repository for MyTetra development. 
-MyTetra official english page: [http://webhamster.ru/site/page/index/articles/projectcode/138](http://webhamster.ru/site/page/index/articles/projectcode/138)
+ENG: Central source repository for MyTetra development.<br/> 
+MyTetra official english page: [http://webhamster.ru/site/page/index/articles/projectcode/138](http://webhamster.ru/site/page/index/articles/projectcode/138)<br/>
 Read me: [https://github.com/xintrea/mytetra_dev/blob/experimental/README_ENG.md](Read me on english)
 
 RUS: Основной репозитарий исходников для разработки MyTetra. 
@@ -20,11 +20,11 @@ When writing code to be guided by the following agreements:
 * Tab prohibited padding spaces are made;
 * Margin - 2 spaces;
 * Comments must have the same indentation that of the code;
-* The name of the file with the implementation of the class is based on the principle EtoMoyKlass.cpp;
-* The name of the file with the title of class is based on the principle EtoMoyKlass.h;
-* The name of the class is based on the principle EtoMoyKlass;
-* The name of the method is based on the principle etoMetodKlassa;
-* The name of the variables is based on the principle etoPeremennaya;
+* The name of the file with the implementation of the class is based on the principle ItIsMyClass.cpp;
+* The name of the file with the title of class is based on the principle ItIsMyClass.h;
+* The name of the class is based on the principle ItIsMyClass;
+* The name of the method is based on the principle itIsMyMethod;
+* The name of the variables is based on the principle itIsVariable;
 * The opening "{" and closing bracket "}" should be on separate lines. It is unacceptable to place an opening bracket in the line for (), if (), etc .;
 * Each newly created method should contain a comment that describes what the method does. So it is desirable to describe the purpose of the method parameters;
 * The header class, after the section is necessary in #include class assignment to write comments.
