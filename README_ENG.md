@@ -2,12 +2,12 @@ mytetra_dev
 ===========
 
 ENG: Central source repository for MyTetra development.<br/> 
-MyTetra official english page: [http://webhamster.ru/site/page/index/articles/projectcode/138](http://webhamster.ru/site/page/index/articles/projectcode/138)<br/>
-Read me: [https://github.com/xintrea/mytetra_dev/blob/experimental/README_ENG.md](Read me on english)
+* ["Read me" on english](https://github.com/xintrea/mytetra_dev/blob/experimental/README_ENG.md)
+* [MyTetra official english page](http://webhamster.ru/site/page/index/articles/projectcode/138)
 
 RUS: Основной репозитарий исходников для разработки MyTetra.<br/>
-Официальная русскоязычная страница программы MyTetra: [http://webhamster.ru/site/page/index/articles/projectcode/105](http://webhamster.ru/site/page/index/articles/projectcode/105)<br/>
-Описание проекта: [https://github.com/xintrea/mytetra_dev/blob/experimental/README.md](Описание проекта на русском)
+* [Описание проекта](https://github.com/xintrea/mytetra_dev/blob/experimental/README.md)
+* [Официальная русскоязычная страница MyTetra](http://webhamster.ru/site/page/index/articles/projectcode/105)
 
 
 Agreement on the coding (registration code)
