@@ -147,6 +147,11 @@ void TreeScreen::setupActions(void)
     connect(ac, SIGNAL(triggered()), this, SLOT(decrypt_branch()));
     actionList["decryptBranch"]=ac;
 
+    ac=new QAction(tr("Freeze browser view"), this);
+    ac->setStatusTip(tr("Freeze browser view"));
+    ac->setIcon(QIcon(":/resource/pic/freeze_browser_view.png"));
+    actionList["freezeBrowserView"] = ac;
+
 // Открытие поиска по базе (связывание клика происходит в MainWindows)
     ac = new QAction(tr("Find in base"), this);
     ac->setStatusTip(tr("Find in base"));
@@ -184,6 +189,7 @@ void TreeScreen::setupUI(void)
 
     if(mytetraConfig.getInterfaceMode()=="mobile") {
         toolsLine->addSeparator();
+        insertActionAsButton(toolsLine, actionList["freezeBrowserView"]);
         insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
     }
 

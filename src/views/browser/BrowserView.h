@@ -4,26 +4,45 @@
 #include <QWidget>
 #include <QList>
 #include <QUrl>
+#include "models/recordTable/Record.h"
+#include "libraries/GlobalParameters.h"
 
 class QNetworkReply;
 class QSslError;
+extern GlobalParameters globalParameters;
 
-class MainView : public QWidget
-{
+
+class BrowserView : public QWidget {
     Q_OBJECT
 public:
-    MainView(QWidget *parent=0);
-    ~MainView();
+    BrowserView(QWidget *parent = 0);
+    ~BrowserView();
+    QString getField(QString name){return current_record.getField(name);}
+
 
 public slots:
-    void setUrl(QUrl url);
+    void setUrl(const QUrl &url);
+    void loadUrl(const QUrl & _url = QUrl());
     void setScrollbars(bool hide);
     void setCache(bool cache, int cacheSize);
     void finished(QNetworkReply *reply);
     void sslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
+    QAction * getactionFreeze()
+    {
+        return actionFreeze;
+    }
+
+    void setupActions(void);
 
 private:
-    struct MainViewPrivate *d;
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
+
+    QAction *actionFreeze;
+    struct BrowserViewPrivate *d;
+    //QUrl current_url;
+    Record current_record;
 };
 
 #endif // MAINVIEW_H

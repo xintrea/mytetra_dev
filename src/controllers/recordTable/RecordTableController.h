@@ -31,6 +31,7 @@ public:
 
     void addRecordsToClipboard(ClipboardRecords *clipboardRecords, QModelIndexList itemsForCopy);
 
+    void openWebsite(QModelIndex proxyIndex);
     // Действия при редактировании инфополей записи из контекстного меню
     void editFieldContext(QModelIndex proxyIndex);
 
@@ -75,6 +76,7 @@ public slots:
     void addNewToEndContext(void);
     void addNewBeforeContext(void);
     void addNewAfterContext(void);
+    void autoAddNewAfterContext(void);
 
     // Вызов действий из контекстного меню для удаления конечной записи
     void deleteContext(void);
@@ -104,6 +106,7 @@ protected:
     RecordTableProxyModel *recordProxyModel;
 
     void addNewRecord(int mode);
+    void autoAddNewRecord(int mode);
 
     void addNew(int mode, Record record);
 

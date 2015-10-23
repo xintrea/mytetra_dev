@@ -45,6 +45,7 @@
 
 #include <QStatusBar>
 
+class BrowserView;
 class TreeScreen;
 class MetaEditor;
 class RecordTableScreen;
@@ -60,6 +61,7 @@ public:
     ~MainWindow();
 
     TreeScreen *treeScreen;
+    BrowserView *browser_view;
     RecordTableScreen *recordTableScreen;
     MetaEditor *editorScreen;
     FindScreen *findScreenDisp;
@@ -102,6 +104,7 @@ private slots:
     void filePrintPdf(void);
 
     void toolsFind(void);
+    void editor_switch(void);
     void toolsPreferences(void);
 
     void onExpandEditArea(bool flag);
@@ -145,6 +148,7 @@ private:
     QMenu           *trayIconMenu;
 
     QSplitter *vSplitter;
+    QSplitter *v_left_splitter;
     QSplitter *hSplitter;
     QSplitter *findSplitter;
 

@@ -145,6 +145,7 @@ public:
     QToolButton   *save=NULL;
 
     QToolButton   *back=NULL;
+    QToolButton   *actionFreeze=NULL;
     QToolButton   *findInBase=NULL;
 
     QToolButton   *showText=NULL;

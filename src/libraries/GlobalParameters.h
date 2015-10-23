@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStatusBar>
 
+class BrowserView;
 class TreeScreen;
 class MetaEditor;
 class RecordTableScreen;
@@ -29,6 +30,9 @@ public:
 
     void setTreeScreen(TreeScreen *point);
     TreeScreen *getTreeScreen();
+
+    void setBrowserView(BrowserView *point);
+    BrowserView * getBrowserView();
 
     void setRecordTableScreen(RecordTableScreen *point);
     RecordTableScreen *getRecordTableScreen();
@@ -63,6 +67,7 @@ private:
     void createFirstProgramFiles(QString dirName);
 
     TreeScreen *pointTreeScreen;
+    BrowserView * browser_view;
     RecordTableScreen *pointRecordTableScreen;
     FindScreen *pointFindScreen;
     MetaEditor *pointMetaEditor;

@@ -44,6 +44,7 @@ QString GlobalParameters::getMainProgramFile(void)
 void GlobalParameters::init(void)
 {
     pointTreeScreen=NULL;
+    browser_view = NULL;
     pointRecordTableScreen=NULL;
     pointFindScreen=NULL;
     pointMetaEditor=NULL;
@@ -207,6 +208,9 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
 
     QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
     QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
+
+    QFile::copy(":/resource/standartconfig/"+targetOs+"/browser_config.ini", dirName+"/browser_config.ini");
+    QFile::setPermissions(dirName+"/browser_config.ini", QFile::ReadUser | QFile::WriteUser);
 
     createStyleSheetFile(dirName);
 
@@ -400,6 +404,17 @@ void GlobalParameters::setTreeScreen(TreeScreen *point)
 TreeScreen *GlobalParameters::getTreeScreen()
 {
     return pointTreeScreen;
+}
+
+
+BrowserView * GlobalParameters::getBrowserView()
+{
+    return browser_view;
+}
+
+void GlobalParameters::setBrowserView(BrowserView *point)
+{
+    browser_view = point;
 }
 
 

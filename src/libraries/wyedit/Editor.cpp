@@ -513,6 +513,11 @@ void Editor::setup_buttons(void)
     back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
     back->setObjectName("editor_tb_back");
 
+    actionFreeze=new QToolButton(this);
+    actionFreeze->setStatusTip(tr("Freeze browser view"));
+    actionFreeze->setIcon(QIcon(":/resource/pic/freeze_browser_view.png"));
+    actionFreeze->setObjectName("browser_tb_freeze_browser_view");
+
     // Кнопка "поиск по базе", используется в мобильном интерфейсе
     findInBase = new QToolButton(this);
     findInBase->setStatusTip(tr("Find in base"));

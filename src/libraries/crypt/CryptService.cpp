@@ -9,16 +9,14 @@ CryptService::CryptService() {}
 
 CryptService::~CryptService() {}
 
-void CryptService::convertByteArrayToVector(const QByteArray &qba,
-        vector<unsigned char> &vec)
+void CryptService::convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
 {
     unsigned int size = qba.size();
     vec.resize(size, 0);
     memcpy(&vec[0], qba.constData(), size * sizeof(unsigned char));
 }
 
-void CryptService::convertVectorToByteArray(const vector<unsigned char> &vec,
-        QByteArray &qba)
+void CryptService::convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba)
 {
     unsigned int size = vec.size();
     qba.clear();

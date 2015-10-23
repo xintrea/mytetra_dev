@@ -64,6 +64,7 @@ public slots:
 
 // Вызов действий из контекстного меню или из контроллера для редактирования инфополей записи
     void editFieldContext(void);
+    void loadUrl(void);
 
 protected slots:
 

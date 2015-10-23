@@ -261,6 +261,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         return;
 
     switch (type) {
+    case QtInfoMsg:
+        smartPrintDebugMessage("[INF] "+msgText+"\n");
+        break;
     case QtDebugMsg:
         smartPrintDebugMessage("[DBG] "+msgText+"\n");
         break;

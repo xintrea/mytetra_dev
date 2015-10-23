@@ -5,6 +5,7 @@
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/browser/BrowserView.h"
 #include "MainWindow.h"
 #include "views/printPreview/PrintPreview.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
@@ -67,6 +68,7 @@ MainWindow::~MainWindow()
     saveAllState();
 
     delete treeScreen;
+    delete browser_view;
     delete recordTableScreen;
     delete findScreenDisp;
     delete editorScreen;
@@ -82,6 +84,8 @@ void MainWindow::setupUI(void)
     treeScreen=new TreeScreen;
     treeScreen->setObjectName("treeScreen");
     globalParameters.setTreeScreen(treeScreen);
+
+
 
     recordTableScreen=new RecordTableScreen();
     recordTableScreen->setObjectName("recordTableScreen");
@@ -105,6 +109,10 @@ void MainWindow::setupUI(void)
     windowSwitcher->setObjectName("windowSwitcher");
     globalParameters.setWindowSwitcher(windowSwitcher);
 
+    browser_view = new BrowserView(this);
+    browser_view->setScrollbars(true);
+    browser_view->setObjectName("browser_view");
+    globalParameters.setBrowserView(browser_view);
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 }
@@ -121,6 +129,7 @@ void MainWindow::setupSignals(void)
 
 // Связывание сигналов кнопки поиска по базе с действием по открытию виджета поиска по базе
     connect(treeScreen->actionList["findInBase"], SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
+    connect(browser_view->getactionFreeze(), SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
     connect(recordTableScreen->actionFindInBase, SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
     connect(editorScreen, SIGNAL(wyeditFindInBaseClicked()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
 }
@@ -129,25 +138,45 @@ void MainWindow::setupSignals(void)
 void MainWindow::assembly(void)
 {
     vSplitter=new QSplitter(Qt::Vertical);
-    vSplitter->addWidget(recordTableScreen); // Список конечных записей
-    vSplitter->addWidget(editorScreen);      // Текст записи
-    vSplitter->setCollapsible(0,false); // Список конечных записей не может смыкаться
-    vSplitter->setCollapsible(1,false); // Содержимое записи не может смыкаться
+    vSplitter->addWidget(browser_view);
 
-    hSplitter=new QSplitter(Qt::Horizontal);
-    hSplitter->addWidget(treeScreen); // Дерево веток
-    hSplitter->addWidget(vSplitter);
-    hSplitter->setCollapsible(0,false); // Дерево веток не может смыкаться
-    hSplitter->setCollapsible(1,false); // Столбец со списком и содержимым записи не может смыкаться
+    vSplitter->addWidget(editorScreen);             // Text entries // Текст записи
+    vSplitter->setCollapsible(0,false);             // The list of final entries can not link up    // Список конечных записей не может смыкаться
+    vSplitter->setCollapsible(1,false);             // The contents of the recording can not link up    // Содержимое записи не может смыкаться
+
 
     findSplitter=new QSplitter(Qt::Vertical);
-    findSplitter->addWidget(hSplitter);
+    findSplitter->addWidget(vSplitter);             //findSplitter->addWidget(hSplitter);
     findSplitter->addWidget(findScreenDisp);
-    findSplitter->setCollapsible(0,false); // Верхняя часть не должна смыкаться
-    findSplitter->setCollapsible(1,false); // Часть для поиска не должна смыкаться
+    findSplitter->setCollapsible(0,false);          // Верхняя часть не должна смыкаться
+    findSplitter->setCollapsible(1,false);          // Часть для поиска не должна смыкаться
     findSplitter->setObjectName("findsplitter");
 
-    setCentralWidget(findSplitter);
+
+    v_left_splitter=new QSplitter(Qt::Vertical);
+    v_left_splitter->addWidget(treeScreen);
+    v_left_splitter->addWidget(recordTableScreen);
+    v_left_splitter->setCollapsible(0,false);
+    v_left_splitter->setCollapsible(1,false);
+
+    hSplitter=new QSplitter(Qt::Horizontal);
+    hSplitter->addWidget(v_left_splitter);
+    //hSplitter->addWidget(treeScreen);             // Tree branches    // Дерево веток
+    //hSplitter->addWidget(recordTableScreen);      // The list of final entries    // Список конечных записей
+    hSplitter->addWidget(findSplitter);             //hSplitter->addWidget(vSplitter);
+    hSplitter->setCollapsible(0,false);             // Дерево веток не может смыкаться
+    hSplitter->setCollapsible(1,false);             // Столбец со списком и содержимым записи не может смыкаться
+    hSplitter->setObjectName("findsplitter");
+
+//    findSplitter=new QSplitter(Qt::Vertical);
+//    findSplitter->addWidget(hSplitter);
+//    findSplitter->addWidget(findScreenDisp);
+//    findSplitter->setCollapsible(0,false);        // Верхняя часть не должна смыкаться
+//    findSplitter->setCollapsible(1,false);        // Часть для поиска не должна смыкаться
+//    findSplitter->setObjectName("findsplitter");
+
+    setCentralWidget(hSplitter);                    //setCentralWidget(findSplitter);
+
 }
 
 
@@ -436,6 +465,10 @@ void MainWindow::initToolsMenu(void)
     connect(a, SIGNAL(triggered()), this, SLOT(toolsFind()));
     menu->addAction(a);
 
+    auto b = new QAction(tr("Editor"), this);
+    connect(b, SIGNAL(triggered()), this, SLOT(editor_switch()));
+    menu->addAction(b);
+
     menu->addSeparator();
 
 
@@ -608,6 +641,16 @@ void MainWindow::toolsFind(void)
         findScreenRel->hide();
 }
 
+void MainWindow::editor_switch(void)
+{
+
+    MetaEditor *editorScreen = find_object<MetaEditor>("editorScreen");
+
+    if( !(editorScreen->isVisible()) )
+        editorScreen->show();
+    else
+        editorScreen->hide();
+}
 
 void MainWindow::toolsPreferences(void)
 {
@@ -625,9 +668,11 @@ void MainWindow::onExpandEditArea(bool flag)
 {
     if(flag) {
         globalParameters.getTreeScreen()->hide();
+        globalParameters.getBrowserView()->hide();
         globalParameters.getRecordTableScreen()->hide();
     } else {
         globalParameters.getTreeScreen()->show();
+        globalParameters.getBrowserView()->show();
         globalParameters.getRecordTableScreen()->show();
     }
 }

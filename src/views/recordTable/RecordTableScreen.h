@@ -31,6 +31,11 @@ public:
     void setTreePath(QString path);
     QString getTreePath(void);
 
+    inline RecordTableController*
+    getRecordTableController()
+    {
+        return recordTableController;
+    }
 
 // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
     QAction *actionAddNewToEnd;

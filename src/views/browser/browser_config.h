@@ -1,18 +1,7 @@
-/*************************************************************************
-**
-**    (C) Copyright 2013 Reach Technology Inc.
-**
-**    This code is protected by international copyright laws. This file may
-**    only be used in accordance with a license and cannot be used on
-**    hardware other than supplied by Reach Technology Inc. We appreciate
-**    your understanding and fairness.
-**
-*************************************************************************/
+#ifndef _SYSTEMCONF_H_
+#define _SYSTEMCONF_H_
 
-#ifndef SYSTEMDEFS_H
-#define SYSTEMDEFS_H
+#define SETTINGS_FILE "browser_config.ini"
+#define SETTINGS_SECTION "system"
 
-#define SYSTEM_SETTINGS_FILE "/application/src/settings.conf"
-#define SYSTEM_SETTINGS_SECTION "System"
-
-#endif // SYSTEMDEFS_H
+#endif // _SYSTEMCONF_H_

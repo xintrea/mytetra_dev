@@ -13,6 +13,7 @@
 #include "views/tree/TreeScreen.h"
 #include "views/record/RecordInfoFieldsEditor.h"
 #include "views/appConfigWindow/AppConfigDialog.h"
+#include "views/browser/BrowserView.h"
 #include "models/recordTable/Record.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
@@ -500,6 +501,58 @@ void RecordTableController::addNewAfterContext(void)
     addNewRecord(ADD_NEW_RECORD_AFTER);
 }
 
+// Слот для добавления новой записи после выделенной строки
+void RecordTableController::autoAddNewAfterContext(void)
+{
+    qDebug() << "In slot add_new_after_context()";
+
+    autoAddNewRecord(ADD_NEW_RECORD_AFTER);
+}
+
+
+
+// Вызов окна добавления данных в таблицу конечных записей
+void RecordTableController::autoAddNewRecord(int mode)
+{
+    qDebug() << "In add_new_record()";
+
+//// Создается окно ввода данных
+//// При клике Ok внутри этого окна, будет создана временная директория
+//// с картинками, содержащимися в тексте
+//    AddNewRecord addNewRecordWin;
+//    int i=addNewRecordWin.exec();
+//    if(i==QDialog::Rejected)
+//        return; // Была нажата отмена, ничего ненужно делать
+    auto browser_view = globalParameters.getBrowserView();
+//// Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
+//    QString directory=addNewRecordWin.getImagesDirectory();
+
+// todo: сделать заполнение таблицы приаттаченных файлов
+
+    Record record;
+    record.switchToFat();
+    record.setText(
+                "default"//browser_view->getField("text")
+                );
+    record.setField("name",   browser_view->getField("name"));
+    record.setField("author", browser_view->getField("author"));
+    record.setField("url",    browser_view->getField("url"));
+    record.setField("tags",   browser_view->getField("tags"));
+    //record.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
+
+// Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
+// Запись должна быть создана, потом можно аттачить файлы.
+// Это ограничение для "ленивого" программинга, но пока так
+// record.setAttachFiles( DiskHelper::getFilesFromDirectory(directory, "*.bin") );
+
+//// Временная директория с картинками и приаттаченными файлами удаляется
+//    DiskHelper::removeDirectory(directory);
+
+// Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
+    addNew(mode, record);
+}
+
+
 
 // Вызов окна добавления данных в таблицу конечных записей
 void RecordTableController::addNewRecord(int mode)
@@ -565,8 +618,41 @@ void RecordTableController::addNew(int mode, Record record)
 void RecordTableController::onEditFieldContext(void)
 {
     view->editFieldContext();
+    //view->loadUrl();
 }
 
+void RecordTableController::openWebsite(QModelIndex proxyIndex)
+{
+    qDebug() << "RecordTableController::editFieldContext()";
+
+    QModelIndex sourceIndex=convertProxyIndexToSourceIndex(proxyIndex);
+    int pos=sourceIndex.row(); // Номер строки в базе
+
+// Создается окно ввода данных, после выхода из этой функции окно должно удалиться
+    //RecordInfoFieldsEditor editRecordWin;
+    auto browser_view = globalParameters.getBrowserView();
+    // Выясняется ссылка на таблицу конечных данных
+    RecordTableData *table=recordSourceModel->getTableData();
+
+// Поля окна заполняются начальными значениями
+    //editRecordWin.setField("name",  table->getField("name",   pos) );
+    //editRecordWin.setField("author",table->getField("author", pos) );
+    //editRecordWin.setField("url",   table->getField("url",    pos) );
+    //editRecordWin.setField("tags",  table->getField("tags",   pos) );
+    browser_view->loadUrl(table->getField("url", pos));
+
+//    int i = editRecordWin.exec();
+//    if(i == QDialog::Rejected)
+//        return; // Была нажата отмена, ничего ненужно делать
+
+//// Измененные данные записываются
+//    editField(pos,
+//              editRecordWin.getField("name"),
+//              editRecordWin.getField("author"),
+//              editRecordWin.getField("url"),
+//              editRecordWin.getField("tags"));
+
+}
 
 // Действия при нажатии кнопки редактирования записи
 void RecordTableController::editFieldContext(QModelIndex proxyIndex)

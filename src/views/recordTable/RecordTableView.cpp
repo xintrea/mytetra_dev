@@ -118,8 +118,7 @@ void RecordTableView::setupSignals(void)
             this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 
 // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
-    connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
-            this, SLOT(editFieldContext(void)));
+    connect(this, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(loadUrl(void)));
 
     if(mytetraConfig.getInterfaceMode()=="desktop")
         connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
@@ -268,6 +267,23 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 
 
 // Слот, срабатывающий при нажатии кнопки редактирования записи
+void RecordTableView::loadUrl(void)
+{
+    qDebug() << "In RecordTableView::editFieldContext";
+
+// Получение индекса выделенного элемента
+    QModelIndexList selectItems=selectionModel()->selectedIndexes();
+    QModelIndex index=selectItems.at(0);
+
+    controller->openWebsite(index);    //controller->editFieldContext(index);
+
+// Нужно перерисовать окно редактирования чтобы обновились инфополя
+// делается это путем "повторного" выбора текущего пункта
+    clickToRecord(index); // Раньше было select()
+}
+
+
+// Слот, срабатывающий при нажатии кнопки редактирования записи
 void RecordTableView::editFieldContext(void)
 {
     qDebug() << "In RecordTableView::editFieldContext";
@@ -282,7 +298,6 @@ void RecordTableView::editFieldContext(void)
 // делается это путем "повторного" выбора текущего пункта
     clickToRecord(index); // Раньше было select()
 }
-
 
 // Получение номера первого выделенного элемента
 int RecordTableView::getFirstSelectionPos(void)
