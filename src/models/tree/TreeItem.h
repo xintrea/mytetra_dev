@@ -10,9 +10,8 @@
 
 #include "models/recordTable/RecordTableData.h"
 
-class TreeItem
-{
- public:
+class TreeItem {
+public:
     TreeItem(const QMap<QString, QString> &data, TreeItem *parent = 0);
     ~TreeItem();
 
@@ -40,17 +39,17 @@ class TreeItem
 
     // Заполнение указанного поля данными напрямую, без преобразований
     void setFieldDirect(QString name, QString value);
-    
+
     // Добавление потомка (потомков) к текущему элементу
     // position - после какой позиции массива childItems вставить
     // count - сколько потомков вставить (обычно 1, но можно и несколько)
     // columns - сколько столбцов должен содержать потомок
     bool insertChildren(int position, int count, int columns);
 
-    // Добавление нового подчиненного элемента 
+    // Добавление нового подчиненного элемента
     // в конец списка подчиненных элементов
     bool addChildren(void);
-    
+
     // Возвращение ссылки на родительский элемент
     TreeItem *parent();
 
@@ -66,10 +65,10 @@ class TreeItem
 
     bool moveUp(void);
     bool moveDn(void);
-    
+
     // Возвращает id путь (список идентификаторов от корня до текущего элемента)
     QStringList getPath(void);
-    
+
     // Возвращает путь в виде названий веток дерева
     QStringList getPathAsName(void);
 
@@ -92,7 +91,7 @@ class TreeItem
 
     // Шифрация данной ветки и всех подветок
     void switchToEncrypt(void);
-    
+
     // Расшифровка данной ветки и всех подветок
     void switchToDecrypt(void);
 
@@ -104,13 +103,13 @@ class TreeItem
 
     // Удаление всех элементов в таблице конечных записей, "промежуточный" метод
     void recordtableDeleteAllRecords(void);
-    
+
     // Преобразование таблицы конечных записей в DOM представление, "промежуточный" метод
     QDomElement recordtableExportDataToDom(QDomDocument *doc);
 
     // Взятие ссылки на данные конечных записей
     RecordTableData *recordtableGetTableData(void);
-    
+
 private:
     bool removeChildrenLink(int position, int count);
 
@@ -122,7 +121,7 @@ private:
     bool isFieldNameAvailable(QString name) const;
     QStringList fieldNameAvailableList(void) const;
     QStringList fieldNameForCryptList(void) const;
-    
+
     QList<TreeItem*> childItems; // Список ссылок на потомков
     TreeItem *parentItem;      // Ссылка на родителя
 

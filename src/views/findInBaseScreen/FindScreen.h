@@ -23,112 +23,111 @@ class MtComboBox;
 
 // Виджет поиска по базе
 
-class FindScreen : public QWidget
-{
- Q_OBJECT
+class FindScreen : public QWidget {
+    Q_OBJECT
 
 public:
- FindScreen(QWidget *parent=0);
- virtual ~FindScreen(void);
+    FindScreen(QWidget *parent=0);
+    virtual ~FindScreen(void);
 
 public slots:
 
- void widgetShow(void);
- void widgetHide(void);
- void findClicked(void);
- void setFindText(QString text);
+    void widgetShow(void);
+    void widgetHide(void);
+    void findClicked(void);
+    void setFindText(QString text);
 
 
 
 private slots:
 
- void enableFindButton(const QString &text);
- void toolsExpandClicked(void);
- 
- void changedWordRegard(int pos);
- void changedHowExtract(int pos);
- void changedTreeSearchArea(int pos);
- 
- void changedFindInName(int state);
- void changedFindInAuthor(int state);
- void changedFindInUrl(int state);
- void changedFindInTags(int state);
- void changedFindInText(int state);
+    void enableFindButton(const QString &text);
+    void toolsExpandClicked(void);
+
+    void changedWordRegard(int pos);
+    void changedHowExtract(int pos);
+    void changedTreeSearchArea(int pos);
+
+    void changedFindInName(int state);
+    void changedFindInAuthor(int state);
+    void changedFindInUrl(int state);
+    void changedFindInTags(int state);
+    void changedFindInText(int state);
 
 signals:
 
- // Сигнал вырабатывается, когда обнаружено что в слоте setFindText()
- // был изменен текст для поиска
- void textChangedFromAnother(const QString&);
+// Сигнал вырабатывается, когда обнаружено что в слоте setFindText()
+// был изменен текст для поиска
+    void textChangedFromAnother(const QString&);
 
- void findClickedAfterAnotherTextChanged(void);
+    void findClickedAfterAnotherTextChanged(void);
 
 private:
 
- QHBoxLayout *toolsAreaFindTextAndButton;
- QLineEdit *findText;
- QPushButton *findStartButton;
- QToolButton *toolsExpand;
+    QHBoxLayout *toolsAreaFindTextAndButton;
+    QLineEdit *findText;
+    QPushButton *findStartButton;
+    QToolButton *toolsExpand;
 
- QVBoxLayout *toolsAreaCloseButton;
- QToolButton *closeButton;
+    QVBoxLayout *toolsAreaCloseButton;
+    QToolButton *closeButton;
 
- QHBoxLayout *toolsAreaComboOption;
- MtComboBox *wordRegard;
- MtComboBox *howExtract;
- MtComboBox *treeSearchArea;
+    QHBoxLayout *toolsAreaComboOption;
+    MtComboBox *wordRegard;
+    MtComboBox *howExtract;
+    MtComboBox *treeSearchArea;
 
- QHBoxLayout *whereFindLine;
- QLabel *whereFindLabel;
- QCheckBox *findInName;
- QCheckBox *findInAuthor;
- QCheckBox *findInUrl;
- QCheckBox *findInTags;
- QCheckBox *findInText;
- 
- QHBoxLayout *toolsLine;
- QGridLayout *toolsGrid;
+    QHBoxLayout *whereFindLine;
+    QLabel *whereFindLabel;
+    QCheckBox *findInName;
+    QCheckBox *findInAuthor;
+    QCheckBox *findInUrl;
+    QCheckBox *findInTags;
+    QCheckBox *findInText;
 
- QVBoxLayout *centralDesktopLayout;
- 
- FindTableWidget *findTable;
- 
- QProgressDialog *progress;
+    QHBoxLayout *toolsLine;
+    QGridLayout *toolsGrid;
 
- void setupFindTextAndButton(void);
- void assemblyFindTextAndButton(void);
+    QVBoxLayout *centralDesktopLayout;
 
- void setupComboOption(void);
- void assemblyComboOption(void);
+    FindTableWidget *findTable;
 
- void setupCloseButton(void);
- void assemblyCloseButton(void);
+    QProgressDialog *progress;
 
- void setupWhereFindLine(void);
- void assemblyWhereFindLine(void);
- 
- void setupUI(void);
- void assembly(void);
- 
- void setupSignals(void);
- 
- void changedFindInField(QString fieldname, int state);
+    void setupFindTextAndButton(void);
+    void assemblyFindTextAndButton(void);
 
- void findStart(void);
- void findRecurse(TreeItem *curritem);
- bool findInTextProcess(const QString& text);
+    void setupComboOption(void);
+    void assemblyComboOption(void);
 
- void switchToolsExpand(bool flag);
- 
- // Поля, где нужно искать (Заголовок, текст, теги...)
- QMap<QString, bool> searchArea;
+    void setupCloseButton(void);
+    void assemblyCloseButton(void);
 
- // Список слов, которые нужно искать
- QStringList searchWordList;
- 
- int totalProgressCounter;
- 
- int cancelFlag;
+    void setupWhereFindLine(void);
+    void assemblyWhereFindLine(void);
+
+    void setupUI(void);
+    void assembly(void);
+
+    void setupSignals(void);
+
+    void changedFindInField(QString fieldname, int state);
+
+    void findStart(void);
+    void findRecurse(TreeItem *curritem);
+    bool findInTextProcess(const QString& text);
+
+    void switchToolsExpand(bool flag);
+
+// Поля, где нужно искать (Заголовок, текст, теги...)
+    QMap<QString, bool> searchArea;
+
+// Список слов, которые нужно искать
+    QStringList searchWordList;
+
+    int totalProgressCounter;
+
+    int cancelFlag;
 };
 
 #endif	/* _FINDSCREEN_H_ */

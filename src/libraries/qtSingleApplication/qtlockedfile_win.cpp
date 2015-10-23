@@ -1,17 +1,17 @@
 /****************************************************************************
-** 
+**
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 ** All rights reserved.
 ** Contact: Nokia Corporation (qt-info@nokia.com)
-** 
+**
 ** This file is part of a Qt Solutions component.
 **
-** Commercial Usage  
+** Commercial Usage
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
 ** with the Software or, alternatively, in accordance with the terms
 ** contained in a written agreement between you and Nokia.
-** 
+**
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 2.1 as published by the Free Software
@@ -19,29 +19,29 @@
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU Lesser General Public License version 2.1 requirements
 ** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-** 
+**
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
 ** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
 ** package.
-** 
-** GNU General Public License Usage 
+**
+** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
 ** General Public License version 3.0 as published by the Free Software
 ** Foundation and appearing in the file LICENSE.GPL included in the
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU General Public License version 3.0 requirements will be
 ** met: http://www.gnu.org/copyleft/gpl.html.
-** 
+**
 ** Please note Third Party Software included with Qt Solutions may impose
 ** additional restrictions and it is the user's responsibility to ensure
 ** that they have met the licensing requirements of the GPL, LGPL, or Qt
 ** Solutions Commercial license and the relevant license of the Third
 ** Party Software they are using.
-** 
+**
 ** If you are unsure which license is appropriate for your use, please
 ** contact Nokia at qt-info@nokia.com.
-** 
+**
 ****************************************************************************/
 
 #include "qtlockedfile.h"
@@ -67,15 +67,14 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
     Qt::HANDLE mutex;
     if (doCreate) {
         QT_WA( { mutex = CreateMutexW(NULL, FALSE, (TCHAR*)mname.utf16()); },
-               { mutex = CreateMutexA(NULL, FALSE, mname.toLocal8Bit().constData()); } );
+        { mutex = CreateMutexA(NULL, FALSE, mname.toLocal8Bit().constData()); } );
         if (!mutex) {
             qErrnoWarning("QtLockedFile::lock(): CreateMutex failed");
             return 0;
         }
-    }
-    else {
+    } else {
         QT_WA( { mutex = OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (TCHAR*)mname.utf16()); },
-               { mutex = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, mname.toLocal8Bit().constData()); } );
+        { mutex = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, mname.toLocal8Bit().constData()); } );
         if (!mutex) {
             if (GetLastError() != ERROR_FILE_NOT_FOUND)
                 qErrnoWarning("QtLockedFile::lock(): OpenMutex failed");
@@ -139,8 +138,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
             qWarning("QtLockedFile::lock(): too many readers");
             rmutex = 0;
             ok = false;
-        }
-        else if (!rmutex) {
+        } else if (!rmutex) {
             rmutex = getMutexHandle(idx, true);
             if (!rmutex || !waitMutex(rmutex, false))
                 ok = false;
@@ -152,8 +150,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
         ReleaseMutex(wmutex);
         if (!ok)
             return false;
-    }
-    else {
+    } else {
         Q_ASSERT(rmutexes.isEmpty());
         for (int i = 0; i < MAX_READERS; i++) {
             Qt::HANDLE mutex = getMutexHandle(i, false);
@@ -191,8 +188,7 @@ bool QtLockedFile::unlock()
         ReleaseMutex(rmutex);
         CloseHandle(rmutex);
         rmutex = 0;
-    }
-    else {
+    } else {
         foreach(Qt::HANDLE mutex, rmutexes) {
             ReleaseMutex(mutex);
             CloseHandle(mutex);

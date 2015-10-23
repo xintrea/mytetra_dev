@@ -10,8 +10,7 @@
 #define CRYPT_CHECK_HASH_LEN 160
 
 
-class DataBaseConfig : public QObject
-{
+class DataBaseConfig : public QObject {
     Q_OBJECT
 
 public:

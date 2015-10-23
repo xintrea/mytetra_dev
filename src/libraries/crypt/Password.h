@@ -15,36 +15,35 @@
 
 #define SAVED_PASSWORD_CHECKING_LINE "This string is used for checking middle hash"
 
-class Password : public QObject
-{
- Q_OBJECT
+class Password : public QObject {
+    Q_OBJECT
 
 public:
- Password();
- virtual ~Password();
+    Password();
+    virtual ~Password();
 
- bool retrievePassword();
- bool replacePassword();
- void resetPassword(void);
+    bool retrievePassword();
+    bool replacePassword();
+    void resetPassword(void);
 
- void setCryptKeyToMemory(QString password);
+    void setCryptKeyToMemory(QString password);
 
 private:
 
- bool enterExistsPassword(void);
- bool checkPasswordWithExists(QString password);
- void saveCheckPasswordKey(QString password);
- 
- QByteArray calculateMiddleHash(QString password);
+    bool enterExistsPassword(void);
+    bool checkPasswordWithExists(QString password);
+    void saveCheckPasswordKey(QString password);
 
- void saveMiddleHashCheckData(QByteArray middleHash);
- QByteArray calculateMiddleHashCheckData(QByteArray middleHash);
+    QByteArray calculateMiddleHash(QString password);
 
- void smartSaveMiddleHash(QString password);
+    void saveMiddleHashCheckData(QByteArray middleHash);
+    QByteArray calculateMiddleHashCheckData(QByteArray middleHash);
 
- bool checkMiddleHash(void);
+    void smartSaveMiddleHash(QString password);
 
- void setCryptKeyToMemoryFromMiddleHash(void);
+    bool checkMiddleHash(void);
+
+    void setCryptKeyToMemoryFromMiddleHash(void);
 
 };
 

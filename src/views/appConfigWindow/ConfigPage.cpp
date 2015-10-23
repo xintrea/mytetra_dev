@@ -18,6 +18,6 @@ ConfigPage::~ConfigPage()
 
 int ConfigPage::apply_changes(void)
 {
- return 0;
+    return 0;
 }
 

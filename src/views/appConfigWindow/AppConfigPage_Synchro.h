@@ -9,25 +9,24 @@
 #include "ConfigPage.h"
 
 
-class AppConfigPage_Synchro : public ConfigPage
-{
- Q_OBJECT
+class AppConfigPage_Synchro : public ConfigPage {
+    Q_OBJECT
 
 public:
-  AppConfigPage_Synchro(QWidget *parent = 0);
-  int apply_changes(void);
+    AppConfigPage_Synchro(QWidget *parent = 0);
+    int apply_changes(void);
 
 private slots:
 
 protected:
 
-  QLineEdit *synchroCommand;
+    QLineEdit *synchroCommand;
 
-  QCheckBox *synchroOnStartup;
-  QCheckBox *synchroOnExit;
+    QCheckBox *synchroOnStartup;
+    QCheckBox *synchroOnExit;
 
-  // Объединяющая рамка
-  QGroupBox *synchroOnBox;
+    // Объединяющая рамка
+    QGroupBox *synchroOnBox;
 };
 
 

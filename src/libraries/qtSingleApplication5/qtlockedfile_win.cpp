@@ -61,7 +61,7 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
     if (doCreate) {
 #if (QT_VERSION < 0x050000)
         QT_WA( { mutex = CreateMutexW(NULL, FALSE, (TCHAR*)mname.utf16()); },
-               { mutex = CreateMutexA(NULL, FALSE, mname.toLocal8Bit().constData()); } );
+        { mutex = CreateMutexA(NULL, FALSE, mname.toLocal8Bit().constData()); } );
 #else
         mutex = CreateMutexW(NULL, FALSE, (TCHAR*)mname.utf16());
 #endif
@@ -69,11 +69,10 @@ Qt::HANDLE QtLockedFile::getMutexHandle(int idx, bool doCreate)
             qErrnoWarning("QtLockedFile::lock(): CreateMutex failed");
             return 0;
         }
-    }
-    else {
+    } else {
 #if (QT_VERSION < 0x050000)
         QT_WA( { mutex = OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (TCHAR*)mname.utf16()); },
-               { mutex = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, mname.toLocal8Bit().constData()); } );
+        { mutex = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, mname.toLocal8Bit().constData()); } );
 #else
         mutex = OpenMutexW(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, (TCHAR*)mname.utf16());
 #endif
@@ -140,8 +139,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
             qWarning("QtLockedFile::lock(): too many readers");
             rmutex = 0;
             ok = false;
-        }
-        else if (!rmutex) {
+        } else if (!rmutex) {
             rmutex = getMutexHandle(idx, true);
             if (!rmutex || !waitMutex(rmutex, false))
                 ok = false;
@@ -153,8 +151,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
         ReleaseMutex(wmutex);
         if (!ok)
             return false;
-    }
-    else {
+    } else {
         Q_ASSERT(rmutexes.isEmpty());
         for (int i = 0; i < MAX_READERS; i++) {
             Qt::HANDLE mutex = getMutexHandle(i, false);
@@ -192,8 +189,7 @@ bool QtLockedFile::unlock()
         ReleaseMutex(rmutex);
         CloseHandle(rmutex);
         rmutex = 0;
-    }
-    else {
+    } else {
         foreach(Qt::HANDLE mutex, rmutexes) {
             ReleaseMutex(mutex);
             CloseHandle(mutex);

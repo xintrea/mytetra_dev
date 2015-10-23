@@ -5,13 +5,12 @@
 
 // Этот класс не используется, скорее всего будет удален
 
-class MtStyledItemDelegate : public QStyledItemDelegate
-{
- Q_OBJECT
+class MtStyledItemDelegate : public QStyledItemDelegate {
+    Q_OBJECT
 public:
- explicit MtStyledItemDelegate(QObject *parent = 0);
+    explicit MtStyledItemDelegate(QObject *parent = 0);
 
- QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
 signals:
 

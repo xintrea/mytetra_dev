@@ -45,6 +45,7 @@
 
 #include <QStatusBar>
 
+class BrowserView;
 class TreeScreen;
 class MetaEditor;
 class RecordTableScreen;
@@ -52,113 +53,115 @@ class FindScreen;
 class WindowSwitcher;
 
 
-class MainWindow : public QMainWindow
-{
-Q_OBJECT
+class MainWindow : public QMainWindow {
+    Q_OBJECT
 
 public:
- MainWindow();
- ~MainWindow();
+    MainWindow();
+    ~MainWindow();
 
- TreeScreen *treeScreen;
- RecordTableScreen *recordTableScreen;
- MetaEditor *editorScreen;
- FindScreen *findScreenDisp;
- QStatusBar *statusBar;
- WindowSwitcher *windowSwitcher;
+    TreeScreen *treeScreen;
+    BrowserView *browser_view;
+    RecordTableScreen *recordTableScreen;
+    MetaEditor *editorScreen;
+    FindScreen *findScreenDisp;
+    QStatusBar *statusBar;
+    WindowSwitcher *windowSwitcher;
 
- void restoreGeometry(void);
- void restoreTreePosition(void);
- void restoreRecordTablePosition(void);
- void restoreEditorCursorPosition(void);
- void restoreEditorScrollBarPosition(void);
- void restoreFindOnBaseVisible(void);
+    void restoreGeometry(void);
+    void restoreTreePosition(void);
+    void restoreRecordTablePosition(void);
+    void restoreEditorCursorPosition(void);
+    void restoreEditorScrollBarPosition(void);
+    void restoreFindOnBaseVisible(void);
 
- void setTreePosition(QStringList path);
- bool isTreePositionCrypt();
+    void setTreePosition(QStringList path);
+    bool isTreePositionCrypt();
 
- void setRecordtablePositionById(QString id);
+    void setRecordtablePositionById(QString id);
 
- void synchronization(void);
+    void synchronization(void);
 
- void goWalkHistoryPrevious(void);
- void goWalkHistoryNext(void);
+    void goWalkHistoryPrevious(void);
+    void goWalkHistoryNext(void);
 
- void saveTextarea(void);
+    void saveTextarea(void);
 
- void saveAllState(void);
+    void saveAllState(void);
 
 public slots:
- void applicationExit(void);
- void applicationFastExit(void);
- void commitData(QSessionManager& manager);
+    void applicationExit(void);
+    void applicationFastExit(void);
+    void commitData(QSessionManager& manager);
 
 private slots:
- void fileNew(void);
- void fileOpen(void);
- bool fileSave(void);
- bool fileSaveAs(void);
- void filePrint(void);
- void filePrintPreview(void);
- void filePrintPdf(void);
- 
- void toolsFind(void);
- void toolsPreferences(void);
+    void fileNew(void);
+    void fileOpen(void);
+    bool fileSave(void);
+    bool fileSaveAs(void);
+    void filePrint(void);
+    void filePrintPreview(void);
+    void filePrintPdf(void);
 
- void onExpandEditArea(bool flag);
+    void toolsFind(void);
+    void editor_switch(void);
+    void toolsPreferences(void);
 
- void onClickHelpAboutMyTetra(void);
- void onClickHelpAboutQt(void);
- 
- void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void onExpandEditArea(bool flag);
 
- void onFocusChanged(QWidget *, QWidget *);
+    void onClickHelpAboutMyTetra(void);
+    void onClickHelpAboutQt(void);
+
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+
+    void onFocusChanged(QWidget *, QWidget *);
 
 private:
 
- void setupUI(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 
- void initFileMenu(void);
- void initToolsMenu(void);
- void initPreferencesMenu(QMenu *menu);
- void initHelpMenu(void);
- 
- void initRecordTableActions(void);
+    void initFileMenu(void);
+    void initToolsMenu(void);
+    void initPreferencesMenu(QMenu *menu);
+    void initHelpMenu(void);
 
- void setupIconActions(void);
- void createTrayIcon(void);
- void setIcon(void);
+    void initRecordTableActions(void);
 
- void saveGeometry(void);
- void saveTreePosition(void);
- void saveRecordTablePosition(void);
- void saveEditorCursorPosition(void);
- void saveEditorScrollBarPosition(void);
+    void setupIconActions(void);
+    void createTrayIcon(void);
+    void setIcon(void);
 
- QAction *actionTrayRestore;
- QAction *actionTrayMaximize;
- QAction *actionTrayMinimize;
- QAction *actionTrayQuit;
+    void saveGeometry(void);
+    void saveTreePosition(void);
+    void saveRecordTablePosition(void);
+    void saveEditorCursorPosition(void);
+    void saveEditorScrollBarPosition(void);
 
- QSystemTrayIcon *trayIcon;
- QMenu           *trayIconMenu;
+    QAction *actionTrayRestore;
+    QAction *actionTrayMaximize;
+    QAction *actionTrayMinimize;
+    QAction *actionTrayQuit;
 
- QSplitter *vSplitter;
- QSplitter *hSplitter;
- QSplitter *findSplitter;
- 
+    QSystemTrayIcon *trayIcon;
+    QMenu           *trayIconMenu;
+
+    QSplitter *vSplitter;
+    QSplitter *v_left_splitter;
+    QSplitter *hSplitter;
+    QSplitter *findSplitter;
+
 protected:
- 
- void closeEvent(QCloseEvent *event);
 
- bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
+    void closeEvent(QCloseEvent *event);
 
- void goWalkHistory(void);
+    bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
 
- bool enableRealClose;
+    void goWalkHistory(void);
 
- 
+    bool enableRealClose;
+
+
 };
 #endif

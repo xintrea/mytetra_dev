@@ -18,101 +18,100 @@
 // class Attach;
 // class AttachTableData;
 
-class Record
-{
+class Record {
 
-  // К закрытым функциям может иметь доступ объекты приаттаченного файла
-  friend class Attach;
-  friend class AttachTableData;
+    // К закрытым функциям может иметь доступ объекты приаттаченного файла
+    friend class Attach;
+    friend class AttachTableData;
 
 public:
-  Record();
-  Record(const Record &obj);
-  virtual ~Record();
+    Record();
+    Record(const Record &obj);
+    virtual ~Record();
 
-  void setupDataFromDom(QDomElement iDomElement);
-  QDomElement exportDataToDom(QDomDocument *doc) const;
+    void setupDataFromDom(QDomElement iDomElement);
+    QDomElement exportDataToDom(QDomDocument *doc) const;
 
-  QString getText() const;
-  QString getTextDirect();
-  void setText(QString iText);
+    QString getText() const;
+    QString getTextDirect();
+    void setText(QString iText);
 
-  QString getField(QString name) const;
-  void setField(QString name, QString value);
-  bool isNaturalFieldExists(QString name) const;
+    QString getField(QString name) const;
+    void setField(QString name, QString value);
+    bool isNaturalFieldExists(QString name) const;
 
-  // Установка и чтение данных без преобразований. Используется при генерации/чтении XML
-  QString getNaturalFieldSource(QString name) const;
-  void setNaturalFieldSource(QString name, QString value);
+    // Установка и чтение данных без преобразований. Используется при генерации/чтении XML
+    QString getNaturalFieldSource(QString name) const;
+    void setNaturalFieldSource(QString name, QString value);
 
-  QMap<QString, QString> getNaturalFieldList() const;
+    QMap<QString, QString> getNaturalFieldList() const;
 
-  QMap<QString, QByteArray> getPictureFiles() const;
-  void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
+    QMap<QString, QByteArray> getPictureFiles() const;
+    void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
-  AttachTableData getAttachTable() const;
-  AttachTableData *getAttachTablePointer();
-  void setAttachTable(AttachTableData iAttachTable);
+    AttachTableData getAttachTable() const;
+    AttachTableData *getAttachTablePointer();
+    void setAttachTable(AttachTableData iAttachTable);
 
-  bool isEmpty() const;
-  bool isLite() const;
-  void switchToLite();
-  void switchToFat();
+    bool isEmpty() const;
+    bool isLite() const;
+    void switchToLite();
+    void switchToFat();
 
-  // Шифрация
-  void switchToEncryptAndSaveLite(void);
-  void switchToEncryptAndSaveFat(void);
+    // Шифрация
+    void switchToEncryptAndSaveLite(void);
+    void switchToEncryptAndSaveFat(void);
 
-  // Расшифровка
-  void switchToDecryptAndSaveLite(void);
-  void switchToDecryptAndSaveFat(void);
+    // Расшифровка
+    void switchToDecryptAndSaveLite(void);
+    void switchToDecryptAndSaveFat(void);
 
-  void pushFatAttributes();
+    void pushFatAttributes();
 
 protected:
 
-  // ---------------------------------------------------------------------
-  // Свойства класса (не забыть перечислить все в конструкторе копривания)
-  // ---------------------------------------------------------------------
+    // ---------------------------------------------------------------------
+    // Свойства класса (не забыть перечислить все в конструкторе копривания)
+    // ---------------------------------------------------------------------
 
-  bool liteFlag;
+    bool liteFlag;
 
-  // Установка содержимого свойств происходит в вышестоящем коде
+    // Установка содержимого свойств происходит в вышестоящем коде
 
-  // Легкие свойства
-  QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов) ИмяАтрибута - Значение
+    // Легкие свойства
+    QMap<QString, QString> fieldList; // Перечень свойств записи (атрибутов) ИмяАтрибута - Значение
 
-  // Полновесные свойства
-  QByteArray text; // Содержимое файла с текстом записи
-  QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
+    // Полновесные свойства
+    QByteArray text; // Содержимое файла с текстом записи
+    QMap<QString, QByteArray> pictureFiles; // Содержимое картинок, используемых в тексте записи (используется при переносе через буфер обмена, при DragAndDrop)
 
-  // Таблица прикрепляемых файлов
-  AttachTableData attachTableData;
+    // Таблица прикрепляемых файлов
+    AttachTableData attachTableData;
 
 
-  // -----------------
-  // Защищенные методы
-  // -----------------
+    // -----------------
+    // Защищенные методы
+    // -----------------
 
-  void saveTextDirect(QString iText);
-  void saveText();
+    void saveTextDirect(QString iText);
+    void saveText();
 
-  QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
+    QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
-  QString getFullDirName() const;
-  QString getShortDirName() const;
+    QString getFullDirName() const;
+    QString getShortDirName() const;
 
-  QString getFullTextFileName() const;
-  QString getFullFileName(QString fileName) const;
+    QString getFullTextFileName() const;
+    QString getFullFileName(QString fileName) const;
 
-  void switchToEncryptFields(void);
-  void switchToDecryptFields(void);
+    void switchToEncryptFields(void);
+    void switchToDecryptFields(void);
 
-  void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
-  void checkAndCreateTextFile();
+    void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
+    void checkAndCreateTextFile();
 
-  QString getNaturalField(QString name) const;
-  QString getCalculableField(QString name) const;
+    QString getNaturalField(QString name) const;
+    QString getCalculableField(QString name) const;
 
 };
 

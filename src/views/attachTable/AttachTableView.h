@@ -12,44 +12,43 @@ class AttachTableController;
 
 // Отображение таблицы с файлами (только таблица)
 
-class AttachTableView : public QTableView
-{
-  Q_OBJECT
+class AttachTableView : public QTableView {
+    Q_OBJECT
 
 public:
-  AttachTableView(QWidget *parent=0);
-  virtual ~AttachTableView();
+    AttachTableView(QWidget *parent=0);
+    virtual ~AttachTableView();
 
-  void init(void);
+    void init(void);
 
-  void setController(AttachTableController *pController);
+    void setController(AttachTableController *pController);
 
-  int getFirstSelectionPos(void);
+    int getFirstSelectionPos(void);
 
 
 signals:
 
-  void tapAndHoldGestureFinished(const QPoint &);
+    void tapAndHoldGestureFinished(const QPoint &);
 
 
 protected slots:
 
-  void onCustomContextMenuRequested(const QPoint &pos);
+    void onCustomContextMenuRequested(const QPoint &pos);
 
 
 protected:
 
-  void setupSignals(void);
-  void assemblyContextMenu(void);
+    void setupSignals(void);
+    void assemblyContextMenu(void);
 
-  bool event(QEvent *event);
-  virtual void resizeEvent(QResizeEvent *event);
-  bool gestureEvent(QGestureEvent *event);
-  void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
+    bool event(QEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
+    bool gestureEvent(QGestureEvent *event);
+    void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
-  AttachTableController *controller;
+    AttachTableController *controller;
 
-  QMenu *contextMenu;
+    QMenu *contextMenu;
 };
 
 #endif // __ATTACHTABLEVIEW_H__

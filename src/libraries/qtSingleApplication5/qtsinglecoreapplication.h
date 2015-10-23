@@ -45,8 +45,7 @@
 
 class QtLocalPeer;
 
-class QtSingleCoreApplication : public QCoreApplication
-{
+class QtSingleCoreApplication : public QCoreApplication {
     Q_OBJECT
 
 public:

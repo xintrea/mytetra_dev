@@ -9,8 +9,7 @@
 class PreviewView;
 class QTextDocument;
 
-class PrintPreview : public QDialog
-{
+class PrintPreview : public QDialog {
     Q_OBJECT
 public:
     PrintPreview(const QTextDocument *document, QWidget *parent);
@@ -26,7 +25,7 @@ private:
     QTextDocument *doc;
     PreviewView *view;
     QPrinter printer;
-    
+
     QVBoxLayout *centralLayout;
 };
 

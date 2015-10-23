@@ -23,7 +23,7 @@ using namespace std;
 
 // For detect 32 or 64 architecture, this code checked LONG_BIT definition.
 // In *NIX GCC this definition is present.
-// In Windows is uncertain. 
+// In Windows is uncertain.
 // Try, if need, set this definition at this place.
 // Sample:
 // #define LONG_BIT 64
@@ -94,63 +94,62 @@ typedef unsigned int RC5_TWORD;
 #endif
 
 
-class RC5Simple
-{
+class RC5Simple {
 
 public:
- RC5Simple(bool enableRandomInit=false);
- virtual ~RC5Simple();
+    RC5Simple(bool enableRandomInit=false);
+    virtual ~RC5Simple();
 
- const char *RC5_GetVersion(void);
+    const char *RC5_GetVersion(void);
 
- void RC5_EncryptBlock(RC5_TWORD *pt, RC5_TWORD *ct);
- void RC5_DecryptBlock(RC5_TWORD *ct, RC5_TWORD *pt);
- void RC5_Setup(unsigned char *key);
+    void RC5_EncryptBlock(RC5_TWORD *pt, RC5_TWORD *ct);
+    void RC5_DecryptBlock(RC5_TWORD *ct, RC5_TWORD *pt);
+    void RC5_Setup(unsigned char *key);
 
- void RC5_SetKey(vector<unsigned char> &key);
- void RC5_SetFormatVersionForce(unsigned char formatVersion);
- void RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out);
- void RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out);
+    void RC5_SetKey(vector<unsigned char> &key);
+    void RC5_SetFormatVersionForce(unsigned char formatVersion);
+    void RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out);
+    void RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out);
 
- void RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name);
- void RC5_EncryptFile(const char *in_name, const char *out_name);
+    void RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name);
+    void RC5_EncryptFile(const char *in_name, const char *out_name);
 
- void RC5_DecryptFile(unsigned char *in_name, unsigned char *out_name);
- void RC5_DecryptFile(const char *in_name, const char *out_name);
+    void RC5_DecryptFile(unsigned char *in_name, unsigned char *out_name);
+    void RC5_DecryptFile(const char *in_name, const char *out_name);
 
- void RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, int mode);
+    void RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, int mode);
 
- unsigned int RC5_GetErrorCode();
+    unsigned int RC5_GetErrorCode();
 
 private:
 
- RC5_TWORD rc5_s[RC5_T]; // Expanded key table
- RC5_TWORD rc5_p; // Magic constants one
- RC5_TWORD rc5_q; // Magic constants two
+    RC5_TWORD rc5_s[RC5_T]; // Expanded key table
+    RC5_TWORD rc5_p; // Magic constants one
+    RC5_TWORD rc5_q; // Magic constants two
 
- unsigned char rc5_key[RC5_B];
- unsigned char rc5_formatVersion;
- bool rc5_isSetFormatVersionForce; 
+    unsigned char rc5_key[RC5_B];
+    unsigned char rc5_formatVersion;
+    bool rc5_isSetFormatVersionForce;
 
- unsigned int errorCode;
+    unsigned int errorCode;
 
- // inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
- // inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
- //                                      unsigned char b1,
- //                                      unsigned char b2,
- //                                      unsigned char b3);
+// inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
+// inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
+//                                      unsigned char b1,
+//                                      unsigned char b2,
+//                                      unsigned char b3);
 
- inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
- inline unsigned int RC5_GetIntFromByte(unsigned char b0,
-                                        unsigned char b1, 
-                                        unsigned char b2, 
-                                        unsigned char b3);
+    inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
+    inline unsigned int RC5_GetIntFromByte(unsigned char b0,
+                                           unsigned char b1,
+                                           unsigned char b2,
+                                           unsigned char b3);
 
- void RC5_EncDec(vector<unsigned char> &in, vector<unsigned char> &out, int mode);
+    void RC5_EncDec(vector<unsigned char> &in, vector<unsigned char> &out, int mode);
 
- unsigned int RC5_Rand(unsigned int from, unsigned int to);
+    unsigned int RC5_Rand(unsigned int from, unsigned int to);
 
- void RC5_LogPrint(char *lpszText, ...);
+    void RC5_LogPrint(char *lpszText, ...);
 };
 
 #endif // __RC5SIMPLE_H__

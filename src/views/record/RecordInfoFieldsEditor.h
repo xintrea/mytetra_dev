@@ -11,36 +11,35 @@ class InfoFieldEnter;
 
 // Окно редактирования инфополей записи
 
-class RecordInfoFieldsEditor : public QDialog
-{
-Q_OBJECT
+class RecordInfoFieldsEditor : public QDialog {
+    Q_OBJECT
 
 public:
- #if QT_VERSION < 0x050000
- RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WFlags f = 0 );
- #else
- RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WindowFlags f = 0 );
- #endif
+#if QT_VERSION < 0x050000
+    RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WFlags f = 0 );
+#else
+    RecordInfoFieldsEditor( QWidget * parent = 0, Qt::WindowFlags f = 0 );
+#endif
 
- ~RecordInfoFieldsEditor();
+    ~RecordInfoFieldsEditor();
 
- QString getField(QString name);
- void setField(QString name, QString value);
+    QString getField(QString name);
+    void setField(QString name, QString value);
 
 private slots:
 
- void okClick(void);
+    void okClick(void);
 
 private:
 
- // Виджет ввода инфополей записи
- InfoFieldEnter *infoField;
+// Виджет ввода инфополей записи
+    InfoFieldEnter *infoField;
 
- QDialogButtonBox *buttonBox;
+    QDialogButtonBox *buttonBox;
 
- void setupUI(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 };
 
 #endif // __RECORDINFOFIELDSEDITOR_H__

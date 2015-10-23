@@ -15,34 +15,33 @@
 #define PBKDF2QT_SALT_SIZE_MAX       1024
 
 
-class Pbkdf2Qt
-{
+class Pbkdf2Qt {
 
 public:
- Pbkdf2Qt();
- virtual ~Pbkdf2Qt();
+    Pbkdf2Qt();
+    virtual ~Pbkdf2Qt();
 
- const char *GetVersion(void);
+    const char *GetVersion(void);
 
- QByteArray Pbkdf2(QByteArray pass, 
-                   QByteArray salt, 
-                   unsigned int rounds,
-                   unsigned int key_len);
+    QByteArray Pbkdf2(QByteArray pass,
+                      QByteArray salt,
+                      unsigned int rounds,
+                      unsigned int key_len);
 
 private:
 
- unsigned int Min(unsigned int a, unsigned int b);
- 
- QByteArray HmacSha1(QByteArray text, 
-                     QByteArray key);
+    unsigned int Min(unsigned int a, unsigned int b);
 
- int Pbkdf2_calculate(const char *pass, 
-                      unsigned int pass_len, 
-                      const char *salt, 
-                      unsigned int salt_len,
-                      char *key, 
-                      unsigned int key_len, 
-                      unsigned int rounds);
+    QByteArray HmacSha1(QByteArray text,
+                        QByteArray key);
+
+    int Pbkdf2_calculate(const char *pass,
+                         unsigned int pass_len,
+                         const char *salt,
+                         unsigned int salt_len,
+                         char *key,
+                         unsigned int key_len,
+                         unsigned int rounds);
 
 };
 

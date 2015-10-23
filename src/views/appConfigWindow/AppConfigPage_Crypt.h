@@ -12,53 +12,52 @@
 #include "ConfigPage.h"
 
 
-class AppConfigPage_Crypt : public ConfigPage
-{
- Q_OBJECT
+class AppConfigPage_Crypt : public ConfigPage {
+    Q_OBJECT
 
 public:
-  AppConfigPage_Crypt(QWidget *parent = 0);
-  virtual ~AppConfigPage_Crypt();
+    AppConfigPage_Crypt(QWidget *parent = 0);
+    virtual ~AppConfigPage_Crypt();
 
-  int apply_changes(void);
+    int apply_changes(void);
 
 private slots:
 
-  void onPassRetrieveButtonClicked(void);
-  void onAutoClosePasswordEnableToggle(bool checked);
-  void onPasswordSaveEnableToggle(bool checked);
+    void onPassRetrieveButtonClicked(void);
+    void onAutoClosePasswordEnableToggle(bool checked);
+    void onPasswordSaveEnableToggle(bool checked);
 
 protected:
 
-  QGroupBox *passRetrieveBox;
-  QLabel *passRetrieveStatus;
-  QPushButton *passRetrieveButton;
-  QLabel *passRetrieveAnnotation;
+    QGroupBox *passRetrieveBox;
+    QLabel *passRetrieveStatus;
+    QPushButton *passRetrieveButton;
+    QLabel *passRetrieveAnnotation;
 
-  QGroupBox *howPassRequestBox;
-  QRadioButton *howPassRequestRadio1;
-  QRadioButton *howPassRequestRadio2;
+    QGroupBox *howPassRequestBox;
+    QRadioButton *howPassRequestRadio1;
+    QRadioButton *howPassRequestRadio2;
 
-  QGroupBox *storePassRequestBox;
-  QCheckBox *passwordSaveEnable;
-  QLabel *passwordSaveAnnotation;
+    QGroupBox *storePassRequestBox;
+    QCheckBox *passwordSaveEnable;
+    QLabel *passwordSaveAnnotation;
 
 
-  QGroupBox *autoClosePasswordBox;
-  QCheckBox *autoClosePasswordEnable;
-  QSpinBox  *autoClosePasswordDelay;
+    QGroupBox *autoClosePasswordBox;
+    QCheckBox *autoClosePasswordEnable;
+    QSpinBox  *autoClosePasswordDelay;
 
-  QGroupBox *decryptFileToTrashDirectoryBox;
-  QCheckBox *decryptFileToTrashDirectoryEnable;
+    QGroupBox *decryptFileToTrashDirectoryBox;
+    QCheckBox *decryptFileToTrashDirectoryEnable;
 
-  QString getRetrieveStatusText(void);
-  QString getRetrieveButtonText(void);
-  QString getRetrieveAnnotationText(void);
+    QString getRetrieveStatusText(void);
+    QString getRetrieveButtonText(void);
+    QString getRetrieveAnnotationText(void);
 
-  void setup_ui(void);
-  void update_ui(void);
-  void setup_signals(void);
-  void assembly(void);
+    void setup_ui(void);
+    void update_ui(void);
+    void setup_signals(void);
+    void assembly(void);
 
 };
 

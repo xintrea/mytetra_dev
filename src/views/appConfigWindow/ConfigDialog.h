@@ -11,8 +11,7 @@ class QListWidgetItem;
 class QScrollArea;
 
 
-class ConfigDialog : public QDialog
-{
+class ConfigDialog : public QDialog {
     Q_OBJECT
 
 public:
@@ -23,7 +22,7 @@ public:
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);
 
-private slots:    
+private slots:
     void apply_changes(void);
     void change_page(QListWidgetItem *current, QListWidgetItem *previous);
 

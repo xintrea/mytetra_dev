@@ -10,30 +10,29 @@
 #include <QGestureEvent>
 
 
-class KnowTreeView : public QTreeView
-{
- Q_OBJECT
+class KnowTreeView : public QTreeView {
+    Q_OBJECT
 
 public:
- explicit KnowTreeView(QWidget *parent = 0);
- virtual ~KnowTreeView();
+    explicit KnowTreeView(QWidget *parent = 0);
+    virtual ~KnowTreeView();
 
 signals:
- void tapAndHoldGestureFinished(const QPoint &);
+    void tapAndHoldGestureFinished(const QPoint &);
 
 public slots:
 
 protected:
 
- bool event(QEvent *event);
- bool gestureEvent(QGestureEvent *event);
- void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
+    bool event(QEvent *event);
+    bool gestureEvent(QGestureEvent *event);
+    void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
- void dragEnterEvent(QDragEnterEvent *event);
- void dragMoveEvent(QDragMoveEvent *event);
- void dropEvent(QDropEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
 
- template <class X> bool isDragableData(X *event);
+    template <class X> bool isDragableData(X *event);
 
 };
 

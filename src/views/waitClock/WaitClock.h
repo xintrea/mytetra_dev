@@ -9,31 +9,30 @@
 #include <QPixmap>
 
 
-class WaitClock : public QWidget
-{
- Q_OBJECT
+class WaitClock : public QWidget {
+    Q_OBJECT
 
 public:
- WaitClock(QWidget *parent=0);
- ~WaitClock();
+    WaitClock(QWidget *parent=0);
+    ~WaitClock();
 
 private slots:
 
- void iconUpdate();
+    void iconUpdate();
 
 private:
 
- QHBoxLayout *centralLayout;
- 
- QLabel iconLabel;
+    QHBoxLayout *centralLayout;
 
- QPixmap kadr_00;
- QPixmap kadr_01;
- QPixmap kadr_02;
+    QLabel iconLabel;
 
- int currentIconNum;
+    QPixmap kadr_00;
+    QPixmap kadr_01;
+    QPixmap kadr_02;
 
- QTimer timer;
+    int currentIconNum;
+
+    QTimer timer;
 
 };
 

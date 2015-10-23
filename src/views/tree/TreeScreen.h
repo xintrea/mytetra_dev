@@ -15,89 +15,88 @@ class KnowTreeView;
 class ClipboardBranch;
 
 
-class TreeScreen : public QWidget
-{
- Q_OBJECT
+class TreeScreen : public QWidget {
+    Q_OBJECT
 
 public:
- TreeScreen(QWidget *parent=0);
- virtual ~TreeScreen();
+    TreeScreen(QWidget *parent=0);
+    virtual ~TreeScreen();
 
- QMap<QString, QAction *> actionList;
+    QMap<QString, QAction *> actionList;
 
- KnowTreeModel *knowTreeModel;
+    KnowTreeModel *knowTreeModel;
 
- void saveKnowTree(void);
- void reloadKnowTree(void);
+    void saveKnowTree(void);
+    void reloadKnowTree(void);
 
- void updateSelectedBranch(void);
+    void updateSelectedBranch(void);
 
- int getFirstSelectedItemIndex(void);
- QModelIndex getCurrentItemIndex(void);
- 
- QItemSelectionModel *getSelectionModel(void);
- 
- // Установка курсора на указанный элемент
- void setCursorToIndex(QModelIndex index);
- 
- void updateBranchOnScreen(const QModelIndex &index);
+    int getFirstSelectedItemIndex(void);
+    QModelIndex getCurrentItemIndex(void);
+
+    QItemSelectionModel *getSelectionModel(void);
+
+// Установка курсора на указанный элемент
+    void setCursorToIndex(QModelIndex index);
+
+    void updateBranchOnScreen(const QModelIndex &index);
 
 private slots:
 
- void expand_all_subbranch(void);
- void collapse_all_subbranch(void);
- void expand_or_collapse_recurse(QModelIndex index, bool mode);
- void ins_subbranch(void);
- void ins_branch(void);
- void edit_branch(void);
+    void expand_all_subbranch(void);
+    void collapse_all_subbranch(void);
+    void expand_or_collapse_recurse(QModelIndex index, bool mode);
+    void ins_subbranch(void);
+    void ins_branch(void);
+    void edit_branch(void);
 
- void del_branch(QString mode="delete");
- void del_one_branch(QModelIndex index);
+    void del_branch(QString mode="delete");
+    void del_one_branch(QModelIndex index);
 
- void move_up_branch(void);
- void move_dn_branch(void);
- void cut_branch(void);
- bool copy_branch(void);
- void paste_branch(void);
- void paste_subbranch(void);
+    void move_up_branch(void);
+    void move_dn_branch(void);
+    void cut_branch(void);
+    bool copy_branch(void);
+    void paste_branch(void);
+    void paste_subbranch(void);
 
- void encrypt_branch(void);
- void decrypt_branch(void);
+    void encrypt_branch(void);
+    void decrypt_branch(void);
 
- // Действия при клике на ветку дерева
- void on_knowtree_clicked(const QModelIndex &index);
+// Действия при клике на ветку дерева
+    void on_knowtree_clicked(const QModelIndex &index);
 
- // Открытие контекстного меню
- void on_customContextMenuRequested(const QPoint &pos);
+// Открытие контекстного меню
+    void on_customContextMenuRequested(const QPoint &pos);
 
 private:
- QToolBar *toolsLine;
+    QToolBar *toolsLine;
 
- KnowTreeView  *knowTreeView;
+    KnowTreeView  *knowTreeView;
 
- QVBoxLayout *treeScreenLayout;
+    QVBoxLayout *treeScreenLayout;
 
- void setupUI(void);
- void setupModels(void);
- void setupSignals(void);
- void setupActions(void);
- void assembly(void);
- 
- void moveUpDnBranch(int direction);
- bool moveCheckEnable(void);
+    void setupUI(void);
+    void setupModels(void);
+    void setupSignals(void);
+    void setupActions(void);
+    void assembly(void);
 
- void insBranchSmart(bool is_branch);
- void insBranchProcess(QModelIndex index, QString name, bool is_branch);
+    void moveUpDnBranch(int direction);
+    bool moveCheckEnable(void);
 
- void addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QStringList path, bool is_root);
+    void insBranchSmart(bool is_branch);
+    void insBranchProcess(QModelIndex index, QString name, bool is_branch);
 
- void pasteBranchSmart(bool is_branch);
+    void addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QStringList path, bool is_root);
 
- void treeEmptyControl(void);
- void treeCryptControl(void);
+    void pasteBranchSmart(bool is_branch);
 
- void encryptBranchItem(void);
- void decryptBranchItem(void);
+    void treeEmptyControl(void);
+    void treeCryptControl(void);
+
+    void encryptBranchItem(void);
+    void decryptBranchItem(void);
 };
 
 

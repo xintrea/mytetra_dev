@@ -9,8 +9,7 @@
 
 // Класс, исправляющий QTableWidget, чтобы правильно применялись QSS-стили
 
-class MtTableWidget : public QTableWidget
-{
+class MtTableWidget : public QTableWidget {
     Q_OBJECT
 public:
     MtTableWidget(QWidget *parent = 0);

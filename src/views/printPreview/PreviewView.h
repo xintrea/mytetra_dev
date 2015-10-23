@@ -5,14 +5,17 @@
 #include <QTextDocument>
 
 
-class PreviewView : public QAbstractScrollArea
-{
+class PreviewView : public QAbstractScrollArea {
     Q_OBJECT
 
 public:
     PreviewView(QTextDocument *document);
 
-    inline void updateLayout() { resizeEvent(0); viewport()->update(); }
+    inline void updateLayout()
+    {
+        resizeEvent(0);
+        viewport()->update();
+    }
 
 public slots:
     void zoomIn();

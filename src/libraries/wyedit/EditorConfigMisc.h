@@ -11,22 +11,21 @@
 class EditorConfig;
 
 
-class EditorConfigMisc : public ConfigPage
-{
- Q_OBJECT
+class EditorConfigMisc : public ConfigPage {
+    Q_OBJECT
 
 public:
-  EditorConfigMisc(QWidget *parent = 0);
-  
-  int apply_changes(void);
-    
+    EditorConfigMisc(QWidget *parent = 0);
+
+    int apply_changes(void);
+
 private slots:
- 
+
 private:
-  QSpinBox *indentStep;
-  
-  EditorConfig *conf;
-  
+    QSpinBox *indentStep;
+
+    EditorConfig *conf;
+
 };
 
 
