@@ -280,6 +280,15 @@ void Editor::assembly(void)
   // Добавляется виджет с кнопками редактора
   buttonsAndEditLayout->addWidget(editorToolBar);
 
+  // Добавляется виджет линейки отступов
+  if(viewMode==WYEDIT_DESKTOP_MODE) // Виджет линейки отступов виден только в desktop интерфейсе
+  {
+    indentSlider->setVisible(true);
+    buttonsAndEditLayout->addWidget(indentSlider);
+  }
+  else
+    indentSlider->setVisible(false);
+
   // Добавляется область редактирования
   buttonsAndEditLayout->addWidget(textArea);
 

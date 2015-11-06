@@ -403,15 +403,6 @@ void EditorToolBar::assemblyButtons(void)
   textformatButtonsLayout=new QVBoxLayout();
   textformatButtonsLayout->addWidget(toolsLine1);
   textformatButtonsLayout->addWidget(toolsLine2);
-
-  // Виджет настройки отступов виден только в desktop интерфейсе
-  if(parent()->viewMode==parent()->WYEDIT_DESKTOP_MODE)
-  {
-    parent()->indentSlider->setVisible(true);
-    textformatButtonsLayout->addWidget(indentSlider);
-  }
-  else
-    parent()->indentSlider->setVisible(false);
 }
 
 
