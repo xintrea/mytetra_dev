@@ -92,10 +92,6 @@ void Editor::init(int mode)
   editorConfig=new EditorConfig(initDataConfigFileName, this);
   editorConfig->setObjectName("editorconfig");
 
-  // Создается панель с кнопками
-  editorToolBar=new EditorToolBar(this);
-  editorToolBar->init();
-
   // Создается виджет поиска, обязательно нужно указать parent чтобы
   // могли применяться флаги окна.
   // Виджет будет постоянно включен параллельно с работой редактора.
@@ -106,6 +102,8 @@ void Editor::init(int mode)
   // Создаётся контекстное меню
   editorContextMenu=new EditorContextMenu(this);
 
+  setupEditorToolBar();
+  setupIndentSlider();
   setupEditorArea();
 
   setupSignals();
@@ -237,7 +235,24 @@ void Editor::setupSignals(void)
 }
 
 
-// Создание объекта области редактирования
+// Создание и настройка панели инструментов редактора
+void Editor::setupEditorToolBar(void)
+{
+  // Создается панель с кнопками
+  editorToolBar=new EditorToolBar(this);
+  editorToolBar->init();
+}
+
+
+// Создание и настройка линейки отступов
+void Editor::setupIndentSlider(void)
+{
+  indentSlider=new IndentSlider(this->width(), 16, this);
+  indentSlider->setObjectName("editor_tb_indentslider");
+}
+
+
+// Создание и настройка области редактирования
 void Editor::setupEditorArea(void)
 {
   // Создается область редактирования

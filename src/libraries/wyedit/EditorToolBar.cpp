@@ -1,3 +1,4 @@
+#include "main.h"
 #include "EditorToolBar.h"
 #include "Editor.h"
 
@@ -324,11 +325,6 @@ void EditorToolBar::setupButtons(void)
   toAttach->setStatusTip(tr("Show attach files"));
   toAttach->setIcon(iconAttachNotExists);
   toAttach->setObjectName("editor_tb_attach");
-
-  // Виджет настройки отступов
-  indentSlider=new IndentSlider(this->width(), 16, this);
-  indentSlider->setObjectName("editor_tb_indentslider");
-
 
   // Все только что созданные элементы скрываются
   hideAllToolsElements();

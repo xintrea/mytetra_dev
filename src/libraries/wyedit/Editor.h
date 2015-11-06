@@ -305,6 +305,8 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
+ void setupEditorToolBar(void);
+ void setupIndentSlider(void);
  void setupEditorArea(void);
  void assembly(void);
 
