@@ -58,23 +58,25 @@ EditorToolBar::~EditorToolBar()
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void EditorToolBar::init()
 {
-  // Выясняется перечень кнопок на панели инструментов
-  toolsListInLine1=(parent()->editorConfig->get_tools_line_1()).split(",");
-  toolsListInLine2=(parent()->editorConfig->get_tools_line_2()).split(",");
 
-  // В мобильном режиме добавляется кнопка back (если ее нет)
-  if(parent()->viewMode==parent()->WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
-  {
-    toolsListInLine1.prepend("separator");
-    toolsListInLine1.prepend("back");
-  }
+}
 
-  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(parent()->viewMode==parent()->WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
-  {
-    toolsListInLine1.append("separator");
-    toolsListInLine1.append("find_in_base");
-  }
+
+void EditorToolBar::setToolsLine1(QStringList toolsLine)
+{
+  toolsListInLine1=toolsLine;
+}
+
+
+void EditorToolBar::setToolsLine2(QStringList toolsLine)
+{
+  toolsListInLine2=toolsLine;
+}
+
+
+void EditorToolBar::setDisableToolList(QStringList toolNames)
+{
+  disableToolList=toolNames;
 }
 
 
@@ -419,12 +421,6 @@ void EditorToolBar::updateToolsLines(void)
     QString b=toolsListInLine2.at(i).trimmed();
     insertButtonToToolsLine(b,toolsLine2);
   }
-}
-
-
-void EditorToolBar::setDisableToolList(QStringList toolNames)
-{
-  disableToolList=toolNames;
 }
 
 

@@ -85,9 +85,12 @@ public:
 
   void init();
 
-  void setDisableToolList(QStringList toolNames);
+  void setDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
 
-  void switchAttachIconExists(bool isExists);
+  void setToolsLine1(QStringList toolsLine);
+  void setToolsLine2(QStringList toolsLine);
+
+  void switchAttachIconExists(bool isExists); // Переключение иконки аттачей в режим есть аттачи или нет аттачей
 
 signals:
 

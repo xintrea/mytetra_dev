@@ -240,7 +240,31 @@ void Editor::setupEditorToolBar(void)
 {
   // Создается панель с кнопками
   editorToolBar=new EditorToolBar(this);
+
   editorToolBar->init();
+
+
+  // Выясняется перечень кнопок в первой строке на панели инструментов
+  QStringList toolsListInLine1=editorConfig->get_tools_line_1().split(",");
+
+  // В мобильном режиме добавляется кнопка back (если ее нет)
+  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
+  {
+    toolsListInLine1.prepend("separator");
+    toolsListInLine1.prepend("back");
+  }
+
+  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
+  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
+  {
+    toolsListInLine1.append("separator");
+    toolsListInLine1.append("find_in_base");
+  }
+
+
+  // Устанавливается перечень кнопок на панели инструментов
+  editorToolBar->setToolsLine1(toolsListInLine1); // Первая строка
+  editorToolBar->setToolsLine2( editorConfig->get_tools_line_2().split(",") ); // Вторая строка
 }
 
 
