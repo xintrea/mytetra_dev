@@ -34,9 +34,12 @@
 
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {
+  isInit=false;
+
   initDataEnableAssembly=true;
   initDataConfigFileName="";
   initDataEnableRandomSeed=false;
+  initDataDisableToolList.clear();
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
 
@@ -63,21 +66,41 @@ const char *Editor::getVersion(void)
 }
 
 
+// Настроечные методы, вызываемые перед init()
+
 void Editor::initEnableAssembly(bool flag)
 {
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
+
   initDataEnableAssembly=flag;
 }
 
 
 void Editor::initConfigFileName(QString name)
 {
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
+
   initDataConfigFileName=name;
 }
 
 
 void Editor::initEnableRandomSeed(bool flag)
 {
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
+
   initDataEnableRandomSeed=flag;
+}
+
+
+void Editor::initDisableToolList(QStringList toolNames)
+{
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
+
+  initDataDisableToolList=toolNames;
 }
 
 
@@ -241,8 +264,9 @@ void Editor::setupEditorToolBar(void)
   // Создается панель с кнопками
   editorToolBar=new EditorToolBar(this);
 
-  editorToolBar->init();
+  editorToolBar->setDisableToolList(initDataDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
 
+  editorToolBar->init();
 
   // Выясняется перечень кнопок в первой строке на панели инструментов
   QStringList toolsListInLine1=editorConfig->get_tools_line_1().split(",");
@@ -2596,13 +2620,6 @@ void Editor::setDirFileEmptyReaction(int mode)
 int Editor::getDirFileEmptyReaction(void)
 {
   return dirFileEmptyReaction;
-}
-
-
-// Метод позволяющий управлять доступностью инcтрументов редактирования
-void Editor::setDisableToolList(QStringList toolNames)
-{
-  editorToolBar->setDisableToolList(toolNames);
 }
 
 

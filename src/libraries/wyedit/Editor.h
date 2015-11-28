@@ -121,6 +121,7 @@ public:
  void initEnableAssembly(bool flag);
  void initConfigFileName(QString name);
  void initEnableRandomSeed(bool flag);
+ void initDisableToolList(QStringList toolNames);
  void init(int mode);
 
  // Методы работы с textarea
@@ -166,9 +167,6 @@ public:
 
  void setDirFileEmptyReaction(int mode);
  int  getDirFileEmptyReaction(void);
-
- // Метод позволяющий управлять доступностью инструментов редактирования
- void setDisableToolList(QStringList toolNames);
 
  int  getCursorPosition(void);
  void setCursorPosition(int n);
@@ -293,9 +291,12 @@ protected:
 
 private:
 
- bool    initDataEnableAssembly;
- QString initDataConfigFileName;
- bool    initDataEnableRandomSeed;
+ bool isInit;
+
+ bool        initDataEnableAssembly;
+ QString     initDataConfigFileName;
+ bool        initDataEnableRandomSeed;
+ QStringList initDataDisableToolList;
 
  // Рабочая директория редактора и файл текста
  // Используется при сохранении текста на диск

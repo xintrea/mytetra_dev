@@ -21,11 +21,10 @@ extern AppConfig mytetraConfig;
 
 MetaEditor::MetaEditor(void) : Editor()
 {
-  Editor::setDisableToolList( mytetraConfig.getHideEditorTools() );
-
   Editor::initEnableAssembly(false);
   Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
   Editor::initEnableRandomSeed(false);
+  Editor::initDisableToolList( mytetraConfig.getHideEditorTools() );
 
   if(mytetraConfig.getInterfaceMode()=="desktop")
     Editor::init(Editor::WYEDIT_DESKTOP_MODE);
