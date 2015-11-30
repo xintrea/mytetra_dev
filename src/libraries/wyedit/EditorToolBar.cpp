@@ -58,7 +58,8 @@ EditorToolBar::~EditorToolBar()
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void EditorToolBar::init()
 {
-
+  setupButtons();
+  assemblyButtons();
 }
 
 
@@ -345,6 +346,44 @@ void EditorToolBar::hideAllToolsElements(void)
 }
 
 
+// Сборка линейки редактирования текста в горизонтальную линейку
+void EditorToolBar::assemblyButtons(void)
+{
+  // Заполнение горизонтальных линеек с кнопками форматирования текста
+  toolsLine1=new QToolBar();
+  toolsLine2=new QToolBar();
+
+  updateToolsLines();
+
+  /*
+ QSize toolIconSize(16, 16);
+ toolsLine1->setIconSize(toolIconSize);
+ toolsLine2->setIconSize(toolIconSize);
+ */
+
+  // Горизонтальные линейки собираются
+  textformatButtonsLayout=new QVBoxLayout();
+  textformatButtonsLayout->addWidget(toolsLine1);
+  textformatButtonsLayout->addWidget(toolsLine2);
+}
+
+
+void EditorToolBar::updateToolsLines(void)
+{
+  for(int i=0;i<toolsListInLine1.size();++i)
+  {
+    QString b=toolsListInLine1.at(i).trimmed();
+    insertButtonToToolsLine(b,toolsLine1);
+  }
+
+  for(int i=0;i<toolsListInLine2.size();++i)
+  {
+    QString b=toolsListInLine2.at(i).trimmed();
+    insertButtonToToolsLine(b,toolsLine2);
+  }
+}
+
+
 // В линейку кнопок вставляется нужный инструмент
 // Метод принимает имя инструмента
 // и указатель на линейку
@@ -382,44 +421,6 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar *line)
     }
     else
       criticalError("WyEdit: Can not find editor tool with name '"+toolName+"'. Please check editor *.ini file");
-  }
-}
-
-
-// Сборка линейки редактирования текста в горизонтальную линейку
-void EditorToolBar::assemblyButtons(void)
-{
-  // Заполнение горизонтальных линеек с кнопками форматирования текста
-  toolsLine1=new QToolBar();
-  toolsLine2=new QToolBar();
-
-  updateToolsLines();
-
-  /*
- QSize toolIconSize(16, 16);
- toolsLine1->setIconSize(toolIconSize);
- toolsLine2->setIconSize(toolIconSize);
- */
-
-  // Горизонтальные линейки собираются
-  textformatButtonsLayout=new QVBoxLayout();
-  textformatButtonsLayout->addWidget(toolsLine1);
-  textformatButtonsLayout->addWidget(toolsLine2);
-}
-
-
-void EditorToolBar::updateToolsLines(void)
-{
-  for(int i=0;i<toolsListInLine1.size();++i)
-  {
-    QString b=toolsListInLine1.at(i).trimmed();
-    insertButtonToToolsLine(b,toolsLine1);
-  }
-
-  for(int i=0;i<toolsListInLine2.size();++i)
-  {
-    QString b=toolsListInLine2.at(i).trimmed();
-    insertButtonToToolsLine(b,toolsLine2);
   }
 }
 
