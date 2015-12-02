@@ -109,6 +109,9 @@ void Editor::initDisableToolList(QStringList toolNames)
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void Editor::init(int mode)
 {
+  // Информационный флаг, что был запущен метод init()
+  isInit=true;
+
   viewMode=mode;
 
   // Создается объект поддержки конфигурирования редактора
@@ -264,9 +267,8 @@ void Editor::setupEditorToolBar(void)
   // Создается панель с кнопками
   editorToolBar=new EditorToolBar(this);
 
-  editorToolBar->setDisableToolList(initDataDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
+  editorToolBar->initDisableToolList(initDataDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
 
-  editorToolBar->init();
 
   // Выясняется перечень кнопок в первой строке на панели инструментов
   QStringList toolsListInLine1=editorConfig->get_tools_line_1().split(",");
@@ -285,10 +287,12 @@ void Editor::setupEditorToolBar(void)
     toolsListInLine1.append("find_in_base");
   }
 
-
   // Устанавливается перечень кнопок на панели инструментов
-  editorToolBar->setToolsLine1(toolsListInLine1); // Первая строка
-  editorToolBar->setToolsLine2( editorConfig->get_tools_line_2().split(",") ); // Вторая строка
+  editorToolBar->initToolsLine1(toolsListInLine1); // Первая строка
+  editorToolBar->initToolsLine2( editorConfig->get_tools_line_2().split(",") ); // Вторая строка
+
+  // Инициализация панели инструментов
+  editorToolBar->init();
 }
 
 

@@ -5,7 +5,7 @@
 
 EditorToolBar::EditorToolBar(QWidget *parent) : QWidget(parent)
 {
-
+  isInit=false;
 }
 
 
@@ -53,31 +53,42 @@ EditorToolBar::~EditorToolBar()
 }
 
 
+void EditorToolBar::initToolsLine1(QStringList toolsLine)
+{
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+
+  toolsListInLine1=toolsLine;
+}
+
+
+void EditorToolBar::initToolsLine2(QStringList toolsLine)
+{
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+
+  toolsListInLine2=toolsLine;
+}
+
+
+void EditorToolBar::initDisableToolList(QStringList toolNames)
+{
+  if(isInit)
+    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+
+  disableToolList=toolNames;
+}
+
+
 // Инициализация панели инструментов
 // Если mode=WYEDIT_DESKTOP_MODE - происходит обычная инициализация
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void EditorToolBar::init()
 {
+  isInit=true;
+
   setupButtons();
   assemblyButtons();
-}
-
-
-void EditorToolBar::setToolsLine1(QStringList toolsLine)
-{
-  toolsListInLine1=toolsLine;
-}
-
-
-void EditorToolBar::setToolsLine2(QStringList toolsLine)
-{
-  toolsListInLine2=toolsLine;
-}
-
-
-void EditorToolBar::setDisableToolList(QStringList toolNames)
-{
-  disableToolList=toolNames;
 }
 
 
@@ -365,6 +376,14 @@ void EditorToolBar::assemblyButtons(void)
   textformatButtonsLayout=new QVBoxLayout();
   textformatButtonsLayout->addWidget(toolsLine1);
   textformatButtonsLayout->addWidget(toolsLine2);
+
+  // Полученый набор элементов устанавливается для текущего виджета
+  setLayout(textformatButtonsLayout);
+
+  // Границы убираются, так как данный объект будет использоваться как виджет
+  QLayout *lt;
+  lt=layout();
+  lt->setContentsMargins(0,0,0,0);
 }
 
 
