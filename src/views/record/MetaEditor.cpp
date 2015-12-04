@@ -9,6 +9,7 @@
 
 #include "libraries/wyedit/Editor.h"
 #include "libraries/wyedit/EditorTextArea.h"
+#include "libraries/wyedit/indentslider/IndentSlider.h"
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/appConfig/AppConfig.h"
@@ -114,7 +115,7 @@ void MetaEditor::setupUI(void)
  recordTagsLayout->setAlignment(Qt::AlignLeft);
  recordTagsLayout->setMargin(0);
 
- // QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
+ // Область текстовых меток QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
  recordTagsContainer = new QWidget();
  recordTagsContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
  recordTagsContainer->setLayout(recordTagsLayout);
@@ -139,16 +140,17 @@ void MetaEditor::metaAssembly(void)
   editorMainLayer=new QGridLayout(editorMainScreen);
 
   editorMainLayer->addWidget(editorToolBar,        0,0, 1,2);
-  editorMainLayer->addWidget(treePath,             1,0, 1,2);
-  editorMainLayer->addWidget(recordName,           2,0, 1,2);
-  editorMainLayer->addWidget(recordAuthor,         3,0, 1,2);
-  editorMainLayer->addWidget(textArea,             4,0, 1,2);
+  editorMainLayer->addWidget(indentSlider,         1,0, 1,2);
+  editorMainLayer->addWidget(treePath,             2,0, 1,2);
+  editorMainLayer->addWidget(recordName,           3,0, 1,2);
+  editorMainLayer->addWidget(recordAuthor,         4,0, 1,2);
+  editorMainLayer->addWidget(textArea,             5,0, 1,2);
 
-  editorMainLayer->addWidget(labelUrl,             5,0);
-  editorMainLayer->addWidget(recordUrl,            5,1);
+  editorMainLayer->addWidget(labelUrl,             6,0);
+  editorMainLayer->addWidget(recordUrl,            6,1);
 
-  editorMainLayer->addWidget(labelTags,            6,0);
-  editorMainLayer->addWidget(recordTagsScrollArea, 6,1); // Было addLayout(recordTagsLayout ...)
+  editorMainLayer->addWidget(labelTags,            7,0);
+  editorMainLayer->addWidget(recordTagsScrollArea, 7,1); // Было addLayout(recordTagsLayout ...)
 
   editorMainLayer->setColumnStretch(1,1);
 
