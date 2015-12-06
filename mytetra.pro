@@ -159,7 +159,10 @@ HEADERS = src/main.h \
     src/views/dialog/OverTextToolButton.h \
     src/libraries/crypt/CryptService.h \
     src/libraries/DiskHelper.h \
-    src/libraries/wyedit/EditorToolBar.h
+    src/libraries/wyedit/EditorToolBar.h \
+    src/libraries/wyedit/formatters/TypefaceFormatter.h \
+    src/libraries/wyedit/formatters/Formatter.h \
+    src/libraries/wyedit/formatters/PlacementFormatter.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -254,7 +257,10 @@ SOURCES = src/main.cpp \
     src/views/dialog/OverTextToolButton.cpp \
     src/libraries/crypt/CryptService.cpp \
     src/libraries/DiskHelper.cpp \
-    src/libraries/wyedit/EditorToolBar.cpp
+    src/libraries/wyedit/EditorToolBar.cpp \
+    src/libraries/wyedit/formatters/TypefaceFormatter.cpp \
+    src/libraries/wyedit/formatters/Formatter.cpp \
+    src/libraries/wyedit/formatters/PlacementFormatter.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

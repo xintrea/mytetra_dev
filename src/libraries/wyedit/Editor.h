@@ -16,6 +16,7 @@
 #include "EditorToolBar.h"
 #include "EditorFindDialog.h"
 #include "EditorShowText.h"
+#include "formatters/Formatter.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -41,6 +42,8 @@ class IndentSlider;
 class Editor : public QWidget
 {
  Q_OBJECT
+
+ friend class Formatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -157,30 +160,12 @@ public slots:
 
 private slots:
 
- // Действия в области редактирования
- void onBoldClicked(void);
- void onItalicClicked(void);
- void onUnderlineClicked(void);
- void onMonospaceClicked(void);
- void onCodeClicked(void);
- void onClearClicked(void);
-
- void onNumericlistClicked(void);
- void onDotlistClicked(void);
- void onIndentplusClicked(void);
- void onIndentminusClicked(void);
- 
- void onAlignleftClicked(void);
- void onAligncenterClicked(void);
- void onAlignrightClicked(void);
- void onAlignwidthClicked(void);
-  
- void onFontselectChanged(const QFont &font);
- void onFontsizeChanged(int i);
- void onFontcolorClicked();
-
  void setFontselectOnDisplay(QString fontName);
  void setFontsizeOnDisplay(int n);
+
+ // Действия в области редактирования
+ void onNumericlistClicked(void);
+ void onDotlistClicked(void);
 
  void onShowhtmlClicked(void);
  void onFindtextClicked(void);
