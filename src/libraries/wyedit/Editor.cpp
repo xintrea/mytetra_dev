@@ -1176,24 +1176,15 @@ void Editor::onDotlistClicked(void)
 // Добавление отступа
 void Editor::onIndentplusClicked(void)
 {
-  // Работа с отступом возможна только если выделен блок
-  // Или курсор стоит в начале строки
-  // Закомментировано. Теперь отступ можно добавлять в любой момент
-  /*
- int start=textarea->textCursor().selectionStart();
- QTextCursor cursor=textarea->textCursor();
- cursor.setPosition(start);
- if( !(is_block_select() || cursor.atBlockStart()) ) return;
- */
-
-  int currentIndent;
-
   // Выяснение текущего отступа
-  currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
+  int currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
+
+  // Выяснение приращения отступа, заданного в конфиге редактора
+  int deltaIndent=editorConfig->get_indent_step();
 
   // Создание форматирования
   QTextBlockFormat indentFormatting;
-  indentFormatting.setLeftMargin(currentIndent+10); // setTextIndent(10);
+  indentFormatting.setLeftMargin(currentIndent+deltaIndent); // Возможно, лучше воспользоваться setTextIndent
 
   // Форматирование
   textArea->textCursor().mergeBlockFormat(indentFormatting);
@@ -1205,13 +1196,18 @@ void Editor::onIndentplusClicked(void)
 // Убирание отступа
 void Editor::onIndentminusClicked(void)
 {
-  int currentIndent, indentForSet;
-
   // Выяснение текущего отступа
-  currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
+  int currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
 
-  if((currentIndent-10)>0)indentForSet=currentIndent-10;
-  else indentForSet=0;
+  // Выяснение приращения отступа, заданного в конфиге редактора
+  int deltaIndent=editorConfig->get_indent_step();
+
+  // Отступ, который должен быть установлен
+  int indentForSet;
+  if((currentIndent-deltaIndent)>0)
+    indentForSet=currentIndent-deltaIndent;
+  else
+    indentForSet=0;
 
   // Создание форматирования
   QTextBlockFormat indentFormatting;
