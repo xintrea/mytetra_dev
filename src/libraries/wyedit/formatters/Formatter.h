@@ -12,19 +12,25 @@
 // Унаследованные от него форматировщики реализуют узкую область форматирования:
 // форматирование начертания, форматирование размещения текста, форматирование картинок и т. д.
 
+/*
+class Editor;
+class EditorConfig;
+class EditorTextArea;
+*/
 
 class Formatter : public QObject
 {
   Q_OBJECT
+
 public:
   explicit Formatter(QObject *parent = 0);
 
   void setEditor(Editor *iEditor);
   void setTextArea(EditorTextArea *iTextArea);
 
-private:
+protected:
 
-  Editor editor;
+  Editor *editor;
   EditorConfig *editorConfig;
 
   EditorTextArea *textArea;

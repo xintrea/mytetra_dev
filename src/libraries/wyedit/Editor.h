@@ -17,6 +17,8 @@
 #include "EditorFindDialog.h"
 #include "EditorShowText.h"
 #include "formatters/Formatter.h"
+#include "formatters/PlacementFormatter.h"
+#include "formatters/TypefaceFormatter.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -38,12 +40,17 @@ class EditorTextEdit;
 class EditorContextMenu;
 class EditorTextArea;
 class IndentSlider;
+class MetaEditor;
 
 class Editor : public QWidget
 {
  Q_OBJECT
 
+ friend class MetaEditor;
+
  friend class Formatter;
+ friend class PlacementFormatter;
+ friend class TypefaceFormatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -213,13 +220,10 @@ private slots:
 
  // void onModificationChanged(bool flag);
 
-protected:
+private:
 
  // Область редактирования текста
  EditorTextArea *textArea;
-
-
-private:
 
  bool isInit;
 

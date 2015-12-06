@@ -1,3 +1,8 @@
+#include <QTextBlock>
+#include <QDebug>
+#include <QColorDialog>
+#include <QColor>
+
 #include "TypefaceFormatter.h"
 
 TypefaceFormatter::TypefaceFormatter()
@@ -111,7 +116,7 @@ void TypefaceFormatter::onMonospaceClicked(void)
   textArea->setFontFamily(font.family());
 
   // Новый установленный шрифт показывается в выпадающем списке шрифтов
-  setFontselectOnDisplay(font.family());
+  editor->setFontselectOnDisplay(font.family());
 
   // Если в настройках разрешена автоматическая установка нужного размера
   // моноширинного шрифта
@@ -121,7 +126,7 @@ void TypefaceFormatter::onMonospaceClicked(void)
     textArea->setFontPointSize(editorConfig->get_monospace_font_size());
 
     // В выпадающем списке размеров выставляется установленный размер
-    setFontsizeOnDisplay(editorConfig->get_monospace_font_size());
+    editor->setFontsizeOnDisplay(editorConfig->get_monospace_font_size());
   }
 
   textArea->textCursor().endEditBlock();
@@ -217,8 +222,8 @@ void TypefaceFormatter::onClearClicked(void)
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
 
-  bool flag_cursor_on_empty_line=isCursorOnEmptyLine();
-  bool flag_cursor_on_space_line=isCursorOnSpaceLine();
+  bool flag_cursor_on_empty_line=editor->isCursorOnEmptyLine();
+  bool flag_cursor_on_space_line=editor->isCursorOnSpaceLine();
 
   // Очистка возможна только если что-то выделено
   // Или курсор стоит на пустой строке с одним символом перевода строки
@@ -260,7 +265,7 @@ void TypefaceFormatter::onClearClicked(void)
   // Если выделен блок
   // или курсор на пустой линии
   // или курсор на линии на которой нет символов
-  if(isBlockSelect() ||
+  if(editor->isBlockSelect() ||
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
   {
@@ -328,7 +333,8 @@ void TypefaceFormatter::onClearClicked(void)
 // Слот, срабатывающий при изменении шрифта в списке шрифтов
 void TypefaceFormatter::onFontselectChanged(const QFont &font)
 {
-  if(flagSetFontParametersEnabled==false) return;
+  if(editor->flagSetFontParametersEnabled==false)
+    return;
 
   textArea->setFontFamily(font.family());
 
@@ -342,9 +348,10 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
 // Слот, срабатывающий когда изменен размер шрифта через список размеров
 void TypefaceFormatter::onFontsizeChanged(int i)
 {
-  if(flagSetFontParametersEnabled==false) return;
+  if(editor->flagSetFontParametersEnabled==false)
+    return;
 
-  int n=(editorToolBar->fontSize->itemData(i)).toInt();
+  int n=(editor->editorToolBar->fontSize->itemData(i)).toInt();
 
   if(n<MINIMUM_ALLOWED_FONT_SIZE) return;
   if(n>MAXIMUM_ALLOWED_FONT_SIZE) return;
@@ -365,13 +372,13 @@ void TypefaceFormatter::onFontcolorClicked()
   QColor currentColor=textArea->textColor();
 
   // Диалог запроса цвета
-  QColor selectedColor=QColorDialog::getColor(currentColor, this);
+  QColor selectedColor=QColorDialog::getColor(currentColor, editor);
 
   // Если цвет выбран, и он правильный
   if(selectedColor.isValid())
   {
     // Меняется цвет кнопки
-    editorToolBar->fontColor->setPalette(QPalette(selectedColor));
+    editor->editorToolBar->fontColor->setPalette(QPalette(selectedColor));
     editor->currentFontColor=selectedColor.name(); // Запоминается текущий цвет (подумать, доделать)
 
     // Если выделение есть
