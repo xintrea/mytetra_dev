@@ -3,6 +3,8 @@
 
 #include "Formatter.h"
 
+// Класс форматирования размещения текста (выравнивание, отступы и т. п.)
+
 
 class PlacementFormatter : public Formatter
 {
