@@ -4,6 +4,9 @@
 #include <QColor>
 
 #include "TypefaceFormatter.h"
+#include "../EditorTextArea.h"
+#include "../Editor.h"
+#include "../EditorConfig.h"
 
 TypefaceFormatter::TypefaceFormatter()
 {
