@@ -8,6 +8,8 @@
 
 class TypefaceFormatter : public Formatter
 {
+  Q_OBJECT
+
 public:
   TypefaceFormatter();
 

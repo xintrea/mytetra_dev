@@ -132,6 +132,7 @@ void Editor::init(int mode)
   setupEditorToolBar();
   setupIndentSlider();
   setupEditorArea();
+  setupFormatters();
 
   setupSignals();
 
@@ -172,27 +173,27 @@ void Editor::init(int mode)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(editorToolBar->bold,SIGNAL(clicked()),        this,SLOT(onBoldClicked()));
-  connect(editorToolBar->italic,SIGNAL(clicked()),      this,SLOT(onItalicClicked()));
-  connect(editorToolBar->underline,SIGNAL(clicked()),   this,SLOT(onUnderlineClicked()));
-  connect(editorToolBar->monospace,SIGNAL(clicked()),   this,SLOT(onMonospaceClicked()));
-  connect(editorToolBar->code,SIGNAL(clicked()),        this,SLOT(onCodeClicked()));
-  connect(editorToolBar->clear,SIGNAL(clicked()),       this,SLOT(onClearClicked()));
+  connect(editorToolBar->bold,SIGNAL(clicked()),        typefaceFormatter,SLOT(onBoldClicked()));
+  connect(editorToolBar->italic,SIGNAL(clicked()),      typefaceFormatter,SLOT(onItalicClicked()));
+  connect(editorToolBar->underline,SIGNAL(clicked()),   typefaceFormatter,SLOT(onUnderlineClicked()));
+  connect(editorToolBar->monospace,SIGNAL(clicked()),   typefaceFormatter,SLOT(onMonospaceClicked()));
+  connect(editorToolBar->code,SIGNAL(clicked()),        typefaceFormatter,SLOT(onCodeClicked()));
+  connect(editorToolBar->clear,SIGNAL(clicked()),       typefaceFormatter,SLOT(onClearClicked()));
+
+  connect(editorToolBar->fontSelect,SIGNAL(currentFontChanged(const QFont &)), typefaceFormatter,SLOT(onFontselectChanged(const QFont &)));
+  connect(editorToolBar->fontSize,SIGNAL(currentIndexChanged(int)),            typefaceFormatter,SLOT(onFontsizeChanged(int)));
+  connect(editorToolBar->fontColor,SIGNAL(clicked()),                          typefaceFormatter,SLOT(onFontcolorClicked()));
+
+  connect(editorToolBar->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
+  connect(editorToolBar->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
+
+  connect(editorToolBar->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
+  connect(editorToolBar->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
+  connect(editorToolBar->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
+  connect(editorToolBar->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
 
   connect(editorToolBar->numericList,SIGNAL(clicked()), this,SLOT(onNumericlistClicked()));
   connect(editorToolBar->dotList,SIGNAL(clicked()),     this,SLOT(onDotlistClicked()));
-
-  connect(editorToolBar->indentPlus,SIGNAL(clicked()),  this,SLOT(onIndentplusClicked()));
-  connect(editorToolBar->indentMinus,SIGNAL(clicked()), this,SLOT(onIndentminusClicked()));
-
-  connect(editorToolBar->alignLeft,SIGNAL(clicked()),   this,SLOT(onAlignleftClicked()));
-  connect(editorToolBar->alignCenter,SIGNAL(clicked()), this,SLOT(onAligncenterClicked()));
-  connect(editorToolBar->alignRight,SIGNAL(clicked()),  this,SLOT(onAlignrightClicked()));
-  connect(editorToolBar->alignWidth,SIGNAL(clicked()),  this,SLOT(onAlignwidthClicked()));
-
-  connect(editorToolBar->fontSelect,SIGNAL(currentFontChanged(const QFont &)), this,SLOT(onFontselectChanged(const QFont &)));
-  connect(editorToolBar->fontSize,SIGNAL(currentIndexChanged(int)),            this,SLOT(onFontsizeChanged(int)));
-  connect(editorToolBar->fontColor,SIGNAL(clicked()),                          this,SLOT(onFontcolorClicked()));
 
   connect(editorToolBar->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
   connect(editorToolBar->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
@@ -319,6 +320,20 @@ void Editor::setupEditorArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+}
+
+
+void Editor::setupFormatters(void)
+{
+  // Форматирование начертания текста
+  typefaceFormatter=new TypefaceFormatter();
+  typefaceFormatter->setEditor(this);
+  typefaceFormatter->setTextArea(textArea);
+
+  // Форматирование размещения текста
+  placementFormatter=new PlacementFormatter();
+  placementFormatter->setEditor(this);
+  placementFormatter->setTextArea(textArea);
 }
 
 

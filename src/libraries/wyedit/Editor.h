@@ -226,6 +226,10 @@ private:
  // Область редактирования текста
  EditorTextArea *textArea;
 
+ // Форматировщики текста
+ TypefaceFormatter *typefaceFormatter;
+ PlacementFormatter *placementFormatter;
+
  bool isInit;
 
  bool        initDataEnableAssembly;
@@ -244,6 +248,7 @@ private:
  void setupEditorToolBar(void);
  void setupIndentSlider(void);
  void setupEditorArea(void);
+ void setupFormatters(void);
  void assembly(void);
 
  void formatToList(QTextListFormat::Style setFormat);

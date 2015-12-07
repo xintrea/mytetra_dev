@@ -8,6 +8,8 @@
 
 class PlacementFormatter : public Formatter
 {
+  Q_OBJECT
+
 public:
   PlacementFormatter();
 
