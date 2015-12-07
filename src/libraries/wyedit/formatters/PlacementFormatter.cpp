@@ -1,4 +1,7 @@
 #include "PlacementFormatter.h"
+#include "../EditorTextArea.h"
+#include "../EditorConfig.h"
+#include "../Editor.h"
 
 PlacementFormatter::PlacementFormatter()
 {
