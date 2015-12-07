@@ -57,6 +57,10 @@ Editor::~Editor(void)
   delete buttonsAndEditLayout;
   delete editorContextMenu;
   delete textArea;
+
+  delete typefaceFormatter;
+  delete placementFormatter;
+  delete listFormatter;
 }
 
 
@@ -192,8 +196,8 @@ void Editor::setupSignals(void)
   connect(editorToolBar->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
   connect(editorToolBar->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
 
-  connect(editorToolBar->numericList,SIGNAL(clicked()), this,SLOT(onNumericlistClicked()));
-  connect(editorToolBar->dotList,SIGNAL(clicked()),     this,SLOT(onDotlistClicked()));
+  connect(editorToolBar->numericList,SIGNAL(clicked()), listFormatter,SLOT(onNumericlistClicked()));
+  connect(editorToolBar->dotList,SIGNAL(clicked()),     listFormatter,SLOT(onDotlistClicked()));
 
   connect(editorToolBar->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
   connect(editorToolBar->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
@@ -334,6 +338,11 @@ void Editor::setupFormatters(void)
   placementFormatter=new PlacementFormatter();
   placementFormatter->setEditor(this);
   placementFormatter->setTextArea(textArea);
+
+  // Форматирование текста как списка
+  listFormatter=new ListFormatter();
+  listFormatter->setEditor(this);
+  listFormatter->setTextArea(textArea);
 }
 
 
@@ -797,78 +806,6 @@ bool Editor::isCursorOnSpaceLine(void)
     return true;
 }
 
-
-void Editor::formatToList(QTextListFormat::Style setFormat)
-{
-  // Если выделения нет
-  if(!textArea->textCursor().hasSelection()) return;
-
-  // Форматирование в список возможно только если выделен блок
-  if(!isBlockSelect()) return;
-
-  // Если строки выбраны
-  if(textArea->textCursor().hasSelection())
-  {
-    if(textArea->textCursor().currentList()==0 ||
-       textArea->textCursor().currentList()->format().style()!=setFormat)
-    {
-      // Cтроки еще не отформатированы в данный вид списка,
-      // надо отформатировать в список
-
-      qDebug() << "Formatting to list";
-
-      // Применение форматирования
-      textArea->textCursor().createList(setFormat);
-    }
-    else
-    {
-      // Строки уже были отформатированы в список, надо форматирование
-      // сбросить в стандартное
-
-      qDebug() << "Remove list formatting";
-
-      // Выяснение текущего отступа
-      int currentIndent;
-      currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
-
-      // Создание форматирования
-      QTextBlockFormat indentFormatting;
-      indentFormatting.setLeftMargin(currentIndent);
-
-      // Форматирование
-      textArea->textCursor().setBlockFormat(indentFormatting);
-
-      // Создание форматирования по умолчанию чтобы убрать форматирование в список
-      // QTextBlockFormat formatting;
-      // formatting.setAlignment(Qt::AlignLeft);
-
-      // Форматирование
-      // textarea->textCursor().setBlockFormat(formatting);
-    }
-  }
-  else
-  {
-    // Вставляется первый пустой пункт
-    textArea->textCursor().insertList(setFormat);
-  }
-
-  // Выравнивание прокрутки чтоб курсор был виден если он уехал вниз
-  textArea->ensureCursorVisible();
-}
-
-
-// Форматирование в нумерованный список
-void Editor::onNumericlistClicked(void)
-{
-  formatToList(QTextListFormat::ListDecimal);
-}
-
-
-// Форматирование в список с точечками
-void Editor::onDotlistClicked(void)
-{
-  formatToList(QTextListFormat::ListDisc);
-}
 
 // Метод только меняет значение, показываемое списком шрифтов
 void Editor::setFontselectOnDisplay(QString fontName)

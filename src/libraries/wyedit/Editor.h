@@ -19,6 +19,7 @@
 #include "formatters/Formatter.h"
 #include "formatters/PlacementFormatter.h"
 #include "formatters/TypefaceFormatter.h"
+#include "formatters/ListFormatter.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -52,6 +53,7 @@ class Editor : public QWidget
  friend class Formatter;
  friend class PlacementFormatter;
  friend class TypefaceFormatter;
+ friend class ListFormatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -171,10 +173,6 @@ private slots:
  void setFontselectOnDisplay(QString fontName);
  void setFontsizeOnDisplay(int n);
 
- // Действия в области редактирования
- void onNumericlistClicked(void);
- void onDotlistClicked(void);
-
  void onShowhtmlClicked(void);
  void onFindtextClicked(void);
  void onSettingsClicked(void);
@@ -227,8 +225,9 @@ private:
  EditorTextArea *textArea;
 
  // Форматировщики текста
- TypefaceFormatter *typefaceFormatter;
+ TypefaceFormatter  *typefaceFormatter;
  PlacementFormatter *placementFormatter;
+ ListFormatter      *listFormatter;
 
  bool isInit;
 
@@ -250,8 +249,6 @@ private:
  void setupEditorArea(void);
  void setupFormatters(void);
  void assembly(void);
-
- void formatToList(QTextListFormat::Style setFormat);
 
  bool isBlockSelect(void);
  bool isCursorOnEmptyLine(void);
