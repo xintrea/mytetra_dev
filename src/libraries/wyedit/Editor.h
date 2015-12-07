@@ -40,6 +40,7 @@ class EditorTextEdit;
 class EditorContextMenu;
 class EditorTextArea;
 class IndentSlider;
+class Formatter;
 class MetaEditor;
 
 class Editor : public QWidget
@@ -246,7 +247,6 @@ private:
  void assembly(void);
 
  void formatToList(QTextListFormat::Style setFormat);
- void alignText(Qt::AlignmentFlag mode);
 
  bool isBlockSelect(void);
  bool isCursorOnEmptyLine(void);

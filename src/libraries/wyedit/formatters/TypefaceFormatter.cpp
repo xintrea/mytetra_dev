@@ -5,6 +5,11 @@
 
 #include "TypefaceFormatter.h"
 
+#include "../Editor.h"
+#include "../EditorConfig.h"
+#include "../EditorTextArea.h"
+
+
 TypefaceFormatter::TypefaceFormatter()
 {
 

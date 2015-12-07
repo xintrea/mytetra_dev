@@ -23,6 +23,7 @@
 #include "EditorTextArea.h"
 #include "EditorSplitCellForm.h"
 #include "indentslider/IndentSlider.h"
+#include "formatters/Formatter.h"
 #include "EditorAbsTable.h"
 #include "EditorAddTableForm.h"
 #include "EditorImageProperties.h"

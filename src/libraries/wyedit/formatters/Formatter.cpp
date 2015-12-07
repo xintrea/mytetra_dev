@@ -1,10 +1,8 @@
 #include "Formatter.h"
 
-/*
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
-*/
 
 
 Formatter::Formatter(QObject *parent) : QObject(parent)
