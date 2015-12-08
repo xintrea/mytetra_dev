@@ -20,6 +20,8 @@
 #include "formatters/PlacementFormatter.h"
 #include "formatters/TypefaceFormatter.h"
 #include "formatters/ListFormatter.h"
+#include "formatters/TableFormatter.h"
+
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -54,6 +56,7 @@ class Editor : public QWidget
  friend class PlacementFormatter;
  friend class TypefaceFormatter;
  friend class ListFormatter;
+ friend class TableFormatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -178,14 +181,6 @@ private slots:
  void onSettingsClicked(void);
  void onShowformattingClicked(void);
 
- void onCreatetableClicked(void);
- void onTableRemoveRowClicked(void);
- void onTableRemoveColClicked(void);
- void onTableAddRowClicked(void);
- void onTableAddColClicked(void);
- void onTableMergeCellsClicked(void);
- void onTableSplitCellClicked(void);
-
  void onInsertImageFromFileClicked(void);
  void onExpandEditAreaClicked(void);
  void onExpandToolsLinesClicked(void);
@@ -228,6 +223,7 @@ private:
  TypefaceFormatter  *typefaceFormatter;
  PlacementFormatter *placementFormatter;
  ListFormatter      *listFormatter;
+ TableFormatter     *tableFormatter;
 
  bool isInit;
 
