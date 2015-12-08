@@ -164,7 +164,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/formatters/Formatter.h \
     src/libraries/wyedit/formatters/PlacementFormatter.h \
     src/libraries/wyedit/formatters/ListFormatter.h \
-    src/libraries/wyedit/formatters/TableFormatter.h
+    src/libraries/wyedit/formatters/TableFormatter.h \
+    src/libraries/wyedit/formatters/ImageFormatter.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -264,7 +265,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/formatters/Formatter.cpp \
     src/libraries/wyedit/formatters/PlacementFormatter.cpp \
     src/libraries/wyedit/formatters/ListFormatter.cpp \
-    src/libraries/wyedit/formatters/TableFormatter.cpp
+    src/libraries/wyedit/formatters/TableFormatter.cpp \
+    src/libraries/wyedit/formatters/ImageFormatter.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

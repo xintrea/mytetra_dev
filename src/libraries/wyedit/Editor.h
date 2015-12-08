@@ -21,6 +21,7 @@
 #include "formatters/TypefaceFormatter.h"
 #include "formatters/ListFormatter.h"
 #include "formatters/TableFormatter.h"
+#include "formatters/ImageFormatter.h"
 
 
 // Fix ugly Qt QSS bug
@@ -57,6 +58,7 @@ class Editor : public QWidget
  friend class TypefaceFormatter;
  friend class ListFormatter;
  friend class TableFormatter;
+ friend class ImageFormatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -181,7 +183,6 @@ private slots:
  void onSettingsClicked(void);
  void onShowformattingClicked(void);
 
- void onInsertImageFromFileClicked(void);
  void onExpandEditAreaClicked(void);
  void onExpandToolsLinesClicked(void);
  void onSaveClicked(void);
@@ -210,8 +211,6 @@ private slots:
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 
- void onContextMenuEditImageProperties(void);
-
  // void onModificationChanged(bool flag);
 
 private:
@@ -224,6 +223,7 @@ private:
  PlacementFormatter *placementFormatter;
  ListFormatter      *listFormatter;
  TableFormatter     *tableFormatter;
+ ImageFormatter     *imageFormatter;
 
  bool isInit;
 
@@ -251,11 +251,6 @@ private:
  bool isCursorOnSpaceLine(void);
  bool isImageSelect(void);
  bool isCursorOnImage(void);
-
- QTextImageFormat imageFormatOnSelect(void);
- QTextImageFormat imageFormatOnCursor(void);
-
- void editImageProperties(void);
 
  void updateToolLineToActualFormat(void);
  void updateIndentsliderToActualFormat(void);
