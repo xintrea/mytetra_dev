@@ -13,6 +13,10 @@ class PlacementFormatter : public Formatter
 public:
   PlacementFormatter();
 
+signals:
+
+  void updateIndentsliderToActualFormat();
+
 public slots:
 
   // Действия в области редактирования

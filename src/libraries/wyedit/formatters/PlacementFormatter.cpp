@@ -26,7 +26,8 @@ void PlacementFormatter::onIndentplusClicked(void)
   // Форматирование
   textArea->textCursor().mergeBlockFormat(indentFormatting);
 
-  editor->updateIndentsliderToActualFormat();
+  // editor->updateIndentsliderToActualFormat();
+  emit updateIndentsliderToActualFormat();
 }
 
 
@@ -53,7 +54,8 @@ void PlacementFormatter::onIndentminusClicked(void)
   // Форматирование
   textArea->textCursor().mergeBlockFormat(indentFormatting);
 
-  editor->updateIndentsliderToActualFormat();
+  // editor->updateIndentsliderToActualFormat();
+  emit updateIndentsliderToActualFormat();
 }
 
 

@@ -9,6 +9,7 @@
 
 #include "libraries/wyedit/Editor.h"
 #include "libraries/wyedit/EditorTextArea.h"
+#include "libraries/wyedit/EditorIndentSliderAssistant.h"
 #include "libraries/wyedit/indentslider/IndentSlider.h"
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"
@@ -43,7 +44,7 @@ MetaEditor::MetaEditor(void) : Editor()
   // В редакторе устанавливается функция обратного вызова на кнопку Attach
   setAttachCallback( toAttachCallback );
 
-  updateIndentlineGeometry();
+  emit updateIndentSliderGeometry();
 }
 
 
@@ -139,12 +140,12 @@ void MetaEditor::metaAssembly(void)
   editorMainScreen=new QWidget(this);
   editorMainLayer=new QGridLayout(editorMainScreen);
 
-  editorMainLayer->addWidget(editorToolBar,        0,0, 1,2);
-  editorMainLayer->addWidget(indentSlider,         1,0, 1,2);
-  editorMainLayer->addWidget(treePath,             2,0, 1,2);
-  editorMainLayer->addWidget(recordName,           3,0, 1,2);
-  editorMainLayer->addWidget(recordAuthor,         4,0, 1,2);
-  editorMainLayer->addWidget(textArea,             5,0, 1,2);
+  editorMainLayer->addWidget(editorToolBar,                            0,0, 1,2);
+  editorMainLayer->addWidget(indentSliderAssistant->getIndentSlider(), 1,0, 1,2);
+  editorMainLayer->addWidget(treePath,                                 2,0, 1,2);
+  editorMainLayer->addWidget(recordName,                               3,0, 1,2);
+  editorMainLayer->addWidget(recordAuthor,                             4,0, 1,2);
+  editorMainLayer->addWidget(textArea,                                 5,0, 1,2);
 
   editorMainLayer->addWidget(labelUrl,             6,0);
   editorMainLayer->addWidget(recordUrl,            6,1);

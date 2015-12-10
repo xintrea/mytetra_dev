@@ -22,8 +22,10 @@
 #include "EditorContextMenu.h"
 #include "EditorTextArea.h"
 #include "indentslider/IndentSlider.h"
+#include "EditorIndentSliderAssistant.h"
 #include "formatters/Formatter.h"
 #include "EditorMultiLineInputDialog.h"
+
 
 #include "../../main.h"
 #include "libraries/DiskHelper.h"
@@ -132,8 +134,8 @@ void Editor::init(int mode)
   editorContextMenu=new EditorContextMenu(this);
 
   setupEditorToolBar();
-  setupIndentSlider();
-  setupEditorArea();
+  setupEditorTextArea();
+  setupIndentSliderAssistant(); // Инициализируется после TextArea
   setupFormatters();
 
   setupSignals();
@@ -145,15 +147,12 @@ void Editor::init(int mode)
   currentFontSize=0;
   currentFontColor="#000000";
   flagSetFontParametersEnabled=true;
-  currentTextIndent=0;
-  currentLeftIndent=0;
-  currentRightIndent=0;
   buttonsSelectColor=QColor(125,170,240,150); // 92,134,198
 
   // Вначале редактор находится в обычном нераспахнутом состоянии
   expand_edit_area_flag=false;
 
-  updateIndentlineGeometry();
+  emit updateIndentSliderGeometry();
 
   // Устанавливается состояние распахнуто или нет панель инструментов
   if(editorConfig->get_expand_tools_lines())
@@ -207,16 +206,16 @@ void Editor::setupEditorToolBar(void)
 }
 
 
-// Создание и настройка линейки отступов
-void Editor::setupIndentSlider(void)
+// Создание и настройка ассистента линейки отступов
+void Editor::setupIndentSliderAssistant(void)
 {
-  indentSlider=new IndentSlider(this->width(), 16, this);
-  indentSlider->setObjectName("editor_tb_indentslider");
+  indentSliderAssistant=new EditorIndentSliderAssistant(qobject_cast<QObject *>(this), textArea);
+  indentSliderAssistant->setObjectName("indentSliderAssistant");
 }
 
 
 // Создание и настройка области редактирования
-void Editor::setupEditorArea(void)
+void Editor::setupEditorTextArea(void)
 {
   // Создается область редактирования
   textArea=new EditorTextArea(this);
@@ -278,6 +277,9 @@ void Editor::setupSignals(void)
   connect(editorToolBar->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
   connect(editorToolBar->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
 
+  connect(placementFormatter,SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
+  connect(this,              SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
+
   connect(editorToolBar->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
   connect(editorToolBar->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
   connect(editorToolBar->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
@@ -314,16 +316,6 @@ void Editor::setupSignals(void)
   connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(onCursorPositionChanged()));
   connect(textArea,SIGNAL(selectionChanged()),      this,SLOT(onSelectionChanged()));
 
-  // Линейка отступов
-  connect(indentSlider,SIGNAL(change_textindent_pos(int)), this,SLOT(onIndentlineChangeTextindentPos(int)));
-  connect(indentSlider,SIGNAL(change_leftindent_pos(int)), this,SLOT(onIndentlineChangeLeftindentPos(int)));
-  connect(indentSlider,SIGNAL(change_rightindent_pos(int)),this,SLOT(onIndentlineChangeRightindentPos(int)));
-  connect(indentSlider,SIGNAL(mouse_release()),            this,SLOT(onIndentlineMouseRelease()));
-
-  connect(this,SIGNAL(send_set_textindent_pos(int)), indentSlider,SLOT(set_textindent_pos(int)));
-  connect(this,SIGNAL(send_set_leftindent_pos(int)), indentSlider,SLOT(set_leftindent_pos(int)));
-  connect(this,SIGNAL(send_set_rightindent_pos(int)),indentSlider,SLOT(set_rightindent_pos(int)));
-
   // Соединение сигнал-слот чтобы показать контекстное меню по правому клику в редакторе
   connect(textArea, SIGNAL(customContextMenuRequested(const QPoint &)),
           this, SLOT(onCustomContextMenuRequested(const QPoint &)));
@@ -349,8 +341,11 @@ void Editor::setupSignals(void)
   connect(findDialog, SIGNAL(find_text(const QString &, QTextDocument::FindFlags)),
           this, SLOT(onFindtextSignalDetect(const QString &, QTextDocument::FindFlags)) );
 
-  connect(textArea, SIGNAL(updateIndentlineGeometrySignal()),
-          this, SLOT(onUpdateIndentlineGeometrySlot()) );
+  connect(textArea, SIGNAL(updateIndentlineGeometry()),
+          indentSliderAssistant, SLOT(onUpdateGeometry()) );
+
+  connect(this, SIGNAL(updateIndentSliderGeometry()),
+          indentSliderAssistant, SLOT(onUpdateGeometry()) );
 }
 
 
@@ -368,11 +363,11 @@ void Editor::assembly(void)
   // Добавляется виджет линейки отступов
   if(viewMode==WYEDIT_DESKTOP_MODE) // Виджет линейки отступов виден только в desktop интерфейсе
   {
-    indentSlider->setVisible(true);
-    buttonsAndEditLayout->addWidget(indentSlider);
+    indentSliderAssistant->getIndentSlider()->setVisible(true);
+    buttonsAndEditLayout->addWidget( indentSliderAssistant->getIndentSlider() );
   }
   else
-    indentSlider->setVisible(false);
+    indentSliderAssistant->getIndentSlider()->setVisible(false);
 
   // Добавляется область редактирования
   buttonsAndEditLayout->addWidget(textArea);
@@ -384,28 +379,6 @@ void Editor::assembly(void)
   QLayout *lt;
   lt=layout();
   lt->setContentsMargins(0,2,0,0);
-}
-
-
-void Editor::onUpdateIndentlineGeometrySlot()
-{
-  updateIndentlineGeometry();
-}
-
-
-// Синхронизация размеров линейки отступов относительно области редактирования
-void Editor::updateIndentlineGeometry()
-{
-  // Синхронизируется ширина виджета линейки отступов
-  indentSlider->set_widget_width(textArea->width());
-
-  // Синхронизируется геометрия линейки отступов
-  int leftPos=textArea->get_indent_started_left();
-  int rightPos=textArea->get_indent_started_right();
-  indentSlider->set_indentline_left_pos(leftPos);
-  indentSlider->set_indentline_right_pos(rightPos);
-
-  indentSlider->update();
 }
 
 
@@ -977,43 +950,17 @@ void Editor::updateToolLineToActualFormat(void)
 }
 
 
-void Editor::updateIndentsliderToActualFormat(void)
-{
-  int i;
-
-  i=(int)textArea->textCursor().blockFormat().textIndent();
-  if(currentTextIndent!=i)
-  {
-    emit send_set_textindent_pos(i);
-    currentTextIndent=i;
-  }
-
-  i=(int)textArea->textCursor().blockFormat().leftMargin();
-  if(currentLeftIndent!=i)
-  {
-    emit send_set_leftindent_pos(i);
-    currentLeftIndent=i;
-  }
-
-  i=(int)textArea->textCursor().blockFormat().rightMargin();
-  if(currentRightIndent!=i)
-  {
-    emit send_set_rightindent_pos(i);
-    currentRightIndent=i;
-  }
-}
-
-
 // Слот вызывается при каждом перемещении курсора
 void Editor::onCursorPositionChanged(void)
 {
   // Если одновременно идет режим выделения
   // то обслуживание текущего шрифта и размера идет в on_selection_changed()
-  if(textArea->textCursor().hasSelection()) return;
+  if(textArea->textCursor().hasSelection())
+    return;
 
   updateToolLineToActualFormat();
 
-  updateIndentsliderToActualFormat();
+  emit updateIndentsliderToActualFormat();
 }
 
 
@@ -1290,70 +1237,6 @@ void Editor::onShowformattingClicked(void)
 }
 
 
-// Действия при перемещении движка абзацного отступа
-void Editor::onIndentlineChangeTextindentPos(int i)
-{
-  // Создание форматирования
-  QTextBlockFormat indentFormatting;
-  indentFormatting.setTextIndent(i);
-
-  // Форматирование для добавления отступа
-  textArea->textCursor().mergeBlockFormat(indentFormatting);
-
-  // Редактор запоминает отступ, чтобы было с чем сравнивать
-  // при перемещении курсора со строки на строку
-  currentTextIndent=i;
-
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
-}
-
-
-// Действия при перемещении движка левого отступа
-void Editor::onIndentlineChangeLeftindentPos(int i)
-{
-  // Создание форматирования
-  QTextBlockFormat indentFormatting;
-  indentFormatting.setLeftMargin(i);
-
-  // Форматирование для добавления отступа
-  textArea->textCursor().mergeBlockFormat(indentFormatting);
-
-  // Редактор запоминает отступ, чтобы было с чем сравнивать
-  // при перемещении курсора со строки на строку
-  currentLeftIndent=i;
-
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
-}
-
-// Действия при перемещении движка правого отступа
-void Editor::onIndentlineChangeRightindentPos(int i)
-{
-  // Создание форматирования
-  QTextBlockFormat indentFormatting;
-  indentFormatting.setRightMargin(i);
-
-  // Форматирование для добавления отступа
-  textArea->textCursor().mergeBlockFormat(indentFormatting);
-
-  // Редактор запоминает отступ, чтобы было с чем сравнивать
-  // при перемещении курсора со строки на строку
-  currentRightIndent=i;
-
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
-}
-
-
-// Действия в момент отпускания кнопки мышки над линейкой отступов
-void Editor::onIndentlineMouseRelease(void)
-{
-  textArea->show_indetedge(false); // Скрывается вертикальная линия
-  textArea->set_indentedge_pos(0); // Координата вертикальной линии обнуляется
-}
-
-
 // Метод, определяющий, выбрана ли только одна картинка
 bool Editor::isImageSelect(void)
 {
@@ -1462,13 +1345,17 @@ void Editor::switchExpandToolsLines(int flag)
   // Панели распахиваются/смыкаются (кроме первой линии инструментов)
   editorToolBar->toolsLine2->setVisible(setFlag);
   if(viewMode==WYEDIT_DESKTOP_MODE)
-    indentSlider->setVisible(setFlag);
+    indentSliderAssistant->setVisible(setFlag);
 
   // Запоминается новое состояние
   editorConfig->set_expand_tools_lines(setFlag);
 
-  // На всякий случай обновляется геометрия расположения движков на слайд-панели
-  updateIndentlineGeometry();
+  // Обновляется геометрия расположения движков на слайд-панели.
+  // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
+  // и вертикальная прокрутка при соответствующем размере текста может быть видна или не видна.
+  // То есть, возможен вариант, когда вертикальная прокрутка появляется при включении видимости слайд-панели,
+  // а ее наличие (ее ширина) влияет на ширину и правый движок слайд-панели
+  emit updateIndentSliderGeometry();
 }
 
 

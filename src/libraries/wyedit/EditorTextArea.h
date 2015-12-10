@@ -30,7 +30,7 @@ class EditorTextArea : public QTextEdit
 
  signals:
   void tapAndHoldGestureFinished(const QPoint &);
-  void updateIndentlineGeometrySignal(void);
+  void updateIndentlineGeometry(void);
 
 
  public slots:

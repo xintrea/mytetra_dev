@@ -43,7 +43,7 @@ class EditorConfig;
 class EditorTextEdit;
 class EditorContextMenu;
 class EditorTextArea;
-class IndentSlider;
+class EditorIndentSliderAssistant;
 class Formatter;
 class MetaEditor;
 
@@ -70,8 +70,8 @@ public:
  // Кнопки редактора
  EditorToolBar *editorToolBar=NULL; // todo: Сделать защищенным?
 
- // Виджет горизонтальной линейки отступов
- IndentSlider  *indentSlider=NULL;
+ // Ассистент виджета горизонтальной линейки отступов
+ EditorIndentSliderAssistant  *indentSliderAssistant=NULL;
 
  // Вертикальная группировалка линеек кнопок и области редактирования
  QVBoxLayout   *buttonsAndEditLayout=NULL;
@@ -126,8 +126,6 @@ public:
  QString getMiscField(QString name);
  void clearAllMiscField(void);
 
- void updateIndentlineGeometry();
-
  void setDirFileEmptyReaction(int mode);
  int  getDirFileEmptyReaction(void);
 
@@ -159,19 +157,12 @@ public:
 
 signals:
 
- // Сигналы установки отступов на линейке с движками
- // согласно текущему форматированию
- void send_set_textindent_pos(int i);
- void send_set_leftindent_pos(int i);
- void send_set_rightindent_pos(int i);
-
  void send_expand_edit_area(bool flag);
 
  void wyeditFindInBaseClicked();
 
-public slots:
-
- void onUpdateIndentlineGeometrySlot(void);
+ void updateIndentsliderToActualFormat(); // Возможно, стоит переименовать в changeActualFormat
+ void updateIndentSliderGeometry();
 
 private slots:
 
@@ -202,12 +193,6 @@ private slots:
 
  void onFindtextSignalDetect(const QString &text, QTextDocument::FindFlags flags);
 
- // Слоты обработки перемещения движков настройки отступов
- void onIndentlineChangeTextindentPos(int i);
- void onIndentlineChangeLeftindentPos(int i);
- void onIndentlineChangeRightindentPos(int i);
- void onIndentlineMouseRelease(void);
-
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 
@@ -216,14 +201,14 @@ private slots:
 private:
 
  // Область редактирования текста
- EditorTextArea *textArea;
+ EditorTextArea *textArea=NULL;
 
  // Форматировщики текста
- TypefaceFormatter  *typefaceFormatter;
- PlacementFormatter *placementFormatter;
- ListFormatter      *listFormatter;
- TableFormatter     *tableFormatter;
- ImageFormatter     *imageFormatter;
+ TypefaceFormatter  *typefaceFormatter=NULL;
+ PlacementFormatter *placementFormatter=NULL;
+ ListFormatter      *listFormatter=NULL;
+ TableFormatter     *tableFormatter=NULL;
+ ImageFormatter     *imageFormatter=NULL;
 
  bool isInit;
 
@@ -241,8 +226,8 @@ private:
 
  void setupSignals(void);
  void setupEditorToolBar(void);
- void setupIndentSlider(void);
- void setupEditorArea(void);
+ void setupIndentSliderAssistant(void);
+ void setupEditorTextArea(void);
  void setupFormatters(void);
  void assembly(void);
 
@@ -253,7 +238,6 @@ private:
  bool isCursorOnImage(void);
 
  void updateToolLineToActualFormat(void);
- void updateIndentsliderToActualFormat(void);
  void updateAlignButtonHiglight(bool activate);
  void updateOutlineButtonHiglight(void);
  void setOutlineButtonHiglight(int button, bool active);
@@ -274,9 +258,6 @@ private:
  int     currentFontSize;
  QString currentFontColor;
  bool    flagSetFontParametersEnabled;
- int     currentTextIndent;
- int     currentLeftIndent;
- int     currentRightIndent;
 
  EditorFindDialog *findDialog; // Виджет поиска
 
