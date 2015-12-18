@@ -97,5 +97,5 @@ void PlacementFormatter::alignText(Qt::AlignmentFlag mode)
   // Форматирование
   textArea->textCursor().mergeBlockFormat(formatting);
 
-  editor->updateAlignButtonHiglight(true);
+  emit updateAlignButtonHiglight(true);
 }

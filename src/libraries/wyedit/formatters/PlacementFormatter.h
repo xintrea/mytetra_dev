@@ -16,6 +16,7 @@ public:
 signals:
 
   void updateIndentsliderToActualFormat();
+  void updateAlignButtonHiglight(bool);
 
 public slots:
 

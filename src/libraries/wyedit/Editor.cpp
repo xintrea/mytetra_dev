@@ -23,6 +23,7 @@
 #include "EditorTextArea.h"
 #include "indentslider/IndentSlider.h"
 #include "EditorIndentSliderAssistant.h"
+#include "EditorToolBarAssistant.h"
 #include "formatters/Formatter.h"
 #include "EditorMultiLineInputDialog.h"
 
@@ -42,7 +43,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
 
-  save_callback_func=NULL;
+  save_callback_func=NULL; // todo: Проинитить в NULL в заголовочном файле
   load_callback_func=NULL;
   back_callback_func=NULL;
 }
@@ -51,7 +52,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 Editor::~Editor(void)
 {
   delete editorConfig;
-  delete editorToolBar;
+  delete editorToolBarAssistant;
   delete buttonsAndEditLayout;
   delete editorContextMenu;
   delete textArea;
@@ -117,7 +118,7 @@ void Editor::init(int mode)
   // Информационный флаг, что был запущен метод init()
   isInit=true;
 
-  viewMode=mode;
+  viewMode=mode; // todo: Избавиться от этого свойства?
 
   // Создается объект поддержки конфигурирования редактора
   editorConfig=new EditorConfig(initDataConfigFileName, this);
@@ -133,7 +134,7 @@ void Editor::init(int mode)
   // Создаётся контекстное меню
   editorContextMenu=new EditorContextMenu(this);
 
-  setupEditorToolBar();
+  setupEditorToolBarAssistant(mode, initDataDisableToolList);
   setupEditorTextArea();
   setupIndentSliderAssistant(); // Инициализируется после TextArea
   setupFormatters();
@@ -143,66 +144,26 @@ void Editor::init(int mode)
   if(initDataEnableAssembly)
     assembly();
 
-  currentFontFamily="";
-  currentFontSize=0;
-  currentFontColor="#000000";
-  flagSetFontParametersEnabled=true;
-  buttonsSelectColor=QColor(125,170,240,150); // 92,134,198
-
   // Вначале редактор находится в обычном нераспахнутом состоянии
   expand_edit_area_flag=false;
 
   emit updateIndentSliderGeometry();
 
-  // Устанавливается состояние распахнуто или нет панель инструментов
-  if(editorConfig->get_expand_tools_lines())
-    switchExpandToolsLines(1);
-  else
-    switchExpandToolsLines(-1);
-
   if(initDataEnableRandomSeed)
   {
     QDateTime datetime=QDateTime::currentDateTime ();
-    int seed=datetime.toTime_t();
+    unsigned int seed=rand()+datetime.toTime_t();
     // qDebug() << "Random generator init " << seed;
     srand(seed);
-    // qDebug() << "Random generator " << rand();
   }
 }
 
 
 // Создание и настройка панели инструментов редактора
-void Editor::setupEditorToolBar(void)
+void Editor::setupEditorToolBarAssistant(int mode, QStringList disableToolList)
 {
-  // Создается панель с кнопками
-  editorToolBar=new EditorToolBar(this);
-
-  editorToolBar->initDisableToolList(initDataDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
-
-
-  // Выясняется перечень кнопок в первой строке на панели инструментов
-  QStringList toolsListInLine1=editorConfig->get_tools_line_1().split(",");
-
-  // В мобильном режиме добавляется кнопка back (если ее нет)
-  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
-  {
-    toolsListInLine1.prepend("separator");
-    toolsListInLine1.prepend("back");
-  }
-
-  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(viewMode==WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
-  {
-    toolsListInLine1.append("separator");
-    toolsListInLine1.append("find_in_base");
-  }
-
-  // Устанавливается перечень кнопок на панели инструментов
-  editorToolBar->initToolsLine1(toolsListInLine1); // Первая строка
-  editorToolBar->initToolsLine2( editorConfig->get_tools_line_2().split(",") ); // Вторая строка
-
-  // Инициализация панели инструментов
-  editorToolBar->init();
+  editorToolBarAssistant=new EditorToolBarAssistant(qobject_cast<QObject *>(this), mode, disableToolList);
+  editorToolBarAssistant->setObjectName("toolBarAssistant");
 }
 
 
@@ -263,54 +224,57 @@ void Editor::setupFormatters(void)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(editorToolBar->bold,SIGNAL(clicked()),        typefaceFormatter,SLOT(onBoldClicked()));
-  connect(editorToolBar->italic,SIGNAL(clicked()),      typefaceFormatter,SLOT(onItalicClicked()));
-  connect(editorToolBar->underline,SIGNAL(clicked()),   typefaceFormatter,SLOT(onUnderlineClicked()));
-  connect(editorToolBar->monospace,SIGNAL(clicked()),   typefaceFormatter,SLOT(onMonospaceClicked()));
-  connect(editorToolBar->code,SIGNAL(clicked()),        typefaceFormatter,SLOT(onCodeClicked()));
-  connect(editorToolBar->clear,SIGNAL(clicked()),       typefaceFormatter,SLOT(onClearClicked()));
+  connect(editorToolBarAssistant->getToolBar()->bold,SIGNAL(clicked()),        typefaceFormatter,SLOT(onBoldClicked()));
+  connect(editorToolBarAssistant->getToolBar()->italic,SIGNAL(clicked()),      typefaceFormatter,SLOT(onItalicClicked()));
+  connect(editorToolBarAssistant->getToolBar()->underline,SIGNAL(clicked()),   typefaceFormatter,SLOT(onUnderlineClicked()));
+  connect(editorToolBarAssistant->getToolBar()->monospace,SIGNAL(clicked()),   typefaceFormatter,SLOT(onMonospaceClicked()));
+  connect(editorToolBarAssistant->getToolBar()->code,SIGNAL(clicked()),        typefaceFormatter,SLOT(onCodeClicked()));
+  connect(editorToolBarAssistant->getToolBar()->clear,SIGNAL(clicked()),       typefaceFormatter,SLOT(onClearClicked()));
 
-  connect(editorToolBar->fontSelect,SIGNAL(currentFontChanged(const QFont &)), typefaceFormatter,SLOT(onFontselectChanged(const QFont &)));
-  connect(editorToolBar->fontSize,SIGNAL(currentIndexChanged(int)),            typefaceFormatter,SLOT(onFontsizeChanged(int)));
-  connect(editorToolBar->fontColor,SIGNAL(clicked()),                          typefaceFormatter,SLOT(onFontcolorClicked()));
+  connect(editorToolBarAssistant->getToolBar()->fontSelect,SIGNAL(currentFontChanged(const QFont &)), typefaceFormatter,SLOT(onFontselectChanged(const QFont &)));
+  connect(editorToolBarAssistant->getToolBar()->fontSize,SIGNAL(currentIndexChanged(int)),            typefaceFormatter,SLOT(onFontsizeChanged(int)));
+  connect(editorToolBarAssistant->getToolBar()->fontColor,SIGNAL(clicked()),                          typefaceFormatter,SLOT(onFontcolorClicked()));
 
-  connect(editorToolBar->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
-  connect(editorToolBar->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
+  connect(editorToolBarAssistant->getToolBar()->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
+  connect(editorToolBarAssistant->getToolBar()->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
 
   connect(placementFormatter,SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
   connect(this,              SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
 
-  connect(editorToolBar->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
-  connect(editorToolBar->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
-  connect(editorToolBar->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
-  connect(editorToolBar->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
+  connect(editorToolBarAssistant->getToolBar()->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
+  connect(editorToolBarAssistant->getToolBar()->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
+  connect(editorToolBarAssistant->getToolBar()->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
+  connect(editorToolBarAssistant->getToolBar()->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
 
-  connect(editorToolBar->numericList,SIGNAL(clicked()), listFormatter,SLOT(onNumericlistClicked()));
-  connect(editorToolBar->dotList,SIGNAL(clicked()),     listFormatter,SLOT(onDotlistClicked()));
+  connect(editorToolBarAssistant->getToolBar()->numericList,SIGNAL(clicked()), listFormatter,SLOT(onNumericlistClicked()));
+  connect(editorToolBarAssistant->getToolBar()->dotList,SIGNAL(clicked()),     listFormatter,SLOT(onDotlistClicked()));
 
   // Кнопки работы с таблицами
-  connect(editorToolBar->createTable,SIGNAL(clicked()),    tableFormatter,SLOT(onCreatetableClicked()));
-  connect(editorToolBar->tableRemoveRow,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveRowClicked()));
-  connect(editorToolBar->tableRemoveCol,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveColClicked()));
-  connect(editorToolBar->tableAddRow,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddRowClicked()));
-  connect(editorToolBar->tableAddCol,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddColClicked()));
-  connect(editorToolBar->tableMergeCells,SIGNAL(clicked()),tableFormatter,SLOT(onTableMergeCellsClicked()));
-  connect(editorToolBar->tableSplitCell,SIGNAL(clicked()), tableFormatter,SLOT(onTableSplitCellClicked()));
+  connect(editorToolBarAssistant->getToolBar()->createTable,SIGNAL(clicked()),    tableFormatter,SLOT(onCreatetableClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableRemoveRow,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveRowClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableRemoveCol,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveColClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableAddRow,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddRowClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableAddCol,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddColClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableMergeCells,SIGNAL(clicked()),tableFormatter,SLOT(onTableMergeCellsClicked()));
+  connect(editorToolBarAssistant->getToolBar()->tableSplitCell,SIGNAL(clicked()), tableFormatter,SLOT(onTableSplitCellClicked()));
 
-  connect(editorToolBar->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
-  connect(editorToolBar->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
-  connect(editorToolBar->settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
-  connect(editorToolBar->showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
+  connect(editorToolBarAssistant->getToolBar()->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
+  connect(editorToolBarAssistant->getToolBar()->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
+  connect(editorToolBarAssistant->getToolBar()->settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
+  connect(editorToolBarAssistant->getToolBar()->showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
+
+
+  connect(this,              SIGNAL(updateAlignButtonHiglight(bool)), editorToolBarAssistant, SLOT(onUpdateAlignButtonHiglight(bool)));
+  connect(placementFormatter,SIGNAL(updateAlignButtonHiglight(bool)), editorToolBarAssistant, SLOT(onUpdateAlignButtonHiglight(bool)));
 
   // Прочие кнопки
-  connect(editorToolBar->insertImageFromFile, SIGNAL(clicked()), imageFormatter, SLOT(onInsertImageFromFileClicked()));
-  connect(editorToolBar->expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
-  connect(editorToolBar->expandToolsLines, SIGNAL(clicked()), this, SLOT(onExpandToolsLinesClicked()));
-  connect(editorToolBar->save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-  connect(editorToolBar->back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
-  connect(editorToolBar->findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
-  connect(editorToolBar->showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
-  connect(editorToolBar->toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
+  connect(editorToolBarAssistant->getToolBar()->insertImageFromFile, SIGNAL(clicked()), imageFormatter, SLOT(onInsertImageFromFileClicked()));
+  connect(editorToolBarAssistant->getToolBar()->expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
+  connect(editorToolBarAssistant->getToolBar()->save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+  connect(editorToolBarAssistant->getToolBar()->back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
+  connect(editorToolBarAssistant->getToolBar()->findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
+  connect(editorToolBarAssistant->getToolBar()->showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
+  connect(editorToolBarAssistant->getToolBar()->toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
 
   // Область редактирования текста
   connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(onCursorPositionChanged()));
@@ -358,16 +322,16 @@ void Editor::assembly(void)
   buttonsAndEditLayout->setObjectName("buttons_and_edit_layout");
 
   // Добавляется виджет с кнопками редактора
-  buttonsAndEditLayout->addWidget(editorToolBar);
+  buttonsAndEditLayout->addWidget( editorToolBarAssistant->getToolBar() );
 
   // Добавляется виджет линейки отступов
   if(viewMode==WYEDIT_DESKTOP_MODE) // Виджет линейки отступов виден только в desktop интерфейсе
   {
-    indentSliderAssistant->getIndentSlider()->setVisible(true);
+    indentSliderAssistant->setVisible(true);
     buttonsAndEditLayout->addWidget( indentSliderAssistant->getIndentSlider() );
   }
   else
-    indentSliderAssistant->getIndentSlider()->setVisible(false);
+    indentSliderAssistant->setVisible(false);
 
   // Добавляется область редактирования
   buttonsAndEditLayout->addWidget(textArea);
@@ -788,34 +752,6 @@ bool Editor::isCursorOnSpaceLine(void)
 }
 
 
-// Метод только меняет значение, показываемое списком шрифтов
-void Editor::setFontselectOnDisplay(QString fontName)
-{
-  flagSetFontParametersEnabled=false;
-
-  if(fontName.size()>0)
-    editorToolBar->fontSelect->setCurrentIndex(editorToolBar->fontSelect->findText(fontName));
-  else
-    editorToolBar->fontSelect->setCurrentIndex(editorToolBar->fontSelect->count()-1);
-
-  currentFontFamily=fontName;
-
-  flagSetFontParametersEnabled=true;
-}
-
-
-// Метод только меняет значение, показываемое списком размеров шрифта
-void Editor::setFontsizeOnDisplay(int n)
-{
-  flagSetFontParametersEnabled=false;
-
-  editorToolBar->fontSize->setCurrentIndex(editorToolBar->fontSize->findData(n));
-  currentFontSize=n;
-
-  flagSetFontParametersEnabled=true;
-}
-
-
 // Слот вызывается при каждом движении курсора в момент выделения текста
 void Editor::onSelectionChanged(void)
 {
@@ -905,48 +841,30 @@ void Editor::onSelectionChanged(void)
   // и включается, если форматирование одинаковое,
   // и выделение начиналось с Bold
   if(differentBoldFlag==1)
-    setOutlineButtonHiglight(BT_BOLD,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_BOLD,false);
   else
     if(startBold==true)
-      setOutlineButtonHiglight(BT_BOLD,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_BOLD,true);
 
   // Кнопка Italic
   if(differentItalicFlag==1)
-    setOutlineButtonHiglight(BT_ITALIC,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_ITALIC,false);
   else
     if(startItalic==true)
-      setOutlineButtonHiglight(BT_ITALIC,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_ITALIC,true);
 
   // Кнопка Underline
   if(differentUnderlineFlag==1)
-    setOutlineButtonHiglight(BT_UNDERLINE,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_UNDERLINE,false);
   else
     if(startUnderline==true)
-      setOutlineButtonHiglight(BT_UNDERLINE,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_UNDERLINE,true);
 
   // Кнопки выравнивания
   if(differentAlignFlag==1)
-    updateAlignButtonHiglight(false);
+    emit updateAlignButtonHiglight(false);
   else
-    updateAlignButtonHiglight(true);
-}
-
-
-void Editor::updateToolLineToActualFormat(void)
-{
-  // Список должен показывать текущий шрифт позиции, где находится курсор
-  if(currentFontFamily!=textArea->fontFamily())
-    setFontselectOnDisplay(textArea->fontFamily());
-
-  // Размер
-  if(currentFontSize!=(int)textArea->fontPointSize())
-    setFontsizeOnDisplay((int)textArea->fontPointSize());
-
-  // Кнопки форматирования начертания
-  updateOutlineButtonHiglight();
-
-  // Кнопки выравнивания
-  updateAlignButtonHiglight(true);
+    emit updateAlignButtonHiglight(true);
 }
 
 
@@ -958,48 +876,25 @@ void Editor::onCursorPositionChanged(void)
   if(textArea->textCursor().hasSelection())
     return;
 
-  updateToolLineToActualFormat();
+  editorToolBarAssistant->updateToActualFormat();
 
   emit updateIndentsliderToActualFormat();
-}
-
-
-bool Editor::isKeyForToolLineUpdate(QKeyEvent *event)
-{
-  if(event->modifiers().testFlag(Qt::ControlModifier) ||
-     event->modifiers().testFlag(Qt::AltModifier) ||
-     event->modifiers().testFlag(Qt::MetaModifier) ||
-     event->key()==Qt::Key_F1 ||
-     event->key()==Qt::Key_F2 ||
-     event->key()==Qt::Key_F3 ||
-     event->key()==Qt::Key_F4 ||
-     event->key()==Qt::Key_F5 ||
-     event->key()==Qt::Key_F6 ||
-     event->key()==Qt::Key_F7 ||
-     event->key()==Qt::Key_F8 ||
-     event->key()==Qt::Key_F9 ||
-     event->key()==Qt::Key_F10 ||
-     event->key()==Qt::Key_F11 ||
-     event->key()==Qt::Key_F12)
-    return true;
-  else
-    return false;
 }
 
 
 // Cлот отлавливает нажатия клавиш
 void Editor::keyPressEvent(QKeyEvent *event)
 {
-  if(isKeyForToolLineUpdate(event))
-    updateToolLineToActualFormat();
+  if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
+    editorToolBarAssistant->updateToActualFormat();
 }
 
 
 // Cлот отлавливает отжатия клавиш
 void Editor::keyReleaseEvent(QKeyEvent * event)
 {
-  if(isKeyForToolLineUpdate(event))
-    updateToolLineToActualFormat();
+  if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
+    editorToolBarAssistant->updateToActualFormat();
 }
 
 
@@ -1007,7 +902,7 @@ void Editor::onUndo(void)
 {
   qDebug() << "Undo slot normal running ";
   textArea->undo();
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
@@ -1015,14 +910,14 @@ void Editor::onRedo(void)
 {
   qDebug() << "Redo slot normal running ";
   textArea->redo();
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
 void Editor::onCut(void)
 {
   textArea->cut();
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
@@ -1055,91 +950,21 @@ void Editor::onCopy(void)
   else
     textArea->copy(); // Обычное копирование
 
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
 void Editor::onPaste(void)
 {
   textArea->paste();
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
 void Editor::onSelectAll(void)
 {
   textArea->selectAll();
-  updateToolLineToActualFormat(); // Обновляется панель с кнопками
-}
-
-
-// Обновление подсветки кнопок выравнивания текста
-// Если параметр activate=false, все кнопки будут выставлены в неактивные
-// Если параметр activate=true, будет подсвечена кнопка, соответсвующая
-// текущему форматированию
-void Editor::updateAlignButtonHiglight(bool activate)
-{
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
-  editorToolBar->alignLeft->setPalette(palInactive);
-  editorToolBar->alignCenter->setPalette(palInactive);
-  editorToolBar->alignRight->setPalette(palInactive);
-  editorToolBar->alignWidth->setPalette(palInactive);
-
-  if(activate==false)return;
-
-  if(textArea->alignment()==Qt::AlignLeft)         editorToolBar->alignLeft->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignHCenter) editorToolBar->alignCenter->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignRight)   editorToolBar->alignRight->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignJustify) editorToolBar->alignWidth->setPalette(palActive);
-}
-
-
-// Обновление подсветки клавиш начертания текста
-void Editor::updateOutlineButtonHiglight(void)
-{
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
-  editorToolBar->bold->setPalette(palInactive);
-  editorToolBar->italic->setPalette(palInactive);
-  editorToolBar->underline->setPalette(palInactive);
-
-  if(textArea->fontWeight()==QFont::Bold) editorToolBar->bold->setPalette(palActive);
-  if(textArea->fontItalic()==true)        editorToolBar->italic->setPalette(palActive);
-  if(textArea->fontUnderline()==true)     editorToolBar->underline->setPalette(palActive);
-}
-
-
-void Editor::setOutlineButtonHiglight(int button, bool active)
-{
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
-  if(button==BT_BOLD)
-  {
-    if(active==false) editorToolBar->bold->setPalette(palInactive);
-    else              editorToolBar->bold->setPalette(palActive);
-    return;
-  }
-
-  if(button==BT_ITALIC)
-  {
-    if(active==false) editorToolBar->italic->setPalette(palInactive);
-    else              editorToolBar->italic->setPalette(palActive);
-    return;
-  }
-
-  if(button==BT_UNDERLINE)
-  {
-    if(active==false) editorToolBar->underline->setPalette(palInactive);
-    else              editorToolBar->underline->setPalette(palActive);
-    return;
-  }
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
@@ -1312,53 +1137,6 @@ void Editor::onExpandEditAreaClicked(void)
 }
 
 
-void Editor::onExpandToolsLinesClicked(void)
-{
-  switchExpandToolsLines();
-}
-
-
-// Метод, переключающий состояние видимости полной панели инструментов
-// Если вызывается без параметра (по умолчанию 0), метод сам переключает
-// Параметр 1 - включить полную видимость
-// Параметр -1 - выключить полную видимость
-void Editor::switchExpandToolsLines(int flag)
-{
-  bool setFlag=true;
-
-  // Если метод был вызван без параметра
-  if(flag==0)
-  {
-    bool is_expand=editorConfig->get_expand_tools_lines();
-
-    if(is_expand) setFlag=false; // Если панель инструментов распахнута, надо сомкнуть
-    else setFlag=true; // Иначе распахнуть
-  }
-  else
-  {
-    // Иначе метод вызывался с каким-то параметром
-    if(flag==1) setFlag=true;
-    if(flag==-1) setFlag=false;
-  }
-
-
-  // Панели распахиваются/смыкаются (кроме первой линии инструментов)
-  editorToolBar->toolsLine2->setVisible(setFlag);
-  if(viewMode==WYEDIT_DESKTOP_MODE)
-    indentSliderAssistant->setVisible(setFlag);
-
-  // Запоминается новое состояние
-  editorConfig->set_expand_tools_lines(setFlag);
-
-  // Обновляется геометрия расположения движков на слайд-панели.
-  // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
-  // и вертикальная прокрутка при соответствующем размере текста может быть видна или не видна.
-  // То есть, возможен вариант, когда вертикальная прокрутка появляется при включении видимости слайд-панели,
-  // а ее наличие (ее ширина) влияет на ширину и правый движок слайд-панели
-  emit updateIndentSliderGeometry();
-}
-
-
 void Editor::onSaveClicked(void)
 {
   saveTextarea();
@@ -1503,6 +1281,5 @@ void Editor::setScrollBarPosition(int n)
 
 void Editor::switchAttachIconExists(bool isExists)
 {
-  editorToolBar->switchAttachIconExists(isExists);
+  EditorToolBarAssistant->switchAttachIconExists(isExists);
 }
-

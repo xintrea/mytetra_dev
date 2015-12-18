@@ -44,6 +44,7 @@ class EditorTextEdit;
 class EditorContextMenu;
 class EditorTextArea;
 class EditorIndentSliderAssistant;
+class EditorToolBarAssistant;
 class Formatter;
 class MetaEditor;
 
@@ -67,8 +68,8 @@ public:
  // Объект, хранящий настройки редактора
  EditorConfig  *editorConfig=NULL;
 
- // Кнопки редактора
- EditorToolBar *editorToolBar=NULL; // todo: Сделать защищенным?
+ // Ассистент панели кнопок
+ EditorToolBarAssistant *editorToolBarAssistant=NULL; // todo: Сделать защищенным? Переименовать в toolBarAssistant?
 
  // Ассистент виджета горизонтальной линейки отступов
  EditorIndentSliderAssistant  *indentSliderAssistant=NULL;
@@ -139,8 +140,8 @@ public:
 
  enum
  {
-  SAVE_IMAGES_SIMPLE=0,
-  SAVE_IMAGES_REMOVE_UNUSED=1
+  SAVE_IMAGES_SIMPLE=0,       // Простое сохранение картинок, встречающихся в тексте
+  SAVE_IMAGES_REMOVE_UNUSED=1 // Сохранение картинок, встречающихся в тексте, с удалением из каталога записи тех, которых в тексте нет
  };
 
  enum
@@ -166,16 +167,12 @@ signals:
 
 private slots:
 
- void setFontselectOnDisplay(QString fontName);
- void setFontsizeOnDisplay(int n);
-
  void onShowhtmlClicked(void);
  void onFindtextClicked(void);
  void onSettingsClicked(void);
  void onShowformattingClicked(void);
 
  void onExpandEditAreaClicked(void);
- void onExpandToolsLinesClicked(void);
  void onSaveClicked(void);
  void onBackClicked(void);
  void onFindInBaseClicked(void);
@@ -225,7 +222,7 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
- void setupEditorToolBar(void);
+ void setupEditorToolBarAssistant(int mode, QStringList disableToolList);
  void setupIndentSliderAssistant(void);
  void setupEditorTextArea(void);
  void setupFormatters(void);
@@ -237,31 +234,12 @@ private:
  bool isImageSelect(void);
  bool isCursorOnImage(void);
 
- void updateToolLineToActualFormat(void);
- void updateAlignButtonHiglight(bool activate);
- void updateOutlineButtonHiglight(void);
- void setOutlineButtonHiglight(int button, bool active);
- bool isKeyForToolLineUpdate(QKeyEvent *event);
-
- // Метод, переключающий состояние видимости полной панели инструментов
- // Если вызывается без параметра, метод сам переключает
- // Параметр 1 - включить полную видимость
- // Параметр -1 - выключить полную видимость
- void switchExpandToolsLines(int flag=0);
-
  // Переопределяется слот обработки клавиш
  // нужен для определения момента undo/redo
  virtual void keyPressEvent(QKeyEvent * event);
  virtual void keyReleaseEvent(QKeyEvent * event);
 
- QString currentFontFamily;
- int     currentFontSize;
- QString currentFontColor;
- bool    flagSetFontParametersEnabled;
-
  EditorFindDialog *findDialog; // Виджет поиска
-
- QColor buttonsSelectColor; // Цвет рамки выделенных кнопок
 
  bool expand_edit_area_flag; // Распахнуто ли на максимум окно редактора
 
@@ -281,17 +259,6 @@ private:
  QMap<QString, QString> miscFields;
 
  int dirFileEmptyReaction;
-
- enum 
-  {
-   BT_BOLD,
-   BT_ITALIC,
-   BT_UNDERLINE,
-   BT_ALIGN_LEFT,
-   BT_ALIGN_CENTER,
-   BT_ALIGN_RIGHT,
-   BT_ALIGN_WIDTH
-  };
 };
 
 #endif /* _EDITOR_H_ */

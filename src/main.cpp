@@ -41,7 +41,7 @@ GlobalParameters globalParameters;
 // Конфигурация программы (считанная из файла конфигурации)
 AppConfig mytetraConfig;
 
-// Конфигурация данных
+// Конфигурация хранилища данных
 DataBaseConfig dataBaseConfig;
 
 // Объект слежения за состоянием корзины

@@ -140,7 +140,7 @@ void MetaEditor::metaAssembly(void)
   editorMainScreen=new QWidget(this);
   editorMainLayer=new QGridLayout(editorMainScreen);
 
-  editorMainLayer->addWidget(editorToolBar,                            0,0, 1,2);
+  editorMainLayer->addWidget(editorToolBarAssistant->getToolBar(),     0,0, 1,2);
   editorMainLayer->addWidget(indentSliderAssistant->getIndentSlider(), 1,0, 1,2);
   editorMainLayer->addWidget(treePath,                                 2,0, 1,2);
   editorMainLayer->addWidget(recordName,                               3,0, 1,2);
@@ -229,7 +229,7 @@ void MetaEditor::clearAll(void)
  clearAllMiscField();
 
  // Иконка аттачей должна показывать что аттачей нет
- editorToolBar->switchAttachIconExists(false);
+ editorToolBarAssistant->switchAttachIconExists(false);
 
  // Очистка для слоя приаттаченных файлов
  attachTableScreen->clear();
