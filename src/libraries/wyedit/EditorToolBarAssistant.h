@@ -14,6 +14,8 @@ public:
   explicit EditorToolBarAssistant(QObject *parent, int iViewMode, QStringList iDisableToolList);
   EditorToolBarAssistant();
 
+  EditorToolBar *getToolBar(void);
+
   void setFontselectOnDisplay(QString fontName);
   void setFontsizeOnDisplay(int n);
 
@@ -26,9 +28,21 @@ public:
   void updateToActualFormat(void);
   void updateOutlineButtonHiglight(void);
   void setOutlineButtonHiglight(int button, bool active);
+  void setShowFormattingButtonHiglight(bool active);
   bool isKeyForToolLineUpdate(QKeyEvent *event);
 
   void switchAttachIconExists(bool isExists);
+
+  enum
+   {
+    BT_BOLD,
+    BT_ITALIC,
+    BT_UNDERLINE,
+    BT_ALIGN_LEFT,
+    BT_ALIGN_CENTER,
+    BT_ALIGN_RIGHT,
+    BT_ALIGN_WIDTH
+   };
 
 signals:
 
@@ -49,20 +63,7 @@ protected:
   QString currentFontColor;
   QColor  buttonsSelectColor; // Цвет рамки выделенных кнопок
 
-  enum
-   {
-    BT_BOLD,
-    BT_ITALIC,
-    BT_UNDERLINE,
-    BT_ALIGN_LEFT,
-    BT_ALIGN_CENTER,
-    BT_ALIGN_RIGHT,
-    BT_ALIGN_WIDTH
-   };
-
   void setupSignals();
-  EditorToolBar *getToolBar(void); // Метод должен быть доступен только для Assistant-класса
-
 };
 
 #endif // EDITORTOOLBARASSISTANT_H

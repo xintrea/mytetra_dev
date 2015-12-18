@@ -165,6 +165,8 @@ signals:
  void updateIndentsliderToActualFormat(); // Возможно, стоит переименовать в changeActualFormat
  void updateIndentSliderGeometry();
 
+ void updateAlignButtonHiglight(bool);
+
 private slots:
 
  void onShowhtmlClicked(void);

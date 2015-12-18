@@ -236,6 +236,20 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
 }
 
 
+// Включение/выключение подсветки кнопки отображения символов форматирования
+void EditorToolBarAssistant::setShowFormattingButtonHiglight(bool active)
+{
+  QPalette palActive, palInactive;
+  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
+  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
+
+  if(active)
+    toolBar->showFormatting->setPalette(palActive);
+  else
+    toolBar->showFormatting->setPalette(palInactive);
+}
+
+
 bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
 {
   if(event->modifiers().testFlag(Qt::ControlModifier) ||

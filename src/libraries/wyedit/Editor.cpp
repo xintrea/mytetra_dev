@@ -827,38 +827,38 @@ void Editor::onSelectionChanged(void)
 
   // Список выбора шрифта начинает указывать на нужный шрифт
   if(differentFontFlag==0)
-    setFontselectOnDisplay(startFontFamily); // Если всё выделение одним шрифтом
+    editorToolBarAssistant->setFontselectOnDisplay(startFontFamily); // Если всё выделение одним шрифтом
   else
-    setFontselectOnDisplay("");
+    editorToolBarAssistant->setFontselectOnDisplay("");
 
   // Список выбора размера начинает указывать на нужный размер
   if(differentSizeFlag==0)
-    setFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
+    editorToolBarAssistant->setFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
   else
-    setFontsizeOnDisplay(0); // В выделении есть разные размеры
+    editorToolBarAssistant->setFontsizeOnDisplay(0); // В выделении есть разные размеры
 
   // Кнопка Bold выключается, если есть разное Bold форматирование
   // и включается, если форматирование одинаковое,
   // и выделение начиналось с Bold
   if(differentBoldFlag==1)
-    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_BOLD,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_BOLD,false);
   else
     if(startBold==true)
-      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_BOLD,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_BOLD,true);
 
   // Кнопка Italic
   if(differentItalicFlag==1)
-    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_ITALIC,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_ITALIC,false);
   else
     if(startItalic==true)
-      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_ITALIC,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_ITALIC,true);
 
   // Кнопка Underline
   if(differentUnderlineFlag==1)
-    editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_UNDERLINE,false);
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,false);
   else
     if(startUnderline==true)
-      editorToolBarAssistant->setOutlineButtonHiglight(editorToolBarAssistant->BT_UNDERLINE,true);
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,true);
 
   // Кнопки выравнивания
   if(differentAlignFlag==1)
@@ -1045,19 +1045,15 @@ void Editor::onSettingsClicked(void)
 // Действия при нажатии кнопки отображения символов редактирования
 void Editor::onShowformattingClicked(void)
 {
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
   if(textArea->get_showformatting()==false)
   {
     textArea->set_showformatting(true);
-    editorToolBar->showFormatting->setPalette(palActive);
+    editorToolBarAssistant->setShowFormattingButtonHiglight(true);
   }
   else
   {
     textArea->set_showformatting(false);
-    editorToolBar->showFormatting->setPalette(palInactive);
+    editorToolBarAssistant->setShowFormattingButtonHiglight(false);
   }
 }
 
@@ -1281,5 +1277,5 @@ void Editor::setScrollBarPosition(int n)
 
 void Editor::switchAttachIconExists(bool isExists)
 {
-  EditorToolBarAssistant->switchAttachIconExists(isExists);
+  editorToolBarAssistant->switchAttachIconExists(isExists);
 }
