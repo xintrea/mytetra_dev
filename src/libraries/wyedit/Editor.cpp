@@ -134,8 +134,8 @@ void Editor::init(int mode)
   // Создаётся контекстное меню
   editorContextMenu=new EditorContextMenu(this);
 
-  setupEditorToolBarAssistant(mode, initDataDisableToolList);
   setupEditorTextArea();
+  setupEditorToolBarAssistant(mode, textArea, initDataDisableToolList);
   setupIndentSliderAssistant(); // Инициализируется после TextArea
   setupFormatters();
 
@@ -160,9 +160,9 @@ void Editor::init(int mode)
 
 
 // Создание и настройка панели инструментов редактора
-void Editor::setupEditorToolBarAssistant(int mode, QStringList disableToolList)
+void Editor::setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList)
 {
-  editorToolBarAssistant=new EditorToolBarAssistant(qobject_cast<QObject *>(this), mode, disableToolList);
+  editorToolBarAssistant=new EditorToolBarAssistant(this, mode, textArea, disableToolList);
   editorToolBarAssistant->setObjectName("toolBarAssistant");
 }
 

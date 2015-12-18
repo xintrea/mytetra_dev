@@ -8,22 +8,16 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include "EditorToolBarAssistant.h" // Без заголовка не срабатывает определение friend-класса
-
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
 
 #define MINIMUM_ALLOWED_FONT_SIZE 5
 #define MAXIMUM_ALLOWED_FONT_SIZE 100
 
-class EditorToolBarAssistant;
-
 
 class EditorToolBar : public QWidget
 {
   Q_OBJECT
-
-  friend class EditorToolBarAssistant;
 
 public:
 

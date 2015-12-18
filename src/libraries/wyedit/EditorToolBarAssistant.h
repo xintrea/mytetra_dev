@@ -1,20 +1,22 @@
 #ifndef EDITORTOOLBARASSISTANT_H
 #define EDITORTOOLBARASSISTANT_H
 
-#include <QObject>
+#include <QWidget>
+#include "EditorToolBar.h"
 
 class Editor;
-class EditorToolBar;
 class EditorTextArea;
 
-class EditorToolBarAssistant : public QObject
+class EditorToolBarAssistant : public EditorToolBar
 {
   Q_OBJECT
-public:
-  explicit EditorToolBarAssistant(QObject *parent, int iViewMode, QStringList iDisableToolList);
-  EditorToolBarAssistant();
 
-  EditorToolBar *getToolBar(void);
+public:
+  explicit EditorToolBarAssistant(QWidget *parent,
+                                  int iViewMode,
+                                  EditorTextArea *textArea,
+                                  QStringList iDisableToolList);
+  EditorToolBarAssistant();
 
   void setFontselectOnDisplay(QString fontName);
   void setFontsizeOnDisplay(int n);
@@ -30,8 +32,6 @@ public:
   void setOutlineButtonHiglight(int button, bool active);
   void setShowFormattingButtonHiglight(bool active);
   bool isKeyForToolLineUpdate(QKeyEvent *event);
-
-  void switchAttachIconExists(bool isExists);
 
   enum
    {
@@ -54,7 +54,7 @@ public slots:
 protected:
 
   Editor *editor;
-  EditorToolBar *toolBar;
+  EditorTextArea *textArea;
 
   int viewMode;
 

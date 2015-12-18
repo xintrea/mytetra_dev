@@ -140,7 +140,7 @@ void MetaEditor::metaAssembly(void)
   editorMainScreen=new QWidget(this);
   editorMainLayer=new QGridLayout(editorMainScreen);
 
-  editorMainLayer->addWidget(editorToolBarAssistant->getToolBar(),     0,0, 1,2);
+  editorMainLayer->addWidget(editorToolBarAssistant,                   0,0, 1,2);
   editorMainLayer->addWidget(indentSliderAssistant->getIndentSlider(), 1,0, 1,2);
   editorMainLayer->addWidget(treePath,                                 2,0, 1,2);
   editorMainLayer->addWidget(recordName,                               3,0, 1,2);

@@ -69,7 +69,7 @@ public:
  EditorConfig  *editorConfig=NULL;
 
  // Ассистент панели кнопок
- EditorToolBarAssistant *editorToolBarAssistant=NULL; // todo: Сделать защищенным? Переименовать в toolBarAssistant?
+ EditorToolBarAssistant *editorToolBarAssistant=NULL; // todo: Переименовать в toolBarAssistant?
 
  // Ассистент виджета горизонтальной линейки отступов
  EditorIndentSliderAssistant  *indentSliderAssistant=NULL;
@@ -224,7 +224,7 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
- void setupEditorToolBarAssistant(int mode, QStringList disableToolList);
+ void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
  void setupIndentSliderAssistant(void);
  void setupEditorTextArea(void);
  void setupFormatters(void);
