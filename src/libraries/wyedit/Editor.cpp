@@ -224,57 +224,72 @@ void Editor::setupFormatters(void)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(editorToolBarAssistant->getToolBar()->bold,SIGNAL(clicked()),        typefaceFormatter,SLOT(onBoldClicked()));
-  connect(editorToolBarAssistant->getToolBar()->italic,SIGNAL(clicked()),      typefaceFormatter,SLOT(onItalicClicked()));
-  connect(editorToolBarAssistant->getToolBar()->underline,SIGNAL(clicked()),   typefaceFormatter,SLOT(onUnderlineClicked()));
-  connect(editorToolBarAssistant->getToolBar()->monospace,SIGNAL(clicked()),   typefaceFormatter,SLOT(onMonospaceClicked()));
-  connect(editorToolBarAssistant->getToolBar()->code,SIGNAL(clicked()),        typefaceFormatter,SLOT(onCodeClicked()));
-  connect(editorToolBarAssistant->getToolBar()->clear,SIGNAL(clicked()),       typefaceFormatter,SLOT(onClearClicked()));
+  connect(editorToolBarAssistant->bold,SIGNAL(clicked()),        typefaceFormatter,SLOT(onBoldClicked()));
+  connect(editorToolBarAssistant->italic,SIGNAL(clicked()),      typefaceFormatter,SLOT(onItalicClicked()));
+  connect(editorToolBarAssistant->underline,SIGNAL(clicked()),   typefaceFormatter,SLOT(onUnderlineClicked()));
+  connect(editorToolBarAssistant->monospace,SIGNAL(clicked()),   typefaceFormatter,SLOT(onMonospaceClicked()));
+  connect(editorToolBarAssistant->code,SIGNAL(clicked()),        typefaceFormatter,SLOT(onCodeClicked()));
+  connect(editorToolBarAssistant->clear,SIGNAL(clicked()),       typefaceFormatter,SLOT(onClearClicked()));
 
-  connect(editorToolBarAssistant->getToolBar()->fontSelect,SIGNAL(currentFontChanged(const QFont &)), typefaceFormatter,SLOT(onFontselectChanged(const QFont &)));
-  connect(editorToolBarAssistant->getToolBar()->fontSize,SIGNAL(currentIndexChanged(int)),            typefaceFormatter,SLOT(onFontsizeChanged(int)));
-  connect(editorToolBarAssistant->getToolBar()->fontColor,SIGNAL(clicked()),                          typefaceFormatter,SLOT(onFontcolorClicked()));
+  connect(editorToolBarAssistant->fontSelect,SIGNAL(currentFontChanged(const QFont &)), typefaceFormatter,SLOT(onFontselectChanged(const QFont &)));
+  connect(editorToolBarAssistant->fontSize,SIGNAL(currentIndexChanged(int)),            typefaceFormatter,SLOT(onFontsizeChanged(int)));
+  connect(editorToolBarAssistant->fontColor,SIGNAL(clicked()),                          typefaceFormatter,SLOT(onFontcolorClicked()));
 
-  connect(editorToolBarAssistant->getToolBar()->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
-  connect(editorToolBarAssistant->getToolBar()->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
+  // Обратка для typefaceFormatter todo: подумать, а надо ли
+  connect(typefaceFormatter, SIGNAL(updateOutlineButtonHiglight()),      editorToolBarAssistant, SLOT(onUpdateOutlineButtonHiglight()));
+  connect(typefaceFormatter, SIGNAL(changeFontselectOnDisplay(QString)), editorToolBarAssistant, SLOT(onChangeFontselectOnDisplay(QString)));
+  connect(typefaceFormatter, SIGNAL(changeFontsizeOnDisplay(int)),       editorToolBarAssistant, SLOT(onChangeFontsizeOnDisplay(int)));
+  connect(typefaceFormatter, SIGNAL(changeFontFamily(QString)),          textArea,SLOT(onChangeFontFamily(QString)));
+  connect(typefaceFormatter, SIGNAL(changeFontFamily(QString)),          editorToolBarAssistant, SLOT(onChangeFontFamily(QString)));
+  connect(typefaceFormatter, SIGNAL(changeFontPointSize(int)),           textArea,SLOT(onChangeFontPointSize(int)));
+  connect(typefaceFormatter, SIGNAL(changeFontPointSize(int)),           editorToolBarAssistant,SLOT(onChangeFontPointSize(int)));
+  connect(typefaceFormatter, SIGNAL(changeFontcolor(QColor)),            textArea,SLOT(onChangeFontcolor(QColor)));
+  connect(typefaceFormatter, SIGNAL(changeFontcolor(QColor)),            editorToolBarAssistant,SLOT(onChangeFontcolor(QColor)));
+
+
+  connect(this, SIGNAL(changeFontselectOnDisplay(QString)), editorToolBarAssistant, SLOT(onChangeFontselectOnDisplay(QString)));
+  connect(this, SIGNAL(changeFontsizeOnDisplay(int)),       editorToolBarAssistant, SLOT(onChangeFontsizeOnDisplay(int)));
+
+  connect(editorToolBarAssistant->indentPlus,SIGNAL(clicked()),  placementFormatter,SLOT(onIndentplusClicked()));
+  connect(editorToolBarAssistant->indentMinus,SIGNAL(clicked()), placementFormatter,SLOT(onIndentminusClicked()));
 
   connect(placementFormatter,SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
   connect(this,              SIGNAL(updateIndentsliderToActualFormat()), indentSliderAssistant, SLOT(updateToActualFormat()));
 
-  connect(editorToolBarAssistant->getToolBar()->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
-  connect(editorToolBarAssistant->getToolBar()->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
-  connect(editorToolBarAssistant->getToolBar()->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
-  connect(editorToolBarAssistant->getToolBar()->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
+  connect(editorToolBarAssistant->alignLeft,SIGNAL(clicked()),   placementFormatter,SLOT(onAlignleftClicked()));
+  connect(editorToolBarAssistant->alignCenter,SIGNAL(clicked()), placementFormatter,SLOT(onAligncenterClicked()));
+  connect(editorToolBarAssistant->alignRight,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignrightClicked()));
+  connect(editorToolBarAssistant->alignWidth,SIGNAL(clicked()),  placementFormatter,SLOT(onAlignwidthClicked()));
 
-  connect(editorToolBarAssistant->getToolBar()->numericList,SIGNAL(clicked()), listFormatter,SLOT(onNumericlistClicked()));
-  connect(editorToolBarAssistant->getToolBar()->dotList,SIGNAL(clicked()),     listFormatter,SLOT(onDotlistClicked()));
+  connect(editorToolBarAssistant->numericList,SIGNAL(clicked()), listFormatter,SLOT(onNumericlistClicked()));
+  connect(editorToolBarAssistant->dotList,SIGNAL(clicked()),     listFormatter,SLOT(onDotlistClicked()));
 
   // Кнопки работы с таблицами
-  connect(editorToolBarAssistant->getToolBar()->createTable,SIGNAL(clicked()),    tableFormatter,SLOT(onCreatetableClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableRemoveRow,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveRowClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableRemoveCol,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveColClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableAddRow,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddRowClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableAddCol,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddColClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableMergeCells,SIGNAL(clicked()),tableFormatter,SLOT(onTableMergeCellsClicked()));
-  connect(editorToolBarAssistant->getToolBar()->tableSplitCell,SIGNAL(clicked()), tableFormatter,SLOT(onTableSplitCellClicked()));
+  connect(editorToolBarAssistant->createTable,SIGNAL(clicked()),    tableFormatter,SLOT(onCreatetableClicked()));
+  connect(editorToolBarAssistant->tableRemoveRow,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveRowClicked()));
+  connect(editorToolBarAssistant->tableRemoveCol,SIGNAL(clicked()), tableFormatter,SLOT(onTableRemoveColClicked()));
+  connect(editorToolBarAssistant->tableAddRow,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddRowClicked()));
+  connect(editorToolBarAssistant->tableAddCol,SIGNAL(clicked()),    tableFormatter,SLOT(onTableAddColClicked()));
+  connect(editorToolBarAssistant->tableMergeCells,SIGNAL(clicked()),tableFormatter,SLOT(onTableMergeCellsClicked()));
+  connect(editorToolBarAssistant->tableSplitCell,SIGNAL(clicked()), tableFormatter,SLOT(onTableSplitCellClicked()));
 
-  connect(editorToolBarAssistant->getToolBar()->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
-  connect(editorToolBarAssistant->getToolBar()->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
-  connect(editorToolBarAssistant->getToolBar()->settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
-  connect(editorToolBarAssistant->getToolBar()->showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
+  connect(editorToolBarAssistant->showHtml,SIGNAL(clicked()),this,SLOT(onShowhtmlClicked()));
+  connect(editorToolBarAssistant->findText,SIGNAL(clicked()),this,SLOT(onFindtextClicked()));
+  connect(editorToolBarAssistant->settings,SIGNAL(clicked()),this,SLOT(onSettingsClicked()));
+  connect(editorToolBarAssistant->showFormatting,SIGNAL(clicked()),this,SLOT(onShowformattingClicked()));
 
 
   connect(this,              SIGNAL(updateAlignButtonHiglight(bool)), editorToolBarAssistant, SLOT(onUpdateAlignButtonHiglight(bool)));
   connect(placementFormatter,SIGNAL(updateAlignButtonHiglight(bool)), editorToolBarAssistant, SLOT(onUpdateAlignButtonHiglight(bool)));
 
   // Прочие кнопки
-  connect(editorToolBarAssistant->getToolBar()->insertImageFromFile, SIGNAL(clicked()), imageFormatter, SLOT(onInsertImageFromFileClicked()));
-  connect(editorToolBarAssistant->getToolBar()->expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
-  connect(editorToolBarAssistant->getToolBar()->save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
-  connect(editorToolBarAssistant->getToolBar()->back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
-  connect(editorToolBarAssistant->getToolBar()->findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
-  connect(editorToolBarAssistant->getToolBar()->showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
-  connect(editorToolBarAssistant->getToolBar()->toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
+  connect(editorToolBarAssistant->insertImageFromFile, SIGNAL(clicked()), imageFormatter, SLOT(onInsertImageFromFileClicked()));
+  connect(editorToolBarAssistant->expandEditArea, SIGNAL(clicked()), this, SLOT(onExpandEditAreaClicked()));
+  connect(editorToolBarAssistant->save, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
+  connect(editorToolBarAssistant->back, SIGNAL(clicked()), this, SLOT(onBackClicked()));
+  connect(editorToolBarAssistant->findInBase, SIGNAL(clicked()), this, SLOT(onFindInBaseClicked()));
+  connect(editorToolBarAssistant->showText, SIGNAL(clicked()), this, SLOT(onShowTextClicked()));
+  connect(editorToolBarAssistant->toAttach, SIGNAL(clicked()), this, SLOT(onToAttachClicked()));
 
   // Область редактирования текста
   connect(textArea,SIGNAL(cursorPositionChanged()), this,SLOT(onCursorPositionChanged()));
@@ -287,6 +302,7 @@ void Editor::setupSignals(void)
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
   connect(textArea, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
           this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+
 
   // connect(textArea->document(), SIGNAL(modificationChanged (bool )),
   //         this, SLOT(onModificationChanged(bool)));
@@ -322,7 +338,7 @@ void Editor::assembly(void)
   buttonsAndEditLayout->setObjectName("buttons_and_edit_layout");
 
   // Добавляется виджет с кнопками редактора
-  buttonsAndEditLayout->addWidget( editorToolBarAssistant->getToolBar() );
+  buttonsAndEditLayout->addWidget( editorToolBarAssistant );
 
   // Добавляется виджет линейки отступов
   if(viewMode==WYEDIT_DESKTOP_MODE) // Виджет линейки отступов виден только в desktop интерфейсе
@@ -827,15 +843,15 @@ void Editor::onSelectionChanged(void)
 
   // Список выбора шрифта начинает указывать на нужный шрифт
   if(differentFontFlag==0)
-    editorToolBarAssistant->setFontselectOnDisplay(startFontFamily); // Если всё выделение одним шрифтом
+    emit changeFontselectOnDisplay(startFontFamily); // Если всё выделение одним шрифтом
   else
-    editorToolBarAssistant->setFontselectOnDisplay("");
+    emit changeFontselectOnDisplay("");
 
   // Список выбора размера начинает указывать на нужный размер
   if(differentSizeFlag==0)
-    editorToolBarAssistant->setFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
+    emit changeFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
   else
-    editorToolBarAssistant->setFontsizeOnDisplay(0); // В выделении есть разные размеры
+    emit changeFontsizeOnDisplay(0); // В выделении есть разные размеры
 
   // Кнопка Bold выключается, если есть разное Bold форматирование
   // и включается, если форматирование одинаковое,

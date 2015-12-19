@@ -18,9 +18,6 @@ public:
                                   QStringList iDisableToolList);
   EditorToolBarAssistant();
 
-  void setFontselectOnDisplay(QString fontName);
-  void setFontsizeOnDisplay(int n);
-
   // Метод, переключающий состояние видимости развернутой/свернутой панели инструментов
   // Если вызывается без параметра, метод сам переключает
   // Параметр 1 - включить полную видимость
@@ -28,7 +25,6 @@ public:
   void switchExpandToolsLines(int flag=0);
 
   void updateToActualFormat(void);
-  void updateOutlineButtonHiglight(void);
   void setOutlineButtonHiglight(int button, bool active);
   void setShowFormattingButtonHiglight(bool active);
   bool isKeyForToolLineUpdate(QKeyEvent *event);
@@ -50,6 +46,12 @@ public slots:
 
   void onExpandToolsLinesClicked(void);
   void onUpdateAlignButtonHiglight(bool activate);
+  void onUpdateOutlineButtonHiglight(void);
+  void onChangeFontselectOnDisplay(QString fontName);
+  void onChangeFontsizeOnDisplay(int n);
+  void onChangeFontFamily(QString fontFamily);
+  void onChangeFontPointSize(int n);
+  void onChangeFontcolor(QColor color);
 
 protected:
 

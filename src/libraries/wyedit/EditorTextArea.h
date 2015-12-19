@@ -36,6 +36,9 @@ class EditorTextArea : public QTextEdit
  public slots:
   void show_indetedge(bool i);
   void set_indentedge_pos(int i);
+  void onChangeFontcolor(QColor selectedColor);
+  void onChangeFontFamily(QString fontFamily);
+  void onChangeFontPointSize(int n);
 
  private:
 

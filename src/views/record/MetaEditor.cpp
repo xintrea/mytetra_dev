@@ -10,6 +10,7 @@
 #include "libraries/wyedit/Editor.h"
 #include "libraries/wyedit/EditorTextArea.h"
 #include "libraries/wyedit/EditorIndentSliderAssistant.h"
+#include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "libraries/wyedit/indentslider/IndentSlider.h"
 #include "libraries/GlobalParameters.h"
 #include "views/findInBaseScreen/FindScreen.h"

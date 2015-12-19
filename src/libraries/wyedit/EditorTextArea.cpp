@@ -368,3 +368,34 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
+void EditorTextArea::onChangeFontcolor(QColor selectedColor)
+{
+  // Если выделение есть
+  if(textCursor().hasSelection())
+    setTextColor(selectedColor); // Меняется цвет текста
+  else
+  {
+    // Иначе надо выделить дополнительным курсором слово на
+    // котором стоит курсор
+    QTextCursor cursor=textCursor();
+    cursor.select(QTextCursor::WordUnderCursor);
+
+    QTextCharFormat format;
+    format.setForeground(selectedColor);
+
+    cursor.mergeCharFormat(format);
+  }
+}
+
+
+void EditorTextArea::onChangeFontFamily(QString fontFamily)
+{
+  setFontFamily(fontFamily);
+}
+
+
+void EditorTextArea::onChangeFontPointSize(int n)
+{
+  setFontPointSize(n);
+}
+

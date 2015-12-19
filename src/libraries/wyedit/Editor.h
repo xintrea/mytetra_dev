@@ -162,10 +162,13 @@ signals:
 
  void wyeditFindInBaseClicked();
 
- void updateIndentsliderToActualFormat(); // Возможно, стоит переименовать в changeActualFormat
+ void updateIndentsliderToActualFormat();
  void updateIndentSliderGeometry();
 
  void updateAlignButtonHiglight(bool);
+
+ void changeFontselectOnDisplay(QString fontName);
+ void changeFontsizeOnDisplay(int n);
 
 private slots:
 

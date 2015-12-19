@@ -68,7 +68,7 @@ EditorToolBarAssistant::setupSignals()
 
 
 // Метод только меняет значение, показываемое списком шрифтов
-void EditorToolBarAssistant::setFontselectOnDisplay(QString fontName)
+void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
   flagSetFontParametersEnabled=false;
 
@@ -83,8 +83,8 @@ void EditorToolBarAssistant::setFontselectOnDisplay(QString fontName)
 }
 
 
-// Метод только меняет значение, показываемое списком размеров шрифта
-void EditorToolBarAssistant::setFontsizeOnDisplay(int n)
+// Слот только меняет значение, показываемое списком размеров шрифта
+void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
   flagSetFontParametersEnabled=false;
 
@@ -92,6 +92,30 @@ void EditorToolBarAssistant::setFontsizeOnDisplay(int n)
   currentFontSize=n;
 
   flagSetFontParametersEnabled=true;
+}
+
+
+void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
+{
+  currentFontFamily=fontFamily;
+}
+
+
+void EditorToolBarAssistant::onChangeFontPointSize(int n)
+{
+  currentFontSize=n;
+}
+
+
+void EditorToolBarAssistant::onChangeFontcolor(QColor color)
+{
+  // Если цвет правильный
+  if(color.isValid())
+  {
+    fontColor->setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
+    currentFontColor=selectedColor.name(); // todo: подумать, а нужна ли эта переменна
+  }
+
 }
 
 
@@ -119,7 +143,7 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 
 
 // Обновление подсветки клавиш начертания текста
-void EditorToolBarAssistant::updateOutlineButtonHiglight(void)
+void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
   QPalette palActive, palInactive;
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
@@ -168,16 +192,16 @@ void EditorToolBarAssistant::updateToActualFormat(void)
 {
   // Список должен показывать текущий шрифт позиции, где находится курсор
   if(currentFontFamily!=textArea->fontFamily())
-    setFontselectOnDisplay(textArea->fontFamily());
+    onChangeFontselectOnDisplay(textArea->fontFamily());
 
   // Размер
   if(currentFontSize!=(int)textArea->fontPointSize())
     setFontsizeOnDisplay((int)textArea->fontPointSize());
 
-  // Кнопки форматирования начертания
-  updateOutlineButtonHiglight();
+  // Обновляются кнопки форматирования начертания
+  onUpdateOutlineButtonHiglight();
 
-  // Кнопки выравнивания
+  // Обновляются кнопки выравнивания
   onUpdateAlignButtonHiglight(true);
 }
 

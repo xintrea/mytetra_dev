@@ -13,6 +13,13 @@ class TypefaceFormatter : public Formatter
 public:
   TypefaceFormatter();
 
+signals:
+  void changeFontselectOnDisplay(QString fontFamily);
+  void changeFontsizeOnDisplay(int n);
+  void changeFontFamily(QString fontFamily);
+  void changeFontPointSize(int n);
+  void changeFontcolor(QColor color);
+
 public slots:
 
   // Действия в области редактирования
