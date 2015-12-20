@@ -16,7 +16,7 @@ public:
                                   int iViewMode,
                                   EditorTextArea *textArea,
                                   QStringList iDisableToolList);
-  EditorToolBarAssistant();
+  ~EditorToolBarAssistant();
 
   // Метод, переключающий состояние видимости развернутой/свернутой панели инструментов
   // Если вызывается без параметра, метод сам переключает

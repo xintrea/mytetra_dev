@@ -1,6 +1,9 @@
+#include "main.h"
 #include "EditorToolBarAssistant.h"
 #include "Editor.h"
 #include "EditorToolBar.h"
+#include "EditorTextArea.h"
+#include "EditorConfig.h"
 
 
 EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
@@ -57,11 +60,11 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
 EditorToolBarAssistant::~EditorToolBarAssistant()
 {
-
+  // EditorToolBar::~EditorToolBar();
 }
 
 
-EditorToolBarAssistant::setupSignals()
+void EditorToolBarAssistant::setupSignals()
 {
   connect(expandToolsLines, SIGNAL(clicked()), this, SLOT(onExpandToolsLinesClicked()));
 }

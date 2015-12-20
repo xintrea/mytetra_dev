@@ -47,6 +47,7 @@ void TypefaceFormatter::onBoldClicked(void)
   emit updateOutlineButtonHiglight();
 }
 
+
 // Форматирование Italic
 void TypefaceFormatter::onItalicClicked(void)
 {
@@ -77,6 +78,7 @@ void TypefaceFormatter::onItalicClicked(void)
 
   emit updateOutlineButtonHiglight();
 }
+
 
 // Форматирование подчеркивания
 void TypefaceFormatter::onUnderlineClicked(void)
@@ -352,13 +354,13 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
 
 
 // Слот, срабатывающий когда изменен размер шрифта через список размеров
-void TypefaceFormatter::onFontsizeChanged(int i)
+void TypefaceFormatter::onFontsizeChanged(int n)
 {
   // todo: Разобраться с этим флагом. Его нужно поместить в Editor или ToolBar, или вообще от него отказаться
   // if(editor->flagSetFontParametersEnabled==false)
   //   return;
 
-  int n=(editor->editorToolBar->fontSize->itemData(i)).toInt();
+  // int n=(editor->editorToolBar->fontSize->itemData(i)).toInt(); // Теперь значение берется из сигнала
 
   if(n<MINIMUM_ALLOWED_FONT_SIZE || n>MAXIMUM_ALLOWED_FONT_SIZE)
     return;

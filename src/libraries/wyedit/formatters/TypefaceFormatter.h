@@ -14,6 +14,9 @@ public:
   TypefaceFormatter();
 
 signals:
+
+  void updateOutlineButtonHiglight();
+
   void changeFontselectOnDisplay(QString fontFamily);
   void changeFontsizeOnDisplay(int n);
   void changeFontFamily(QString fontFamily);
@@ -31,7 +34,7 @@ public slots:
   void onClearClicked(void);
 
   void onFontselectChanged(const QFont &font);
-  void onFontsizeChanged(int i);
+  void onFontsizeChanged(int n);
   void onFontcolorClicked();
 };
 
