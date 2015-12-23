@@ -248,18 +248,17 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Создается стандартный шрифт
   QFont font;
-  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание
-  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер
+  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
+  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
 
   // Применяется стандартный шрифт
   textArea->setCurrentFont(font);
 
-  // Новый установленный шрифт показывается в выпадающем списке шрифтов
+    // Новый установленный шрифт показывается в выпадающем списке шрифтов
   emit changeFontselectOnDisplay(font.family());
 
   // В выпадающем списке размеров выставляется установленный размер
   emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
-
 
   // Очищается формат символов
   QColor clearColor;
@@ -268,6 +267,7 @@ void TypefaceFormatter::onClearClicked(void)
   clearCharFormat.setForeground( clearBrush );
   textArea->setCurrentCharFormat( clearCharFormat );
 
+  return;
 
   // Если выделен блок
   // или курсор на пустой линии
@@ -288,6 +288,9 @@ void TypefaceFormatter::onClearClicked(void)
     // Применение форматирование
     textArea->textCursor().setBlockFormat(format);
   }
+
+
+  // Далее весь код располагался в другом месте, разобраться в каком
 
 
   // Если была работа со строкой, в которой нет символов,
