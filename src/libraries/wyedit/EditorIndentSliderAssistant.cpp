@@ -165,3 +165,8 @@ void EditorIndentSliderAssistant::onMouseRelease(void)
   textArea->set_indentedge_pos(0); // Координата вертикальной линии обнуляется
 }
 
+
+void EditorIndentSliderAssistant::setVisible(bool flag)
+{
+  indentSlider->setVisible(flag);
+}

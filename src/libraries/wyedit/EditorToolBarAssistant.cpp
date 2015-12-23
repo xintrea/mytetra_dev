@@ -1,3 +1,5 @@
+#include <QColor>
+
 #include "main.h"
 #include "EditorToolBarAssistant.h"
 #include "Editor.h"

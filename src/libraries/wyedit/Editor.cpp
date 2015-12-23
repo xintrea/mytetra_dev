@@ -15,6 +15,7 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QScrollBar>
+#include <QColor>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -135,8 +136,8 @@ void Editor::init(int mode)
   editorContextMenu=new EditorContextMenu(this);
 
   setupEditorTextArea();
+  setupIndentSliderAssistant(); // Инициализируется обязательно только после TextArea
   setupEditorToolBarAssistant(mode, textArea, initDataDisableToolList);
-  setupIndentSliderAssistant(); // Инициализируется после TextArea
   setupFormatters();
 
   setupSignals();

@@ -1,6 +1,8 @@
 #ifndef TYPEFACEFORMATTER_H
 #define TYPEFACEFORMATTER_H
 
+#include <QColor>
+
 #include "Formatter.h"
 
 // Класс форматирования для начертания текста
