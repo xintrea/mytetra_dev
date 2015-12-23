@@ -35,6 +35,7 @@ public slots:
   void onChangeRightindentPos(int i);
   void onMouseRelease(void);
 
+
 protected:
 
   IndentSlider *indentSlider;

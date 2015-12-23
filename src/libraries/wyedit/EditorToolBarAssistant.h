@@ -14,7 +14,7 @@ class EditorToolBarAssistant : public EditorToolBar
 public:
   explicit EditorToolBarAssistant(QWidget *parent,
                                   int iViewMode,
-                                  EditorTextArea *textArea,
+                                  EditorTextArea *iTextArea,
                                   QStringList iDisableToolList);
   ~EditorToolBarAssistant();
 
@@ -41,6 +41,10 @@ public:
    };
 
 signals:
+
+  void updateIndentSliderGeometry(void);
+  void changeIndentSliderVisible(bool);
+
 
 public slots:
 

@@ -4,11 +4,12 @@
 #include "EditorToolBar.h"
 #include "EditorTextArea.h"
 #include "EditorConfig.h"
+#include "EditorIndentSliderAssistant.h"
 
 
 EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
                                                int iViewMode,
-                                               EditorTextArea *textArea,
+                                               EditorTextArea *iTextArea,
                                                QStringList iDisableToolList) : EditorToolBar(parent)
 {
   if(parent==NULL)
@@ -16,6 +17,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
   editor=qobject_cast<Editor *>(parent);
   viewMode=iViewMode;
+  textArea=iTextArea;
 
   initDisableToolList(iDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
 
@@ -116,7 +118,7 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
   if(color.isValid())
   {
     fontColor->setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-    currentFontColor=selectedColor.name(); // todo: подумать, а нужна ли эта переменна
+    currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменна
   }
 
 }
@@ -199,7 +201,7 @@ void EditorToolBarAssistant::updateToActualFormat(void)
 
   // Размер
   if(currentFontSize!=(int)textArea->fontPointSize())
-    setFontsizeOnDisplay((int)textArea->fontPointSize());
+    onChangeFontsizeOnDisplay((int)textArea->fontPointSize());
 
   // Обновляются кнопки форматирования начертания
   onUpdateOutlineButtonHiglight();
@@ -226,7 +228,7 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
   // Если метод был вызван без параметра
   if(flag==0)
   {
-    bool is_expand=editorConfig->get_expand_tools_lines();
+    bool is_expand=editor->editorConfig->get_expand_tools_lines();
 
     if(is_expand) setFlag=false; // Если панель инструментов распахнута, надо сомкнуть
     else setFlag=true; // Иначе распахнуть
@@ -241,11 +243,11 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
 
   // Панели распахиваются/смыкаются (кроме первой линии инструментов)
   toolsLine2->setVisible(setFlag);
-  if(viewMode==WYEDIT_DESKTOP_MODE)
-    indentSliderAssistant->setVisible(setFlag);
+  if(viewMode==Editor::WYEDIT_DESKTOP_MODE)
+    editor->indentSliderAssistant->setVisible(setFlag);
 
   // Запоминается новое состояние
-  editorConfig->set_expand_tools_lines(setFlag);
+  editor->editorConfig->set_expand_tools_lines(setFlag);
 
   // Обновляется геометрия расположения движков на слайд-панели.
   // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
@@ -264,9 +266,9 @@ void EditorToolBarAssistant::setShowFormattingButtonHiglight(bool active)
   palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
 
   if(active)
-    toolBar->showFormatting->setPalette(palActive);
+    showFormatting->setPalette(palActive);
   else
-    toolBar->showFormatting->setPalette(palInactive);
+    showFormatting->setPalette(palInactive);
 }
 
 
