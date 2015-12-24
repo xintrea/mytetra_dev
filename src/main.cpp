@@ -29,6 +29,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
+#include "libraries/TraceLogger.h"
 
 using namespace std;
 

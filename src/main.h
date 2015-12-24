@@ -46,6 +46,13 @@ using namespace std;
 #define ADD_NEW_RECORD_AFTER          2
 
 
+#ifdef QT_DEBUG
+#define TRACELOG TraceLogger logger(__FILE__, __FUNCTION__, __LINE__);
+#else
+#define TRACELOG
+#endif
+
+
 // Прототипы функций, которые могут использоваться в других файлах
 void logPrint(char *lpszText, ...);
 void criticalError(QString message);

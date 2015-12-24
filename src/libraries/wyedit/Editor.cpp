@@ -30,7 +30,9 @@
 
 
 #include "../../main.h"
+#include "../TraceLogger.h"
 #include "libraries/DiskHelper.h"
+
 
 
 Editor::Editor(QWidget *parent) : QWidget(parent)
@@ -901,6 +903,8 @@ bool Editor::isCursorOnSpaceLine(void)
 // Слот вызывается при каждом движении курсора в момент выделения текста
 void Editor::onSelectionChanged(void)
 {
+  TRACELOG
+
   // Если выделения нет
   if(!textArea->textCursor().hasSelection())
     return;
