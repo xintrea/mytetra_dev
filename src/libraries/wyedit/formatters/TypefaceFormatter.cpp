@@ -5,9 +5,11 @@
 
 #include "TypefaceFormatter.h"
 
+#include "main.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
+#include "../../TraceLogger.h"
 
 
 TypefaceFormatter::TypefaceFormatter()
@@ -19,6 +21,8 @@ TypefaceFormatter::TypefaceFormatter()
 // Форматирование Bold
 void TypefaceFormatter::onBoldClicked(void)
 {
+  TRACELOG
+
   // Если выделение есть
   if(textArea->textCursor().hasSelection())
   {
@@ -51,6 +55,8 @@ void TypefaceFormatter::onBoldClicked(void)
 // Форматирование Italic
 void TypefaceFormatter::onItalicClicked(void)
 {
+  TRACELOG
+
   // Если выделение есть
   if(textArea->textCursor().hasSelection())
   {
@@ -83,6 +89,8 @@ void TypefaceFormatter::onItalicClicked(void)
 // Форматирование подчеркивания
 void TypefaceFormatter::onUnderlineClicked(void)
 {
+  TRACELOG
+
   // Если выделение есть
   if(textArea->textCursor().hasSelection())
   {
@@ -115,6 +123,8 @@ void TypefaceFormatter::onUnderlineClicked(void)
 // Форматирование моноширинным шрифтом
 void TypefaceFormatter::onMonospaceClicked(void)
 {
+  TRACELOG
+
   textArea->textCursor().beginEditBlock();
 
   // Устанавливается шрифт
@@ -143,6 +153,8 @@ void TypefaceFormatter::onMonospaceClicked(void)
 // Форматирование в качестве кода
 void TypefaceFormatter::onCodeClicked(void)
 {
+  TRACELOG
+
   // Если выделения нет
   if(!textArea->textCursor().hasSelection()) return;
 
@@ -224,6 +236,8 @@ void TypefaceFormatter::onCodeClicked(void)
 // размера и убирание утолщения, наклона, подчеркивания
 void TypefaceFormatter::onClearClicked(void)
 {
+  TRACELOG
+
   int startCursorPos=textArea->textCursor().position();
   int stopCursorPos=textArea->textCursor().anchor();
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
@@ -343,6 +357,8 @@ void TypefaceFormatter::onClearClicked(void)
 // Слот, срабатывающий при изменении шрифта в списке шрифтов
 void TypefaceFormatter::onFontselectChanged(const QFont &font)
 {
+  TRACELOG
+
   // todo: Разобраться с этим флагом. Его нужно поместить в Editor или ToolBar, или вообще от него отказаться
   // if(editor->flagSetFontParametersEnabled==false)
   //   return;
@@ -359,6 +375,8 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
 // Слот, срабатывающий когда изменен размер шрифта через список размеров
 void TypefaceFormatter::onFontsizeChanged(int n)
 {
+  TRACELOG
+
   // todo: Разобраться с этим флагом. Его нужно поместить в Editor или ToolBar, или вообще от него отказаться
   // if(editor->flagSetFontParametersEnabled==false)
   //   return;
@@ -380,6 +398,8 @@ void TypefaceFormatter::onFontsizeChanged(int n)
 // Слот, срабатыващий при нажатии на кнопку выбора цвета текста
 void TypefaceFormatter::onFontcolorClicked()
 {
+  TRACELOG
+
   // Текущий цвет возле курсора
   QColor currentColor=textArea->textColor();
 

@@ -7,6 +7,7 @@
 #include "EditorTextArea.h"
 #include "EditorConfig.h"
 #include "EditorIndentSliderAssistant.h"
+#include "../TraceLogger.h"
 
 
 EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
@@ -77,6 +78,8 @@ void EditorToolBarAssistant::setupSignals()
 // Метод только меняет значение, показываемое списком шрифтов
 void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
+  TRACELOG
+
   flagSetFontParametersEnabled=false;
 
   if(fontName.size()>0)
@@ -93,6 +96,8 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 // Слот только меняет значение, показываемое списком размеров шрифта
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
+  TRACELOG
+
   flagSetFontParametersEnabled=false;
 
   fontSize->setCurrentIndex(fontSize->findData(n));
@@ -104,18 +109,24 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
 void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
 {
+  TRACELOG
+
   currentFontFamily=fontFamily;
 }
 
 
 void EditorToolBarAssistant::onChangeFontPointSize(int n)
 {
+  TRACELOG
+
   currentFontSize=n;
 }
 
 
 void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 {
+  TRACELOG
+
   // Если цвет правильный
   if(color.isValid())
   {
@@ -131,6 +142,8 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 // Если параметр activate=true, будет подсвечена кнопка, соответсвующая текущему форматированию
 void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
+  TRACELOG
+
   QPalette palActive, palInactive;
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
   palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
@@ -152,6 +165,8 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 // Обновление подсветки клавиш начертания текста
 void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
+  TRACELOG
+
   QPalette palActive, palInactive;
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
   palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
@@ -215,6 +230,8 @@ void EditorToolBarAssistant::updateToActualFormat(void)
 
 void EditorToolBarAssistant::onExpandToolsLinesClicked(void)
 {
+  TRACELOG
+
   switchExpandToolsLines();
 }
 

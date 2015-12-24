@@ -1022,6 +1022,8 @@ void Editor::onSelectionChanged(void)
 // Слот вызывается при каждом перемещении курсора
 void Editor::onCursorPositionChanged(void)
 {
+  TRACELOG
+
   // Если одновременно идет режим выделения
   // то обслуживание текущего шрифта и размера идет в on_selection_changed()
   if(textArea->textCursor().hasSelection())
