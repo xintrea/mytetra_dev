@@ -6,8 +6,6 @@
 EditorToolBar::EditorToolBar(QWidget *parent) : QWidget(parent)
 {
   isInit=false;
-
-  flagSetFontParametersEnabled=true;
 }
 
 

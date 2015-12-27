@@ -108,8 +108,6 @@ protected:
   // Список инструментов, которые ненужно подгружать
   QStringList disableToolList;
 
-  bool flagSetFontParametersEnabled; // todo: Этот флаг меняется Ассистентом (переделать на геттер и сеттер?)
-
   void setupButtons(void);
   void assemblyButtons(void);
 

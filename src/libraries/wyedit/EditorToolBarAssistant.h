@@ -69,6 +69,8 @@ protected:
   QString currentFontColor;
   QColor  buttonsSelectColor; // Цвет рамки выделенных кнопок
 
+  bool flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
+
   void setupSignals();
 };
 

@@ -261,7 +261,11 @@ void RecordTableScreen::disableAllActions(void)
 
 void RecordTableScreen::toolsUpdate(void)
 {
- qDebug() << "recordtablescreen::tools_update()";
+ // todo: Данный слот вызывается при выборе строки 4 раза подряд
+ // При количестве столбцов равным 3
+ // Разобраться почему так происходит (и зависит ли количество вызовов от количества столбцов)
+
+ // qDebug() << "recordtablescreen::tools_update()";
 
  // Отключаются все действия
  disableAllActions();
@@ -360,8 +364,8 @@ void RecordTableScreen::toolsUpdate(void)
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
     recordTableController->getRowCount()>0)
   {
-   qDebug() << "In table select present";
-   qDebug() << "In table row count is" << recordTableController->getRowCount();
+   // qDebug() << "In table select present";
+   // qDebug() << "In table row count is" << recordTableController->getRowCount();
    find_object<MetaEditor>("editorScreen")->setTextareaEditable(true);
   }
  else

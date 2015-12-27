@@ -45,15 +45,16 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   initToolsLine1(toolsListInLine1); // Первая строка
   initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
 
-  // Инициализация панели инструментов
-  init();
-
-  setupSignals();
-
   currentFontFamily="";
   currentFontSize=0;
   currentFontColor="#000000";
   buttonsSelectColor=QColor(125,170,240,150); // 92,134,198
+  flagSetFontParametersEnabled=true;
+
+  // Инициализация панели инструментов
+  init();
+
+  setupSignals();
 
   // Устанавливается состояние распахнута или нет панель инструментов
   if(editor->editorConfig->get_expand_tools_lines())
