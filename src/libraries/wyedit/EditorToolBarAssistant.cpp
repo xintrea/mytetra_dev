@@ -80,6 +80,9 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
   TRACELOG
 
+  if(flagSetFontParametersEnabled==false)
+    return;
+
   flagSetFontParametersEnabled=false;
 
   if(fontName.size()>0)
@@ -97,6 +100,9 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
   TRACELOG
+
+  if(flagSetFontParametersEnabled==false)
+    return;
 
   flagSetFontParametersEnabled=false;
 

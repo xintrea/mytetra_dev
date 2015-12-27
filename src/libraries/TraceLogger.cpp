@@ -13,14 +13,14 @@ TraceLogger::TraceLogger(const char* iFileName,
 {
     fileName = iFileName;
     funcName = iFuncName;
-    qDebug() << indent << "Entering " << QString(funcName) << "() - (" << QString(fileName) << ":" << QString().setNum(iLineNumber) << ")";
+    qDebug() << qPrintable(indent) << "> " << qPrintable(QString(funcName)) << "() - (" << qPrintable(QString(fileName)) << ":" << qPrintable(QString().setNum(iLineNumber)) << ")";
     indent.append("  ");
 }
 
 TraceLogger::~TraceLogger()
 {
     indent.resize(indent.length() - 2);
-    qDebug() << indent << "Leaving  " << QString(funcName) << "() - (" << QString(fileName) << ")";
+    qDebug() << qPrintable(indent) << "< " << qPrintable(QString(funcName)) << "() - (" << qPrintable(QString(fileName)) << ")";
 }
 
 
