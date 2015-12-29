@@ -282,7 +282,6 @@ void TypefaceFormatter::onClearClicked(void)
   clearCharFormat.setForeground( clearBrush );
   textArea->setCurrentCharFormat( clearCharFormat );
 
-  return;
 
   // Если выделен блок
   // или курсор на пустой линии
@@ -386,7 +385,8 @@ void TypefaceFormatter::onFontsizeChanged(int n)
   if( !(editor->editorToolBarAssistant->getFlagSetFontParametersEnabled()) )
     return;
 
-  // int n=(editor->editorToolBar->fontSize->itemData(i)).toInt(); // Теперь значение берется из сигнала
+  // Номер выбранного размера преобразуется в размер
+  n=editor->editorToolBarAssistant->getFontSizeByNum(n);
 
   if(n<MINIMUM_ALLOWED_FONT_SIZE || n>MAXIMUM_ALLOWED_FONT_SIZE)
     return;

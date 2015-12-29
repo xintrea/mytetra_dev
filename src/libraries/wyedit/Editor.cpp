@@ -461,6 +461,8 @@ void Editor::setupSignals(void)
 }
 
 
+
+
 // Сборка редактора и его активизация
 void Editor::assembly(void)
 {

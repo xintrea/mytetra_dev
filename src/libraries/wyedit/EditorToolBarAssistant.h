@@ -31,6 +31,8 @@ public:
 
   bool getFlagSetFontParametersEnabled();
 
+  int getFontSizeByNum(int n);
+
   enum
    {
     BT_BOLD,

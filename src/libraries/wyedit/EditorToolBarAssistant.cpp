@@ -326,3 +326,8 @@ bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
     return false;
 }
 
+
+int EditorToolBarAssistant::getFontSizeByNum(int n)
+{
+  return fontSize->itemData(n).toInt();
+}
