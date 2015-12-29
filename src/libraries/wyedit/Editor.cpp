@@ -807,8 +807,8 @@ bool Editor::loadTextarea()
   // qDebug() << content;
   textArea->setHtml( content );
 
-  // qDebug() << "Set content:";
-  // qDebug() << textArea->toHtml();
+  qDebug() << "Set content:";
+  qDebug() << textArea->toHtml();
 
   return true;
 }

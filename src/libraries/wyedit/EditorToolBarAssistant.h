@@ -29,6 +29,8 @@ public:
   void setShowFormattingButtonHiglight(bool active);
   bool isKeyForToolLineUpdate(QKeyEvent *event);
 
+  bool getFlagSetFontParametersEnabled();
+
   enum
    {
     BT_BOLD,

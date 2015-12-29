@@ -9,6 +9,7 @@
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
+#include "../EditorToolBarAssistant.h"
 #include "../../TraceLogger.h"
 
 
@@ -362,6 +363,8 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
   // todo: Разобраться с этим флагом. Его нужно поместить в Editor или ToolBar, или вообще от него отказаться
   // if(editor->flagSetFontParametersEnabled==false)
   //   return;
+  if( !(editor->editorToolBarAssistant->getFlagSetFontParametersEnabled()) )
+    return;
 
   // textArea->setFontFamily(font.family()); // Устанавливается выбранный шрифт в области редактирования
   // editor->currentFontFamily=font.family();
@@ -380,6 +383,8 @@ void TypefaceFormatter::onFontsizeChanged(int n)
   // todo: Разобраться с этим флагом. Его нужно поместить в Editor или ToolBar, или вообще от него отказаться
   // if(editor->flagSetFontParametersEnabled==false)
   //   return;
+  if( !(editor->editorToolBarAssistant->getFlagSetFontParametersEnabled()) )
+    return;
 
   // int n=(editor->editorToolBar->fontSize->itemData(i)).toInt(); // Теперь значение берется из сигнала
 

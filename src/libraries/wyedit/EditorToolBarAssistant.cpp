@@ -97,6 +97,12 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 }
 
 
+bool EditorToolBarAssistant::getFlagSetFontParametersEnabled()
+{
+  return flagSetFontParametersEnabled;
+}
+
+
 // Слот только меняет значение, показываемое списком размеров шрифта
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
