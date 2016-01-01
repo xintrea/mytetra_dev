@@ -37,7 +37,7 @@
 // ----------------------------------------------------------
 
 
-#define WYEDIT_VERSION "WyEdit v.1.7 / 21.06.2015"
+#define WYEDIT_VERSION "WyEdit v.1.8 / 01.01.2016"
 
 class EditorConfig;
 class EditorTextEdit;
@@ -249,14 +249,14 @@ private:
  bool expand_edit_area_flag; // Распахнуто ли на максимум окно редактора
 
  // Указатели на переопределенные функции записи и чтения редактируемого текста
- void (*save_callback_func)(QObject *editor, QString saveString);
- void (*load_callback_func)(QObject *editor, QString &loadString);
+ void (*save_callback_func)(QObject *editor, QString saveString)=NULL;
+ void (*load_callback_func)(QObject *editor, QString &loadString)=NULL;
 
  // Указатель на функцию переключения на предыдущее окно (для мобильного интерфейса)
- void (*back_callback_func)(void);
+ void (*back_callback_func)(void)=NULL;
 
  // Указатель на функцию открытия присоединенных файлов
- void (*attach_callback_func)(void);
+ void (*attach_callback_func)(void)=NULL;
 
  // Поля для хранения произвольных данных
  // Обычно используются для запоминания нестандартного набора данных

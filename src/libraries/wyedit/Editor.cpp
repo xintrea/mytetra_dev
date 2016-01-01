@@ -45,10 +45,6 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
   initDataDisableToolList.clear();
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
-
-  save_callback_func=NULL; // todo: Проинитить в NULL в заголовочном файле
-  load_callback_func=NULL;
-  back_callback_func=NULL;
 }
 
 
