@@ -35,7 +35,7 @@ void EditorIndentSliderAssistant::setupSignals()
   // Линейка отступов
   connect(indentSlider,SIGNAL(change_textindent_pos(int)), this,SLOT(onChangeTextindentPos(int)));
   connect(indentSlider,SIGNAL(change_leftindent_pos(int)), this,SLOT(onChangeLeftindentPos(int)));
-  connect(indentSlider,SIGNAL(change_rightindent_pos(int)),this,SLOT(onRightindentPos(int)));
+  connect(indentSlider,SIGNAL(change_rightindent_pos(int)),this,SLOT(onChangeRightindentPos(int)));
   connect(indentSlider,SIGNAL(mouse_release()),            this,SLOT(onMouseRelease()));
 
   connect(this,SIGNAL(send_set_textindent_pos(int)), indentSlider,SLOT(set_textindent_pos(int)));

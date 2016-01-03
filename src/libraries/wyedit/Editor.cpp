@@ -217,6 +217,11 @@ void Editor::setupFormatters(void)
   imageFormatter=new ImageFormatter();
   imageFormatter->setEditor(this);
   imageFormatter->setTextArea(textArea);
+
+  // Форматирование ссылки
+  referenceFormatter=new ReferenceFormatter();
+  referenceFormatter->setEditor(this);
+  referenceFormatter->setTextArea(textArea);
 }
 
 
@@ -351,6 +356,9 @@ void Editor::setupSignals(void)
           tableFormatter,                         SLOT  (onTableSplitCellClicked()),
           Qt::DirectConnection);
 
+  connect(editorToolBarAssistant->reference, SIGNAL(clicked()),
+          referenceFormatter,                SLOT  (onReferenceClicked()),
+          Qt::DirectConnection);
   connect(editorToolBarAssistant->showHtml, SIGNAL(clicked()),
           this,                             SLOT  (onShowhtmlClicked()),
           Qt::DirectConnection);

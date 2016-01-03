@@ -98,5 +98,6 @@
         <file>resource/pic/attach_add_link.svg</file>
         <file>resource/pic/attach_is_file.svg</file>
         <file>resource/pic/attach_is_link.svg</file>
+        <file>resource/pic/edit_reference.svg</file>
     </qresource>
 </RCC>

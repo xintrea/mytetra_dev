@@ -29,6 +29,7 @@ EditorToolBar::~EditorToolBar()
   delete fontSelect;
   delete fontSize;
   delete fontColor;
+  delete reference;
   delete showHtml;
   delete findText;
   delete showFormatting;
@@ -242,6 +243,12 @@ void EditorToolBar::setupButtons(void)
   settings->setStatusTip(tr("Editor settings"));
   settings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
   settings->setObjectName("editor_tb_settings");
+
+  // Кнопка редактирования ссылки (URL)
+  reference = new QToolButton(this);
+  reference->setStatusTip(tr("Edit reference (URL)"));
+  reference->setIcon(QIcon(":/resource/pic/edit_reference.svg"));
+  reference->setObjectName("editor_tb_reference");
 
   // Кнопка просмотра HTML кода
   showHtml = new QToolButton(this);

@@ -49,6 +49,8 @@ public:
   MtComboBox    *fontSize=NULL;
   QToolButton   *fontColor=NULL;
 
+  QToolButton   *reference=NULL;
+
   QToolButton   *showHtml=NULL;
 
   QToolButton   *findText=NULL;

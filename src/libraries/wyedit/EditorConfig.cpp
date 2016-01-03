@@ -323,7 +323,7 @@ void EditorConfig::update_version_process(void)
 {
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 7
+ // Последняя версия на данный момент - 9
  if(fromVersion<=1)
   update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -338,6 +338,8 @@ void EditorConfig::update_version_process(void)
   update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
  if(fromVersion<=7)
   update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
+ if(fromVersion<=8)
+  update_version(8,  9,  get_parameter_table_8(),  get_parameter_table_9());
 }
 
 
@@ -506,6 +508,25 @@ QStringList EditorConfig::get_parameter_table_8(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_9(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 7
+ table << get_parameter_table_8(false);
+
+ // В параметре tools_line_1 заменяется showhtml на reference, или просто добавляется reference если нет showhtml
+ // В параметре tools_line_2 добавляется showhtml
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -562,6 +583,22 @@ QString EditorConfig::update_version_change_value(int versionFrom,
   {
     if(!result.contains("attach"))
       result=result+",attach";
+  }
+
+  if(versionFrom==8 && versionTo==9)
+  {
+    if(name=="tools_line_1")
+    {
+      if(result.contains("showhtml"))
+        result.replace("showhtml", "reference");
+      else
+        result=result+"reference";
+    }
+
+
+    if(name=="tools_line_2")
+      if(!result.contains("showhtml"))
+        result=result+",showhtml";
   }
 
   return result;

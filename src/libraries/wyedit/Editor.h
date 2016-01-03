@@ -22,7 +22,7 @@
 #include "formatters/ListFormatter.h"
 #include "formatters/TableFormatter.h"
 #include "formatters/ImageFormatter.h"
-
+#include "formatters/ReferenceFormatter.h"
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
@@ -60,6 +60,7 @@ class Editor : public QWidget
  friend class ListFormatter;
  friend class TableFormatter;
  friend class ImageFormatter;
+ friend class ReferenceFormatter;
 
 public:
  Editor(QWidget *parent=0);
@@ -211,6 +212,7 @@ private:
  ListFormatter      *listFormatter=NULL;
  TableFormatter     *tableFormatter=NULL;
  ImageFormatter     *imageFormatter=NULL;
+ ReferenceFormatter *referenceFormatter=NULL;
 
  bool isInit;
 

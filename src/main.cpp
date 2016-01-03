@@ -532,7 +532,7 @@ void init_random(void)
  qDebug() << "Init random generator";
 
  unsigned int seed1=get_milli_count();
- srand(seed1);
+ srand(seed1+rand());
 
  unsigned int delay=rand()%1000;
  unsigned int r=0;
