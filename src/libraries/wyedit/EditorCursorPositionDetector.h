@@ -8,6 +8,7 @@ class EditorTextArea;
 
 class EditorCursorPositionDetector
 {
+
 public:
   EditorCursorPositionDetector();
 
@@ -18,12 +19,16 @@ public:
   bool isCursorOnSpaceLine(void);
   bool isCursorOnEmptyLine(void);
   bool isBlockSelect(void);
+
   bool isCursorOnReference(void);
+  QString referenceHref(void);
 
 
 private:
 
   EditorTextArea *textArea;
+
+  bool isCursorOnReferenceSmart(QString &resultHref);
 
 
 };

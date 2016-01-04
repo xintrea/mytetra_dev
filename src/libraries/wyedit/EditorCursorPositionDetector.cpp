@@ -2,7 +2,7 @@
 #include <QTextBlock>
 #include <QTextFragment>
 #include <QTextCursor>
-
+#include <QDebug>
 
 #include "EditorCursorPositionDetector.h"
 #include "EditorTextArea.h"
@@ -155,16 +155,89 @@ bool EditorCursorPositionDetector::isBlockSelect(void)
 // Проверка, находится ли курсор на ссылке
 bool EditorCursorPositionDetector::isCursorOnReference(void)
 {
-  // todo: доработать этот метод
+  QString href="";
+  return isCursorOnReferenceSmart(href);
+}
 
-  // Проверка срабатывает только если нет выделения
-  if(textArea->textCursor().hasSelection()==false)
+
+// Текст ссылки, на которой стоит курсор
+QString EditorCursorPositionDetector::referenceHref(void)
+{
+  QString href="";
+
+  if( isCursorOnReferenceSmart(href) )
+    return href;
+  else
+    return "";
+}
+
+
+bool EditorCursorPositionDetector::isCursorOnReferenceSmart(QString &resultHref)
+{
+  // Если есть выделение
+  if(textArea->textCursor().hasSelection())
   {
-    QTextImageFormat imageFormat = textArea->textCursor().charFormat().toImageFormat();
+    // Выясняются позиции начала и конца выделения
+    int start=textArea->textCursor().selectionStart()+1; // +1 так как Qt определяет формат сивола стоящего слева от курсора (как минимум для языков с записью слева направо)
+    int stop =textArea->textCursor().selectionEnd();
 
-    if(imageFormat.isValid())
-      return true;
+    qDebug() << "Reference detector. Selection start:" << start << "selection stop:" << stop;
+
+    // Создаётся дополнительный курсор
+    QTextCursor cursor=textArea->textCursor();
+
+    // Курсор перемещается в начало выделения
+    cursor.setPosition(start);
+
+    // Текст ссылки в самом начале выделения
+    QString href=cursor.charFormat().anchorHref();
+
+    // Если ссылки нет
+    if(href.length()==0)
+      return false; // Нечего проверять дальше
+
+    // В пределах выделения должна содержаться только одна ссылка
+    for(int i=start+1; i<=stop; ++i)
+    {
+      cursor.setPosition(i);
+      if(href!=cursor.charFormat().anchorHref())
+        return false; // Есть различие, выделена не только ссылка
+    }
+
+    resultHref=href;
+    return true; // Все проверки пройдены, в выделении есть ссылка и она одна
   }
+  else
+  {
+    // Иначе выделения нет
 
-  return false;
+    // Значение ссылки у символа слева от курсора
+    QString hrefLeft=textArea->textCursor().charFormat().anchorHref();
+
+    // Создаётся дополнительный курсор
+    QTextCursor cursor=textArea->textCursor();
+    cursor.movePosition(QTextCursor::Right);
+    QString hrefRight=cursor.charFormat().anchorHref(); // Значение ссылки у символа справа от основного курсора
+
+    // Если ни слева ни страва нет ссылок
+    if(hrefLeft.length()==0 && hrefRight.length()==0)
+      return false;
+    else if(hrefLeft.length()>0 && hrefRight.length()==0) // Если ссылка слева
+    {
+      resultHref=hrefLeft;
+      return true;
+    }
+    else if(hrefLeft.length()==0 && hrefRight.length()>0) // Если ссылка справа
+    {
+      resultHref=hrefRight;
+      return true;
+    }
+    else if(hrefLeft.length()>0 && hrefRight.length()>0) // Если ссылка и слева и справа, берется левая ссылка
+    {
+      resultHref=hrefLeft;
+      return true;
+    }
+
+    return false;
+  }
 }

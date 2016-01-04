@@ -55,6 +55,7 @@ Editor::~Editor(void)
   delete buttonsAndEditLayout;
   delete editorContextMenu;
   delete textArea;
+  delete cursorPositionDetector;
 
   delete typefaceFormatter;
   delete placementFormatter;
