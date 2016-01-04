@@ -169,7 +169,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorIndentSliderAssistant.h \
     src/libraries/wyedit/EditorToolBarAssistant.h \
     src/libraries/TraceLogger.h \
-    src/libraries/wyedit/formatters/ReferenceFormatter.h
+    src/libraries/wyedit/formatters/ReferenceFormatter.h \
+    src/libraries/wyedit/EditorCursorPositionDetector.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -274,7 +275,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorIndentSliderAssistant.cpp \
     src/libraries/wyedit/EditorToolBarAssistant.cpp \
     src/libraries/TraceLogger.cpp \
-    src/libraries/wyedit/formatters/ReferenceFormatter.cpp
+    src/libraries/wyedit/formatters/ReferenceFormatter.cpp \
+    src/libraries/wyedit/EditorCursorPositionDetector.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

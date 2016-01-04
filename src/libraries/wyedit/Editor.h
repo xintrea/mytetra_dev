@@ -47,6 +47,7 @@ class EditorIndentSliderAssistant;
 class EditorToolBarAssistant;
 class Formatter;
 class MetaEditor;
+class EditorCursorPositionDetector;
 
 class Editor : public QWidget
 {
@@ -80,6 +81,8 @@ public:
 
  // Контекстное меню редактора
  EditorContextMenu *editorContextMenu=NULL;
+
+ EditorCursorPositionDetector *cursorPositionDetector=NULL;
 
  const char *getVersion(void);
 
@@ -232,14 +235,10 @@ private:
  void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
  void setupIndentSliderAssistant(void);
  void setupEditorTextArea(void);
+ void setupCursorPositionDetector(void);
  void setupFormatters(void);
  void assembly(void);
 
- bool isBlockSelect(void);
- bool isCursorOnEmptyLine(void);
- bool isCursorOnSpaceLine(void);
- bool isImageSelect(void);
- bool isCursorOnImage(void);
 
  // Переопределяется слот обработки клавиш
  // нужен для определения момента undo/redo

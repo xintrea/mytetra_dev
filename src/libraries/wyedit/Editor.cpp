@@ -27,7 +27,7 @@
 #include "EditorToolBarAssistant.h"
 #include "formatters/Formatter.h"
 #include "EditorMultiLineInputDialog.h"
-
+#include "EditorCursorPositionDetector.h"
 
 #include "../../main.h"
 #include "../TraceLogger.h"
@@ -134,6 +134,7 @@ void Editor::init(int mode)
   editorContextMenu=new EditorContextMenu(this);
 
   setupEditorTextArea();
+  setupCursorPositionDetector();
   setupIndentSliderAssistant(); // Инициализируется обязательно только после TextArea
   setupEditorToolBarAssistant(mode, textArea, initDataDisableToolList);
   setupFormatters();
@@ -188,6 +189,13 @@ void Editor::setupEditorTextArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+}
+
+
+void Editor::setupCursorPositionDetector(void)
+{
+  cursorPositionDetector=new EditorCursorPositionDetector();
+  cursorPositionDetector->setTextArea(textArea);
 }
 
 
@@ -839,73 +847,6 @@ bool Editor::getTextareaModified(void)
 /////////////////////////////////////////////////
 
 
-// Выбран ли блок текста (т.е. находятся ли начало и конец выделения
-// точно на границах блока)
-bool Editor::isBlockSelect(void)
-{
-  // Выясняются позиции начала и конца выделения
-  int start=textArea->textCursor().selectionStart();
-  int stop =textArea->textCursor().selectionEnd();
-
-  // Высталяются флаги, находится ли начало и конец выделения на границах блока.
-  // Это определяется с помощью дополнительного курсора
-  int flagStartBlockEdge=0;
-  int flagStopBlockEdge=0;
-  QTextCursor cursor=textArea->textCursor();
-  cursor.setPosition(start);
-  if(cursor.atBlockStart()==true || cursor.atBlockEnd()==true)
-    flagStartBlockEdge=1;
-  cursor.setPosition(stop);
-  if(cursor.atBlockStart()==true || cursor.atBlockEnd()==true)
-    flagStopBlockEdge=1;
-
-  if(flagStartBlockEdge==1 && flagStopBlockEdge==1) return true;
-  else return false;
-}
-
-
-// Стоит ли курсор на пустой строке (т.е. в строке есть только символ
-// перевода на новую строку)
-bool Editor::isCursorOnEmptyLine(void)
-{
-  if(!textArea->textCursor().atBlockStart()) return false;
-
-  // Создаётся дополнительный курсор
-  QTextCursor cursor=textArea->textCursor();
-
-  // Выделяется анализируемая строка
-  cursor.select(QTextCursor::LineUnderCursor);
-
-  // Текст анализируемой строки
-  QString selectedText=cursor.selectedText();
-
-  if(selectedText.size()>0)return false;
-  else return true;
-}
-
-
-bool Editor::isCursorOnSpaceLine(void)
-{
-  // Если есть выделение, функция работать не должна
-  if(textArea->textCursor().hasSelection())
-    return false;
-
-  // Создаётся дополнительный курсор
-  QTextCursor cursor=textArea->textCursor();
-
-  // Выделяется анализируемая строка
-  cursor.select(QTextCursor::LineUnderCursor);
-
-  // Текст анализируемой строки
-  QString selectedText=cursor.selectedText();
-
-  if(selectedText.simplified().size()>0)
-    return false;
-  else
-    return true;
-}
-
-
 // Слот вызывается при каждом движении курсора в момент выделения текста
 void Editor::onSelectionChanged(void)
 {
@@ -1083,14 +1024,14 @@ void Editor::onCut(void)
 void Editor::onCopy(void)
 {
   // Если выбрана только картинка или курсор стоит на позиции картинки
-  if(isImageSelect() || isCursorOnImage())
+  if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
   {
     QTextImageFormat imageFormat;
 
-    if(isImageSelect())
+    if(cursorPositionDetector->isImageSelect())
       imageFormat = imageFormatter->imageFormatOnSelect();
 
-    if(isCursorOnImage())
+    if(cursorPositionDetector->isCursorOnImage())
       imageFormat = imageFormatter->imageFormatOnCursor();
 
     // Из формата выясняется имя картинки
@@ -1182,8 +1123,8 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
 
   // Если выбрана картинка
   // Или нет выделения, но курсор находится на позиции картинки
-  if(isImageSelect() ||
-     isCursorOnImage())
+  if(cursorPositionDetector->isImageSelect() ||
+     cursorPositionDetector->isCursorOnImage())
     editorContextMenu->set_edit_image_properties( true );
   else
     editorContextMenu->set_edit_image_properties( false );
@@ -1214,66 +1155,6 @@ void Editor::onShowformattingClicked(void)
     textArea->set_showformatting(false);
     editorToolBarAssistant->setShowFormattingButtonHiglight(false);
   }
-}
-
-
-// Метод, определяющий, выбрана ли только одна картинка
-bool Editor::isImageSelect(void)
-{
-  // Происходит анализ, выделена ли картинка
-  bool is_image_select_flag=false;
-
-  // Блок, в пределах которого находится курсор
-  QTextBlock currentBlock = textArea->textCursor().block();
-  QTextBlock::iterator it;
-  QTextFragment fragment;
-
-  // Если есть выделение
-  if(textArea->textCursor().hasSelection())
-  {
-    // Перебиратся фрагметы блока
-    for(it = currentBlock.begin(); !(it.atEnd()); ++it)
-    {
-      fragment = it.fragment();
-
-      // Если фрагмент содержит изображение
-      if(fragment.isValid())
-        if(fragment.charFormat().isImageFormat ())
-        {
-          int fragmentStart=fragment.position();
-          int fragmentEnd=fragmentStart+fragment.length();
-          int selectionStart=textArea->textCursor().selectionStart();
-          int selectionEnd=textArea->textCursor().selectionEnd();
-
-          // Если начало и конец фрагмента совпадает с координатами выделения
-          // Проверяется и случай, когда блок выделен в обратную сторону
-          if( (fragmentStart==selectionStart && fragmentEnd==selectionEnd) ||
-              (fragmentStart==selectionEnd && fragmentEnd==selectionStart) )
-          {
-            is_image_select_flag=true;
-            break;
-          }
-        }
-    }
-  }
-
-  return is_image_select_flag;
-}
-
-
-// Проверка, находится ли курсор на позиции, где находится картинка
-bool Editor::isCursorOnImage(void)
-{
-  // Проверка срабатывает только если нет выделения
-  if(textArea->textCursor().hasSelection()==false)
-  {
-    QTextImageFormat imageFormat = textArea->textCursor().charFormat().toImageFormat();
-
-    if(imageFormat.isValid())
-      return true;
-  }
-
-  return false;
 }
 
 

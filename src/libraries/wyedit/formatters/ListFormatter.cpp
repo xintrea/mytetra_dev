@@ -6,6 +6,7 @@
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
+#include "../EditorCursorPositionDetector.h"
 
 
 ListFormatter::ListFormatter()
@@ -33,7 +34,7 @@ void ListFormatter::formatToList(QTextListFormat::Style setFormat)
   if(!textArea->textCursor().hasSelection()) return;
 
   // Форматирование в список возможно только если выделен блок
-  if(!editor->isBlockSelect()) return;
+  if(!editor->cursorPositionDetector->isBlockSelect()) return;
 
   // Если строки выбраны
   if(textArea->textCursor().hasSelection())

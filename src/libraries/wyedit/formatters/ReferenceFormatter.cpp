@@ -1,3 +1,4 @@
+#include <QInputDialog>
 #include <QDebug>
 
 #include "ReferenceFormatter.h"
@@ -21,4 +22,22 @@ void ReferenceFormatter::onReferenceClicked(void)
 {
   TRACELOG
 
+
+  // Если нет выделения
+
+
+  // Если есть выделение
+
+
+  bool ok;
+  QString text = QInputDialog::getText(editor,
+                                       tr("Reference or URL"),
+                                       tr("Reference or URL:"),
+                                       QLineEdit::Normal,
+                                       "",
+                                       &ok);
+  if(! (ok && !text.isEmpty()))
+    return;
 }
+
+

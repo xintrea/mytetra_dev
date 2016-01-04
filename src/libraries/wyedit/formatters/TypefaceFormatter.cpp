@@ -10,6 +10,7 @@
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
 #include "../EditorToolBarAssistant.h"
+#include "../EditorCursorPositionDetector.h"
 #include "../../TraceLogger.h"
 
 
@@ -163,7 +164,7 @@ void TypefaceFormatter::onCodeClicked(void)
 
   // Проверяется, выбран ли четко блок (блоки) текста
   // Блок - это текст между <p>...</p>
-  if(!editor->isBlockSelect())
+  if(!editor->cursorPositionDetector->isBlockSelect())
   {
     // Если выбран не четко блок (блоки)
 
@@ -244,8 +245,8 @@ void TypefaceFormatter::onClearClicked(void)
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
 
-  bool flag_cursor_on_empty_line=editor->isCursorOnEmptyLine();
-  bool flag_cursor_on_space_line=editor->isCursorOnSpaceLine();
+  bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
+  bool flag_cursor_on_space_line=editor->cursorPositionDetector->isCursorOnSpaceLine();
 
   // Очистка возможна только если что-то выделено
   // Или курсор стоит на пустой строке с одним символом перевода строки
@@ -286,7 +287,7 @@ void TypefaceFormatter::onClearClicked(void)
   // Если выделен блок
   // или курсор на пустой линии
   // или курсор на линии на которой нет символов
-  if(editor->isBlockSelect() ||
+  if(editor->cursorPositionDetector->isBlockSelect() ||
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
   {

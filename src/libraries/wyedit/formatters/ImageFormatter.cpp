@@ -11,6 +11,7 @@
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
 #include "../EditorImageProperties.h"
+#include "../EditorCursorPositionDetector.h"
 
 
 ImageFormatter::ImageFormatter()
@@ -83,11 +84,11 @@ void ImageFormatter::editImageProperties(void)
   QTextImageFormat imageFormat;
 
   // Если выбрано изображение
-  if(editor->isImageSelect())
+  if(editor->cursorPositionDetector->isImageSelect())
     imageFormat=imageFormatOnSelect();
 
   // Если изображение не выбрано, но курсор находится в позиции изображения
-  if(editor->isCursorOnImage())
+  if(editor->cursorPositionDetector->isCursorOnImage())
     imageFormat=imageFormatOnCursor();
 
 
@@ -145,7 +146,7 @@ void ImageFormatter::editImageProperties(void)
   {
 
     // Если выбрано изображение
-    if(editor->isImageSelect())
+    if(editor->cursorPositionDetector->isImageSelect())
     {
       QTextFragment fragment;
 
@@ -176,7 +177,7 @@ void ImageFormatter::editImageProperties(void)
 
 
     // Если изображение не выбрано, но курсор находится в позиции изображения
-    if(editor->isCursorOnImage())
+    if(editor->cursorPositionDetector->isCursorOnImage())
     {
       int cursorPosition=textArea->textCursor().position();
 
@@ -201,8 +202,8 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
 {
 
   // Если выделена картинка
-  if(editor->isImageSelect() ||
-     editor->isCursorOnImage())
+  if(editor->cursorPositionDetector->isImageSelect() ||
+     editor->cursorPositionDetector->isCursorOnImage())
   {
     qDebug() << "Image selected";
 
@@ -260,8 +261,8 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
 void ImageFormatter::onContextMenuEditImageProperties()
 {
   // Если выделена картинка
-  if(editor->isImageSelect() ||
-     editor->isCursorOnImage())
+  if(editor->cursorPositionDetector->isImageSelect() ||
+     editor->cursorPositionDetector->isCursorOnImage())
   {
     qDebug() << "Image selected";
 
