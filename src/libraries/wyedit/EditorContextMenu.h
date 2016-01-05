@@ -11,7 +11,9 @@ class EditorContextMenu : public QMenu
   EditorContextMenu(QWidget *parent=0);
   ~EditorContextMenu(void);
 
- void set_edit_image_properties(bool isImageSelect);
+ void setImageProperties(bool isImageSelect); // Активирование добавочного пункта меню "Свойства картинки")
+ void setGotoReference(bool isReference); // Активирование добавочного пункта меню "Перейти по ссылке")
+
 
  signals:
   void undo(void);
@@ -21,6 +23,7 @@ class EditorContextMenu : public QMenu
   void paste(void);
   void selectAll(void);
   void contextMenuEditImageProperties(void);
+  void contextMenuGotoReference(void);
 
  private:
   QAction *actionUndo;
@@ -30,6 +33,7 @@ class EditorContextMenu : public QMenu
   QAction *actionPaste;
   QAction *actionSelectAll;
   QAction *actionEditImageProperties;
+  QAction *actionGotoReference;
 
   void setup_actions(void);
   void setup_signals(void);

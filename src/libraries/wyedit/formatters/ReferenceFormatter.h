@@ -18,6 +18,8 @@ signals:
 public slots:
 
   void onReferenceClicked(void);
+  void onContextMenuGotoReference(void);
+
 };
 
 

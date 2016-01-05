@@ -33,15 +33,24 @@ void EditorContextMenu::setup_actions(void)
  actionSelectAll=new QAction(tr("Select All"),this);
 
  actionEditImageProperties=new QAction(tr("Edit image properties"),this);
+
+ actionGotoReference=new QAction(tr("Go to URL or reference"),this);
 }
 
 
 // Показывать или нет пункт редактирования свойств изображения
-void EditorContextMenu::set_edit_image_properties(bool isImageSelect)
+void EditorContextMenu::setImageProperties(bool isImageSelect)
 {
  qDebug() << "In EditorContextMenu::set_edit_image_properties() " << isImageSelect;
 
  actionEditImageProperties->setVisible(isImageSelect);
+}
+
+
+// Показывать или нет пункт перехода по ссылке
+void EditorContextMenu::setGotoReference(bool isReference)
+{
+  actionGotoReference->setVisible(isReference);
 }
 
 
@@ -57,6 +66,7 @@ void EditorContextMenu::setup_signals(void)
  connect(actionSelectAll,SIGNAL(triggered()),this,SIGNAL(selectAll()));
 
  connect(actionEditImageProperties,SIGNAL(triggered()),this,SIGNAL(contextMenuEditImageProperties()));
+ connect(actionGotoReference,      SIGNAL(triggered()),this,SIGNAL(contextMenuGotoReference()));
 }
 
 
@@ -75,5 +85,6 @@ void EditorContextMenu::setup_menu(void)
 
  this->addAction(actionSelectAll);
  this->addAction(actionEditImageProperties);
+ this->addAction(actionGotoReference);
 }
 

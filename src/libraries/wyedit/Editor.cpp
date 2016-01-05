@@ -458,6 +458,9 @@ void Editor::setupSignals(void)
   connect(editorContextMenu, SIGNAL(contextMenuEditImageProperties()),
           imageFormatter,    SLOT  (onContextMenuEditImageProperties()),
           Qt::DirectConnection);
+  connect(editorContextMenu, SIGNAL(contextMenuGotoReference()),
+          referenceFormatter,    SLOT(onContextMenuGotoReference()),
+          Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
   connect(findDialog, SIGNAL(find_text(const QString &, QTextDocument::FindFlags)),
@@ -1126,9 +1129,16 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
   // Или нет выделения, но курсор находится на позиции картинки
   if(cursorPositionDetector->isImageSelect() ||
      cursorPositionDetector->isCursorOnImage())
-    editorContextMenu->set_edit_image_properties( true );
+    editorContextMenu->setImageProperties( true );
   else
-    editorContextMenu->set_edit_image_properties( false );
+    editorContextMenu->setImageProperties( false );
+
+  // Если курсор находится на ссылке (URL)
+  if(cursorPositionDetector->isCursorOnReference())
+    editorContextMenu->setGotoReference( true );
+  else
+    editorContextMenu->setGotoReference( false );
+
 
   // Контекстное меню запускается
   editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));

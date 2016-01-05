@@ -219,7 +219,7 @@ bool EditorCursorPositionDetector::isCursorOnReferenceSmart(QString &resultHref)
     cursor.movePosition(QTextCursor::Right);
     QString hrefRight=cursor.charFormat().anchorHref(); // Значение ссылки у символа справа от основного курсора
 
-    // Если ни слева ни страва нет ссылок
+    // Если ни слева ни справа нет ссылок
     if(hrefLeft.length()==0 && hrefRight.length()==0)
       return false;
     else if(hrefLeft.length()>0 && hrefRight.length()==0) // Если ссылка слева

@@ -269,3 +269,4 @@ void ImageFormatter::onContextMenuEditImageProperties()
     editImageProperties();
   }
 }
+

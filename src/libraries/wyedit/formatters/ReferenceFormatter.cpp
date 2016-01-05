@@ -1,5 +1,6 @@
 #include <QInputDialog>
 #include <QDebug>
+#include <QDesktopServices>
 
 #include "ReferenceFormatter.h"
 
@@ -58,6 +59,18 @@ void ReferenceFormatter::onReferenceClicked(void)
     charFormat.setAnchor(false);
 
     textArea->textCursor().setCharFormat(charFormat);
+  }
+}
+
+
+// Действия при выборе контекстного меню редактора "Перейти по ссылке"
+void ReferenceFormatter::onContextMenuGotoReference()
+{
+  QString href=editor->cursorPositionDetector->referenceHref(); // Текст ссылки
+
+  if(href.length()>0)
+  {
+    QDesktopServices::openUrl(QUrl(href));
   }
 }
 
