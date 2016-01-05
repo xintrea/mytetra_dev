@@ -24,6 +24,11 @@ EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)
  flagShowIndentEdge=false;
  posIndentEdge=0;
 
+ // Включается генерация событий мышки при ее перемещении, а не только при кликах
+ // Эти события нужны, чтобы менять форму курсора при наведении на ссылку при нажатой клавише Ctrl
+ mouseCursorOverriden=false;
+ setMouseTracking(true);
+
  // Устанавливается фильтр на событие показа или скрытия области прокрутки
  this->verticalScrollBar()->installEventFilter(this);
 
@@ -100,6 +105,76 @@ bool EditorTextArea::eventFilter(QObject *o, QEvent *e)
     emit updateIndentlineGeometry();
 
  return false; // Продолжать оработку событий дальше
+}
+
+
+// Cлот отлавливает нажатия клавиш
+void EditorTextArea::keyPressEvent(QKeyEvent *event)
+{
+  // Если нажата клавиша Ctrl
+  if( event->key() == Qt::Key_Control )
+  {
+    // Область редактирования переключается в режим "только для чтения".
+    // Он нужен для того, чтобы при клике по ссылке срабатывал переход по ссылке. Это проиходит при нажатой Ctrl.
+    setReadOnly(true);
+  }
+
+  QTextEdit::keyPressEvent(event);
+}
+
+
+// Cлот отлавливает отжатия клавиш
+void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
+{
+  // Если отжата клавиша Ctrl
+  if( event->key() == Qt::Key_Control )
+  {
+    // Область редактирования переключается в обычный режим клик по ссылке не будет вызывать переход по ссылке
+    // todo: когда появятся записи, запрещенные для редактирования, доделать данный механизм,
+    // чтобы при нажатии/отжатии Ctrl текст записи не начал редактироваться
+    setReadOnly(false);
+  }
+
+  QTextEdit::keyPressEvent(event);
+}
+
+
+void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
+{
+  if(isReadOnly())
+  {
+    if(anchorAt(event->pos()).isEmpty())
+    {
+      if(mouseCursorOverriden)
+      {
+        qApp->restoreOverrideCursor();
+        mouseCursorOverriden = false;
+      }
+    }
+    else
+    {
+      if(!mouseCursorOverriden)
+      {
+        qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
+        mouseCursorOverriden = true;
+      }
+    }
+  }
+
+  QTextEdit::mouseMoveEvent(event);
+}
+
+
+void EditorTextArea::mousePressEvent(QMouseEvent *event)
+{
+  if(isReadOnly())
+  {
+    QString href = anchorAt(event->pos());
+    if(!href.isEmpty())
+      emit clickedOnReference(href);
+  }
+
+  QTextEdit::mousePressEvent(event);
 }
 
 
@@ -405,4 +480,5 @@ void EditorTextArea::onChangeFontPointSize(int n)
 
   setFontPointSize(n);
 }
+
 

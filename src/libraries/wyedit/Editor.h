@@ -240,10 +240,11 @@ private:
  void assembly(void);
 
 
- // Переопределяется слот обработки клавиш
- // нужен для определения момента undo/redo
- virtual void keyPressEvent(QKeyEvent * event);
- virtual void keyReleaseEvent(QKeyEvent * event);
+ // Переопределение событий обработки клавиш
+ // нужны для определения момента undo/redo
+ virtual void keyPressEvent(QKeyEvent *event);
+ virtual void keyReleaseEvent(QKeyEvent *event);
+
 
  EditorFindDialog *findDialog; // Виджет поиска
 

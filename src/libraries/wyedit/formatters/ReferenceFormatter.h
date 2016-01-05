@@ -19,6 +19,7 @@ public slots:
 
   void onReferenceClicked(void);
   void onContextMenuGotoReference(void);
+  void onClickedGotoReference(QString href);
 
 };
 

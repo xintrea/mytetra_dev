@@ -431,6 +431,11 @@ void Editor::setupSignals(void)
           this,     SLOT  (onCustomContextMenuRequested(const QPoint &)),
           Qt::DirectConnection);
 
+  // Клик по ссылке при зажатой клавише Ctrl
+  connect(textArea,           SIGNAL(clickedOnReference(QString href)),
+          referenceFormatter, SLOT  (onClickedGotoReference(QString href)),
+          Qt::DirectConnection);
+
 
   // connect(textArea->document(), SIGNAL(modificationChanged (bool )),
   //         this, SLOT  (onModificationChanged(bool)));
@@ -995,7 +1000,7 @@ void Editor::keyPressEvent(QKeyEvent *event)
 
 
 // Cлот отлавливает отжатия клавиш
-void Editor::keyReleaseEvent(QKeyEvent * event)
+void Editor::keyReleaseEvent(QKeyEvent *event)
 {
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
     editorToolBarAssistant->updateToActualFormat();

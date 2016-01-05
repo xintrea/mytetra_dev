@@ -75,3 +75,11 @@ void ReferenceFormatter::onContextMenuGotoReference()
 }
 
 
+void ReferenceFormatter::onClickedGotoReference(QString href)
+{
+  if(href.length()>0)
+  {
+    QDesktopServices::openUrl(QUrl(href));
+  }
+}
+

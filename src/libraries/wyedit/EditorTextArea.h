@@ -31,6 +31,7 @@ class EditorTextArea : public QTextEdit
  signals:
   void tapAndHoldGestureFinished(const QPoint &);
   void updateIndentlineGeometry(void);
+  void clickedOnReference(QString href);
 
 
  public slots:
@@ -52,6 +53,18 @@ class EditorTextArea : public QTextEdit
   void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
   virtual bool eventFilter(QObject *o, QEvent *e);
+
+  // Переопределение событий обработки клавиш
+  // Нужны для отслеживания нажатия клавиши Ctrl чтобы при ней запускался переход по ссылке при клике на ссылку
+  virtual void keyPressEvent(QKeyEvent *event);
+  virtual void keyReleaseEvent(QKeyEvent *event);
+
+  // Переопределение событий обработки мышки
+  // Нужны для обработки кликов по ссылкам в тексте записи
+  void mouseMoveEvent(QMouseEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+
+  bool mouseCursorOverriden;
 };
 
 #endif // _EDITORTEXTAREA_H_
