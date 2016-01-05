@@ -30,14 +30,35 @@ void ReferenceFormatter::onReferenceClicked(void)
     href=editor->cursorPositionDetector->referenceHref(); // Текст ссылки
 
   bool ok;
-  QString text = QInputDialog::getText(editor,
-                                       tr("Reference or URL"),
-                                       tr("Reference or URL:"),
-                                       QLineEdit::Normal,
-                                       href,
-                                       &ok);
-  if(! (ok && !text.isEmpty()))
+  QString refereceUrl=QInputDialog::getText(editor,
+                                            tr("Reference or URL"),
+                                            tr("Reference or URL:"),
+                                            QLineEdit::Normal,
+                                            href,
+                                            &ok);
+  if(!ok)
     return;
+
+  // Устанавливается текст ссылки
+  QTextCharFormat charFormat;
+  charFormat.setAnchorHref(refereceUrl);
+
+  // Если текст ссылки задан
+  if(refereceUrl.length()>0)
+  {
+    charFormat.setAnchor(true);
+    charFormat.setForeground(QApplication::palette().color(QPalette::Link));
+    charFormat.setFontUnderline(true);
+
+    textArea->textCursor().mergeCharFormat(charFormat);
+  }
+  else
+  {
+    // Иначе текст ссылки пустой и ссылку надо убрать
+    charFormat.setAnchor(false);
+
+    textArea->textCursor().setCharFormat(charFormat);
+  }
 }
 
 
