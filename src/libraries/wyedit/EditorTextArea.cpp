@@ -117,6 +117,15 @@ void EditorTextArea::keyPressEvent(QKeyEvent *event)
     // Область редактирования переключается в режим "только для чтения".
     // Он нужен для того, чтобы при клике по ссылке срабатывал переход по ссылке. Это проиходит при нажатой Ctrl.
     setReadOnly(true);
+
+    // Сразу нужно проверить, не наведен ли курсор на ссылку, и если наведен, то поменять его вид
+    if( !(anchorAt(currentMousePosition).isEmpty()) )
+    {
+      qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
+      mouseCursorOverriden = true;
+    }
+
+    qDebug() << "Set textArea read only: true";
   }
 
   QTextEdit::keyPressEvent(event);
@@ -133,6 +142,12 @@ void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
     // todo: когда появятся записи, запрещенные для редактирования, доделать данный механизм,
     // чтобы при нажатии/отжатии Ctrl текст записи не начал редактироваться
     setReadOnly(false);
+
+    // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
+    // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
+    qApp->restoreOverrideCursor();
+
+    qDebug() << "Set textArea read only: false";
   }
 
   QTextEdit::keyPressEvent(event);
@@ -141,9 +156,11 @@ void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
 
 void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 {
+  currentMousePosition=event->pos();
+
   if(isReadOnly())
   {
-    if(anchorAt(event->pos()).isEmpty())
+    if(anchorAt(currentMousePosition).isEmpty())
     {
       if(mouseCursorOverriden)
       {

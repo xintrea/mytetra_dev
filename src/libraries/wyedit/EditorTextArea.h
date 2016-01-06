@@ -65,6 +65,8 @@ class EditorTextArea : public QTextEdit
   void mousePressEvent(QMouseEvent *event);
 
   bool mouseCursorOverriden;
+
+  QPoint currentMousePosition;
 };
 
 #endif // _EDITORTEXTAREA_H_

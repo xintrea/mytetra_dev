@@ -432,8 +432,8 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
   // Клик по ссылке при зажатой клавише Ctrl
-  connect(textArea,           SIGNAL(clickedOnReference(QString href)),
-          referenceFormatter, SLOT  (onClickedGotoReference(QString href)),
+  connect(textArea,           SIGNAL(clickedOnReference(QString)),
+          referenceFormatter, SLOT  (onClickedGotoReference(QString)),
           Qt::DirectConnection);
 
 
