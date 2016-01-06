@@ -24,6 +24,8 @@ EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)
  flagShowIndentEdge=false;
  posIndentEdge=0;
 
+ enableReferenceClick=false;
+
  // Включается генерация событий мышки при ее перемещении, а не только при кликах
  // Эти события нужны, чтобы менять форму курсора при наведении на ссылку при нажатой клавише Ctrl
  mouseCursorOverriden=false;
@@ -116,7 +118,8 @@ void EditorTextArea::keyPressEvent(QKeyEvent *event)
   {
     // Область редактирования переключается в режим "только для чтения".
     // Он нужен для того, чтобы при клике по ссылке срабатывал переход по ссылке. Это проиходит при нажатой Ctrl.
-    setReadOnly(true);
+    // setReadOnly(true);
+    enableReferenceClick=true;
 
     // Сразу нужно проверить, не наведен ли курсор на ссылку, и если наведен, то поменять его вид
     if( !(anchorAt(currentMousePosition).isEmpty()) )
@@ -138,10 +141,11 @@ void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
   // Если отжата клавиша Ctrl
   if( event->key() == Qt::Key_Control )
   {
-    // Область редактирования переключается в обычный режим клик по ссылке не будет вызывать переход по ссылке
+    // Область редактирования переключается в обычный режим. Клик по ссылке не будет вызывать переход по ссылке
     // todo: когда появятся записи, запрещенные для редактирования, доделать данный механизм,
     // чтобы при нажатии/отжатии Ctrl текст записи не начал редактироваться
-    setReadOnly(false);
+    // setReadOnly(false);
+    enableReferenceClick=false;
 
     // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
     // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
@@ -158,7 +162,7 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 {
   currentMousePosition=event->pos();
 
-  if(isReadOnly())
+  if(enableReferenceClick)
   {
     if(anchorAt(currentMousePosition).isEmpty())
     {
@@ -184,7 +188,7 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 
 void EditorTextArea::mousePressEvent(QMouseEvent *event)
 {
-  if(isReadOnly())
+  if(enableReferenceClick)
   {
     QString href = anchorAt(event->pos());
     if(!href.isEmpty())
