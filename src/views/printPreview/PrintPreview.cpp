@@ -11,7 +11,6 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPageSetupDialog>
-#include <QStatusBar>
 #include <QToolButton>
 
 #include "PreviewView.h"

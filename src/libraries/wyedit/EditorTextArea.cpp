@@ -24,8 +24,6 @@ EditorTextArea::EditorTextArea(QWidget *parent) : QTextEdit(parent)
  flagShowIndentEdge=false;
  posIndentEdge=0;
 
- enableReferenceClick=false;
-
  // Включается генерация событий мышки при ее перемещении, а не только при кликах
  // Эти события нужны, чтобы менять форму курсора при наведении на ссылку при нажатой клавише Ctrl
  mouseCursorOverriden=false;
@@ -154,27 +152,24 @@ void EditorTextArea::switchReferenceClickMode(bool flag)
 {
   if(flag)
   {
-    // Переключение в режим клика по ссылке
-    // Он нужен для того, чтобы при клике по ссылке срабатывал переход по ссылке. Это проиходит при нажатой Ctrl.
-    enableReferenceClick=true;
-
     // Сразу нужно проверить, не наведен ли курсор на ссылку, и если наведен, то поменять его вид
-    if( !(anchorAt(currentMousePosition).isEmpty()) )
+    QString href=anchorAt(currentMousePosition);
+    if( !(href.isEmpty()) )
     {
       qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
       mouseCursorOverriden = true;
     }
+
+    qDebug() << "Cursor href: " << href;
+    globalParameters.getStatusBar()->showMessage(href);
   }
   else
   {
-    // Область редактирования переключается в обычный режим. Клик по ссылке не будет вызывать переход по ссылке
-    // todo: когда появятся записи, запрещенные для редактирования, доделать данный механизм,
-    // чтобы при нажатии/отжатии Ctrl текст записи не начал редактироваться
-    enableReferenceClick=false;
-
     // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
     // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
     qApp->restoreOverrideCursor();
+
+    globalParameters.getStatusBar()->showMessage("");
   }
 
   qDebug() << "switchReferenceClickMode: " << flag;
@@ -185,7 +180,7 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 {
   currentMousePosition=event->pos();
 
-  // if(enableReferenceClick)
+  // Если движение мышкой происходит при нажатой клавише Ctrl
   if( QApplication::keyboardModifiers() & Qt::ControlModifier )
   {
     if(anchorAt(currentMousePosition).isEmpty())
@@ -206,7 +201,7 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
     }
   }
   else
-    qApp->restoreOverrideCursor();
+    qApp->restoreOverrideCursor(); // Иначе клавиша Ctrl не нажата и курсор не может быть курсором ссылки
 
   QTextEdit::mouseMoveEvent(event);
 }
@@ -214,7 +209,6 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 
 void EditorTextArea::mousePressEvent(QMouseEvent *event)
 {
-  // if(enableReferenceClick)
   if( QApplication::keyboardModifiers() & Qt::ControlModifier )
   {
     QString href = anchorAt(event->pos());

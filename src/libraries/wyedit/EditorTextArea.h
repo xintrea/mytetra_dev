@@ -73,8 +73,6 @@ private:
   bool mouseCursorOverriden;
 
   QPoint currentMousePosition;
-
-  bool enableReferenceClick; // Режим, можно ли кликать на ссылку для перехода по ней (включается/отключается клавишей Ctrl)
 };
 
 #endif // _EDITORTEXTAREA_H_
