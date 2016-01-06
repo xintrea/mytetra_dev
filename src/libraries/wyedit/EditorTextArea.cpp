@@ -110,15 +110,52 @@ bool EditorTextArea::eventFilter(QObject *o, QEvent *e)
 }
 
 
-// Cлот отлавливает нажатия клавиш
+// Cлот отлавливает нажатия клавиш внутри виджета когда он активен (в фокусе)
 void EditorTextArea::keyPressEvent(QKeyEvent *event)
 {
   // Если нажата клавиша Ctrl
   if( event->key() == Qt::Key_Control )
+    switchReferenceClickMode(true);
+
+  QTextEdit::keyPressEvent(event);
+}
+
+
+// Cлот отлавливает отжатия клавиш внутри виджета когда он активен (в фокусе)
+void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
+{
+  // Если отжата клавиша Ctrl
+  if( event->key() == Qt::Key_Control )
+    switchReferenceClickMode(false);
+
+  QTextEdit::keyPressEvent(event);
+}
+
+
+// Слот принимает глобальные нажатия клавиш. Это позволяет отслеживать нажатия даже если виджет неактивени (не в фокусе)
+void EditorTextArea::onGlobalPressKey(int key)
+{
+  // Если нажата клавиша Ctrl
+  if( key == Qt::Key_Control )
+    switchReferenceClickMode(true);
+}
+
+
+// Слот принимает глобальные отжатия клавиш. Это позволяет отслеживать отжатия даже если виджет неактивени (не в фокусе)
+void EditorTextArea::onGlobalReleaseKey(int key)
+{
+  // Если отжата клавиша Ctrl
+  if( key == Qt::Key_Control )
+    switchReferenceClickMode(false);
+}
+
+
+void EditorTextArea::switchReferenceClickMode(bool flag)
+{
+  if(flag)
   {
-    // Область редактирования переключается в режим "только для чтения".
+    // Переключение в режим клика по ссылке
     // Он нужен для того, чтобы при клике по ссылке срабатывал переход по ссылке. Это проиходит при нажатой Ctrl.
-    // setReadOnly(true);
     enableReferenceClick=true;
 
     // Сразу нужно проверить, не наведен ли курсор на ссылку, и если наведен, то поменять его вид
@@ -127,34 +164,20 @@ void EditorTextArea::keyPressEvent(QKeyEvent *event)
       qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
       mouseCursorOverriden = true;
     }
-
-    qDebug() << "Set textArea read only: true";
   }
-
-  QTextEdit::keyPressEvent(event);
-}
-
-
-// Cлот отлавливает отжатия клавиш
-void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
-{
-  // Если отжата клавиша Ctrl
-  if( event->key() == Qt::Key_Control )
+  else
   {
     // Область редактирования переключается в обычный режим. Клик по ссылке не будет вызывать переход по ссылке
     // todo: когда появятся записи, запрещенные для редактирования, доделать данный механизм,
     // чтобы при нажатии/отжатии Ctrl текст записи не начал редактироваться
-    // setReadOnly(false);
     enableReferenceClick=false;
 
     // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
     // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
     qApp->restoreOverrideCursor();
-
-    qDebug() << "Set textArea read only: false";
   }
 
-  QTextEdit::keyPressEvent(event);
+  qDebug() << "switchReferenceClickMode: " << flag;
 }
 
 
@@ -162,7 +185,8 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 {
   currentMousePosition=event->pos();
 
-  if(enableReferenceClick)
+  // if(enableReferenceClick)
+  if( QApplication::keyboardModifiers() & Qt::ControlModifier )
   {
     if(anchorAt(currentMousePosition).isEmpty())
     {
@@ -181,6 +205,8 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
       }
     }
   }
+  else
+    qApp->restoreOverrideCursor();
 
   QTextEdit::mouseMoveEvent(event);
 }
@@ -188,12 +214,15 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 
 void EditorTextArea::mousePressEvent(QMouseEvent *event)
 {
-  if(enableReferenceClick)
+  // if(enableReferenceClick)
+  if( QApplication::keyboardModifiers() & Qt::ControlModifier )
   {
     QString href = anchorAt(event->pos());
     if(!href.isEmpty())
       emit clickedOnReference(href);
   }
+  else
+    qApp->restoreOverrideCursor();
 
   QTextEdit::mousePressEvent(event);
 }

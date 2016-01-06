@@ -88,6 +88,11 @@ public:
 
  void saveAllState(void);
 
+signals:
+
+ void globalPressKey(int key);
+ void globalReleaseKey(int key);
+
 public slots:
  void applicationExit(void);
  void applicationFastExit(void);
@@ -154,6 +159,9 @@ protected:
  void closeEvent(QCloseEvent *event);
 
  bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
+
+ void keyPressEvent(QKeyEvent *event);
+ void keyReleaseEvent(QKeyEvent *event);
 
  void goWalkHistory(void);
 

@@ -30,6 +30,7 @@
 #include "EditorCursorPositionDetector.h"
 
 #include "../../main.h"
+#include "../../views/mainWindow/MainWindow.h"
 #include "../TraceLogger.h"
 #include "libraries/DiskHelper.h"
 
@@ -436,6 +437,15 @@ void Editor::setupSignals(void)
           referenceFormatter, SLOT  (onClickedGotoReference(QString)),
           Qt::DirectConnection);
 
+  // Глобальное нажатие клавиш
+  connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalPressKey(int)),
+          textArea,                              SLOT  (onGlobalPressKey(int)),
+          Qt::DirectConnection);
+
+  // Глобальное отжатие клавиш
+  connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalReleaseKey(int)),
+          textArea,                              SLOT  (onGlobalReleaseKey(int)),
+          Qt::DirectConnection);
 
   // connect(textArea->document(), SIGNAL(modificationChanged (bool )),
   //         this, SLOT  (onModificationChanged(bool)));

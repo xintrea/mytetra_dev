@@ -41,7 +41,11 @@ class EditorTextArea : public QTextEdit
   void onChangeFontFamily(QString fontFamily);
   void onChangeFontPointSize(int n);
 
- private:
+  void onGlobalPressKey(int key);
+  void onGlobalReleaseKey(int key);
+
+
+private:
 
   bool flagShowFormatting; // Рисовать ли символы форматирования
 
@@ -63,6 +67,8 @@ class EditorTextArea : public QTextEdit
   // Нужны для обработки кликов по ссылкам в тексте записи
   void mouseMoveEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
+
+  void switchReferenceClickMode(bool flag);
 
   bool mouseCursorOverriden;
 
