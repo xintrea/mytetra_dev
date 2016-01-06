@@ -158,16 +158,18 @@ void EditorTextArea::switchReferenceClickMode(bool flag)
     {
       qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
       mouseCursorOverriden = true;
-    }
 
-    qDebug() << "Cursor href: " << href;
-    globalParameters.getStatusBar()->showMessage(href);
+      globalParameters.getStatusBar()->showMessage(href);
+      qDebug() << "Cursor href in key event: " << href;
+    }
   }
   else
   {
     // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
     // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
     qApp->restoreOverrideCursor();
+
+    mouseCursorOverriden = false;
 
     globalParameters.getStatusBar()->showMessage("");
   }
@@ -183,20 +185,26 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
   // Если движение мышкой происходит при нажатой клавише Ctrl
   if( QApplication::keyboardModifiers() & Qt::ControlModifier )
   {
-    if(anchorAt(currentMousePosition).isEmpty())
-    {
-      if(mouseCursorOverriden)
-      {
-        qApp->restoreOverrideCursor();
-        mouseCursorOverriden = false;
-      }
-    }
-    else
+    QString href=anchorAt(currentMousePosition);
+
+    // Если курсор мыши находится над ссылкой
+    if(!href.isEmpty())
     {
       if(!mouseCursorOverriden)
       {
         qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
         mouseCursorOverriden = true;
+        globalParameters.getStatusBar()->showMessage(href);
+        qDebug() << "Cursor href in mouse event: " << href;
+      }
+    }
+    else
+    {
+      if(mouseCursorOverriden)
+      {
+        qApp->restoreOverrideCursor();
+        mouseCursorOverriden = false;
+        globalParameters.getStatusBar()->showMessage("");
       }
     }
   }
