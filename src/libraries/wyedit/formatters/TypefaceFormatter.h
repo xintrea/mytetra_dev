@@ -15,6 +15,8 @@ class TypefaceFormatter : public Formatter
 public:
   TypefaceFormatter();
 
+  enum EasyFormatType {Bold, Italic, Underline};
+
 signals:
 
   void updateOutlineButtonHiglight();
@@ -38,6 +40,10 @@ public slots:
   void onFontselectChanged(const QFont &font);
   void onFontsizeChanged(int n);
   void onFontcolorClicked();
+
+private:
+
+  void smartFormat(int formatType);
 };
 
 #endif // TYPEFACEFORMATTER_H

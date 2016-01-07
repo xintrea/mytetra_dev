@@ -25,32 +25,7 @@ void TypefaceFormatter::onBoldClicked(void)
 {
   TRACELOG
 
-  // Если выделение есть
-  if(textArea->textCursor().hasSelection())
-  {
-    // Обычное форматирование
-    if(textArea->fontWeight() != QFont::Bold)
-      textArea->setFontWeight(QFont::Bold); // Bold
-    else
-      textArea->setFontWeight(0); // Remove Bold
-  }
-  else
-  {
-    // Иначе надо выделить дополнительным курсором слово на
-    // котором стоит курсор
-    QTextCursor cursor=textArea->textCursor();
-    cursor.select(QTextCursor::WordUnderCursor);
-
-    // К выделению применяется форматирование Bold
-    QTextCharFormat format;
-    if(cursor.charFormat().fontWeight() != QFont::Bold)
-      format.setFontWeight(QFont::Bold);
-    else
-      format.setFontWeight(0);
-    cursor.mergeCharFormat(format);
-  }
-
-  emit updateOutlineButtonHiglight();
+  smartFormat(Bold);
 }
 
 
@@ -59,32 +34,7 @@ void TypefaceFormatter::onItalicClicked(void)
 {
   TRACELOG
 
-  // Если выделение есть
-  if(textArea->textCursor().hasSelection())
-  {
-    // Обычное форматирование
-    if(!textArea->fontItalic())
-      textArea->setFontItalic(true);
-    else
-      textArea->setFontItalic(false);
-  }
-  else
-  {
-    // Иначе надо выделить дополнительным курсором слово на
-    // котором стоит курсор
-    QTextCursor cursor=textArea->textCursor();
-    cursor.select(QTextCursor::WordUnderCursor);
-
-    // К выделению применяется форматирование Italic
-    QTextCharFormat format;
-    if(!cursor.charFormat().fontItalic())
-      format.setFontItalic(true);
-    else
-      format.setFontItalic(false);
-    cursor.mergeCharFormat(format);
-  }
-
-  emit updateOutlineButtonHiglight();
+  smartFormat(Italic);
 }
 
 
@@ -93,28 +43,89 @@ void TypefaceFormatter::onUnderlineClicked(void)
 {
   TRACELOG
 
+  smartFormat(Underline);
+}
+
+
+void TypefaceFormatter::smartFormat(int formatType)
+{
   // Если выделение есть
   if(textArea->textCursor().hasSelection())
   {
-    // Обычное форматирование
-    if(!textArea->fontUnderline())
-      textArea->setFontUnderline(true);
-    else
-      textArea->setFontUnderline(false);
+    if(formatType==Bold)
+    {
+      if(textArea->fontWeight() != QFont::Bold)
+        textArea->setFontWeight(QFont::Bold); // Bold
+      else
+        textArea->setFontWeight(0); // Remove Bold
+    }
+
+    if(formatType==Italic)
+    {
+      if(!textArea->fontItalic())
+        textArea->setFontItalic(true);
+      else
+        textArea->setFontItalic(false);
+    }
+
+    if(formatType==Underline)
+    {
+      if(!textArea->fontUnderline())
+        textArea->setFontUnderline(true);
+      else
+        textArea->setFontUnderline(false);
+    }
+
   }
   else
   {
-    // Иначе надо выделить дополнительным курсором слово на
-    // котором стоит курсор
+    // Иначе надо выделить дополнительным курсором слово на котором стоит курсор
     QTextCursor cursor=textArea->textCursor();
-    cursor.select(QTextCursor::WordUnderCursor);
 
-    // К выделению применяется форматирование Underline
+    int cursorPosition=cursor.position();
+
+    // Выделяется последний символ
+    cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+    QString prevCharacterAsString=cursor.selectedText();
+    QChar prevCharacter;
+    if(prevCharacterAsString.length()==1)
+      prevCharacter=prevCharacterAsString[0];
+
+    // Если последний символ не является пробелом
+    if( !prevCharacter.isSpace() )
+    {
+      // Выделяется все слово
+      cursor.setPosition(cursorPosition); // Сначала сбрасывается позиция на ту, которая была в начале до выделения последнего символа
+      cursor.select(QTextCursor::WordUnderCursor); // Учесть, что WordUnderCursor - это выделение слова и пробельных символов после него
+    }
+
+    // К выделению применяется/отменяется форматирование
     QTextCharFormat format;
-    if(!cursor.charFormat().fontUnderline())
-      format.setFontUnderline(true);
-    else
-      format.setFontUnderline(false);
+
+    if(formatType==Bold)
+    {
+      if(cursor.charFormat().fontWeight() != QFont::Bold)
+        format.setFontWeight(QFont::Bold);
+      else
+        format.setFontWeight(0);
+    }
+
+    if(formatType==Italic)
+    {
+      if(!cursor.charFormat().fontItalic())
+        format.setFontItalic(true);
+      else
+        format.setFontItalic(false);
+    }
+
+    if(formatType==Underline)
+    {
+      if(!cursor.charFormat().fontUnderline())
+        format.setFontUnderline(true);
+      else
+        format.setFontUnderline(false);
+    }
+
     cursor.mergeCharFormat(format);
   }
 
