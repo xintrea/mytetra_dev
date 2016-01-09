@@ -37,7 +37,7 @@
 // ----------------------------------------------------------
 
 
-#define WYEDIT_VERSION "WyEdit v.1.8 / 01.01.2016"
+#define WYEDIT_VERSION "WyEdit v.1.9 / 09.01.2016"
 
 class EditorConfig;
 class EditorTextEdit;

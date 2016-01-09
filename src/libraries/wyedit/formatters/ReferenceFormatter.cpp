@@ -102,47 +102,48 @@ void ReferenceFormatter::onTextChanged(void)
   if(prevCharacterAsString.length()==1)
     prevCharacter=prevCharacterAsString[0];
 
-  qDebug() << "Prev char: [" << prevCharacter << "]";
+  // qDebug() << "Prev char: [" << prevCharacter << "]";
 
   // Если последний символ не является пробелом или символом-разделителем
   if( !prevCharacter.isSpace() )
     return;
 
+
   // Дополнительный курсор снова устанавливается на начальную позицию
   cursor.setPosition(cursorPosition);
+  cursor.movePosition(QTextCursor::PreviousCharacter); // И смещается на одну позицию назад
 
-  // Форматирование предыдущего, текущего и последующего символа
-  QTextCharFormat formatPreviousChar;
-  QTextCharFormat formatCurrentChar;
-  QTextCharFormat formatNextChar;
-
-  // Выясняется форматирование текущего символа
-  formatCurrentChar=cursor.charFormat();
+  // Наличие форматирования ссылкой у предыдущего, текущего и последующего символа
+  bool anchorPrevious=false;
+  bool anchorCurrent=false;
+  bool anchorNext=false;
 
   // Выясняется форматирование предыдущего символа
-  cursor.movePosition(QTextCursor::PreviousCharacter);
-  formatPreviousChar=cursor.charFormat();
+  anchorPrevious=cursor.charFormat().isAnchor();
+
+  // Выясняется форматирование текущего символа
+  cursor.movePosition(QTextCursor::NextCharacter);
+  anchorCurrent=cursor.charFormat().isAnchor();
 
   // Выясняется форматирование последующего символа
   cursor.movePosition(QTextCursor::NextCharacter);
-  cursor.movePosition(QTextCursor::NextCharacter);
-  formatNextChar=cursor.charFormat();
+  anchorNext=cursor.charFormat().isAnchor();
 
   // Если предыдущий и текущий сивол имеют форматирование ссылки, а последующий - обычный
-  if(formatPreviousChar.isAnchor() && formatCurrentChar.isAnchor() && !formatNextChar.isAnchor())
+  if(anchorPrevious && anchorCurrent && !anchorNext)
   {
+    QTextCharFormat charFormat;
+
     // Текущий символ становится обычным
-    formatCurrentChar.setAnchor(false);
-    formatCurrentChar.setForeground(QApplication::palette().color(QPalette::Text));
-    formatCurrentChar.setFontUnderline(false);
+    charFormat.setAnchor(false);
+    charFormat.setForeground(QApplication::palette().color(QPalette::Text));
+    charFormat.setFontUnderline(false);
 
     // Дополнительный курсор снова устанавливается на начальную позицию
     cursor.setPosition(cursorPosition);
     cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
 
-    cursor.mergeCharFormat(formatCurrentChar);
-
-    qDebug() << "Set new format";
+    cursor.mergeCharFormat(charFormat);
   }
 
 }
