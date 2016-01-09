@@ -432,6 +432,10 @@ void Editor::setupSignals(void)
           this,     SLOT  (onCustomContextMenuRequested(const QPoint &)),
           Qt::DirectConnection);
 
+  connect(textArea,           SIGNAL(textChanged()),
+          referenceFormatter, SLOT  (onTextChanged()),
+          Qt::DirectConnection);
+
   // Клик по ссылке при зажатой клавише Ctrl
   connect(textArea,           SIGNAL(clickedOnReference(QString)),
           referenceFormatter, SLOT  (onClickedGotoReference(QString)),
@@ -446,6 +450,10 @@ void Editor::setupSignals(void)
   connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalReleaseKey(int)),
           textArea,                              SLOT  (onGlobalReleaseKey(int)),
           Qt::DirectConnection);
+
+  // connect(textArea->document(), SIGNAL(contentsChange(int, int, int)),
+  //        referenceFormatter,   SLOT  (onContentsChange(int, int, int)),
+  //        Qt::DirectConnection);
 
   // connect(textArea->document(), SIGNAL(modificationChanged (bool )),
   //         this, SLOT  (onModificationChanged(bool)));

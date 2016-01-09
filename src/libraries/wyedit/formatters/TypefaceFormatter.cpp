@@ -169,7 +169,8 @@ void TypefaceFormatter::onCodeClicked(void)
   TRACELOG
 
   // Если выделения нет
-  if(!textArea->textCursor().hasSelection()) return;
+  if(!textArea->textCursor().hasSelection())
+    return;
 
   bool enableIndent;
 

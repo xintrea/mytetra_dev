@@ -83,3 +83,85 @@ void ReferenceFormatter::onClickedGotoReference(QString href)
   }
 }
 
+
+// Слот используется для "открепления" от ссылки, то есть чтобы при нажатии пробела после ссылки, ссылка не продолжала "тянуться"
+void ReferenceFormatter::onTextChanged(void)
+{
+  TRACELOG
+
+  // Создается дополнительный курсор как копия основного курсора
+  QTextCursor cursor=textArea->textCursor();
+
+  // Запоминается его позиция
+  int cursorPosition=cursor.position();
+
+  // Выделяется последний символ
+  cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+  QString prevCharacterAsString=cursor.selectedText();
+  QChar prevCharacter;
+  if(prevCharacterAsString.length()==1)
+    prevCharacter=prevCharacterAsString[0];
+
+  qDebug() << "Prev char: [" << prevCharacter << "]";
+
+  // Если последний символ не является пробелом или символом-разделителем
+  if( !prevCharacter.isSpace() )
+    return;
+
+  // Дополнительный курсор снова устанавливается на начальную позицию
+  cursor.setPosition(cursorPosition);
+
+  // Форматирование предыдущего, текущего и последующего символа
+  QTextCharFormat formatPreviousChar;
+  QTextCharFormat formatCurrentChar;
+  QTextCharFormat formatNextChar;
+
+  // Выясняется форматирование текущего символа
+  formatCurrentChar=cursor.charFormat();
+
+  // Выясняется форматирование предыдущего символа
+  cursor.movePosition(QTextCursor::PreviousCharacter);
+  formatPreviousChar=cursor.charFormat();
+
+  // Выясняется форматирование последующего символа
+  cursor.movePosition(QTextCursor::NextCharacter);
+  cursor.movePosition(QTextCursor::NextCharacter);
+  formatNextChar=cursor.charFormat();
+
+  // Если предыдущий и текущий сивол имеют форматирование ссылки, а последующий - обычный
+  if(formatPreviousChar.isAnchor() && formatCurrentChar.isAnchor() && !formatNextChar.isAnchor())
+  {
+    // Текущий символ становится обычным
+    formatCurrentChar.setAnchor(false);
+    formatCurrentChar.setForeground(QApplication::palette().color(QPalette::Text));
+    formatCurrentChar.setFontUnderline(false);
+
+    // Дополнительный курсор снова устанавливается на начальную позицию
+    cursor.setPosition(cursorPosition);
+    cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+
+    cursor.mergeCharFormat(formatCurrentChar);
+
+    qDebug() << "Set new format";
+  }
+
+}
+
+
+// Временно не используется
+/*
+void ReferenceFormatter::onCursorPositionChanged(void)
+{
+  TRACELOG
+
+}
+
+
+// При изменении документа
+
+void ReferenceFormatter::onContentsChange(int position, int charsRemoved, int charsAdded)
+{
+  TRACELOG
+
+}
+*/
