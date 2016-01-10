@@ -5,12 +5,16 @@
 #include "ReferenceFormatter.h"
 
 #include "main.h"
+#include "views/mainWindow/MainWindow.h"
+#include "views/tree/KnowTreeView.h"
+#include "models/tree/KnowTreeModel.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
 #include "../EditorToolBarAssistant.h"
 #include "../EditorCursorPositionDetector.h"
 #include "../../TraceLogger.h"
+
 
 
 ReferenceFormatter::ReferenceFormatter()
@@ -82,10 +86,49 @@ void ReferenceFormatter::onContextMenuGotoReference()
 
 void ReferenceFormatter::onClickedGotoReference(QString href)
 {
-  if(href.length()>0)
+  if(href.length()==0)
+    return;
+
+  // Если клик по обычной ссылке
+  if(!isHrefInternal(href))
   {
     QDesktopServices::openUrl(QUrl(href));
   }
+  else
+  {
+    // Иначе клик по внутренней ссылке
+
+    // Пролучение ID из ссылки
+    QString recordId=getIdFromInternalHref(href);
+
+    // todo: вынести следующий код в отдельный метод главного окна
+
+    // Нахождение ветки, в которой лежит данная запись
+    QStringList pathToRecord=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model())->getRecordPath(recordId);
+
+    find_object<MainWindow>("mainwindow")->setTreePosition( pathToRecord );
+    find_object<MainWindow>("mainwindow")->setRecordtablePositionById( recordId );
+  }
+}
+
+
+bool ReferenceFormatter::isHrefInternal(QString href)
+{
+  if(href.contains(QRegExp("^mytetra:\\/\\/note\\/\\w+$")))
+    return true;
+  else
+    return false;
+}
+
+
+QString ReferenceFormatter::getIdFromInternalHref(QString href)
+{
+  if(!isHrefInternal(href))
+    return "";
+
+  href.replace(QRegExp("^mytetra:\\/\\/note\\/"), "");
+
+  return href;
 }
 
 
