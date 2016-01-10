@@ -28,15 +28,20 @@ void ReferenceFormatter::onReferenceClicked(void)
 
   // Если курсор установлен на ссылке
   if(editor->cursorPositionDetector->isCursorOnReference())
-    href=editor->cursorPositionDetector->referenceHref(); // Текст ссылки
+    href=editor->cursorPositionDetector->referenceHref(); // Выясняется текст ссылки
+
+  int dialogWidth=int(0.8*(float)textArea->width());
+
+  QInputDialog inputDialog;
+  inputDialog.setMinimumWidth( dialogWidth );
 
   bool ok;
-  QString refereceUrl=QInputDialog::getText(editor,
-                                            tr("Reference or URL"),
-                                            tr("Reference or URL:"),
-                                            QLineEdit::Normal,
-                                            href,
-                                            &ok);
+  QString refereceUrl=inputDialog.getText(editor,
+                                          tr("Reference or URL"),
+                                          tr("Reference or URL:"),
+                                          QLineEdit::Normal,
+                                          href,
+                                          &ok);
   if(!ok)
     return;
 

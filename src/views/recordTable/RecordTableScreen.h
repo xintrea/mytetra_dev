@@ -47,6 +47,7 @@ public:
  QAction *actionFindInBase;
  QAction *actionSort;
  QAction *actionPrint;
+ QAction *actionCopyRecordReference;
 
 public slots:
 
@@ -59,6 +60,7 @@ private slots:
  void onWalkHistoryPreviousClick(void);
  void onWalkHistoryNextClick(void);
  void onBackClick(void);
+ void onCopyRecordReference(void);
 
 private:
  QToolBar *toolsLine;

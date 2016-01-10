@@ -237,6 +237,7 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addSeparator();
   contextMenu->addAction(parentPointer->actionSort);
   contextMenu->addAction(parentPointer->actionPrint);
+  contextMenu->addAction(parentPointer->actionCopyRecordReference);
   contextMenu->addAction(parentPointer->actionSettings);
 }
 

@@ -158,6 +158,12 @@ void RecordTableScreen::setupActions(void)
  actionPrint->setIcon(QIcon(":/resource/pic/print_record_table.svg"));
  connect(actionPrint, SIGNAL(triggered()), recordTableController, SLOT(onPrintClick()));
 
+ // Кнопка копирования ссылки на запись
+ actionCopyRecordReference = new QAction(tr("Copy note reference"), this);
+ actionCopyRecordReference->setStatusTip(tr("Copy note reference to clipboard"));
+ actionCopyRecordReference->setIcon(QIcon(":/resource/pic/copy_note_reference.svg"));
+ connect(actionCopyRecordReference, SIGNAL(triggered()), this, SLOT(onCopyRecordReference()));
+
  // Сразу после создания все действия запрещены
  disableAllActions();
 }
@@ -256,6 +262,8 @@ void RecordTableScreen::disableAllActions(void)
 
  actionMoveUp->setEnabled(false);
  actionMoveDn->setEnabled(false);
+
+ actionCopyRecordReference->setEnabled(false);
 }
 
 
@@ -303,11 +311,14 @@ void RecordTableScreen::toolsUpdate(void)
     recordTableController->getView()->isSortingEnabled()==false )
    actionAddNewAfter->setEnabled(true);
 
- // Редактирование записи
+ // Редактирование записи и получение ссылки на запись
  // Редактировать можно только тогда, когда выбрана только одна строка
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1)
-  actionEditField->setEnabled(true);
+ {
+   actionEditField->setEnabled(true);
+   actionCopyRecordReference->setEnabled(true);
+ }
 
  // Удаление записи
  // Пункт активен только если запись (или записи) выбраны в списке
@@ -428,6 +439,16 @@ void RecordTableScreen::onWalkHistoryNextClick(void)
 void RecordTableScreen::onBackClick(void)
 {
   globalParameters.getWindowSwitcher()->switchFromRecordtableToTree();
+}
+
+
+// Копирование в буфер обмена ссылки на запись
+void RecordTableScreen::onCopyRecordReference()
+{
+  QString reference="mytetra://note/"+getFirstSelectionId();
+
+  QClipboard *clipboard = QApplication::clipboard();
+  clipboard->setText(reference);
 }
 
 
