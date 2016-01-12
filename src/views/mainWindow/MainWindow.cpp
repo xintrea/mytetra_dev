@@ -281,7 +281,8 @@ bool MainWindow::isTreePositionCrypt()
 {
   QStringList path=mytetraConfig.get_tree_position();
 
-  if(treeScreen->knowTreeModel->isItemValid(path)==false) return false;
+  if(treeScreen->knowTreeModel->isItemValid(path)==false)
+    return false;
 
   // Получаем указатель на элемент вида TreeItem, используя путь
   TreeItem *item =treeScreen->knowTreeModel->getItem(path);

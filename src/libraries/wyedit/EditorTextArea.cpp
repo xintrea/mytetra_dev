@@ -457,13 +457,13 @@ bool EditorTextArea::canInsertFromMimeData(const QMimeData *source) const
 }
 
 
-// Вставка MIME данных
+// Вставка MIME данных (из буфера обмена)
 void EditorTextArea::insertFromMimeData(const QMimeData *source)
 {
  QTextCursor cursor = this->textCursor();
  QTextDocument *document = this->document();
 
- // Вставка картинки
+ // Вставка единичной картинки
  if(source->hasImage())
   {
    QImage image=qvariant_cast<QImage>(source->imageData());
@@ -479,6 +479,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
    return;
   }
 
+ // Вставка HTML-кода
  if(source->hasHtml())
  {
   QString html=qvariant_cast<QString>(source->html());
@@ -486,6 +487,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   return;
  }
 
+ // Вставка обычного текста
  if(source->hasText())
  {
   QString text=qvariant_cast<QString>(source->text());
