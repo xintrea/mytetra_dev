@@ -1071,7 +1071,7 @@ void Editor::onCopy(void)
     // Создается ссылка на буфер обмена
     QClipboard *clipboard=QApplication::clipboard();
 
-    // Копирвание картинки в буфер обмена
+    // Копирование картинки в буфер обмена
     clipboard->setImage(image);
   }
   else
