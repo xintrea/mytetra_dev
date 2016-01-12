@@ -193,6 +193,9 @@ TreeItem *TreeModel::getItem(QStringList path) const
 
 bool TreeModel::isItemValid(QStringList path) const
 {
+  if(path.count()==0)
+    return false;
+
   if(path.count()==1 && path[0]=="0")
     return false;
 

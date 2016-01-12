@@ -34,18 +34,22 @@ void ReferenceFormatter::onReferenceClicked(void)
   if(editor->cursorPositionDetector->isCursorOnReference())
     href=editor->cursorPositionDetector->referenceHref(); // Выясняется текст ссылки
 
+  // Создание виджета запроса URL с указанием редактора как родительского виджета
+  QInputDialog inputDialog(editor);
+
+  // Установка ширины
   int dialogWidth=int(0.8*(float)textArea->width());
-
-  QInputDialog inputDialog;
   inputDialog.setMinimumWidth( dialogWidth );
+  inputDialog.resize(inputDialog.size());
 
-  bool ok;
-  QString refereceUrl=inputDialog.getText(editor,
-                                          tr("Reference or URL"),
-                                          tr("Reference or URL:"),
-                                          QLineEdit::Normal,
-                                          href,
-                                          &ok);
+  inputDialog.setWindowTitle(tr("Reference or URL"));
+  inputDialog.setLabelText(tr("Reference or URL"));
+  inputDialog.setTextValue(href);
+  inputDialog.setTextEchoMode(QLineEdit::Normal);
+
+  bool ok=inputDialog.exec();
+  QString refereceUrl=inputDialog.textValue();
+
   if(!ok)
     return;
 
