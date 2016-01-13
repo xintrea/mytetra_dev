@@ -521,10 +521,8 @@ QTextDocumentFragment EditorTextArea::downloadImages(const QString html)
       QTextFragment currentFragment = it.fragment();
       if(currentFragment.isValid())
       {
-        if(currentFragment.charFormat().isImageFormat())
+        if(currentFragment.charFormat().isImageFormat()) // Если найден блок с картинкой
         {
-          // Найден блок с картинкой
-
           // Выясняется формат картинки
           QTextImageFormat imgFmt = currentFragment.charFormat().toImageFormat();
 
@@ -533,20 +531,21 @@ QTextDocumentFragment EditorTextArea::downloadImages(const QString html)
           imagesNames << imageName;
           qDebug() << "Find  " << imageName << "\n"; // имя файла
 
-          /*
           // Если файла картинки не существует
           QString imageFileName=workDirectory+"/"+imageName;
           QFileInfo tryFile(imageFileName);
           if(tryFile.exists()==false)
           {
-            qDebug() << "Save image data to file " << imageFileName;
+            qDebug() << "Download file " << imageFileName;
+
+
 
             // Из ресурсов вытягивается картинка
+            /*
             QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
-
             QImage picture=imageData.value<QImage>();
-
             picture.save(imageFileName, "png");
+            */
           }
           */
         }
