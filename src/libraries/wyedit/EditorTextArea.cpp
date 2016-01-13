@@ -484,7 +484,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
  {
   QString html=qvariant_cast<QString>(source->html());
 
-  QTextDocumentFragment textFragment=downloadImagesToFragment( QTextDocumentFragment::fromHtml(html) );
+  QTextDocumentFragment textFragment=downloadImages( html );
 
   cursor.insertFragment(textFragment);
 
@@ -502,13 +502,16 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
-QTextDocumentFragment EditorTextArea::downloadImagesToFragment(QTextDocumentFragment textFragment)
+QTextDocumentFragment EditorTextArea::downloadImages(const QString html)
 {
-  // todo: Доработать метод
+  // Создается временный документ на основе HTML (именно документ, так как у QTextDocumentFragment нет методов перебора блоков текста)
+  QTextDocument textDocument;
+  QTextCursor textCursor(&textDocument);
+  textCursor.insertHtml(html);
 
   // Перебираются блоки документа и находятся блоки с картинками
   QStringList imagesNames; // В список сохраняются имена найденных картинок
-  QTextBlock textBlock = textFragment.begin();
+  QTextBlock textBlock = textDocument.begin();
   while(textBlock.isValid())
   {
     QTextBlock::iterator it;
@@ -552,7 +555,7 @@ QTextDocumentFragment EditorTextArea::downloadImagesToFragment(QTextDocumentFrag
     textBlock = textBlock.next();
   }
 
-
+  QTextDocumentFragment textFragment;
   return textFragment;
 }
 

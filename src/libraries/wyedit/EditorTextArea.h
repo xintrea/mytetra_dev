@@ -47,7 +47,7 @@ class EditorTextArea : public QTextEdit
 
 protected:
 
-  QTextDocumentFragment downloadImagesToFragment(QTextDocumentFragment textFragment);
+  QTextDocumentFragment downloadImages(const QString html);
 
 private:
 
