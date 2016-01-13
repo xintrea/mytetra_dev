@@ -483,7 +483,11 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
  if(source->hasHtml())
  {
   QString html=qvariant_cast<QString>(source->html());
-  cursor.insertHtml(html);
+
+  QTextDocumentFragment textFragment=downloadImagesToFragment( QTextDocumentFragment::fromHtml(html) );
+
+  cursor.insertFragment(textFragment);
+
   return;
  }
 
@@ -495,6 +499,61 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   return;
  }
 
+}
+
+
+QTextDocumentFragment EditorTextArea::downloadImagesToFragment(QTextDocumentFragment textFragment)
+{
+  // todo: Доработать метод
+
+  // Перебираются блоки документа и находятся блоки с картинками
+  QStringList imagesNames; // В список сохраняются имена найденных картинок
+  QTextBlock textBlock = textFragment.begin();
+  while(textBlock.isValid())
+  {
+    QTextBlock::iterator it;
+
+    for(it = textBlock.begin(); !(it.atEnd()); ++it)
+    {
+      QTextFragment currentFragment = it.fragment();
+      if(currentFragment.isValid())
+      {
+        if(currentFragment.charFormat().isImageFormat())
+        {
+          // Найден блок с картинкой
+
+          // Выясняется формат картинки
+          QTextImageFormat imgFmt = currentFragment.charFormat().toImageFormat();
+
+          // Из формата выясняется имя картинки
+          QString imageName=imgFmt.name();
+          imagesNames << imageName;
+          qDebug() << "Find  " << imageName << "\n"; // имя файла
+
+          /*
+          // Если файла картинки не существует
+          QString imageFileName=workDirectory+"/"+imageName;
+          QFileInfo tryFile(imageFileName);
+          if(tryFile.exists()==false)
+          {
+            qDebug() << "Save image data to file " << imageFileName;
+
+            // Из ресурсов вытягивается картинка
+            QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
+
+            QImage picture=imageData.value<QImage>();
+
+            picture.save(imageFileName, "png");
+          }
+          */
+        }
+      }
+    }
+    textBlock = textBlock.next();
+  }
+
+
+  return textFragment;
 }
 
 

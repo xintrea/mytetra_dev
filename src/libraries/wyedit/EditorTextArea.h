@@ -45,6 +45,10 @@ class EditorTextArea : public QTextEdit
   void onGlobalReleaseKey(int key);
 
 
+protected:
+
+  QTextDocumentFragment downloadImagesToFragment(QTextDocumentFragment textFragment);
+
 private:
 
   bool flagShowFormatting; // Рисовать ли символы форматирования
