@@ -436,6 +436,16 @@ void Editor::setupSignals(void)
           referenceFormatter, SLOT  (onTextChanged()),
           Qt::DirectConnection);
 
+  // Вызов загрузки картинок
+  connect(textArea,           SIGNAL(downloadImages(const QString)),
+          imageFormatter, SLOT  (onDownloadImages(const QString)),
+          Qt::DirectConnection);
+
+  // Вставка загруженных картинок в текст
+  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QTextDocumentFragment)),
+          textArea, SLOT  (onDownloadImagesSuccessfull(const QTextDocumentFragment)),
+          Qt::DirectConnection);
+
   // Клик по ссылке при зажатой клавише Ctrl
   connect(textArea,           SIGNAL(clickedOnReference(QString)),
           referenceFormatter, SLOT  (onClickedGotoReference(QString)),

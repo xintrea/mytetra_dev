@@ -2,11 +2,13 @@
 #define IMAGEFORMATTER_H
 
 #include <QTextImageFormat>
+#include <QTextDocumentFragment>
 
 #include "Formatter.h"
 
 // Класс для работы с картинками в тексте
 
+// class QTextDocumentFragment;
 
 class ImageFormatter : public Formatter
 {
@@ -20,11 +22,16 @@ public:
 
   void editImageProperties(void);
 
+signals:
+
+  void downloadImagesSuccessfull(const QTextDocumentFragment fragment);
+
 public slots:
 
   void onInsertImageFromFileClicked(void);
   void onContextMenuEditImageProperties(void);
 
+  void onDownloadImages(const QString html);
 };
 
 #endif // IMAGEFORMATTER_H

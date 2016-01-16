@@ -484,9 +484,8 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
  {
   QString html=qvariant_cast<QString>(source->html());
 
-  QTextDocumentFragment textFragment=downloadImages( html );
-
-  cursor.insertFragment(textFragment);
+  // Вызов процесса загрузки картинок
+  emit downloadImages(html); // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()
 
   return;
  }
@@ -502,60 +501,9 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
-QTextDocumentFragment EditorTextArea::downloadImages(const QString html)
+void EditorTextArea::onDownloadImagesSuccessfull(QTextDocumentFragment textFragment)
 {
-  // Создается временный документ на основе HTML (именно документ, так как у QTextDocumentFragment нет методов перебора блоков текста)
-  QTextDocument textDocument;
-  QTextCursor textCursor(&textDocument);
-  textCursor.insertHtml(html);
-
-  // Перебираются блоки документа и находятся блоки с картинками
-  QStringList imagesNames; // В список сохраняются имена найденных картинок
-  QTextBlock textBlock = textDocument.begin();
-  while(textBlock.isValid())
-  {
-    QTextBlock::iterator it;
-
-    for(it = textBlock.begin(); !(it.atEnd()); ++it)
-    {
-      QTextFragment currentFragment = it.fragment();
-      if(currentFragment.isValid())
-      {
-        if(currentFragment.charFormat().isImageFormat()) // Если найден блок с картинкой
-        {
-          // Выясняется формат картинки
-          QTextImageFormat imgFmt = currentFragment.charFormat().toImageFormat();
-
-          // Из формата выясняется имя картинки
-          QString imageName=imgFmt.name();
-          imagesNames << imageName;
-          qDebug() << "Find  " << imageName << "\n"; // имя файла
-
-          // Если файла картинки не существует
-          QString imageFileName=workDirectory+"/"+imageName;
-          QFileInfo tryFile(imageFileName);
-          if(tryFile.exists()==false)
-          {
-            qDebug() << "Download file " << imageFileName;
-
-
-
-            // Из ресурсов вытягивается картинка
-            /*
-            QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
-            QImage picture=imageData.value<QImage>();
-            picture.save(imageFileName, "png");
-            */
-          }
-          */
-        }
-      }
-    }
-    textBlock = textBlock.next();
-  }
-
-  QTextDocumentFragment textFragment;
-  return textFragment;
+  this->textCursor().insertFragment(textFragment);
 }
 
 

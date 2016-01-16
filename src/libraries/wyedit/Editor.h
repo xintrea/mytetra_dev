@@ -160,6 +160,7 @@ public:
   WYEDIT_MOBILE_MODE=1
  };
 
+
 signals:
 
  void send_expand_edit_area(bool flag);

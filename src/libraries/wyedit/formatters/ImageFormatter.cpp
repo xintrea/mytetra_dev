@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <QImage>
 #include <QImageReader>
+#include <QTextDocumentFragment>
+#include <QMessageBox>
 
 #include "ImageFormatter.h"
 
@@ -12,6 +14,8 @@
 #include "../EditorTextArea.h"
 #include "../EditorImageProperties.h"
 #include "../EditorCursorPositionDetector.h"
+
+#include "../../Downloader.h"
 
 
 ImageFormatter::ImageFormatter()
@@ -268,5 +272,70 @@ void ImageFormatter::onContextMenuEditImageProperties()
 
     editImageProperties();
   }
+}
+
+
+void ImageFormatter::onDownloadImages(const QString html)
+{
+  // Создается временный документ на основе HTML (именно документ, так как у QTextDocumentFragment нет методов перебора блоков текста)
+  QTextDocument textDocument;
+  QTextCursor textCursor(&textDocument);
+  textCursor.insertHtml(html);
+
+  // Перебираются блоки документа и находятся блоки с картинками
+  QStringList imagesNames; // В список сохраняются имена найденных картинок
+  QStringList downloadReferences; // Список ссылок на изображения, которые надо загрузить
+  QTextBlock textBlock = textDocument.begin();
+  while(textBlock.isValid())
+  {
+    QTextBlock::iterator it;
+
+    for(it = textBlock.begin(); !(it.atEnd()); ++it)
+    {
+      QTextFragment currentFragment = it.fragment();
+      if(currentFragment.isValid())
+      {
+        if(currentFragment.charFormat().isImageFormat()) // Если найден блок с картинкой
+        {
+          // Выясняется формат картинки
+          QTextImageFormat imgFmt = currentFragment.charFormat().toImageFormat();
+
+          // Из формата выясняется имя картинки
+          QString imageName=imgFmt.name();
+          imagesNames << imageName;
+          qDebug() << "Find  " << imageName << "\n"; // имя файла
+
+          // Если файла картинки не существует
+          QString imageFileName=editor->getWorkDirectory()+"/"+imageName;
+          QFileInfo tryFile(imageFileName);
+          if(tryFile.exists()==false)
+          {
+            qDebug() << "Set file for download" << imageFileName;
+            downloadReferences << imageFileName;
+          }
+
+        }
+      }
+    }
+    textBlock = textBlock.next();
+  }
+
+  // Скачивание изображений
+  Downloader downloader;
+  downloader.setSaveMode(Downloader::memory);
+  downloader.setReferencesList(downloadReferences);
+  downloader.run();
+
+  if(!downloader.isSuccess())
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
+    msgBox.exec();
+  }
+
+
+  // Временная заглушка
+  QTextDocumentFragment textFragment;
+  emit downloadImagesSuccessfull(textFragment);
 }
 

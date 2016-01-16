@@ -7,6 +7,7 @@
 #include <QTapAndHoldGesture>
 #include <QEvent>
 #include <QGestureEvent>
+#include <QTextDocumentFragment>
 
 class EditorTextArea : public QTextEdit
 {
@@ -33,6 +34,7 @@ class EditorTextArea : public QTextEdit
   void updateIndentlineGeometry(void);
   void clickedOnReference(QString href);
 
+  void downloadImages(const QString href);
 
  public slots:
   void show_indetedge(bool i);
@@ -44,10 +46,7 @@ class EditorTextArea : public QTextEdit
   void onGlobalPressKey(int key);
   void onGlobalReleaseKey(int key);
 
-
-protected:
-
-  QTextDocumentFragment downloadImages(const QString html);
+  void onDownloadImagesSuccessfull(QTextDocumentFragment textFragment);
 
 private:
 
@@ -55,6 +54,11 @@ private:
 
   bool flagShowIndentEdge; // Рисовать ли линию отступа
   int  posIndentEdge; // По какой координате рисовать линию отступа
+
+  bool mouseCursorOverriden;
+
+  QPoint currentMousePosition;
+
 
   bool event(QEvent *event);
   bool gestureEvent(QGestureEvent *event);
@@ -73,10 +77,6 @@ private:
   void mousePressEvent(QMouseEvent *event);
 
   void switchReferenceClickMode(bool flag);
-
-  bool mouseCursorOverriden;
-
-  QPoint currentMousePosition;
 };
 
 #endif // _EDITORTEXTAREA_H_
