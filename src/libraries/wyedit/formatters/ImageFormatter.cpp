@@ -320,19 +320,23 @@ void ImageFormatter::onDownloadImages(const QString html)
     textBlock = textBlock.next();
   }
 
-  // Скачивание изображений
-  Downloader downloader;
-  downloader.setSaveMode(Downloader::memory);
-  downloader.setReferencesList(downloadReferences);
-  downloader.run();
 
-  if(!downloader.isSuccess())
+  // Если есть изображения, которые надо скачать
+  if(downloadReferences.count()>0)
   {
-    QMessageBox msgBox;
-    msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
-    msgBox.exec();
-  }
+    // Скачивание изображений
+    Downloader downloader;
+    downloader.setSaveMode(Downloader::memory);
+    downloader.setReferencesList(downloadReferences);
+    downloader.run();
 
+    if(!downloader.isSuccess())
+    {
+      QMessageBox msgBox;
+      msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
+      msgBox.exec();
+    }
+  }
 
   // Временная заглушка
   QTextDocumentFragment textFragment;

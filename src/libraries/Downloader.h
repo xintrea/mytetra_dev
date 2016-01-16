@@ -48,7 +48,8 @@ protected:
   QString errorLog;
 
   QStringList colsName; // Список имен колонок в таблице, определяется в конструкторе
-  int downloadPercentCol; // Номер колонки с процентов загрузки, определяется в конструкторе
+  int downloadReferenceCol; // Номер колонки со ссылкой
+  int downloadPercentCol; // Номер колонки с процентами загрузки, определяется в конструкторе
 
   QPushButton *cancelButton;
   QTableWidget *table;

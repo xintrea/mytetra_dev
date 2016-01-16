@@ -4,8 +4,11 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QVBoxLayout>
+#include <QDebug>
+#include <QProgressBar>
 
 #include "Downloader.h"
+#include "main.h"
 
 Downloader::Downloader()
 {
@@ -18,6 +21,7 @@ Downloader::Downloader()
   errorLog="";
 
   colsName << tr("Url") << tr("%");
+  downloadReferenceCol=0;
   downloadPercentCol=1; // Счет с нуля
 
   setupUI();
@@ -28,6 +32,13 @@ Downloader::Downloader()
 
 Downloader::~Downloader()
 {
+  // Удаляется содержимое таблицы
+  for(int i=0; i<table->rowCount(); i++)
+  {
+    delete table->item(i, downloadReferenceCol);
+    delete qobject_cast<QProgressBar *>( table->cellWidget(i, downloadReferenceCol) );
+  }
+
   delete table;
   delete cancelButton;
 }
@@ -76,9 +87,24 @@ void Downloader::setSaveDirectory(QString iDir)
 }
 
 
+// Установка списка ссылок для закачивания
 void Downloader::setReferencesList(QStringList iReferencesList)
 {
   referencesList=iReferencesList;
+
+  // Перебирается список ссылок
+  for(int i=0; i<referencesList.count(); i++)
+  {
+    // Добавляется строка на экране
+    table->insertRow(i);
+
+    // Заполняется столбец со ссылкой
+    QTableWidgetItem *referenceItem=new QTableWidgetItem(referencesList.at(i));
+    table->setItem(i, downloadReferenceCol, referenceItem);
+
+    QProgressBar *progressBar=new QProgressBar();
+    table->setCellWidget(i, downloadPercentCol, progressBar);
+  }
 }
 
 
@@ -96,7 +122,10 @@ QStringList Downloader::getDiskFilesList()
 
 void Downloader::run()
 {
-  exec();
+  if(referencesList.count()>0)
+    exec();
+  else
+    criticalError("Running downloader with empty references list.");
 }
 
 
