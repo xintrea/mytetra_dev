@@ -27,8 +27,11 @@ public:
   void setSaveDirectory(QString iDir);
   void setReferencesList(QStringList iReferencesList);
 
-  QMap<QString, QByteArray> getMemoryFiles() const;
+  QMap<int, QByteArray> getMemoryFiles() const;
+  QMap<QString, QByteArray> getReferencesAndMemoryFiles() const;
   QStringList getDiskFilesList() const;
+  QStringList getReferencesList();
+
 
   void run();
 

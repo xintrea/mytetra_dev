@@ -442,8 +442,8 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
   // Вставка загруженных картинок в текст
-  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QTextDocumentFragment)),
-          textArea, SLOT  (onDownloadImagesSuccessfull(const QTextDocumentFragment)),
+  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QTextDocument)),
+          textArea, SLOT  (onDownloadImagesSuccessfull(const QTextDocument)),
           Qt::DirectConnection);
 
   // Клик по ссылке при зажатой клавише Ctrl

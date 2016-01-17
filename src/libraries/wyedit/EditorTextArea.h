@@ -46,7 +46,7 @@ class EditorTextArea : public QTextEdit
   void onGlobalPressKey(int key);
   void onGlobalReleaseKey(int key);
 
-  void onDownloadImagesSuccessfull(QTextDocumentFragment textFragment);
+  void onDownloadImagesSuccessfull(QTextDocument textDocument);
 
 private:
 

@@ -111,15 +111,32 @@ void Downloader::setReferencesList(QStringList iReferencesList)
 }
 
 
-QMap<QString, QByteArray> Downloader::getMemoryFiles() const
+QMap<int, QByteArray> Downloader::getMemoryFiles() const
 {
-  return QMap<QString, QByteArray>();
+  return memoryFiles;
+}
+
+
+QMap<QString, QByteArray> Downloader::getReferencesAndMemoryFiles() const
+{
+  QMap<QString, QByteArray> tempReferencesAndMemoryFiles;
+
+  for(int i=0; i<memoryFiles.count(); i++)
+    tempReferencesAndMemoryFiles[ referencesList.at(i) ]=memoryFiles.value(i);
+
+  return tempReferencesAndMemoryFiles;
 }
 
 
 QStringList Downloader::getDiskFilesList() const
 {
   return QStringList();
+}
+
+
+QStringList Downloader::getReferencesList()
+{
+  return referencesList;
 }
 
 
@@ -148,7 +165,7 @@ QString Downloader::getErrorLog()
 }
 
 
-// Запуск загрузки с первой ссылки
+// Запуск загрузки очередной ссылки
 void Downloader::startNextDownload()
 {
   // Определяется, какую ссылку надо загружать

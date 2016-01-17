@@ -501,9 +501,11 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
-void EditorTextArea::onDownloadImagesSuccessfull(QTextDocumentFragment textFragment)
+void EditorTextArea::onDownloadImagesSuccessfull(QTextDocument textDocument)
 {
-  this->textCursor().insertFragment(textFragment);
+  QTextDocumentFragment tempFragment(&textDocument);
+
+  this->textCursor().insertFragment(tempFragment);
 }
 
 

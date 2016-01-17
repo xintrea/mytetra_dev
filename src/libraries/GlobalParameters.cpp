@@ -17,6 +17,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
 
+
 GlobalParameters::GlobalParameters(QObject *pobj)
 {
  Q_UNUSED(pobj);

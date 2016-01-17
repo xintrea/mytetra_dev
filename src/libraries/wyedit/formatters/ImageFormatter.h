@@ -24,7 +24,7 @@ public:
 
 signals:
 
-  void downloadImagesSuccessfull(const QTextDocumentFragment fragment);
+  void downloadImagesSuccessfull(const QTextDocument textDocument);
 
 public slots:
 
