@@ -10,6 +10,7 @@
 #include "Downloader.h"
 #include "main.h"
 
+
 Downloader::Downloader()
 {
   saveMode=disk;
@@ -22,7 +23,7 @@ Downloader::Downloader()
 
   colsName << tr("Url") << tr("%");
   downloadReferenceCol=0;
-  downloadPercentCol=1; // Счет с нуля
+  downloadPercentCol=1;
 
   setupUI();
   setupSignals();
@@ -32,14 +33,7 @@ Downloader::Downloader()
 
 Downloader::~Downloader()
 {
-  // Удаляется содержимое таблицы
-  for(int i=0; i<table->rowCount(); i++)
-  {
-    delete table->item(i, downloadReferenceCol);
-    delete qobject_cast<QProgressBar *>( table->cellWidget(i, downloadReferenceCol) );
-  }
-
-  delete table;
+  delete table; // Объекты, содержащеся в таблице, будут удалены автоматически
   delete cancelButton;
 }
 
@@ -64,9 +58,10 @@ void Downloader::setupSignals()
 
 }
 
+
 void Downloader::assembly()
 {
-  QVBoxLayout *mainLayout=new QVBoxLayout(this);
+  QVBoxLayout *mainLayout=new QVBoxLayout();
 
   mainLayout->addWidget(table);
   mainLayout->addWidget(cancelButton);
