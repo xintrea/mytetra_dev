@@ -310,8 +310,8 @@ void ImageFormatter::onDownloadImages(const QString html)
           QFileInfo tryFile(imageFileName);
           if(tryFile.exists()==false)
           {
-            qDebug() << "Set file for download" << imageFileName;
-            downloadReferences << imageFileName;
+            qDebug() << "Set file for download" << imageName;
+            downloadReferences << imageName;
           }
 
         }

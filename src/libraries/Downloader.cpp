@@ -6,6 +6,9 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QProgressBar>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 #include "Downloader.h"
 #include "main.h"
@@ -20,6 +23,7 @@ Downloader::Downloader()
   diskFilesList.clear();
   isSuccessFlag=false;
   errorLog="";
+  currentReferenceNum=-1;
 
   colsName << tr("Url") << tr("%");
   downloadReferenceCol=0;
@@ -54,7 +58,11 @@ void Downloader::setupUI()
 
 void Downloader::setupSignals()
 {
+  connect(&webManager, SIGNAL (finished(QNetworkReply*)),
+          this,        SLOT   (onFileDownloadFinished(QNetworkReply*)) );
 
+  connect(cancelButton, SIGNAL (clicked()),
+          this,         SIGNAL (reject()));
 }
 
 
@@ -103,13 +111,13 @@ void Downloader::setReferencesList(QStringList iReferencesList)
 }
 
 
-QMap<QString, QByteArray> Downloader::getMemoryFiles()
+QMap<QString, QByteArray> Downloader::getMemoryFiles() const
 {
   return QMap<QString, QByteArray>();
 }
 
 
-QStringList Downloader::getDiskFilesList()
+QStringList Downloader::getDiskFilesList() const
 {
   return QStringList();
 }
@@ -118,7 +126,11 @@ QStringList Downloader::getDiskFilesList()
 void Downloader::run()
 {
   if(referencesList.count()>0)
-    exec();
+  {
+    startNextDownload();
+
+    exec(); // Запускается цикл обработки сигналов-слотов для данного класса
+  }
   else
     criticalError("Running downloader with empty references list.");
 }
@@ -133,4 +145,48 @@ bool Downloader::isSuccess()
 QString Downloader::getErrorLog()
 {
   return errorLog;
+}
+
+
+// Запуск загрузки с первой ссылки
+void Downloader::startNextDownload()
+{
+  // Определяется, какую ссылку надо загружать
+  currentReferenceNum++;
+  QString currentReference=referencesList.at( currentReferenceNum );
+
+  // Запуск загрузки
+  qDebug() << "Start download" << currentReference;
+  QNetworkRequest request(currentReference);
+  webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
+}
+
+
+void Downloader::onFileDownloadFinished(QNetworkReply *reply)
+{
+  if(saveMode==memory)
+  {
+    memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
+  }
+
+  if(saveMode==disk)
+  {
+    qDebug() << "Development in process...";
+  }
+
+  reply->deleteLater();
+
+  // Если еще не все ссылки загружены
+  if(currentReferenceNum<(referencesList.count()-1))
+    startNextDownload();
+  else
+  {
+    // Иначе все загрузки завершены
+
+    qDebug() << "All download successfull";
+
+    isSuccessFlag=true;
+
+    emit accept(); // Программно закрывается окно диалога, как будто нажали Ok
+  }
 }

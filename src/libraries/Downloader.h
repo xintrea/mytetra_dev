@@ -3,12 +3,14 @@
 
 #include <QDialog>
 #include <QMap>
+#include <QNetworkAccessManager>
 
 class QString;
 class QStringList;
 class QByteArray;
 class QPushButton;
 class QTableWidget;
+class QNetworkReply;
 
 
 class Downloader : public QDialog
@@ -25,8 +27,8 @@ public:
   void setSaveDirectory(QString iDir);
   void setReferencesList(QStringList iReferencesList);
 
-  QMap<QString, QByteArray> getMemoryFiles();
-  QStringList getDiskFilesList();
+  QMap<QString, QByteArray> getMemoryFiles() const;
+  QStringList getDiskFilesList() const;
 
   void run();
 
@@ -34,22 +36,31 @@ public:
 
   QString getErrorLog();
 
+
+private slots:
+ void onFileDownloadFinished(QNetworkReply* pReply); // Слот, вызываемый при завершении загрузки очередного файла
+
+
 protected:
 
   int saveMode;
   QString saveDirectory;
   QStringList referencesList;
 
-  QMap<QString, QByteArray> memoryFiles;
+  QMap<int, QByteArray> memoryFiles;
   QStringList diskFilesList;
 
   bool isSuccessFlag;
 
   QString errorLog;
 
+  int currentReferenceNum;
+
   QStringList colsName; // Список имен колонок в таблице, определяется в конструкторе
   int downloadReferenceCol; // Номер колонки со ссылкой
   int downloadPercentCol; // Номер колонки с процентами загрузки, определяется в конструкторе
+
+  QNetworkAccessManager webManager; // Объект для работы с HTTP
 
   QPushButton *cancelButton;
   QTableWidget *table;
@@ -57,6 +68,9 @@ protected:
   void setupUI();
   void setupSignals();
   void assembly();
+
+  void startNextDownload();
+
 };
 
 #endif // DOWNLOADER_H
