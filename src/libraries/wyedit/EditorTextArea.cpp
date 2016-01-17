@@ -501,11 +501,26 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
-void EditorTextArea::onDownloadImagesSuccessfull(QTextDocument textDocument)
+void EditorTextArea::onDownloadImagesSuccessfull(const QString html, const QMap<QString, QByteArray> referencesAndMemoryFiles)
 {
-  QTextDocumentFragment tempFragment(&textDocument);
+  // К документу добавляются скачанные картинки в виде ресурсов
+  foreach (QString imageReference, referencesAndMemoryFiles.keys())
+  {
+    QImage image;
+    bool result=image.loadFromData( referencesAndMemoryFiles.value(imageReference) );
 
-  this->textCursor().insertFragment(tempFragment);
+    // Если данные с картинкой правильные, и с ней может работать Qt
+    if(result)
+    {
+      // Картинка добавляется в ресурсы документа
+      this->document()->addResource(QTextDocument::ImageResource,
+                                    QUrl(imageReference),
+                                    QVariant(image));
+    }
+  }
+
+  // Вставляется текст
+  this->textCursor().insertHtml(html);
 }
 
 

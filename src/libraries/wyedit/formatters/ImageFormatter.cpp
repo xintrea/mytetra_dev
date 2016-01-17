@@ -331,45 +331,18 @@ void ImageFormatter::onDownloadImages(const QString html)
     downloader.setReferencesList(downloadReferences);
     downloader.run();
 
-    // Если изображения нормально скачались
-    if(downloader.isSuccess())
+    // Если при скачивании изображений появились какие-то ошибки
+    if(!downloader.isSuccess())
     {
-      // Изображения надо сконвентировать в PNG
-
-      // todo: Код ниже перенести туда, где будет непосредственная вставка картинок
-
-      // К временному документу добавляются скачанные картинки в виде ресурсов
-      for(int i=0; i<downloadReferences.count(); i++)
-      {
-        QString imageReference=downloadReferences.at(i);
-
-        QImage image;
-        bool result=image.loadFromData( (downloader.getMemoryFiles()).value(i) );
-
-        // Если данные с картинкой правильные, и с ней может работать Qt
-        if(result)
-        {
-          // Картинка добавляется в ресурсы документа
-          textDocument.addResource(QTextDocument::ImageResource,
-                                   QUrl(imageReference),
-                                   QVariant(image));
-        }
-      }
-
-      emit downloadImagesSuccessfull( html, downloader.getReferencesAndMemoryFiles() );
-
-      return;
-    }
-    else
-    {
-      // Иначе при скачивании изображений появились какие-то ошибки
       QMessageBox msgBox;
       msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
       msgBox.exec();
     }
+
+    emit downloadImagesSuccessfull( html, downloader.getReferencesAndMemoryFiles() );
+    return;
   }
 
-  // Передача картинок возможна только через QTextDocument. Класс QTextDocumentFragment не может содержать картинки
-  emit downloadImagesSuccessfull(html, downloadReferences );
+  emit downloadImagesSuccessfull( html, QMap<QString, QByteArray>() );
 }
 

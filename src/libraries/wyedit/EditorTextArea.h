@@ -46,7 +46,7 @@ class EditorTextArea : public QTextEdit
   void onGlobalPressKey(int key);
   void onGlobalReleaseKey(int key);
 
-  void onDownloadImagesSuccessfull(QTextDocument textDocument);
+  void onDownloadImagesSuccessfull(const QString html, const QMap<QString, QByteArray> referencesAndMemoryFiles);
 
 private:
 
