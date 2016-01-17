@@ -343,7 +343,7 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    qDebug() << "Config directory name " << dirName;
 
    // Открывается хранилище настроек
-   QSettings *conf=new QSettings(fileName, QSettings::IniFormat);
+   QSettings *conf=new QSettings(fileName, QSettings::IniFormat, this);
    // conf->setPath(QSettings::IniFormat, QSettings::UserScope, dirName);
    // conf->setPath(QSettings::IniFormat, QSettings::SystemScope, dirName);
 
