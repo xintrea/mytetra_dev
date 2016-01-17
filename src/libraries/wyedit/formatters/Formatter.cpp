@@ -11,6 +11,12 @@ Formatter::Formatter(QObject *parent) : QObject(parent)
 }
 
 
+Formatter::~Formatter()
+{
+
+}
+
+
 // Установка редактора, для вызова служебных функций
 void Formatter::setEditor(Editor *iEditor)
 {

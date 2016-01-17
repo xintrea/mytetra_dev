@@ -33,8 +33,7 @@ Downloader::Downloader()
 
 Downloader::~Downloader()
 {
-  delete table; // Объекты, содержащеся в таблице, будут удалены автоматически
-  delete cancelButton;
+
 }
 
 
@@ -97,6 +96,7 @@ void Downloader::setReferencesList(QStringList iReferencesList)
     QTableWidgetItem *referenceItem=new QTableWidgetItem(referencesList.at(i));
     table->setItem(i, downloadReferenceCol, referenceItem);
 
+    // Создается виджет линейки наполняемости
     QProgressBar *progressBar=new QProgressBar();
     table->setCellWidget(i, downloadPercentCol, progressBar);
   }

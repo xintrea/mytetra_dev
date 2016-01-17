@@ -23,6 +23,7 @@ class Formatter : public QObject
 
 public:
   explicit Formatter(QObject *parent = 0);
+  virtual ~Formatter();
 
   void setEditor(Editor *iEditor);
   void setTextArea(EditorTextArea *iTextArea);
