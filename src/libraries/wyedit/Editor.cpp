@@ -35,7 +35,6 @@
 #include "libraries/DiskHelper.h"
 
 
-
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {
   isInit=false;
@@ -442,8 +441,8 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
   // Вставка загруженных картинок в текст
-  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>)),
-          textArea, SLOT  (onDownloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>)),
+  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
+          textArea, SLOT  (onDownloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
           Qt::DirectConnection);
 
   // Клик по ссылке при зажатой клавише Ctrl

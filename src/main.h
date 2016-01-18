@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  197
+#define APPLICATION_RELEASE_MICROVERSION  198
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -66,6 +66,7 @@ int imin(int x1, int x2);
 void myMessageOutput(QtMsgType type, const char *msg);
 QStringList text_delimiter_decompose(QString text);
 QString get_unical_id(void);
+QString getUnicalImageName(void);
 int get_milli_count(void);
 void init_random(void);
 

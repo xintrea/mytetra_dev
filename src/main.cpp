@@ -515,6 +515,15 @@ QString get_unical_id(void)
 }
 
 
+// Получение псевдо-уникального имени картинки
+// Внутренний формат для храния картинок в MyTetra - png
+// Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
+QString getUnicalImageName(void)
+{
+  return "image"+QString::number(rand())+".png";
+}
+
+
 int get_milli_count(void)
 {
   // Something like GetTickCount but portable

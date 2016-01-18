@@ -472,7 +472,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
    // без потери качества, поэтому затем при записи
    // легко сохраняется в PNG формат. Чтобы избежать путаницы,
    // сразу имя ресурса картинки задается как PNG файл
-   QString imageName="image"+QString::number(rand())+".png";
+   QString imageName=getUnicalImageName();
 
    document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
    cursor.insertImage(imageName);
@@ -501,7 +501,9 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
 }
 
 
-void EditorTextArea::onDownloadImagesSuccessfull(const QString html, const QMap<QString, QByteArray> referencesAndMemoryFiles)
+void EditorTextArea::onDownloadImagesSuccessfull(const QString html,
+                                                 const QMap<QString, QByteArray> referencesAndMemoryFiles,
+                                                 const QMap<QString, QString> referencesAndInternalNames)
 {
   // К документу добавляются скачанные картинки в виде ресурсов
   foreach (QString imageReference, referencesAndMemoryFiles.keys())
@@ -512,9 +514,9 @@ void EditorTextArea::onDownloadImagesSuccessfull(const QString html, const QMap<
     // Если данные с картинкой правильные, и с ней может работать Qt
     if(result)
     {
-      // Картинка добавляется в ресурсы документа
+      // Картинка добавляется в ресурсы документа со внутренним именем
       this->document()->addResource(QTextDocument::ImageResource,
-                                    QUrl(imageReference),
+                                    QUrl( referencesAndInternalNames.value(imageReference) ),
                                     QVariant(image));
     }
   }

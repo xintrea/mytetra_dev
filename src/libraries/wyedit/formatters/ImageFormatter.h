@@ -24,7 +24,9 @@ public:
 
 signals:
 
-  void downloadImagesSuccessfull(const QString html, const QMap<QString, QByteArray> referencesAndMemoryFiles);
+  void downloadImagesSuccessfull(const QString html,
+                                 const QMap<QString, QByteArray> referencesAndMemoryFiles,
+                                 const QMap<QString, QString> referencesAndInternalNames);
 
 public slots:
 

@@ -16,7 +16,8 @@
 #include "../EditorImageProperties.h"
 #include "../EditorCursorPositionDetector.h"
 
-#include "../../Downloader.h"
+#include "main.h"
+#include "libraries//Downloader.h"
 
 
 ImageFormatter::ImageFormatter()
@@ -244,7 +245,7 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
       QImage image = QImageReader(currFileName).read();
 
       // Внутреннее имя картинки
-      QString imageName="image"+QString::number(rand())+".png";
+      QString imageName=getUnicalImageName();
 
       // Картинка добавляется в хранилище документа
       textArea->document()->addResource(QTextDocument::ImageResource, QUrl(imageName), image );
@@ -283,12 +284,15 @@ void ImageFormatter::onDownloadImages(const QString html)
   QTextCursor textCursor(&textDocument);
   textCursor.insertHtml(html);
 
-  // Перебираются блоки документа и находятся блоки с картинками
-  // QStringList imagesNames; // В список сохраняются имена найденных картинок
   QStringList downloadReferences; // Список ссылок на изображения, которые надо загрузить
+
+  QMap<QString, QString> referencesAndInternalNames; // Соответствие ссылок на изображения и внутренних имен изображений
+
   QTextBlock textBlock = textDocument.begin();
   while(textBlock.isValid())
   {
+    bool resetBlock=false;
+
     QTextBlock::iterator it;
 
     for(it = textBlock.begin(); !(it.atEnd()); ++it)
@@ -303,22 +307,38 @@ void ImageFormatter::onDownloadImages(const QString html)
 
           // Из формата выясняется имя картинки
           QString imageName=imgFmt.name();
-          // imagesNames << imageName;
           qDebug() << "Find " << imageName << "\n"; // имя файла
 
-          // Если файла картинки не существует
-          QString imageFileName=editor->getWorkDirectory()+"/"+imageName;
-          QFileInfo tryFile(imageFileName);
-          if(tryFile.exists()==false)
+          // Если имя файла не является "внутренним", значит картинка еще не добавлена
+          if(!imageName.contains(QRegExp("^image\\d+.png$")))
           {
             qDebug() << "Set file for download" << imageName;
-            downloadReferences << imageName;
-          }
 
+            // Ссылка на картинку добавляется в массив скачиваемых файлов
+            downloadReferences << imageName;
+
+            // Ссылке ставится в соответствие уникальное внутренне имя картинки
+            QString internalImageName=getUnicalImageName();
+            referencesAndInternalNames[imageName]=internalImageName;
+
+            // Символ внешней картинки заменяется на символ внутренней
+            unsigned int position=currentFragment.position();
+            textCursor.setPosition(position);
+            textCursor.deleteChar(); // Удаляется символ - внешняя картинка (попробовать deletePreviousChar)
+            textCursor.insertImage(internalImageName); // Вставляется символ - внутренняя картинка
+
+            // Выход из цикла перебора фрагмента, т. к. документ изменился
+            resetBlock=true;
+            break;
+          }
         }
       }
     }
-    textBlock = textBlock.next();
+
+    if(resetBlock)
+      textBlock = textDocument.begin(); // Документ изменился, его надо обрабатывать с самого начала
+    else
+      textBlock = textBlock.next();
   }
 
 
@@ -339,10 +359,10 @@ void ImageFormatter::onDownloadImages(const QString html)
       msgBox.exec();
     }
 
-    emit downloadImagesSuccessfull( html, downloader.getReferencesAndMemoryFiles() );
+    emit downloadImagesSuccessfull( textDocument.toHtml(), downloader.getReferencesAndMemoryFiles(), referencesAndInternalNames );
     return;
   }
 
-  emit downloadImagesSuccessfull( html, QMap<QString, QByteArray>() );
+  emit downloadImagesSuccessfull( html, QMap<QString, QByteArray>(), QMap<QString, QString>() );
 }
 
