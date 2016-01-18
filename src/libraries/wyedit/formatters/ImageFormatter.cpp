@@ -345,10 +345,18 @@ void ImageFormatter::onDownloadImages(const QString html)
   // Если есть изображения, которые надо скачать
   if(downloadReferences.count()>0)
   {
-    // Скачивание изображений
+    // Создание виджета скачивания файлов
     Downloader downloader;
+    downloader.setAboutText(tr("Download images"));
     downloader.setSaveMode(Downloader::memory);
     downloader.setReferencesList(downloadReferences);
+
+    // Установка ширины для виджета скачивания файлов
+    int dialogWidth=int(0.8*(float)textArea->width());
+    downloader.setMinimumWidth( dialogWidth );
+    downloader.resize( downloader.size() );
+
+    // Запуск виджета скачивания файлов
     downloader.run();
 
     // Если при скачивании изображений появились какие-то ошибки

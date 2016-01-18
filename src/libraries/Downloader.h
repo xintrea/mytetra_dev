@@ -9,6 +9,7 @@ class QString;
 class QStringList;
 class QByteArray;
 class QPushButton;
+class QLabel;
 class QTableWidget;
 class QNetworkReply;
 
@@ -26,6 +27,8 @@ public:
   void setSaveMode(int iMode);
   void setSaveDirectory(QString iDir);
   void setReferencesList(QStringList iReferencesList);
+
+  void setAboutText(QString iAboutText);
 
   QMap<int, QByteArray> getMemoryFiles() const;
   QMap<QString, QByteArray> getReferencesAndMemoryFiles() const;
@@ -65,8 +68,9 @@ protected:
 
   QNetworkAccessManager webManager; // Объект для работы с HTTP
 
-  QPushButton *cancelButton;
   QTableWidget *table;
+  QPushButton *cancelButton;
+  QLabel *aboutLabel;
 
   void setupUI();
   void setupSignals();

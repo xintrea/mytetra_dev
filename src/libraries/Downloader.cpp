@@ -9,6 +9,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QHeaderView>
+#include <QLabel>
 
 #include "Downloader.h"
 #include "main.h"
@@ -43,11 +45,18 @@ Downloader::~Downloader()
 
 void Downloader::setupUI()
 {
+  // Текст описания
+  aboutLabel=new QLabel(this);
+  aboutLabel->hide();
+
   // Создается таблица скачиваемых файлов
   table=new QTableWidget(0, colsName.count(), this);
 
   // Задаются заголовки таблицы
   table->setHorizontalHeaderLabels(colsName);
+
+  table->horizontalHeader()->setSectionResizeMode(downloadReferenceCol, QHeaderView::Stretch);
+  table->setColumnWidth(downloadPercentCol, 128);
 
 
   // Создается кнопка отмены загрузки
@@ -70,6 +79,7 @@ void Downloader::assembly()
 {
   QVBoxLayout *mainLayout=new QVBoxLayout();
 
+  mainLayout->addWidget(aboutLabel);
   mainLayout->addWidget(table);
   mainLayout->addWidget(cancelButton);
 
@@ -106,8 +116,16 @@ void Downloader::setReferencesList(QStringList iReferencesList)
 
     // Создается виджет линейки наполняемости
     QProgressBar *progressBar=new QProgressBar();
+    progressBar->setRange(0,100);
     table->setCellWidget(i, downloadPercentCol, progressBar);
   }
+}
+
+
+void Downloader::setAboutText(QString iAboutText)
+{
+  aboutLabel->setText(iAboutText);
+  aboutLabel->show();
 }
 
 
@@ -192,6 +210,8 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
   }
 
   reply->deleteLater();
+
+  qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(100);
 
   // Если еще не все ссылки загружены
   if(currentReferenceNum<(referencesList.count()-1))
