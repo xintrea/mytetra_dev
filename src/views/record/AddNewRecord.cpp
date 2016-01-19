@@ -106,7 +106,7 @@ void AddNewRecord::setupEventFilter(void)
 
 bool AddNewRecord::eventFilter(QObject *object, QEvent *event)
 {
-  qDebug() << "Editor::eventFilter()";
+  // qDebug() << "Editor::eventFilter()";
 
   // Отслеживание нажатия ESC в области редактирования текста
   if (object == recordTextEditor)

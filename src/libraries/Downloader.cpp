@@ -125,7 +125,11 @@ void Downloader::setReferencesList(QStringList iReferencesList)
 void Downloader::setAboutText(QString iAboutText)
 {
   aboutLabel->setText(iAboutText);
-  aboutLabel->show();
+
+  if(iAboutText.length()>0)
+    aboutLabel->show();
+  else
+    aboutLabel->hide();
 }
 
 

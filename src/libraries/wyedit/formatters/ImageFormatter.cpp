@@ -314,12 +314,25 @@ void ImageFormatter::onDownloadImages(const QString html)
           {
             qDebug() << "Set file for download" << imageName;
 
-            // Ссылка на картинку добавляется в массив скачиваемых файлов
-            downloadReferences << imageName;
+            QString internalImageName;
 
-            // Ссылке ставится в соответствие уникальное внутренне имя картинки
-            QString internalImageName=getUnicalImageName();
-            referencesAndInternalNames[imageName]=internalImageName;
+            // Если ссылки на картинку еще нет в списке загружаемых
+            if(!downloadReferences.contains(imageName))
+            {
+              // Ссылка на картинку добавляется в массив скачиваемых файлов
+              downloadReferences << imageName;
+
+              // Ссылке ставится в соответствие уникальное внутреннее имя картинки
+              internalImageName=getUnicalImageName();
+              referencesAndInternalNames[imageName]=internalImageName;
+            }
+            else
+            {
+              // Иначе картинка повторяется
+
+              // Внутреннее имя картинки берется из уже существующих
+              internalImageName=referencesAndInternalNames[imageName];
+            }
 
             // Символ внешней картинки заменяется на символ внутренней
             unsigned int position=currentFragment.position();
