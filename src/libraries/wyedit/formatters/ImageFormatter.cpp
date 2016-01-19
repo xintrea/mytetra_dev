@@ -288,8 +288,7 @@ void ImageFormatter::onDownloadImages(const QString html)
 
   QMap<QString, QString> referencesAndInternalNames; // Соответствие ссылок на изображения и внутренних имен изображений
 
-  // Виджета скачивания файлов
-  Downloader downloader;
+  QMessageBox msgBox;
 
   QTextBlock textBlock = textDocument.begin();
   while(textBlock.isValid())
@@ -315,13 +314,12 @@ void ImageFormatter::onDownloadImages(const QString html)
           // Если имя файла не является "внутренним", значит картинка еще не добавлена
           if(!imageName.contains(QRegExp("^image\\d+.png$")))
           {
-            // Так как процесс поиска картинок может быть длительным, надо сразу показать окно загрузки
-            if(downloader.getAboutText().length()==0)
+            if(msgBox.text().length()==0)
             {
-              downloader.setAboutText(tr("Images download initting..."));
-              downloader.show();
-              downloader.resize( downloader.size() );
-              downloader.raise();
+              msgBox.setText(tr("Images download initting..."));
+              msgBox.setStandardButtons(QMessageBox::NoButton);
+              msgBox.setWindowModality(Qt::WindowModal);
+              msgBox.show();
               qApp->processEvents();
             }
 
@@ -371,6 +369,10 @@ void ImageFormatter::onDownloadImages(const QString html)
   // Если есть изображения, которые надо скачать
   if(downloadReferences.count()>0)
   {
+    msgBox.hide();
+
+    // Виджета скачивания файлов
+    Downloader downloader;
     downloader.setAboutText(tr("Download images"));
     downloader.setSaveMode(Downloader::memory);
     downloader.setReferencesList(downloadReferences);
@@ -382,7 +384,7 @@ void ImageFormatter::onDownloadImages(const QString html)
 
     // На передний план
     downloader.raise();
-    qApp->processEvents();
+    // qApp->processEvents();
 
     // Запуск виджета скачивания файлов
     downloader.run();

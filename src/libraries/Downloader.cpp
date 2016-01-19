@@ -209,6 +209,8 @@ void Downloader::startNextDownload()
 
 void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 {
+  qDebug() << "File download result: " << reply->error();
+
   if(saveMode==memory)
   {
     memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
