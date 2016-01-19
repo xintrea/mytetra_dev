@@ -371,7 +371,7 @@ void ImageFormatter::onDownloadImages(const QString html)
   {
     msgBox.hide();
 
-    // Виджета скачивания файлов
+    // Виджет скачивания файлов
     Downloader downloader;
     downloader.setAboutText(tr("Download images"));
     downloader.setSaveMode(Downloader::memory);
