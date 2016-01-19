@@ -71,7 +71,7 @@ void Downloader::setupSignals()
           this,        SLOT   (onFileDownloadFinished(QNetworkReply*)) );
 
   connect(cancelButton, SIGNAL (clicked()),
-          this,         SIGNAL (reject()));
+          this,         SLOT (reject()));
 }
 
 
@@ -130,6 +130,12 @@ void Downloader::setAboutText(QString iAboutText)
     aboutLabel->show();
   else
     aboutLabel->hide();
+}
+
+
+QString Downloader::getAboutText()
+{
+  return aboutLabel->text();
 }
 
 

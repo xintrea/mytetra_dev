@@ -29,6 +29,7 @@ public:
   void setReferencesList(QStringList iReferencesList);
 
   void setAboutText(QString iAboutText);
+  QString getAboutText(void);
 
   QMap<int, QByteArray> getMemoryFiles() const;
   QMap<QString, QByteArray> getReferencesAndMemoryFiles() const;
