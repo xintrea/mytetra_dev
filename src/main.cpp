@@ -266,6 +266,11 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
    case QtFatalMsg:
        smartPrintDebugMessage("[FTERR] "+msgText+"\n");
        abort();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+   case QtInfoMsg:
+       smartPrintDebugMessage("[INF] "+msgText+"\n");
+       break;
+#endif
  }
 
  // #endif
