@@ -158,7 +158,7 @@ void FindScreen::setupCloseButton(void)
   {
     int w=closeButton->geometry().width();
     int h=closeButton->geometry().height();
-    int x=imin(w,h)/2;
+    int x=qMin(w,h)/2;
     closeButton->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, QSizePolicy::ToolButton));
     closeButton->setMinimumSize(x,x);
     closeButton->setMaximumSize(x,x);

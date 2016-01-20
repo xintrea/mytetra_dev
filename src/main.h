@@ -61,8 +61,6 @@ QString xmlNodeToString(QDomNode xmlData);
 void print_object_tree(void);
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action);
-int imax(int x1, int x2);
-int imin(int x1, int x2);
 void myMessageOutput(QtMsgType type, const char *msg);
 QStringList text_delimiter_decompose(QString text);
 QString get_unical_id(void);
