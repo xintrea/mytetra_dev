@@ -219,28 +219,26 @@ void AppConfigPage_Main::assembly(void)
 // Действия при нажатии кнопки выбора директории данных
 void AppConfigPage_Main::open_tetradir_select_dialog(void)
 {
- QFileDialog tetradirSelectDialog(this);
- tetradirSelectDialog.setFileMode(QFileDialog::Directory);
- tetradirSelectDialog.setWindowTitle(tr("Select data directory"));
- tetradirSelectDialog.setDirectory(tetradirInput->text());
- 
- tetradirSelectDialog.exec();
- 
- tetradirInput->setText(tetradirSelectDialog.directory().absolutePath());
+ const QString &title = tr("Select data directory");
+ const QString &oldDirectory = tetradirInput->text();
+ const QString &newDirectory = QFileDialog::getExistingDirectory(this, title, oldDirectory);
+
+ if (!newDirectory.isEmpty()){
+   tetradirInput->setText(newDirectory);
+ }
 }
 
 
 // Действия при нажатии кнопки выбора директории корзины
 void AppConfigPage_Main::open_trashdir_select_dialog(void)
 {
- QFileDialog trashdirSelectDialog(this);
- trashdirSelectDialog.setFileMode(QFileDialog::Directory);
- trashdirSelectDialog.setWindowTitle(tr("Select trash directory"));
- trashdirSelectDialog.setDirectory(trashdirInput->text());
- 
- trashdirSelectDialog.exec();
- 
- trashdirInput->setText(trashdirSelectDialog.directory().absolutePath());
+ const QString &title = tr("Select trash directory");
+ const QString &oldDirectory = trashdirInput->text();
+ const QString &newDirectory = QFileDialog::getExistingDirectory(this, title, oldDirectory);
+
+ if (!newDirectory.isEmpty()){
+   trashdirInput->setText(newDirectory);
+ }
 }
 
 
