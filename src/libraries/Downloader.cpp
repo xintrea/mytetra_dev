@@ -11,6 +11,7 @@
 #include <QNetworkRequest>
 #include <QHeaderView>
 #include <QLabel>
+#include <QUrl>
 
 #include "Downloader.h"
 #include "main.h"
@@ -69,6 +70,9 @@ void Downloader::setupSignals()
 {
   connect(&webManager, SIGNAL (finished(QNetworkReply*)),
           this,        SLOT   (onFileDownloadFinished(QNetworkReply*)) );
+
+  connect(&webManager, SIGNAL (sslErrors(QNetworkReply *, const QList<QSslError> &)),
+        this, SLOT (onSslErrors(QNetworkReply *, const QList<QSslError> &)) );
 
   connect(cancelButton, SIGNAL (clicked()),
           this,         SLOT (reject()));
@@ -209,33 +213,89 @@ void Downloader::startNextDownload()
 
 void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 {
-  qDebug() << "File download result: " << reply->error();
+  bool enableNextDownload=true;
 
-  if(saveMode==memory)
+  // Если при получении ответа небыло ошибок сети
+  if(reply->error() == QNetworkReply::NoError)
   {
-    memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
+    // Определение, есть ли перенаправление (редирект) в ответе сервера
+    QVariant possibleRedirectUrl=reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    QUrl urlRedirectedTo=checkedRedirectUrl( possibleRedirectUrl.toUrl() );
+
+    // Если есть перенаправление
+    if(!urlRedirectedTo.isEmpty())
+    {
+      qDebug() << "Redirected to " << urlRedirectedTo.toString();
+
+      QNetworkRequest request(urlRedirectedTo);
+      webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
+
+      enableNextDownload=false;
+    }
+    else
+    {
+      // Иначе перенаправления нет, и значит в ответе содержится принятый файл
+
+      if(saveMode==memory)
+        memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
+
+      if(saveMode==disk)
+        qDebug() << "Development in process...";
+    }
+  }
+  else
+  {
+    qDebug() << reply->errorString();
+    errorLog=errorLog+"\n"+reply->errorString();
+    isSuccessFlag=false; // Если с одним файлом была проблема, флаг успешной загрузки снимается для всех
   }
 
-  if(saveMode==disk)
+
+  // Если разрешена загрузка следующей ссылки
+  if(enableNextDownload)
   {
-    qDebug() << "Development in process...";
+    // На экране отмечается, что данная ссылка загружена полностью
+    qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(100);
+
+    // Если еще не все ссылки загружены
+    if(currentReferenceNum<(referencesList.count()-1))
+      startNextDownload();
+    else
+    {
+      // Иначе все загрузки завершены
+
+      qDebug() << "All download successfull";
+
+      isSuccessFlag=true;
+
+      emit accept(); // Программно закрывается окно диалога, как будто нажали Ok
+    }
   }
 
   reply->deleteLater();
+}
 
-  qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(100);
 
-  // Если еще не все ссылки загружены
-  if(currentReferenceNum<(referencesList.count()-1))
-    startNextDownload();
-  else
-  {
-    // Иначе все загрузки завершены
+// Метод, отбрасывающий повторяющиеся ссылки при редиректе
+QUrl Downloader::checkedRedirectUrl(const QUrl& possibleRedirectUrl) const
+{
+  static QUrl oldRedirectUrl;
+  QUrl redirectUrl;
 
-    qDebug() << "All download successfull";
-
-    isSuccessFlag=true;
-
-    emit accept(); // Программно закрывается окно диалога, как будто нажали Ok
+  if(!possibleRedirectUrl.isEmpty() &&
+     possibleRedirectUrl != oldRedirectUrl) {
+    redirectUrl = possibleRedirectUrl;
   }
+
+  oldRedirectUrl=redirectUrl;
+
+  return redirectUrl;
+}
+
+
+void Downloader::onSslErrors(QNetworkReply *reply, const QList<QSslError> &errors)
+{
+  Q_UNUSED( errors );
+
+  reply->ignoreSslErrors();
 }
