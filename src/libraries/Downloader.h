@@ -12,7 +12,7 @@ class QPushButton;
 class QLabel;
 class QTableWidget;
 class QNetworkReply;
-
+class QUrl;
 
 class Downloader : public QDialog
 {
@@ -45,7 +45,9 @@ public:
 
 
 private slots:
+
  void onFileDownloadFinished(QNetworkReply* pReply); // Слот, вызываемый при завершении загрузки очередного файла
+ void onSslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
 
 
 protected:
@@ -78,6 +80,7 @@ protected:
   void assembly();
 
   void startNextDownload();
+  QUrl checkedRedirectUrl(const QUrl& possibleRedirectUrl) const;
 
 };
 
