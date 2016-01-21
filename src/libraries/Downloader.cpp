@@ -254,7 +254,11 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
   // Если разрешена загрузка следующей ссылки
   if(enableNextDownload)
   {
-    // На экране отмечается, что данная ссылка загружена полностью
+    // Если при загрузке текущей ссылки была какая-то ошибка, строка выделяется цветом
+    if(reply->error() != QNetworkReply::NoError)
+      table->item(currentReferenceNum, downloadReferenceCol)->setBackground( QApplication::palette().color(QPalette::Mid) );
+
+    // На экране отмечается, что текущая ссылка загружена полностью
     qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(100);
 
     // Если еще не все ссылки загружены
