@@ -192,9 +192,9 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
     {
       if(!mouseCursorOverriden)
       {
-        qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor));
+        qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor)); // Меняется форма курсора на указатель клика по ссылке
         mouseCursorOverriden = true;
-        globalParameters.getStatusBar()->showMessage(href);
+        globalParameters.getStatusBar()->showMessage(href); // Ссылка отображается в строке статуса
         qDebug() << "Cursor href in mouse event: " << href;
       }
     }
@@ -202,7 +202,7 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
     {
       if(mouseCursorOverriden)
       {
-        qApp->restoreOverrideCursor();
+        qApp->restoreOverrideCursor(); // Воостанавливается обычный курсор
         mouseCursorOverriden = false;
         globalParameters.getStatusBar()->showMessage("");
       }

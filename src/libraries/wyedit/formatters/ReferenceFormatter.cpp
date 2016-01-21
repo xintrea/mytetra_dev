@@ -81,10 +81,7 @@ void ReferenceFormatter::onContextMenuGotoReference()
 {
   QString href=editor->cursorPositionDetector->referenceHref(); // Текст ссылки
 
-  if(href.length()>0)
-  {
-    QDesktopServices::openUrl(QUrl(href));
-  }
+  onClickedGotoReference(href);
 }
 
 
