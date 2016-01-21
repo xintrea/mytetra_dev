@@ -18,7 +18,8 @@ EditorFindDialog::EditorFindDialog(QWidget *parent) : QDialog(parent)
  setup_signals();
  assembly();
 
- showEvent(new QShowEvent());
+ QShowEvent event;
+ showEvent(&event);
 }
 
 
