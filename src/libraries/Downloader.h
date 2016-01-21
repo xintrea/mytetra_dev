@@ -48,7 +48,7 @@ private slots:
 
  void onFileDownloadFinished(QNetworkReply* pReply); // Слот, вызываемый при завершении загрузки очередного файла
  void onSslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
-
+ void onCancelClicked();
 
 protected:
 
@@ -82,6 +82,7 @@ protected:
   void startNextDownload();
   QUrl checkedRedirectUrl(const QUrl& possibleRedirectUrl) const;
 
+  void addErrorLog(const QString text);
 };
 
 #endif // DOWNLOADER_H

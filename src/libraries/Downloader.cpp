@@ -75,7 +75,7 @@ void Downloader::setupSignals()
         this, SLOT (onSslErrors(QNetworkReply *, const QList<QSslError> &)) );
 
   connect(cancelButton, SIGNAL (clicked()),
-          this,         SLOT (reject()));
+          this,         SLOT (onCancelClicked()));
 }
 
 
@@ -246,7 +246,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
   else
   {
     qDebug() << reply->errorString();
-    errorLog=errorLog+"\n"+reply->errorString();
+    addErrorLog("reply->errorString()");
     isSuccessFlag=false; // Если с одним файлом была проблема, флаг успешной загрузки снимается для всех
   }
 
@@ -302,4 +302,23 @@ void Downloader::onSslErrors(QNetworkReply *reply, const QList<QSslError> &error
   Q_UNUSED( errors );
 
   reply->ignoreSslErrors();
+}
+
+
+void Downloader::onCancelClicked()
+{
+  addErrorLog("Cancel download by user.");
+
+  isSuccessFlag=false;
+
+  reject();
+}
+
+
+void Downloader::addErrorLog(const QString text)
+{
+  if(errorLog.length()>0)
+    errorLog+="\n";
+
+  errorLog+=text;
 }
