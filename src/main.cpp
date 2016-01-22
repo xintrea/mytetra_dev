@@ -205,21 +205,6 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action)
   qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
 }
 
-
-int imax(int x1, int x2)
-{
-  if(x1>x2)return x1;
-  else return x2;
-}
-
-
-int imin(int x1, int x2)
-{
-  if(x1<x2)return x1;
-  else return x2;
-}
-
-
 void smartPrintDebugMessage(QString msg)
 {
  if(globalParameters.getTargetOs()=="any" ||
@@ -281,6 +266,11 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
    case QtFatalMsg:
        smartPrintDebugMessage("[FTERR] "+msgText+"\n");
        abort();
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+   case QtInfoMsg:
+       smartPrintDebugMessage("[INF] "+msgText+"\n");
+       break;
+#endif
  }
 
  // #endif

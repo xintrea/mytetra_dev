@@ -51,7 +51,7 @@ void InfoFieldEnter::setup_ui(void)
  expandInfo->setVisible(true);
  int w=expandInfo->geometry().width();
  int h=expandInfo->geometry().height();
- int x=imin(w,h)/2;
+ int x=qMin(w,h)/2;
  expandInfo->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, QSizePolicy::ToolButton));
  expandInfo->setMinimumSize(x,x);
  expandInfo->setMaximumSize(x,x);
