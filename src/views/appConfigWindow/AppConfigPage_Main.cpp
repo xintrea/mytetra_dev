@@ -233,14 +233,14 @@ void AppConfigPage_Main::open_tetradir_select_dialog(void)
 // Действия при нажатии кнопки выбора директории корзины
 void AppConfigPage_Main::open_trashdir_select_dialog(void)
 {
- QFileDialog trashdirSelectDialog(this);
- trashdirSelectDialog.setFileMode(QFileDialog::Directory);
- trashdirSelectDialog.setWindowTitle(tr("Select trash directory"));
- trashdirSelectDialog.setDirectory(trashdirInput->text());
+  QFileDialog trashdirSelectDialog(this);
+  trashdirSelectDialog.setFileMode(QFileDialog::Directory);
+  trashdirSelectDialog.setWindowTitle(tr("Select trash directory"));
+  trashdirSelectDialog.setDirectory(trashdirInput->text());
 
- if( trashdirSelectDialog.exec() )
-   if( !trashdirSelectDialog.directory().absolutePath().isEmpty() )
-     trashdirInput->setText( trashdirSelectDialog.directory().absolutePath() );
+  if( trashdirSelectDialog.exec() )
+    if( !trashdirSelectDialog.directory().absolutePath().isEmpty() )
+      trashdirInput->setText( trashdirSelectDialog.directory().absolutePath() );
 }
 
 
