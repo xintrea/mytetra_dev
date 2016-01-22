@@ -219,14 +219,14 @@ void AppConfigPage_Main::assembly(void)
 // Действия при нажатии кнопки выбора директории данных
 void AppConfigPage_Main::open_tetradir_select_dialog(void)
 {
- QFileDialog tetradirSelectDialog(this);
- tetradirSelectDialog.setFileMode(QFileDialog::Directory);
- tetradirSelectDialog.setWindowTitle(tr("Select data directory"));
- tetradirSelectDialog.setDirectory(tetradirInput->text());
- 
- tetradirSelectDialog.exec();
- 
- tetradirInput->setText(tetradirSelectDialog.directory().absolutePath());
+  QFileDialog tetradirSelectDialog(this);
+  tetradirSelectDialog.setFileMode(QFileDialog::Directory);
+  tetradirSelectDialog.setWindowTitle(tr("Select data directory"));
+  tetradirSelectDialog.setDirectory(tetradirInput->text());
+
+  if( tetradirSelectDialog.exec() )
+    if( !tetradirSelectDialog.directory().absolutePath().isEmpty() )
+      tetradirInput->setText( tetradirSelectDialog.directory().absolutePath() );
 }
 
 
@@ -237,10 +237,10 @@ void AppConfigPage_Main::open_trashdir_select_dialog(void)
  trashdirSelectDialog.setFileMode(QFileDialog::Directory);
  trashdirSelectDialog.setWindowTitle(tr("Select trash directory"));
  trashdirSelectDialog.setDirectory(trashdirInput->text());
- 
- trashdirSelectDialog.exec();
- 
- trashdirInput->setText(trashdirSelectDialog.directory().absolutePath());
+
+ if( trashdirSelectDialog.exec() )
+   if( !trashdirSelectDialog.directory().absolutePath().isEmpty() )
+     trashdirInput->setText( trashdirSelectDialog.directory().absolutePath() );
 }
 
 
