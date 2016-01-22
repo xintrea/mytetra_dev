@@ -135,10 +135,6 @@ void GlobalParameters::initWorkDirectory(void)
 
    bool ok;
 
-   // QInputDialog inputDialog;
-   // inputDialog.setLabelText("<b>"+welcomeText+"</b>\n\n"+infoText);
-   // inputDialog.setComboBoxItems(items);
-
    QWidget *tempWidget=new QWidget();
    QString item=QInputDialog::getItem(tempWidget,
                                       welcomeText,
@@ -344,9 +340,7 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    qDebug() << "Config directory name " << dirName;
 
    // Открывается хранилище настроек
-   QSettings *conf=new QSettings(fileName, QSettings::IniFormat);
-   // conf->setPath(QSettings::IniFormat, QSettings::UserScope, dirName);
-   // conf->setPath(QSettings::IniFormat, QSettings::SystemScope, dirName);
+   QSettings *conf=new QSettings(fileName, QSettings::IniFormat, this);
 
    // Если есть переменная version
    if(conf->contains("version"))

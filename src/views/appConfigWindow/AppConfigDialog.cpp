@@ -15,7 +15,7 @@
 extern AppConfig mytetraConfig;
 
 
-AppConfigDialog::AppConfigDialog(QString firstPageName="") : QWidget()
+AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
 {
  if(mytetraConfig.getInterfaceMode()=="mobile") // if(true)
  {
