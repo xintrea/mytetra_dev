@@ -893,11 +893,13 @@ void MainWindow::goWalkHistoryPrevious(void)
 {
   editorScreen->saveTextarea();
 
+  // Идентификатор текущей записи запоминается в историю
   QString id=editorScreen->getMiscField("id");
   walkHistory.add(id,
                   editorScreen->getCursorPosition(),
                   editorScreen->getScrollBarPosition(),
                   WALK_HISTORY_GO_PREVIOUS);
+
   walkHistory.setDrop(true);
 
   goWalkHistory();
@@ -908,11 +910,13 @@ void MainWindow::goWalkHistoryNext(void)
 {
   editorScreen->saveTextarea();
 
+  // Идентификатор текущей записи запоминается в историю
   QString id=editorScreen->getMiscField("id");
   walkHistory.add(id,
                   editorScreen->getCursorPosition(),
                   editorScreen->getScrollBarPosition(),
                   WALK_HISTORY_GO_NEXT);
+
   walkHistory.setDrop(true);
 
   goWalkHistory();

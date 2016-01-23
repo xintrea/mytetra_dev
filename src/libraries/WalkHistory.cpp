@@ -35,10 +35,10 @@ void WalkHistory::add(QString id,
                       int scrollBarPosition,
                       int mode)
 {
- // qDebug() << "WalkHistory::add() : id " << id;
- // qDebug() << "WalkHistory::add() : mode " << mode;
- // qDebug() << "WalkHistory::add() start status:";
- // print();
+ qDebug() << "WalkHistory::add() : id " << id;
+ qDebug() << "WalkHistory::add() : mode " << mode;
+ qDebug() << "WalkHistory::add() start status:";
+ print();
 
  if(id.length()==0)
   return;
@@ -47,17 +47,19 @@ void WalkHistory::add(QString id,
  data[id].scrollBarPosition=scrollBarPosition;
 
  if(dropFlag)
-  {
-   // qDebug() << "WalkHistory::add() : Dropping adding.";
+ {
+   qDebug() << "WalkHistory::add() : Dropping adding.";
    return;
-  }
+ }
 
  // Если происходит просто запоминание без движения по истории
  if(mode==WALK_HISTORY_GO_NONE)
-  {
+ {
+   qDebug() << "WalkHistory::add() : mode WALK_HISTORY_GO_NONE";
+
    // Если указатель истории не указывает на конец истории (на вершину стека)
    if( historyPoint!=(historyId.length()-1) && historyPoint!=(-1) )
-    {
+   {
      // Значит указатель находится где-то в середине истории
 
      // Нужно удалить все старшие записи от указателя истории
@@ -66,15 +68,16 @@ void WalkHistory::add(QString id,
      int deleteCount=deleteEnd-deleteStart;
 
      for(int i=0; i<deleteCount; i++)
-      historyId.removeLast();
-    }
+       historyId.removeLast();
+   }
 
    // Повторяющийся идентификатор не запоминается
    if(historyId.size()>0)
-    if(historyId.last()==id)
+     if(historyId.last()==id)
      {
-      // print();
-      return;
+       qDebug() << "WalkHistory::add() : Repeate ID, dont save";
+       print();
+       return;
      }
 
    // Идентификатор добавляется в историю
@@ -83,142 +86,144 @@ void WalkHistory::add(QString id,
 
    // Если история слишком большая
    if( historyId.length() > WALK_HISTORY_MAX )
-    {
+   {
      historyId.removeFirst();
      historyPoint=historyId.length()-1;
+   }
+ } // Закончилось условие что происходит запоминание без движения по истории
+
+
+  // Для режимов движения назад и вперед по истории
+  if(mode==WALK_HISTORY_GO_PREVIOUS || mode==WALK_HISTORY_GO_NEXT)
+    if(historyPoint==-1) // Если история была пуста
+    {
+      // Идентификатор просто добавляется в историю
+      historyId << id;
+      historyPoint=0;
+
+      qDebug() << "WalkHistory::add() : history is empty, only add ID";
+      print();
+      return;
     }
-  } // Закончилось условие что происходит запоминание без движения по истории
 
 
- // Если происходит запоминание с движением назад по истории
- if(mode==WALK_HISTORY_GO_PREVIOUS)
+  // Если происходит запоминание с движением назад по истории
+  if(mode==WALK_HISTORY_GO_PREVIOUS)
   {
-   // Если история была пуста
-   if(historyPoint==-1)
-    {
-     // Идентификатор просто добавляется в историю
-     historyId << id;
-     historyPoint=0;
+    qDebug() << "WalkHistory::add() : mode WALK_HISTORY_GO_PREVIOUS";
 
-     // print();
-     return;
-    }
-
-   // Если указатель находится в конце истории
-   if(historyPoint==(historyId.length()-1))
+    // Если указатель находится в конце истории
+    if(historyPoint==(historyId.length()-1))
     {
-     // Если добавляемый идентификатор не равен последнему в истории
-     // Его нужно добавить
-     if(id!=historyId.last())
+      qDebug() << "WalkHistory::add() : pointer on end";
+
+      // Если добавляемый идентификатор не равен последнему в истории
+      // Его нужно добавить
+      if(id!=historyId.last())
       {
-       // Идентификатор добавляется в историю
-       historyId << id;
-       historyPoint=historyId.length()-1;
+        qDebug() << "WalkHistory::add() : new ID not equal new ID, adding";
 
-       // Если история слишком большая
-       if( historyId.length() > WALK_HISTORY_MAX )
+        // Идентификатор добавляется в историю
+        historyId << id;
+        historyPoint=historyId.length()-1;
+
+        // Если история слишком большая
+        if( historyId.length() > WALK_HISTORY_MAX )
         {
-         historyId.removeFirst();
-         historyPoint=historyId.length()-1;
+          qDebug() << "WalkHistory::add() : history too big, trim";
+
+          historyId.removeFirst();
+          historyPoint=historyId.length()-1;
         }
       }
-
-     // Происходит перемещение указателя назад
-     if(historyPoint>0)
-      historyPoint--;
     } // Закрылось условие что указатель находился в конце истории
-   else
+    else
     {
-     // Иначе указатель находится где-то в середине истории
+      // Иначе указатель находится где-то в середине истории
+      qDebug() << "WalkHistory::add() : pointer on middle history";
 
-     if(id!=historyId.at(historyPoint))
+      if(id!=historyId.at(historyPoint))
       {
-       // Невозможная ситуация. При правильной работе механизма выбора и кликов
-       // по записям, она не может возникнуть. Но так как возможны баги в разных
-       // версиях Qt, жесткой реации на получение такой ситуации делать нельзя
-       QString message="WARNING! Bad walk history state if move previous. History max index "+QString::number(historyId.length()-1)+", History point "+QString::number(historyPoint)+", History id "+historyId.at(historyPoint)+", Current id "+id;
-       qDebug() << message;
+        // Невозможная ситуация. При правильной работе механизма выбора и кликов
+        // по записям, она не может возникнуть. Но так как возможны баги в разных
+        // версиях Qt, жесткой реации на получение такой ситуации делать нельзя
+        QString message="WARNING! Bad walk history state if move previous. History max index "+QString::number(historyId.length()-1)+", History point "+QString::number(historyPoint)+", History id "+historyId.at(historyPoint)+", Current id "+id;
+        qDebug() << message;
 
-       checkId(id);
-       checkId(historyId.at(historyPoint));
-        
-       // critical_error(message);
-       // return;
+        checkId(id);
+        checkId(historyId.at(historyPoint));
       }
-
-     // Происходит перемещение указателя назад
-     if(historyPoint>0)
-      historyPoint--;
     }
+
+    // Происходит перемещение указателя назад
+    if(historyPoint>0)
+      historyPoint--;
+
   } // Закончилось условие что происходит запоминание с движением назад по истории
 
 
- // Если происходит запоминание с движением вперед по истории
- if(mode==WALK_HISTORY_GO_NEXT)
+  // Если происходит запоминание с движением вперед по истории
+  if(mode==WALK_HISTORY_GO_NEXT)
   {
-   // Если история была пуста
-   if(historyPoint==-1)
+    qDebug() << "WalkHistory::add() : mode WALK_HISTORY_GO_NEXT";
+
+    // Если указатель находится в конце истории
+    if(historyPoint==(historyId.length()-1))
     {
-     // Идентификатор просто добавляется в историю
-     historyId << id;
-     historyPoint=0;
+      qDebug() << "WalkHistory::add() : pointer on end";
 
-     // print();
-     return;
-    }
-
-
-   // Если указатель находится в конце истории
-   if(historyPoint==(historyId.length()-1))
-    {
-
-     // Если добавляемый идентификатор не равен последнему в истории
-     // Его нужно добавить
-     if(id!=historyId.last())
+      // Если добавляемый идентификатор не равен последнему в истории
+      // Его нужно добавить
+      if(id!=historyId.last())
       {
-       // Идентификатор добавляется в историю
-       historyId << id;
-       historyPoint=historyId.length()-1;
+        qDebug() << "WalkHistory::add() : new ID not equal new ID, adding";
 
-       // Если история слишком большая
-       if( historyId.length() > WALK_HISTORY_MAX )
+        // Идентификатор добавляется в историю
+        historyId << id;
+        historyPoint=historyId.length()-1;
+
+        // Если история слишком большая
+        if( historyId.length() > WALK_HISTORY_MAX )
         {
-         historyId.removeFirst();
-         historyPoint=historyId.length()-1;
+          qDebug() << "WalkHistory::add() : history too big, trim";
+
+          historyId.removeFirst();
+          historyPoint=historyId.length()-1;
         }
       }
 
-     // print();
-     return;
+      print();
+      return;
     }
-   else
+    else
     {
-     // Иначе указатель находится где-то в середине истории
+      // Иначе указатель находится где-то в середине истории
+      qDebug() << "WalkHistory::add() : pointer on middle history";
 
-     if(id!=historyId.at(historyPoint))
+      if(id!=historyId.at(historyPoint))
       {
-       // Невозможная ситуация. При правильной работе механизма выбора и кликов
-       // по записям, она не может возникнуть. Но так как возможны баги в разных
-       // версиях Qt, жесткой реации на получение такой ситуации делать нельзя
-       QString message="WARNING! Bad walk history state if move next. History max index "+QString::number(historyId.length()-1)+", History point "+QString::number(historyPoint)+", History id "+historyId.at(historyPoint)+", Current id "+id;
-       qDebug() << message;
+        // Невозможная ситуация. При правильной работе механизма выбора и кликов
+        // по записям, она не может возникнуть. Но так как возможны баги в разных
+        // версиях Qt, жесткой реации на получение такой ситуации делать нельзя
+        QString message="WARNING! Bad walk history state if move next. History max index "+QString::number(historyId.length()-1)+", History point "+QString::number(historyPoint)+", History id "+historyId.at(historyPoint)+", Current id "+id;
+        qDebug() << message;
 
-       checkId(id);
-       checkId(historyId.at(historyPoint));
+        checkId(id);
+        checkId(historyId.at(historyPoint));
 
-       // critical_error(message);
-       // return;
+        // critical_error(message);
+        // return;
       }
 
-     // Происходит перемещение указателя вперед
-     if( historyPoint < (historyId.length()-1) )
-      historyPoint++;
+      // Происходит перемещение указателя вперед
+      if( historyPoint < (historyId.length()-1) )
+        historyPoint++;
     }
 
   } // Закончилось условие что происходит запоминание с движением вперед по истории
 
 
- // print();
+ print();
 }
 
 
