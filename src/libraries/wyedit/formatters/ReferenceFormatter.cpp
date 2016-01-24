@@ -26,7 +26,7 @@ ReferenceFormatter::ReferenceFormatter()
 // Редактирование ссылки
 void ReferenceFormatter::onReferenceClicked(void)
 {
-  TRACELOG
+  // TRACELOG
 
   QString href="";
 
@@ -136,7 +136,7 @@ QString ReferenceFormatter::getIdFromInternalHref(QString href)
 // Слот используется для "открепления" от ссылки, то есть чтобы при нажатии пробела после ссылки, ссылка не продолжала "тянуться"
 void ReferenceFormatter::onTextChanged(void)
 {
-  TRACELOG
+  // TRACELOG
 
   // Создается дополнительный курсор как копия основного курсора
   QTextCursor cursor=textArea->textCursor();
@@ -202,7 +202,7 @@ void ReferenceFormatter::onTextChanged(void)
 /*
 void ReferenceFormatter::onCursorPositionChanged(void)
 {
-  TRACELOG
+  // TRACELOG
 
 }
 
@@ -211,7 +211,7 @@ void ReferenceFormatter::onCursorPositionChanged(void)
 
 void ReferenceFormatter::onContentsChange(int position, int charsRemoved, int charsAdded)
 {
-  TRACELOG
+  // TRACELOG
 
 }
 */

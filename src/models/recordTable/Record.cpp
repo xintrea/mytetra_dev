@@ -363,7 +363,7 @@ QMap<QString, QString> Record::getNaturalFieldList() const
     }
   }
 
-  qDebug() << "Record::getFieldList() : "<<resultFieldList;
+  qDebug() << "Record::getFieldList() : " << resultFieldList;
 
   return resultFieldList;
 }

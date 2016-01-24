@@ -79,7 +79,7 @@ void EditorToolBarAssistant::setupSignals()
 // Метод только меняет значение, показываемое списком шрифтов
 void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
-  TRACELOG
+  // TRACELOG
 
   if(flagSetFontParametersEnabled==false)
     return;
@@ -106,7 +106,7 @@ bool EditorToolBarAssistant::getFlagSetFontParametersEnabled()
 // Слот только меняет значение, показываемое списком размеров шрифта
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
-  TRACELOG
+  // TRACELOG
 
   if(flagSetFontParametersEnabled==false)
     return;
@@ -122,7 +122,7 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
 void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
 {
-  TRACELOG
+  // TRACELOG
 
   currentFontFamily=fontFamily;
 }
@@ -130,7 +130,7 @@ void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
 
 void EditorToolBarAssistant::onChangeFontPointSize(int n)
 {
-  TRACELOG
+  // TRACELOG
 
   currentFontSize=n;
 }
@@ -138,7 +138,7 @@ void EditorToolBarAssistant::onChangeFontPointSize(int n)
 
 void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 {
-  TRACELOG
+  // TRACELOG
 
   // Если цвет правильный
   if(color.isValid())
@@ -155,7 +155,7 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 // Если параметр activate=true, будет подсвечена кнопка, соответсвующая текущему форматированию
 void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
-  TRACELOG
+  // TRACELOG
 
   QPalette palActive, palInactive;
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
@@ -178,7 +178,7 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 // Обновление подсветки клавиш начертания текста
 void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
-  TRACELOG
+  // TRACELOG
 
   QPalette palActive, palInactive;
   palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
@@ -243,7 +243,7 @@ void EditorToolBarAssistant::updateToActualFormat(void)
 
 void EditorToolBarAssistant::onExpandToolsLinesClicked(void)
 {
-  TRACELOG
+  // TRACELOG
 
   switchExpandToolsLines();
 }

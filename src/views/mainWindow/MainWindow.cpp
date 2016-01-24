@@ -900,8 +900,6 @@ void MainWindow::goWalkHistoryPrevious(void)
                   editorScreen->getScrollBarPosition(),
                   WALK_HISTORY_GO_PREVIOUS);
 
-  walkHistory.setDrop(true);
-
   goWalkHistory();
 }
 
@@ -917,8 +915,6 @@ void MainWindow::goWalkHistoryNext(void)
                   editorScreen->getScrollBarPosition(),
                   WALK_HISTORY_GO_NEXT);
 
-  walkHistory.setDrop(true);
-
   goWalkHistory();
 }
 
@@ -929,20 +925,14 @@ void MainWindow::goWalkHistory(void)
   QString id=walkHistory.getId();
 
   if(id.length()==0)
-  {
-    walkHistory.setDrop(false);
     return;
-  }
 
   // Выясняется путь к ветке, где находится данная запись
   QStringList path=treeScreen->knowTreeModel->getRecordPath(id);
 
   // Проверяем, есть ли такая ветка
   if(treeScreen->knowTreeModel->isItemValid(path)==false)
-  {
-    walkHistory.setDrop(false);
     return;
-  }
 
 
   // Выясняется позицию записи в таблице конечных записей
@@ -950,10 +940,7 @@ void MainWindow::goWalkHistory(void)
 
   // Проверяем, есть ли такая позиция
   if(item->recordtableGetTableData()->isRecordExists(id)==false)
-  {
-    walkHistory.setDrop(false);
     return;
-  }
 
   setTreePosition(path);
   setRecordtablePositionById(id);
@@ -963,8 +950,6 @@ void MainWindow::goWalkHistory(void)
     editorScreen->setCursorPosition( walkHistory.getCursorPosition(id) );
     editorScreen->setScrollBarPosition( walkHistory.getScrollBarPosition(id) );
   }
-
-  walkHistory.setDrop(false);
 }
 
 

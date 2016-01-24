@@ -528,7 +528,7 @@ void EditorTextArea::onDownloadImagesSuccessfull(const QString html,
 
 void EditorTextArea::onChangeFontcolor(QColor selectedColor)
 {
-  TRACELOG
+  // TRACELOG
 
   // Если выделение есть
   if(textCursor().hasSelection())
@@ -550,7 +550,7 @@ void EditorTextArea::onChangeFontcolor(QColor selectedColor)
 
 void EditorTextArea::onChangeFontFamily(QString fontFamily)
 {
-  TRACELOG
+  // TRACELOG
 
   setFontFamily(fontFamily);
 }
@@ -558,7 +558,7 @@ void EditorTextArea::onChangeFontFamily(QString fontFamily)
 
 void EditorTextArea::onChangeFontPointSize(int n)
 {
-  TRACELOG
+  // TRACELOG
 
   setFontPointSize(n);
 }

@@ -857,8 +857,8 @@ bool Editor::loadTextarea()
   // qDebug() << content;
   textArea->setHtml( content );
 
-  qDebug() << "Set content:";
-  qDebug() << textArea->toHtml();
+  // qDebug() << "Set content:";
+  // qDebug() << textArea->toHtml();
 
   return true;
 }
@@ -886,7 +886,7 @@ bool Editor::getTextareaModified(void)
 // Слот вызывается при каждом движении курсора в момент выделения текста
 void Editor::onSelectionChanged(void)
 {
-  TRACELOG
+  // TRACELOG
 
   // Если выделения нет
   if(!textArea->textCursor().hasSelection())
@@ -1005,7 +1005,7 @@ void Editor::onSelectionChanged(void)
 // Слот вызывается при каждом перемещении курсора
 void Editor::onCursorPositionChanged(void)
 {
-  TRACELOG
+  // TRACELOG
 
   // Если одновременно идет режим выделения
   // то обслуживание текущего шрифта и размера идет в on_selection_changed()
