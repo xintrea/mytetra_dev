@@ -592,7 +592,7 @@ QString EditorConfig::update_version_change_value(int versionFrom,
       if(result.contains("showhtml"))
         result.replace("showhtml", "reference");
       else
-        result=result+"reference";
+        result=result+",reference";
     }
 
 
