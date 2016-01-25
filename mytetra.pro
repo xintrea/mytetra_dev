@@ -171,7 +171,10 @@ HEADERS = src/main.h \
     src/libraries/TraceLogger.h \
     src/libraries/wyedit/formatters/ReferenceFormatter.h \
     src/libraries/wyedit/EditorCursorPositionDetector.h \
-    src/libraries/Downloader.h
+    src/libraries/Downloader.h \
+    src/views/actionLog/ActionLogScreen.h \
+    src/views/actionLog/ActionLogView.h \
+    src/controllers/actionLog/ActionLogController.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -278,7 +281,10 @@ SOURCES = src/main.cpp \
     src/libraries/TraceLogger.cpp \
     src/libraries/wyedit/formatters/ReferenceFormatter.cpp \
     src/libraries/wyedit/EditorCursorPositionDetector.cpp \
-    src/libraries/Downloader.cpp
+    src/libraries/Downloader.cpp \
+    src/views/actionLog/ActionLogScreen.cpp \
+    src/views/actionLog/ActionLogView.cpp \
+    src/controllers/actionLog/ActionLogController.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
