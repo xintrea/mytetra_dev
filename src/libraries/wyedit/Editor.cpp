@@ -377,8 +377,8 @@ void Editor::setupSignals(void)
   connect(editorToolBarAssistant->settings, SIGNAL(clicked()),
           this,                             SLOT  (onSettingsClicked()),
           Qt::DirectConnection);
-  connect(editorToolBarAssistant->showFormatting, SIGNAL(clicked()),
-          this,                                   SLOT  (onShowformattingClicked()),
+  connect(editorToolBarAssistant->showFormatting, SIGNAL(toggled(bool)),
+          this,                                   SLOT  (setNonprintableCharactersVisible(bool)),
           Qt::DirectConnection);
 
 
@@ -1184,22 +1184,10 @@ void Editor::onSettingsClicked(void)
   dialog.show();
 }
 
-
-// Действия при нажатии кнопки отображения символов редактирования
-void Editor::onShowformattingClicked(void)
+void Editor::setNonprintableCharactersVisible(bool ok)
 {
-  if(textArea->get_showformatting()==false)
-  {
-    textArea->set_showformatting(true);
-    editorToolBarAssistant->setShowFormattingButtonHiglight(true);
-  }
-  else
-  {
-    textArea->set_showformatting(false);
-    editorToolBarAssistant->setShowFormattingButtonHiglight(false);
-  }
+    textArea->set_showformatting(ok);
 }
-
 
 void Editor::onExpandEditAreaClicked(void)
 {

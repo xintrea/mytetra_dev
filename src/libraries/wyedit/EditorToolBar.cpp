@@ -32,7 +32,6 @@ EditorToolBar::~EditorToolBar()
   delete reference;
   delete showHtml;
   delete findText;
-  delete showFormatting;
   delete createTable;
   delete tableRemoveRow;
   delete tableRemoveCol;
@@ -258,6 +257,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка включения отображения символов фарматирования
   showFormatting = new QToolButton(this);
+  showFormatting->setCheckable(true);
   showFormatting->setStatusTip(tr("Show special chars"));
   showFormatting->setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
   showFormatting->setObjectName("editor_tb_showformatting");
