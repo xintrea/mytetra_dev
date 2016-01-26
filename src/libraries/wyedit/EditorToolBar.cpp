@@ -21,10 +21,6 @@ EditorToolBar::~EditorToolBar()
   delete dotList;
   delete indentPlus;
   delete indentMinus;
-  delete alignLeft;
-  delete alignCenter;
-  delete alignRight;
-  delete alignWidth;
   delete settings;
   delete fontSelect;
   delete fontSize;
