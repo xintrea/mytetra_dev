@@ -1,4 +1,5 @@
 #include <QColor>
+#include <QButtonGroup>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -150,28 +151,20 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 }
 
 
-// Слот обновления подсветки кнопок выравнивания текста
-// Если параметр activate=false, все кнопки будут выставлены в неактивные
-// Если параметр activate=true, будет подсвечена кнопка, соответсвующая текущему форматированию
-void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
+// Метод для обновления положения кнопок выравнивания текста (зажата/отжата)
+void EditorToolBarAssistant::updateAlignButtonSelection()
 {
   // TRACELOG
 
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
-  alignLeft->setPalette(palInactive);
-  alignCenter->setPalette(palInactive);
-  alignRight->setPalette(palInactive);
-  alignWidth->setPalette(palInactive);
-
-  if(activate==false)return;
-
-  if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignRight)   alignRight->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setPalette(palActive);
+  const int aligment = textArea->alignment();
+  foreach(QAbstractButton *button, alignButtons->buttons())
+  {
+      if (alignButtons->id(button) == aligment)
+      {
+          button->setChecked(true);
+          break;
+      }
+  }
 }
 
 
@@ -237,7 +230,7 @@ void EditorToolBarAssistant::updateToActualFormat(void)
   onUpdateOutlineButtonHiglight();
 
   // Обновляются кнопки выравнивания
-  onUpdateAlignButtonHiglight(true);
+  updateAlignButtonSelection();
 }
 
 
