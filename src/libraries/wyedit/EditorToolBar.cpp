@@ -1,3 +1,4 @@
+#include <QButtonGroup>
 #include "main.h"
 #include "EditorToolBar.h"
 #include "Editor.h"
@@ -21,10 +22,6 @@ EditorToolBar::~EditorToolBar()
   delete dotList;
   delete indentPlus;
   delete indentMinus;
-  delete alignLeft;
-  delete alignCenter;
-  delete alignRight;
-  delete alignWidth;
   delete settings;
   delete fontSelect;
   delete fontSize;
@@ -170,6 +167,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка выравнивания по левому краю
   alignLeft = new QToolButton(this);
+  alignLeft->setCheckable(true);
   alignLeft->setShortcut(QKeySequence(tr("Ctrl+L")));
   alignLeft->setStatusTip(tr("Align left (Ctrl+L)"));
   alignLeft->setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
@@ -177,6 +175,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка выравнивания по центру
   alignCenter = new QToolButton(this);
+  alignCenter->setCheckable(true);
   alignCenter->setShortcut(QKeySequence(tr("Ctrl+E")));
   alignCenter->setStatusTip(tr("Align center (Ctrl+E)"));
   alignCenter->setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
@@ -184,6 +183,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка выравнивания по правому краю
   alignRight = new QToolButton(this);
+  alignRight->setCheckable(true);
   alignRight->setShortcut(QKeySequence(tr("Ctrl+R")));
   alignRight->setStatusTip(tr("Align right (Ctrl+R)"));
   alignRight->setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
@@ -191,11 +191,18 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка выравнивания по ширине
   alignWidth = new QToolButton(this);
+  alignWidth->setCheckable(true);
   alignWidth->setShortcut(QKeySequence(tr("Ctrl+J")));
   alignWidth->setStatusTip(tr("Align width (Ctrl+J)"));
   alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
   alignWidth->setObjectName("editor_tb_alignwidth");
 
+  // Объединение кнопок выравнивания в группу
+  alignButtons = new QButtonGroup(this);
+  alignButtons->addButton(alignLeft, Qt::AlignLeft);
+  alignButtons->addButton(alignCenter, Qt::AlignHCenter);
+  alignButtons->addButton(alignRight, Qt::AlignRight);
+  alignButtons->addButton(alignWidth, Qt::AlignJustify);
 
   // Выбор шрифта
   fontSelect = new QFontComboBox(this);

@@ -24,10 +24,7 @@ public slots:
   void onIndentplusClicked(void);
   void onIndentminusClicked(void);
 
-  void onAlignleftClicked(void);
-  void onAligncenterClicked(void);
-  void onAlignrightClicked(void);
-  void onAlignwidthClicked(void);
+  void setTextAlign(int align);
 
 protected:
 

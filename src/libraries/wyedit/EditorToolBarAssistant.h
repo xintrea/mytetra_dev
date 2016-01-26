@@ -53,13 +53,15 @@ signals:
 public slots:
 
   void onExpandToolsLinesClicked(void);
-  void onUpdateAlignButtonHiglight(bool activate);
   void onUpdateOutlineButtonHiglight(void);
   void onChangeFontselectOnDisplay(QString fontName);
   void onChangeFontsizeOnDisplay(int n);
   void onChangeFontFamily(QString fontFamily);
   void onChangeFontPointSize(int n);
   void onChangeFontcolor(QColor color);
+
+private:
+  void updateAlignButtonSelection();
 
 protected:
 

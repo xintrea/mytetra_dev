@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QColor>
+#include <QButtonGroup>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -320,19 +321,9 @@ void Editor::setupSignals(void)
           indentSliderAssistant, SLOT  (updateToActualFormat()),
           Qt::DirectConnection);
 
-  connect(editorToolBarAssistant->alignLeft, SIGNAL(clicked()),
-          placementFormatter,                SLOT  (onAlignleftClicked()),
+  connect(editorToolBarAssistant->alignButtons, SIGNAL(buttonClicked(int)),
+          placementFormatter,                   SLOT(setTextAlign(int)),
           Qt::DirectConnection);
-  connect(editorToolBarAssistant->alignCenter, SIGNAL(clicked()),
-          placementFormatter,                  SLOT  (onAligncenterClicked()),
-          Qt::DirectConnection);
-  connect(editorToolBarAssistant->alignRight, SIGNAL(clicked()),
-          placementFormatter,                 SLOT  (onAlignrightClicked()),
-          Qt::DirectConnection);
-  connect(editorToolBarAssistant->alignWidth, SIGNAL(clicked()),
-          placementFormatter,                 SLOT  (onAlignwidthClicked()),
-          Qt::DirectConnection);
-
 
   connect(editorToolBarAssistant->numericList, SIGNAL(clicked()),
           listFormatter,                       SLOT  (onNumericlistClicked()),

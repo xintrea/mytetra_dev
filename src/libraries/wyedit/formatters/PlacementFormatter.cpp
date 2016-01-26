@@ -58,34 +58,11 @@ void PlacementFormatter::onIndentminusClicked(void)
   emit updateIndentsliderToActualFormat();
 }
 
-
-// Форматирование по левому краю
-void PlacementFormatter::onAlignleftClicked(void)
+// Задание типа выравнивания
+void PlacementFormatter::setTextAlign(int align)
 {
-  alignText(Qt::AlignLeft);
+    alignText(static_cast<Qt::AlignmentFlag>(align));
 }
-
-
-// Форматирование по центру
-void PlacementFormatter::onAligncenterClicked(void)
-{
-  alignText(Qt::AlignHCenter);
-}
-
-
-// Форматирование по правому краю
-void PlacementFormatter::onAlignrightClicked(void)
-{
-  alignText(Qt::AlignRight);
-}
-
-
-// Форматирование по ширине
-void PlacementFormatter::onAlignwidthClicked(void)
-{
-  alignText(Qt::AlignJustify);
-}
-
 
 // Выравнивание текста, вспомогательный метод
 void PlacementFormatter::alignText(Qt::AlignmentFlag mode)
