@@ -1,3 +1,4 @@
+#include <QButtonGroup>
 #include "main.h"
 #include "EditorToolBar.h"
 #include "Editor.h"
@@ -192,6 +193,12 @@ void EditorToolBar::setupButtons(void)
   alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
   alignWidth->setObjectName("editor_tb_alignwidth");
 
+  // Объединение кнопок выравнивания в группу
+  alignButtons = new QButtonGroup(this);
+  alignButtons->addButton(alignLeft, Qt::AlignLeft);
+  alignButtons->addButton(alignCenter, Qt::AlignHCenter);
+  alignButtons->addButton(alignRight, Qt::AlignRight);
+  alignButtons->addButton(alignWidth, Qt::AlignJustify);
 
   // Выбор шрифта
   fontSelect = new QFontComboBox(this);
