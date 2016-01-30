@@ -2,14 +2,14 @@
 #define ACTIONLOGSCREEN_H
 
 #include <QWidget>
-#include <QToolBar>
 #include <QVBoxLayout>
 #include <QAction>
 
+// Виджет отображения лога действий пользователя
+
 class ActionLogView;
 class ActionLogController;
-
-// Виджет
+class QDialogButtonBox;
 
 class ActionLogScreen : public QWidget
 {
@@ -18,29 +18,20 @@ public:
   ActionLogScreen(QWidget *parent = 0);
   virtual ~ActionLogScreen();
 
-  void clear(void);
-
-  QAction *actionCancel;
-
-signals:
-
-public slots:
-
 protected:
 
-  void setupActions(void);
   void setupUI(void);
   void setupSignals(void);
   void assembly(void);
 
   // Указатель на контроллер 
-  ActionLogController *ActionLogController;
+  ActionLogController *actionLogController;
 
   // Указатель на таблицу (представление)
-  ActionLogView *ActionLogView;
+  ActionLogView *actionLogView;
 
   // Экранные элементы
-  QToolBar *toolsLine;
+  QDialogButtonBox *buttonBox;
   QVBoxLayout *screenLayout;
 };
 

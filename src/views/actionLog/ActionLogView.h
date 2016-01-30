@@ -8,9 +8,9 @@
 #include <QGestureEvent>
 #include <QTapAndHoldGesture>
 
-class ActionLogController;
+// Отображение лога в виде таблицы (только таблица)
 
-// Отображение таблицы с файлами (только таблица)
+class ActionLogController;
 
 class ActionLogView : public QTableView
 {
@@ -20,36 +20,13 @@ public:
   ActionLogView(QWidget *parent=0);
   virtual ~ActionLogView();
 
-  void init(void);
-
   void setController(ActionLogController *pController);
-
-  int getFirstSelectionPos(void);
-
-
-signals:
-
-  void tapAndHoldGestureFinished(const QPoint &);
-
-
-protected slots:
-
-  void onCustomContextMenuRequested(const QPoint &pos);
-
 
 protected:
 
-  void setupSignals(void);
-  void assemblyContextMenu(void);
-
-  bool event(QEvent *event);
   virtual void resizeEvent(QResizeEvent *event);
-  bool gestureEvent(QGestureEvent *event);
-  void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
   ActionLogController *controller;
-
-  QMenu *contextMenu;
 };
 
 #endif // __ACTIONLOGVIEW_H__
