@@ -109,6 +109,7 @@ private slots:
  
  void toolsFind(void);
  void toolsPreferences(void);
+ void onActionLogClicked(void);
 
  void onExpandEditArea(bool flag);
 

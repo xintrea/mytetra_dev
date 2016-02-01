@@ -19,6 +19,7 @@
 #include "views/consoleEmulator/ExecuteCommand.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/WindowSwitcher.h"
+#include "views/actionLog/ActionLogScreen.h"
 
 #include "libraries/wyedit/EditorTextArea.h"
 
@@ -441,9 +442,14 @@ void MainWindow::initToolsMenu(void)
 
   QAction *a;
 
-  a = new QAction(tr("Find in ba&se"), this);
+  a = new QAction(tr("Find in ba&se"), this); // Так как есть this, указатель не будет потерян основным окном
   connect(a, SIGNAL(triggered()), this, SLOT(toolsFind()));
   menu->addAction(a);
+
+  a = new QAction(tr("Action &log"), this);
+  connect(a, SIGNAL(triggered()), this, SLOT(onActionLogClicked()));
+  menu->addAction(a);
+
 
   menu->addSeparator();
 
@@ -627,6 +633,13 @@ void MainWindow::toolsPreferences(void)
   // Создается окно настроек, после выхода из этой функции окно удалится
   AppConfigDialog dialog("");
   dialog.show();
+}
+
+
+void MainWindow::onActionLogClicked()
+{
+  ActionLogScreen actionLogScreen(this);
+  actionLogScreen.show();
 }
 
 
