@@ -639,7 +639,9 @@ void MainWindow::toolsPreferences(void)
 void MainWindow::onActionLogClicked()
 {
   ActionLogScreen actionLogScreen(this);
-  actionLogScreen.show();
+  actionLogScreen.exec();
+
+  qDebug() << "Show action log";
 }
 
 

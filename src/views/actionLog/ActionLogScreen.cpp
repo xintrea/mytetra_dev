@@ -7,7 +7,7 @@
 #include "controllers/actionLog/ActionLogController.h"
 
 
-ActionLogScreen::ActionLogScreen(QWidget *parent) : QWidget(parent)
+ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
 {
   // По факту этот класс - синглтон. Синглтон сам задает себе имя
   this->setObjectName("ActionLogScreen");
@@ -40,13 +40,12 @@ void ActionLogScreen::setupUI(void)
 
 void ActionLogScreen::setupSignals(void)
 {
-  connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+  connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()) );
 }
 
 
 void ActionLogScreen::assembly(void)
 {
-
   screenLayout=new QVBoxLayout(this);
 
   screenLayout->addWidget(actionLogView);

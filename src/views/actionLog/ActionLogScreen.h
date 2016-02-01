@@ -1,7 +1,7 @@
 #ifndef ACTIONLOGSCREEN_H
 #define ACTIONLOGSCREEN_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QVBoxLayout>
 #include <QAction>
 
@@ -11,7 +11,7 @@ class ActionLogView;
 class ActionLogController;
 class QDialogButtonBox;
 
-class ActionLogScreen : public QWidget
+class ActionLogScreen : public QDialog
 {
   Q_OBJECT
 public:
