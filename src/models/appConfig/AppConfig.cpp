@@ -766,6 +766,26 @@ void AppConfig::setEnableDecryptFileToTrashDirectory(bool state)
 }
 
 
+// Получение размера файла лога действий
+unsigned int AppConfig::getActionLogMaximumSize(void)
+{
+ return get_parameter("actionLogMaximumSize").toInt();
+}
+
+
+// Установка размера файла лога действий в мегабайтах
+bool AppConfig::setActionLogMaximumSize(unsigned int mbSize)
+{
+ if(mbSize>0)
+  {
+   conf->setValue("actionLogMaximumSize",mbSize);
+   return true;
+  }
+ else
+  return false;
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -880,7 +900,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 26
+ // Последняя версия на данный момент - 27
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -931,6 +951,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(24, 25, get_parameter_table_24(), get_parameter_table_25());
  if(fromVersion<=25)
   updater.update_version(25, 26, get_parameter_table_25(), get_parameter_table_26());
+ if(fromVersion<=26)
+  updater.update_version(26, 27, get_parameter_table_26(), get_parameter_table_27());
 }
 
 
@@ -1456,6 +1478,24 @@ QStringList AppConfig::get_parameter_table_26(bool withEndSignature)
  table << get_parameter_table_25(false);
 
  table << "enableDecryptFileToTrashDirectory" << "bool" << "false";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_27(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 26
+ table << get_parameter_table_26(false);
+
+ table << "actionLogMaximumSize" << "int" << "1"; // 1 Мб
 
  if(withEndSignature)
   table << "0" << "0" << "0";

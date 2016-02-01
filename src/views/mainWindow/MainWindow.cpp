@@ -640,8 +640,6 @@ void MainWindow::onActionLogClicked()
 {
   ActionLogScreen actionLogScreen(this);
   actionLogScreen.exec();
-
-  qDebug() << "Show action log";
 }
 
 

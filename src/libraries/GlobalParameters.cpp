@@ -380,6 +380,18 @@ QString GlobalParameters::getWorkDirectory(void)
 }
 
 
+QString GlobalParameters::getActionLogFileName(void)
+{
+ return workDirectory+"/actionLog.txt";
+}
+
+
+QString GlobalParameters::getActionLogPrevFileName(void)
+{
+ return workDirectory+"/actionLogPrev.txt";
+}
+
+
 QString GlobalParameters::getTargetOs(void)
 {
 #if TARGET_OS==ANY_OS

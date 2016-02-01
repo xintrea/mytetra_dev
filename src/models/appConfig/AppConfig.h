@@ -202,6 +202,9 @@ public:
     bool getEnableDecryptFileToTrashDirectory(void);
     void setEnableDecryptFileToTrashDirectory(bool state);
 
+    // Размер файла лога дейсвтвий
+    unsigned int getActionLogMaximumSize();
+    bool setActionLogMaximumSize(unsigned int mbSize);
 
 private:
 
@@ -242,6 +245,7 @@ private:
     QStringList get_parameter_table_24(bool withEndSignature=true);
     QStringList get_parameter_table_25(bool withEndSignature=true);
     QStringList get_parameter_table_26(bool withEndSignature=true);
+    QStringList get_parameter_table_27(bool withEndSignature=true);
 
     bool is_init_flag;
 };
