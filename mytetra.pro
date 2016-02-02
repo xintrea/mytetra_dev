@@ -175,7 +175,8 @@ HEADERS = src/main.h \
     src/views/actionLog/ActionLogScreen.h \
     src/views/actionLog/ActionLogView.h \
     src/controllers/actionLog/ActionLogController.h \
-    src/models/actionLog/ActionLogModel.h
+    src/models/actionLog/ActionLogModel.h \
+    src/libraries/ActionLogger.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -286,7 +287,8 @@ SOURCES = src/main.cpp \
     src/views/actionLog/ActionLogScreen.cpp \
     src/views/actionLog/ActionLogView.cpp \
     src/controllers/actionLog/ActionLogController.cpp \
-    src/models/actionLog/ActionLogModel.cpp
+    src/models/actionLog/ActionLogModel.cpp \
+    src/libraries/ActionLogger.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
