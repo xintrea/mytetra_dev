@@ -1,3 +1,5 @@
+
+#include "main.h"
 #include "ActionLogger.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
@@ -9,7 +11,19 @@ extern GlobalParameters globalParameters;
 ActionLogger::ActionLogger()
 {
   logFileName=globalParameters.getActionLogFileName();
+  logPrevFileName=globalParameters.getActionLogPrevFileName();
 
+  logFile.setFileName(logFileName);
+  bool result=logFile.open(QIODevice::Append | QIODevice::Text);
+
+  if(!result)
+    criticalError("Cant open log file "+logFileName);
+}
+
+
+ActionLogger::~ActionLogger()
+{
+  logFile.close();
 }
 
 

@@ -2,12 +2,33 @@
 #define ACTIONLOGGER_H
 
 #include <QString>
-
+#include <QFile>
 
 class ActionLogger
 {
 public:
+
+  enum action { createNote,
+                editNote,
+                moveNoteUp,
+                moveNoteDown,
+                deleteNote,
+
+                createBranch,
+                editBranch,
+                moveBranchUp,
+                moveBranchDown,
+                deleteBranch,
+
+                copyNoteToBuffer,
+                cutNoteToBuffer,
+                pasteNoteFromBuffer,
+
+                dragAndDropNote };
+
+
   ActionLogger();
+  virtual ~ActionLogger();
 
   void addActionCreateRecord(QString recordId, QString recordName, QString branchId, QString branchName);
   void addActionEditRecord(QString recordId, QString recordName);
@@ -20,6 +41,9 @@ public:
 protected:
 
   QString logFileName;
+  QString logPrevFileName;
+
+  QFile logFile;
 
 };
 
