@@ -13,9 +13,9 @@ ActionLogger::ActionLogger()
   logFileName=globalParameters.getActionLogFileName();
   logPrevFileName=globalParameters.getActionLogPrevFileName();
 
+  // Открывается файл лога
   logFile.setFileName(logFileName);
   bool result=logFile.open(QIODevice::Append | QIODevice::Text);
-
   if(!result)
     criticalError("Cant open log file "+logFileName);
 }
@@ -26,6 +26,8 @@ ActionLogger::~ActionLogger()
   logFile.close();
 }
 
+
+QString ActionLogger::getFullDescription(int )
 
 void ActionLogger::addActionCreateRecord(QString recordId, QString recordName, QString branchId, QString branchName)
 {
