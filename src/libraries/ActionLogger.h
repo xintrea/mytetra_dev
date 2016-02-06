@@ -38,6 +38,8 @@ public:
   void addActionCutRecord(QString recordId, QString recordName);
   void addActionPasteRecord(QString recordId, QString recordName);
 
+  QString getFullDescription(int iAction, QMap<QString, QString> iData);
+
 protected:
 
   QString logFileName;
