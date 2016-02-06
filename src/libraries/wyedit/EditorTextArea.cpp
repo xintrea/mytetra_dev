@@ -250,7 +250,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
               posIndentEdge, this->height()-1);
   }
 
-/*
+
  // Если символы форматирования ненужно рисовать
  if(flagShowFormatting==false)
    return;
@@ -400,8 +400,6 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
   cur.movePosition(QTextCursor::NextCharacter);
  }
  while( !cur.isNull() );
-*/
-
 }
 
 
