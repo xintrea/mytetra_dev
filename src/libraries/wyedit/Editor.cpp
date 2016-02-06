@@ -1188,16 +1188,32 @@ void Editor::onSettingsClicked(void)
 // Действия при нажатии кнопки отображения символов редактирования
 void Editor::onShowformattingClicked(void)
 {
+  QTextOption option = textArea->document()->defaultTextOption();
+
   if(textArea->get_showformatting()==false)
   {
     textArea->set_showformatting(true);
+
+    option.setFlags(option.flags() |
+                    QTextOption::ShowTabsAndSpaces |
+                    QTextOption::ShowLineAndParagraphSeparators );
+    // QTextOption::AddSpaceForLineAndParagraphSeparators
+
     editorToolBarAssistant->setShowFormattingButtonHiglight(true);
   }
   else
   {
     textArea->set_showformatting(false);
+
+    option.setFlags(option.flags() &
+                    ~QTextOption::ShowTabsAndSpaces &
+                    ~QTextOption::ShowLineAndParagraphSeparators );
+    // ~QTextOption::AddSpaceForLineAndParagraphSeparators
+
     editorToolBarAssistant->setShowFormattingButtonHiglight(false);
   }
+
+  textArea->document()->setDefaultTextOption( option );
 }
 
 
