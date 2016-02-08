@@ -292,3 +292,10 @@ void TableFormatter::onTableSplitCellClicked(void)
   } // Закончилось условие что курсор находится где-то внутри таблицы
 
 }
+
+
+void TableFormatter::onTablePropertiesClicked()
+{
+
+
+}

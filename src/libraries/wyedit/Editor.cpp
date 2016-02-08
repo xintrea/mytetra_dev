@@ -364,6 +364,9 @@ void Editor::setupSignals(void)
   connect(editorToolBarAssistant->tableSplitCell, SIGNAL(clicked()),
           tableFormatter,                         SLOT  (onTableSplitCellClicked()),
           Qt::DirectConnection);
+  connect(editorToolBarAssistant->tableProperties, SIGNAL(clicked()),
+          tableFormatter,                          SLOT  (onTablePropertiesClicked()),
+          Qt::DirectConnection);
 
   connect(editorToolBarAssistant->reference, SIGNAL(clicked()),
           referenceFormatter,                SLOT  (onReferenceClicked()),

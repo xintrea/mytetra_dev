@@ -40,6 +40,7 @@ EditorToolBar::~EditorToolBar()
   delete tableAddCol;
   delete tableMergeCells;
   delete tableSplitCell;
+  delete tableProperties;
   delete insertImageFromFile;
   delete expandEditArea;
   delete expandToolsLines;
@@ -297,6 +298,11 @@ void EditorToolBar::setupButtons(void)
   tableSplitCell->setStatusTip(tr("Split cell"));
   tableSplitCell->setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
   tableSplitCell->setObjectName("editor_tb_table_split_cell");
+
+  tableProperties = new QToolButton(this);
+  tableProperties->setStatusTip(tr("Table properties"));
+  tableProperties->setIcon(QIcon(":/resource/pic/edit_table_properties.svg"));
+  tableProperties->setObjectName("editor_tb_table_properties");
 
   insertImageFromFile = new QToolButton(this);
   insertImageFromFile->setStatusTip(tr("Insert image from file / edit image properties of selected image"));

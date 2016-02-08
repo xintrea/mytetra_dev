@@ -64,6 +64,7 @@ public:
   QToolButton   *tableAddCol=NULL;
   QToolButton   *tableMergeCells=NULL;
   QToolButton   *tableSplitCell=NULL;
+  QToolButton   *tableProperties=NULL;
 
   QToolButton   *insertImageFromFile=NULL;
   QToolButton   *expandEditArea=NULL;

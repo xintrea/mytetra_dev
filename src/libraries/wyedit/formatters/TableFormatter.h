@@ -22,6 +22,8 @@ public slots:
   void onTableAddColClicked(void);
   void onTableMergeCellsClicked(void);
   void onTableSplitCellClicked(void);
+  void onTablePropertiesClicked(void);
+
 };
 
 #endif // TABLEFORMATTER_H
