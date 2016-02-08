@@ -27,7 +27,11 @@ ActionLogger::~ActionLogger()
 }
 
 
-QString ActionLogger::getFullDescription(int )
+QString ActionLogger::getFullDescription(int iAction, QMap<QString, QString> iData)
+{
+
+}
+
 
 void ActionLogger::addActionCreateRecord(QString recordId, QString recordName, QString branchId, QString branchName)
 {

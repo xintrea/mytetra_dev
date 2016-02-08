@@ -240,7 +240,6 @@ private:
  void setupFormatters(void);
  void assembly(void);
 
-
  // Переопределение событий обработки клавиш
  // нужны для определения момента undo/redo
  virtual void keyPressEvent(QKeyEvent *event);

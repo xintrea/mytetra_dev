@@ -463,22 +463,6 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
  QTextCursor cursor = this->textCursor();
  QTextDocument *document = this->document();
 
- // Вставка единичной картинки
- if(source->hasImage())
-  {
-   QImage image=qvariant_cast<QImage>(source->imageData());
-
-   // Картинка будет хранится в ресурсах во внутреннем формате
-   // без потери качества, поэтому затем при записи
-   // легко сохраняется в PNG формат. Чтобы избежать путаницы,
-   // сразу имя ресурса картинки задается как PNG файл
-   QString imageName=getUnicalImageName();
-
-   document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
-   cursor.insertImage(imageName);
-   return;
-  }
-
  // Вставка HTML-кода
  if(source->hasHtml())
  {
@@ -498,6 +482,21 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   return;
  }
 
+ // Вставка единичной картинки
+ if(source->hasImage())
+  {
+   QImage image=qvariant_cast<QImage>(source->imageData());
+
+   // Картинка будет хранится в ресурсах во внутреннем формате
+   // без потери качества, поэтому затем при записи
+   // легко сохраняется в PNG формат. Чтобы избежать путаницы,
+   // сразу имя ресурса картинки задается как PNG файл
+   QString imageName=getUnicalImageName();
+
+   document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
+   cursor.insertImage(imageName);
+   return;
+  }
 }
 
 
@@ -562,5 +561,4 @@ void EditorTextArea::onChangeFontPointSize(int n)
 
   setFontPointSize(n);
 }
-
 
