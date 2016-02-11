@@ -55,13 +55,13 @@ void EditorTablePropertiesForm::assembly()
 {
   QGridLayout *gridLayout=new QGridLayout();
 
-  gridLayout->addWidget(&labelTableWidth,   0, 0);
-  gridLayout->addWidget(&spinTableWidth,    0, 1);
-  gridLayout->addWidget(&labelTablePercent, 0, 2);
+  gridLayout->addWidget(&labelTableWidth,       0, 0);
+  gridLayout->addWidget(&spinTableWidth,        0, 1);
+  gridLayout->addWidget(&labelTablePercent,     0, 2);
 
-  gridLayout->addWidget(&labelBorderWidth,  1, 0);
-  gridLayout->addWidget(&spinBorderWidth,   1, 1);
-  gridLayout->addWidget(&labelBorderPix,    1, 2);
+  gridLayout->addWidget(&labelBorderWidth,      1, 0);
+  gridLayout->addWidget(&spinBorderWidth,       1, 1);
+  gridLayout->addWidget(&labelBorderPix,        1, 2);
 
   gridLayout->addWidget(&labelBackgroundColor,  2, 0);
   gridLayout->addWidget(&buttonBackgroundColor, 2, 1);
