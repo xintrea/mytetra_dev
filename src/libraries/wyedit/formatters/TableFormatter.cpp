@@ -13,6 +13,7 @@
 #include "../EditorSplitCellForm.h"
 #include "../EditorAbsTable.h"
 #include "../EditorAddTableForm.h"
+#include "../EditorTablePropertiesForm.h"
 
 
 TableFormatter::TableFormatter()
@@ -296,7 +297,7 @@ void TableFormatter::onTableSplitCellClicked(void)
 
 void TableFormatter::onTablePropertiesClicked()
 {
+  EditorTablePropertiesForm form;
 
-
-
+  form.exec();
 }

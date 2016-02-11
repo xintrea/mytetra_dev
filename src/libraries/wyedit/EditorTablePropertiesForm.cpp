@@ -30,7 +30,7 @@ void EditorTablePropertiesForm::setupUi()
   spinTableWidth.setRange(1,100);
   spinTableWidth.setValue(100);
 
-  labelBorderWidth.setText( tr("Width: ") );
+  labelBorderWidth.setText( tr("Border lines width: ") );
   labelBorderPix.setText( tr("px") );
   spinBorderWidth.setRange(0,10);
 
