@@ -86,6 +86,7 @@ private:
     QStringList get_parameter_table_7(bool withEndSignature=true);
     QStringList get_parameter_table_8(bool withEndSignature=true);
     QStringList get_parameter_table_9(bool withEndSignature=true);
+    QStringList get_parameter_table_10(bool withEndSignature=true);
 
     QStringList remove_option(QStringList table, QString optionName);
 

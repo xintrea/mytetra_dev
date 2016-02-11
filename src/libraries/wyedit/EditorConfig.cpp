@@ -323,7 +323,7 @@ void EditorConfig::update_version_process(void)
 {
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 9
+ // Последняя версия на данный момент - 10
  if(fromVersion<=1)
   update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -340,6 +340,8 @@ void EditorConfig::update_version_process(void)
   update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
  if(fromVersion<=8)
   update_version(8,  9,  get_parameter_table_8(),  get_parameter_table_9());
+ if(fromVersion<=9)
+  update_version(9,  10,  get_parameter_table_9(),  get_parameter_table_10());
 }
 
 
@@ -514,7 +516,7 @@ QStringList EditorConfig::get_parameter_table_9(bool withEndSignature)
  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
  QStringList table;
 
- // Старые параметры, аналогичные версии 7
+ // Старые параметры, аналогичные версии 8
  table << get_parameter_table_8(false);
 
  // В параметре tools_line_1 заменяется showhtml на reference, или просто добавляется reference если нет showhtml
@@ -526,6 +528,26 @@ QStringList EditorConfig::get_parameter_table_9(bool withEndSignature)
 
  return table;
 }
+
+
+QStringList EditorConfig::get_parameter_table_10(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 9
+ table << get_parameter_table_9(false);
+
+ // В параметре tools_line_2 добавляется table_properties после createtable
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
 
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
@@ -600,6 +622,15 @@ QString EditorConfig::update_version_change_value(int versionFrom,
       if(!result.contains("showhtml"))
         result=result+",showhtml";
   }
+
+
+  if(versionFrom==9 && versionTo==10)
+    if(name=="tools_line_2")
+      if(!result.contains("table_properties"))
+        if(result.contains("createtable"))
+          result.replace("createtable", "createtable,table_properties");
+        else
+          result=result+",table_properties";
 
   return result;
 }
