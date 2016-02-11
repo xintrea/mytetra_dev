@@ -5,85 +5,131 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QCheckBox>
+#include <QColorDialog>
 
 #include "EditorTablePropertiesForm.h"
 
 
 EditorTablePropertiesForm::EditorTablePropertiesForm()
 {
- this->setWindowTitle(tr("Create a new table"));
+  setupUi();
+  setupSignals();
+  assembly();
 
- labelColumns=new QLabel(tr("Columns: "));
- labelRows   =new QLabel(tr("Rows: "));
- labelWidth  =new QLabel(tr("Width: "));
- labelPercent=new QLabel(tr("%"));
-
- spinColumns=new QSpinBox();
- spinColumns->setRange(1,100);
- spinColumns->setValue(2);
-
- spinRows=new QSpinBox();
- spinRows->setRange(1,100);
- spinRows->setValue(2);
-
- spinWidth=new QSpinBox();
- spinWidth->setRange(1,100);
- spinWidth->setValue(100);
-
- // show_border=new QCheckBox(tr("Show border"));
-
- buttonBox=new QDialogButtonBox(Qt::Horizontal);
- buttonBox->addButton(tr("OK"),QDialogButtonBox::AcceptRole);
- buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
- connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
- connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
-
-
- QGridLayout *gridLayout=new QGridLayout();
-
- gridLayout->addWidget(labelColumns,0,0);
- gridLayout->addWidget(spinColumns,0,1);
-
- gridLayout->addWidget(labelRows,1,0);
- gridLayout->addWidget(spinRows,1,1);
-
- gridLayout->addWidget(labelWidth,2,0);
- gridLayout->addWidget(spinWidth,2,1);
- gridLayout->addWidget(labelPercent,2,3);
-
- // Максимально растягивается по ширине первый столбец
- gridLayout->setColumnStretch(0,1);
-
- QVBoxLayout *mainLayout=new QVBoxLayout(this);
- mainLayout->addLayout(gridLayout);
- mainLayout->addWidget(buttonBox);
+  setupFirstValues();
 }
 
 
-int EditorTablePropertiesForm::get_columns(void)
+void EditorTablePropertiesForm::setupUi()
 {
- return spinColumns->value();
+  this->setWindowTitle(tr("Table properties"));
+
+  // Первичная настройка экранных элементов без задания значений
+  labelTableWidth.setText( tr("Width: ") );
+  labelTablePercent.setText( tr("%") );
+  spinTableWidth.setRange(1,100);
+  spinTableWidth.setValue(100);
+
+  labelBorderWidth.setText( tr("Width: ") );
+  labelBorderPix.setText( tr("px") );
+  spinBorderWidth.setRange(0,10);
+
+  labelBackgroundColor.setText( tr("Background color: ") );
+
+  buttonBox.setOrientation(Qt::Horizontal);
+  buttonBox.addButton(tr("OK"),QDialogButtonBox::AcceptRole);
+  buttonBox.addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
 }
 
 
-int EditorTablePropertiesForm::get_rows(void)
+void EditorTablePropertiesForm::setupSignals()
 {
- return spinRows->value();
+  connect(&buttonBackgroundColor, SIGNAL(clicked()), this, SLOT(onClickedButtonBackgroundColor()) );
+
+  connect(&buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+  connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
-int EditorTablePropertiesForm::get_width(void)
+void EditorTablePropertiesForm::assembly()
 {
- return spinWidth->value();
+  QGridLayout *gridLayout=new QGridLayout();
+
+  gridLayout->addWidget(&labelTableWidth,   0, 0);
+  gridLayout->addWidget(&spinTableWidth,    0, 1);
+  gridLayout->addWidget(&labelTablePercent, 0, 2);
+
+  gridLayout->addWidget(&labelBorderWidth,  1, 0);
+  gridLayout->addWidget(&spinBorderWidth,   1, 1);
+  gridLayout->addWidget(&labelBorderPix,    1, 2);
+
+  gridLayout->addWidget(&labelBackgroundColor,  2, 0);
+  gridLayout->addWidget(&buttonBackgroundColor, 2, 1);
+
+  // Максимально растягивается по ширине первый столбец
+  gridLayout->setColumnStretch(0, 1);
+
+  QVBoxLayout *mainLayout=new QVBoxLayout(this);
+  mainLayout->addLayout(gridLayout);
+  mainLayout->addWidget(&buttonBox);
 }
 
 
-/*
-bool EditorTablePropertiesForm::get_show_border(void)
+void EditorTablePropertiesForm::setupFirstValues(void)
 {
- if(show_border->checkState()==Qt::Unchecked)
-  return false;
- else
-  return true;
+  // Задание начальных значений (доработать)
+
+  // Ширина таблицы
+  spinTableWidth.setValue(100);
+
+  // Толщина линий
+  spinBorderWidth.setValue(0);
+
+  // Текущий цвет фона
+  // QColor currentColor=textArea->textColor();
+  backgroundColor=QColor(100, 150, 50);
+  setColorForButtonBackgroundColor(backgroundColor);
 }
-*/
+
+
+int EditorTablePropertiesForm::getTableWidth(void)
+{
+  return spinTableWidth.value();
+}
+
+
+int EditorTablePropertiesForm::getBorderWidth(void)
+{
+  return spinTableWidth.value();
+}
+
+
+QColor EditorTablePropertiesForm::getBackgroundColor(void)
+{
+  return backgroundColor;
+}
+
+
+void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
+{
+  // Квадратик на кнопке выбора цвета кода
+  QPixmap pix(16, 16);
+  pix.fill(iColor.rgb());
+  buttonBackgroundColor.setIcon(pix);
+
+  backgroundColor=iColor;
+}
+
+
+void EditorTablePropertiesForm::onClickedButtonBackgroundColor()
+{
+  // Диалог запроса цвета (доработать)
+  QColor selectedColor=QColorDialog::getColor(QColor(100, 150, 50), this);
+
+  // Если цвет выбран, и он правильный
+  if(selectedColor.isValid())
+    setColorForButtonBackgroundColor(selectedColor);
+}
+
+
+

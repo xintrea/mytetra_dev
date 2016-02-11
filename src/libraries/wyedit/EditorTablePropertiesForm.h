@@ -2,35 +2,55 @@
 #define _EDITORTABLEPROPERTIESFORM_H_
 
 #include <QDialog>
+#include <QToolButton> // Почему-то не работает предварительное определение класса (этап линковки), приходится включать инклюдом
+#include <QLabel>
+#include <QSpinBox>
+#include <QDialogButtonBox>
+#include <QColor>
 
-
-class QLabel;
-class QSpinBox;
-class QDialogButtonBox;
 
 class EditorTablePropertiesForm : public QDialog
 {
  Q_OBJECT
 
- public:
+public:
   EditorTablePropertiesForm();
 
-  int  get_columns(void);
-  int  get_rows(void);
-  int  get_width(void);
+  int getTableWidth(void);
+  int getBorderWidth(void);
+  QColor getBackgroundColor(void);
 
- private:
-  QLabel *labelColumns;
-  QLabel *labelRows;
-  QLabel *labelWidth;
-  QLabel *labelPercent;
+protected slots:
 
-  QSpinBox *spinColumns;
-  QSpinBox *spinRows;
-  QSpinBox *spinWidth;
+  void onClickedButtonBackgroundColor();
 
-  QDialogButtonBox *buttonBox;
+private:
 
+  // Ширина таблицы
+  QLabel labelTableWidth;
+  QLabel labelTablePercent;
+  QSpinBox spinTableWidth;
+
+  // Толщина линий таблицы
+  QLabel labelBorderWidth;
+  QLabel labelBorderPix;
+  QSpinBox spinBorderWidth;
+
+  // Цвет фона таблицы
+  QLabel labelBackgroundColor;
+  QToolButton buttonBackgroundColor;
+  QColor backgroundColor;
+
+  // Кнопки Ok и Concel
+  QDialogButtonBox buttonBox;
+
+  void setupUi();
+  void setupSignals();
+  void assembly();
+
+  void setupFirstValues();
+
+  void setColorForButtonBackgroundColor(QColor iColor);
 };
 
 #endif // _EDITORTABLEPROPERTIESFORM_H_

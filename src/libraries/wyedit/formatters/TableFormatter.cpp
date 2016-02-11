@@ -298,4 +298,5 @@ void TableFormatter::onTablePropertiesClicked()
 {
 
 
+
 }
