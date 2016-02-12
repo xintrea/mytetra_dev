@@ -781,7 +781,7 @@ void MainWindow::synchronization(void)
 void MainWindow::setupIconActions(void)
 {
   actionTrayRestore = new QAction(tr("&Restore window"), this);
-  connect(actionTrayRestore, SIGNAL(triggered()), this, SLOT(showNormal()));
+  connect(actionTrayRestore, SIGNAL(triggered()), this, SLOT(showWindow()));
 
   actionTrayMaximize = new QAction(tr("Ma&ximize window"), this);
   connect(actionTrayMaximize, SIGNAL(triggered()), this, SLOT(showMaximized()));
@@ -791,6 +791,14 @@ void MainWindow::setupIconActions(void)
 
   actionTrayQuit = new QAction(tr("&Quit"), this);
   connect(actionTrayQuit, SIGNAL(triggered()), this, SLOT(applicationExit()));
+}
+
+
+void MainWindow::showWindow()
+{
+  activateWindow();
+  showNormal();
+  raise();
 }
 
 
@@ -823,21 +831,48 @@ void MainWindow::setIcon(void)
 
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-  if(QSystemTrayIcon::isSystemTrayAvailable()==false) return;
+  if(QSystemTrayIcon::isSystemTrayAvailable()==false)
+    return;
+
+  qDebug() << "Click on tray icon";
 
   switch (reason)
   {
     case QSystemTrayIcon::Trigger:
     case QSystemTrayIcon::DoubleClick:
+      // Если окно видно
       if(isVisible())
       {
-        if(isMinimized()) showNormal();
-        else hide();
+        // Если окно неактивно, значит активно другое (и возможно оно перекрывает окно MyTetra)
+        // Не работает в Windows, в Linux не проверял
+        // Причина неработоспособности - при клике на иконку, окно MyTera всегда становится неактивным (т.к. активен систрей)
+        // И условие срабатывает всегда. Доделать или отказаться
+        // if(QGuiApplication::applicationState() == Qt::ApplicationInactive)
+        // {
+        //   activateWindow();
+        //   return;
+        // }
+
+        if(isMinimized())
+        {
+          qDebug() << "If visible and minimized";
+          showWindow();
+          return;
+        }
+        else
+        {
+          qDebug() << "Hide";
+          hide();
+          return;
+        }
       }
       else
       {
-        if(isMinimized()) showNormal();
-        else show();
+        qDebug() << "If not visible";
+        showWindow();
+        return;
+        // if(isMinimized()) showNormal();
+        // else show();
       }
     default:
       ;

@@ -99,6 +99,9 @@ public slots:
  void commitData(QSessionManager& manager);
 
 private slots:
+
+ void showWindow();
+
  void fileNew(void);
  void fileOpen(void);
  bool fileSave(void);
