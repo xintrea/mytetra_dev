@@ -52,61 +52,6 @@ void TableFormatter::onCreatetableClicked(void)
   textArea->textCursor().insertTable(tableRows, tableColumns, tableFormat);
 
   return;
-
-  /*
- // Вставка новой таблицы через генериацию HTML кода
- // Если данные введены нормально
- if(table_vnum > 0 && table_hnum > 0 && table_width > 0)
-  {
-   QStringList tab;
-   tab.clear();
-
-   // QColor table_color;
-   // table_color=qApp->palette().color(QPalette::Normal, QPalette::Base);
-   // qDebug() << "Table background color " << table_color.name();
-   // tab.append(QString("<table border=\"1\" align=\"center\" width=\"%1%\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"%2%\">").arg(table_width).arg(table_color.name()));
-
-   tab.append(QString("<table style=\"border-style:solid; border-right:none; border-bottom:none;\" border=\"1\" align=\"center\" width=\"%1%\" cellspacing=\"0\" cellpadding=\"3\">").arg(table_width));
-
-   for (int i=0;i<table_hnum;i++)
-    {
-     tab.append(QString("<tr>"));
-     for (int o=0;o<table_vnum;o++)
-      {
-       tab.append(QString("<td style=\"border-style:solid; border-right:none; border-bottom:none;\"><p></p></td>"));
-      }
-     tab.append(QString("</tr>"));
-    }
-
-   tab.append(QString("</table>"));
-
-   QString table_text = tab.join("\n");
-   QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml(table_text);
-   textarea->textCursor().insertFragment(fragment);
-  }
- */
-
-  /*
- // Вставка кода таблицы из файла
- QFile file("table.txt");
- if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-  critical_error("Can not open table file");
-
- QString tablecode;
- while(!file.atEnd())
- {
-  QString line=file.readLine();
-  tablecode=tablecode+line+"\n";
- }
-
- file.close();
-
- QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml(tablecode);
- textarea->textCursor().insertFragment(fragment);
-
- return;
- */
-
 }
 
 
@@ -297,7 +242,39 @@ void TableFormatter::onTableSplitCellClicked(void)
 
 void TableFormatter::onTablePropertiesClicked()
 {
+  QTextCursor cursor(textArea->textCursor());
+  QTextTable *table = cursor.currentTable();
+
+  // Если курсор не внутри таблицы, значит свойства таблицы менять не получится
+  if(!table)
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Can't modify table properties. Please set cursor into table."));
+    msgBox.exec();
+
+    return;
+  }
+
   EditorTablePropertiesForm form;
 
+  // Ширина таблицы
+  qDebug() << "Type of table width lenght: " << table->format().width().type();
+  int tableWidth=(int) table->format().width().rawValue();
+  form.setTableWidth( tableWidth );
+
+  // Толщина линий
+  int borderWidth=(int) table->format().border();
+  form.setBorderWidth(borderWidth );
+
+  // Отрисовывается форма редактирования свойств таблицы
   form.exec();
+
+
+  // Создаётся новый формат таблицы
+  QTextTableFormat newFormat=table->format();
+  newFormat.setWidth( form.getTableWidth() );
+  newFormat.setBorder( form.getBorderWidth() );
+
+  // Новый формат устанавливается текущей таблице
+  table->setFormat( newFormat );
 }

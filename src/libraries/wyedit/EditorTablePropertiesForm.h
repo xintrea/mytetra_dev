@@ -16,8 +16,13 @@ class EditorTablePropertiesForm : public QDialog
 public:
   EditorTablePropertiesForm();
 
+  void setTableWidth(int iWidth);
   int getTableWidth(void);
+
+  void setBorderWidth(int iWidth);
   int getBorderWidth(void);
+
+  void setBackgroundColor(QColor iColor);
   QColor getBackgroundColor(void);
 
 protected slots:
@@ -47,8 +52,6 @@ private:
   void setupUi();
   void setupSignals();
   void assembly();
-
-  void setupFirstValues();
 
   void setColorForButtonBackgroundColor(QColor iColor);
 };

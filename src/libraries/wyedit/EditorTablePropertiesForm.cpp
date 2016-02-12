@@ -15,8 +15,6 @@ EditorTablePropertiesForm::EditorTablePropertiesForm()
   setupUi();
   setupSignals();
   assembly();
-
-  setupFirstValues();
 }
 
 
@@ -75,20 +73,9 @@ void EditorTablePropertiesForm::assembly()
 }
 
 
-void EditorTablePropertiesForm::setupFirstValues(void)
+void EditorTablePropertiesForm::setTableWidth(int iWidth)
 {
-  // Задание начальных значений (доработать)
-
-  // Ширина таблицы
-  spinTableWidth.setValue(100);
-
-  // Толщина линий
-  spinBorderWidth.setValue(0);
-
-  // Текущий цвет фона
-  // QColor currentColor=textArea->textColor();
-  backgroundColor=QColor(100, 150, 50);
-  setColorForButtonBackgroundColor(backgroundColor);
+  spinTableWidth.setValue(iWidth);
 }
 
 
@@ -98,9 +85,21 @@ int EditorTablePropertiesForm::getTableWidth(void)
 }
 
 
+void EditorTablePropertiesForm::setBorderWidth(int iWidth)
+{
+  spinBorderWidth.setValue(iWidth);
+}
+
+
 int EditorTablePropertiesForm::getBorderWidth(void)
 {
-  return spinTableWidth.value();
+  return spinBorderWidth.value();
+}
+
+
+void EditorTablePropertiesForm::setBackgroundColor(QColor iColor)
+{
+  setColorForButtonBackgroundColor(iColor);
 }
 
 
@@ -124,7 +123,7 @@ void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 void EditorTablePropertiesForm::onClickedButtonBackgroundColor()
 {
   // Диалог запроса цвета (доработать)
-  QColor selectedColor=QColorDialog::getColor(QColor(100, 150, 50), this);
+  QColor selectedColor=QColorDialog::getColor(backgroundColor, this);
 
   // Если цвет выбран, и он правильный
   if(selectedColor.isValid())
