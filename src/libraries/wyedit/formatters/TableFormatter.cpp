@@ -268,14 +268,34 @@ void TableFormatter::onTablePropertiesClicked()
   {
     // Иначе ширина фиксированная в пикселях, и нужно перевести пиксели в проценты
     qreal tableWidthPix=(int) table->format().width().rawValue();
-    qreal pageWidthPix=textArea->width();
-    qreal tableWidth=(tableWidthPix*100.0)/pageWidthPix;
+    qreal pageWidthPix=1;
+    qreal tableWidth=1;
+
+    // Если ширина не была задана вообще
+    if(tableWidthPix<1)
+      tableWidth=50; // Условно берется 50%
+    else
+    {
+      pageWidthPix=textArea->width();
+      tableWidth=(tableWidthPix*100.0)/pageWidthPix;
+    }
+
     form.setTableWidth( (int) tableWidth );
   }
 
   // Толщина линий
   int borderWidth=(int) table->format().border();
   form.setBorderWidth(borderWidth );
+
+  // Цвет фона таблицы
+  QColor tableBackground;
+  if(table->format().hasProperty(QTextFormat::BackgroundBrush))
+   tableBackground=table->format().background().color();
+  else
+    tableBackground.setRgb(255,255,255);
+
+  form.setBackgroundColor(tableBackground);
+  qDebug() << "Table background color is: " << tableBackground.name();
 
 
   // Отрисовывается форма редактирования свойств таблицы
@@ -293,6 +313,12 @@ void TableFormatter::onTablePropertiesClicked()
   // Устанавливается новая толщина линий
   newFormat.setBorder( form.getBorderWidth() );
   newFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
+  newFormat.setPadding(0);
+  newFormat.setCellPadding(0);
+  newFormat.setCellSpacing(0);
+
+  // Устанавливается цвет фона
+  newFormat.setBackground( form.getBackgroundColor() );
 
   // Новый формат устанавливается текущей таблице
   table->setFormat( newFormat );
