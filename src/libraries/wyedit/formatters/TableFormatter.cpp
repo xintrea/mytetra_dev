@@ -290,9 +290,9 @@ void TableFormatter::onTablePropertiesClicked()
   // Цвет фона таблицы
   QColor tableBackground;
   if(table->format().hasProperty(QTextFormat::BackgroundBrush))
-   tableBackground=table->format().background().color();
+   tableBackground=table->format().background().color(); // Фон таблицы задан явно
   else
-    tableBackground.setRgb(255,255,255);
+    tableBackground.setRgb(255,255,255); // Фон таблицы не задан, используется белый цвет
 
   form.setBackgroundColor(tableBackground);
   qDebug() << "Table background color is: " << tableBackground.name();
