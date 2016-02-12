@@ -259,21 +259,40 @@ void TableFormatter::onTablePropertiesClicked()
 
   // Ширина таблицы
   qDebug() << "Type of table width lenght: " << table->format().width().type();
-  int tableWidth=(int) table->format().width().rawValue();
-  form.setTableWidth( tableWidth );
+  if(table->format().width().type()==QTextLength::PercentageLength) // Если ширина указана в процентах
+  {
+    int tableWidth=(int) table->format().width().rawValue();
+    form.setTableWidth( tableWidth );
+  }
+  else
+  {
+    // Иначе ширина фиксированная в пикселях, и нужно перевести пиксели в проценты
+    qreal tableWidthPix=(int) table->format().width().rawValue();
+    qreal pageWidthPix=textArea->width();
+    qreal tableWidth=(tableWidthPix*100.0)/pageWidthPix;
+    form.setTableWidth( (int) tableWidth );
+  }
 
   // Толщина линий
   int borderWidth=(int) table->format().border();
   form.setBorderWidth(borderWidth );
 
+
   // Отрисовывается форма редактирования свойств таблицы
-  form.exec();
+  if(!form.exec())
+    return;
 
 
   // Создаётся новый формат таблицы
   QTextTableFormat newFormat=table->format();
-  newFormat.setWidth( form.getTableWidth() );
+
+  // Устанавливается новая ширина таблицы
+  QTextLength tableWidthLength(QTextLength::PercentageLength, form.getTableWidth());
+  newFormat.setWidth( tableWidthLength );
+
+  // Устанавливается новая толщина линий
   newFormat.setBorder( form.getBorderWidth() );
+  newFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
 
   // Новый формат устанавливается текущей таблице
   table->setFormat( newFormat );
