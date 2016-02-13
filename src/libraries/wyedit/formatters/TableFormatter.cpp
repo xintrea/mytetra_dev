@@ -293,9 +293,18 @@ void TableFormatter::onTablePropertiesClicked()
    tableBackground=table->format().background().color(); // Фон таблицы задан явно
   else
     tableBackground.setRgb(255,255,255); // Фон таблицы не задан, используется белый цвет
-
   form.setBackgroundColor(tableBackground);
   qDebug() << "Table background color is: " << tableBackground.name();
+
+  // Выравнивание таблицы
+  EditorTablePropertiesForm::TableAlign align=EditorTablePropertiesForm::Left;
+  if(table->format().alignment()==Qt::AlignLeft)
+    align=EditorTablePropertiesForm::Left;
+  else if((table->format().alignment()==Qt::AlignHCenter) || (table->format().alignment()==Qt::AlignJustify))
+    align=EditorTablePropertiesForm::Center;
+  else if(table->format().alignment()==Qt::AlignRight)
+    align=EditorTablePropertiesForm::Right;
+  form.setTableAlign( align);
 
 
   // Отрисовывается форма редактирования свойств таблицы
@@ -315,10 +324,17 @@ void TableFormatter::onTablePropertiesClicked()
   newFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
   newFormat.setPadding(0);
   newFormat.setCellPadding(0);
-  newFormat.setCellSpacing(0);
+  newFormat.setCellSpacing(-1);
 
   // Устанавливается цвет фона
   newFormat.setBackground( form.getBackgroundColor() );
+
+  if(form.getTableAlign()==EditorTablePropertiesForm::Left)
+    newFormat.setAlignment( Qt::AlignLeft );
+  else if(form.getTableAlign()==EditorTablePropertiesForm::Center)
+    newFormat.setAlignment( Qt::AlignHCenter );
+  else if(form.getTableAlign()==EditorTablePropertiesForm::Right)
+    newFormat.setAlignment( Qt::AlignRight );
 
   // Новый формат устанавливается текущей таблице
   table->setFormat( newFormat );
