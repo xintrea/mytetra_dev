@@ -46,6 +46,8 @@ QVariant ActionLogModel::data(const QModelIndex& index, int role) const
 // Получение значения ячейки, защищенный метод
 QVariant ActionLogModel::getCell(int row, int column) const
 {
+  Q_UNUSED(row);
+
   switch (column) {
     case ACTIONLOG_COLUMN_TIMESTAMP:
       return QVariant("01:01:01 01.01.2016");

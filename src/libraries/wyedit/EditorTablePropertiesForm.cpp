@@ -12,9 +12,17 @@
 
 EditorTablePropertiesForm::EditorTablePropertiesForm()
 {
+  directSetAlign=false;
+
   setupUi();
   setupSignals();
   assembly();
+}
+
+
+EditorTablePropertiesForm::~EditorTablePropertiesForm()
+{
+
 }
 
 
@@ -34,6 +42,21 @@ void EditorTablePropertiesForm::setupUi()
 
   labelBackgroundColor.setText( tr("Background color: ") );
 
+
+  labelAlign.setText( tr("Align: ") );
+
+  buttonAlignLeft.setStatusTip(tr("Table align left"));
+  buttonAlignLeft.setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
+  buttonAlignLeft.setCheckable(true); // Кнопка является зажимаемой
+
+  buttonAlignCenter.setStatusTip(tr("Table align center"));
+  buttonAlignCenter.setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
+  buttonAlignCenter.setCheckable(true);
+
+  buttonAlignRight.setStatusTip(tr("Table align right"));
+  buttonAlignRight.setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
+  buttonAlignRight.setCheckable(true);
+
   buttonBox.setOrientation(Qt::Horizontal);
   buttonBox.addButton(tr("OK"),QDialogButtonBox::AcceptRole);
   buttonBox.addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
@@ -43,6 +66,10 @@ void EditorTablePropertiesForm::setupUi()
 void EditorTablePropertiesForm::setupSignals()
 {
   connect(&buttonBackgroundColor, SIGNAL(clicked()), this, SLOT(onClickedButtonBackgroundColor()) );
+
+  connect(&buttonAlignLeft,   SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignLeft()) );
+  connect(&buttonAlignCenter, SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignCenter()) );
+  connect(&buttonAlignRight,  SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignRight()) );
 
   connect(&buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
   connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -63,6 +90,20 @@ void EditorTablePropertiesForm::assembly()
 
   gridLayout->addWidget(&labelBackgroundColor,  2, 0);
   gridLayout->addWidget(&buttonBackgroundColor, 2, 1);
+
+  gridLayout->addWidget(&labelAlign,            3, 0);
+
+  /*
+  gridLayout->addWidget(&buttonAlignLeft,       3, 1);
+  gridLayout->addWidget(&buttonAlignCenter,     3, 2);
+  gridLayout->addWidget(&buttonAlignRight,      3, 3);
+  */
+
+  QHBoxLayout *alignBox=new QHBoxLayout();
+  alignBox->addWidget(&buttonAlignLeft);
+  alignBox->addWidget(&buttonAlignCenter);
+  alignBox->addWidget(&buttonAlignRight);
+  gridLayout->addLayout(alignBox, 3, 1);
 
   // Максимально растягивается по ширине первый столбец
   gridLayout->setColumnStretch(0, 1);
@@ -109,6 +150,35 @@ QColor EditorTablePropertiesForm::getBackgroundColor(void)
 }
 
 
+void EditorTablePropertiesForm::setTableAlign(TableAlign iAlign)
+{
+  tableAlign=iAlign;
+
+  directSetAlign=true;
+
+  buttonAlignLeft.setChecked(false);
+  buttonAlignCenter.setChecked(false);
+  buttonAlignRight.setChecked(false);
+
+  if(tableAlign==Left)
+    buttonAlignLeft.setChecked(true);
+
+  if(tableAlign==Center)
+    buttonAlignCenter.setChecked(true);
+
+  if(tableAlign==Right)
+    buttonAlignRight.setChecked(true);
+
+  directSetAlign=false;
+}
+
+
+int EditorTablePropertiesForm::getTableAlign(void)
+{
+  return tableAlign;
+}
+
+
 void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 {
   // Квадратик на кнопке выбора цвета кода
@@ -131,4 +201,28 @@ void EditorTablePropertiesForm::onClickedButtonBackgroundColor()
 }
 
 
+void EditorTablePropertiesForm::onToggleButtonAlignLeft()
+{
+  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+    return;
 
+  setTableAlign(Left);
+}
+
+
+void EditorTablePropertiesForm::onToggleButtonAlignCenter()
+{
+  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+    return;
+
+  setTableAlign(Center);
+}
+
+
+void EditorTablePropertiesForm::onToggleButtonAlignRight()
+{
+  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+    return;
+
+  setTableAlign(Right);
+}

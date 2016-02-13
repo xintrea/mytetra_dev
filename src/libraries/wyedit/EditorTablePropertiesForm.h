@@ -14,7 +14,13 @@ class EditorTablePropertiesForm : public QDialog
  Q_OBJECT
 
 public:
+
+  enum TableAlign{Left,
+                  Center,
+                  Right};
+
   EditorTablePropertiesForm();
+  virtual ~EditorTablePropertiesForm();
 
   void setTableWidth(int iWidth);
   int getTableWidth(void);
@@ -25,9 +31,16 @@ public:
   void setBackgroundColor(QColor iColor);
   QColor getBackgroundColor(void);
 
+  void setTableAlign(TableAlign iAlign);
+  int getTableAlign();
+
 protected slots:
 
   void onClickedButtonBackgroundColor();
+
+  void onToggleButtonAlignLeft();
+  void onToggleButtonAlignCenter();
+  void onToggleButtonAlignRight();
 
 private:
 
@@ -45,6 +58,13 @@ private:
   QLabel labelBackgroundColor;
   QToolButton buttonBackgroundColor;
   QColor backgroundColor;
+
+  QLabel labelAlign;
+  QToolButton buttonAlignLeft;
+  QToolButton buttonAlignCenter;
+  QToolButton buttonAlignRight;
+  TableAlign tableAlign;
+  bool directSetAlign; // Флаг, включаемый при программной установке нажатой кнопки. Он нужен, чтобы исключить рекурсию
 
   // Кнопки Ok и Concel
   QDialogButtonBox buttonBox;

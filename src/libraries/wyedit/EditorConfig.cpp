@@ -627,10 +627,12 @@ QString EditorConfig::update_version_change_value(int versionFrom,
   if(versionFrom==9 && versionTo==10)
     if(name=="tools_line_2")
       if(!result.contains("table_properties"))
+      {
         if(result.contains("createtable"))
           result.replace("createtable", "createtable,table_properties");
         else
           result=result+",table_properties";
+      }
 
   return result;
 }
