@@ -202,7 +202,11 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 
  // qDebug() << "New element for export" << xmlNodeToString(elm);
 
+ QTime start = QTime::currentTime();
+
  parseTreeToDom(&doc, elm, root);
+
+ qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
 
  // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 
