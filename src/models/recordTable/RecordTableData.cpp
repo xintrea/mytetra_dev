@@ -305,7 +305,7 @@ QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
 
   // Пробегаются все записи в таблице
   for(int i=0; i<tableData.size(); i++)
-    recordTableDomData.appendChild( tableData.at(i).exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
+    recordTableDomData.appendChild( tableData[i].exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
 
   // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
 
