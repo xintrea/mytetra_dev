@@ -19,6 +19,8 @@ extern GlobalParameters globalParameters;
 
 Record::Record() : attachTableData(this)
 {
+  isModify=true; // Вновь созданный объект считается измененным (непринципиально)
+
   liteFlag=true; // По-умолчанию объект легкий
 }
 
@@ -26,6 +28,8 @@ Record::Record() : attachTableData(this)
 // Конструктор копирования
 Record::Record(const Record &obj)
 {
+  isModify=true;
+
   // Скопировать нужно каждый кусочек класса, сами они не копируются
   liteFlag=obj.liteFlag;
   fieldList=obj.fieldList;
@@ -48,9 +52,15 @@ Record::~Record()
 // На вход этой функции подается элемент <record>
 void Record::setupDataFromDom(QDomElement iDomElement)
 {
+  // DOM-элемент кешируется
+  setupDomElement=iDomElement;
+
+  // Проинициализированный объект не имеет изменений
+  isModify=false;
+
   // Получение списка всех атрибутов текущего элемента
   QDomNamedNodeMap attList;
-  attList=iDomElement.attributes();
+  attList=setupDomElement.attributes();
 
   // Перебор атрибутов в списке и добавление их в запись
   int i;
@@ -72,14 +82,19 @@ void Record::setupDataFromDom(QDomElement iDomElement)
   attachTableData.setRecord(this);
 
   // Проверка, есть ли у переданного DOM-элемента таблица файлов для заполнения
-  if(!iDomElement.firstChildElement("files").isNull())
-    attachTableData.setupDataFromDom( iDomElement.firstChildElement("files") ); // Заполнение таблицы приаттаченных файлов
+  if(!setupDomElement.firstChildElement("files").isNull())
+    attachTableData.setupDataFromDom( setupDomElement.firstChildElement("files") ); // Заполнение таблицы приаттаченных файлов
 }
 
 
-QDomElement Record::exportDataToDom(QDomDocument *doc) const
+QDomElement Record::exportDataToDom(QDomDocument *doc)
 {
-  QDomElement elem=doc->createElement("record");
+  // Если элемент не менялся, возвращается закешированное значение
+  if(!isModify)
+    return setupDomElement;
+
+  setupDomElement.clear();
+  setupDomElement=doc->createElement("record");
 
   // Перебираются допустимые имена полей, доступных для сохранения
   QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList;
@@ -90,14 +105,14 @@ QDomElement Record::exportDataToDom(QDomDocument *doc) const
 
     // Устанавливается значение поля как атрибут DOM-узла
     if(isNaturalFieldExists(currentFieldName))
-      elem.setAttribute(currentFieldName, getNaturalFieldSource(currentFieldName));
+      setupDomElement.setAttribute(currentFieldName, getNaturalFieldSource(currentFieldName));
   }
 
   // К элементу записи прикрепляется элемент таблицы приаттаченных файлов, если таковые есть
   if(attachTableData.size()>0)
-    elem.appendChild( attachTableData.exportDataToDom(doc) );
+    setupDomElement.appendChild( attachTableData.exportDataToDom(doc) );
 
-  return elem;
+  return setupDomElement;
 }
 
 
@@ -129,6 +144,8 @@ void Record::switchToLite()
   attachTableData.switchToLite();
 
   liteFlag=true;
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -144,6 +161,8 @@ void Record::switchToFat()
   attachTableData.switchToFat();
 
   liteFlag=false;
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -282,6 +301,8 @@ void Record::setField(QString name, QString value)
   fieldList.insert(name, value);
 
   // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -313,6 +334,8 @@ void Record::setNaturalFieldSource(QString name, QString value)
 
   // Устанавливается значение поля
   fieldList.insert(name, value);
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -378,14 +401,13 @@ AttachTableData Record::getAttachTable() const
 }
 
 
-AttachTableData *Record::getAttachTablePointer()
+AttachTableData *Record::getAttachTablePointer() const
 {
   if(this->isLite()!=attachTableData.isLite())
     criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   return &attachTableData;
 }
-
 
 
 /*
@@ -412,6 +434,8 @@ void Record::setAttachTable(AttachTableData iAttachTable)
     criticalError("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
 
   attachTableData=iAttachTable;
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -460,7 +484,7 @@ QString Record::getText() const
 
 
 // Получение значения текста напрямую из файла, без заполнения свойства text
-QString Record::getTextDirect()
+QString Record::getTextDirect() const
 {
   // У тяжелого объекта невозможно получить текст записи из файла (у тяжелого объекта текст записи хранится в памяти)
   if(liteFlag==false)
@@ -514,12 +538,14 @@ void Record::setText(QString iText)
     text=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), iText);
   else
     criticalError("Record::setText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
+
+  isModify=true; // Объект изменился
 }
 
 
 // Сохранение текста записи на диск без установки текста записи как свойства
 // Принимает незашифрованные данные, сохраняет в файл, при записи шифрует если запись зашифрована
-void Record::saveTextDirect(QString iText)
+void Record::saveTextDirect(QString iText) const
 {
   QString fileName=getFullTextFileName();
 
@@ -555,7 +581,7 @@ void Record::saveTextDirect(QString iText)
 
 
 // Запись текста записи, хранимого в памяти, на диск
-void Record::saveText()
+void Record::saveText() const
 {
   QString fileName=getFullTextFileName();
 
@@ -588,6 +614,8 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
     criticalError("Cant set picture files for lite record object"+getIdAndNameAsString());
 
   pictureFiles=iPictureFiles;
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -613,6 +641,8 @@ void Record::switchToEncryptFields(void)
       if(fieldList[fieldName].length()>0)
         setField(fieldName, fieldList.value(fieldName) ); // Устанавливаются значения, при установке произойдет шифрация
   }
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -636,6 +666,8 @@ void Record::switchToDecryptFields(void)
 
   // Устанавливается поле (флаг) что запись не зашифрована
   fieldList["crypt"]="0";
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -663,6 +695,8 @@ void Record::switchToEncryptAndSaveLite(void)
 
   // Зашифровываются поля записи (здесь же устанавливается флаг crypt)
   switchToEncryptFields();
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -688,6 +722,8 @@ void Record::switchToEncryptAndSaveFat(void)
 
   // Тяжелые данные записываются в хранилище
   pushFatAttributes();
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -716,6 +752,8 @@ void Record::switchToDecryptAndSaveLite(void)
 
   // Устанавливается флаг что шифрации нет
   // fieldList["crypt"]="0"; // Похоже, что команда не нужна, так как в switchToDecryptFields() флаг уже установлен
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -740,6 +778,8 @@ void Record::switchToDecryptAndSaveFat(void)
 
   // Тяжелые данные записываются в хранилище
   pushFatAttributes();
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -773,6 +813,8 @@ void Record::pushFatAttributes()
   // Если есть приаттаченные файлы, они вставляются в конечную директорию
   if(attachTableData.size()>0)
     attachTableData.saveAttachFilesToDirectory(dirName);
+
+  isModify=true; // Объект изменился
 }
 
 
@@ -844,8 +886,8 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 }
 
 
-// В функцию должно передаваться полное имя файла
-void Record::checkAndCreateTextFile()
+// Метод создает директорию и пустой файл записи
+void Record::checkAndCreateTextFile() const
 {
   QString fileName=getFullTextFileName();
 

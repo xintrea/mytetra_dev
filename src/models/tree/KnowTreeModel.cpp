@@ -271,50 +271,54 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, Tree
 // Запись всех данных в XML файл
 void KnowTreeModel::save()
 {
- // Если имя файла небыло проинициализировано
- if(xmlFileName=="")
-  criticalError(tr("In KnowTreeModel can't set file name for XML file"));
+  // Если имя файла небыло проинициализировано
+  if(xmlFileName=="")
+    criticalError(tr("In KnowTreeModel can't set file name for XML file"));
 
- // Коструирование DOM документа для записи в файл
- QDomDocument doc("mytetradoc");
+  // Коструирование DOM документа для записи в файл
+  QDomDocument doc("mytetradoc");
 
- // Установка заголовка
- doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+  // Установка заголовка
+  doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
 
- // Создание корневого элемента
- QDomElement rootelement=doc.createElement("root");
+  // Создание корневого элемента
+  QDomElement rootelement=doc.createElement("root");
 
- // Добавление формата версии к корневому элементу
- QDomElement formvers=doc.createElement("format");
- formvers.setAttribute("version",CURRENT_FORMAT_VERSION);
- formvers.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
- rootelement.appendChild(formvers);
+  // Добавление формата версии к корневому элементу
+  QDomElement formvers=doc.createElement("format");
+  formvers.setAttribute("version",CURRENT_FORMAT_VERSION);
+  formvers.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
+  rootelement.appendChild(formvers);
 
- // Получение полного DOM дерева хранимых данных
- QDomElement elmdomtree=exportFullModelDataToDom(rootItem);
+  // Получение полного DOM дерева хранимых данных
+  QDomElement elmdomtree=exportFullModelDataToDom(rootItem);
 
- // Добавление полного дерева DOM хранимых данных к корневому элементу
- rootelement.appendChild(elmdomtree);
+  QTime start = QTime::currentTime();
 
- // Добавление корневого элемента в DOM документ
- doc.appendChild(rootelement);
+  // Добавление полного дерева DOM хранимых данных к корневому элементу
+  rootelement.appendChild(elmdomtree);
 
- // Распечатка на экран, что будет выводиться в XML файл
- // qDebug() << "Doc document for write " << doc.toString();
+  // Добавление корневого элемента в DOM документ
+  doc.appendChild(rootelement);
 
- // Перенос текущего файла дерева в корзину
- DiskHelper::removeFileToTrash(xmlFileName);
+  // Распечатка на экран, что будет выводиться в XML файл
+  // qDebug() << "Doc document for write " << doc.toString();
 
- // Запись DOM данных в файл
- QFile wfile(xmlFileName);
- if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+  // Перенос текущего файла дерева в корзину
+  DiskHelper::removeFileToTrash(xmlFileName);
+
+  // Запись DOM данных в файл
+  QFile wfile(xmlFileName);
+  if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-   qDebug() << "Cant open file " << xmlFileName << " for write.";
-   exit(1);
+    qDebug() << "Cant open file " << xmlFileName << " for write.";
+    exit(1);
   }
- QTextStream out(&wfile);
- out.setCodec("UTF-8");
- out << doc.toString();
+  QTextStream out(&wfile);
+  out.setCodec("UTF-8");
+  out << doc.toString();
+
+  qDebug() << "Save tree elapsed time: " << start.elapsed() << " ms";
 }
 
 

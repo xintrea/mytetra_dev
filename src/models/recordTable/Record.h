@@ -31,10 +31,10 @@ public:
   virtual ~Record();
 
   void setupDataFromDom(QDomElement iDomElement);
-  QDomElement exportDataToDom(QDomDocument *doc) const;
+  QDomElement exportDataToDom(QDomDocument *doc);
 
   QString getText() const;
-  QString getTextDirect();
+  QString getTextDirect() const;
   void setText(QString iText);
 
   QString getField(QString name) const;
@@ -51,7 +51,7 @@ public:
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
   AttachTableData getAttachTable() const;
-  AttachTableData *getAttachTablePointer();
+  AttachTableData *getAttachTablePointer() const;
   void setAttachTable(AttachTableData iAttachTable);
 
   bool isEmpty() const;
@@ -89,13 +89,19 @@ protected:
   // Таблица прикрепляемых файлов
   AttachTableData attachTableData;
 
+  // Закешированный DOM-элемент, из которого проинициализирован текущий элемент
+  QDomElement setupDomElement;
+
+  // Флаг, устанавливающийся в true при изменении данных, после чего свойства содержат данные,
+  // отличные от тех, которые были проинициализированы из DOM-объекта
+  bool isModify;
 
   // -----------------
   // Защищенные методы
   // -----------------
 
-  void saveTextDirect(QString iText);
-  void saveText();
+  void saveTextDirect(QString iText) const;
+  void saveText() const;
 
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
 
@@ -109,7 +115,7 @@ protected:
   void switchToDecryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
-  void checkAndCreateTextFile();
+  void checkAndCreateTextFile() const;
 
   QString getNaturalField(QString name) const;
   QString getCalculableField(QString name) const;
