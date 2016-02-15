@@ -11,6 +11,7 @@
 #include "models/attachTable/AttachTableData.h"
 #include "libraries/crypt/CryptService.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/TraceLogger.h"
 
 extern AppConfig mytetraConfig;
 extern FixedParameters fixedParameters;
@@ -28,6 +29,8 @@ Record::Record() : attachTableData(this)
 // Конструктор копирования
 Record::Record(const Record &obj)
 {
+  qDebug() << "Copy constructor for record " << obj.getField("id");
+
   isModify=true;
 
   // Скопировать нужно каждый кусочек класса, сами они не копируются
@@ -55,9 +58,6 @@ void Record::setupDataFromDom(QDomElement iDomElement)
   // DOM-элемент кешируется
   setupDomElement=iDomElement;
 
-  // Проинициализированный объект не имеет изменений
-  isModify=false;
-
   // Получение списка всех атрибутов текущего элемента
   QDomNamedNodeMap attList;
   attList=setupDomElement.attributes();
@@ -84,14 +84,21 @@ void Record::setupDataFromDom(QDomElement iDomElement)
   // Проверка, есть ли у переданного DOM-элемента таблица файлов для заполнения
   if(!setupDomElement.firstChildElement("files").isNull())
     attachTableData.setupDataFromDom( setupDomElement.firstChildElement("files") ); // Заполнение таблицы приаттаченных файлов
+
+  // Проинициализированный объект не имеет изменений
+  isModify=false;
 }
 
 
-QDomElement Record::exportDataToDom(QDomDocument *doc)
+QDomElement Record::exportDataToDom(QDomDocument *doc) const
 {
   // Если элемент не менялся, возвращается закешированное значение
   if(!isModify)
     return setupDomElement;
+
+  qDebug() << "Update cached record element " << getField("id");
+
+  // Далее обновляется кешированное значение, запоминается и возвращается как результат работы метода
 
   setupDomElement.clear();
   setupDomElement=doc->createElement("record");
@@ -112,7 +119,17 @@ QDomElement Record::exportDataToDom(QDomDocument *doc)
   if(attachTableData.size()>0)
     setupDomElement.appendChild( attachTableData.exportDataToDom(doc) );
 
+  // Кешированное значение стало актуальным
+  isModify=false;
+
   return setupDomElement;
+}
+
+
+// Метод, принимающий оповещение о том, что изменились связанные с записью данные
+void Record::onRelatedDataModify()
+{
+  isModify=true;
 }
 
 
@@ -145,6 +162,7 @@ void Record::switchToLite()
 
   liteFlag=true;
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -162,6 +180,7 @@ void Record::switchToFat()
 
   liteFlag=false;
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -302,6 +321,7 @@ void Record::setField(QString name, QString value)
 
   // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -335,6 +355,7 @@ void Record::setNaturalFieldSource(QString name, QString value)
   // Устанавливается значение поля
   fieldList.insert(name, value);
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -401,7 +422,7 @@ AttachTableData Record::getAttachTable() const
 }
 
 
-AttachTableData *Record::getAttachTablePointer() const
+AttachTableData *Record::getAttachTablePointer()
 {
   if(this->isLite()!=attachTableData.isLite())
     criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
@@ -435,6 +456,7 @@ void Record::setAttachTable(AttachTableData iAttachTable)
 
   attachTableData=iAttachTable;
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -539,6 +561,7 @@ void Record::setText(QString iText)
   else
     criticalError("Record::setText() : Unavailable crypt field value \""+fieldList.value("crypt")+"\"");
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -615,6 +638,7 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 
   pictureFiles=iPictureFiles;
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -642,6 +666,7 @@ void Record::switchToEncryptFields(void)
         setField(fieldName, fieldList.value(fieldName) ); // Устанавливаются значения, при установке произойдет шифрация
   }
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -667,6 +692,7 @@ void Record::switchToDecryptFields(void)
   // Устанавливается поле (флаг) что запись не зашифрована
   fieldList["crypt"]="0";
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -696,6 +722,7 @@ void Record::switchToEncryptAndSaveLite(void)
   // Зашифровываются поля записи (здесь же устанавливается флаг crypt)
   switchToEncryptFields();
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -723,6 +750,7 @@ void Record::switchToEncryptAndSaveFat(void)
   // Тяжелые данные записываются в хранилище
   pushFatAttributes();
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -753,6 +781,7 @@ void Record::switchToDecryptAndSaveLite(void)
   // Устанавливается флаг что шифрации нет
   // fieldList["crypt"]="0"; // Похоже, что команда не нужна, так как в switchToDecryptFields() флаг уже установлен
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -779,6 +808,7 @@ void Record::switchToDecryptAndSaveFat(void)
   // Тяжелые данные записываются в хранилище
   pushFatAttributes();
 
+  TRACELOG
   isModify=true; // Объект изменился
 }
 
@@ -814,7 +844,8 @@ void Record::pushFatAttributes()
   if(attachTableData.size()>0)
     attachTableData.saveAttachFilesToDirectory(dirName);
 
-  isModify=true; // Объект изменился
+  TRACELOG
+      isModify=true; // Объект изменился
 }
 
 

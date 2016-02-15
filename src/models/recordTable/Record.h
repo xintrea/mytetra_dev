@@ -31,7 +31,7 @@ public:
   virtual ~Record();
 
   void setupDataFromDom(QDomElement iDomElement);
-  QDomElement exportDataToDom(QDomDocument *doc);
+  QDomElement exportDataToDom(QDomDocument *doc) const;
 
   QString getText() const;
   QString getTextDirect() const;
@@ -51,7 +51,7 @@ public:
   void setPictureFiles(QMap<QString, QByteArray> iPictureFiles);
 
   AttachTableData getAttachTable() const;
-  AttachTableData *getAttachTablePointer() const;
+  AttachTableData *getAttachTablePointer();
   void setAttachTable(AttachTableData iAttachTable);
 
   bool isEmpty() const;
@@ -68,6 +68,8 @@ public:
   void switchToDecryptAndSaveFat(void);
 
   void pushFatAttributes();
+
+  void onRelatedDataModify();
 
 protected:
 
@@ -89,12 +91,14 @@ protected:
   // Таблица прикрепляемых файлов
   AttachTableData attachTableData;
 
+
   // Закешированный DOM-элемент, из которого проинициализирован текущий элемент
-  QDomElement setupDomElement;
+  mutable QDomElement setupDomElement; // Объявлен как mutable, так как кеширование происходит в константном геттере
 
   // Флаг, устанавливающийся в true при изменении данных, после чего свойства содержат данные,
   // отличные от тех, которые были проинициализированы из DOM-объекта
-  bool isModify;
+  mutable bool isModify; // Объявлен как mutable, так как используется при кешировании в константном геттере
+
 
   // -----------------
   // Защищенные методы

@@ -21,8 +21,8 @@ extern AppConfig mytetraConfig;
 // Конструктор модели дерева, состоящего из Item элементов
 KnowTreeModel::KnowTreeModel(QObject *parent) : TreeModel(parent)
 {
- xmlFileName="";
- rootItem=NULL;
+  xmlFileName="";
+  rootItem=NULL;
 }
 
 
@@ -31,20 +31,20 @@ KnowTreeModel::KnowTreeModel(QObject *parent) : TreeModel(parent)
 // дереву элементов и удалить их
 KnowTreeModel::~KnowTreeModel()
 {
- delete rootItem;
+  delete rootItem;
 }
 
 
 void KnowTreeModel::initFromXML(QString fileName)
 {
- xmlFileName=fileName;
+  xmlFileName=fileName;
 
- // Загрузка файла и преобразование его в DOM модель
- XmlTree xmlt;
- if(!xmlt.load( xmlFileName ))
-  return;
+  // Загрузка файла и преобразование его в DOM модель
+  XmlTree xmlt;
+  if(!xmlt.load( xmlFileName ))
+    return;
 
- init(xmlt.getDomModel());
+  init(xmlt.getDomModel());
 }
 
 
@@ -52,10 +52,10 @@ void KnowTreeModel::init(QDomDocument *domModel)
 {
   // Проверка формата XML-файла
   if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
-   {
+  {
     criticalError(tr("Unsupported format version for data base.\nPlease upgrade your MyTetra application."));
     return;
-   }
+  }
 
 
   QMap<QString, QString> rootData;
@@ -80,33 +80,33 @@ void KnowTreeModel::init(QDomDocument *domModel)
 
 bool KnowTreeModel::checkFormat(QDomElement elementFormat)
 {
- int baseVersion=0;
- int baseSubVersion=0;
+  int baseVersion=0;
+  int baseSubVersion=0;
 
- // Если DOM-элемент с версией и подверсией существует
- if( !elementFormat.isNull() )
+  // Если DOM-элемент с версией и подверсией существует
+  if( !elementFormat.isNull() )
   {
-   baseVersion=elementFormat.attribute("version", "0").toInt(); // Считывается номер версии
-   baseSubVersion=elementFormat.attribute("subversion", "0").toInt(); // Считывается номер подверсии
+    baseVersion=elementFormat.attribute("version", "0").toInt(); // Считывается номер версии
+    baseSubVersion=elementFormat.attribute("subversion", "0").toInt(); // Считывается номер подверсии
   }
 
- // Если номер версии или подверсии выше чем поддерживаемые программой
- if(baseVersion > CURRENT_FORMAT_VERSION ||
-    baseSubVersion > CURRENT_FORMAT_SUBVERSION)
-  return false;
+  // Если номер версии или подверсии выше чем поддерживаемые программой
+  if(baseVersion > CURRENT_FORMAT_VERSION ||
+     baseSubVersion > CURRENT_FORMAT_SUBVERSION)
+    return false;
 
- // В настоящий момент поддерживается формат 1.2
- // В настоящий момент предполагается, что номер версии всегда 1, поэтому вся работа идет по номеру подверсии
- if(baseSubVersion<=1)
-  if(updateSubVersionFrom1To2()==false) // Смена формата с 1.1 на 1.2
-   return false;
+  // В настоящий момент поддерживается формат 1.2
+  // В настоящий момент предполагается, что номер версии всегда 1, поэтому вся работа идет по номеру подверсии
+  if(baseSubVersion<=1)
+    if(updateSubVersionFrom1To2()==false) // Смена формата с 1.1 на 1.2
+      return false;
 
- // На будущее, для перехода с подверии 2 на подверсию 3, эти строки надо добавлять к существующим (а не заменять)
- // if(baseSubVersion<=2)
- //  if(updateSubVersionFrom2To3()==false)
- //   return false;
+  // На будущее, для перехода с подверии 2 на подверсию 3, эти строки надо добавлять к существующим (а не заменять)
+  // if(baseSubVersion<=2)
+  //  if(updateSubVersionFrom2To3()==false)
+  //   return false;
 
- return true;
+  return true;
 }
 
 
@@ -114,13 +114,13 @@ bool KnowTreeModel::updateSubVersionFrom1To2(void)
 {
 
 
- return true;
+  return true;
 }
 
 
 void KnowTreeModel::reload(void)
 {
- initFromXML(xmlFileName);
+  initFromXML(xmlFileName);
 }
 
 
@@ -130,10 +130,10 @@ void KnowTreeModel::setupModelData(QDomDocument *dommodel, TreeItem *parent)
   QDomElement contentRootNode=dommodel->documentElement().firstChildElement("content").firstChildElement("node");
 
   if(contentRootNode.isNull())
-   {
+  {
     qDebug() << "Unable load xml tree, first content node not found.";
     return;
-   }
+  }
 
   parseNodeElement(contentRootNode, parent);
 
@@ -144,22 +144,22 @@ void KnowTreeModel::setupModelData(QDomDocument *dommodel, TreeItem *parent)
 // Рекурсивный обход DOM дерева и извлечение из него узлов
 void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
 {
- TreeItem *parent = iParent;
+  TreeItem *parent = iParent;
 
- // У данного Dom-элемента ищется таблица конечных записей
- // и данные заполняются в Item-таблицу конечных записей
- parent->recordtableInit(domElement);
+  // У данного Dom-элемента ищется таблица конечных записей
+  // и данные заполняются в Item-таблицу конечных записей
+  parent->recordtableInit(domElement);
 
- // Пробегаются все DOM элементы текущего уровня
- // и рекурсивно вызывается обработка подуровней
- while(!domElement.isNull())
- {
-  if(domElement.tagName()=="node")
-   {
-    // Обнаруженый подузел прикрепляется к текущему элементу
-    parent->insertChildren(parent->childCount(), 1, 1);
+  // Пробегаются все DOM элементы текущего уровня
+  // и рекурсивно вызывается обработка подуровней
+  while(!domElement.isNull())
+  {
+    if(domElement.tagName()=="node")
+    {
+      // Обнаруженый подузел прикрепляется к текущему элементу
+      parent->insertChildren(parent->childCount(), 1, 1);
 
-    /*
+      /*
     QString line1,line_name,line_id;
     line1=n.tagName();
     line_name=n.attribute("name");
@@ -167,29 +167,29 @@ void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
     qDebug() << "Read node " << line1 << " " << line_id<< " " << line_name;
     */
 
-    // Определяются атрибуты узла дерева разделов
-    QDomNamedNodeMap attributeMap = domElement.attributes();
+      // Определяются атрибуты узла дерева разделов
+      QDomNamedNodeMap attributeMap = domElement.attributes();
 
-    // Перебираются атрибуты узла дерева разделов
-    for(int i = 0; i<attributeMap.count(); ++i)
-     {
-      QDomNode attribute = attributeMap.item(i);
+      // Перебираются атрибуты узла дерева разделов
+      for(int i = 0; i<attributeMap.count(); ++i)
+      {
+        QDomNode attribute = attributeMap.item(i);
 
-      QString name=attribute.nodeName();
-      QString value=attribute.nodeValue();
+        QString name=attribute.nodeName();
+        QString value=attribute.nodeValue();
 
-      // В дерево разделов устанавливаются считанные атрибуты
-      parent->child(parent->childCount()-1)->setFieldDirect(name ,value);
-     }
+        // В дерево разделов устанавливаются считанные атрибуты
+        parent->child(parent->childCount()-1)->setFieldDirect(name ,value);
+      }
 
 
-    // Вызов перебора оставшегося DOM дерева с прикреплением обнаруженных объектов
-    // к только что созданному элементу
-    parseNodeElement(domElement.firstChildElement(), parent->child(parent->childCount()-1) );
+      // Вызов перебора оставшегося DOM дерева с прикреплением обнаруженных объектов
+      // к только что созданному элементу
+      parseNodeElement(domElement.firstChildElement(), parent->child(parent->childCount()-1) );
 
-   }
-  domElement = domElement.nextSiblingElement();
- }
+    }
+    domElement = domElement.nextSiblingElement();
+  }
 
 }
 
@@ -197,20 +197,20 @@ void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
 // Генерирование полного DOM дерева хранимых данных
 QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 {
- QDomDocument doc;
- QDomElement elm=doc.createElement("content");
+  QDomDocument doc;
+  QDomElement elm=doc.createElement("content");
 
- // qDebug() << "New element for export" << xmlNodeToString(elm);
+  // qDebug() << "New element for export" << xmlNodeToString(elm);
 
- QTime start = QTime::currentTime();
+  QTime start = QTime::currentTime();
 
- parseTreeToDom(&doc, elm, root);
+  parseTreeToDom(&doc, elm, root);
 
- qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
+  qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
 
- // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
+  // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 
- return elm;
+  return elm;
 }
 
 
@@ -218,51 +218,51 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem)
 {
 
- // Если в ветке присутсвует таблица конечных записей
- // В первую очередь добавляется она
- if(currItem->recordtableGetRowCount() > 0)
+  // Если в ветке присутсвует таблица конечных записей
+  // В первую очередь добавляется она
+  if(currItem->recordtableGetRowCount() > 0)
   {
-   // Обработка таблицы конечных записей
+    // Обработка таблицы конечных записей
 
-   // Получение Dom дерева таблицы конечных записей
-   // В метод передается QDomDocument, на основе кторого будут создаваться элементы
-   QDomElement recordTableDom=currItem->recordtableExportDataToDom( doc );
+    // Получение Dom дерева таблицы конечных записей
+    // В метод передается QDomDocument, на основе кторого будут создаваться элементы
+    QDomElement recordTableDom=currItem->recordtableExportDataToDom( doc );
 
-   // Dom дерево таблицы конечных записей добавляется
-   // как подчиненный элемент к текущему элементу
-   if(!recordTableDom.isNull())
-    xmlData.appendChild(recordTableDom.cloneNode());
+    // Dom дерево таблицы конечных записей добавляется
+    // как подчиненный элемент к текущему элементу
+    if(!recordTableDom.isNull())
+      xmlData.appendChild(recordTableDom.cloneNode());
   }
 
- // Обработка каждой подчиненной ветки
- int i;
- for(i=0;i<currItem->childCount();i++)
+  // Обработка каждой подчиненной ветки
+  int i;
+  for(i=0;i<currItem->childCount();i++)
   {
-   // Временный элемент, куда будет внесена текущая перебираемая ветка
-   QDomElement  tempElement = doc->createElement("node");
+    // Временный элемент, куда будет внесена текущая перебираемая ветка
+    QDomElement  tempElement = doc->createElement("node");
 
-   // Получение всех полей для данной ветки
-   QMap<QString, QString> fields=currItem->child(i)->getAllFieldsDirect();
+    // Получение всех полей для данной ветки
+    QMap<QString, QString> fields=currItem->child(i)->getAllFieldsDirect();
 
-   // Перебираются поля элемента ветки
-   QMapIterator<QString, QString> fields_iterator(fields);
-   while (fields_iterator.hasNext())
+    // Перебираются поля элемента ветки
+    QMapIterator<QString, QString> fields_iterator(fields);
+    while (fields_iterator.hasNext())
     {
-     fields_iterator.next();
+      fields_iterator.next();
 
-     // Установка для временного элемента значения перебираемого поля как атрибута
-     tempElement.setAttribute(fields_iterator.key(), fields_iterator.value());
+      // Установка для временного элемента значения перебираемого поля как атрибута
+      tempElement.setAttribute(fields_iterator.key(), fields_iterator.value());
     }
 
 
-   // Добавление временного элемента к основному документу
-   xmlData.appendChild(tempElement);
+    // Добавление временного элемента к основному документу
+    xmlData.appendChild(tempElement);
 
-   // qDebug() << "In parsetreetodom() current construct doc " << xmlNodeToString(*xmldata);
+    // qDebug() << "In parsetreetodom() current construct doc " << xmlNodeToString(*xmldata);
 
-   // Рекурсивная обработка
-   QDomElement workElement=xmlData.lastChildElement();
-   parseTreeToDom(doc, workElement, currItem->child(i) );
+    // Рекурсивная обработка
+    QDomElement workElement=xmlData.lastChildElement();
+    parseTreeToDom(doc, workElement, currItem->child(i) );
   }
 
 }

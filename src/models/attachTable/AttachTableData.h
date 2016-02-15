@@ -27,30 +27,31 @@ public:
   void setRelatedAttachTableModel(AttachTableModel *model);
   void setRelatedAttachTableModelOnly(AttachTableModel *model);
 
-  void clear();
   int size() const;
 
-  Attach getAttach(QString id); // Получение объекта аттача
+  Attach getAttach(QString id) const; // Получение объекта аттача
+
+  void clear(); // Очистка всей таблицы аттачей
   void addAttach(Attach attach); // Добавление аттача в таблицу приаттаченных файлов
   void modifyAttach(QString id, Attach iAttach); // Изменение данных аттача
   void deleteAttach(QString id); // Удаление аттача по идентификатору
 
-  int getRowById(QString id);
-  QString getIdByRow(int row);
+  int getRowById(QString id) const;
+  QString getIdByRow(int row) const;
 
-  QString getFileName(int row);
-  QString getFileNameById(QString id);
+  QString getFileName(int row) const;
+  QString getFileNameById(QString id) const;
 
-  QString getInnerFileName(int row);
-  QString getInnerFileNameById(QString id);
+  QString getInnerFileName(int row) const;
+  QString getInnerFileNameById(QString id) const;
 
-  QString getFullInnerFileName(int row);
-  QString getFullInnerFileNameById(QString id);
+  QString getFullInnerFileName(int row) const;
+  QString getFullInnerFileNameById(QString id) const;
 
-  QString getAbsoluteInnerFileName(int row);
-  QString getAbsoluteInnerFileNameById(QString id);
+  QString getAbsoluteInnerFileName(int row) const;
+  QString getAbsoluteInnerFileNameById(QString id) const;
 
-  qint64 getFileSize(int row);
+  qint64 getFileSize(int row) const;
 
   bool isEmpty() const;
   bool isLite() const;
@@ -58,9 +59,9 @@ public:
   void switchToLite();
   void switchToFat();
 
-  void print();
+  void print() const;
 
-  bool isRecordCrypt();
+  bool isRecordCrypt() const;
   void encrypt(unsigned int area);
   void decrypt(unsigned int area);
 

@@ -80,7 +80,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
 // Получение значения текста указанной записи
 // Метод возвращает расшифрованные данные
 // Если возникнет проблема, что файла с текстом записи нет, будет создан пустой файл
-QString RecordTableData::getText(int pos)
+QString RecordTableData::getText(int pos) const
 {
  // Если индекс недопустимый, возвращается пустая строка
  if(pos<0 || pos>=size()) 
@@ -305,7 +305,7 @@ QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
 
   // Пробегаются все записи в таблице
   for(int i=0; i<tableData.size(); i++)
-    recordTableDomData.appendChild( tableData[i].exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
+    recordTableDomData.appendChild( tableData.at(i).exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
 
   // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
 
@@ -522,6 +522,10 @@ void RecordTableData::moveUp(int pos)
    // Данные перемещаются
    tableData.move(pos,pos-1);
 
+   // Записи оповещаются что они были перемещены в списке
+   tableData[pos].onRelatedDataModify();
+   tableData[pos-1].onRelatedDataModify();
+
    // Обновляется экран
    // QModelIndex from=index(pos-1);
    // QModelIndex to=index(pos);
@@ -537,6 +541,10 @@ void RecordTableData::moveDn(int pos)
   {
    // Данные перемещаются
    tableData.move(pos,pos+1);
+
+   // Записи оповещаются что они были перемещены в списке
+   tableData[pos].onRelatedDataModify();
+   tableData[pos+1].onRelatedDataModify();
 
    // Обновляется экран
    // QModelIndex from=index(pos);

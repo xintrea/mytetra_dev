@@ -121,6 +121,10 @@ void AttachTableData::setRecord(Record *iRecord)
 
 void AttachTableData::clear()
 {
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
+
   attachTable.clear();
   record=NULL;
   liteFlag=true;
@@ -137,7 +141,7 @@ int AttachTableData::size() const
 
 
 // Получение объекта аттача
-Attach AttachTableData::getAttach(QString id)
+Attach AttachTableData::getAttach(QString id) const
 {
   int row=getRowById(id);
 
@@ -159,6 +163,10 @@ void AttachTableData::addAttach(Attach attach)
 
   if(relatedAttachTableModel!=NULL)
     relatedAttachTableModel->setData(QModelIndex(), QVariant(), ATTACHTABLE_COMMAND_END_RESET_MODEL);
+
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
 }
 
 
@@ -171,6 +179,10 @@ void AttachTableData::modifyAttach(QString id, Attach iAttach)
     return;
 
   attachTable[row]=iAttach;
+
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
 }
 
 
@@ -181,6 +193,10 @@ void AttachTableData::deleteAttach(QString id)
 
   if(row<0)
     return;
+
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
 
   // Сначала уничтожается файл
   attachTable[row].removeFile();
@@ -202,7 +218,7 @@ void AttachTableData::deleteAttach(QString id)
 }
 
 
-int AttachTableData::getRowById(QString id)
+int AttachTableData::getRowById(QString id) const
 {
   for(int i=0; i<attachTable.size(); i++)
     if(attachTable.at(i).getField("id")==id)
@@ -212,21 +228,21 @@ int AttachTableData::getRowById(QString id)
 }
 
 
-QString AttachTableData::getIdByRow(int row)
+QString AttachTableData::getIdByRow(int row) const
 {
   return attachTable.at(row).getField("id");
 }
 
 
 // Видимое имя файла без пути
-QString AttachTableData::getFileName(int row)
+QString AttachTableData::getFileName(int row) const
 {
   return attachTable.at(row).getField("fileName");
 }
 
 
 // Видимое имя файла без пути по Id
-QString AttachTableData::getFileNameById(QString id)
+QString AttachTableData::getFileNameById(QString id) const
 {
   int row=getRowById(id);
 
@@ -238,14 +254,14 @@ QString AttachTableData::getFileNameById(QString id)
 
 
 // Внутреннее имя файла без пути
-QString AttachTableData::getInnerFileName(int row)
+QString AttachTableData::getInnerFileName(int row) const
 {
   return attachTable.at(row).getInnerFileName();
 }
 
 
 // Внутреннее имя файла без пути по Id
-QString AttachTableData::getInnerFileNameById(QString id)
+QString AttachTableData::getInnerFileNameById(QString id) const
 {
   int row=getRowById(id);
 
@@ -257,14 +273,14 @@ QString AttachTableData::getInnerFileNameById(QString id)
 
 
 // Внутреннее имя файла с путем
-QString AttachTableData::getFullInnerFileName(int row)
+QString AttachTableData::getFullInnerFileName(int row) const
 {
   return attachTable.at(row).getFullInnerFileName();
 }
 
 
 // Внутреннее имя файла с путем по Id
-QString AttachTableData::getFullInnerFileNameById(QString id)
+QString AttachTableData::getFullInnerFileNameById(QString id) const
 {
   int row=getRowById(id);
 
@@ -276,14 +292,14 @@ QString AttachTableData::getFullInnerFileNameById(QString id)
 
 
 // Внутреннее имя файла с абсолютным путем
-QString AttachTableData::getAbsoluteInnerFileName(int row)
+QString AttachTableData::getAbsoluteInnerFileName(int row) const
 {
   return attachTable.at(row).getAbsoluteInnerFileName();
 }
 
 
 // Внутреннее имя файла с абсолютным путем по Id
-QString AttachTableData::getAbsoluteInnerFileNameById(QString id)
+QString AttachTableData::getAbsoluteInnerFileNameById(QString id) const
 {
   int row=getRowById(id);
 
@@ -294,14 +310,14 @@ QString AttachTableData::getAbsoluteInnerFileNameById(QString id)
 }
 
 
-qint64 AttachTableData::getFileSize(int row)
+qint64 AttachTableData::getFileSize(int row) const
 {
   return attachTable.at(row).getFileSize();
 }
 
 
 // Пачать содержимого таблицы конечных файлов
-void AttachTableData::print()
+void AttachTableData::print() const
 {
   for(int i=0; i<attachTable.size(); ++i)
   {
@@ -348,7 +364,7 @@ void AttachTableData::switchToFat()
 }
 
 
-bool AttachTableData::isRecordCrypt()
+bool AttachTableData::isRecordCrypt() const
 {
   if( record->getField("crypt")=="1" )
     return true;
@@ -361,6 +377,10 @@ void AttachTableData::encrypt(unsigned int area)
 {
   for(int i=0; i<attachTable.size(); ++i)
     attachTable[i].encrypt(area);
+
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
 }
 
 
@@ -368,6 +388,10 @@ void AttachTableData::decrypt(unsigned int area)
 {
   for(int i=0; i<attachTable.size(); ++i)
     attachTable[i].decrypt(area);
+
+  // Запись оповещается о том, что аттачи изменились
+  if(record!=NULL)
+    record->onRelatedDataModify();
 }
 
 

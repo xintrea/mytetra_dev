@@ -22,7 +22,7 @@ public:
     virtual ~RecordTableData();
 
     // Получение текста указанной записи
-    QString getText(int pos);
+    QString getText(int pos) const;
 
     // Установка текста и картинок указанной записи
     void setTextAndPictures(int pos,
