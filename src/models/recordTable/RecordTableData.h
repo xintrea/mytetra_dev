@@ -53,7 +53,7 @@ public:
     QDomElement exportDataToDom(QDomDocument *doc) const;
 
     // Получение ссылки на объект ветки, которой принадлежит таблица
-    TreeItem *getItem(void);
+    TreeItem *getItem(void) const;
 
     int insertNewRecord(int mode,
                         int pos,
@@ -65,9 +65,9 @@ public:
     void deleteRecord(int i);
     void deleteRecordById(QString id);
 
-    bool isRecordExists(QString id);
+    bool isRecordExists(QString id) const;
 
-    int getPosById(QString id);
+    int getPosById(QString id) const;
 
     void empty(void);
 
@@ -83,7 +83,7 @@ public:
     static void editorSaveCallback(QObject *editor,
                                      QString saveText);
 
-    int  getWorkPos(void);
+    int  getWorkPos(void) const;
     void setWorkPos(int pos);
 
     void checkAndCreateTextFile(int pos, QString fullFileName);

@@ -487,7 +487,7 @@ void RecordTableData::empty(void)
 }
 
 
-bool RecordTableData::isRecordExists(QString id)
+bool RecordTableData::isRecordExists(QString id) const
 {
   for(int i=0;i<size();i++)
     if(getField("id", i)==id)
@@ -497,7 +497,7 @@ bool RecordTableData::isRecordExists(QString id)
 }
 
 
-int RecordTableData::getPosById(QString id)
+int RecordTableData::getPosById(QString id) const
 {
   for(int i=0;i<size();i++)
     if(getField("id", i)==id)
@@ -589,13 +589,13 @@ void RecordTableData::switchToDecrypt(void)
 
 
 // Получение ссылки на объект ветки, которой принадлежит таблица
-TreeItem *RecordTableData::getItem(void)
+TreeItem *RecordTableData::getItem(void) const
 {
  return treeItem;
 }
 
 
-int RecordTableData::getWorkPos(void)
+int RecordTableData::getWorkPos(void) const
 {
  return workPos;
 }
