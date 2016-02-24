@@ -942,6 +942,8 @@ void Record::checkAndCreateTextFile() const
     // Создается пустая директория записи
     QDir tempDir("/");
     tempDir.mkpath( fileInfo.absoluteDir().absolutePath() );
+
+    isModify=true;
   }
 
   // Если файл записи не существует
@@ -960,5 +962,7 @@ void Record::checkAndCreateTextFile() const
 
     // Создается пустой текст записи
     saveTextDirect( QString() );
+
+    isModify=true;
   }
 }
