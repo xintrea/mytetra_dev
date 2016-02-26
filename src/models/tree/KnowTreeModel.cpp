@@ -197,8 +197,7 @@ void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
 // Генерирование полного DOM дерева хранимых данных
 QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 {
-  static QDomDocument doc;
-  doc.clear();
+  QDomDocument doc;
 
   QDomElement elm=doc.createElement("content");
 
