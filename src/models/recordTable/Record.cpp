@@ -92,11 +92,11 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 
 QDomElement Record::exportDataToDom(QDomDocument *doc) const
 {
-  // Если элемент не менялся, возвращается закешированное значение
-  if(!isModify)
+  // if(doc==setupDomElement.ownerDocument())
+  if(!isModify) // Если элемент не менялся, возвращается закешированное значение
     return setupDomElement;
 
-  qDebug() << "Update cached record element " << getField("id");
+  qDebug() << "Update cached record element" << getField("id");
 
   // Далее обновляется кешированное значение, запоминается и возвращается как результат работы метода
 

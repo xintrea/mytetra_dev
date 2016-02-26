@@ -45,6 +45,8 @@ void ClipboardRecords::clear(void)
 
 void ClipboardRecords::addRecord(Record record)
 {
+  record.onRelatedDataModify(); // При помещении в буфер обмена, в образе записи сбрасывается кеширование
+
   records.table << record;
 }
 
@@ -87,7 +89,7 @@ int ClipboardRecords::getCount(void) const
 Record ClipboardRecords::getRecord(int n) const
 {
   if(n<records.table.size())
-   return records.table.at(n);
+    return records.table.at(n);
   else
    {
     criticalError("In ClipboardRecords::getRecord() unavailable number "+QString::number(n));
