@@ -31,14 +31,16 @@ Record::Record(const Record &obj)
 {
   qDebug() << "Copy constructor for record " << obj.getField("id");
 
-  isModify=true;
-
   // Скопировать нужно каждый кусочек класса, сами они не копируются
   liteFlag=obj.liteFlag;
   fieldList=obj.fieldList;
   text=obj.text;
   pictureFiles=obj.pictureFiles;
   attachTableData=obj.attachTableData;
+
+  // Кеширующие данные копируются, чтобы они не содержали мусор
+  setupDomElement=obj.setupDomElement.cloneNode().toElement();
+  isModify=true; // Отмечается, что запись изменена
 
   // Обратный указатель во включенном объекте должен указывать на новый экземпляр
   attachTableData.setRecord(this);
