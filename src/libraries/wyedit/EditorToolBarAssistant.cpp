@@ -289,21 +289,6 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
   emit updateIndentSliderGeometry();
 }
 
-
-// Включение/выключение подсветки кнопки отображения символов форматирования
-void EditorToolBarAssistant::setShowFormattingButtonHiglight(bool active)
-{
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
-  if(active)
-    showFormatting->setPalette(palActive);
-  else
-    showFormatting->setPalette(palInactive);
-}
-
-
 bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
 {
   if(event->modifiers().testFlag(Qt::ControlModifier) ||
