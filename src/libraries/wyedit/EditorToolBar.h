@@ -14,6 +14,7 @@
 #define MINIMUM_ALLOWED_FONT_SIZE 5
 #define MAXIMUM_ALLOWED_FONT_SIZE 100
 
+class QButtonGroup;
 
 class EditorToolBar : public QWidget
 {
@@ -38,6 +39,7 @@ public:
   QToolButton   *indentPlus=NULL;
   QToolButton   *indentMinus=NULL;
 
+  QButtonGroup  *alignButtons=NULL;
   QToolButton   *alignLeft=NULL;
   QToolButton   *alignCenter=NULL;
   QToolButton   *alignRight=NULL;
