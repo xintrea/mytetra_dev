@@ -479,6 +479,26 @@ QStringList text_delimiter_decompose(QString text)
 }
 
 
+QString htmlSpecialChars(QString line)
+{
+  line.replace("\"", "&quot;");
+  line.replace("<",  "&lt;");
+  line.replace(">",  "&gt;");
+
+  return line;
+}
+
+
+QString htmlSpecialCharsDecode(QString line)
+{
+  line.replace("&quot;", "\"");
+  line.replace("&lt;", "<");
+  line.replace("&gt;", ">");
+
+  return line;
+}
+
+
 // Функция всегда возвращает уникальный идентификатор
 QString get_unical_id(void)
 {
