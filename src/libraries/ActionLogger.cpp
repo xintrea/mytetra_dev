@@ -9,8 +9,10 @@ extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
-ActionLogger::ActionLogger()
+ActionLogger::ActionLogger(QObject *pobj)
 {
+  Q_UNUSED(pobj);
+
   // Текущий номер версии формата строк лога
   version=1;
 
@@ -53,9 +55,68 @@ ActionLogger::~ActionLogger()
 }
 
 
-QString ActionLogger::getFullDescription(QString iName, QMap<QString, QString> iData)
+// Получение текстового описания действия
+QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
 {
+  QString line;
 
+  // В зависимости от имени действия выбирается генерируемая строка описания действия
+  if( iData["a"] == "startProgram" )
+    line=tr("Program started");
+
+  else if( iData["a"] == "stopProgram")
+    line=tr("Program stop");
+
+  else if( iData["a"] == "createRecord")
+    line=tr("Create record \"%1\" with ID %2 in branch \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                           arg( iData["recordId"] ).
+                                                                           arg( iData["brachName"] ).
+                                                                           arg( iData["branchId"] );
+
+  else if( iData["a"] == "editRecord")
+    line=tr("Edit record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                             arg( iData["recordId"]);
+
+  else if( iData["a"] == "moveRecordUp")
+    line=tr("Move up record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                arg( iData["recordId"]);
+
+  else if( iData["a"] == "moveRecordDown")
+    line=tr("Move down record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                  arg( iData["recordId"]);
+
+  else if( iData["a"] == "deleteRecord")
+    line=tr("Delete record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                               arg( iData["recordId"]);
+
+  else if( iData["a"] == "copyRecordToBuffer")
+    line=tr("Copy record \"%1\" with ID %2 to clipboard").arg( iData["recordName"] ).
+                                                          arg( iData["recordId"]);
+
+  else if( iData["a"] == "cutRecordToBuffer")
+    line=tr("Cut record \"%1\" with ID %2 to clipboard").arg( iData["recordName"] ).
+                                                          arg( iData["recordId"]);
+
+  else if( iData["a"] == "pasteRecordFromBuffer") // Добавить, какой новый ID у вставленной записи получился
+    line=tr("Paste record \"%1\" with ID %2 from clipboard").arg( iData["recordName"] ).
+                                                             arg( iData["recordId"]);
+
+  else if( iData["a"] == "startDragRecord")
+    line=tr("Start drag record \"%1\" with ID %2 from branch \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                                arg( iData["recordId"] ).
+                                                                                arg( iData["brachName"] ).
+                                                                                arg( iData["branchId"] );
+
+  else if( iData["a"] == "dropRecord")
+    line=tr("Drop record \"%1\" with ID %2 to branch \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                         arg( iData["recordId"] ).
+                                                                         arg( iData["brachName"] ).
+                                                                         arg( iData["branchId"] );
+
+  else
+    line=tr("Unavailable action %1").arg( iData["a"] );
+
+  return line;
 }
 
 
