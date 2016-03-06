@@ -2,16 +2,21 @@
 
 #include "main.h"
 #include "ActionLogModel.h"
+#include "libraries/ActionLogger.h"
+
+
+extern ActionLogger actionLogger;
 
 
 ActionLogModel::ActionLogModel(QObject *parent) : QAbstractTableModel(parent)
 {
-
+  doc.setContent( actionLogger.getXml() );
 }
 
 
 ActionLogModel::~ActionLogModel()
 {
+
 }
 
 
@@ -29,7 +34,7 @@ int ActionLogModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
 
-  return 10;
+  return doc.elementsByTagName("r").length();
 }
 
 
@@ -48,12 +53,18 @@ QVariant ActionLogModel::getCell(int row, int column) const
 {
   Q_UNUSED(row);
 
+  QDomNode node=doc.elementsByTagName("r").at(row);
+  QDomElement element=node.toElement();
+
+  if( element.isNull() )
+    return QVariant( QString() );
+
   switch (column) {
     case ACTIONLOG_COLUMN_TIMESTAMP:
-      return QVariant("01:01:01 01.01.2016");
+      return QVariant( element.attribute("t") );
 
     case ACTIONLOG_COLUMN_ACTION:
-      return QVariant("Action");
+      return QVariant( actionLogger.getFullDescription(element) );
 
     default:
       return QVariant();

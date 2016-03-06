@@ -44,11 +44,17 @@ ActionLogger::ActionLogger(QObject *pobj)
 
 ActionLogger::~ActionLogger()
 {
-  logFile.close();
+  closeLogFile();
 }
 
 
 void ActionLogger::init()
+{
+  openLogFileForWrite();
+}
+
+
+void ActionLogger::openLogFileForWrite()
 {
   // Подготавливается лог-файл
   logFileName=globalParameters.getActionLogFileName();
@@ -57,13 +63,72 @@ void ActionLogger::init()
   logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::Append | QIODevice::Text);
   if(!result)
-    criticalError("Cant open log file "+logFileName);
+    criticalError("Cant open log file "+logFileName+" for write data");
+}
+
+
+void ActionLogger::openLogFileForRead()
+{
+  // Подготавливается лог-файл
+  logFileName=globalParameters.getActionLogFileName();
+  logPrevFileName=globalParameters.getActionLogPrevFileName();
+
+  logFile.setFileName(logFileName); // Открывается файл лога
+  bool result=logFile.open(QIODevice::ReadOnly | QIODevice::Text);
+  if(!result)
+    criticalError("Cant open log file "+logFileName+" for readind data");
+}
+
+
+void ActionLogger::closeLogFile()
+{
+  logFile.close();
 }
 
 
 void ActionLogger::setEnableLogging(bool flag)
 {
   enableLogging=flag;
+}
+
+
+// Получение текста лог-файла в виде XML-кода
+QString ActionLogger::getXml()
+{
+  closeLogFile();
+  openLogFileForRead();
+
+  QString xmlText="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE mytetralog>\n<root>\n";
+
+  // Получение текста лог-файла
+  QTextStream in(&logFile);
+  while (!in.atEnd())
+  {
+    QString line = in.readLine();
+    xmlText+=line;
+  }
+
+  xmlText+="</root>";
+
+  closeLogFile();
+  openLogFileForWrite();
+
+  return xmlText;
+}
+
+
+QString ActionLogger::getFullDescription(QDomElement element)
+{
+  QMap<QString, QString> data;
+  QDomNamedNodeMap map = element.attributes();
+
+  for (int i = 0; i < map.count(); ++i)
+  {
+    QDomNode attribute = map.item(i);
+    data[ attribute.nodeName() ]= attribute.nodeValue();
+  }
+
+  return getFullDescription(data);
 }
 
 

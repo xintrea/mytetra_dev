@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QFile>
 #include <QMap>
+#include <QDomElement>
 
 
 class ActionLogger : public QObject
@@ -19,7 +20,10 @@ public:
 
   void init();
   void setEnableLogging(bool flag);
+  QString getXml();
   void addAction(QString iName, QMap<QString, QString> iData = QMap<QString, QString>());
+
+  QString getFullDescription(QDomElement element);
   QString getFullDescription(QMap<QString, QString> iData);
 
 protected:
@@ -37,6 +41,10 @@ protected:
   QString logPrevFileName;
 
   QFile logFile;
+
+  void openLogFileForWrite();
+  void openLogFileForRead();
+  void closeLogFile();
 
 };
 

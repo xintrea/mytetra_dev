@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QAbstractTableModel>
 #include <QVariant>
+#include <QDomDocument>
 
 #define ACTIONLOG_COLUMNS 2
 #define ACTIONLOG_COLUMN_TIMESTAMP 0
@@ -25,6 +26,8 @@ public:
 private:
 
   QVariant getCell(int row, int column) const;
+
+  QDomDocument doc;
 };
 
 #endif // __ACTIONLOGMODEL_H__
