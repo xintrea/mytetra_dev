@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "ActionLogger.h"
 #include "models/appConfig/AppConfig.h"
@@ -10,11 +9,29 @@ extern GlobalParameters globalParameters;
 
 ActionLogger::ActionLogger()
 {
+  // Заполняются допустимые названия действий и допустимые имена атрибутов этих действий
+  actionStructure["createRecord"]         =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName");
+  actionStructure["editRecord"]           =(QStringList() << "recordId" << "recordName" );
+  actionStructure["moveRecordUp"]         =(QStringList() << "recordId" << "recordName" );
+  actionStructure["moveRecordDown"]       =(QStringList() << "recordId" << "recordName" );
+  actionStructure["deleteRecord"]         =(QStringList() << "recordId" << "recordName" );
+  actionStructure["copyRecordToBuffer"]   =(QStringList() << "recordId" << "recordName" );
+  actionStructure["cutRecordToBuffer"]    =(QStringList() << "recordId" << "recordName" );
+  actionStructure["pasteRecordFromBuffer"]=(QStringList() << "recordId" << "recordName" );
+  actionStructure["startDragRecord"]      =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName" );
+  actionStructure["dropRecord"]           =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName" );
+
+  actionStructure["createBranch"]  =(QStringList() << "branchId" << "branchName" << "parentBranchId" << "parentBranchName");
+  actionStructure["editBranch"]    =(QStringList() << "branchId" << "branchName" );
+  actionStructure["moveBranchUp"]  =(QStringList() << "branchId" << "branchName" );
+  actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
+  actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
+
+  // Подготавливается лог-файл
   logFileName=globalParameters.getActionLogFileName();
   logPrevFileName=globalParameters.getActionLogPrevFileName();
 
-  // Открывается файл лога
-  logFile.setFileName(logFileName);
+  logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::Append | QIODevice::Text);
   if(!result)
     criticalError("Cant open log file "+logFileName);
@@ -27,51 +44,14 @@ ActionLogger::~ActionLogger()
 }
 
 
-QString ActionLogger::getFullDescription(int iAction, QMap<QString, QString> iData)
+QString ActionLogger::getFullDescription(QString iName, QMap<QString, QString> iData)
 {
 
 }
 
 
-void ActionLogger::addActionCreateRecord(QString recordId, QString recordName, QString branchId, QString branchName)
+void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
 {
 
 }
-
-
-void ActionLogger::addActionEditRecord(QString recordId, QString recordName)
-{
-
-}
-
-
-void ActionLogger::addActionDeleteRecord(QString recordId, QString recordName)
-{
-
-}
-
-
-void ActionLogger::addActionMoveUpRecord(QString recordId, QString recordName)
-{
-
-}
-
-
-void ActionLogger::addActionMoveDownRecord(QString recordId, QString recordName)
-{
-
-}
-
-
-void ActionLogger::addActionCutRecord(QString recordId, QString recordName)
-{
-
-}
-
-
-void ActionLogger::addActionPasteRecord(QString recordId, QString recordName)
-{
-
-}
-
 

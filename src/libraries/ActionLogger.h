@@ -8,39 +8,18 @@ class ActionLogger
 {
 public:
 
-  enum action { createNote,
-                editNote,
-                moveNoteUp,
-                moveNoteDown,
-                deleteNote,
-
-                createBranch,
-                editBranch,
-                moveBranchUp,
-                moveBranchDown,
-                deleteBranch,
-
-                copyNoteToBuffer,
-                cutNoteToBuffer,
-                pasteNoteFromBuffer,
-
-                dragAndDropNote };
-
-
   ActionLogger();
   virtual ~ActionLogger();
 
-  void addActionCreateRecord(QString recordId, QString recordName, QString branchId, QString branchName);
-  void addActionEditRecord(QString recordId, QString recordName);
-  void addActionDeleteRecord(QString recordId, QString recordName);
-  void addActionMoveUpRecord(QString recordId, QString recordName);
-  void addActionMoveDownRecord(QString recordId, QString recordName);
-  void addActionCutRecord(QString recordId, QString recordName);
-  void addActionPasteRecord(QString recordId, QString recordName);
-
-  QString getFullDescription(int iAction, QMap<QString, QString> iData);
+  void addAction(QString iName, QMap<QString, QString> iData);
+  QString getFullDescription(QString iName, QMap<QString, QString> iData);
 
 protected:
+
+  // Допустимая структура имен действий и их параметров
+  // Ключ - имя дествия
+  // Значение - список параметров
+  QMap<QString, QStringList> actionStructure;
 
   QString logFileName;
   QString logPrevFileName;
