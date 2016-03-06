@@ -786,6 +786,18 @@ bool AppConfig::setActionLogMaximumSize(unsigned int mbSize)
 }
 
 
+// Разрешено ли логирование
+bool AppConfig::getEnableLogging(void)
+{
+  return conf->value("enableLogging").toBool();
+}
+
+void AppConfig::setEnableLogging(bool state)
+{
+  conf->setValue("enableLogging", state);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -900,7 +912,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 27
+ // Последняя версия на данный момент - 28
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -953,6 +965,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(25, 26, get_parameter_table_25(), get_parameter_table_26());
  if(fromVersion<=26)
   updater.update_version(26, 27, get_parameter_table_26(), get_parameter_table_27());
+ if(fromVersion<=27)
+  updater.update_version(27, 28, get_parameter_table_27(), get_parameter_table_28());
 }
 
 
@@ -1496,6 +1510,24 @@ QStringList AppConfig::get_parameter_table_27(bool withEndSignature)
  table << get_parameter_table_26(false);
 
  table << "actionLogMaximumSize" << "int" << "1"; // 1 Мб
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_28(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 27
+ table << get_parameter_table_27(false);
+
+ table << "enableLogging" << "bool" << "false";
 
  if(withEndSignature)
   table << "0" << "0" << "0";

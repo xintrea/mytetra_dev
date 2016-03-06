@@ -206,6 +206,10 @@ public:
     unsigned int getActionLogMaximumSize();
     bool setActionLogMaximumSize(unsigned int mbSize);
 
+    // Разрешено ли логирование
+    bool getEnableLogging(void);
+    void setEnableLogging(bool state);
+
 private:
 
     QSettings *conf; // было static
@@ -246,6 +250,7 @@ private:
     QStringList get_parameter_table_25(bool withEndSignature=true);
     QStringList get_parameter_table_26(bool withEndSignature=true);
     QStringList get_parameter_table_27(bool withEndSignature=true);
+    QStringList get_parameter_table_28(bool withEndSignature=true);
 
     bool is_init_flag;
 };

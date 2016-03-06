@@ -17,7 +17,9 @@ public:
   ActionLogger(QObject *pobj=0);
   ~ActionLogger();
 
-  void addAction(QString iName, QMap<QString, QString> iData);
+  void init();
+  void setEnableLogging(bool flag);
+  void addAction(QString iName, QMap<QString, QString> iData = QMap<QString, QString>());
   QString getFullDescription(QMap<QString, QString> iData);
 
 protected:
@@ -28,6 +30,8 @@ protected:
   // Ключ - имя действия
   // Значение - список параметров
   QMap<QString, QStringList> actionStructure;
+
+  bool enableLogging;
 
   QString logFileName;
   QString logPrevFileName;

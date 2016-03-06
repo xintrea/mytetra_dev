@@ -18,6 +18,7 @@
 #include "libraries/GlobalParameters.h"
 #include "views/consoleEmulator/ExecuteCommand.h"
 #include "libraries/WalkHistory.h"
+#include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
 #include "views/actionLog/ActionLogScreen.h"
 
@@ -27,6 +28,7 @@ extern AppConfig mytetraConfig;
 extern TrashMonitoring trashMonitoring;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
+extern ActionLogger actionLogger;
 
 
 MainWindow::MainWindow() : QMainWindow()
@@ -73,6 +75,9 @@ MainWindow::MainWindow() : QMainWindow()
 MainWindow::~MainWindow()
 {
   saveAllState();
+
+  // В лог записывается событие остановки программы
+  actionLogger.addAction("stopProgram");
   
   delete treeScreen;
   delete recordTableScreen;

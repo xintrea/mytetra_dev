@@ -37,7 +37,19 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
   actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
 
+  // По-умолчанию логирование запрещено
+  enableLogging=false;
+}
 
+
+ActionLogger::~ActionLogger()
+{
+  logFile.close();
+}
+
+
+void ActionLogger::init()
+{
   // Подготавливается лог-файл
   logFileName=globalParameters.getActionLogFileName();
   logPrevFileName=globalParameters.getActionLogPrevFileName();
@@ -49,13 +61,14 @@ ActionLogger::ActionLogger(QObject *pobj)
 }
 
 
-ActionLogger::~ActionLogger()
+void ActionLogger::setEnableLogging(bool flag)
 {
-  logFile.close();
+  enableLogging=flag;
 }
 
 
 // Получение текстового описания действия
+// iData содержит полные атрибуты записи, взятые из лога, включая "v" - версия, "t" - время, "a" - наименование действия
 QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
 {
   QString line;
@@ -120,8 +133,15 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
 }
 
 
+// Добавление действия в лог
+// iName - наименоание действия
+// iData - атрибуты действия (в них НЕ входят v, t, a, эти атрибуты генерируется в теле этого метода на лету)
 void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
 {
+  // Если логирование не разрешено
+  if(!enableLogging)
+    return;
+
   // Проверка допустимости имени действия
   if(!actionStructure.contains(iName))
   {
@@ -165,6 +185,7 @@ void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
   // Завершается строка лога
   line+="/>";
 
+  qDebug() << "Action log: " << line;
 
   // Строка записывается в лог
   QTextStream out(&logFile);

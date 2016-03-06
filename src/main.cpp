@@ -17,6 +17,7 @@
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/ActionLogger.h"
 
 #if QT_VERSION < 0x050000
 #include "libraries/qtSingleApplication/qtsingleapplication.h"
@@ -50,6 +51,9 @@ TrashMonitoring trashMonitoring;
 
 // Объект с историей посещаемых записей
 WalkHistory walkHistory;
+
+// Логгер действий с данными
+ActionLogger actionLogger;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -625,6 +629,11 @@ int main(int argc, char ** argv)
 
  // Установка CSS-оформления
  setCssStyle();
+
+ // Инициализация логирования действий над данными
+ actionLogger.init();
+ actionLogger.setEnableLogging( mytetraConfig.getEnableLogging() ); // Установка или запрещение логирования согласно конфигурации
+ actionLogger.addAction("startProgram"); // Запись в лог старта программы
 
 
  // Экран загрузки, показывается только в Андроид версии (так как загрузка идет ~10 сек, и без сплешскрина непонятно что происходит)
