@@ -48,7 +48,6 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   currentFontFamily="";
   currentFontSize=0;
   currentFontColor="#000000";
-  buttonsSelectColor=QColor(125,170,240,150); // 92,134,198
   flagSetFontParametersEnabled=true;
 
   // Инициализация панели инструментов
@@ -177,44 +176,36 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
   // TRACELOG
 
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
+  bold->setChecked(false);
+  italic->setChecked(false);
+  underline->setChecked(false);
 
-  bold->setPalette(palInactive);
-  italic->setPalette(palInactive);
-  underline->setPalette(palInactive);
-
-  if(textArea->fontWeight()==QFont::Bold) bold->setPalette(palActive);
-  if(textArea->fontItalic()==true)        italic->setPalette(palActive);
-  if(textArea->fontUnderline()==true)     underline->setPalette(palActive);
+  if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
+  if(textArea->fontItalic()==true)        italic->setChecked(true);
+  if(textArea->fontUnderline()==true)     underline->setChecked(true);
 }
 
 
 void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 {
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
-
   if(button==BT_BOLD)
   {
-    if(active==false) bold->setPalette(palInactive);
-    else              bold->setPalette(palActive);
+    if(active==false) bold->setChecked(false);
+    else              bold->setChecked(true);
     return;
   }
 
   if(button==BT_ITALIC)
   {
-    if(active==false) italic->setPalette(palInactive);
-    else              italic->setPalette(palActive);
+    if(active==false) italic->setChecked(false);
+    else              italic->setChecked(true);
     return;
   }
 
   if(button==BT_UNDERLINE)
   {
-    if(active==false) underline->setPalette(palInactive);
-    else              underline->setPalette(palActive);
+    if(active==false) underline->setChecked(false);
+    else              underline->setChecked(true);
     return;
   }
 }

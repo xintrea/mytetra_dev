@@ -101,6 +101,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка Bold
   bold = new QToolButton(this);
+  bold->setCheckable(true);
   bold->setShortcut(QKeySequence(QKeySequence::Bold));
   bold->setStatusTip(tr("Bold (Ctrl+B)"));
   bold->setIcon(QIcon(":/resource/pic/edit_bold.svg"));
@@ -108,6 +109,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка Italic
   italic = new QToolButton(this);
+  italic->setCheckable(true);
   italic->setShortcut(QKeySequence(QKeySequence::Italic));
   italic->setStatusTip(tr("Italic (Ctrl+I)"));
   italic->setIcon(QIcon(":/resource/pic/edit_italic.svg"));
@@ -115,6 +117,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка Underline
   underline = new QToolButton(this);
+  underline->setCheckable(true);
   underline->setShortcut(QKeySequence(QKeySequence::Underline));
   underline->setStatusTip(tr("Underline (Ctrl+U)"));
   underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
