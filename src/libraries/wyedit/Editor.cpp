@@ -381,7 +381,7 @@ void Editor::setupSignals(void)
           this,                             SLOT  (onSettingsClicked()),
           Qt::DirectConnection);
   connect(editorToolBarAssistant->showFormatting, SIGNAL(toggled(bool)),
-          this,                                   SLOT  (setNonprintableCharactersVisible(bool)),
+          this,                                   SLOT  (onShowformattingClicked(bool)),
           Qt::DirectConnection);
 
 
@@ -1188,7 +1188,7 @@ void Editor::onSettingsClicked(void)
 }
 
 
-void Editor::setNonprintableCharactersVisible(bool ok)
+void Editor::onShowformattingClicked(bool ok)
 {
     textArea->set_showformatting(ok);
 }

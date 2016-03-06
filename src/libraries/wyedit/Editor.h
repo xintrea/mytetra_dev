@@ -180,7 +180,7 @@ private slots:
  void onShowhtmlClicked(void);
  void onFindtextClicked(void);
  void onSettingsClicked(void);
- void setNonprintableCharactersVisible(bool);
+ void onShowformattingClicked(bool);
 
  void onExpandEditAreaClicked(void);
  void onSaveClicked(void);
