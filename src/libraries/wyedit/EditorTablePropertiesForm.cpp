@@ -43,7 +43,7 @@ void EditorTablePropertiesForm::setupUi()
   labelBackgroundColor.setText( tr("Background color: ") );
 
 
-  labelAlign.setText( tr("Align: ") );
+  labelAlign.setText( tr("Table align: ") );
 
   buttonAlignLeft.setStatusTip(tr("Table align left"));
   buttonAlignLeft.setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));

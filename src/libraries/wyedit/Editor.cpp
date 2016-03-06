@@ -1187,10 +1187,12 @@ void Editor::onSettingsClicked(void)
   dialog.show();
 }
 
+
 void Editor::setNonprintableCharactersVisible(bool ok)
 {
     textArea->set_showformatting(ok);
 }
+
 
 void Editor::onExpandEditAreaClicked(void)
 {

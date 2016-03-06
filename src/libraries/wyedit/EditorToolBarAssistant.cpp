@@ -157,21 +157,18 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
   // TRACELOG
 
-  QPalette palActive, palInactive;
-  palActive.setColor(QPalette::Normal, QPalette::Button, buttonsSelectColor);
-  palActive.setColor(QPalette::Normal, QPalette::Window, buttonsSelectColor);
+  alignLeft->setChecked(false);
+  alignCenter->setChecked(false);
+  alignRight->setChecked(false);
+  alignWidth->setChecked(false);
 
-  alignLeft->setPalette(palInactive);
-  alignCenter->setPalette(palInactive);
-  alignRight->setPalette(palInactive);
-  alignWidth->setPalette(palInactive);
+  if(activate==false)
+    return;
 
-  if(activate==false)return;
-
-  if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignRight)   alignRight->setPalette(palActive);
-  else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setPalette(palActive);
+  if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setChecked(true);
+  else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setChecked(true);
+  else if(textArea->alignment()==Qt::AlignRight)   alignRight->setChecked(true);
+  else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setChecked(true);
 }
 
 
