@@ -293,8 +293,7 @@ void TypefaceFormatter::onClearClicked(void)
   QBrush clearBrush( clearColor );
   QTextCharFormat clearCharFormat;
   clearCharFormat.setForeground( clearBrush );
-  textArea->setCurrentCharFormat( clearCharFormat );
-
+  textArea->textCursor().mergeCharFormat(clearCharFormat);
 
   // Если выделен блок
   // или курсор на пустой линии
