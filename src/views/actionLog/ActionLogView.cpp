@@ -47,6 +47,21 @@ void ActionLogView::init()
   setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 
   assemblyContextMenu();
+  setContextMenuPolicy(Qt::CustomContextMenu);
+
+  setupSignals();
+}
+
+
+void ActionLogView::setupSignals(void)
+{
+  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
+  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
+          this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+
+  // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+  connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
+          this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 }
 
 
@@ -73,5 +88,16 @@ void ActionLogView::assemblyContextMenu()
   ActionLogScreen *parentPointer=qobject_cast<ActionLogScreen *>(parent());
 
   contextMenu.addAction( parentPointer->actionCopy );
+}
+
+
+// Открытие контекстного меню в таблице конечных записей
+void ActionLogView::onCustomContextMenuRequested(const QPoint &pos)
+{
+  qDebug() << "In ActionLogView::on_customContextMenuRequested";
+
+  // Включение отображения меню на экране
+  // menu.exec(event->globalPos());
+  contextMenu.exec( viewport()->mapToGlobal(pos) );
 }
 

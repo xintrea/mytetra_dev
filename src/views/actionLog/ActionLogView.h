@@ -23,8 +23,11 @@ public:
   void init();
   void setController(ActionLogController *pController);
 
-protected:
+protected slots:
 
+  void onCustomContextMenuRequested(const QPoint &pos);
+
+protected:
 
   ActionLogController *controller;
 
@@ -33,6 +36,7 @@ protected:
   virtual void resizeEvent(QResizeEvent *event);
 
   void assemblyContextMenu(void);
+  void setupSignals(void);
 
 };
 

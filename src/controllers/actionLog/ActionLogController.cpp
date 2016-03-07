@@ -58,14 +58,11 @@ void ActionLogController::onCopyClicked()
   if(indexes.size() < 1)
     return;
 
+  // Индексы выбранных ячеек идут не так как на экране, поэтому их нужно отсортировать
   qSort(indexes);
 
   // Размещаемый в буфере обмена текст
   QString selectedText;
-
-  // Индекс, помогающий найти переход на новую строку
-  QModelIndex previous = indexes.first();
-  // indexes.removeFirst();
 
   for (int i=0; i<indexes.size(); ++i)
   {

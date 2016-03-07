@@ -12,6 +12,8 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
   // По факту этот класс - синглтон. Синглтон сам задает себе имя
   this->setObjectName("ActionLogScreen");
 
+  this->setWindowTitle("Action log");
+
   // Инициализируется контроллер отображения записей лога
   actionLogController=new ActionLogController(this);
   actionLogController->setObjectName("ActionLogController");
@@ -56,6 +58,7 @@ void ActionLogScreen::setupActions(void)
   actionCopy = new QAction(tr("Copy selected rows"), this);
   actionCopy->setStatusTip(tr("Copy selected rows"));
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  actionCopy->setShortcut(QKeySequence("Ctrl+C"));
   connect(actionCopy, SIGNAL(triggered()), actionLogController, SLOT(onCopyClicked()));
 }
 
