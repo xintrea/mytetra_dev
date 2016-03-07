@@ -52,34 +52,37 @@ ActionLogView *ActionLogController::getView(void)
 
 void ActionLogController::onCopyClicked()
 {
-  QString selectedText;
-
   // Перечень индексов ячеек, которые были выбраны
   QModelIndexList indexes=view->selectionModel()->selectedIndexes();
 
+  if(indexes.size() < 1)
+    return;
+
+  qSort(indexes);
+
+  // Размещаемый в буфере обмена текст
+  QString selectedText;
+
   // Индекс, помогающий найти переход на новую строку
   QModelIndex previous = indexes.first();
-  indexes.removeFirst();
+  // indexes.removeFirst();
 
-  foreach(QModelIndex current, indexes)
+  for (int i=0; i<indexes.size(); ++i)
   {
-    QVariant data = model->data(current);
+    QVariant data = model->data(indexes.at(i));
     QString text = data.toString();
 
     // Добавляется текст из ячейки
     selectedText.append(text);
 
-    // Если текущая ячейка на той же строке что и предыдущая
-    if(current.row() == previous.row())
+    // Если не последняя ячейка
+    if(i<indexes.size()-1)
     {
-      selectedText.append('\t');
+      if(indexes.at(i).row() == indexes.at(i+1).row()) // Если текущая ячейка на той же строке что и последующая ячейка
+        selectedText.append('\t');
+      else // Иначе последующая ячейка на другой строке
+        selectedText.append('\n');
     }
-    else // Иначе текущая ячейка на другой строке, что и предыдущая, а значит нужно добавить перевод строки
-    {
-      selectedText.append('\n');
-    }
-
-    previous = current;
   }
 
   QApplication::clipboard()->setText(selectedText);
