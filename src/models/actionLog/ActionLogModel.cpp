@@ -1,10 +1,12 @@
 #include <QDebug>
+#include <QDateTime>
 
 #include "main.h"
 #include "ActionLogModel.h"
+#include "models/appConfig/AppConfig.h"
 #include "libraries/ActionLogger.h"
 
-
+extern AppConfig mytetraConfig;
 extern ActionLogger actionLogger;
 
 
@@ -42,14 +44,14 @@ int ActionLogModel::rowCount(const QModelIndex& parent) const
 QVariant ActionLogModel::data(const QModelIndex& index, int role) const
 {
   if (index.isValid() && role == Qt::DisplayRole)
-    return getCell(index.row(), index.column());
+    return getCell(index.row(), index.column(), role);
 
   return QVariant();
 }
 
 
 // Получение значения ячейки, защищенный метод
-QVariant ActionLogModel::getCell(int row, int column) const
+QVariant ActionLogModel::getCell(int row, int column, int role) const
 {
   Q_UNUSED(row);
 
@@ -61,7 +63,18 @@ QVariant ActionLogModel::getCell(int row, int column) const
 
   switch (column) {
     case ACTIONLOG_COLUMN_TIMESTAMP:
-      return QVariant( element.attribute("t") );
+
+      // Если вывод на экран, то происходит преобразование TIMESTAMP в человекочитаемый формат даты и времени
+      if(role==Qt::DisplayRole)
+      {
+        QDateTime fieldDateTime=QDateTime::fromTime_t( element.attribute("t").toInt() );
+        if(mytetraConfig.getEnableCustomDateTimeFormat()==false)
+          return fieldDateTime.toString(Qt::SystemLocaleDate);
+        else
+          return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
+      }
+      else
+        return QVariant( element.attribute("t") ); // Время передается в сыром виде (формат TIMESTAMP), чтобы была возможность сортировки
 
     case ACTIONLOG_COLUMN_ACTION:
       return QVariant( actionLogger.getFullDescription(element) );

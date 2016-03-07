@@ -25,7 +25,7 @@ public:
 
 private:
 
-  QVariant getCell(int row, int column) const;
+  QVariant getCell(int row, int column, int role) const;
 
   QDomDocument doc;
 };
