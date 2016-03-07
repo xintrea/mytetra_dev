@@ -92,6 +92,10 @@ void logPrint(char *lpszText, ...)
 
 void criticalError(QString message)
 {
+  QMap<QString, QString> data;
+  data["errorMessage"]=message;
+  actionLogger.addAction("criticalError", data);
+
   qDebug() << " ";
   qDebug() << "---------------";
   qDebug() << "Critical error!";

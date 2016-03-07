@@ -37,6 +37,8 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
   actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
 
+  actionStructure["criticalError"] =(QStringList() << "errorMessage" );
+
   // По-умолчанию логирование запрещено
   enableLogging=false;
 }
@@ -190,6 +192,9 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
                                                                          arg( iData["recordId"] ).
                                                                          arg( iData["brachName"] ).
                                                                          arg( iData["branchId"] );
+
+  else if( iData["a"] == "criticalError")
+    line=tr("Critical error: %1").arg( iData["errorMessage"] );
 
   else
     line=tr("Unavailable action %1").arg( iData["a"] );
