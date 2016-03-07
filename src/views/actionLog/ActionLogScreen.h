@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QAction>
-#include <QToolBox>
+#include <QToolBar>
 
 // Виджет отображения лога действий пользователя
 
@@ -31,7 +31,7 @@ protected:
   ActionLogView *actionLogView;
 
   // Экранные элементы
-  QToolBox *toolBox;
+  QToolBar *toolBar;
   QDialogButtonBox *buttonBox;
   QVBoxLayout *screenLayout;
 

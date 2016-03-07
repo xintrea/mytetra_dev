@@ -37,6 +37,10 @@ void ActionLogScreen::setupUI(void)
   actionLogView=actionLogController->getView();
 
   // Создание тулбара
+  toolBar=new QToolBar(this);
+  insertActionAsButton(toolBar, actionCopy);
+
+  // Создание набора диалоговых кнопок
   buttonBox=new QDialogButtonBox(QDialogButtonBox::Cancel, this);
 }
 
@@ -60,6 +64,7 @@ void ActionLogScreen::assembly(void)
 {
   screenLayout=new QVBoxLayout(this);
 
+  screenLayout->addWidget(toolBar);
   screenLayout->addWidget(actionLogView);
   screenLayout->addWidget(buttonBox);
 
