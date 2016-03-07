@@ -49,3 +49,39 @@ ActionLogView *ActionLogController::getView(void)
   return view;
 }
 
+
+void ActionLogController::onCopyClicked()
+{
+  QString selectedText;
+
+  // Перечень индексов ячеек, которые были выбраны
+  QModelIndexList indexes=view->selectionModel()->selectedIndexes();
+
+  // Индекс, помогающий найти переход на новую строку
+  QModelIndex previous = indexes.first();
+  indexes.removeFirst();
+
+  foreach(QModelIndex current, indexes)
+  {
+    QVariant data = model->data(current);
+    QString text = data.toString();
+
+    // Добавляется текст из ячейки
+    selectedText.append(text);
+
+    // Если текущая ячейка на той же строке что и предыдущая
+    if(current.row() == previous.row())
+    {
+      selectedText.append('\t');
+    }
+    else // Иначе текущая ячейка на другой строке, что и предыдущая, а значит нужно добавить перевод строки
+    {
+      selectedText.append('\n');
+    }
+
+    previous = current;
+  }
+
+  QApplication::clipboard()->setText(selectedText);
+}
+

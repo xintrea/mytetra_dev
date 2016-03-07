@@ -16,9 +16,12 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
   actionLogController=new ActionLogController(this);
   actionLogController->setObjectName("ActionLogController");
 
+  setupActions();
   setupUI();
   setupSignals();
   assembly();
+
+  actionLogView->init();
 }
 
 
@@ -41,6 +44,15 @@ void ActionLogScreen::setupUI(void)
 void ActionLogScreen::setupSignals(void)
 {
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()) );
+}
+
+
+void ActionLogScreen::setupActions(void)
+{
+  actionCopy = new QAction(tr("Copy selected rows"), this);
+  actionCopy->setStatusTip(tr("Copy selected rows"));
+  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  connect(actionCopy, SIGNAL(triggered()), actionLogController, SLOT(onCopyClicked()));
 }
 
 

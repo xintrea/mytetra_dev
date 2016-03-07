@@ -23,6 +23,10 @@ public:
 
   ActionLogView *getView(void);
 
+public slots:
+
+  void onCopyClicked();
+
 protected:
 
   ActionLogView *view;

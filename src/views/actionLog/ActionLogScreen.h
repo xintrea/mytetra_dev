@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QAction>
+#include <QToolBox>
 
 // Виджет отображения лога действий пользователя
 
@@ -18,11 +19,10 @@ public:
   ActionLogScreen(QWidget *parent = 0);
   virtual ~ActionLogScreen();
 
-protected:
+  // Действия, используемые как на тулбаре, так и в контекстном меню
+  QAction *actionCopy;
 
-  void setupUI(void);
-  void setupSignals(void);
-  void assembly(void);
+protected:
 
   // Указатель на контроллер 
   ActionLogController *actionLogController;
@@ -31,8 +31,15 @@ protected:
   ActionLogView *actionLogView;
 
   // Экранные элементы
+  QToolBox *toolBox;
   QDialogButtonBox *buttonBox;
   QVBoxLayout *screenLayout;
+
+  void setupUI(void);
+  void setupSignals(void);
+  void setupActions(void);
+  void assembly(void);
+
 };
 
 #endif // ACTIONLOGSCREEN_H

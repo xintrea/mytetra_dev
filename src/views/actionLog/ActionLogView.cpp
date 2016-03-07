@@ -15,14 +15,28 @@ extern GlobalParameters globalParameters;
 
 ActionLogView::ActionLogView(QWidget *parent) : QTableView(parent)
 {
+
+}
+
+
+ActionLogView::~ActionLogView()
+{
+
+}
+
+
+void ActionLogView::init()
+{
   this->horizontalHeader()->setStretchLastSection( true ); // Растягивание последней секции до размеров виджета
   this->setSelectionBehavior(QAbstractItemView::SelectRows); // Выделяется вся строка
   this->horizontalHeader()->setHighlightSections(false); // Заголовки не должны выглядеть нажатыми
   this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // Отключается горизонтальная прокрутка
 
-  // Установка ширины окна
+  // Установка ширины и высоты окна
   int dialogWidth=int( 0.8 * (float)(find_object<MainWindow>("mainwindow")->width()) );
+  int dialogHeight=int( 0.8 * (float)(find_object<MainWindow>("mainwindow")->height()) );
   setMinimumWidth( dialogWidth );
+  setMinimumHeight( dialogHeight );
   resize( size() );
 
   // Установка ширины столбцов
@@ -31,12 +45,8 @@ ActionLogView::ActionLogView(QWidget *parent) : QTableView(parent)
 
   // Настройка области виджета для кинетической прокрутки
   setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
-}
 
-
-ActionLogView::~ActionLogView()
-{
-
+  assemblyContextMenu();
 }
 
 
@@ -55,5 +65,13 @@ void ActionLogView::resizeEvent(QResizeEvent *event)
 
   // Отрисовка родительского класса
   QTableView::resizeEvent(event);
+}
+
+
+void ActionLogView::assemblyContextMenu()
+{
+  ActionLogScreen *parentPointer=qobject_cast<ActionLogScreen *>(parent());
+
+  contextMenu.addAction( parentPointer->actionCopy );
 }
 

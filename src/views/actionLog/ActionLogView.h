@@ -20,13 +20,20 @@ public:
   ActionLogView(QWidget *parent=0);
   virtual ~ActionLogView();
 
+  void init();
   void setController(ActionLogController *pController);
 
 protected:
 
-  virtual void resizeEvent(QResizeEvent *event);
 
   ActionLogController *controller;
+
+  QMenu contextMenu;
+
+  virtual void resizeEvent(QResizeEvent *event);
+
+  void assemblyContextMenu(void);
+
 };
 
 #endif // __ACTIONLOGVIEW_H__
