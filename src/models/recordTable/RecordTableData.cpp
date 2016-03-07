@@ -17,13 +17,14 @@
 #include "views/tree/KnowTreeView.h"
 #include "libraries/crypt/CryptService.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/ActionLogger.h"
 
 #include "libraries/wyedit/Editor.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
-
+extern ActionLogger actionLogger;
 
 // Это набор данных конечной таблицы, с которыми удобно работать
 
@@ -403,6 +404,22 @@ int RecordTableData::insertNewRecord(int mode,
    }
 
   qDebug() << "RecordTableData::insert_new_record() : New record pos" << QString::number(insertPos);
+
+
+  // Запись в лог о добавлении записи
+  QMap<QString, QString> data;
+  data["recordId"]=record.getNaturalFieldSource("id");
+  data["recordName"]=record.getNaturalFieldSource("name");
+  if(treeItem!=NULL)
+  {
+    data["branchId"]=treeItem->getAllFieldsDirect()["id"];
+    data["branchName"]=treeItem->getAllFieldsDirect()["name"];
+  }
+  if(!isCrypt)
+    actionLogger.addAction("createRecord", data);
+  else
+    actionLogger.addAction("createCryptRecord", data);
+
 
   // Возвращается номера строки, на которую должна быть установлена засветка после выхода из данного метода
   return insertPos;
