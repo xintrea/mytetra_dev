@@ -207,41 +207,41 @@ bool RecordTableController::isTableNotExists(void)
 // Установка нового набора данных для списка записей
 void RecordTableController::setTableData(RecordTableData *rtData)
 {
- qDebug() << "In RecordTableView setTableData() start";
+  qDebug() << "In RecordTableView setTableData() start";
 
- // Обновление набора данных с последующим выбором первой строки
- // может быть очень длительным, поэтому показывается что процесс выполняется
- // QCursor cursor_wait=QCursor(Qt::BusyCursor);
- // qApp->setOverrideCursor(cursor_wait);
- find_object<MainWindow>("mainwindow")->setCursor(Qt::BusyCursor);
+  // Обновление набора данных с последующим выбором первой строки
+  // может быть очень длительным, поэтому показывается что процесс выполняется
+  // QCursor cursor_wait=QCursor(Qt::BusyCursor);
+  // qApp->setOverrideCursor(cursor_wait);
+  find_object<MainWindow>("mainwindow")->setCursor(Qt::BusyCursor);
 
- // Указатель на данные сообщается источнику данных
- recordSourceModel->setTableData(rtData);
+  // Указатель на данные сообщается источнику данных
+  recordSourceModel->setTableData(rtData);
 
- // Надо обязательно сбросить selection model
- view->selectionModel()->clear();
+  // Надо обязательно сбросить selection model
+  view->selectionModel()->clear();
 
- // Если список конечных записей не пуст
- bool removeSelection=true;
- if(recordSourceModel->rowCount()>0)
+  // Если список конечных записей не пуст
+  bool removeSelection=true;
+  if(recordSourceModel->rowCount()>0)
   {
-   // Нужно выяснить, на какой записи ранее стояло выделение
-   int workPos=rtData->getWorkPos();
+    // Нужно выяснить, на какой записи ранее стояло выделение
+    int workPos=rtData->getWorkPos();
 
-   // Если номер записи допустимый
-   if(workPos>0 && workPos<recordSourceModel->rowCount())
+    // Если номер записи допустимый
+    if(workPos>0 && workPos<recordSourceModel->rowCount())
     {
-     // Выделение устанавливается на нужную запись
-     // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
-     view->selectRow(workPos);
-     view->scrollTo( view->currentIndex() ); // QAbstractItemView::PositionAtCenter
+      // Выделение устанавливается на нужную запись
+      // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
+      view->selectRow(workPos);
+      view->scrollTo( view->currentIndex() ); // QAbstractItemView::PositionAtCenter
 
-     removeSelection=false;
+      removeSelection=false;
     }
   }
 
- // Если выделение устанавливать ненужно
- if(removeSelection)
+  // Если выделение устанавливать ненужно
+  if(removeSelection)
   {
     // Надо очистить поля области редактировния
     find_object<MetaEditor>("editorScreen")->clearAll();
@@ -253,10 +253,10 @@ void RecordTableController::setTableData(RecordTableData *rtData)
     qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
   }
 
- // qApp->restoreOverrideCursor();
- find_object<MainWindow>("mainwindow")->unsetCursor();
+  // qApp->restoreOverrideCursor();
+  find_object<MainWindow>("mainwindow")->unsetCursor();
 
- qDebug() << "In RecordTableView set new model stop";
+  qDebug() << "In RecordTableView set new model stop";
 }
 
 
@@ -269,14 +269,14 @@ void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRec
 
   // Перебираются записи и вносятся в буфер обмена
   for(int i=0; i<itemsForCopy.size(); ++i)
-   {
+  {
     QModelIndex index=convertProxyIndexToSourceIndex( itemsForCopy.at(i) );
 
     // Образ записи, включающий все текстовые данные (текст записи, свойства записи, перечень приаттаченных файлов)
     Record record=table->getRecordFat( index.row() );
 
     clipboardRecords->addRecord( record );
-   }
+  }
 }
 
 
@@ -431,120 +431,120 @@ int RecordTableController::convertProxyPosToSourcePos(int proxyPos)
 // из таблицы конечных записей
 void RecordTableController::cut(void)
 {
- // Надо сохранить запись, так как перед копированием в буфер обмена запись
- // обязательно должна быть сохранена, иначе редактирование,
- // которое было после открытия записи и до нажатия Cut, потеряется
- find_object<MetaEditor>("editorScreen")->saveTextarea();
+  // Надо сохранить запись, так как перед копированием в буфер обмена запись
+  // обязательно должна быть сохранена, иначе редактирование,
+  // которое было после открытия записи и до нажатия Cut, потеряется
+  find_object<MetaEditor>("editorScreen")->saveTextarea();
 
- copy();
- deleteRecords();
+  copy();
+  deleteRecords();
 }
 
 
 // Копирование отмеченных записей в буфер обмена
 void RecordTableController::copy(void)
 {
- // Объект с записями помещается в буфер обмена
- QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
+  // Объект с записями помещается в буфер обмена
+  QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
 }
 
 
 // Вставка записей из буфера обмена
 void RecordTableController::paste(void)
 {
- // Проверяется, содержит ли буфер обмена данные нужного формата
- const QMimeData *mimeData=QApplication::clipboard()->mimeData();
- if(mimeData==NULL)
-   return;
- if( ! (mimeData->hasFormat("mytetra/records")) )
-   return;
+  // Проверяется, содержит ли буфер обмена данные нужного формата
+  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+  if(mimeData==NULL)
+    return;
+  if( ! (mimeData->hasFormat("mytetra/records")) )
+    return;
 
- // Создается ссылка на буфер обмена
- QClipboard *clipboardBuf=QApplication::clipboard();
+  // Создается ссылка на буфер обмена
+  QClipboard *clipboardBuf=QApplication::clipboard();
 
- // Извлечение объекта из буфера обмена
- // const clipboardrecords *rcd=new clipboardrecords();
- const ClipboardRecords *clipboardRecords;
- clipboardRecords=qobject_cast<const ClipboardRecords *>(clipboardBuf->mimeData());
- clipboardRecords->print();
+  // Извлечение объекта из буфера обмена
+  // const clipboardrecords *rcd=new clipboardrecords();
+  const ClipboardRecords *clipboardRecords;
+  clipboardRecords=qobject_cast<const ClipboardRecords *>(clipboardBuf->mimeData());
+  clipboardRecords->print();
 
- // Выясняется количество записей в буфере
- int nList=clipboardRecords->getCount();
+  // Выясняется количество записей в буфере
+  int nList=clipboardRecords->getCount();
 
- // Пробегаются все записи в буфере
- for(int i=0;i<nList;i++)
-   addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
+  // Пробегаются все записи в буфере
+  for(int i=0;i<nList;i++)
+    addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
 
- // Обновление на экране ветки, на которой стоит засветка,
- // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
+  // Обновление на экране ветки, на которой стоит засветка,
+  // так как количество хранимых в ветке записей поменялось
+  find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
 }
 
 
 // Слот для добавления новой записи в конец таблицы
 void RecordTableController::addNewToEndContext(void)
 {
- qDebug() << "In slot add_new_toend_context()";
+  qDebug() << "In slot add_new_toend_context()";
 
- addNewRecord(ADD_NEW_RECORD_TO_END);
+  addNewRecord(ADD_NEW_RECORD_TO_END);
 }
 
 
 // Слот для добавления новой записи перед выделенной строкой
 void RecordTableController::addNewBeforeContext(void)
 {
- qDebug() << "In slot add_new_before_context()";
+  qDebug() << "In slot add_new_before_context()";
 
- addNewRecord(ADD_NEW_RECORD_BEFORE);
+  addNewRecord(ADD_NEW_RECORD_BEFORE);
 }
 
 
 // Слот для добавления новой записи после выделенной строки
 void RecordTableController::addNewAfterContext(void)
 {
- qDebug() << "In slot add_new_after_context()";
+  qDebug() << "In slot add_new_after_context()";
 
- addNewRecord(ADD_NEW_RECORD_AFTER);
+  addNewRecord(ADD_NEW_RECORD_AFTER);
 }
 
 
 // Вызов окна добавления данных в таблицу конечных записей
 void RecordTableController::addNewRecord(int mode)
 {
- qDebug() << "In add_new_record()";
+  qDebug() << "In add_new_record()";
 
- // Создается окно ввода данных
- // При клике Ok внутри этого окна, будет создана временная директория
- // с картинками, содержащимися в тексте
- AddNewRecord addNewRecordWin;
- int i=addNewRecordWin.exec();
- if(i==QDialog::Rejected)
-   return; // Была нажата отмена, ничего ненужно делать
+  // Создается окно ввода данных
+  // При клике Ok внутри этого окна, будет создана временная директория
+  // с картинками, содержащимися в тексте
+  AddNewRecord addNewRecordWin;
+  int i=addNewRecordWin.exec();
+  if(i==QDialog::Rejected)
+    return; // Была нажата отмена, ничего ненужно делать
 
- // Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
- QString directory=addNewRecordWin.getImagesDirectory();
+  // Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
+  QString directory=addNewRecordWin.getImagesDirectory();
 
- // todo: сделать заполнение таблицы приаттаченных файлов
+  // todo: сделать заполнение таблицы приаттаченных файлов
 
- Record record;
- record.switchToFat();
- record.setText( addNewRecordWin.getField("text") );
- record.setField("name",   addNewRecordWin.getField("name"));
- record.setField("author", addNewRecordWin.getField("author"));
- record.setField("url",    addNewRecordWin.getField("url"));
- record.setField("tags",   addNewRecordWin.getField("tags"));
- record.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
+  Record record;
+  record.switchToFat();
+  record.setText( addNewRecordWin.getField("text") );
+  record.setField("name",   addNewRecordWin.getField("name"));
+  record.setField("author", addNewRecordWin.getField("author"));
+  record.setField("url",    addNewRecordWin.getField("url"));
+  record.setField("tags",   addNewRecordWin.getField("tags"));
+  record.setPictureFiles( DiskHelper::getFilesFromDirectory(directory, "*.png") );
 
- // Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
- // Запись должна быть создана, потом можно аттачить файлы.
- // Это ограничение для "ленивого" программинга, но пока так
- // record.setAttachFiles( DiskHelper::getFilesFromDirectory(directory, "*.bin") );
+  // Пока что принята концепция, что файлы нельзя приаттачить в момент создания записи
+  // Запись должна быть создана, потом можно аттачить файлы.
+  // Это ограничение для "ленивого" программинга, но пока так
+  // record.setAttachFiles( DiskHelper::getFilesFromDirectory(directory, "*.bin") );
 
- // Временная директория с картинками и приаттаченными файлами удаляется
- DiskHelper::removeDirectory(directory);
+  // Временная директория с картинками и приаттаченными файлами удаляется
+  DiskHelper::removeDirectory(directory);
 
- // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
- addNew(mode, record);
+  // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
+  addNew(mode, record);
 }
 
 
@@ -552,20 +552,20 @@ void RecordTableController::addNewRecord(int mode)
 // Принимает полный формат записи
 void RecordTableController::addNew(int mode, Record record)
 {
- qDebug() << "In add_new()";
+  qDebug() << "In add_new()";
 
- // Получение Source-индекса первой выделенной строки
- QModelIndex posIndex=view->getFirstSelectionSourceIndex();
+  // Получение Source-индекса первой выделенной строки
+  QModelIndex posIndex=view->getFirstSelectionSourceIndex();
 
- // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
- int selPos=recordSourceModel->addTableData(mode,
-                                            posIndex,
-                                            record);
+  // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
+  int selPos=recordSourceModel->addTableData(mode,
+                                             posIndex,
+                                             record);
 
- view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
+  view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
 
- // Сохранение дерева веток
- find_object<TreeScreen>("treeScreen")->saveKnowTree();
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -578,30 +578,30 @@ void RecordTableController::onEditFieldContext(void)
 // Действия при нажатии кнопки редактирования записи
 void RecordTableController::editFieldContext(QModelIndex proxyIndex)
 {
- qDebug() << "RecordTableController::editFieldContext()";
+  qDebug() << "RecordTableController::editFieldContext()";
 
- QModelIndex sourceIndex=convertProxyIndexToSourceIndex(proxyIndex);
- int pos=sourceIndex.row(); // Номер строки в базе
+  QModelIndex sourceIndex=convertProxyIndexToSourceIndex(proxyIndex);
+  int pos=sourceIndex.row(); // Номер строки в базе
 
- // Создается окно ввода данных, после выхода из этой функции окно должно удалиться
- RecordInfoFieldsEditor editRecordWin;
+  // Создается окно ввода данных, после выхода из этой функции окно должно удалиться
+  RecordInfoFieldsEditor editRecordWin;
 
   // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordSourceModel->getTableData();
+  RecordTableData *table=recordSourceModel->getTableData();
 
- // Поля окна заполняются начальными значениями
- editRecordWin.setField("name",  table->getField("name",   pos) );
- editRecordWin.setField("author",table->getField("author", pos) );
- editRecordWin.setField("url",   table->getField("url",    pos) );
- editRecordWin.setField("tags",  table->getField("tags",   pos) );
+  // Поля окна заполняются начальными значениями
+  editRecordWin.setField("name",  table->getField("name",   pos) );
+  editRecordWin.setField("author",table->getField("author", pos) );
+  editRecordWin.setField("url",   table->getField("url",    pos) );
+  editRecordWin.setField("tags",  table->getField("tags",   pos) );
 
 
- int i=editRecordWin.exec();
- if(i==QDialog::Rejected)
-   return; // Была нажата отмена, ничего ненужно делать
+  int i=editRecordWin.exec();
+  if(i==QDialog::Rejected)
+    return; // Была нажата отмена, ничего ненужно делать
 
- // Измененные данные записываются
- editField(pos,
+  // Измененные данные записываются
+  editField(pos,
             editRecordWin.getField("name"),
             editRecordWin.getField("author"),
             editRecordWin.getField("url"),
@@ -611,55 +611,55 @@ void RecordTableController::editFieldContext(QModelIndex proxyIndex)
 
 // Функция сохранения отредактированных полей записи в таблицу конечных записей
 void RecordTableController::editField(int pos,
-                                 QString name,
-                                 QString author,
-                                 QString url,
-                                 QString tags)
+                                      QString name,
+                                      QString author,
+                                      QString url,
+                                      QString tags)
 {
- qDebug() << "In edit_field()";
+  qDebug() << "In edit_field()";
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordSourceModel->getTableData();
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
 
- // Переданные отредактированные поля преобразуются в вид имя-значение
- QMap<QString, QString> editData;
- editData["name"]=name;
- editData["author"]=author;
- editData["url"]=url;
- editData["tags"]=tags;
+  // Переданные отредактированные поля преобразуются в вид имя-значение
+  QMap<QString, QString> editData;
+  editData["name"]=name;
+  editData["author"]=author;
+  editData["url"]=url;
+  editData["tags"]=tags;
 
- // Обновление новых данных в таблице конечных записей
- table->editRecordFields(pos, editData);
+  // Обновление новых данных в таблице конечных записей
+  table->editRecordFields(pos, editData);
 
- // Обновление инфополей в области редактирования записи
- MetaEditor *metaEditor=find_object<MetaEditor>("editorScreen");
- metaEditor->setName(name);
- metaEditor->setAuthor(author);
- metaEditor->setUrl(url);
- metaEditor->setTags(tags);
+  // Обновление инфополей в области редактирования записи
+  MetaEditor *metaEditor=find_object<MetaEditor>("editorScreen");
+  metaEditor->setName(name);
+  metaEditor->setAuthor(author);
+  metaEditor->setUrl(url);
+  metaEditor->setTags(tags);
 
- // Сохранение дерева веток
- find_object<TreeScreen>("treeScreen")->saveKnowTree();
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
 // Обработка клика по удалению записи в контекстном меню и по кнопке на панели
 void RecordTableController::deleteContext(void)
 {
- // Создается окно с вопросом нужно удалять запись (записи) или нет
- QMessageBox messageBox(view);
- messageBox.setWindowTitle("Delete");
- messageBox.setText(tr("Are you sure to delete this record(s)?"));
- QAbstractButton *cancelButton =messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
- QAbstractButton *deleteButton =messageBox.addButton(tr("Delete"), QMessageBox::AcceptRole);
+  // Создается окно с вопросом нужно удалять запись (записи) или нет
+  QMessageBox messageBox(view);
+  messageBox.setWindowTitle("Delete");
+  messageBox.setText(tr("Are you sure to delete this record(s)?"));
+  QAbstractButton *cancelButton =messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+  QAbstractButton *deleteButton =messageBox.addButton(tr("Delete"), QMessageBox::AcceptRole);
 
- Q_UNUSED(cancelButton);
+  Q_UNUSED(cancelButton);
 
- messageBox.exec();
- if (messageBox.clickedButton() == deleteButton)
+  messageBox.exec();
+  if (messageBox.clickedButton() == deleteButton)
   {
-   // Выбранные данные удаляются
-   deleteRecords();
+    // Выбранные данные удаляются
+    deleteRecords();
   }
 
 }
@@ -668,81 +668,81 @@ void RecordTableController::deleteContext(void)
 // Удаление отмеченных записей
 void RecordTableController::deleteRecords(void)
 {
- qDebug() << "RecordTableView::delete_records()";
+  qDebug() << "RecordTableView::delete_records()";
 
- // Получение списка Item-элементов, подлежащих удалению. Индексы Proxy модели
- QModelIndexList itemsForDelete=view->selectionModel()->selectedIndexes();
+  // Получение списка Item-элементов, подлежащих удалению. Индексы Proxy модели
+  QModelIndexList itemsForDelete=view->selectionModel()->selectedIndexes();
 
- // Проверка, выбраны ли записи
- if(itemsForDelete.count()==0)
- {
-   qDebug() << "Records for delete not selected.";
+  // Проверка, выбраны ли записи
+  if(itemsForDelete.count()==0)
+  {
+    qDebug() << "Records for delete not selected.";
 
-   QMessageBox msgBox;
-   msgBox.setText("Please select at least one record for delete.");
-   msgBox.exec();
+    QMessageBox msgBox;
+    msgBox.setText("Please select at least one record for delete.");
+    msgBox.exec();
 
-   return;
- }
+    return;
+  }
 
- // Сбор в массив всех идентификаторов, которые нужно удалить
- // Напрямую пробегать массив item-элементов и удалять из него нельзя
- // так как итератор начинает указывать на несуществующие элементы
- QVector<QString> delIds;
- QVector<int> delRows;
- QModelIndexList::iterator it;
- for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); it++)
- {
-   QModelIndex currIdx;
-   currIdx=*it;
+  // Сбор в массив всех идентификаторов, которые нужно удалить
+  // Напрямую пробегать массив item-элементов и удалять из него нельзя
+  // так как итератор начинает указывать на несуществующие элементы
+  QVector<QString> delIds;
+  QVector<int> delRows;
+  QModelIndexList::iterator it;
+  for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); it++)
+  {
+    QModelIndex currIdx;
+    currIdx=*it;
 
-   QString appendId=currIdx.data(RECORD_ID_ROLE).toString();
+    QString appendId=currIdx.data(RECORD_ID_ROLE).toString();
 
-   // Если идентификатор не содержится в перечне удаляемых идентификаторов
-   // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же идентификатор записи
-   if(!delIds.contains(appendId))
-   {
-     qDebug() << "Mark for delete item id " << appendId;
-     delIds.append( appendId );
-     delRows.append( currIdx.row() );
-   }
- }
+    // Если идентификатор не содержится в перечне удаляемых идентификаторов
+    // это может произойти если видно несколько столбцов - у каждой ячейки будет один и тот же идентификатор записи
+    if(!delIds.contains(appendId))
+    {
+      qDebug() << "Mark for delete item id " << appendId;
+      delIds.append( appendId );
+      delRows.append( currIdx.row() );
+    }
+  }
 
- // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
- qSort(delRows.begin(), delRows.end(), qGreater<int>());
- int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
+  // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
+  qSort(delRows.begin(), delRows.end(), qGreater<int>());
+  int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
 
- // Номер строки на который надо установить засветку после удаления
- // Засветка устанавливается на запись, следующую после последней удаляемой
- int selectionRowNum=lastRowNum+1-delRows.count();
- qDebug() << "After delete cursor set to" << selectionRowNum << "row";
+  // Номер строки на который надо установить засветку после удаления
+  // Засветка устанавливается на запись, следующую после последней удаляемой
+  int selectionRowNum=lastRowNum+1-delRows.count();
+  qDebug() << "After delete cursor set to" << selectionRowNum << "row";
 
- // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
- find_object<MetaEditor>("editorScreen")->clearAll();
+  // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
+  find_object<MetaEditor>("editorScreen")->clearAll();
 
- // Вызывается удаление отмеченных записей
- removeRowsByIdList(delIds);
+  // Вызывается удаление отмеченных записей
+  removeRowsByIdList(delIds);
 
- // Сохранение дерева веток
- find_object<TreeScreen>("treeScreen")->saveKnowTree();
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
- // Обновление на экране ветки, на которой стоит засветка,
- // так как количество хранимых в ветке записей поменялось
- find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
+  // Обновление на экране ветки, на которой стоит засветка,
+  // так как количество хранимых в ветке записей поменялось
+  find_object<TreeScreen>("treeScreen")->updateSelectedBranch();
 
- // Установка курсора на нужную позицию
- if(selectionRowNum>=0 && selectionRowNum<recordProxyModel->rowCount())
-   view->selectRow(selectionRowNum);
+  // Установка курсора на нужную позицию
+  if(selectionRowNum>=0 && selectionRowNum<recordProxyModel->rowCount())
+    view->selectRow(selectionRowNum);
 
- // Если таблица конечных записей пуста
- if(recordProxyModel->rowCount()==0)
- {
-   // Нужно очистить поле редактирования чтобы невидно было текста
-   // последней удаленной записи
-   find_object<MetaEditor>("editorScreen")->clearAll();
- }
+  // Если таблица конечных записей пуста
+  if(recordProxyModel->rowCount()==0)
+  {
+    // Нужно очистить поле редактирования чтобы невидно было текста
+    // последней удаленной записи
+    find_object<MetaEditor>("editorScreen")->clearAll();
+  }
 
- qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
+  qobject_cast<RecordTableScreen *>(parent())->toolsUpdate();
 }
 
 
@@ -803,22 +803,22 @@ void RecordTableController::moveUp(void)
 // Перемещение записи вниз
 void RecordTableController::moveDn(void)
 {
- qDebug() << "In movedn()";
+  qDebug() << "In movedn()";
 
- // Получение номера первой выделенной строки
- int pos=view->getFirstSelectionPos();
+  // Получение номера первой выделенной строки
+  int pos=view->getFirstSelectionPos();
 
- // Выясняется ссылка на таблицу конечных данных
- RecordTableData *table=recordSourceModel->getTableData();
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
 
- // Перемещение текущей записи вниз
- table->moveDn(pos);
+  // Перемещение текущей записи вниз
+  table->moveDn(pos);
 
- // Установка засветки на перемещенную запись
- view->setSelectionToPos(pos+1);
+  // Установка засветки на перемещенную запись
+  view->setSelectionToPos(pos+1);
 
- // Сохранение дерева веток
- find_object<TreeScreen>("treeScreen")->saveKnowTree();
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 }
 
 
@@ -865,13 +865,13 @@ void RecordTableController::onSortClick(void)
 // Слот, срабатывающий при вызове настроек
 void RecordTableController::settings(void)
 {
- AppConfigDialog dialog("pageRecordTable");
- dialog.show();
+  AppConfigDialog dialog("pageRecordTable");
+  dialog.show();
 
- // Todo: Возвращение фокуса почему-то не работает, надо разбираться
- // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
- // qDebug() << "Set focus to RecordTableView";
- // this->setFocus();
+  // Todo: Возвращение фокуса почему-то не работает, надо разбираться
+  // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
+  // qDebug() << "Set focus to RecordTableView";
+  // this->setFocus();
 }
 
 
