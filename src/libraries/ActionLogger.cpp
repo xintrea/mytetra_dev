@@ -25,6 +25,8 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["createCryptRecord"]    =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName");
 
   actionStructure["editRecord"]           =(QStringList() << "recordId" << "recordName" );
+  actionStructure["editCryptRecord"]      =(QStringList() << "recordId" << "recordName" );
+
   actionStructure["moveRecordUp"]         =(QStringList() << "recordId" << "recordName" );
   actionStructure["moveRecordDown"]       =(QStringList() << "recordId" << "recordName" );
   actionStructure["deleteRecord"]         =(QStringList() << "recordId" << "recordName" );
@@ -177,8 +179,20 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
   }
 
   else if( iData["a"] == "editRecord")
-    line=tr("Edit record \"%1\" with ID %2").arg( iData["recordName"] ).
-                                             arg( iData["recordId"]);
+    line=tr("Edit fields of record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                       arg( iData["recordId"]);
+
+  else if( iData["a"] == "editCryptRecord")
+  {
+    // Если пароль не введен, зашифрованные данные не расшифровываются и не показываются
+    if(globalParameters.getCryptKey().length()==0)
+      iData["recordName"]="***";
+    else
+      iData["recordName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["recordName"]);
+
+    line=tr("Edit fields of crypt record \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                             arg( iData["recordId"]);
+  }
 
   else if( iData["a"] == "moveRecordUp")
     line=tr("Move up record \"%1\" with ID %2").arg( iData["recordName"] ).

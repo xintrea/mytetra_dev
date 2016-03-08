@@ -430,16 +430,30 @@ int RecordTableData::insertNewRecord(int mode,
 void RecordTableData::editRecordFields(int pos,
                                        QMap<QString, QString> editFields)
 {
- qDebug() << "In recordtabledata method edit_record()";
+  qDebug() << "In recordtabledata method edit_record()";
 
- QMapIterator<QString, QString> i(editFields);
- while(i.hasNext())
+  QMapIterator<QString, QString> i(editFields);
+  while(i.hasNext())
   {
-   i.next();
-   setField(i.key(), i.value(), pos);
+    i.next();
+    setField(i.key(), i.value(), pos);
   }
 
- // changePersistentIndex(QModelIndex(), QModelIndex());
+  // Запись в лог о редактировании записи
+  QMap<QString, QString> data;
+  data["recordId"]=getField("id", pos);
+  if(getField("crypt", pos)!="1")
+  {
+    data["recordName"]=getField("name", pos);
+    actionLogger.addAction("editRecord", data);
+  }
+  else
+  {
+    data["recordName"]=CryptService::encryptString(globalParameters.getCryptKey(), getField("name", pos));
+    actionLogger.addAction("editCryptRecord", data);
+  }
+
+  // changePersistentIndex(QModelIndex(), QModelIndex());
 }
 
 
