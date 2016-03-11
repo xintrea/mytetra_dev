@@ -23,6 +23,7 @@ protected:
   QCheckBox *cutBranchConfirm;
   QCheckBox *printDebugMessages;
   QCheckBox *runInMinimizedWindow;
+  QCheckBox *enableActionLog;
 
   // Объединяющая рамка
   QGroupBox *historyBox;

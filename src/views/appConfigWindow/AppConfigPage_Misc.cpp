@@ -28,6 +28,11 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
   runInMinimizedWindow->setText(tr("Run MyTetra in a minimized window"));
   runInMinimizedWindow->setChecked(mytetraConfig.get_runinminimizedwindow());
 
+  // Разрешение/запрещение лога действий
+  enableActionLog=new QCheckBox(this);
+  enableActionLog->setText(tr("Enable action logging"));
+  enableActionLog->setChecked(mytetraConfig.getEnableLogging());
+
 
   // Группировщик виджетов для настройки автоматического старта синхронизации
   historyBox=new QGroupBox(this);
@@ -49,15 +54,16 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
 
 
   // Собирается основной слой
-  QVBoxLayout *central_layout=new QVBoxLayout();
-  central_layout->addWidget(cutBranchConfirm);
-  central_layout->addWidget(printDebugMessages);
-  central_layout->addWidget(runInMinimizedWindow);
-  central_layout->addWidget(historyBox);
-  central_layout->addStretch();
+  QVBoxLayout *centralLayout=new QVBoxLayout();
+  centralLayout->addWidget(cutBranchConfirm);
+  centralLayout->addWidget(printDebugMessages);
+  centralLayout->addWidget(runInMinimizedWindow);
+  centralLayout->addWidget(enableActionLog);
+  centralLayout->addWidget(historyBox);
+  centralLayout->addStretch();
 
   // Основной слой устанавливается
-  setLayout(central_layout);
+  setLayout(centralLayout);
 }
 
 
@@ -66,29 +72,38 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
 // 1 - изменения требуют перезапуска программы
 int AppConfigPage_Misc::apply_changes(void)
 {
- qDebug() << "Apply changes misc";
- 
- // Сохраняется настройка подтверждения для действия "cut" на ветке
- if(mytetraConfig.get_cutbranchconfirm()!=cutBranchConfirm->isChecked())
-  mytetraConfig.set_cutbranchconfirm(cutBranchConfirm->isChecked());
+  qDebug() << "Apply changes misc";
 
- // Сохраняется настройка отображения отладочных сообщений в консоли
- if(mytetraConfig.get_printdebugmessages()!=printDebugMessages->isChecked())
-  mytetraConfig.set_printdebugmessages(printDebugMessages->isChecked());
+  int result=0;
 
- // Сохраняется настройка режима запуска MyTetra - обычный или свернутый
- if(mytetraConfig.get_runinminimizedwindow()!=runInMinimizedWindow->isChecked())
-  mytetraConfig.set_runinminimizedwindow(runInMinimizedWindow->isChecked());
+  // Сохраняется настройка подтверждения для действия "cut" на ветке
+  if(mytetraConfig.get_cutbranchconfirm()!=cutBranchConfirm->isChecked())
+    mytetraConfig.set_cutbranchconfirm(cutBranchConfirm->isChecked());
 
- // Сохраняется настройка нужно ли вспоминать позицию курсора при перемещении
- // по истории
- if(mytetraConfig.getRememberCursorAtHistoryNavigation()!=rememberAtHistoryNavigationCheckBox->isChecked())
-  mytetraConfig.setRememberCursorAtHistoryNavigation(rememberAtHistoryNavigationCheckBox->isChecked());
- 
- // Сохраняется настройка нужно ли пытаться вспоминать позицию курсора при
- // обычном выборе записи
- if(mytetraConfig.getRememberCursorAtOrdinarySelection()!=rememberAtOrdinarySelectionCheckBox->isChecked())
-  mytetraConfig.setRememberCursorAtOrdinarySelection(rememberAtOrdinarySelectionCheckBox->isChecked());
+  // Сохраняется настройка отображения отладочных сообщений в консоли
+  if(mytetraConfig.get_printdebugmessages()!=printDebugMessages->isChecked())
+    mytetraConfig.set_printdebugmessages(printDebugMessages->isChecked());
 
- return 0;
+  // Сохраняется настройка режима запуска MyTetra - обычный или свернутый
+  if(mytetraConfig.get_runinminimizedwindow()!=runInMinimizedWindow->isChecked())
+    mytetraConfig.set_runinminimizedwindow(runInMinimizedWindow->isChecked());
+
+  // Сохраняется настройка разрешения/запрещения лога действий
+  if(mytetraConfig.getEnableLogging()!=enableActionLog->isChecked())
+  {
+    mytetraConfig.setEnableLogging(enableActionLog->isChecked());
+    result=1;
+  }
+
+  // Сохраняется настройка нужно ли вспоминать позицию курсора при перемещении
+  // по истории
+  if(mytetraConfig.getRememberCursorAtHistoryNavigation()!=rememberAtHistoryNavigationCheckBox->isChecked())
+    mytetraConfig.setRememberCursorAtHistoryNavigation(rememberAtHistoryNavigationCheckBox->isChecked());
+
+  // Сохраняется настройка нужно ли пытаться вспоминать позицию курсора при
+  // обычном выборе записи
+  if(mytetraConfig.getRememberCursorAtOrdinarySelection()!=rememberAtOrdinarySelectionCheckBox->isChecked())
+    mytetraConfig.setRememberCursorAtOrdinarySelection(rememberAtOrdinarySelectionCheckBox->isChecked());
+
+  return result;
 }
