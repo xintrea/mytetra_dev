@@ -34,6 +34,7 @@ protected:
   QMenu contextMenu;
 
   virtual void resizeEvent(QResizeEvent *event);
+  virtual void paintEvent(QPaintEvent *event);
 
   void assemblyContextMenu(void);
   void setupSignals(void);

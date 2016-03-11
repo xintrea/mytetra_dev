@@ -83,6 +83,17 @@ void ActionLogView::resizeEvent(QResizeEvent *event)
 }
 
 
+void ActionLogView::paintEvent(QPaintEvent *event)
+{
+  QTableView::paintEvent(event);
+
+  QPainter painter(this);
+  painter.setPen(Qt::blue);
+  painter.setFont(QFont("Arial", 30));
+  painter.drawText(rect(), Qt::AlignCenter, "Qt");
+}
+
+
 void ActionLogView::assemblyContextMenu()
 {
   ActionLogScreen *parentPointer=qobject_cast<ActionLogScreen *>(parent());
