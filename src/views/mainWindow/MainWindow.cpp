@@ -2,6 +2,7 @@
 #include <QDir>
 #include <QString>
 #include <QDesktopWidget>
+#include <QCommonStyle>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
@@ -517,6 +518,10 @@ void MainWindow::initHelpMenu(void)
   a = new QAction(tr("About Qt"), this);
   connect(a, SIGNAL(triggered()), this, SLOT(onClickHelpAboutQt()));
   menu->addAction(a);
+
+  a = new QAction(tr("Technical info"), this);
+  connect(a, SIGNAL(triggered()), this, SLOT(onClickHelpTechnicalInfo()));
+  menu->addAction(a);
 }
 
 
@@ -676,43 +681,18 @@ void MainWindow::onClickHelpAboutMyTetra(void)
   QString infoAuthor;
   QString infoEmail;
   QString infoLicense;
-  QString infoTargetOs;
-  QString infoProgramFile;
-  QString infoWorkDirectory;
-  QString infoDevicePixelRatio;
-  QString infoPhysicalDpi;
-  QString infoPhysicalDpiX;
-  QString infoPhysicalDpiY;
 
   infoProgramName="<b>MyTetra</b> - smart manager<br/>for information collecting<br/><br/>";
   infoVersion="v."+version+"<br/><br/>";
   infoAuthor="Author: Sergey M. Stepanov<br/>";
   infoEmail="Author Email:<i>xintrea@gmail.com</i><br/><br/>";
   infoLicense="GNU General Public License v.3.0<br/><br/>";
-  infoTargetOs="Target OS: "+globalParameters.getTargetOs()+"<br/>";
-  infoProgramFile="Program file: "+globalParameters.getMainProgramFile()+"<br/>";
-  infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
-
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
-  infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 8 ))+"<br/>";
-#endif
-
-  infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 8 ))+"<br/>";
-  infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 8 ))+"<br/>";
 
   QString info=infoProgramName+
                infoVersion+
                infoAuthor+
                infoEmail+
-               infoLicense+
-               infoTargetOs+
-               infoProgramFile+
-               infoWorkDirectory+
-               infoDevicePixelRatio+
-               infoPhysicalDpi+
-               infoPhysicalDpiX+
-               infoPhysicalDpiY;
+               infoLicense;
 
   QMessageBox *msgBox = new QMessageBox(this);
   msgBox->about(this,
@@ -725,6 +705,45 @@ void MainWindow::onClickHelpAboutQt(void)
 {
   QMessageBox *msgBox = new QMessageBox(this);
   msgBox->aboutQt(this);
+}
+
+
+void MainWindow::onClickHelpTechnicalInfo(void)
+{
+  QString infoTargetOs;
+  QString infoProgramFile;
+  QString infoWorkDirectory;
+  QString infoDevicePixelRatio;
+  QString infoPhysicalDpi;
+  QString infoPhysicalDpiX;
+  QString infoPhysicalDpiY;
+
+  infoTargetOs="Target OS: "+globalParameters.getTargetOs()+"<br/>";
+  infoProgramFile="Program file: "+globalParameters.getMainProgramFile()+"<br/>";
+  infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
+
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+  infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
+  infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 8 ))+"<br/>";
+#endif
+
+  infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 8 ))+"<br/>";
+  infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 8 ))+"<br/>";
+
+  QString info=infoTargetOs+
+               infoProgramFile+
+               infoWorkDirectory+
+               infoDevicePixelRatio+
+               infoPhysicalDpi+
+               infoPhysicalDpiX+
+               infoPhysicalDpiY;
+
+  QMessageBox *msgBox = new QMessageBox(this);
+  msgBox->setIcon( QMessageBox::Information );
+  msgBox->setWindowTitle(tr("Technical info"));
+  msgBox->setText(tr("<b>Technical info</b>"));
+  msgBox->setInformativeText(info);
+  msgBox->exec();
 }
 
 

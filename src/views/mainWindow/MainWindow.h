@@ -118,6 +118,7 @@ private slots:
 
  void onClickHelpAboutMyTetra(void);
  void onClickHelpAboutQt(void);
+ void onClickHelpTechnicalInfo(void);
  
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
