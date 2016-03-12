@@ -6,11 +6,11 @@
 #include "ActionLogView.h"
 #include "ActionLogScreen.h"
 #include "controllers/actionLog/ActionLogController.h"
-#include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
+#include "models/appConfig/AppConfig.h"
 
 
-extern GlobalParameters globalParameters;
+extern AppConfig mytetraConfig;
 
 
 ActionLogView::ActionLogView(QWidget *parent) : QTableView(parent)
@@ -87,10 +87,14 @@ void ActionLogView::paintEvent(QPaintEvent *event)
 {
   QTableView::paintEvent(event);
 
-  QPainter painter(this);
-  painter.setPen(Qt::blue);
-  painter.setFont(QFont("Arial", 30));
-  painter.drawText(rect(), Qt::AlignCenter, "Qt");
+  if(model()!=NULL)
+    if(model()->rowCount()==0 && mytetraConfig.getEnableLogging()==false)
+    {
+      QPainter painter(viewport());
+      painter.setPen( QApplication::palette().color(QPalette::ToolTipText) ); // Qt::gray
+      painter.setFont(QFont("Arial", 14));
+      painter.drawText(rect(), Qt::AlignCenter, "Action log is empty\nPlease set enable for action logging in Tools -> Preferences -> Misc");
+    }
 }
 
 
