@@ -74,6 +74,7 @@ void AttachTableView::assemblyContextMenu(void)
   contextMenu->addAction(screenPointer->actionAddAttach);
   contextMenu->addAction(screenPointer->actionEditFileName);
   contextMenu->addAction(screenPointer->actionDeleteAttach);
+  contextMenu->addAction(screenPointer->actionSaveAsAttach);
   contextMenu->addSeparator();
   contextMenu->addAction(screenPointer->actionOpenAttach);
   contextMenu->addAction(screenPointer->actionShowAttachInfo);

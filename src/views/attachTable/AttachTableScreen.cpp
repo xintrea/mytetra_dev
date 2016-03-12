@@ -84,8 +84,8 @@ void AttachTableScreen::setupUI(void)
   insertActionAsButton(toolsLine, actionAddLink);
   insertActionAsButton(toolsLine, actionEditFileName);
   insertActionAsButton(toolsLine, actionDeleteAttach);
-  insertActionAsButton(toolsLine, actionOpenAttach);
   insertActionAsButton(toolsLine, actionSaveAsAttach);
+  insertActionAsButton(toolsLine, actionOpenAttach);
   insertActionAsButton(toolsLine, actionShowAttachInfo);
 
   toolsLine->addSeparator();
