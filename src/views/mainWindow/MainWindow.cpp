@@ -2,7 +2,6 @@
 #include <QDir>
 #include <QString>
 #include <QDesktopWidget>
-#include <QCommonStyle>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
