@@ -1,6 +1,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QDebug>
+#include <QPainter>
 
 #include "main.h"
 #include "AttachTableView.h"
@@ -101,6 +102,22 @@ void AttachTableView::resizeEvent(QResizeEvent *event)
 
   // Отрисовка родительского класса
   QTableView::resizeEvent(event);
+}
+
+
+void AttachTableView::paintEvent(QPaintEvent *event)
+{
+  QTableView::paintEvent(event);
+
+  // Если список приаттаченных файлов пуст
+  if(model()!=NULL)
+    if(model()->rowCount()==0)
+    {
+      QPainter painter(viewport());
+      painter.setPen( QApplication::palette().color(QPalette::ToolTipText) );
+      painter.setFont(QFont("Arial", 14));
+      painter.drawText(rect(), Qt::AlignCenter, "No attach files");
+    }
 }
 
 

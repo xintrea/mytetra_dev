@@ -44,6 +44,7 @@ protected:
 
   bool event(QEvent *event);
   virtual void resizeEvent(QResizeEvent *event);
+  virtual void paintEvent(QPaintEvent *event);
   bool gestureEvent(QGestureEvent *event);
   void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
