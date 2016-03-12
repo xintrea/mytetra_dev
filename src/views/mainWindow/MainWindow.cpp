@@ -416,7 +416,6 @@ void MainWindow::initFileMenu(void)
   a = new QAction(tr("&Print..."), this);
   a->setShortcut(QKeySequence::Print);
   connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
-  // tb->addAction(a);
   menu->addAction(a);
 
   a = new QAction(tr("Print Preview..."), this);
@@ -426,7 +425,16 @@ void MainWindow::initFileMenu(void)
   a = new QAction(tr("&Export PDF..."), this);
   a->setShortcut(Qt::CTRL + Qt::Key_D);
   connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
-  // tb->addAction(a);
+  menu->addAction(a);
+
+  menu->addSeparator();
+
+  a = new QAction(tr("Export branch"), this);
+  connect(a, SIGNAL(triggered()), this, SLOT(fileExportBranch()));
+  menu->addAction(a);
+
+  a = new QAction(tr("Import branch"), this);
+  connect(a, SIGNAL(triggered()), this, SLOT(fileImportBranch()));
   menu->addAction(a);
 
   menu->addSeparator();
@@ -594,6 +602,22 @@ void MainWindow::filePrintPdf(void)
     editorScreen->getTextareaDocument()->print(&printer);
   }
 #endif
+}
+
+
+void MainWindow::fileExportBranch(void)
+{
+  QMessageBox msgBox;
+  msgBox.setText("Development in progress...");
+  msgBox.exec();
+}
+
+
+void MainWindow::fileImportBranch(void)
+{
+  QMessageBox msgBox;
+  msgBox.setText("Development in progress...");
+  msgBox.exec();
 }
 
 

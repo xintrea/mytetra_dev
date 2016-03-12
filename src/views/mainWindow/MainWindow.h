@@ -109,6 +109,8 @@ private slots:
  void filePrint(void);
  void filePrintPreview(void);
  void filePrintPdf(void);
+ void fileExportBranch(void);
+ void fileImportBranch(void);
  
  void toolsFind(void);
  void toolsPreferences(void);
