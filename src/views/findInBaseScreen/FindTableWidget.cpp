@@ -162,6 +162,12 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
 }
 
 
+int FindTableWidget::getRowCount()
+{
+  return findTableModel->rowCount();
+}
+
+
 bool FindTableWidget::eventFilter( QObject * o, QEvent * e )
 {
   if ( o == findTableView->viewport() && e->type() == QEvent::Paint )
@@ -173,6 +179,31 @@ bool FindTableWidget::eventFilter( QObject * o, QEvent * e )
     return false;
   }
   return false;
+}
+
+
+void FindTableWidget::paintEvent(QPaintEvent *event)
+{
+  QWidget::paintEvent(event);
+
+  if(overdrawMessage.length()>0)
+  {
+    QPainter painter(this);
+    painter.setPen( QApplication::palette().color(QPalette::ToolTipText) );
+    painter.setFont(QFont("Arial", 14));
+    painter.drawText(rect(), Qt::AlignCenter, overdrawMessage);
+
+    qDebug() << "Print overdraw message:" << overdrawMessage;
+  }
+}
+
+
+void FindTableWidget::setOverdrawMessage(const QString iOverdrawMessage)
+{
+  overdrawMessage=iOverdrawMessage;
+
+  // Обновляется внешний вид виджета
+  update();
 }
 
 

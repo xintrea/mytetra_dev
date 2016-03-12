@@ -19,7 +19,9 @@ public:
 
  void clearAll(void);
  void addRow(QString title, QString branchName, QString tags, QStringList path, QString recordId);
+ int  getRowCount();
  void updateColumnsWidth(void);
+ void setOverdrawMessage(const QString iOverdrawMessage); // Установка надписи, которая появляется поверх виджета
 
 private slots:
 
@@ -30,6 +32,7 @@ private:
 
  QTableView *findTableView;
  QStandardItemModel *findTableModel;
+ QString overdrawMessage;
  
  void setupUI(void);
  void setupModels(void);
@@ -37,6 +40,7 @@ private:
  void assembly(void);
  
  bool eventFilter( QObject * o, QEvent * e );
+ void paintEvent(QPaintEvent *event);
 
 };
 

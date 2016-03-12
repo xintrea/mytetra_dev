@@ -129,6 +129,8 @@ private:
  int totalProgressCounter;
  
  int cancelFlag;
+
+ bool isUnsearchCryptBranchPresent; // Флаг, определяющий, были ли непросмотренные ветки при поиске (зашированные ветки, но пароль небыл введен)
 };
 
 #endif	/* _FINDSCREEN_H_ */
