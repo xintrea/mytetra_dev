@@ -39,9 +39,7 @@ private:
   void setupSignals(void);
   void assembly(void);
 
-  bool eventFilter( QObject * o, QEvent * e );
   void paintEvent(QPaintEvent *event);
-
 };
 
 #endif	/* _FINDTABLEWIDGET_H_ */

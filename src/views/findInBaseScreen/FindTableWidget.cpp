@@ -168,20 +168,6 @@ int FindTableWidget::getRowCount()
 }
 
 
-bool FindTableWidget::eventFilter( QObject * o, QEvent * e )
-{
-  if ( o == findTableView->viewport() && e->type() == QEvent::Paint )
-  {
-    QPaintEvent * pe = static_cast<QPaintEvent*>( e );
-    qDebug() << "Rect to paint:" << pe->rect();
-    qDebug() << "Visible rect:" << (findTableView->viewport()->visibleRegion()).boundingRect();
-    qDebug() << " ";
-    return false;
-  }
-  return false;
-}
-
-
 void FindTableWidget::paintEvent(QPaintEvent *event)
 {
   QWidget::paintEvent(event);
