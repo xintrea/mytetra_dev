@@ -176,10 +176,7 @@ void FindTableWidget::paintEvent(QPaintEvent *event)
   {
     QPainter painter(this);
     painter.setPen( QApplication::palette().color(QPalette::ToolTipText) );
-    painter.setFont(QFont("Arial", 14));
     painter.drawText(rect(), Qt::AlignCenter, overdrawMessage);
-
-    qDebug() << "Print overdraw message:" << overdrawMessage;
   }
 }
 
@@ -187,6 +184,11 @@ void FindTableWidget::paintEvent(QPaintEvent *event)
 void FindTableWidget::setOverdrawMessage(const QString iOverdrawMessage)
 {
   overdrawMessage=iOverdrawMessage;
+
+  if(overdrawMessage.length()>0)
+    findTableView->hide(); // Скрывается виджет таблицы, потому что он перекрывает выводимую надпись
+  else
+    findTableView->show();
 
   // Обновляется внешний вид виджета
   update();

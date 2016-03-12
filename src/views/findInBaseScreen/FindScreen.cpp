@@ -472,11 +472,11 @@ void FindScreen::findStart(void)
   {
     // Если были непросмотренные ветки по причине того, что они зашифрованны, а пароль не введен
     if(isUnsearchCryptBranchPresent)
-      findTable->setOverdrawMessage(tr("Searching detected encrypted branches. However, the password is not entered, so the search for them was not carried out.")); // При поиске обнаружены зашифрованные ветки. Однако пароль не был введен, поэтому поиск в них не проводился
+      findTable->setOverdrawMessage(tr("Nothing found.\nSearching detected encrypted branches.\nHowever, the password is not entered, so the search for them was not carried out.")); // Ничего не найдено. При поиске обнаружены зашифрованные ветки. Однако пароль не был введен, поэтому поиск в них не проводился
 
     // Иначе если поиск проводился не во всей базе
     else if(mytetraConfig.getFindScreenTreeSearchArea()!=0)
-      findTable->setOverdrawMessage(tr("Search produced within one branch. Try to search the entire database.")); // Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
+      findTable->setOverdrawMessage(tr("Nothing found.\nSearch produced within one branch.\nTry to search the entire database.")); // Ничего не найдено. Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
   }
 
 }

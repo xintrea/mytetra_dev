@@ -115,7 +115,7 @@ void AttachTableView::paintEvent(QPaintEvent *event)
     {
       QPainter painter(viewport());
       painter.setPen( QApplication::palette().color(QPalette::ToolTipText) );
-      painter.setFont(QFont("Arial", 14));
+      // painter.setFont(QFont("Arial", 14));
       painter.drawText(rect(), Qt::AlignCenter, tr("No attach files"));
     }
 }
