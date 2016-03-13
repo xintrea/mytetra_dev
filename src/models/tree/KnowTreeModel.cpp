@@ -214,6 +214,25 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 }
 
 
+void KnowTreeModel::exportBranchToDirectory(QString exportDir)
+{
+  // Проверка, является ли выбранная директория пустой
+  if( !DiskHelper::isDirectoryEmpty(exportDir) )
+  {
+    showMessageBox(tr("Directory %1 is not empty. Please select empty directory for export.").arg(exportDir));
+    return;
+  }
+
+
+}
+
+
+void KnowTreeModel::importBranchFromDirectory(QString importDir)
+{
+  showMessageBox("Development in progress...");
+}
+
+
 // Рекурсивное преобразование Item-элементов в Dom дерево
 void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem)
 {

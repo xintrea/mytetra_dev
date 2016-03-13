@@ -251,3 +251,12 @@ bool DiskHelper::saveFilesToDirectory(QString dirName, QMap<QString, QByteArray>
 }
 
 
+// Проверка директории, является ли она пустой
+bool DiskHelper::isDirectoryEmpty(QString dirName)
+{
+  if(QDir(dirName).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0)
+    return true;
+  else
+    return false;
+}
+

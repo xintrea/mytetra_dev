@@ -74,14 +74,10 @@ int getScreenSizeX(void);
 int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
 
-
 void showMessageBox(QString message); // Выдача на экран простого окна с сообщением
 
 QString htmlSpecialChars(QString line);
 QString htmlSpecialCharsDecode(QString line);
-
-
-// template <class X> inline X *find_object(QString n);
 
 
 // Поиск объекта от корня по имени

@@ -605,19 +605,32 @@ void MainWindow::filePrintPdf(void)
 }
 
 
+// Раздел меню File, экспорт текущей ветки и всех ее подветок
 void MainWindow::fileExportBranch(void)
 {
-  QMessageBox msgBox;
-  msgBox.setText("Development in progress...");
-  msgBox.exec();
+  // Создается окно выбора директории назначения
+  QFileDialog directorySelectDialog(this);
+  directorySelectDialog.setFileMode(QFileDialog::Directory);
+  directorySelectDialog.setWindowTitle(tr("Select empty directory for export data"));
+  directorySelectDialog.setDirectory("/");
+
+  if( directorySelectDialog.exec() )
+    if( !directorySelectDialog.directory().absolutePath().isEmpty() ) // Если была выбрана директория (а не нажат Cancel)
+      treeScreen->knowTreeModel->exportBranchToDirectory( directorySelectDialog.directory().absolutePath() );
 }
 
 
 void MainWindow::fileImportBranch(void)
 {
-  QMessageBox msgBox;
-  msgBox.setText("Development in progress...");
-  msgBox.exec();
+  // Создается окно выбора директории, откуда необходимо сделать импорт
+  QFileDialog directorySelectDialog(this);
+  directorySelectDialog.setFileMode(QFileDialog::Directory);
+  directorySelectDialog.setWindowTitle(tr("Select directory for import data"));
+  directorySelectDialog.setDirectory("/");
+
+  if( directorySelectDialog.exec() )
+    if( !directorySelectDialog.directory().absolutePath().isEmpty() ) // Если была выбрана директория (а не нажат Cancel)
+      treeScreen->knowTreeModel->importBranchFromDirectory( directorySelectDialog.directory().absolutePath() );
 }
 
 

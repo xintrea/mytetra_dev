@@ -72,6 +72,12 @@ public:
     // Проверка наличия идентификатора записи во всем дереве
     bool isRecordIdExists(QString findId);
 
+    // Выгрузка ветки и всех подветок в директорию в виде отдельной базы MyTetra (экспорт)
+    void exportBranchToDirectory(QString exportDir);
+
+    // Загрузка отдельной базы MyTetra в виде подветки (импорт)
+    void importBranchFromDirectory(QString importDir);
+
 private:
 
     QString xmlFileName;
