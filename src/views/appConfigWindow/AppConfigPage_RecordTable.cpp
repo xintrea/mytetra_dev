@@ -131,7 +131,7 @@ void AppConfigPage_RecordTable::onFieldToggle(bool flag)
 // Метод должен возвращать уровень сложности сделанных изменений
 // 0 - изменения не требуют перезапуска программы
 // 1 - изменения требуют перезапуска программы
-int AppConfigPage_RecordTable::apply_changes(void)
+int AppConfigPage_RecordTable::applyChanges(void)
 {
  qDebug() << "Apply changes record table";
 

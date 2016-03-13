@@ -11,13 +11,13 @@
 
 ConfigDialog::ConfigDialog()
 {
- setup_ui();
- setup_signals();
+ setupUi();
+ setupSignals();
  assembly();
 }
 
 
-void ConfigDialog::setup_ui(void)
+void ConfigDialog::setupUi(void)
 {
     // Список конфигурирующих виджетов
     contentsWidget = new QListWidget;
@@ -43,15 +43,15 @@ void ConfigDialog::setup_ui(void)
 }
 
 
-void ConfigDialog::setup_signals(void)
+void ConfigDialog::setupSignals(void)
 {
-    connect(confirmButtons, SIGNAL(accepted()), this, SLOT(apply_changes()));
+    connect(confirmButtons, SIGNAL(accepted()), this, SLOT(applyChanges()));
 
     connect(confirmButtons, SIGNAL(rejected()), this, SLOT(reject()));
 
     connect(contentsWidget,
             SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-            this, SLOT(change_page(QListWidgetItem *, QListWidgetItem*)));
+            this, SLOT(changePage(QListWidgetItem *, QListWidgetItem*)));
 
 }
 
@@ -80,23 +80,23 @@ void ConfigDialog::assembly(void)
 }
 
 
-void ConfigDialog::set_window_title(QString title)
+void ConfigDialog::setWindowTitle(QString title)
 {
  // Строка в заголовке окна
  setWindowTitle(title);
 }
 
 
-QListWidgetItem *ConfigDialog::add_widget(QWidget *inswidget, QString name)
+QListWidgetItem *ConfigDialog::addWidget(QWidget *inswidget, QString name)
 {
  pagesWidget->addWidget(inswidget);
 
- return create_items(name);
+ return createItems(name);
 }
 
 
 // Создаются пункты для вызова нужных конфигурирующих виджетов
-QListWidgetItem *ConfigDialog::create_items(QString name)
+QListWidgetItem *ConfigDialog::createItems(QString name)
 {
  QListWidgetItem *item = new QListWidgetItem(contentsWidget);
  item->setText(name);
@@ -107,7 +107,7 @@ QListWidgetItem *ConfigDialog::create_items(QString name)
 
 
 // Приватный слот, переключение виджета настройки при клике по списку настроечных виджетов
-void ConfigDialog::change_page(QListWidgetItem *current, QListWidgetItem *previous)
+void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previous)
 {
   if (!current)
     current = previous;
@@ -136,7 +136,7 @@ void ConfigDialog::updateListWidth(void)
 }
 
 
-void ConfigDialog::apply_changes(void)
+void ConfigDialog::applyChanges(void)
 {
  int difficult_flag=0;
 
@@ -147,7 +147,7 @@ void ConfigDialog::apply_changes(void)
    ConfigPage *cnpg=qobject_cast<ConfigPage *>(pagesWidget->widget(i));
     
    // Вызывается метод apply_changes() для текущего перебираемого виджета
-   if( cnpg->apply_changes()==1 )
+   if( cnpg->applyChanges()==1 )
     difficult_flag=1;
   }
  

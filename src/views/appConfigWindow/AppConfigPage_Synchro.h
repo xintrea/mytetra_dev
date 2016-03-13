@@ -15,7 +15,7 @@ class AppConfigPage_Synchro : public ConfigPage
 
 public:
   AppConfigPage_Synchro(QWidget *parent = 0);
-  int apply_changes(void);
+  int applyChanges(void);
 
 private slots:
 

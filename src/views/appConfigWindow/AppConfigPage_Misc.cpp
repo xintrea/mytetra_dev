@@ -70,7 +70,7 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
 // Метод должен возвращать уровень сложности сделанных изменений
 // 0 - изменения не требуют перезапуска программы
 // 1 - изменения требуют перезапуска программы
-int AppConfigPage_Misc::apply_changes(void)
+int AppConfigPage_Misc::applyChanges(void)
 {
   qDebug() << "Apply changes misc";
 

@@ -18,13 +18,13 @@ extern AppConfig mytetraConfig;
 
 AppConfigPage_Main::AppConfigPage_Main(QWidget *parent) : ConfigPage(parent)
 {
-  setup_ui();
-  setup_signals();
+  setupUi();
+  setupSignals();
   assembly();
 }
 
 
-void AppConfigPage_Main::setup_ui(void)
+void AppConfigPage_Main::setupUi(void)
 {
  qDebug() << "Create main config page";
  
@@ -132,10 +132,10 @@ AppConfigPage_Main::~AppConfigPage_Main(void)
 }
 
 
-void AppConfigPage_Main::setup_signals(void)
+void AppConfigPage_Main::setupSignals(void)
 {
-  connect(tetradirButton,SIGNAL(clicked()),this,SLOT(open_tetradir_select_dialog()));
-  connect(trashdirButton,SIGNAL(clicked()),this,SLOT(open_trashdir_select_dialog()));
+  connect(tetradirButton,SIGNAL(clicked()),this,SLOT(onClickedTetradirSelectDialog()));
+  connect(trashdirButton,SIGNAL(clicked()),this,SLOT(onClickedTrashdirSelectDialog()));
 
   connect(disableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onDisableCustomDateTimeFormatToggle(bool) ) );
   connect(enableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onEnableCustomDateTimeFormatToggle(bool) ) );
@@ -217,7 +217,7 @@ void AppConfigPage_Main::assembly(void)
 
 
 // Действия при нажатии кнопки выбора директории данных
-void AppConfigPage_Main::open_tetradir_select_dialog(void)
+void AppConfigPage_Main::onClickedTetradirSelectDialog(void)
 {
   QFileDialog tetradirSelectDialog(this);
   tetradirSelectDialog.setFileMode(QFileDialog::Directory);
@@ -231,7 +231,7 @@ void AppConfigPage_Main::open_tetradir_select_dialog(void)
 
 
 // Действия при нажатии кнопки выбора директории корзины
-void AppConfigPage_Main::open_trashdir_select_dialog(void)
+void AppConfigPage_Main::onClickedTrashdirSelectDialog(void)
 {
   QFileDialog trashdirSelectDialog(this);
   trashdirSelectDialog.setFileMode(QFileDialog::Directory);
@@ -294,7 +294,7 @@ Sample: dd.MM.yyyy - hh:mm:ss";
 // Метод должен возвращать уровень сложности сделанных изменений
 // 0 - изменения не требуют перезапуска программы
 // 1 - изменения требуют перезапуска программы
-int AppConfigPage_Main::apply_changes(void)
+int AppConfigPage_Main::applyChanges(void)
 {
  qDebug() << "Apply changes main";
  

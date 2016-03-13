@@ -16,7 +16,7 @@ ConfigPage::~ConfigPage()
 
 }
 
-int ConfigPage::apply_changes(void)
+int ConfigPage::applyChanges(void)
 {
  return 0;
 }

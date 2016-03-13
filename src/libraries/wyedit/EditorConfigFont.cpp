@@ -233,7 +233,7 @@ void EditorConfigFont::on_code_select_color_button_click()
 }
 
 
-int EditorConfigFont::apply_changes(void)
+int EditorConfigFont::applyChanges(void)
 {
  qDebug() << "Apply changes editor font";
  

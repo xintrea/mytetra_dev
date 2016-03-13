@@ -21,15 +21,15 @@ public:
   AppConfigPage_Main(QWidget *parent = 0);
   ~AppConfigPage_Main(void);
 
-  void setup_ui(void);
-  void setup_signals(void);
+  void setupUi(void);
+  void setupSignals(void);
   void assembly(void);
 
-  int apply_changes(void);
+  int applyChanges(void);
     
 private slots:
-  void open_tetradir_select_dialog(void);
-  void open_trashdir_select_dialog(void);
+  void onClickedTetradirSelectDialog(void);
+  void onClickedTrashdirSelectDialog(void);
 
   void onDisableCustomDateTimeFormatToggle(bool checked);
   void onEnableCustomDateTimeFormatToggle(bool checked);

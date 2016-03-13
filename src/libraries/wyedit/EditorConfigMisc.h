@@ -18,7 +18,7 @@ class EditorConfigMisc : public ConfigPage
 public:
   EditorConfigMisc(QWidget *parent = 0);
   
-  int apply_changes(void);
+  int applyChanges(void);
     
 private slots:
  

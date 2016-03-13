@@ -12,7 +12,7 @@ public:
   ConfigPage(QWidget *parent = 0);
   virtual ~ConfigPage();
 
-  virtual int apply_changes(void);
+  virtual int applyChanges(void);
 };
 
 

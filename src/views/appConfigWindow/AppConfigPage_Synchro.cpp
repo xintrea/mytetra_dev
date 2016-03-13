@@ -65,7 +65,7 @@ AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(paren
 // Метод должен возвращать уровень сложности сделанных изменений
 // 0 - изменения не требуют перезапуска программы
 // 1 - изменения требуют перезапуска программы
-int AppConfigPage_Synchro::apply_changes(void)
+int AppConfigPage_Synchro::applyChanges(void)
 {
  qDebug() << "Apply changes synchro";
 

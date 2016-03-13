@@ -20,7 +20,7 @@ public:
   AppConfigPage_Crypt(QWidget *parent = 0);
   virtual ~AppConfigPage_Crypt();
 
-  int apply_changes(void);
+  int applyChanges(void);
 
 private slots:
 
@@ -55,9 +55,9 @@ protected:
   QString getRetrieveButtonText(void);
   QString getRetrieveAnnotationText(void);
 
-  void setup_ui(void);
-  void update_ui(void);
-  void setup_signals(void);
+  void setupUi(void);
+  void updateUi(void);
+  void setupSignals(void);
   void assembly(void);
 
 };

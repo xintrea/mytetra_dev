@@ -25,13 +25,13 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  }
 
  configDialog=new ConfigDialog();
- configDialog->set_window_title(tr("MyTetra settings"));
+ configDialog->setWindowTitle(tr("MyTetra settings"));
  
- pageMain       =configDialog->add_widget(new AppConfigPage_Main(this),        tr("Main"));
- pageCrypt      =configDialog->add_widget(new AppConfigPage_Crypt(this),       tr("Crypt"));
- pageSynchro    =configDialog->add_widget(new AppConfigPage_Synchro(this),     tr("Synchro"));
- pageRecordTable=configDialog->add_widget(new AppConfigPage_RecordTable(this), tr("Note area"));
- pageMisc       =configDialog->add_widget(new AppConfigPage_Misc(this),        tr("Misc"));
+ pageMain       =configDialog->addWidget(new AppConfigPage_Main(this),        tr("Main"));
+ pageCrypt      =configDialog->addWidget(new AppConfigPage_Crypt(this),       tr("Crypt"));
+ pageSynchro    =configDialog->addWidget(new AppConfigPage_Synchro(this),     tr("Synchro"));
+ pageRecordTable=configDialog->addWidget(new AppConfigPage_RecordTable(this), tr("Note area"));
+ pageMisc       =configDialog->addWidget(new AppConfigPage_Misc(this),        tr("Misc"));
 
  configDialog->updateListWidth();
 

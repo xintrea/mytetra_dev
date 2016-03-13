@@ -26,7 +26,7 @@ public:
   void setup_ui(void);
   void setup_signals(void);
   void assembly(void);
-  int apply_changes(void);
+  int applyChanges(void);
 
 private slots:
   void on_monospace_applysize_state_changed(int i);

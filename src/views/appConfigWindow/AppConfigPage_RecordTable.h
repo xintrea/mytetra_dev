@@ -14,7 +14,7 @@ class AppConfigPage_RecordTable : public ConfigPage
 
 public:
   AppConfigPage_RecordTable(QWidget *parent = 0);
-  int apply_changes(void);
+  int applyChanges(void);
 
 signals:
   void recordTableConfigChange(void); // Сигнал, испускающийся когда изменились настройки таблицы конечных записей

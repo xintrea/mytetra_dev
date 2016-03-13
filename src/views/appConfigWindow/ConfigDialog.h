@@ -17,25 +17,24 @@ class ConfigDialog : public QDialog
 
 public:
     ConfigDialog();
-    QListWidgetItem *add_widget(QWidget *inswidget, QString name);
-    void set_window_title(QString title);
+    QListWidgetItem *addWidget(QWidget *inswidget, QString name);
+    void setWindowTitle(QString title);
 
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);
 
 private slots:    
-    void apply_changes(void);
-    void change_page(QListWidgetItem *current, QListWidgetItem *previous);
+    void applyChanges(void);
+    void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
-    void setup_ui(void);
-    void setup_signals(void);
+    void setupUi(void);
+    void setupSignals(void);
     void assembly(void);
 
-    QListWidgetItem *create_items(QString name);
+    QListWidgetItem *createItems(QString name);
 
     QListWidget *contentsWidget;
-    // QScrollArea *scrollArea;
     QStackedWidget *pagesWidget;
     QDialogButtonBox *confirmButtons;
 };

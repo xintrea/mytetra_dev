@@ -14,7 +14,7 @@ class AppConfigPage_Misc : public ConfigPage
 
 public:
   AppConfigPage_Misc(QWidget *parent = 0);
-  int apply_changes(void);
+  int applyChanges(void);
 
 private slots:
 

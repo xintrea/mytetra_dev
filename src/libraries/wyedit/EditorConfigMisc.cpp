@@ -49,7 +49,7 @@ EditorConfigMisc::EditorConfigMisc(QWidget *parent) : ConfigPage(parent)
 }
 
 
-int EditorConfigMisc::apply_changes(void)
+int EditorConfigMisc::applyChanges(void)
 {
  qDebug() << "Apply changes editor misc";
  

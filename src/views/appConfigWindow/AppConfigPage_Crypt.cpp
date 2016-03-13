@@ -23,9 +23,9 @@ AppConfigPage_Crypt::AppConfigPage_Crypt(QWidget *parent) : ConfigPage(parent)
 {
   qDebug() << "Create crypt config page";
 
-  setup_ui();
-  update_ui();
-  setup_signals();
+  setupUi();
+  updateUi();
+  setupSignals();
   assembly();
 }
 
@@ -36,7 +36,7 @@ AppConfigPage_Crypt::~AppConfigPage_Crypt()
 }
 
 
-void AppConfigPage_Crypt::setup_ui(void)
+void AppConfigPage_Crypt::setupUi(void)
 {
   // Группировщик виджетов работы с паролем
   passRetrieveBox=new QGroupBox(this);
@@ -149,7 +149,7 @@ void AppConfigPage_Crypt::setup_ui(void)
 }
 
 
-void AppConfigPage_Crypt::update_ui(void)
+void AppConfigPage_Crypt::updateUi(void)
 {
   // Строка состояния пароля
   passRetrieveStatus->setText(getRetrieveStatusText());
@@ -163,7 +163,7 @@ void AppConfigPage_Crypt::update_ui(void)
 }
 
 
-void AppConfigPage_Crypt::setup_signals(void)
+void AppConfigPage_Crypt::setupSignals(void)
 {
  // При нажатии кнопки работы с паролем
  connect(passRetrieveButton,SIGNAL(clicked()),
@@ -245,7 +245,7 @@ void AppConfigPage_Crypt::onPassRetrieveButtonClicked(void)
 
    if(password.retrievePassword()==false) return;
 
-   update_ui();
+   updateUi();
    return;
   }
  else
@@ -294,7 +294,7 @@ void AppConfigPage_Crypt::onAutoClosePasswordEnableToggle(bool checked)
 // Метод должен возвращать уровень сложности сделанных изменений
 // 0 - изменения не требуют перезапуска программы
 // 1 - изменения требуют перезапуска программы
-int AppConfigPage_Crypt::apply_changes(void)
+int AppConfigPage_Crypt::applyChanges(void)
 {
  qDebug() << "Apply changes crypt";
 
