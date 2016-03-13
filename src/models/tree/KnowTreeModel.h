@@ -92,6 +92,12 @@ private:
 
     // Преобразование Item в DOM модель
     void parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem);
+
+    // Стандартный DOM-документ для сохранения дерева знаний
+    QDomDocument createStandartDocument();
+
+    // Стандартный root-элемент с информацией о версии формата данных
+    QDomElement createStandartRootElement(QDomDocument &doc);
     
     // Перемещение ветки вверх или вниз
     QModelIndex moveUpDnBranch(const QModelIndex &index,int direction);

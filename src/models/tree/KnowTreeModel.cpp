@@ -200,8 +200,6 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
  QDomDocument doc;
  QDomElement elm=doc.createElement("content");
 
- // qDebug() << "New element for export" << xmlNodeToString(elm);
-
  QTime start = QTime::currentTime();
 
  parseTreeToDom(&doc, elm, root);
@@ -223,7 +221,42 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
     return;
   }
 
+  QString mytetraXmlFile=exportDir+"/mytetra.xml";
 
+  // Текущая выбранная ветка будет экспортироваться
+  QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
+  TreeItem *startItem=getItem(currentItemIndex);
+
+
+  // Коструирование DOM документа для записи в файл
+  QDomDocument doc=createStandartDocument();
+
+  // Создание корневого элемента
+  QDomElement rootElement=createStandartRootElement(doc);
+
+  // Получение полного DOM дерева хранимых данных
+  QDomElement elmDomTree=exportFullModelDataToDom(startItem);
+
+  // Добавление полного дерева DOM хранимых данных к корневому элементу
+  rootElement.appendChild(elmDomTree);
+
+  // Добавление корневого элемента в DOM документ
+  doc.appendChild(rootElement);
+
+
+  // Запись DOM данных в файл
+  QFile wfile(mytetraXmlFile);
+  if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    showMessageBox(tr("Cant open export file %1 for write.").arg(mytetraXmlFile));
+    return;
+  }
+  QTextStream out(&wfile);
+  out.setCodec("UTF-8");
+  out << doc.toString();
+
+  // todo: доделать копирование каталогов с текстами записей
+  // todo: доделать запрос пароля и расшифровку записей
 }
 
 
@@ -295,28 +328,19 @@ void KnowTreeModel::save()
   criticalError(tr("In KnowTreeModel can't set file name for XML file"));
 
  // Коструирование DOM документа для записи в файл
- QDomDocument doc("mytetradoc");
-
- // Установка заголовка
- doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+ QDomDocument doc=createStandartDocument();
 
  // Создание корневого элемента
- QDomElement rootelement=doc.createElement("root");
-
- // Добавление формата версии к корневому элементу
- QDomElement formvers=doc.createElement("format");
- formvers.setAttribute("version",CURRENT_FORMAT_VERSION);
- formvers.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
- rootelement.appendChild(formvers);
+ QDomElement rootElement=createStandartRootElement(doc);
 
  // Получение полного DOM дерева хранимых данных
- QDomElement elmdomtree=exportFullModelDataToDom(rootItem);
+ QDomElement elmDomTree=exportFullModelDataToDom(rootItem);
 
  // Добавление полного дерева DOM хранимых данных к корневому элементу
- rootelement.appendChild(elmdomtree);
+ rootElement.appendChild(elmDomTree);
 
  // Добавление корневого элемента в DOM документ
- doc.appendChild(rootelement);
+ doc.appendChild(rootElement);
 
  // Распечатка на экран, что будет выводиться в XML файл
  // qDebug() << "Doc document for write " << doc.toString();
@@ -334,6 +358,32 @@ void KnowTreeModel::save()
  QTextStream out(&wfile);
  out.setCodec("UTF-8");
  out << doc.toString();
+}
+
+
+QDomDocument KnowTreeModel::createStandartDocument()
+{
+  QDomDocument doc("mytetradoc");
+
+  // Установка заголовка
+  doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+
+  return doc;
+}
+
+
+QDomElement KnowTreeModel::createStandartRootElement(QDomDocument &doc)
+{
+  // Создание корневого элемента
+  QDomElement rootElement=doc.createElement("root");
+
+  // Добавление формата версии к корневому элементу
+  QDomElement format=doc.createElement("format");
+  format.setAttribute("version",CURRENT_FORMAT_VERSION);
+  format.setAttribute("subversion",CURRENT_FORMAT_SUBVERSION);
+  rootElement.appendChild(format);
+
+  return rootElement;
 }
 
 
