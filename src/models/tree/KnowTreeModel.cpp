@@ -13,9 +13,15 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
+#include "libraries/crypt/CryptService.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
+
 
 extern AppConfig mytetraConfig;
+extern GlobalParameters globalParameters;
+extern FixedParameters fixedParameters;
 
 
 // Конструктор модели дерева, состоящего из Item элементов
@@ -223,6 +229,11 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 
   QString mytetraXmlFile=exportDir+"/mytetra.xml";
 
+
+  // -----------------------------
+  // Подготовка корневого элемента
+  // -----------------------------
+
   // Текущая выбранная ветка будет экспортироваться
   QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
   TreeItem *startItem=getItem(currentItemIndex);
@@ -235,6 +246,34 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 
   // Стартовый подузел размещается во временном корневом элементе
   tempRootItem->addChildrenItem(startItem);
+
+
+  // ---------------------------------------------
+  // Запрос пароля, если есть зашифрованные данные
+  // ---------------------------------------------
+
+  // Выясняется, есть ли в выбранной ветке или подветках есть шифрование
+  bool isCryptPresent=false;
+  if( isItemContainsCryptBranches(tempRootItem) )
+    isCryptPresent=true;
+
+  // Если есть шифрование в выгружаемых данных, надо запросить пароль даже если он уже был введен в текущей сессии
+  // Это необходимо для того, чтобы небыло возможности выгрузить скопом все зашифрованные данные, если
+  // пользователь отошел от компьютера
+  if( isCryptPresent )
+  {
+    showMessageBox(tr("In export branch detect crypt data. Please, click OK and enter password."));
+
+    // Запрашивается пароль
+    Password password;
+    if(password.enterExistsPassword()==false) // Если пароль введен неверно, выгрузка работать не должна
+      return;
+  }
+
+
+  // -------------------------------------
+  // Подготовка выгружаемого DOM-документа
+  // -------------------------------------
 
   // Коструирование DOM документа для записи в файл
   QDomDocument doc=createStandartDocument();
@@ -251,6 +290,10 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   // Добавление корневого элемента в DOM документ
   doc.appendChild(rootElement);
 
+  // Выгрузка всех связанных данных с расшифровкой (если это необходимо)
+  // и одновременная расшифровка всех атрибутов (если это необходимо)
+  exportRelatedDataAndDecryptIfNeed(doc, exportDir);
+
 
   // Запись DOM данных в файл
   QFile wfile(mytetraXmlFile);
@@ -266,6 +309,8 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   // todo: доделать копирование каталогов с текстами записей
   // todo: доделать запрос пароля и расшифровку записей
 
+
+  // Удаление временного корневого элемента
   tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы
   delete tempRootItem;
 }
@@ -274,6 +319,50 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 void KnowTreeModel::importBranchFromDirectory(QString importDir)
 {
   showMessageBox("Development in progress...");
+}
+
+
+void KnowTreeModel::exportRelatedDataAndDecryptIfNeed(QDomDocument &doc, QString exportDir)
+{
+  QDomElement contentRootNode=doc.documentElement().firstChildElement("content").firstChildElement("node");
+
+  exportRelatedDataAndDecryptIfNeedRecurse(contentRootNode, exportDir);
+
+  return;
+}
+
+
+void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &element, QString exportDir)
+{
+  QStringList cryptFieldNames;
+
+  // Если это ветка
+  if(element.nodeName()=="node")
+    cryptFieldNames=fixedParameters.itemFieldCryptedList;
+
+  // Если это запись
+  if(element.nodeName()=="record")
+    cryptFieldNames=fixedParameters.recordFieldCryptedList;
+
+  // Расшифровка атрибутов
+  foreach(QString cryptFieldName, cryptFieldNames)
+    if(element.attribute("crypt")=="1")
+      if(element.attribute(cryptFieldName).length()>0)
+        element.setAttribute(cryptFieldName, CryptService::decryptString(globalParameters.getCryptKey(), element.attribute(cryptFieldName)));
+
+   // Если это запись, надо скопировать связанные данные (с расшифровкой, если это необходимо)
+   if(element.nodeName()=="record")
+   {
+
+   }
+
+
+
+
+
+
+
+
 }
 
 
@@ -916,6 +1005,15 @@ bool KnowTreeModel::isContainsCryptBranches(void)
  isContainsCryptBranchesRecurse(rootItem, 0);
 
  return isContainsCryptBranchesRecurse(rootItem, 1);
+}
+
+
+// Метод определяющий есть ли в элементе зашифрованные ветки или подветки
+bool KnowTreeModel::isItemContainsCryptBranches(TreeItem *item)
+{
+ isContainsCryptBranchesRecurse(item, 0);
+
+ return isContainsCryptBranchesRecurse(item, 1);
 }
 
 

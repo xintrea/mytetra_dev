@@ -5,10 +5,11 @@
 #include "TreeItem.h"
 #include "main.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/crypt/CryptService.h"
 
 extern GlobalParameters globalParameters;
-
+extern FixedParameters fixedParameters;
 
 
 TreeItem::TreeItem(const QMap<QString, QString> &data, TreeItem *parent)
@@ -119,7 +120,7 @@ QString TreeItem::getField(QString name)
 
 
  // Если имя поля допустимо
- if(isFieldNameAvailable(name))
+ if(fixedParameters.itemFieldAvailableList.contains(name))
   {
    // Если поле с таким именем существует
    if(fieldsTable.contains(name))
@@ -130,7 +131,7 @@ QString TreeItem::getField(QString name)
      // и поле является зашифрованным
      if(fieldsTable.contains("crypt"))
       if(fieldsTable["crypt"]=="1")
-       if(fieldNameForCryptList().contains(name))
+       if(fixedParameters.itemFieldCryptedList.contains(name))
         {
          if(globalParameters.getCryptKey().length()>0 &&
             value!="")
@@ -165,7 +166,7 @@ QMap<QString, QString> TreeItem::getAllFields()
  foreach(QString name, names)
   {
    // В результат добаляются только параметры с разрешенным именем
-   if(isFieldNameAvailable(name))
+   if(fixedParameters.itemFieldAvailableList.contains(name))
      result[name]=getField(name);
   }
 
@@ -186,13 +187,13 @@ QMap<QString, QString> TreeItem::getAllFieldsDirect()
 // Второй параметр - устанавливаемое значение
 void TreeItem::setField(QString name, QString value)
 {
- if(isFieldNameAvailable(name))
+ if(fixedParameters.itemFieldAvailableList.contains(name))
   {
    // Если поле нужно шифровать
    // и поле является зашифрованным
    if(fieldsTable.contains("crypt"))
     if(fieldsTable["crypt"]=="1")
-     if(fieldNameForCryptList().contains(name))
+     if(fixedParameters.itemFieldCryptedList.contains(name))
       {
        // Если установлен пароль
        if(globalParameters.getCryptKey().length()>0)
@@ -217,44 +218,12 @@ void TreeItem::setField(QString name, QString value)
 // без всяких преобразований, без шифрации
 void TreeItem::setFieldDirect(QString name, QString value)
 {
- if(isFieldNameAvailable(name))
+ if(fixedParameters.itemFieldAvailableList.contains(name))
   {
    fieldsTable[name]=value;
   }
  else
   criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
-}
-
-
-bool TreeItem::isFieldNameAvailable(QString name) const
-{
- if(fieldNameAvailableList().contains(name))
-  return true;
- else
-  return false;
-}
-
-
-QStringList TreeItem::fieldNameAvailableList(void) const
-{
- QStringList names;
-
- names << "id";
- names << "name";
- names << "ctime";
- names << "crypt";
-
- return names;
-}
-
-
-QStringList TreeItem::fieldNameForCryptList(void) const
-{
- QStringList names;
-
- names << "name";
-
- return names;
 }
 
 

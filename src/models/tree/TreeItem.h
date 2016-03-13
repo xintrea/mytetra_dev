@@ -123,10 +123,6 @@ private:
 
     QList<QStringList> getAllChildrenPathAsFieldRecurse(TreeItem *item, QString fieldName, int mode);
 
-    bool isFieldNameAvailable(QString name) const;
-    QStringList fieldNameAvailableList(void) const;
-    QStringList fieldNameForCryptList(void) const;
-    
     QList<TreeItem*> childItems; // Список ссылок на потомков
     TreeItem *parentItem;      // Ссылка на родителя
 

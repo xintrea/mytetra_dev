@@ -9,6 +9,7 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent);
 
+  // Для записей
   recordFieldAvailableList=(QStringList() << "id" \
                                           << "name" \
                                           << "author" \
@@ -39,6 +40,14 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
                                         << "author" \
                                         << "url" \
                                         << "tags");
+
+  // Для веток
+  itemFieldAvailableList=(QStringList() << "id" \
+                                        << "name" \
+                                        << "ctime" \
+                                        << "crypt");
+
+  itemFieldCryptedList=(QStringList() << "name");
 }
 
 
@@ -46,51 +55,6 @@ FixedParameters::~FixedParameters()
 {
 
 }
-
-
-/*
-// Перечень всех допустимых полей - натуральных и вычислимых
-QStringList FixedParameters::recordFieldAvailableList(void) const
-{
-  // Для скорости задаются напрямую, не вызывая функции формирования из натурального и вычислимого списка полей
-
-  return (QStringList() << "id" \
-                        << "name" \
-                        << "author" \
-                        << "url" \
-                        << "tags" \
-                        << "ctime" \
-                        << "dir" \
-                        << "file" \
-                        << "crypt" \
-                        \
-                        << "hasAttach" \
-                        << "attachCount");
-}
-
-
-// Перечень всех натуральных полей - то есть тех, которые напрямую хранятся в XML тегах
-QStringList FixedParameters::recordNaturalFieldAvailableList(void) const
-{
-  return (QStringList() << "id" \
-                        << "name" \
-                        << "author" \
-                        << "url" \
-                        << "tags" \
-                        << "ctime" \
-                        << "dir" \
-                        << "file" \
-                        << "crypt" );
-}
-
-
-// Перечень всех вычислимых полей - такие поля нигде не сохраняются
-QStringList FixedParameters::recordCalculableFieldAvailableList(void) const
-{
-  return (QStringList() << "hasAttach" \
-                        << "attachCount");
-}
-*/
 
 
 bool FixedParameters::isRecordFieldAvailable(QString name) const
@@ -151,18 +115,3 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
 
  return names;
 }
-
-
-/*
-QStringList FixedParameters::recordFieldCryptedList(void) const
-{
- QStringList names;
-
- names << "name";
- names << "author";
- names << "url";
- names << "tags";
-
- return names;
-}
-*/

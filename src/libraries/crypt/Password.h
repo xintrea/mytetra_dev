@@ -24,6 +24,7 @@ public:
  virtual ~Password();
 
  bool retrievePassword();
+ bool enterExistsPassword(void);
  bool replacePassword();
  void resetPassword(void);
 
@@ -31,7 +32,6 @@ public:
 
 private:
 
- bool enterExistsPassword(void);
  bool checkPasswordWithExists(QString password);
  void saveCheckPasswordKey(QString password);
  

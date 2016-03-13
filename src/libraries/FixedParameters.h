@@ -16,10 +16,15 @@ public:
  FixedParameters(QObject *parent=0);
  virtual ~FixedParameters();
 
+ // Поля для записей
  QStringList recordFieldAvailableList;
  QStringList recordNaturalFieldAvailableList;
  QStringList recordCalculableFieldAvailableList;
  QStringList recordFieldCryptedList;
+
+ // Поля для веток
+ QStringList itemFieldAvailableList;
+ QStringList itemFieldCryptedList;
 
  bool isRecordFieldAvailable(QString name) const;
  bool isRecordFieldNatural(QString name) const;
