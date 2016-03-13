@@ -347,7 +347,7 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
   // Расшифровка атрибутов
   foreach(QString cryptFieldName, cryptFieldNames)
     if(element.attribute("crypt")=="1")
-      if(element.attribute(cryptFieldName).length()>0)
+      if(element.hasAttribute(cryptFieldName))
         element.setAttribute(cryptFieldName, CryptService::decryptString(globalParameters.getCryptKey(), element.attribute(cryptFieldName)));
 
    // Если это запись, надо скопировать связанные данные (с расшифровкой, если это необходимо)
