@@ -13,8 +13,10 @@ extern GlobalParameters globalParameters;
 
 TreeItem::TreeItem(const QMap<QString, QString> &data, TreeItem *parent)
 {
- parentItem = parent;
- fieldsTable = data;
+  detachedState=false; // По-умолчанию элемент полноценный, не оторванный
+
+  parentItem = parent;
+  fieldsTable = data;
 }
 
 
@@ -65,8 +67,9 @@ void TreeItem::empty(void)
 
  recordsTable.empty();
 
- // Удаляются все подветки
- qDeleteAll(childItems);
+ // Если элемент не является "оторванным"
+ if(detachedState==false)
+   qDeleteAll(childItems); // Удаляются все подветки
  
  parentItem=NULL;
 }
@@ -307,9 +310,9 @@ bool TreeItem::insertChildren(int position, int count, int columns)
 }
 
 
-// Добавление нового подчиненного элемента 
+// Добавление нового пустого подчиненного элемента
 // в конец списка подчиненных элементов
-bool TreeItem::addChildren(void)
+bool TreeItem::addChildrenEmpty(void)
 {
  QMap<QString, QString> data;
 
@@ -317,6 +320,14 @@ bool TreeItem::addChildren(void)
 
  childItems << item; // Добавление item в конец массива childItems
 
+ return true;
+}
+
+
+// Добавление уже существующего Item-элемента
+bool TreeItem::addChildrenItem(TreeItem *item)
+{
+ childItems << item; // Добавление item в конец массива childItems
  return true;
 }
 
@@ -592,3 +603,13 @@ RecordTableData *TreeItem::recordtableGetTableData(void)
 }
 
 
+void TreeItem::setDetached(bool state)
+{
+  detachedState=state;
+}
+
+
+bool TreeItem::isDetached()
+{
+  return detachedState;
+}

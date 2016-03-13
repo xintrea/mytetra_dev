@@ -47,9 +47,11 @@ class TreeItem
     // columns - сколько столбцов должен содержать потомок
     bool insertChildren(int position, int count, int columns);
 
-    // Добавление нового подчиненного элемента 
-    // в конец списка подчиненных элементов
-    bool addChildren(void);
+    // Добавление нового пустого подчиненного элемента в конец списка подчиненных элементов
+    bool addChildrenEmpty(void);
+
+    // Добавление уже существующего Item-элемента
+    bool addChildrenItem(TreeItem *item);
     
     // Возвращение ссылки на родительский элемент
     TreeItem *parent();
@@ -110,13 +112,15 @@ class TreeItem
 
     // Взятие ссылки на данные конечных записей
     RecordTableData *recordtableGetTableData(void);
+
+    void setDetached(bool state);
+    bool isDetached();
     
 private:
     bool removeChildrenLink(int position, int count);
 
     void empty(void);
 
-    // QList<QStringList> get_all_children_path_recurse(TreeItem *item,int mode);
     QList<QStringList> getAllChildrenPathAsFieldRecurse(TreeItem *item, QString fieldName, int mode);
 
     bool isFieldNameAvailable(QString name) const;
@@ -131,6 +135,8 @@ private:
 
     // Каждая ветка может содержать таблицу конечных записей
     RecordTableData recordsTable;
+
+    bool detachedState; // Флаг, влияющий на деструктор. Если detachedState=true, подчиненные элементы удаляться не будут
 };
 
 #endif

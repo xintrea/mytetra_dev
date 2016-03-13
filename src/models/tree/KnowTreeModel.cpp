@@ -227,6 +227,14 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
   TreeItem *startItem=getItem(currentItemIndex);
 
+  // Создается временный корневой Item, содержащий startItem (такова особенность методов KnowTreeModel)
+  QMap<QString, QString> rootData;
+  rootData["id"]="0";
+  rootData["name"]="";
+  TreeItem *tempRootItem = new TreeItem(rootData);
+
+  // Стартовый подузел размещается во временном корневом элементе
+  tempRootItem->addChildrenItem(startItem);
 
   // Коструирование DOM документа для записи в файл
   QDomDocument doc=createStandartDocument();
@@ -235,7 +243,7 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   QDomElement rootElement=createStandartRootElement(doc);
 
   // Получение полного DOM дерева хранимых данных
-  QDomElement elmDomTree=exportFullModelDataToDom(startItem);
+  QDomElement elmDomTree=exportFullModelDataToDom(tempRootItem);
 
   // Добавление полного дерева DOM хранимых данных к корневому элементу
   rootElement.appendChild(elmDomTree);
@@ -257,6 +265,9 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 
   // todo: доделать копирование каталогов с текстами записей
   // todo: доделать запрос пароля и расшифровку записей
+
+  tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы
+  delete tempRootItem;
 }
 
 
@@ -415,9 +426,8 @@ void KnowTreeModel::addNewSiblingBranch(const QModelIndex &index, QString id, QS
 // Добавление новой подветки к Item элементу
 void KnowTreeModel::addNewBranch(TreeItem *parent, QString id, QString name)
 {
- // Подузел прикрепляется к указанному элементу 
- // в конец списка подчиненных элементов
- parent->addChildren();
+ // Прикрепляется пустой подузел в конец списка подчиненных элементов
+ parent->addChildrenEmpty();
 
  // Определяется ссылка на только что созданную ветку
  TreeItem *current=parent->child(parent->childCount()-1);
