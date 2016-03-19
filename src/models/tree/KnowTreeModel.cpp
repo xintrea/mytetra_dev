@@ -367,10 +367,10 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
        criticalError("Bad data structure. For record with ID "+element.attribute("id")+" not setted attribute \"dir\"");
 
      QString fromDir=mytetraConfig.get_tetradir()+"/base/"+element.attribute("dir");
-     QString toDir=exportDir+"/"+element.attribute("dir");
+     QString toDir=exportDir+"/base/"+element.attribute("dir");
 
      // Создание директории
-     if( !QDir().mkdir(toDir) )
+     if( !QDir().mkpath(toDir) )
        criticalError("Cant create directory "+toDir);
 
      // Копирование всех файлов из директории записи в директорию экспортируемой записи
