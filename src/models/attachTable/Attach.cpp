@@ -544,4 +544,6 @@ void Attach::decryptDomElement(QDomElement &iDomElement)
 
         iDomElement.setAttribute(fieldName, decryptAttribute);
       }
+
+  iDomElement.setAttribute("crypt", "0");
 }
