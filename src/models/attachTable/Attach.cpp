@@ -56,21 +56,21 @@ void Attach::setParentTable(AttachTableData *iParentTable)
 
 
 // Допустимые имена полей
-QStringList Attach::fieldAvailableList(void) const
+QStringList Attach::fieldAvailableList(void)
 {
   return QStringList() << "id" << "fileName" << "link" << "type" << "crypt";
 }
 
 
 // Имена полей, которые шифруются
-QStringList Attach::fieldCryptedList(void) const
+QStringList Attach::fieldCryptedList(void)
 {
   return QStringList() << "fileName" << "link";
 }
 
 
 // Допустимые типы аттачей
-QStringList Attach::typeAvailableList(void) const
+QStringList Attach::typeAvailableList(void)
 {
   return QStringList() << "file" << "link";
 }
@@ -371,27 +371,33 @@ void Attach::removeFile()
 }
 
 
+QString Attach::constructFileName(const QString type, const QString id, const QString fileName)
+{
+  // Для файла
+  if(type=="file")
+  {
+    // Выясняется расширение по видимому имени файла
+    QFileInfo fileInfo( fileName );
+    QString suffix=fileInfo.suffix();
+
+    return id+"."+suffix;
+  }
+
+  // Для линка просто возвращается имя файла, куда указывает линк
+  if(type=="link")
+    return fileName;
+
+  criticalError("Bad attach type in getInnerFileName():"+type);
+
+  return "";
+}
+
+
 // Внутрисистемное имя файла (без пути)
 // Внутрисистемное имя складывается из идентификатора аттача и расширения, взятого от имени файла
 QString Attach::getInnerFileName() const
 {
-  if(getField("type")=="file") // Для файла
-  {
-    // Выясняется расширение по видимому имени файла
-    QFileInfo fileInfo( getField("fileName") );
-    QString suffix=fileInfo.suffix();
-
-    QString innerFileName=getField("id")+"."+suffix;
-
-    return innerFileName;
-  }
-
-  if(getField("type")=="link") // Для линка просто возвращается имя файла, куда указывает линк
-    return getField("fileName");
-
-  criticalError("Bad attach type in getInnerFileName():"+getField("type"));
-
-  return "";
+  return constructFileName(getField("type"), getField("id"), getField("fileName"));
 }
 
 
@@ -523,4 +529,19 @@ void Attach::decrypt(unsigned int area)
 
   // Устанавливается флаг, что запись не зашифрована
   setField("crypt", ""); // Отсутсвие значения предпочтительней, так как тогда в XML-данные не будет попадать атрибут crypt="0"
+}
+
+
+// Расшифровка переданного DOM-элемента
+// Метод статический, он не изменяет сам объект Attach
+void Attach::decryptDomElement(QDomElement &iDomElement)
+{
+  if(iDomElement.hasAttribute("crypt") && iDomElement.attribute("crypt")=="1")
+    foreach( QString fieldName, fieldCryptedList() ) // Перебираются зашифрованные поля
+      if(iDomElement.hasAttribute(fieldName) && iDomElement.attribute(fieldName).length()>0)
+      {
+        QString decryptAttribute=CryptService::decryptString( globalParameters.getCryptKey(), iDomElement.attribute(fieldName));
+
+        iDomElement.setAttribute(fieldName, decryptAttribute);
+      }
 }

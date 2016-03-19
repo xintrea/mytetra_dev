@@ -18,7 +18,7 @@ class ConfigDialog : public QDialog
 public:
     ConfigDialog();
     QListWidgetItem *addWidget(QWidget *inswidget, QString name);
-    void setWindowTitle(QString title);
+
 
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);

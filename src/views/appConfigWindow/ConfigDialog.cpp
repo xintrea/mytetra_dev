@@ -80,13 +80,6 @@ void ConfigDialog::assembly(void)
 }
 
 
-void ConfigDialog::setWindowTitle(QString title)
-{
- // Строка в заголовке окна
- setWindowTitle(title);
-}
-
-
 QListWidgetItem *ConfigDialog::addWidget(QWidget *inswidget, QString name)
 {
  pagesWidget->addWidget(inswidget);

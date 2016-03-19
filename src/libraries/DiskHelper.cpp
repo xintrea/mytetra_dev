@@ -170,7 +170,7 @@ bool DiskHelper::copyDirectory(const QString &fromName, const QString &toName)
   QDir fromDir(fromName);
   QDir toDir(toName);
 
-  if (fromDir.exists() && toDir.exists())
+  if(fromDir.exists() && toDir.exists())
   {
     Q_FOREACH(QFileInfo info, fromDir.entryInfoList(QDir::Files))
     {
@@ -215,6 +215,7 @@ QMap<QString, QByteArray> DiskHelper::getFilesFromDirectory(QString dirName, QSt
 }
 
 
+// Запись в директорию файлов, переданных в виде ассоциативного массива fileList
 bool DiskHelper::saveFilesToDirectory(QString dirName, QMap<QString, QByteArray> fileList)
 {
   qDebug() << "DiskHelper::saveFilesToDirectory() : Directory name " << dirName;

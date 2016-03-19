@@ -11,6 +11,7 @@
 #include "libraries/ClipboardRecords.h"
 #include "libraries/ClipboardBranch.h"
 #include "models/appConfig/AppConfig.h"
+#include "models/attachTable/Attach.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/crypt/CryptService.h"
@@ -218,15 +219,17 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 }
 
 
+// Выгрузка ветки и ее подветок в отдельную директорию
 void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 {
-  // Проверка, является ли выбранная директория пустой
+  // Проверка, является ли выбранная директория пустой. Выгрузка возможна только в полностью пустую директорию
   if( !DiskHelper::isDirectoryEmpty(exportDir) )
   {
     showMessageBox(tr("Directory %1 is not empty. Please select empty directory for export.").arg(exportDir));
     return;
   }
 
+  // Полный путь до создаваемого файла с деревом
   QString mytetraXmlFile=exportDir+"/mytetra.xml";
 
 
@@ -332,6 +335,12 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeed(QDomDocument &doc, QString
 }
 
 
+// Выгрузка в директорию выгрузки связанных с записью данных + расшифровка переданного элемента
+// Связанные с записью данные это:
+// - файл с текстом самой записи
+// - файлы картинок
+// - прикрепленные к записи файлы
+// все эти данные выгружаются в поддиректорию, записанную в атрибуте dir
 void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &element, QString exportDir)
 {
   QStringList cryptFieldNames;
@@ -350,19 +359,68 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
       if(element.hasAttribute(cryptFieldName))
         element.setAttribute(cryptFieldName, CryptService::decryptString(globalParameters.getCryptKey(), element.attribute(cryptFieldName)));
 
+
    // Если это запись, надо скопировать связанные данные (с расшифровкой, если это необходимо)
    if(element.nodeName()=="record")
    {
+     if( element.attribute("dir").length()==0 )
+       criticalError("Bad data structure. For record with ID "+element.attribute("id")+" not setted attribute \"dir\"");
 
+     QString fromDir=mytetraConfig.get_tetradir()+"/base/"+element.attribute("dir");
+     QString toDir=exportDir+"/"+element.attribute("dir");
+
+     // Создание директории
+     if( !QDir().mkdir(toDir) )
+       criticalError("Cant create directory "+toDir);
+
+     // Копирование всех файлов из директории записи в директорию экспортируемой записи
+     DiskHelper::copyDirectory(fromDir, toDir);
+
+     // Расшифровка файлов
+     if(element.attribute("crypt")=="1")
+     {
+       // Расшифровка текста записи
+       CryptService::decryptFile(globalParameters.getCryptKey(), toDir+"/"+element.attribute("file"));
+
+       // Расшифровка приаттаченных файлов
+       QDomNodeList list=element.elementsByTagName("file");
+       for(int i=0; i<list.count(); i++) // Цикл foreach в Qt до сих пор не работает с QDomNodeList
+       {
+         QDomElement fileElement=list.at(i).toElement();
+
+         if(fileElement.hasAttribute("crypt") && fileElement.attribute("crypt")=="1")
+         {
+           // Данные внутри DOM-объекта расшифровываются
+           Attach::decryptDomElement(fileElement);
+
+           // На диске расшифровываются только аттачи с типом file
+           if(fileElement.attribute("type")=="file")
+           {
+             // Выясняется внутрисистемное имя прикрепленного файла
+             QString fileName=Attach::constructFileName( fileElement.attribute("type"),
+                                                         fileElement.attribute("id"),
+                                                         fileElement.attribute("fileName") );
+
+             // Файл на диске расшифровывается
+             CryptService::decryptFile(globalParameters.getCryptKey(), toDir+"/"+fileName);
+           }
+         }
+       }
+     }
    }
 
+  // Здесь считается, что все данные расшифрованы
+  if(element.hasAttribute("crypt"))
+    element.setAttribute("crypt", "0");
 
-
-
-
-
-
-
+  // Рекурсивный вызов дочерних элементов
+  QDomNodeList childList=element.childNodes();
+  for(int i=0; i<childList.count(); i++)
+    if(childList.at(i).isElement())
+    {
+      QDomElement childElement=childList.at(i).toElement();
+      exportRelatedDataAndDecryptIfNeedRecurse( childElement, exportDir);
+    }
 }
 
 
