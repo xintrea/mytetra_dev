@@ -476,7 +476,7 @@ void FindScreen::findStart(void)
 
     // Иначе если поиск проводился не во всей базе
     else if(mytetraConfig.getFindScreenTreeSearchArea()!=0)
-      findTable->setOverdrawMessage(tr("Nothing found.\nSearch produced within one branch.\nTry to search the entire database.")); // Ничего не найдено. Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
+      findTable->setOverdrawMessage(tr("Nothing found.\nSearch produced within current branch.\nTry to search in entire database.")); // Ничего не найдено. Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
   }
 
 }

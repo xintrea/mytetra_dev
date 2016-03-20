@@ -309,13 +309,11 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   out.setCodec("UTF-8");
   out << doc.toString();
 
-  // todo: доделать копирование каталогов с текстами записей
-  // todo: доделать запрос пароля и расшифровку записей
-
+  showMessageBox(tr("Export branch is completed."));
 
   // Удаление временного корневого элемента
-  tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы
-  delete tempRootItem;
+  tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы, используемые в основной программе
+  delete tempRootItem; // Удаляется корневой элемент
 }
 
 
