@@ -317,12 +317,6 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 }
 
 
-void KnowTreeModel::importBranchFromDirectory(QString importDir)
-{
-  showMessageBox("Development in progress...");
-}
-
-
 void KnowTreeModel::exportRelatedDataAndDecryptIfNeed(QDomDocument &doc, QString exportDir)
 {
   QDomElement contentRootNode=doc.documentElement().firstChildElement("content").firstChildElement("node");
@@ -419,6 +413,56 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
       QDomElement childElement=childList.at(i).toElement();
       exportRelatedDataAndDecryptIfNeedRecurse( childElement, exportDir);
     }
+}
+
+
+void KnowTreeModel::importBranchFromDirectory(QString importDir)
+{
+  // showMessageBox("Development in progress...");
+
+  QString importXmlFileName=importDir+"/mytetra.xml";
+
+  // Проверяется наличие mytetra.xml и возможность его чтения
+  QFile importXmlFile( importXmlFileName );
+  if(!importXmlFile.isReadable())
+  {
+    showMessageBox(tr("Cant open XML file %1.\nImport not available.").arg(importXmlFileName));
+    return;
+  }
+
+  // Загрузка XML файла и преобразование его в DOM модель
+  XmlTree xmlt;
+  if(!xmlt.load( importXmlFileName ))
+    return;
+
+
+  // Проверка на повторяемость идентификаторов веток и записей внутри экспортируемых данных (они не должны повторяться)
+  if( !checkRepeatId( *(xmlt.getDomModel()) ) )
+  {
+    showMessageBox(tr("Detect repeat ID in XML file %1.\nImport not available.").arg(importXmlFileName));
+    return;
+  }
+
+
+  // Создается таблица перекодировки идентификаторов веток и записей
+  // Если в импортируемых данных есть ID ветки или записи, который уже есть в основной базе,
+  // он должен быть заменен при экспорте на новый уникальный ID
+  QMap<QString, QString> IdTranslateTable=getIdTranslateTable( *(xmlt.getDomModel()) );
+
+
+}
+
+
+bool KnowTreeModel::checkRepeatId(QDomDocument &doc)
+{
+  // todo: Доделать функционал
+  return true;
+}
+
+
+QMap<QString, QString> KnowTreeModel::getIdTranslateTable(QDomDocument &doc)
+{
+
 }
 
 

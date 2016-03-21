@@ -133,6 +133,10 @@ private:
 
     bool updateSubVersionFrom1To2(void);
 
+    // Методы, используемые при импорте
+    bool checkRepeatId(QDomDocument &doc);
+    QMap<QString, QString> getIdTranslateTable(QDomDocument &doc);
+
     // QModelIndex get_item_index_recurse(QModelIndex currindex, TreeItem *finditem, int mode);
 };
 
