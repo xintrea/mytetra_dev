@@ -129,15 +129,19 @@ private:
 
     bool isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode);
 
+    bool isRecordDirExists(QString findDir);
+    bool isRecordDirExistsRecurse(TreeItem *item, QString findDir, int mode);
+
     bool checkFormat(QDomElement elementFormat);
 
     bool updateSubVersionFrom1To2(void);
 
     // Методы, используемые при импорте
-    bool checkRepeatId(QDomDocument &doc);
-    QMap<QString, QString> getIdTranslateTable(QDomDocument &doc);
-
-    // QModelIndex get_item_index_recurse(QModelIndex currindex, TreeItem *finditem, int mode);
+    QMap<QString, QString> getIdNodeTranslate(QDomDocument &doc);
+    QMap<QString, QString> getIdRecordTranslate(QDomDocument &doc);
+    QMap<QString, QString> getDirRecordTranslate(QDomDocument &doc);
+    bool copyImportRecordDirectories( QDomDocument &doc, QString importDir, QMap<QString, QString> dirRecordTranslate );
+    void translateImportDomData(QDomDocument &doc, QString elementName, QString elementAttribute, QMap<QString, QString> translateTable );
 };
 
 #endif // __TREENODE_H__
