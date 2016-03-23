@@ -423,8 +423,8 @@ void KnowTreeModel::importBranchFromDirectory(QString importDir)
   QString importXmlFileName=importDir+"/mytetra.xml";
 
   // Проверяется наличие mytetra.xml и возможность его чтения
-  QFile importXmlFile( importXmlFileName );
-  if(!importXmlFile.isReadable())
+  QFileInfo importXmlFileInfo( importXmlFileName );
+  if(!importXmlFileInfo.isReadable())
   {
     showMessageBox(tr("Cant open XML file %1.\nImport not available.").arg(importXmlFileName));
     return;
