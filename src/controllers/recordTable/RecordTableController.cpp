@@ -91,6 +91,9 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   // Выясняется указатель на объект редактирования текста записи
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 
+  // Элементы управления редактором становятся доступными
+  edView->setEnabled(true);
+
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
@@ -221,8 +224,9 @@ void RecordTableController::setTableData(RecordTableData *rtData)
   // Надо обязательно сбросить selection model
   view->selectionModel()->clear();
 
+  bool isSelection=false;
+
   // Если список конечных записей не пуст
-  bool removeSelection=true;
   if(recordSourceModel->rowCount()>0)
   {
     // Нужно выяснить, на какой записи ранее стояло выделение
@@ -236,12 +240,12 @@ void RecordTableController::setTableData(RecordTableData *rtData)
       view->selectRow(workPos);
       view->scrollTo( view->currentIndex() ); // QAbstractItemView::PositionAtCenter
 
-      removeSelection=false;
+      isSelection=true;
     }
   }
 
-  // Если выделение устанавливать ненужно
-  if(removeSelection)
+  // Если выделения записи нет
+  if( !isSelection )
   {
     // Надо очистить поля области редактировния
     find_object<MetaEditor>("editorScreen")->clearAll();

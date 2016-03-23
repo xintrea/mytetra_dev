@@ -42,7 +42,7 @@ TreeItem *TreeItem::child(int number)
 
 
 // Возвращение количества потомков (т.е. количество записей в списке childItems)
-int TreeItem::childCount() const
+unsigned int TreeItem::childCount() const
 {
  return childItems.count();
 }
@@ -50,7 +50,7 @@ int TreeItem::childCount() const
 
 // Возвращает номер, под которым данный объект хранится
 // в массиве childItems своего родителя
-int TreeItem::childNumber() const
+unsigned int TreeItem::childNumber() const
 {
  if (parentItem)
   return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
@@ -351,10 +351,11 @@ bool TreeItem::moveUp(void)
 bool TreeItem::moveDn(void)
 {
  // Выясняется номер данного элемента в списке родителя
- int num=childNumber();
+ unsigned int num=childNumber();
 
  // Если двигать вниз некуда, ничего делать ненужно
- if(num>=(parentItem->childCount()-1))return false;
+ if(num>=(parentItem->childCount()-1))
+   return false;
 
  // Элемент перемещается вниз по списку
  ( parentItem->childItems ).swap(num,num+1);
@@ -477,7 +478,7 @@ QList<QStringList> TreeItem::getAllChildrenPathAsFieldRecurse(TreeItem *item, QS
    return QList<QStringList>();
   }
 
- for(int i=0;i<(item->childCount());i++)
+ for(unsigned int i=0;i<(item->childCount());i++)
  {
   QStringList path=(item->child(i))->getPathAsField(fieldName);
   pathList << path;
@@ -510,7 +511,7 @@ void TreeItem::switchToEncrypt(void)
 
 
  // Шифрация подветок
- for(int i=0; i<childCount(); i++)
+ for(unsigned int i=0; i<childCount(); i++)
   child(i)->switchToEncrypt();
 }
 
@@ -537,7 +538,7 @@ void TreeItem::switchToDecrypt(void)
 
 
  // Дешифрация подветок
- for(int i=0; i<childCount(); i++)
+ for(unsigned int i=0; i<childCount(); i++)
   child(i)->switchToDecrypt();
 }
 

@@ -225,7 +225,7 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   // Проверка, является ли выбранная директория пустой. Выгрузка возможна только в полностью пустую директорию
   if( !DiskHelper::isDirectoryEmpty(exportDir) )
   {
-    showMessageBox(tr("Directory %1 is not empty. Please select empty directory for export.").arg(exportDir));
+    showMessageBox(tr("Directory <b>%1</b> is not empty. Please select empty directory for export.").arg(exportDir));
     return;
   }
 
@@ -309,7 +309,7 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   out.setCodec("UTF-8");
   out << doc.toString();
 
-  showMessageBox(tr("Export branch is completed."));
+  showMessageBox(tr("Export branch to directory <b>%1</b> is completed.").arg(exportDir));
 
   // Удаление временного корневого элемента
   tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы, используемые в основной программе
@@ -439,9 +439,11 @@ void KnowTreeModel::importBranchFromDirectory(QString importDir)
   // Создаются таблицы перекодировки идентификаторов веток, записей, имен директорий
   // Если в импортируемых данных есть ID ветки или записи, который уже есть в основной базе,
   // он должен быть заменен при экспорте на новый уникальный ID
-  QMap<QString, QString> idNodeTranslate=getIdNodeTranslate( *(xmlt.getDomModel()) );
-  QMap<QString, QString> idRecordTranslate=getIdRecordTranslate( *(xmlt.getDomModel()) );
-  QMap<QString, QString> dirRecordTranslate=getDirRecordTranslate( *(xmlt.getDomModel()) );
+  QMap<QString, QString> idNodeTranslate   =getAttributeTranslateTable( *(xmlt.getDomModel()), "node", "id");
+  QMap<QString, QString> idRecordTranslate =getAttributeTranslateTable( *(xmlt.getDomModel()), "record", "id");
+  QMap<QString, QString> dirRecordTranslate=getAttributeTranslateTable( *(xmlt.getDomModel()), "record", "dir");
+
+  qDebug() << "Map of dirRecordTranslate: " << dirRecordTranslate;
 
   // Копирование каталогов с записями. При необходимости каталоги получают новые имена согласно переданной таблице трансляции
   if( !copyImportRecordDirectories( *(xmlt.getDomModel()), importDir, dirRecordTranslate ) )
@@ -525,50 +527,39 @@ void KnowTreeModel::translateImportDomData( QDomDocument &doc ,
 
 
 // Находятся совпадающие ID в импортируемых данных и в основной базе для веток
-QMap<QString, QString> KnowTreeModel::getIdNodeTranslate(QDomDocument &doc)
+QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &doc, QString elementName, QString attributeName)
 {
   QMap<QString, QString> translateTable;
-  QDomNodeList nodeList=doc.elementsByTagName("node");
+
+  QDomNodeList nodeList=doc.elementsByTagName( elementName );
   for(int i=0; i<nodeList.count(); ++i)
   {
-    QString id=nodeList.at(i).toElement().attribute("id");
-    if(id.length()>0)
-      if(isItemIdExists(id)) // Если в основной базе есть ветка с таким же ID
-        translateTable[id]=get_unical_id();
-  }
+    QString attribute=nodeList.at(i).toElement().attribute( attributeName );
+    if(attribute.length()>0)
+    {
+      bool isAppend=false;
 
-  return translateTable;
-}
+      // Если проверяется ID ветки
+      if(elementName=="node" && attributeName=="id")
+        if(isItemIdExists(attribute)) // Если в основной базе есть ветка с таким же ID
+          isAppend=true;
 
+      // Если проверяется ID записи
+      if(elementName=="record" && attributeName=="id")
+        if(isRecordIdExists(attribute)) // Если в основной базе есть запись с таким же ID
+          isAppend=true;
 
-// Находятся совпадающие ID в импортируемых данных и в основной базе для записей
-QMap<QString, QString> KnowTreeModel::getIdRecordTranslate(QDomDocument &doc)
-{
-  QMap<QString, QString> translateTable;
-  QDomNodeList nodeList=doc.elementsByTagName("record");
-  for(int i=0; i<nodeList.count(); ++i)
-  {
-    QString id=nodeList.at(i).toElement().attribute("id");
-    if(id.length()>0)
-      if(isRecordIdExists(id)) // Если в основной базе есть запись с таким же ID
-        translateTable[id]=get_unical_id();
-  }
+      // Если проверяется директория записи
+      if(elementName=="record" && attributeName=="dir")
+        if(isRecordDirExists(attribute)) // Если в основной базе есть запись с такой же директорией
+          isAppend=true;
 
-  return translateTable;
-}
-
-
-// Находятся совпадающие имена директорий записей в импортируемых данных и в основной базе
-QMap<QString, QString> KnowTreeModel::getDirRecordTranslate(QDomDocument &doc)
-{
-  QMap<QString, QString> translateTable;
-  QDomNodeList nodeList=doc.elementsByTagName("record");
-  for(int i=0; i<nodeList.count(); ++i)
-  {
-    QString dir=nodeList.at(i).toElement().attribute("dir");
-    if(dir.length()>0)
-      if(isRecordIdExists(dir)) // Если в основной базе есть директория с таким же именем
-        translateTable[dir]=get_unical_id();
+      if(isAppend)
+      {
+        translateTable[attribute]=get_unical_id();
+        continue;
+      }
+    }
   }
 
   return translateTable;
@@ -596,8 +587,7 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, Tree
   }
 
  // Обработка каждой подчиненной ветки
- int i;
- for(i=0;i<currItem->childCount();i++)
+ for(unsigned int i=0;i<currItem->childCount();i++)
   {
    // Временный элемент, куда будет внесена текущая перебираемая ветка
    QDomElement  tempElement = doc->createElement("node");
@@ -851,7 +841,7 @@ QModelIndex KnowTreeModel::indexChildren(const QModelIndex &parent, int n) const
  
  // Если у основного Item элемента запрашивается индекс 
  // несуществующего подэлемента, возвращается пустой индекс
- if( n<0 || n>(item->childCount()-1) ) 
+ if( n<0 || n>( (int)(item->childCount())-1) )
   {
    qDebug() << "In indexChildren() unavailable children number";
    return QModelIndex();
@@ -917,7 +907,7 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
  
  n=n+item->recordtableGetRowCount();
 
- for(int i=0; i < item->childCount(); i++)
+ for(unsigned int i=0; i < item->childCount(); i++)
   getAllRecordCountRecurse(item->child(i), 1);
  
  return n;
@@ -957,7 +947,7 @@ bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mo
   }
 
  // Перебираются подветки
- for(int i=0; i < item->childCount(); i++)
+ for(unsigned int i=0; i < item->childCount(); i++)
   isItemIdExistsRecurse(item->child(i), findId, 1);
 
  return isExists;
@@ -997,7 +987,7 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
   }
 
  // Перебираются подветки
- for(int i=0; i < item->childCount(); i++)
+ for(unsigned int i=0; i < item->childCount(); i++)
   isRecordIdExistsRecurse(item->child(i), findId, 1);
 
  return isExists;
@@ -1030,7 +1020,7 @@ bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, in
    return true;
 
  // Если в какой-нибудь записи текущей ветки содержится искомое имя директории
- for(int i; i<item->recordtableGetTableData()->size(); ++i)
+ for(unsigned int i=0; i<item->recordtableGetTableData()->size(); ++i)
    if( item->recordtableGetTableData()->getRecord(i)->getField("dir")==findDir )
    {
      isExists=true;
@@ -1038,8 +1028,8 @@ bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, in
    }
 
  // Перебираются подветки
- for(int i=0; i < item->childCount(); i++)
-   isRecordIdExistsRecurse(item->child(i), findDir, 1);
+ for(unsigned int i=0; i < item->childCount(); i++)
+   isRecordDirExistsRecurse(item->child(i), findDir, 1);
 
  return isExists;
 }
@@ -1193,7 +1183,7 @@ TreeItem *KnowTreeModel::getItemByIdRecurse(TreeItem *item, QString id, int mode
   }
  else
   {
-   for(int i=0; i < item->childCount(); i++)
+   for(unsigned int i=0; i < item->childCount(); i++)
     getItemByIdRecurse(item->child(i), id, 1);
 
    return find_item;
@@ -1240,7 +1230,7 @@ QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
  else
   {
    // Иначе перебираются подветки
-   for(int i=0; i < item->childCount(); i++)
+   for(unsigned int i=0; i < item->childCount(); i++)
     getRecordPathRecurse(item->child(i), currentPath, recordId, 1);
   }
 
@@ -1282,8 +1272,8 @@ bool KnowTreeModel::isContainsCryptBranchesRecurse(TreeItem *item, int mode)
    return isCrypt;
   }
 
- for(int i=0; i < item->childCount(); i++)
-  isContainsCryptBranchesRecurse(item->child(i), 1);
+ for(unsigned int i=0; i < item->childCount(); i++)
+   isContainsCryptBranchesRecurse(item->child(i), 1);
 
  return isCrypt;
 }

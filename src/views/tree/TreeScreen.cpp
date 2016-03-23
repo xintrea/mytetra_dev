@@ -990,7 +990,7 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
 
  // Добавление конечных записей
  curr_item_record_table=curr_item->recordtableGetTableData();
- for(int i=0; i<curr_item_record_table->size(); i++)
+ for(unsigned int i=0; i<curr_item_record_table->size(); i++)
  {
   // Полный образ записи (с файлами и текстом)
   Record record=curr_item_record_table->getRecordFat(i);

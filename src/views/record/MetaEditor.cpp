@@ -229,6 +229,9 @@ void MetaEditor::clearAll(void)
 
  clearAllMiscField();
 
+ // Все элементы управления рекдактором становятся недоступными
+ setEnabled(false);
+
  // Иконка аттачей должна показывать что аттачей нет
  editorToolBarAssistant->switchAttachIconExists(false);
 

@@ -47,7 +47,7 @@ public:
     void deleteAllRecords(void);
     
     // Количество записей в таблице данных
-    int size(void) const;
+    unsigned int size(void) const;
 
     // Функция создания DOM-документа из данных таблицы конечных записей
     QDomElement exportDataToDom(QDomDocument *doc) const;

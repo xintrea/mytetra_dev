@@ -84,7 +84,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
 QString RecordTableData::getText(int pos)
 {
  // Если индекс недопустимый, возвращается пустая строка
- if(pos<0 || pos>=size()) 
+ if(pos<0 || pos>=(int)size())
    return QString();
 
  return tableData[pos].getTextDirect();
@@ -204,7 +204,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 Record RecordTableData::getRecordLite(int pos)
 {
  // Если индекс недопустимый, возвращается пустая запись
- if(pos<0 || pos>=size())
+ if(pos<0 || pos>=(int)size())
    return Record();
 
  // Хранимая в дереве запись не может быть "тяжелой"
@@ -239,7 +239,7 @@ Record RecordTableData::getRecordFat(int pos)
 Record *RecordTableData::getRecord(int pos)
 {
   // Если индекс недопустимый, возвращается пустая запись
-  if(pos<0 || pos>=size())
+  if(pos<0 || pos>=(int)size())
     return NULL;
 
   return &(tableData[pos]);
@@ -492,7 +492,7 @@ void RecordTableData::deleteRecord(int i)
 
 void RecordTableData::deleteRecordById(QString id)
 {
-  for(int i=0; i<size(); i++)
+  for(unsigned int i=0; i<size(); i++)
     if(getField("id", i)==id)
       deleteRecord(i); // Так как id уникальный, удаляться будет только одна запись
 }
@@ -520,7 +520,7 @@ void RecordTableData::empty(void)
 
 bool RecordTableData::isRecordExists(QString id)
 {
-  for(int i=0;i<size();i++)
+  for(unsigned int i=0; i<size(); i++)
     if(getField("id", i)==id)
       return true;
 
@@ -530,7 +530,7 @@ bool RecordTableData::isRecordExists(QString id)
 
 int RecordTableData::getPosById(QString id)
 {
-  for(int i=0;i<size();i++)
+  for(unsigned int i=0; i<size(); i++)
     if(getField("id", i)==id)
       return i;
 
@@ -539,7 +539,7 @@ int RecordTableData::getPosById(QString id)
 
 
 // Количество записей в таблице данных
-int RecordTableData::size(void) const
+unsigned int RecordTableData::size(void) const
 {
  return tableData.size();
 }
@@ -582,7 +582,7 @@ void RecordTableData::moveDn(int pos)
 void RecordTableData::switchToEncrypt(void)
 {
   // Перебор записей
-  for(int i=0; i<size(); i++)
+  for(unsigned int i=0; i<size(); i++)
   {
     // Если запись уже зашифрована, ее шифровать ненужно
     if(getField("crypt", i)=="1")
@@ -599,7 +599,7 @@ void RecordTableData::switchToEncrypt(void)
 void RecordTableData::switchToDecrypt(void)
 {
  // Перебор записей
- for(int i=0; i<size(); i++)
+ for(unsigned int i=0; i<size(); i++)
   {
    // Если запись не зашифрована, ее не нужно расшифровывать
    if(getField("crypt", i)=="" || getField("crypt", i)=="0")

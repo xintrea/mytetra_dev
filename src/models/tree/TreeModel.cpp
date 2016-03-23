@@ -173,7 +173,7 @@ TreeItem *TreeModel::getItem(QStringList path) const
   int found=0;
 
   // Поиск нужного идентификатора в подчиненных узлах текущего узла
-  for(int j=0; j < curritem->childCount(); j++)
+  for(unsigned int j=0; j < curritem->childCount(); j++)
    if( (curritem->child(j))->getField("id") == path.at(i) )
     {
      // Узел найден, он становится текущим
@@ -207,7 +207,7 @@ bool TreeModel::isItemValid(QStringList path) const
     int found=0;
 
     // Поиск нужного идентификатора в подчиненных узлах текущего узла
-    for(int j=0;j<curritem->childCount();j++)
+    for(unsigned int j=0;j<curritem->childCount();j++)
       if( (curritem->child(j))->getField("id") == path.at(i) )
       {
         // Узел найден, он становится текущим
