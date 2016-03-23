@@ -1293,7 +1293,17 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
  #endif
 }
 
- 
+
+void TreeScreen::setCursorToId(QString nodeId)
+{
+  TreeItem *item=knowTreeModel->getItemById( nodeId );
+
+  QModelIndex index=knowTreeModel->getIndexByItem( item );
+
+  setCursorToIndex(index);
+}
+
+
 // Получение номера первого выделенного элемента
 int TreeScreen::getFirstSelectedItemIndex(void)
 {

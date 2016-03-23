@@ -465,7 +465,18 @@ void KnowTreeModel::importBranchFromDirectory(QString importDir)
 
   endResetModel();
 
+  // После завершения экспорта дерево знаний записывается
+  save();
+
   showMessageBox(tr("Import branch is completed."));
+
+  // Курсор устанавливается на только что импортированную ветку
+  QDomNodeList nodeList=xmlt.getDomModel()->elementsByTagName("node");
+  if(nodeList.count()>0)
+  {
+    QString importNodeId=nodeList.at(0).toElement().attribute("id");
+    find_object<TreeScreen>("treeScreen")->setCursorToId(importNodeId);
+  }
 }
 
 

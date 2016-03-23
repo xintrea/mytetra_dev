@@ -39,6 +39,7 @@ public:
  
  // Установка курсора на указанный элемент
  void setCursorToIndex(QModelIndex index);
+ void setCursorToId(QString nodeId);
  
  void updateBranchOnScreen(const QModelIndex &index);
 
