@@ -776,6 +776,63 @@ void Record::pushFatAttributes()
 }
 
 
+// Статический метод, заменяет в переданном файле записи внутренние ссылки вида "mytetra:" согласно таблице перекодировки
+// Используется при импорте, когда идентификаторы записей могут поменяться, следовательно должны поменяться и ссылки
+void Record::replaceInternalReferenceByTranslateTable(QString recordFileName, QMap<QString, QString> idRecordTranslate)
+{
+  //Считывание из файла
+  QString lines;
+  QFile file(recordFileName);
+
+  if (!file.open(QIODevice::ReadOnly))
+    return;
+
+  QTextStream stream(&file);
+  while(!stream.atEnd())
+    lines.append(stream.readLine());
+
+  file.close();
+
+
+  // Подготавливается регулярное выражение
+  QRegExp rx("href=\"mytetra:\\/\\/note/(.*)\"");
+  rx.setMinimal(true); // Регулярка делается ленивой (ленивые квантификаторы в строке регвыра в Qt не поддерживаются)
+
+  // Заполняется список идентификаторов, встречающихся во внутренних ссылках
+  QStringList internalIdList;
+  int pos = 0;
+  while ((pos = rx.indexIn(lines, pos))!=-1)
+  {
+    internalIdList << rx.cap(1);
+    pos += rx.matchedLength();
+  }
+
+
+  // Перебираются найденные внутри mytetra-ссылок идентификаторы
+  bool isIdReplace=false;
+  foreach(QString currentId, internalIdList)
+    if(idRecordTranslate.contains(currentId)) // Если идентификатор надо заменить
+    {
+      lines.replace("href=\"mytetra://note/"+currentId+"\"",
+                    "href=\"mytetra://note/"+idRecordTranslate[currentId]+"\"");
+      isIdReplace=true;
+    }
+
+
+  // Запись в файл, если были заменены идентификаторы во внутренних ссылках
+  if(isIdReplace)
+  {
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+      QTextStream writeStream(&file);
+      writeStream << lines;
+    }
+
+    file.close();
+  }
+}
+
+
 // Полное имя директории записи
 QString Record::getFullDirName() const
 {

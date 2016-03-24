@@ -138,7 +138,10 @@ private:
 
     // Методы, используемые при импорте
     QMap<QString, QString> getAttributeTranslateTable(QDomDocument &doc, QString elementName, QString attributeName);
-    bool copyImportRecordDirectories( QDomDocument &doc, QString importDir, QMap<QString, QString> dirRecordTranslate );
+    bool copyImportRecordDirectories( QDomDocument &doc,
+                                      QString importDir,
+                                      QMap<QString, QString> idRecordTranslate,
+                                      QMap<QString, QString> dirRecordTranslate );
     void translateImportDomData(QDomDocument &doc, QString elementName, QString elementAttribute, QMap<QString, QString> translateTable );
 };
 

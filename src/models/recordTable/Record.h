@@ -69,6 +69,8 @@ public:
 
   void pushFatAttributes();
 
+  static void replaceInternalReferenceByTranslateTable(QString recordFileName, QMap<QString, QString> idRecordTranslate);
+
 protected:
 
   // ---------------------------------------------------------------------

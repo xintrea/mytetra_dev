@@ -12,6 +12,7 @@
 #include "libraries/ClipboardBranch.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/attachTable/Attach.h"
+#include "models/recordTable/Record.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/crypt/CryptService.h"
@@ -413,7 +414,7 @@ QString KnowTreeModel::importBranchFromDirectory(TreeItem *startItem, QString im
   qDebug() << "Map of dirRecordTranslate: " << dirRecordTranslate;
 
   // Копирование каталогов с записями. При необходимости каталоги получают новые имена согласно переданной таблице трансляции
-  if( !copyImportRecordDirectories( *(xmlt.getDomModel()), importDir, dirRecordTranslate ) )
+  if( !copyImportRecordDirectories( *(xmlt.getDomModel()), importDir, idRecordTranslate, dirRecordTranslate ) )
     return "";
 
   // Преобразование DOM-документа путем замены всех необходимых идентификаторов и названий каталогов
@@ -450,7 +451,10 @@ QString KnowTreeModel::importBranchFromDirectory(TreeItem *startItem, QString im
 
 
 // Копирование директорий импортируемой ветки в основную базу
-bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc, QString importDir, QMap<QString, QString> dirRecordTranslate )
+bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
+                                                 QString importDir,
+                                                 QMap<QString, QString> idRecordTranslate,
+                                                 QMap<QString, QString> dirRecordTranslate )
 {
   QMap<QString, QString> translateTable;
   QDomNodeList nodeList=doc.elementsByTagName("record");
@@ -475,6 +479,10 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc, QString impo
 
       // Копирование всех файлов из директории импортируемой записи в директорию записи основной базы
       DiskHelper::copyDirectory(fullFromDir, fullToDir);
+
+      // В файле записи меняются внутренние ссылки формата "mytetra:" в случае, если импортируемые записи получили новые идентификаторы
+      QString recordFileName=fullToDir+"/"+nodeList.at(i).toElement().attribute("file");
+      Record::replaceInternalReferenceByTranslateTable(recordFileName, idRecordTranslate);
     }
     else
     {
