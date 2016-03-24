@@ -220,15 +220,8 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 
 
 // Выгрузка ветки и ее подветок в отдельную директорию
-void KnowTreeModel::exportBranchToDirectory(QString exportDir)
+bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportDir)
 {
-  // Проверка, является ли выбранная директория пустой. Выгрузка возможна только в полностью пустую директорию
-  if( !DiskHelper::isDirectoryEmpty(exportDir) )
-  {
-    showMessageBox(tr("Directory <b>%1</b> is not empty. Please select empty directory for export.").arg(exportDir));
-    return;
-  }
-
   // Полный путь до создаваемого файла с деревом
   QString mytetraXmlFile=exportDir+"/mytetra.xml";
 
@@ -236,10 +229,6 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   // -----------------------------
   // Подготовка корневого элемента
   // -----------------------------
-
-  // Текущая выбранная ветка будет экспортироваться
-  QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
-  TreeItem *startItem=getItem(currentItemIndex);
 
   // Создается временный корневой Item, содержащий startItem (такова особенность методов KnowTreeModel)
   QMap<QString, QString> rootData;
@@ -249,29 +238,6 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
 
   // Стартовый подузел размещается во временном корневом элементе
   tempRootItem->addChildrenItem(startItem);
-
-
-  // ---------------------------------------------
-  // Запрос пароля, если есть зашифрованные данные
-  // ---------------------------------------------
-
-  // Выясняется, есть ли в выбранной ветке или подветках есть шифрование
-  bool isCryptPresent=false;
-  if( isItemContainsCryptBranches(tempRootItem) )
-    isCryptPresent=true;
-
-  // Если есть шифрование в выгружаемых данных, надо запросить пароль даже если он уже был введен в текущей сессии
-  // Это необходимо для того, чтобы небыло возможности выгрузить скопом все зашифрованные данные, если
-  // пользователь отошел от компьютера
-  if( isCryptPresent )
-  {
-    showMessageBox(tr("In export branch detect crypt data. Please, click OK and enter password."));
-
-    // Запрашивается пароль
-    Password password;
-    if(password.enterExistsPassword()==false) // Если пароль введен неверно, выгрузка работать не должна
-      return;
-  }
 
 
   // -------------------------------------
@@ -303,17 +269,18 @@ void KnowTreeModel::exportBranchToDirectory(QString exportDir)
   if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
     showMessageBox(tr("Cant open export file %1 for write.").arg(mytetraXmlFile));
-    return;
+    return false;
   }
   QTextStream out(&wfile);
   out.setCodec("UTF-8");
   out << doc.toString();
 
-  showMessageBox(tr("Export branch to directory <b>%1</b> is completed.").arg(exportDir));
 
   // Удаление временного корневого элемента
   tempRootItem->setDetached(true); // Временный корневой элемент помечается как оторванный, чтобы не удалялись подчиненные элементы, используемые в основной программе
   delete tempRootItem; // Удаляется корневой элемент
+
+  return true;
 }
 
 
@@ -416,10 +383,10 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 }
 
 
-void KnowTreeModel::importBranchFromDirectory(QString importDir)
+// Импорт ветки из указанной дирекотрии
+// Метод возвращает ID новой созданной при импорте ветки или пустую строку, если импорт не произошел
+QString KnowTreeModel::importBranchFromDirectory(TreeItem *startItem, QString importDir)
 {
-  // showMessageBox("Development in progress...");
-
   QString importXmlFileName=importDir+"/mytetra.xml";
 
   // Проверяется наличие mytetra.xml и возможность его чтения
@@ -427,13 +394,13 @@ void KnowTreeModel::importBranchFromDirectory(QString importDir)
   if(!importXmlFileInfo.isReadable())
   {
     showMessageBox(tr("Cant open XML file %1.\nImport not available.").arg(importXmlFileName));
-    return;
+    return "";
   }
 
   // Загрузка XML файла и преобразование его в DOM модель
   XmlTree xmlt;
   if(!xmlt.load( importXmlFileName ))
-    return;
+    return "";
 
 
   // Создаются таблицы перекодировки идентификаторов веток, записей, имен директорий
@@ -447,36 +414,38 @@ void KnowTreeModel::importBranchFromDirectory(QString importDir)
 
   // Копирование каталогов с записями. При необходимости каталоги получают новые имена согласно переданной таблице трансляции
   if( !copyImportRecordDirectories( *(xmlt.getDomModel()), importDir, dirRecordTranslate ) )
-    return;
+    return "";
 
   // Преобразование DOM-документа путем замены всех необходимых идентификаторов и названий каталогов
   translateImportDomData( *(xmlt.getDomModel()), "node", "id", idNodeTranslate);
   translateImportDomData( *(xmlt.getDomModel()), "record", "id", idRecordTranslate);
   translateImportDomData( *(xmlt.getDomModel()), "record", "dir", dirRecordTranslate);
 
-  // Импорт будет идти в текущую выбранную ветку
-  QModelIndex currentItemIndex=find_object<TreeScreen>("treeScreen")->getCurrentItemIndex();
-  TreeItem *startItem=getItem(currentItemIndex);
-
-  beginResetModel();
-
   // Динамическое создание ветки основной базы дерева на основе DOM-данных
+  beginResetModel();
   setupModelData( xmlt.getDomModel(), startItem);
-
   endResetModel();
+
+  // Выясняется идентификатор только что импортированной ветки
+  QString importItemId="";
+  QDomNodeList nodeList=xmlt.getDomModel()->elementsByTagName("node");
+  if(nodeList.count()>0)
+    importItemId=nodeList.at(0).toElement().attribute("id");
+
+  // Если импорт шел в зашифрованную ветку, данные зашифровываются
+  if(startItem->getField("crypt")=="1")
+  {
+    TreeItem *importItem=getItemById( importItemId );
+
+    importItem->switchToEncrypt(); // Шифрация импортируемой ветки и всех подветок
+  }
+
 
   // После завершения экспорта дерево знаний записывается
   save();
 
-  showMessageBox(tr("Import branch is completed."));
-
-  // Курсор устанавливается на только что импортированную ветку
-  QDomNodeList nodeList=xmlt.getDomModel()->elementsByTagName("node");
-  if(nodeList.count()>0)
-  {
-    QString importNodeId=nodeList.at(0).toElement().attribute("id");
-    find_object<TreeScreen>("treeScreen")->setCursorToId(importNodeId);
-  }
+  // Возвращается идентификатор только что импортированной ветки
+  return importItemId;
 }
 
 

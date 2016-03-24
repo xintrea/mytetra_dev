@@ -22,6 +22,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/WindowSwitcher.h"
+#include "libraries/DiskHelper.h"
 #include "controllers/recordTable/RecordTableController.h"
 
 extern AppConfig mytetraConfig;
@@ -1154,6 +1155,98 @@ void TreeScreen::decryptBranchItem(void)
  // Проверяется, остались ли в дереве зашифрованные данные
  // если зашифрованных данных нет, будет предложено сбросить пароль
  treeCryptControl();
+}
+
+
+void TreeScreen::exportBranchToDirectory(QString exportDir)
+{
+  // Проверка, является ли выбранная директория пустой. Выгрузка возможна только в полностью пустую директорию
+  if( !DiskHelper::isDirectoryEmpty(exportDir) )
+  {
+    showMessageBox(tr("Directory <b>%1</b> is not empty. Please select empty directory for export.").arg(exportDir));
+    return;
+  }
+
+  // Текущая выбранная ветка будет экспортироваться
+  if( !getCurrentItemIndex().isValid() )
+  {
+    showMessageBox(tr("Unspecified branches for export. Please, select any branch."));
+    return;
+  }
+
+  TreeItem *startItem=knowTreeModel->getItem( getCurrentItemIndex() );
+
+
+  // ---------------------------------------------
+  // Запрос пароля, если есть зашифрованные данные
+  // ---------------------------------------------
+
+  // Выясняется, есть ли в выбранной ветке или подветках есть шифрование
+  bool isCryptPresent=false;
+  if( knowTreeModel->isItemContainsCryptBranches(startItem) )
+    isCryptPresent=true;
+
+  // Если есть шифрование в выгружаемых данных, надо запросить пароль даже если он уже был введен в текущей сессии
+  // Это необходимо для того, чтобы небыло возможности выгрузить скопом все зашифрованные данные, если
+  // пользователь отошел от компьютера
+  if( isCryptPresent )
+  {
+    showMessageBox(tr("In export branch detect crypt data.\nPlease, click OK and enter password.\nAll data in export directory will be decrypted."));
+
+    // Запрашивается пароль
+    Password password;
+    if(password.enterExistsPassword()==false) // Если пароль введен неверно, выгрузка работать не должна
+      return;
+  }
+
+
+  // Экспорт данных
+  bool result=knowTreeModel->exportBranchToDirectory(startItem, exportDir);
+
+  if(result)
+    showMessageBox(tr("Export branch to directory <b>%1</b> is completed.").arg(exportDir));
+  else
+    showMessageBox(tr("An error was detected while exporting data."));
+}
+
+
+void TreeScreen::importBranchFromDirectory(QString importDir)
+{
+  // Импорт будет идти в текущую выбранную ветку
+  if( !getCurrentItemIndex().isValid() )
+  {
+    showMessageBox(tr("Unspecified branches for imports. Please, select any branch."));
+    return;
+  }
+
+  TreeItem *startItem=knowTreeModel->getItem( getCurrentItemIndex() );
+
+
+  // -----------------------------------------------
+  // Запрос пароля при импорте в зашифрованную ветку
+  // -----------------------------------------------
+
+  // Если импорт происходит в зашифрованную ветку, но пароль не был введен
+  if(startItem->getField("crypt")=="1" && globalParameters.getCryptKey().length()==0)
+  {
+    showMessageBox(tr("Import to encrypt item.\nPlease, click OK and enter password.\nAll data in import items will be encrypted."));
+
+    // Запрашивается пароль
+    Password password;
+    if(password.enterExistsPassword()==false) // Если пароль введен неверно, импорт работать не должен
+      return;
+  }
+
+
+  // Импорт данных
+  QString importNodeId=knowTreeModel->importBranchFromDirectory(startItem, importDir);
+
+
+  // Если импорт данных был успешным
+  if(importNodeId.count()>0)
+    setCursorToId(importNodeId); // Курсор устанавливается на только что импортированную ветку
+
+  showMessageBox(tr("Import branch is completed."));
 }
 
 

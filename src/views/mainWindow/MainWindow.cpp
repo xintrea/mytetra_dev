@@ -616,7 +616,7 @@ void MainWindow::fileExportBranch(void)
 
   if( directorySelectDialog.exec() )
     if( !directorySelectDialog.directory().absolutePath().isEmpty() ) // Если была выбрана директория (а не нажат Cancel)
-      treeScreen->knowTreeModel->exportBranchToDirectory( directorySelectDialog.directory().absolutePath() );
+      treeScreen->exportBranchToDirectory( directorySelectDialog.directory().absolutePath() );
 }
 
 
@@ -630,7 +630,7 @@ void MainWindow::fileImportBranch(void)
 
   if( directorySelectDialog.exec() )
     if( !directorySelectDialog.directory().absolutePath().isEmpty() ) // Если была выбрана директория (а не нажат Cancel)
-      treeScreen->knowTreeModel->importBranchFromDirectory( directorySelectDialog.directory().absolutePath() );
+      treeScreen->importBranchFromDirectory( directorySelectDialog.directory().absolutePath() );
 }
 
 

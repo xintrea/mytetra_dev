@@ -74,10 +74,10 @@ public:
     bool isRecordIdExists(QString findId);
 
     // Выгрузка ветки и всех подветок в директорию в виде отдельной базы MyTetra (экспорт)
-    void exportBranchToDirectory(QString exportDir);
+    bool exportBranchToDirectory(TreeItem *startItem, QString exportDir);
 
     // Загрузка отдельной базы MyTetra в виде подветки (импорт)
-    void importBranchFromDirectory(QString importDir);
+    QString importBranchFromDirectory(TreeItem *startItem, QString importDir);
 
 private:
 

@@ -36,6 +36,9 @@ public:
  QModelIndex getCurrentItemIndex(void);
  
  QItemSelectionModel *getSelectionModel(void);
+
+ void exportBranchToDirectory(QString exportDir);
+ void importBranchFromDirectory(QString importDir);
  
  // Установка курсора на указанный элемент
  void setCursorToIndex(QModelIndex index);
