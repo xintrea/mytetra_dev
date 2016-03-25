@@ -450,11 +450,8 @@ void AttachTableController::onOpenAttach(void)
 
     qDebug() << "Open file: "+fullFileName;
 
-    // QUrl urlFile;
-    // urlFile.fromLocalFile(fullFileName);
-    QUrl urlFile("file:"+fullFileName);
-
     // Открытие файла средствами операционной системы
+    QUrl urlFile("file:"+fullFileName);
     QDesktopServices::openUrl(urlFile);
   }
 }
