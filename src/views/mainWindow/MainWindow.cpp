@@ -191,6 +191,14 @@ void MainWindow::commitData(QSessionManager& manager)
 }
 
 
+// Слот, обрабатывающий внешние сообщения
+// Используется для обработки ссобщений, приходящих от других экземпляров MyTetra
+void MainWindow::messageHandler(QString message)
+{
+  showMessageBox(message);
+}
+
+
 // Восстанавливается геометрия окна и позиции основных разделителей
 void MainWindow::restoreGeometry(void)
 {

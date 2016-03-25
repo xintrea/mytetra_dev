@@ -97,6 +97,7 @@ public slots:
  void applicationExit(void);
  void applicationFastExit(void);
  void commitData(QSessionManager& manager);
+ void messageHandler(QString message);
 
 private slots:
 

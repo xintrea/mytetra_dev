@@ -593,22 +593,59 @@ int main(int argc, char ** argv)
  // Перехват отладочных сообщений
  setDebugMessageHandler();
 
+ // Создание объекта приложения
  QtSingleApplication app(argc, argv);
 
- // Не запущен ли другой экземпляр
- if(app.isRunning())
+ // Если MyTetra запущена в режиме управления, а другого экземпляра (которым надо управлять) нет
+ if(app.arguments().contains("--control") && !app.isRunning())
+ {
+   QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
+   printf(message.toLocal8Bit());
+   exit(1);
+ }
+
+ // Если MyTetra запущена в обычном режиме, но уже запущен другой экземпляр
+ if( !app.arguments().contains("--control") && app.isRunning())
   {
    QString message="Another MyTetra exemplar is running.\n";
 
    printf(message.toLocal8Bit());
 
    QMessageBox msgBox;
-   msgBox.setIcon(QMessageBox::Warning);
+   msgBox.setIcon(QMessageBox::Warning); // Сообщение со значком предупреждения
    msgBox.setText(message);
    msgBox.exec();
 
-   exit(0);
+   exit(2);
   }
+
+ // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
+ if(app.arguments().contains("--control") && app.isRunning())
+ {
+   if(app.arguments().contains("--quit"))
+   {
+     app.sendMessage("quit");
+     exit(0);
+   }
+   else if (app.arguments().contains("--reload"))
+   {
+     app.sendMessage("reload");
+     exit(0);
+   }
+   else if (app.arguments().contains("--openNote"))
+   {
+     app.sendMessage("openNote");
+     exit(0);
+   }
+   else
+   {
+     QString message="Unknown control option.\n";
+     printf(message.toLocal8Bit());
+     exit(3);
+   }
+
+ }
+
 
  #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
  // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
@@ -655,9 +692,10 @@ int main(int argc, char ** argv)
  langTranslator.load(langFileName);
  app.installTranslator(&langTranslator);
 
-
  // Создание объекта главного окна
  MainWindow win;
+
+ // Настройка объекта главного окна
  win.setWindowTitle("MyTetra");
  if(globalParameters.getTargetOs()=="android")
    win.show(); // В Андроиде нет десктопа, на нем нельзя сворачивать окно
@@ -669,10 +707,7 @@ int main(int argc, char ** argv)
      win.hide();
  }
 
- // win.setObjectName("mainwindow");
- // pMainWindow=&win; // Запоминается указатель на основное окно
-
- // После создания окна восстанавливается вид окна в предыдущий запуск
+ // Восстанавливается вид окна в предыдущий запуск
  // Эти действия нельзя делать в конструкторе главного окна, 
  // т.к. окно еще не создано
  globalParameters.getWindowSwitcher()->disableSwitch();
@@ -751,6 +786,7 @@ int main(int argc, char ** argv)
 
  // win.show();
  app.connect(&app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
+ app.connect(&app, SIGNAL( messageReceived(QString) ), &win, SLOT( messageHandler(QString) ) );
 
  // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
 
