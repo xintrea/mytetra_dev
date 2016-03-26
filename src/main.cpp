@@ -596,12 +596,21 @@ int main(int argc, char ** argv)
  // Создание объекта приложения
  QtSingleApplication app(argc, argv);
 
+
+ // Если MyTetra запущена с какой-то опцией, но нет опции --control
+ if( app.arguments().count()>1 && !app.arguments().contains("--control"))
+ {
+   QString message="Bad options. May be you lost \"--control\"?\n";
+   printf(message.toLocal8Bit());
+   exit(1);
+ }
+
  // Если MyTetra запущена в режиме управления, а другого экземпляра (которым надо управлять) нет
  if(app.arguments().contains("--control") && !app.isRunning())
  {
    QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
    printf(message.toLocal8Bit());
-   exit(1);
+   exit(2);
  }
 
  // Если MyTetra запущена в обычном режиме, но уже запущен другой экземпляр
@@ -616,7 +625,7 @@ int main(int argc, char ** argv)
    msgBox.setText(message);
    msgBox.exec();
 
-   exit(2);
+   exit(3);
   }
 
  // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
@@ -634,16 +643,22 @@ int main(int argc, char ** argv)
    }
    else if (app.arguments().contains("--openNote"))
    {
-     app.sendMessage("openNote");
+     int openNoteIndex=app.arguments().indexOf("--openNote");
+     app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
+     exit(0);
+   }
+   else if (app.arguments().contains("--openBranch"))
+   {
+     int openBranchIndex=app.arguments().indexOf("--openBranch");
+     app.sendMessage("openBranch "+app.arguments().at(openBranchIndex+1));
      exit(0);
    }
    else
    {
      QString message="Unknown control option.\n";
      printf(message.toLocal8Bit());
-     exit(3);
+     exit(4);
    }
-
  }
 
 

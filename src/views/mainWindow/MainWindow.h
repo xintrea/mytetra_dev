@@ -150,6 +150,10 @@ private:
  void saveEditorCursorPosition(void);
  void saveEditorScrollBarPosition(void);
 
+ void reloadSaveStage(void);
+ void reloadLoadStage(void);
+ void reload(void);
+
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;
  QAction *actionTrayMinimize;

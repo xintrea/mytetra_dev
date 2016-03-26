@@ -195,7 +195,45 @@ void MainWindow::commitData(QSessionManager& manager)
 // Используется для обработки ссобщений, приходящих от других экземпляров MyTetra
 void MainWindow::messageHandler(QString message)
 {
-  showMessageBox(message);
+  qDebug() << "MainWindow recieved message: "+message;
+
+  if(message=="quit")
+  {
+    applicationExit();
+  }
+
+  else if(message=="reload")
+  {
+    reload();
+  }
+
+  else if(message.split(" ").at(0)=="openNote")
+  {
+    QString recordId=message.split(" ").at(1);
+
+    // Если аргумент опции --openNote не обнаружен
+    if(recordId.length()==0)
+      return;
+
+    // Нахождение ветки, в которой лежит запись с указанным идентификатором
+    QStringList pathToRecord=treeScreen->knowTreeModel->getRecordPath(recordId);
+
+    // Установка курсора в дереве и в таблице конечных записей
+    setTreePosition( pathToRecord );
+    setRecordtablePositionById( recordId );
+  }
+
+  else if(message.split(" ").at(0)=="openBranch")
+  {
+    QString branchId=message.split(" ").at(1);
+
+    // Если аргумент опции --openBranch не обнаружен
+    if(branchId.length()==0)
+      return;
+
+    // Установка курсора в дереве
+    treeScreen->setCursorToId( branchId );
+  }
 }
 
 
@@ -791,7 +829,7 @@ void MainWindow::onClickHelpTechnicalInfo(void)
 }
 
 
-void MainWindow::synchronization(void)
+void MainWindow::reloadSaveStage(void)
 {
   // Сохраняются данные в поле редактирования
   saveTextarea();
@@ -801,6 +839,37 @@ void MainWindow::synchronization(void)
   saveRecordTablePosition();
   saveEditorCursorPosition();
   saveEditorScrollBarPosition();
+}
+
+
+void MainWindow::reloadLoadStage(void)
+{
+  // Блокируется история
+  walkHistory.setDrop(true);
+
+  // Заново считываются данные в дерево
+  treeScreen->reloadKnowTree();
+  restoreTreePosition();
+  restoreRecordTablePosition();
+  restoreEditorCursorPosition();
+  restoreEditorScrollBarPosition();
+
+  // Разблокируется история посещений элементов
+  walkHistory.setDrop(false);
+}
+
+
+// Перечитывание всей базы знаний
+void MainWindow::reload(void)
+{
+  reloadSaveStage();
+  reloadLoadStage();
+}
+
+
+void MainWindow::synchronization(void)
+{
+  reloadSaveStage();
 
   // Считывается команда синхронизации
   QString command=mytetraConfig.get_synchrocommand();
@@ -831,18 +900,7 @@ void MainWindow::synchronization(void)
   cons.setCommand(command);
   cons.run();
 
-  // Блокируется история
-  walkHistory.setDrop(true);
-
-  // Заново считываются данные в дерево
-  treeScreen->reloadKnowTree();
-  restoreTreePosition();
-  restoreRecordTablePosition();
-  restoreEditorCursorPosition();
-  restoreEditorScrollBarPosition();
-
-  // Разблокируется история посещений элементов
-  walkHistory.setDrop(false);
+  reloadLoadStage();
 }
 
 
