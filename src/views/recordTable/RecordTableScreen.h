@@ -48,6 +48,7 @@ public:
  QAction *actionSort;
  QAction *actionPrint;
  QAction *actionCopyRecordReference;
+ QAction *actionSwitchSelectionMode;
 
 public slots:
 

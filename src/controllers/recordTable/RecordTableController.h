@@ -95,6 +95,8 @@ public slots:
   // Печать таблицы конечных записей
   void onPrintClick(void);
 
+  void onSwitchSelectionMode(void);
+
 protected:
 
   void initMetaEditorAtClickToRecord(const int pos);

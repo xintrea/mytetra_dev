@@ -905,3 +905,9 @@ void RecordTableController::onPrintClick(void)
   printDialog.exec();
 }
 
+
+void RecordTableController::onSwitchSelectionMode()
+{
+  view->switchSelectionMode();
+}
+

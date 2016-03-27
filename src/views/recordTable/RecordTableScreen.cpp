@@ -164,6 +164,11 @@ void RecordTableScreen::setupActions(void)
  actionCopyRecordReference->setIcon(QIcon(":/resource/pic/copy_note_reference.svg"));
  connect(actionCopyRecordReference, SIGNAL(triggered()), this, SLOT(onCopyRecordReference()));
 
+ actionSwitchSelectionMode = new QAction(tr("Switch select/multiselect"), this);
+ actionSwitchSelectionMode->setStatusTip(tr("Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)"));
+ actionSwitchSelectionMode->setIcon(QIcon(":/resource/pic/switch_note_selection_mode.svg"));
+ connect(actionSwitchSelectionMode, SIGNAL(triggered()), recordTableController, SLOT(onSwitchSelectionMode()));
+
  // Сразу после создания все действия запрещены
  disableAllActions();
 }
@@ -264,6 +269,8 @@ void RecordTableScreen::disableAllActions(void)
  actionMoveDn->setEnabled(false);
 
  actionCopyRecordReference->setEnabled(false);
+
+ actionSwitchSelectionMode->setEnabled(false);
 }
 
 
@@ -370,6 +377,9 @@ void RecordTableScreen::toolsUpdate(void)
     recordTableController->getView()->isSelectedSetToBottom()==false &&
     recordTableController->getView()->isSortingEnabled()==false)
   actionMoveDn->setEnabled(true);
+
+ // Переключение между режимами выбора в списке записей возможно всегда
+ actionSwitchSelectionMode->setEnabled(true);
 
  // Обновляется состояние области редактирования текста
  if(recordTableController->getView()->selectionModel()->hasSelection() &&

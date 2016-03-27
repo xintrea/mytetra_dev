@@ -47,6 +47,8 @@ public:
 
  void moveCursorToNewRecord(int mode, int pos);
 
+ void switchSelectionMode(void);
+
 signals:
 
  void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);

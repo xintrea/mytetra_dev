@@ -235,6 +235,7 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addAction(parentPointer->actionCopy);
   contextMenu->addAction(parentPointer->actionPaste);
   contextMenu->addSeparator();
+  contextMenu->addAction(parentPointer->actionSwitchSelectionMode);
   contextMenu->addAction(parentPointer->actionSort);
   contextMenu->addAction(parentPointer->actionPrint);
   contextMenu->addAction(parentPointer->actionCopyRecordReference);
@@ -249,6 +250,11 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
 
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
+  // Устанавливается надпись для режима выбора записей
+  if(selectionMode()==QAbstractItemView::SingleSelection)
+    parentPointer->actionSwitchSelectionMode->setText(tr("Set multiple selection"));
+  else if(selectionMode()==QAbstractItemView::ExtendedSelection)
+    parentPointer->actionSwitchSelectionMode->setText(tr("Set single selection"));
 
   // Устанавливается надпись для пункта сортировки
   if( !this->isSortingEnabled() )
@@ -414,6 +420,21 @@ void RecordTableView::moveCursorToNewRecord(int mode, int pos)
   selectRow(proxyPos);
 }
 
+
+void RecordTableView::switchSelectionMode()
+{
+  if(selectionMode()==QAbstractItemView::SingleSelection)
+  {
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    return;
+  }
+
+  if(selectionMode()==QAbstractItemView::ExtendedSelection)
+  {
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    return;
+  }
+}
 
 
 // Обработчик событий, нужен только для QTapAndHoldGesture (долгое нажатие)
