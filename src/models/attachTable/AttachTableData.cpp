@@ -256,6 +256,31 @@ QString AttachTableData::getInnerFileNameById(QString id)
 }
 
 
+// Список внутренних имен файлов без пути (файлы типа "link" будут содержать видимое имя линка)
+QStringList AttachTableData::getInnerFileNameList()
+{
+  QStringList list;
+
+  for(unsigned int i=0; i<attachTable.count(); ++i)
+    list.append( attachTable.at(i).getInnerFileName() );
+
+  return list;
+}
+
+
+// Список внутренних имен файлов без пути, хранимых на диске (файлы линков в этот список не входят)
+QStringList AttachTableData::getInnerFileNameOnDiskList()
+{
+  QStringList list;
+
+  for(unsigned int i=0; i<attachTable.count(); ++i)
+    if( attachTable.at(i).getField("type")!="link" )
+      list.append( attachTable.at(i).getInnerFileName() );
+
+  return list;
+}
+
+
 // Внутреннее имя файла с путем
 QString AttachTableData::getFullInnerFileName(int row)
 {

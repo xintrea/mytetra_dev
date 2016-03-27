@@ -146,7 +146,7 @@ void Editor::init(int mode)
     assembly();
 
   // Вначале редактор находится в обычном нераспахнутом состоянии
-  expand_edit_area_flag=false;
+  expandEditAreaFlag=false;
 
   emit updateIndentSliderGeometry();
 
@@ -730,11 +730,11 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
 
     // Перебираются файлы в директории
     foreach(QString fileName, imageInDirectory)
-      if(fileName.contains(QRegExp("\\.png$"))) // Обрабатыватся только *.png файлы
-        if(!imagesNames.contains(fileName))
+      if( fileName.contains(QRegExp("\\.png$")) ) // Обрабатыватся только *.png файлы
+        if( !imagesNames.contains(fileName) ) // Только картинки, не встречающиеся в тексте записи
+          if( !miscFields["attachFileNameList"].contains(fileName) ) // Только имена файлов, не содержащиеся в прикрепленных файлах
         {
-          // Если в списке картинок нет текущего png файла,
-          // значит этот файл лишний и он удаляется
+          // Этот файл лишний и он удаляется
           QFile currentFile(workDirectory+"/"+fileName);
           currentFile.remove();
         }
@@ -766,7 +766,7 @@ void Editor::saveTextarea(void)
       qDebug() << "Cant remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
-    if(load_callback_func==NULL)
+    if(loadCallbackFunc==NULL)
     {
       // Сохранение текста записи в файл
       saveTextareaText();
@@ -779,7 +779,7 @@ void Editor::saveTextarea(void)
       // Иначе задана функция обратного вызова для записи текста и картинок
 
       QString content=textArea->document()->toHtml("UTF-8");
-      save_callback_func(qobject_cast<QObject *>(this), content);
+      saveCallbackFunc(qobject_cast<QObject *>(this), content);
     }
 
     // Так как произошло сохранение,
@@ -819,7 +819,7 @@ bool Editor::loadTextarea()
   QString content;
 
   // Если происходит прямая работа с файлом текста
-  if(load_callback_func==NULL)
+  if(loadCallbackFunc==NULL)
   {
     // Создается объект файла с нужным именем
     QFile f(fileName);
@@ -844,7 +844,7 @@ bool Editor::loadTextarea()
   {
     // Иначе задана функция обратного вызова для установки начального текста
     QString resultString;
-    load_callback_func(qobject_cast<QObject *>(this), resultString);
+    loadCallbackFunc(qobject_cast<QObject *>(this), resultString);
     content=resultString;
   }
 
@@ -1196,15 +1196,15 @@ void Editor::onShowformattingClicked(bool ok)
 
 void Editor::onExpandEditAreaClicked(void)
 {
-  if(expand_edit_area_flag==false)
+  if(expandEditAreaFlag==false)
   {
-    expand_edit_area_flag=true;
-    emit send_expand_edit_area(expand_edit_area_flag);
+    expandEditAreaFlag=true;
+    emit send_expand_edit_area(expandEditAreaFlag);
   }
   else
   {
-    expand_edit_area_flag=false;
-    emit send_expand_edit_area(expand_edit_area_flag);
+    expandEditAreaFlag=false;
+    emit send_expand_edit_area(expandEditAreaFlag);
   }
 }
 
@@ -1218,13 +1218,13 @@ void Editor::onSaveClicked(void)
 void Editor::onBackClicked(void)
 {
   // back_callback_func(qobject_cast<QObject *>(this));
-  back_callback_func();
+  backCallbackFunc();
 }
 
 
 void Editor::onToAttachClicked(void)
 {
-  attach_callback_func();
+  attachCallbackFunc();
 }
 
 
@@ -1263,25 +1263,25 @@ void Editor::onShowTextClicked(void)
 
 void Editor::setSaveCallback(void (*func)(QObject *editor, QString saveString))
 {
-  save_callback_func=func;
+  saveCallbackFunc=func;
 }
 
 
 void Editor::setLoadCallback(void (*func)(QObject *editor, QString &String))
 {
-  load_callback_func=func;
+  loadCallbackFunc=func;
 }
 
 
 void Editor::setBackCallback(void (*func)(void))
 {
-  back_callback_func=func;
+  backCallbackFunc=func;
 }
 
 
 void Editor::setAttachCallback(void (*func)(void))
 {
-  attach_callback_func=func;
+  attachCallbackFunc=func;
 }
 
 

@@ -248,17 +248,17 @@ private:
 
  EditorFindDialog *findDialog; // Виджет поиска
 
- bool expand_edit_area_flag; // Распахнуто ли на максимум окно редактора
+ bool expandEditAreaFlag; // Распахнуто ли на максимум окно редактора
 
  // Указатели на переопределенные функции записи и чтения редактируемого текста
- void (*save_callback_func)(QObject *editor, QString saveString)=NULL;
- void (*load_callback_func)(QObject *editor, QString &loadString)=NULL;
+ void (*saveCallbackFunc)(QObject *editor, QString saveString)=NULL;
+ void (*loadCallbackFunc)(QObject *editor, QString &loadString)=NULL;
 
  // Указатель на функцию переключения на предыдущее окно (для мобильного интерфейса)
- void (*back_callback_func)(void)=NULL;
+ void (*backCallbackFunc)(void)=NULL;
 
  // Указатель на функцию открытия присоединенных файлов
- void (*attach_callback_func)(void)=NULL;
+ void (*attachCallbackFunc)(void)=NULL;
 
  // Поля для хранения произвольных данных
  // Обычно используются для запоминания нестандартного набора данных

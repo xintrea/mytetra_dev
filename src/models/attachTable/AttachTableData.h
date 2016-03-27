@@ -43,6 +43,8 @@ public:
 
   QString getInnerFileName(int row);
   QString getInnerFileNameById(QString id);
+  QStringList getInnerFileNameList();
+  QStringList getInnerFileNameOnDiskList();
 
   QString getFullInnerFileName(int row);
   QString getFullInnerFileNameById(QString id);

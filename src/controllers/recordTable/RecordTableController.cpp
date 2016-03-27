@@ -117,6 +117,13 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   QString fullFileName=fullDir+"/"+currentFile;
   qDebug() << " File " << fullFileName << "\n";
 
+
+  // В редактор заносится информация о приаттаченных к записи файлах
+  // Это действие нужно сделать до проверки на открытие той же самой записи (см. далее), т. к. список приаттаченных файлов может измениться
+  edView->setMiscField("attachFileNameList", table->getRecord(pos)->getAttachTable().getInnerFileNameOnDiskList().join(","));
+  qDebug() << "Set attach file name list: " << edView->getMiscField("attachFileNameList");
+
+
   // Если в окне содержимого записи уже находится выбираемая запись
   if(edView->getWorkDirectory()==fullDir &&
      edView->getFileName()==currentFile)

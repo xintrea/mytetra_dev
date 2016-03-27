@@ -242,6 +242,8 @@ void WalkHistory::removeHistoryData(QString id)
 
 void WalkHistory::print(void)
 {
+  return;
+
   qDebug() << "WalkHistory length: " << historyId.length();
   qDebug() << "WalkHistory pointer: " << historyPoint;
   qDebug() << "WalkHistory leave mark: " << leaveMarkPoint;
