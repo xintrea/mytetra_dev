@@ -497,6 +497,11 @@ void AttachTableController::onShowAttachInfo(void)
 void AttachTableController::onSwitchToEditor(void)
 {
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+
+  // В редакторе обновляется информация о приаттаченных к записи файлах
+  edView->setMiscField("attachFileNameList", getAttachTableData()->getInnerFileNameOnDiskList().join(","));
+  qDebug() << "Set attach file name list at switch to editor: " << edView->getMiscField("attachFileNameList");
+
   edView->switchToEditorLayout();
 }
 
