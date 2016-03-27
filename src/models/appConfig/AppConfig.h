@@ -210,6 +210,14 @@ public:
     bool getEnableLogging(void);
     void setEnableLogging(bool state);
 
+    // Разрешена ли подсветка записей с прикрепленными файлами
+    bool getEnableRecordWithAttachHighlight(void);
+    void setEnableRecordWithAttachHighlight(bool state);
+
+    // Цвет подсветки записей с прикрепленными файлами
+    QString getRecordWithAttachHighlightColor(void);
+    void setRecordWithAttachHighlightColor(QString color); // Формат цвета - "#0099FF"
+
 private:
 
     QSettings *conf; // было static
@@ -251,6 +259,7 @@ private:
     QStringList get_parameter_table_26(bool withEndSignature=true);
     QStringList get_parameter_table_27(bool withEndSignature=true);
     QStringList get_parameter_table_28(bool withEndSignature=true);
+    QStringList get_parameter_table_29(bool withEndSignature=true);
 
     bool is_init_flag;
 };

@@ -98,6 +98,17 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     return table->getField("id", index.row());
   }
 
+  if(role==Qt::BackgroundRole)
+  {
+    if( mytetraConfig.getEnableRecordWithAttachHighlight() )
+      if( table->getField("hasAttach", index.row())=="1" )
+      {
+        QColor color( mytetraConfig.getRecordWithAttachHighlightColor() );
+        return QBrush(color);
+      }
+  }
+
+
   // Если происходит запрос ссылки на таблицу данных
   /*
   if(role==TABLE_DATA_ROLE)

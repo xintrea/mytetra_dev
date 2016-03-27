@@ -797,6 +797,34 @@ void AppConfig::setEnableLogging(bool state)
   conf->setValue("enableLogging", state);
 }
 
+// Разрешена ли подсветка записей с прикрепленными файлами
+bool AppConfig::getEnableRecordWithAttachHighlight(void)
+{
+  return conf->value("enableRecordWithAttachHighlight").toBool();
+}
+
+void AppConfig::setEnableRecordWithAttachHighlight(bool state)
+{
+  conf->setValue("enableRecordWithAttachHighlight", state);
+}
+
+
+// Цвет подсветки записей с прикрепленными файлами
+QString AppConfig::getRecordWithAttachHighlightColor(void)
+{
+ return get_parameter("recordWithAttachHighlightColor");
+}
+
+
+void AppConfig::setRecordWithAttachHighlightColor(QString color)
+{
+ QColor saveColor(color);
+
+ // Если сохраняема строка действительно содержит закодированный цвет
+ if(saveColor.isValid())
+  conf->setValue("recordWithAttachHighlightColor", color);
+}
+
 
 // --------------------
 // Номер версии конфига
@@ -912,7 +940,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 28
+ // Последняя версия на данный момент - 29
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -967,6 +995,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(26, 27, get_parameter_table_26(), get_parameter_table_27());
  if(fromVersion<=27)
   updater.update_version(27, 28, get_parameter_table_27(), get_parameter_table_28());
+ if(fromVersion<=28)
+  updater.update_version(28, 29, get_parameter_table_28(), get_parameter_table_29());
 }
 
 
@@ -1528,6 +1558,25 @@ QStringList AppConfig::get_parameter_table_28(bool withEndSignature)
  table << get_parameter_table_27(false);
 
  table << "enableLogging" << "bool" << "false";
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_29(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 28
+ table << get_parameter_table_28(false);
+
+ table << "enableRecordWithAttachHighlight" << "bool" << "true";
+ table << "recordWithAttachHighlightColor" << "QString" << "#F0FEFC";
 
  if(withEndSignature)
   table << "0" << "0" << "0";

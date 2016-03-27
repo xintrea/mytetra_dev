@@ -261,7 +261,7 @@ QStringList AttachTableData::getInnerFileNameList()
 {
   QStringList list;
 
-  for(unsigned int i=0; i<attachTable.count(); ++i)
+  for(int i=0; i<attachTable.count(); ++i)
     list.append( attachTable.at(i).getInnerFileName() );
 
   return list;
@@ -273,7 +273,7 @@ QStringList AttachTableData::getInnerFileNameOnDiskList()
 {
   QStringList list;
 
-  for(unsigned int i=0; i<attachTable.count(); ++i)
+  for(int i=0; i<attachTable.count(); ++i)
     if( attachTable.at(i).getField("type")!="link" )
       list.append( attachTable.at(i).getInnerFileName() );
 
