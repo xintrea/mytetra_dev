@@ -20,6 +20,7 @@ private:
  QListWidgetItem *pageCrypt;
  QListWidgetItem *pageSynchro;
  QListWidgetItem *pageRecordTable;
+ QListWidgetItem *pageAttach;
  QListWidgetItem *pageMisc;
 
  void changePage(QString name);

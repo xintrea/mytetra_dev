@@ -10,6 +10,7 @@
 #include "AppConfigPage_Misc.h"
 #include "AppConfigPage_Synchro.h"
 #include "AppConfigPage_RecordTable.h"
+#include "AppConfigPage_Attach.h"
 #include "models/appConfig/AppConfig.h"
 
 extern AppConfig mytetraConfig;
@@ -31,10 +32,12 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  pageCrypt      =configDialog->addWidget(new AppConfigPage_Crypt(this),       tr("Crypt"));
  pageSynchro    =configDialog->addWidget(new AppConfigPage_Synchro(this),     tr("Synchro"));
  pageRecordTable=configDialog->addWidget(new AppConfigPage_RecordTable(this), tr("Note area"));
+ pageAttach     =configDialog->addWidget(new AppConfigPage_Attach(this),      tr("Attaches"));
  pageMisc       =configDialog->addWidget(new AppConfigPage_Misc(this),        tr("Misc"));
 
  configDialog->updateListWidth();
 
+ // Если указано имя виджета настроек, происходит переключение на него, иначе будет выбран первый виджет (pageMain)
  if(firstPageName.size()>0)
    changePage(firstPageName);
 
@@ -52,6 +55,7 @@ void AppConfigDialog::changePage(QString name)
  if(name=="pageCrypt") item=pageCrypt;
  if(name=="pageSynchro") item=pageSynchro;
  if(name=="pageRecordTable") item=pageRecordTable;
+ if(name=="pageAttach") item=pageAttach;
  if(name=="pageMisc") item=pageMisc;
 
  if(item!=NULL)

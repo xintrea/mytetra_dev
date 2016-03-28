@@ -177,7 +177,8 @@ HEADERS = src/main.h \
     src/controllers/actionLog/ActionLogController.h \
     src/models/actionLog/ActionLogModel.h \
     src/libraries/ActionLogger.h \
-    src/libraries/wyedit/EditorTablePropertiesForm.h
+    src/libraries/wyedit/EditorTablePropertiesForm.h \
+    src/views/appConfigWindow/AppConfigPage_Attach.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -290,7 +291,8 @@ SOURCES = src/main.cpp \
     src/controllers/actionLog/ActionLogController.cpp \
     src/models/actionLog/ActionLogModel.cpp \
     src/libraries/ActionLogger.cpp \
-    src/libraries/wyedit/EditorTablePropertiesForm.cpp
+    src/libraries/wyedit/EditorTablePropertiesForm.cpp \
+    src/views/appConfigWindow/AppConfigPage_Attach.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

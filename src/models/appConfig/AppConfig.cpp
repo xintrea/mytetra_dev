@@ -1576,7 +1576,7 @@ QStringList AppConfig::get_parameter_table_29(bool withEndSignature)
  table << get_parameter_table_28(false);
 
  table << "enableRecordWithAttachHighlight" << "bool" << "true";
- table << "recordWithAttachHighlightColor" << "QString" << "#F0FEFC";
+ table << "recordWithAttachHighlightColor" << "QString" << "#d1e3c5";
 
  if(withEndSignature)
   table << "0" << "0" << "0";
