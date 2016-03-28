@@ -2,6 +2,7 @@
 #include <QBoxLayout>
 #include <QDir>
 #include <QLineEdit>
+#include <QColorDialog>
 
 #include "AppConfigPage_Attach.h"
 #include "models/appConfig/AppConfig.h"
@@ -11,37 +12,60 @@ extern AppConfig mytetraConfig;
 
 AppConfigPage_Attach::AppConfigPage_Attach(QWidget *parent) : ConfigPage(parent)
 {
+  setupUi();
+  setupSignals();
+  assembly();
+}
+
+
+void AppConfigPage_Attach::setupUi(void)
+{
   qDebug() << "Create attach config page";
 
+  // Галка разрешения/запрещения подсветки записи с прикрепленными файлами
   enableRecordWithAttachHighlight.setText( tr("Enable highlight notes with attachments") );
   enableRecordWithAttachHighlight.setChecked( mytetraConfig.getEnableRecordWithAttachHighlight() );
 
+  // Выбор цвета для записи с прикрепленными файлами
   labelHighlightColor.setText( tr("Highlight color: ") );
   setColorForButtonHighlightColor( QColor( mytetraConfig.getRecordWithAttachHighlightColor() ) );
 
+  // Выбор цвета активируется или отключается в зависимости от галки
+  onEnableRecordWithAttachHighlight( mytetraConfig.getEnableRecordWithAttachHighlight() );
+}
+
+
+void AppConfigPage_Attach::setupSignals(void)
+{
+  connect( &enableRecordWithAttachHighlight, SIGNAL( toggled(bool) ), this, SLOT( onEnableRecordWithAttachHighlight(bool) ) );
+  connect( &buttonHighlightColor, SIGNAL(clicked()), this, SLOT(onClickedHighlightColor()) );
+}
+
+
+void AppConfigPage_Attach::assembly(void)
+{
   // Слой для надписи выбора цвета и кнопки выбора цвета
   QHBoxLayout *colorLayout = new QHBoxLayout;
-  colorLayout->addWidget(&labelHighlightColor);
-  colorLayout->addWidget(&buttonHighlightColor);
+  colorLayout->addWidget( &labelHighlightColor );
+  colorLayout->addWidget( &buttonHighlightColor );
   colorLayout->addStretch();
-
 
   // Слой для рамки
   QVBoxLayout *decorBoxlayout = new QVBoxLayout;
-  decorBoxlayout->addWidget(&enableRecordWithAttachHighlight);
-  decorBoxlayout->addLayout(colorLayout);
+  decorBoxlayout->addWidget( &enableRecordWithAttachHighlight );
+  decorBoxlayout->addLayout( colorLayout );
 
   // Рамка
   decorBox.setTitle( tr("Notes with attachments decor") );
-  decorBox.setLayout(decorBoxlayout);
+  decorBox.setLayout( decorBoxlayout );
 
   // Собирается основной слой
   QVBoxLayout *centralLayout=new QVBoxLayout();
-  centralLayout->addWidget(&decorBox);
+  centralLayout->addWidget( &decorBox );
   centralLayout->addStretch();
 
   // Основной слой устанавливается
-  setLayout(centralLayout);
+  setLayout( centralLayout );
 }
 
 
@@ -49,10 +73,28 @@ void AppConfigPage_Attach::setColorForButtonHighlightColor(QColor iColor)
 {
   // Квадратик на кнопке выбора цвета кода
   QPixmap pix(16, 16);
-  pix.fill(iColor.rgb());
+  pix.fill( iColor.rgb() );
   buttonHighlightColor.setIcon(pix);
 
   highlightColor=iColor;
+}
+
+
+void AppConfigPage_Attach::onEnableRecordWithAttachHighlight(bool state)
+{
+  labelHighlightColor.setEnabled(state);
+  buttonHighlightColor.setEnabled(state);
+}
+
+
+void AppConfigPage_Attach::onClickedHighlightColor()
+{
+  // Диалог запроса цвета
+  QColor selectedColor=QColorDialog::getColor(highlightColor, this);
+
+  // Если цвет выбран, и он правильный
+  if(selectedColor.isValid())
+    setColorForButtonHighlightColor(selectedColor);
 }
 
 
@@ -65,36 +107,13 @@ int AppConfigPage_Attach::applyChanges(void)
 
   int result=0;
 
-  /*
-  // Сохраняется настройка подтверждения для действия "cut" на ветке
-  if(mytetraConfig.get_cutbranchconfirm()!=cutBranchConfirm->isChecked())
-    mytetraConfig.set_cutbranchconfirm(cutBranchConfirm->isChecked());
+  // Сохраняется настройка разрешения/запрещения подсветки записи с прикрепленными файлами
+  if(mytetraConfig.getEnableRecordWithAttachHighlight()!=enableRecordWithAttachHighlight.isChecked())
+    mytetraConfig.setEnableRecordWithAttachHighlight(enableRecordWithAttachHighlight.isChecked());
 
-  // Сохраняется настройка отображения отладочных сообщений в консоли
-  if(mytetraConfig.get_printdebugmessages()!=printDebugMessages->isChecked())
-    mytetraConfig.set_printdebugmessages(printDebugMessages->isChecked());
-
-  // Сохраняется настройка режима запуска MyTetra - обычный или свернутый
-  if(mytetraConfig.get_runinminimizedwindow()!=runInMinimizedWindow->isChecked())
-    mytetraConfig.set_runinminimizedwindow(runInMinimizedWindow->isChecked());
-
-  // Сохраняется настройка разрешения/запрещения лога действий
-  if(mytetraConfig.getEnableLogging()!=enableActionLog->isChecked())
-  {
-    mytetraConfig.setEnableLogging(enableActionLog->isChecked());
-    result=1;
-  }
-
-  // Сохраняется настройка нужно ли вспоминать позицию курсора при перемещении
-  // по истории
-  if(mytetraConfig.getRememberCursorAtHistoryNavigation()!=rememberAtHistoryNavigationCheckBox->isChecked())
-    mytetraConfig.setRememberCursorAtHistoryNavigation(rememberAtHistoryNavigationCheckBox->isChecked());
-
-  // Сохраняется настройка нужно ли пытаться вспоминать позицию курсора при
-  // обычном выборе записи
-  if(mytetraConfig.getRememberCursorAtOrdinarySelection()!=rememberAtOrdinarySelectionCheckBox->isChecked())
-    mytetraConfig.setRememberCursorAtOrdinarySelection(rememberAtOrdinarySelectionCheckBox->isChecked());
-  */
+  // Сохраняется цвет подсветки
+  if(mytetraConfig.getRecordWithAttachHighlightColor()!=highlightColor.name())
+    mytetraConfig.setRecordWithAttachHighlightColor(highlightColor.name());
 
   return result;
 }

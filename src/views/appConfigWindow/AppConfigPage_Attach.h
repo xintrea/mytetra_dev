@@ -16,9 +16,17 @@ class AppConfigPage_Attach : public ConfigPage
 
 public:
   AppConfigPage_Attach(QWidget *parent = 0);
+
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
+
   int applyChanges(void);
 
 private slots:
+
+  void onEnableRecordWithAttachHighlight(bool);
+  void onClickedHighlightColor();
 
 protected:
 
@@ -27,7 +35,7 @@ protected:
   // Галка разрешения/запрещения подсветки записи с прикрепленными файлами
   QCheckBox enableRecordWithAttachHighlight;
 
-  // Цвет строки для записи с прикрепленными файлами
+  // Выбор цвета для записи с прикрепленными файлами
   QLabel labelHighlightColor;
   QToolButton buttonHighlightColor;
   QColor highlightColor;
