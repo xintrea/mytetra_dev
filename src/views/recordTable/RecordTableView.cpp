@@ -74,6 +74,8 @@ void RecordTableView::init(void)
  // Заголовки не должны выглядеть нажатыми
  horizontalHeader()->setHighlightSections(false);
 
+ horizontalHeader()->setMinimumSectionSize(16);
+
  // Горизонтальные заголовки делаются перемещяемыми
  #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
  horizontalHeader()->setMovable(true);

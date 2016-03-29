@@ -609,7 +609,7 @@ void RecordTableController::onBlockContext(void)
 
   if(table->getField("block", pos)!="1")
   {
-    msgBox.setText(tr("Block this record?"));
+    msgBox.setText(tr("Block this note?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();
@@ -619,7 +619,7 @@ void RecordTableController::onBlockContext(void)
   }
   else
   {
-    msgBox.setText(tr("Unblock this record?"));
+    msgBox.setText(tr("Unblock this note?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();

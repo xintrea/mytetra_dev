@@ -126,10 +126,11 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     QString fieldName=showFields.value( index.column() );
     QString field=table->getField(fieldName, index.row());
 
-    // Иконка блокировки в начале первого столбца
-    if(index.column()==0) // Это первый столбец (независимо от его назначения)
-      if( table->getField("block", index.row())=="1" ) // Если есть блокировка
-        return QIcon(":/resource/pic/note_block.svg");
+    // Иконка блокировки в названии записи
+    if(fieldName=="name")
+      if( !showFields.contains("block") ) // Среди отображаемых столбцов нет столбца "block" (чтобы не отрисовывалось два замочка в строке)
+        if( table->getField("block", index.row())=="1" ) // Если есть блокировка
+          return QIcon(":/resource/pic/note_block.svg");
 
     // Иконка наличия аттачей в специально предназначенном для этого столбце
     if(fieldName=="hasAttach" && field=="1")
