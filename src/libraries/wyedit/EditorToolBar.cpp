@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "main.h"
 #include "EditorToolBar.h"
 #include "Editor.h"
@@ -365,15 +367,57 @@ void EditorToolBar::setupButtons(void)
 }
 
 
-void EditorToolBar::hideAllToolsElements(void)
+QList<QWidget *> EditorToolBar::getButtonWidgetList(void)
 {
   QRegExp nameMask("editor_tb_.*");
 
-  // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
-  QList<QWidget *> tbToolsList=this->findChildren<QWidget *>(nameMask);
+  return this->findChildren<QWidget *>(nameMask); // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
+}
+
+
+void EditorToolBar::hideAllToolsElements(void)
+{
+  QList<QWidget *> tbToolsList=getButtonWidgetList();
 
   for(int i=0;i<tbToolsList.size();++i)
     tbToolsList.at(i)->setVisible(false);
+}
+
+
+// Установка или снятие доступности кнопок, модифицирующих текст
+void EditorToolBar::setEnableModifyTextButton(bool state)
+{
+  // Перечень суффиксов имен кнопок, которые не влияют на форматирование
+  QStringList noModifyButton;
+  noModifyButton << "settings" \
+                 << "findtext" \
+                 << "showformatting" \
+                 << "expand_edit_area" \
+                 << "expand_tools_lines" \
+                 << "back" \
+                 << "find_in_base"
+                 << "show_text" \
+                 << "attach";
+
+  QList<QWidget *> tbToolsList=getButtonWidgetList();
+
+  // Перебор всех кнопок
+  for(int i=0; i<tbToolsList.size(); ++i)
+  {
+    bool isModifyButton=true;
+
+    // Перебор имен кнопок, которые не влияют на форматирование
+    for( int j=0; j<noModifyButton.count(); ++j)
+      if( tbToolsList.at(i)->objectName()==("editor_tb_"+noModifyButton.at(j)) ) // Если кнопка не влияет на форматирование
+      {
+        isModifyButton=false;
+        break;
+      }
+
+    if(isModifyButton)
+      tbToolsList.at(i)->setEnabled(state);
+  }
+
 }
 
 

@@ -52,7 +52,7 @@ public:
 
 public slots:
 
- // Обновление панели инструментов
+ // Обновление состояния экранных элементов согласно состоянию записи и положении зиписи в таблице
  void toolsUpdate(void);
 
 private slots:
@@ -87,6 +87,9 @@ private:
  void assembly(void);
  
  void disableAllActions(void);
+
+ void toolsWidgatsUpdate();
+ void editorModesUpdate();
 
 };
 

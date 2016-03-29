@@ -422,42 +422,7 @@ void MainWindow::initFileMenu(void)
   QMenu *menu = new QMenu(tr("&File"), this);
   menuBar()->addMenu(menu);
 
-  // Создание тулбара
-  /*
-   QToolBar *tb = new QToolBar(this);
-   tb->setWindowTitle(tr("File Actions"));
-   addToolBar(tb);
-   */
-
   QAction *a;
-
-  /*
-   a = new QAction(tr("&New"), this);
-   a->setShortcut(QKeySequence::New);
-   connect(a, SIGNAL(triggered()), this, SLOT(fileNew()));
-   // tb->addAction(a);
-   menu->addAction(a);
-
-   a = new QAction(tr("&Open..."), this);
-   a->setShortcut(QKeySequence::Open);
-   connect(a, SIGNAL(triggered()), this, SLOT(fileOpen()));
-   // tb->addAction(a);
-   menu->addAction(a);
-
-   menu->addSeparator();
-
-   a = new QAction(tr("&Save"), this);
-   a->setShortcut(QKeySequence::Save);
-   connect(a, SIGNAL(triggered()), this, SLOT(fileSave()));
-   a->setEnabled(false);
-   // tb->addAction(a);
-   menu->addAction(a);
-
-   a = new QAction(tr("Save &As..."), this);
-   connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
-   menu->addAction(a);
-   menu->addSeparator();
-   */
 
   a = new QAction(tr("&Print..."), this);
   a->setShortcut(QKeySequence::Print);

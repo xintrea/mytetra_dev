@@ -19,6 +19,7 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
                                           << "dir" \
                                           << "file" \
                                           << "crypt" \
+                                          << "block" \
                                                             \
                                           << "hasAttach" \
                                           << "attachCount");
@@ -31,7 +32,8 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
                                                  << "ctime" \
                                                  << "dir" \
                                                  << "file" \
-                                                 << "crypt" );
+                                                 << "crypt" \
+                                                 << "block");
 
   recordCalculableFieldAvailableList=(QStringList() << "hasAttach" \
                                                     << "attachCount");

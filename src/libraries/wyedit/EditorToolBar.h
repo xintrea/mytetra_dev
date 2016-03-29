@@ -77,6 +77,7 @@ public:
   QToolButton   *showText=NULL;
 
   QToolButton   *toAttach=NULL;
+
   QIcon         iconAttachExists; // Иконка, когда аттачи есть
   QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
@@ -90,6 +91,7 @@ public:
   void init();
 
   void initDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
+  void setEnableModifyTextButton(bool state); // Установка или снятие доступности кнопок, модифицирующих текст
 
   void initToolsLine1(QStringList toolsLine);
   void initToolsLine2(QStringList toolsLine);
@@ -115,6 +117,8 @@ protected:
   void assemblyButtons(void);
 
   void insertButtonToToolsLine(QString toolName, QToolBar *line);
+
+  QList<QWidget *> getButtonWidgetList(void);
   void hideAllToolsElements(void);
 
   void updateToolsLines(void);

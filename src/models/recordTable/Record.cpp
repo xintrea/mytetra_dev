@@ -147,6 +147,7 @@ void Record::switchToFat()
 }
 
 
+// Метод используется только при выводе сообщений об ошибке
 QString Record::getIdAndNameAsString() const
 {
   QString id, name;
@@ -230,7 +231,7 @@ QString Record::getNaturalField(QString name) const
 
 
 // Защищенная функция
-// Проверка допустимости имени происходит в вызывающем коде
+// Проверка допустимости имени происходит в вызывающем коде (необходимо для оптимизации)
 QString Record::getCalculableField(QString name) const
 {
   // Наличие аттачей
@@ -387,25 +388,6 @@ AttachTableData *Record::getAttachTablePointer()
 }
 
 
-
-/*
-AttachTableData *Record::getAttachTable() const
-{
-  // У легкого объекта невозможно запросить приаттаченные файлы, если так происходит - это ошибка вызывающей логики
-  // if(liteFlag==true && attachTable.is)
-  //   critical_error("Cant get attach files from lite record object "+getIdAndNameAsString());
-
-  if(attachTable.size()==0)
-    return NULL;
-
-  if(this->isLite()!=attachTable.isLite())
-    critical_error("Pointer getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
-
-  return &attachTable;
-}
-*/
-
-
 void Record::setAttachTable(AttachTableData iAttachTable)
 {
   if(this->isLite()!=attachTableData.isLite())
@@ -413,24 +395,6 @@ void Record::setAttachTable(AttachTableData iAttachTable)
 
   attachTableData=iAttachTable;
 }
-
-
-/*
-void Record::setAttachTable(AttachTableData *iAttachTable)
-{
-  // Легкому объекту невозможно установить таблицу аттачей, если так происходит это ошибка вызывающей логики
-  // if(liteFlag==true)
-  //   critical_error("Cant set attach files for lite record object "+getIdAndNameAsString());
-
-  if(this->isLite()!=attachTable.isLite())
-    critical_error("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
-
-  if(iAttachTable==NULL)
-    critical_error("Record::setAttachTable() : Can`t set null attach table. Set only real attach table.");
-
-  attachTable=*iAttachTable;
-}
-*/
 
 
 // Получение текста записи из памяти

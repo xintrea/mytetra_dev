@@ -557,9 +557,12 @@ void Editor::setTextarea(QString text)
 }
 
 
-// Установка запрета или разрешения редактирования
+// Установка запрета или разрешения редактирования в области редактирования текста
 void Editor::setTextareaEditable(bool editable)
 {
+  textArea->setReadOnly( !editable );
+
+  /*
   if(editable==true)
   {
     // Если редактирование разрешено
@@ -577,9 +580,8 @@ void Editor::setTextareaEditable(bool editable)
     inactiveColor=qApp->palette().color(QPalette::Disabled, QPalette::Window);
     pal.setColor(QPalette::Normal, QPalette::Base, inactiveColor);
     textArea->setPalette(pal);
-
-    // QPalette plt=standart_style->standardPalette();
   }
+  */
 }
 
 
@@ -1355,3 +1357,5 @@ void Editor::switchAttachIconExists(bool isExists)
 {
   editorToolBarAssistant->switchAttachIconExists(isExists);
 }
+
+

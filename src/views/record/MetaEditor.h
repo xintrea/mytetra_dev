@@ -43,6 +43,8 @@ public:
  void switchToEditorLayout(void);
  void switchToAttachLayout(void);
 
+ void setReadOnly(bool state);
+
 private:
  void setupLabels(void);
  void setupUI(void);

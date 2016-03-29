@@ -235,6 +235,11 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
  // Отрисовка родительского класса
  QTextEdit::paintEvent(event);
 
+ // В заблокированном виджете ничего дополнительного не рисуется
+ if(isEnabled()==false)
+   return;
+
+
  // Если нужно нарисовать линию какого-нибудь отступа
  if(flagShowIndentEdge==true)
   {

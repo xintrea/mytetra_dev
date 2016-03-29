@@ -276,10 +276,13 @@ void RecordTableScreen::disableAllActions(void)
 
 void RecordTableScreen::toolsUpdate(void)
 {
- // todo: Данный слот вызывается при выборе строки 4 раза подряд
- // При количестве столбцов равным 3
- // Разобраться почему так происходит (и зависит ли количество вызовов от количества столбцов)
+  toolsWidgatsUpdate();
+  editorModesUpdate();
+}
 
+
+void RecordTableScreen::toolsWidgatsUpdate()
+{
  // qDebug() << "recordtablescreen::tools_update()";
 
  // Отключаются все действия
@@ -380,20 +383,21 @@ void RecordTableScreen::toolsUpdate(void)
 
  // Переключение между режимами выбора в списке записей возможно всегда
  actionSwitchSelectionMode->setEnabled(true);
+}
 
- // Обновляется состояние области редактирования текста
- if(recordTableController->getView()->selectionModel()->hasSelection() &&
-    recordTableController->getRowCount()>0)
-  {
-   // qDebug() << "In table select present";
-   // qDebug() << "In table row count is" << recordTableController->getRowCount();
-   find_object<MetaEditor>("editorScreen")->setTextareaEditable(true);
-  }
- else
-  {
+
+// Обновление режимов редактора согласно состоянию записи в таблице
+void RecordTableScreen::editorModesUpdate()
+{
+ // Если ни одна запись не выбрана
+ if( !(recordTableController->getView()->selectionModel()->hasSelection() &&
+       recordTableController->getRowCount()>0) )
+ {
    qDebug() << "In table select non present";
+
+   // Блокировка возможности редактирования текста записи (разблокировка произойдет при клике на запись)
    find_object<MetaEditor>("editorScreen")->setTextareaEditable(false);
-  }
+ }
 }
 
 

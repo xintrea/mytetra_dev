@@ -401,3 +401,13 @@ void MetaEditor::onClickToTag(const QString &link_text)
 
  emit setFindTextSignal(tag);
 }
+
+
+// Метод используется, когда запись заблокирована
+void MetaEditor::setReadOnly(bool state)
+{
+  editorToolBarAssistant->setEnableModifyTextButton( !state );
+  indentSliderAssistant->getIndentSlider()->setEnabled( !state );
+
+  textArea->setReadOnly(state); // textArea->setEnabled(false);
+}

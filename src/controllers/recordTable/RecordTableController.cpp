@@ -69,7 +69,7 @@ RecordTableView *RecordTableController::getView(void)
 }
 
 
-// Принимает индекс Proxy модели
+// Действия при выборе записи. Метод принимает индекс Proxy модели
 void RecordTableController::clickToRecord(const QModelIndex &index)
 {
   // Так как, возможно, включена сортировка, индекс на экране преобразуется в обычный индекс
@@ -91,11 +91,16 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   // Выясняется указатель на объект редактирования текста записи
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 
-  // Элементы управления редактором становятся доступными
   edView->setEnabled(true);
 
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
+
+  // Элементы управления редактором становятся доступными только при условии что запись не заблокирована на изменение
+  if( table->getField("block", pos)=="1" )
+    edView->setReadOnly(true);
+  else
+    edView->setReadOnly(false);
 
   // В таблице конечных данных запоминается какая запись была выбрана
   // чтобы затем при выборе этой же подветки засветка автоматически
