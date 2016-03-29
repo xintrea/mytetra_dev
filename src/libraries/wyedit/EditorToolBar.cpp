@@ -403,21 +403,8 @@ void EditorToolBar::setEnableModifyTextButton(bool state)
 
   // Перебор всех кнопок
   for(int i=0; i<tbToolsList.size(); ++i)
-  {
-    bool isModifyButton=true;
-
-    // Перебор имен кнопок, которые не влияют на форматирование
-    for( int j=0; j<noModifyButton.count(); ++j)
-      if( tbToolsList.at(i)->objectName()==("editor_tb_"+noModifyButton.at(j)) ) // Если кнопка не влияет на форматирование
-      {
-        isModifyButton=false;
-        break;
-      }
-
-    if(isModifyButton)
+    if( !noModifyButton.contains( tbToolsList.at(i)->objectName().replace("editor_tb_", "") ) ) // Если кнопка влияет на форматирование
       tbToolsList.at(i)->setEnabled(state);
-  }
-
 }
 
 
