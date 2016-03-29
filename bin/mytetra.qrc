@@ -101,5 +101,6 @@
         <file>resource/pic/edit_reference.svg</file>
         <file>resource/pic/edit_table_properties.svg</file>
         <file>resource/pic/note_block.svg</file>
+        <file>resource/pic/print_table.svg</file>
     </qresource>
 </RCC>

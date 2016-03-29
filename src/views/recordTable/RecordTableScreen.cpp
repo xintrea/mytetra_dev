@@ -161,7 +161,7 @@ void RecordTableScreen::setupActions(void)
  // Кнопка вызова печати таблицы конечных записей
  actionPrint = new QAction(tr("Print table"), this);
  actionPrint->setStatusTip(tr("Print current notes table"));
- actionPrint->setIcon(QIcon(":/resource/pic/print_record_table.svg"));
+ actionPrint->setIcon(QIcon(":/resource/pic/print_table.svg"));
  connect(actionPrint, SIGNAL(triggered()), recordTableController, SLOT(onPrintClick()));
 
  // Кнопка копирования ссылки на запись

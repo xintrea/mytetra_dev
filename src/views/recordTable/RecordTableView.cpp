@@ -268,7 +268,7 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
   // Запоминается номер колонки, по которой был произведен клик (номер колонки будет правильный, даже если записей мало и клик произошел под записями)
   int n = this->horizontalHeader()->logicalIndexAt(pos);
   qDebug() << "Click on column number " << n;
-  parentPointer->actionSort->setData( n ); // Запоминается в объект действия для сортировки
+  parentPointer->actionSort->setData( n ); // Запоминается номер колонки в объект действия для сортировки
 
 
   // Включение отображения меню на экране
