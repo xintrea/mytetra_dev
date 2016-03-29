@@ -107,6 +107,7 @@ void RecordTableScreen::setupActions(void)
  // Настройка внешнего вида таблицы конечных записей
  actionSettings = new QAction(tr("&View settings"), this);
  actionSettings->setStatusTip(tr("Setup table view settins"));
+ actionSettings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
  connect(actionSettings, SIGNAL(triggered()), recordTableController, SLOT(settings()));
 
  // Перемещение записи вверх
@@ -167,9 +168,10 @@ void RecordTableScreen::setupActions(void)
  // Кнопка копирования ссылки на запись
  actionCopyRecordReference = new QAction(tr("Copy note reference"), this);
  actionCopyRecordReference->setStatusTip(tr("Copy note reference to clipboard"));
- actionCopyRecordReference->setIcon(QIcon(":/resource/pic/copy_note_reference.svg"));
+ actionCopyRecordReference->setIcon(QIcon(":/resource/pic/note_reference.svg"));
  connect(actionCopyRecordReference, SIGNAL(triggered()), this, SLOT(onCopyRecordReference()));
 
+ // Кнопка переключения режима одинарного выбора и мультивыбора
  actionSwitchSelectionMode = new QAction(tr("Switch select/multiselect"), this);
  actionSwitchSelectionMode->setStatusTip(tr("Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)"));
  actionSwitchSelectionMode->setIcon(QIcon(":/resource/pic/switch_note_selection_mode.svg"));
