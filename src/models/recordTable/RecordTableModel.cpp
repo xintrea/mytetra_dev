@@ -57,7 +57,6 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     if( index.column() < showFields.size() )
     {
       QString fieldName=showFields.value( index.column() );
-
       QString field=table->getField(fieldName, index.row());
 
 
@@ -73,20 +72,29 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
         else
           return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
       }
+
       else if( role==Qt::DisplayRole && fieldName=="hasAttach") // Наличие аттачей
       {
         if(field=="0")
           return ""; // Если аттачей нет, выводится пустая строка. Это повышает читабельность
         else
-          return tr("Yes"); // На русский перевести как "Есть"
+          return tr("...");
       }
+
       else if( role==Qt::DisplayRole && fieldName=="attachCount") // Количество аттачей
       {
         if(field=="0")
           return ""; // Если количество аттачей нуливое, выводится пустая строка. Это повышает читабельность
         else
           return field;
+      }
 
+      else if( role==Qt::DisplayRole && fieldName=="block") // Наличие блокировки записи
+      {
+        if(field!="1")
+          return "";
+        else
+          return tr("...");
       }
       else
         return field;
@@ -98,6 +106,8 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
     return table->getField("id", index.row());
   }
 
+
+  // Подсветка заднего фона
   if(role==Qt::BackgroundRole)
   {
     if( mytetraConfig.getEnableRecordWithAttachHighlight() )
@@ -106,6 +116,28 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
         QColor color( mytetraConfig.getRecordWithAttachHighlightColor() );
         return QBrush(color);
       }
+  }
+
+
+  // Оформление иконками
+  if(role == Qt::DecorationRole)
+  {
+    QStringList showFields=mytetraConfig.getRecordTableShowFields();
+    QString fieldName=showFields.value( index.column() );
+    QString field=table->getField(fieldName, index.row());
+
+    // Иконка блокировки в начале первого столбца
+    if(index.column()==0) // Это первый столбец (независимо от его назначения)
+      if( table->getField("block", index.row())=="1" ) // Если есть блокировка
+        return QIcon(":/resource/pic/note_block.svg");
+
+    // Иконка наличия аттачей в специально предназначенном для этого столбце
+    if(fieldName=="hasAttach" && field=="1")
+      return QIcon(":/resource/pic/attach.svg");
+
+    // Иконка блокировки в специально предназначенном для этого столбце
+    if(fieldName=="block" && field=="1")
+      return QIcon(":/resource/pic/note_block.svg");
   }
 
 

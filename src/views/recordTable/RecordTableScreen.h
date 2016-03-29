@@ -38,6 +38,7 @@ public:
  QAction *actionAddNewBefore;
  QAction *actionAddNewAfter;
  QAction *actionEditField;
+ QAction *actionBlock;
  QAction *actionDelete;
  QAction *actionCut;
  QAction *actionCopy;

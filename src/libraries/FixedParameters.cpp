@@ -103,6 +103,7 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
  names["crypt"]=tr("Is crypt");
  names["hasAttach"]=tr("Has attachs");
  names["attachCount"]=tr("Attachs count");
+ names["block"]=tr("Block");
 
 
  // Удаляются строчки, которых нет в переданном списке

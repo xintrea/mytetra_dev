@@ -591,6 +591,45 @@ void RecordTableController::onEditFieldContext(void)
 }
 
 
+void RecordTableController::onBlockContext(void)
+{
+  // Получение индекса выделенного элемента
+  QModelIndexList selectItems=view->selectionModel()->selectedIndexes();
+  QModelIndex index=selectItems.at(0);
+
+  // Номер строки в базе
+  QModelIndex sourceIndex=convertProxyIndexToSourceIndex(index);
+  int pos=sourceIndex.row();
+
+  // Выясняется ссылка на таблицу конечных данных
+  RecordTableData *table=recordSourceModel->getTableData();
+
+  QMessageBox msgBox;
+  msgBox.setIcon(QMessageBox::Question);
+
+  if(table->getField("block", pos)!="1")
+  {
+    msgBox.setText(tr("Block this record?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    int ret = msgBox.exec();
+
+    if(ret==QMessageBox::Yes)
+      table->setField("block", "1", pos);
+  }
+  else
+  {
+    msgBox.setText(tr("Unblock this record?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    int ret = msgBox.exec();
+
+    if(ret==QMessageBox::Yes)
+      table->setField("block", "", pos);
+  }
+}
+
+
 // Действия при нажатии кнопки редактирования записи
 void RecordTableController::editFieldContext(QModelIndex proxyIndex)
 {

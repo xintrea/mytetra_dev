@@ -69,6 +69,7 @@ public slots:
   void paste(void);
 
   void onEditFieldContext(void);
+  void onBlockContext(void);
 
   void deleteRecords(void);
 

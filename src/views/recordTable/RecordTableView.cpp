@@ -229,6 +229,7 @@ void RecordTableView::assemblyContextMenu(void)
   contextMenu->addAction(parentPointer->actionAddNewAfter);
   contextMenu->addSeparator();
   contextMenu->addAction(parentPointer->actionEditField);
+  contextMenu->addAction(parentPointer->actionBlock);
   contextMenu->addAction(parentPointer->actionDelete);
   contextMenu->addSeparator();
   contextMenu->addAction(parentPointer->actionCut);

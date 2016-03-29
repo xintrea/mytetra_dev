@@ -74,6 +74,12 @@ void RecordTableScreen::setupActions(void)
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
  connect(actionEditField, SIGNAL(triggered()), recordTableController, SLOT(onEditFieldContext()));
 
+ // Блокировка записи
+ actionBlock = new QAction(tr("Block/Unblock note"), this);
+ actionBlock->setStatusTip(tr("Block or unblock change note"));
+ actionBlock->setIcon(QIcon(":/resource/pic/note_block.svg"));
+ connect(actionBlock, SIGNAL(triggered()), recordTableController, SLOT(onBlockContext()));
+
  // Удаление записи
  actionDelete = new QAction(tr("Delete note(s)"), this);
  actionDelete->setStatusTip(tr("Delete note(s)"));
@@ -259,6 +265,7 @@ void RecordTableScreen::disableAllActions(void)
  actionAddNewBefore->setEnabled(false);
  actionAddNewAfter->setEnabled(false);
  actionEditField->setEnabled(false);
+ actionBlock->setEnabled(false);
  actionDelete->setEnabled(false);
 
  actionCut->setEnabled(false);
@@ -327,6 +334,7 @@ void RecordTableScreen::toolsWidgatsUpdate()
     (recordTableController->getView()->selectionModel()->selectedRows()).size()==1)
  {
    actionEditField->setEnabled(true);
+   actionBlock->setEnabled(true);
    actionCopyRecordReference->setEnabled(true);
  }
 
