@@ -27,6 +27,7 @@ public:
 
   bool isTableNotExists(void);
   void setTableData(RecordTableData *rtData);
+  RecordTableData *getTableData();
 
   int getRowCount(void);
 

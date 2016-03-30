@@ -276,6 +276,12 @@ void RecordTableController::setTableData(RecordTableData *rtData)
 }
 
 
+RecordTableData *RecordTableController::getTableData()
+{
+  return recordSourceModel->getTableData();
+}
+
+
 // Заполнение переданного объекта буфера обмена данными из указанных записей
 // Индексы QModelIndexList передаются от Proxy модели
 void RecordTableController::addRecordsToClipboard(ClipboardRecords *clipboardRecords, QModelIndexList itemsForCopy)

@@ -10,6 +10,7 @@
 #include "libraries/ClipboardRecords.h"
 #include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
@@ -247,11 +248,22 @@ void RecordTableView::assemblyContextMenu(void)
 
 
 // Открытие контекстного меню в таблице конечных записей
-void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
+void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
 {
   qDebug() << "In on_customContextMenuRequested";
 
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
+
+  // Установка надписи блокировки/разблокировки записи
+  QModelIndexList selectItems=selectionModel()->selectedIndexes();
+  QModelIndex index=selectItems.at(0);
+  QString recordId=model()->data(index, RECORD_ID_ROLE).toString();
+  int posInTable=controller->getTableData()->getPosById(recordId);
+  QString isBlock=controller->getTableData()->getField("block", posInTable);
+  if(isBlock=="1")
+    parentPointer->actionBlock->setText(tr("Unblock note"));
+  else
+    parentPointer->actionBlock->setText(tr("Block note"));
 
   // Устанавливается надпись для режима выбора записей
   if(selectionMode()==QAbstractItemView::SingleSelection)
@@ -266,14 +278,13 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &pos)
     parentPointer->actionSort->setText(tr("Disable sorting"));
 
   // Запоминается номер колонки, по которой был произведен клик (номер колонки будет правильный, даже если записей мало и клик произошел под записями)
-  int n = this->horizontalHeader()->logicalIndexAt(pos);
+  int n = this->horizontalHeader()->logicalIndexAt(mousePos);
   qDebug() << "Click on column number " << n;
   parentPointer->actionSort->setData( n ); // Запоминается номер колонки в объект действия для сортировки
 
 
   // Включение отображения меню на экране
-  // menu.exec(event->globalPos());
-  contextMenu->exec( viewport()->mapToGlobal(pos) );
+  contextMenu->exec( viewport()->mapToGlobal(mousePos) ); // Меню открывается в позиции клика мышкой
 }
 
 

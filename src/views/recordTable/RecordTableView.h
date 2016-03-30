@@ -59,7 +59,7 @@ signals:
 public slots:
 
  // Открытие контекстного меню
- void onCustomContextMenuRequested(const QPoint &pos);
+ void onCustomContextMenuRequested(const QPoint &mousePos);
 
  // Слот, срабатывающий после перетаскивания колонки
  void onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex );
