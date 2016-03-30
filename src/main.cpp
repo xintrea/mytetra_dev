@@ -591,8 +591,8 @@ void printHelp()
 
 void parseConsoleOption(QtSingleApplication &app)
 {
-  // Если запрашивается помощь по опциям MyTetra
-  if( app.arguments().contains("--help"))
+  // Если запрашивается помощь по опциям
+  if( app.arguments().contains("-h") || app.arguments().contains("--help"))
   {
     printHelp();
     exit(0);
