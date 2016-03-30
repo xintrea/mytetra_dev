@@ -205,3 +205,18 @@ void InfoFieldEnter::setField(QString name,QString value)
  else
   criticalError("Can not set field "+name+" in InfoFieldEnter method set_field");
 }
+
+
+void InfoFieldEnter::setReadOnly(bool state)
+{
+  recordName->setReadOnly(state);
+  recordAuthor->setReadOnly(state);
+  recordUrl->setReadOnly(state);
+  recordTags->setReadOnly(state);
+}
+
+
+bool InfoFieldEnter::isReadOnly()
+{
+  return recordName->isReadOnly();
+}

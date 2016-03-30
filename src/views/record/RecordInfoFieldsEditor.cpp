@@ -20,9 +20,9 @@ RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WFlags f) 
 RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
 #endif
 {
- setupUI();
- setupSignals();
- assembly();
+  setupUI();
+  setupSignals();
+  assembly();
 }
 
 
@@ -117,5 +117,17 @@ void RecordInfoFieldsEditor::setField(QString name, QString value)
   infoField->setField(name,value);
  else
   criticalError("Can not set field "+name+" in editrecord method set_field");
+}
+
+
+void RecordInfoFieldsEditor::setReadOnly(bool state)
+{
+  infoField->setReadOnly(state);
+}
+
+
+bool RecordInfoFieldsEditor::isReadOnly()
+{
+  return infoField->isReadOnly();
 }
 

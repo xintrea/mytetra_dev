@@ -210,6 +210,23 @@ void RecordTableController::initAttachTableAtClickToRecord(const int pos)
 }
 
 
+void RecordTableController::switchMetaEditorToAttachLayoutIfNeed(QModelIndex index)
+{
+  // Выясняется столбец, по которому был клик
+  int column=index.column();
+  qDebug() << "RecordTableController::switchMetaEditorToAttachLayoutIfNeed() : current column " << column;
+
+  QString fieldName=mytetraConfig.getRecordTableShowFields().at(column);
+
+  if(fieldName=="hasAttach") // Если это столбец с иконкой аттачей
+  {
+    // Редактор переключается на слой работы с аттачами
+    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+    edView->toAttachCallback();
+  }
+}
+
+
 bool RecordTableController::isTableNotExists(void)
 {
  if( recordSourceModel->getTableData()==NULL )
@@ -650,6 +667,9 @@ void RecordTableController::editFieldContext(QModelIndex proxyIndex)
   editRecordWin.setField("url",   table->getField("url",    pos) );
   editRecordWin.setField("tags",  table->getField("tags",   pos) );
 
+  // Если запись заблокирована
+  if(table->getField("block",   pos)=="1")
+    editRecordWin.setReadOnly(true);
 
   int i=editRecordWin.exec();
   if(i==QDialog::Rejected)

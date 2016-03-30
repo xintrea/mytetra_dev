@@ -15,51 +15,54 @@
 
 class InfoFieldEnter : public QWidget
 {
- Q_OBJECT
+  Q_OBJECT
 
 public:
- InfoFieldEnter(QWidget *parent=0);
- ~InfoFieldEnter();
+  InfoFieldEnter(QWidget *parent=0);
+  ~InfoFieldEnter();
 
- void setFocusToStart(void);
+  void setFocusToStart(void);
 
- bool checkFieldName(QString name);
- QString getField(QString name);
- void setField(QString name,QString value);
+  bool checkFieldName(QString name);
+  QString getField(QString name);
+  void setField(QString name,QString value);
+
+  void setReadOnly(bool state);
+  bool isReadOnly();
 
 public slots:
 
- void expandInfoClick(void);
+  void expandInfoClick(void);
 
 private:
 
- // Ввод названия записи
- QLabel    *recordNameLabel;
- QLineEdit *recordName;
+  // Ввод названия записи
+  QLabel    *recordNameLabel;
+  QLineEdit *recordName;
 
- // Ввод автора
- QLabel    *recordAuthorLabel;
- QLineEdit *recordAuthor;
+  // Ввод автора
+  QLabel    *recordAuthorLabel;
+  QLineEdit *recordAuthor;
 
- // Ввод Url
- QLabel    *recordUrlLabel;
- QLineEdit *recordUrl;
+  // Ввод Url
+  QLabel    *recordUrlLabel;
+  QLineEdit *recordUrl;
 
- // Ввод текстовых меток
- QLabel    *recordTagsLabel;
- QLineEdit *recordTags;
+  // Ввод текстовых меток
+  QLabel    *recordTagsLabel;
+  QLineEdit *recordTags;
 
- // Кнопка, раскрывающая и скрывающая поля author, url, tags
- QToolButton *expandInfo;
+  // Кнопка, раскрывающая и скрывающая поля author, url, tags
+  QToolButton *expandInfo;
 
- // Размещалка элементов
- QGridLayout *infoFieldLayout;
+  // Размещалка элементов
+  QGridLayout *infoFieldLayout;
 
- void setup_ui(void);
- void setup_signals(void);
- void assembly(void);
+  void setup_ui(void);
+  void setup_signals(void);
+  void assembly(void);
 
- void expandInfoOnDisplay(QString expand);
+  void expandInfoOnDisplay(QString expand);
 
 };
 

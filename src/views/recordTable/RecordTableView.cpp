@@ -123,15 +123,14 @@ void RecordTableView::setupSignals(void)
  connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
          this, SLOT(editFieldContext(void)));
 
+ // Перемещение курсора по строкам таблицы
  if(mytetraConfig.getInterfaceMode()=="desktop")
    connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
            this, SLOT(onSelectionChanged ( const QItemSelection &, const QItemSelection &) ));
 
- // Для мобильного режима должен работать сигнал clicked, так как если засветка уже стоит на строке с записью, должна открыться запись
- // а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране
- if(mytetraConfig.getInterfaceMode()=="mobile")
-   connect(this, SIGNAL( clicked(const QModelIndex &) ),
-           this, SLOT( onClickToRecord(const QModelIndex &) ));
+ // Клик по записи
+ connect(this, SIGNAL( clicked(const QModelIndex &) ),
+         this, SLOT( onClickToRecord(const QModelIndex &) ));
 
  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
@@ -178,6 +177,7 @@ void RecordTableView::restoreHeaderState( void )
 }
 
 
+// Обработчик сигнала listSelectionChanged
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected )
 {
@@ -190,23 +190,31 @@ void RecordTableView::onSelectionChanged(const QItemSelection &selected,
   if(!deselected.indexes().isEmpty())
     deselectRecord=deselected.indexes().at(0);
 
-  /*
-  qDebug() << "RecordTableView::onSelectionChanged()";
-  qDebug() << "Current index. row() " << selectRecord.row() << " isValid() " << selectRecord.isValid();
-  qDebug() << "Previous index. row() " << deselectRecord.row() << " isValid() " << deselectRecord.isValid();
-  */
-
-  // return;
-
   if(selectRecord.isValid())
-    clickToRecord(selectRecord);
+    clickToRecord(selectRecord); // Программный клик по записи, куда переместился табличный курсор
 }
 
 
 // Слот клика по записи. Принимает индекс Proxy модели
 void RecordTableView::onClickToRecord(const QModelIndex &index)
 {
-  clickToRecord(index);
+  // В десктопном режиме запись становится видна из-за обрабоки сигнала listSelectionChanged,
+  // Поэтому здесь нужно только отработать клик по иконке аттача в столбце hasAttach
+  // (Так как если курсор уже стоит на строке, то клик по иконке аттача не вызывает listSelectionChanged, ибо смены строки нет)
+  if(mytetraConfig.getInterfaceMode()=="desktop")
+  {
+    controller->switchMetaEditorToAttachLayoutIfNeed( selectionModel()->currentIndex() );
+    return;
+  }
+
+
+  // В мобильном режиме, как если засветка уже стоит на строке с записью, должна открыться запись
+  // (а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране из-за обрабоки сигнала listSelectionChanged)
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+  {
+    clickToRecord(index);
+    return;
+  }
 }
 
 
@@ -255,7 +263,7 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
 
   // Установка надписи блокировки/разблокировки записи
   QModelIndexList selectItems=selectionModel()->selectedIndexes();
-  if(selectItems.at(0).data(RECORD_BLOCK_ROLE).toString()=="1")
+  if(selectItems.at(0).data(RECORD_BLOCK_ROLE).toString()=="1") // Все время забываю, что у объекта QModelIndex есть метод data()
     parentPointer->actionBlock->setText(tr("Unblock note"));
   else
     parentPointer->actionBlock->setText(tr("Block note"));
