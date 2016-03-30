@@ -27,7 +27,6 @@ public:
 
   bool isTableNotExists(void);
   void setTableData(RecordTableData *rtData);
-  RecordTableData *getTableData();
 
   int getRowCount(void);
 
@@ -55,6 +54,8 @@ public:
   // Методы удаления записей перенесены в открытый доступ, так как через них удаляются даннные из KnowTreeView при DragAndDrop
   void removeRowById(QString delId);
   void removeRowsByIdList(QVector<QString> delIds);
+
+  bool isRecordBlock(QString recordId);
 
 signals:
 

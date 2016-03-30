@@ -10,7 +10,6 @@
 #include "libraries/ClipboardRecords.h"
 #include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
-#include "models/recordTable/RecordTableData.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
@@ -258,9 +257,7 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
   QModelIndexList selectItems=selectionModel()->selectedIndexes();
   QModelIndex index=selectItems.at(0);
   QString recordId=model()->data(index, RECORD_ID_ROLE).toString();
-  int posInTable=controller->getTableData()->getPosById(recordId);
-  QString isBlock=controller->getTableData()->getField("block", posInTable);
-  if(isBlock=="1")
+  if(controller->isRecordBlock(recordId))
     parentPointer->actionBlock->setText(tr("Unblock note"));
   else
     parentPointer->actionBlock->setText(tr("Block note"));
