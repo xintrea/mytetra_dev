@@ -219,7 +219,7 @@ void RecordTableController::switchMetaEditorToEditorOrAttach(QModelIndex index)
   QString fieldName=mytetraConfig.getRecordTableShowFields().at(column);
 
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-  if(fieldName=="hasAttach") // Если это столбец с иконкой аттачей
+  if(fieldName=="hasAttach" || fieldName=="attachCount") // Если это столбец с иконкой аттачей или количеством аттачей
     edView->switchToAttachLayout(); // Редактор переключается на слой работы с аттачами
   else
     edView->switchToEditorLayout(); // Если клик не по иконке аттачей в таблице, то открывается текст записи
