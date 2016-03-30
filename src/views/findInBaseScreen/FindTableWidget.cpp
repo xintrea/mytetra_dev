@@ -16,6 +16,7 @@
 #include "FindTableWidget.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
+#include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
 
 #define USER_ROLE_PATH      Qt::UserRole
@@ -206,6 +207,10 @@ void FindTableWidget::selectCell(const QModelIndex & index)
   QString recordId=item->data(USER_ROLE_RECORD_ID).toString();
 
   qDebug() << "Get path to record:" << path;
+
+  // Редактор переводится в режим отображения текста записи (а не приаттаченных файлов)
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  edView->switchToEditorLayout();
 
   find_object<MainWindow>("mainwindow")->setTreePosition(path);
   find_object<MainWindow>("mainwindow")->setRecordtablePositionById(recordId);
