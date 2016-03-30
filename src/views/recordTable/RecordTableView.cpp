@@ -128,9 +128,14 @@ void RecordTableView::setupSignals(void)
    connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
            this, SLOT(onSelectionChanged ( const QItemSelection &, const QItemSelection &) ));
 
- // Клик по записи
+ // Нажатие на запись (вызывается сразу как только нажалась кнопка, до отпускания)
+ connect(this, SIGNAL( pressed(const QModelIndex &) ),
+         this, SLOT( onPressToRecord(const QModelIndex &) ));
+
+ // Клик по записи (вызывается после отпускания кнопки)
  connect(this, SIGNAL( clicked(const QModelIndex &) ),
          this, SLOT( onClickToRecord(const QModelIndex &) ));
+
 
  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
@@ -195,19 +200,25 @@ void RecordTableView::onSelectionChanged(const QItemSelection &selected,
 }
 
 
-// Слот клика по записи. Принимает индекс Proxy модели
-void RecordTableView::onClickToRecord(const QModelIndex &index)
+// Слот активации записи. Принимает индекс Proxy модели
+// Срабатывает сразу при клике (до отпускания мышки)
+void RecordTableView::onPressToRecord(const QModelIndex &index)
 {
   // В десктопном режиме запись становится видна из-за обрабоки сигнала listSelectionChanged,
   // Поэтому здесь нужно только отработать клик по иконке аттача в столбце hasAttach
   // (Так как если курсор уже стоит на строке, то клик по иконке аттача не вызывает listSelectionChanged, ибо смены строки нет)
   if(mytetraConfig.getInterfaceMode()=="desktop")
   {
-    controller->switchMetaEditorToAttachLayoutIfNeed( selectionModel()->currentIndex() );
+    controller->switchMetaEditorToEditorOrAttach( index );
     return;
   }
+}
 
 
+// Слот клика по записи. Принимает индекс Proxy модели
+// Срабатывает при завершении клика (после отпускания мышки)
+void RecordTableView::onClickToRecord(const QModelIndex &index)
+{
   // В мобильном режиме, как если засветка уже стоит на строке с записью, должна открыться запись
   // (а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране из-за обрабоки сигнала listSelectionChanged)
   if(mytetraConfig.getInterfaceMode()=="mobile")

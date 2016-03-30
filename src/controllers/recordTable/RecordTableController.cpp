@@ -210,7 +210,7 @@ void RecordTableController::initAttachTableAtClickToRecord(const int pos)
 }
 
 
-void RecordTableController::switchMetaEditorToAttachLayoutIfNeed(QModelIndex index)
+void RecordTableController::switchMetaEditorToEditorOrAttach(QModelIndex index)
 {
   // Выясняется столбец, по которому был клик
   int column=index.column();
@@ -218,12 +218,11 @@ void RecordTableController::switchMetaEditorToAttachLayoutIfNeed(QModelIndex ind
 
   QString fieldName=mytetraConfig.getRecordTableShowFields().at(column);
 
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
   if(fieldName=="hasAttach") // Если это столбец с иконкой аттачей
-  {
-    // Редактор переключается на слой работы с аттачами
-    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-    edView->toAttachCallback();
-  }
+    edView->switchToAttachLayout(); // Редактор переключается на слой работы с аттачами
+  else
+    edView->switchToEditorLayout(); // Если клик не по иконке аттачей в таблице, то открывается текст записи
 }
 
 

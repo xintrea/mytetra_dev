@@ -196,6 +196,7 @@ void MetaEditor::switchToAttachLayout(void)
 // Статическая функция, обрабатывает клик в редакторе по кнопке переключения на список прикрепляемых файлов
 void MetaEditor::toAttachCallback(void)
 {
+  // Так как функция статическая, у нее нет this-указателя на объект данного класса, его нужно получить поиском
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
   edView->switchToAttachLayout();
 }

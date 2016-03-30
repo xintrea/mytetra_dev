@@ -78,6 +78,7 @@ protected slots:
  // является переопределенным, так как его тип virtual protected slot
  virtual void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
+ void onPressToRecord(const QModelIndex &index);
  void onClickToRecord(const QModelIndex &index);
 
 protected:

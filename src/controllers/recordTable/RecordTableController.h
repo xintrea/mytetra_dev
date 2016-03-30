@@ -55,7 +55,7 @@ public:
   void removeRowById(QString delId);
   void removeRowsByIdList(QVector<QString> delIds);
 
-  void switchMetaEditorToAttachLayoutIfNeed(QModelIndex index);
+  void switchMetaEditorToEditorOrAttach(QModelIndex index);
 
 signals:
 
