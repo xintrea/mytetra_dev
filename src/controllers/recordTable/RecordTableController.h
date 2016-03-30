@@ -55,8 +55,6 @@ public:
   void removeRowById(QString delId);
   void removeRowsByIdList(QVector<QString> delIds);
 
-  bool isRecordBlock(QString recordId);
-
 signals:
 
 public slots:

@@ -102,10 +102,10 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
   }
 
   if(role==RECORD_ID_ROLE)
-  {
     return table->getField("id", index.row());
-  }
 
+  if(role==RECORD_BLOCK_ROLE)
+    return table->getField("block", index.row());
 
   // Подсветка заднего фона
   if(role==Qt::BackgroundRole)

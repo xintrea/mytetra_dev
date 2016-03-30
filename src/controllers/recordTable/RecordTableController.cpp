@@ -219,18 +219,6 @@ bool RecordTableController::isTableNotExists(void)
 }
 
 
-bool RecordTableController::isRecordBlock(QString recordId)
-{
-  int posInTable=recordSourceModel->getTableData()->getPosById(recordId);
-  QString isBlock=recordSourceModel->getTableData()->getField("block", posInTable);
-
-  if(isBlock=="1")
-    return true;
-  else
-    return false;
-}
-
-
 // Установка нового набора данных для списка записей
 void RecordTableController::setTableData(RecordTableData *rtData)
 {

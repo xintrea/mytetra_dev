@@ -255,9 +255,7 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
 
   // Установка надписи блокировки/разблокировки записи
   QModelIndexList selectItems=selectionModel()->selectedIndexes();
-  QModelIndex index=selectItems.at(0);
-  QString recordId=model()->data(index, RECORD_ID_ROLE).toString();
-  if(controller->isRecordBlock(recordId))
+  if(selectItems.at(0).data(RECORD_BLOCK_ROLE).toString()=="1")
     parentPointer->actionBlock->setText(tr("Unblock note"));
   else
     parentPointer->actionBlock->setText(tr("Block note"));
