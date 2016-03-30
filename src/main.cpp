@@ -576,6 +576,95 @@ void init_random(void)
 }
 
 
+void printHelp()
+{
+  printf("\n");
+  printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
+  printf("For use control mode, run by standart way MyTetra for show GUI interface, and next use command:\n");
+  printf("./mytetra --control --quit - Quit from MyTetra\n");
+  printf("./mytetra --control --reload - Reload database\n");
+  printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
+  printf("./mytetra --control --openBranch <branchId> - Jump to branch with <branchId>\n");
+  printf("\n");
+}
+
+
+void parseConsoleOption(QtSingleApplication &app)
+{
+  // Если запрашивается помощь по опциям MyTetra
+  if( app.arguments().contains("--help"))
+  {
+    printHelp();
+    exit(0);
+  }
+
+  // Если MyTetra запущена с какой-то опцией, но нет опции --control
+  if( app.arguments().count()>1 && !app.arguments().contains("--control"))
+  {
+    QString message="Bad options. May be you lost \"--control\"?\n";
+    printf(message.toLocal8Bit());
+    exit(1);
+  }
+
+  // Если MyTetra запущена в режиме управления, а другого экземпляра (которым надо управлять) нет
+  if(app.arguments().contains("--control") && !app.isRunning())
+  {
+    QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
+    printf(message.toLocal8Bit());
+    exit(2);
+  }
+
+  // Если MyTetra запущена в обычном режиме, но уже запущен другой экземпляр
+  if( !app.arguments().contains("--control") && app.isRunning())
+  {
+    QString message="Another MyTetra exemplar is running.\n";
+
+    printf(message.toLocal8Bit());
+
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning); // Сообщение со значком предупреждения
+    msgBox.setText(message);
+    msgBox.exec();
+
+    exit(3);
+  }
+
+  // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
+  if(app.arguments().contains("--control") && app.isRunning())
+  {
+    if(app.arguments().contains("--quit"))
+    {
+      app.sendMessage("quit");
+      exit(0);
+    }
+    else if (app.arguments().contains("--reload"))
+    {
+      app.sendMessage("reload");
+      exit(0);
+    }
+    else if (app.arguments().contains("--openNote"))
+    {
+      int openNoteIndex=app.arguments().indexOf("--openNote");
+      app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
+      exit(0);
+    }
+    else if (app.arguments().contains("--openBranch"))
+    {
+      int openBranchIndex=app.arguments().indexOf("--openBranch");
+      app.sendMessage("openBranch "+app.arguments().at(openBranchIndex+1));
+      exit(0);
+    }
+    else
+    {
+      QString message="Unknown control option.\n";
+      printf(message.toLocal8Bit());
+      exit(4);
+    }
+  }
+
+}
+
+
 int main(int argc, char ** argv)
 {
  printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
@@ -596,71 +685,8 @@ int main(int argc, char ** argv)
  // Создание объекта приложения
  QtSingleApplication app(argc, argv);
 
-
- // Если MyTetra запущена с какой-то опцией, но нет опции --control
- if( app.arguments().count()>1 && !app.arguments().contains("--control"))
- {
-   QString message="Bad options. May be you lost \"--control\"?\n";
-   printf(message.toLocal8Bit());
-   exit(1);
- }
-
- // Если MyTetra запущена в режиме управления, а другого экземпляра (которым надо управлять) нет
- if(app.arguments().contains("--control") && !app.isRunning())
- {
-   QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
-   printf(message.toLocal8Bit());
-   exit(2);
- }
-
- // Если MyTetra запущена в обычном режиме, но уже запущен другой экземпляр
- if( !app.arguments().contains("--control") && app.isRunning())
-  {
-   QString message="Another MyTetra exemplar is running.\n";
-
-   printf(message.toLocal8Bit());
-
-   QMessageBox msgBox;
-   msgBox.setIcon(QMessageBox::Warning); // Сообщение со значком предупреждения
-   msgBox.setText(message);
-   msgBox.exec();
-
-   exit(3);
-  }
-
- // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
- if(app.arguments().contains("--control") && app.isRunning())
- {
-   if(app.arguments().contains("--quit"))
-   {
-     app.sendMessage("quit");
-     exit(0);
-   }
-   else if (app.arguments().contains("--reload"))
-   {
-     app.sendMessage("reload");
-     exit(0);
-   }
-   else if (app.arguments().contains("--openNote"))
-   {
-     int openNoteIndex=app.arguments().indexOf("--openNote");
-     app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
-     exit(0);
-   }
-   else if (app.arguments().contains("--openBranch"))
-   {
-     int openBranchIndex=app.arguments().indexOf("--openBranch");
-     app.sendMessage("openBranch "+app.arguments().at(openBranchIndex+1));
-     exit(0);
-   }
-   else
-   {
-     QString message="Unknown control option.\n";
-     printf(message.toLocal8Bit());
-     exit(4);
-   }
- }
-
+ // Обработка консольных опций
+ parseConsoleOption(app);
 
  #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
  // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
