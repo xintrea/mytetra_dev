@@ -681,11 +681,11 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
 
 void RecordTableView::onSectionResized( int logicalIndex, int oldSize, int newSize )
 {
- Q_UNUSED(logicalIndex);
- Q_UNUSED(oldSize);
- Q_UNUSED(newSize);
+  Q_UNUSED(logicalIndex);
+  Q_UNUSED(oldSize);
+  Q_UNUSED(newSize);
 
- saveColumnWidth();
+  saveColumnWidth();
 }
 
 
@@ -721,5 +721,17 @@ void RecordTableView::restoreColumnWidth(void)
   // Чтобы последняя растягивалась по месту
   for(int i=0; i<columnWidthList.size()-1; i++)
     setColumnWidth( i, columnWidthList[i].toInt() );
+}
+
+
+void RecordTableView::updateRow(int rowNum)
+{
+  int columnCount=model()->columnCount();
+
+  for(int i=0; i<columnCount; ++i)
+  {
+    QModelIndex index=model()->index(rowNum, i);
+    update(index);
+  }
 }
 

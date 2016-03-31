@@ -49,6 +49,8 @@ public:
 
  void switchSelectionMode(void);
 
+ void updateRow(int rowNum);
+
 signals:
 
  void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);

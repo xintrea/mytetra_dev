@@ -620,28 +620,34 @@ void RecordTableController::onBlockContext(void)
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
-  QMessageBox msgBox;
-  msgBox.setIcon(QMessageBox::Question);
-
+  // Если строка не заблокирована
   if(table->getField("block", pos)!="1")
   {
-    msgBox.setText(tr("Block this note?"));
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msgBox.setDefaultButton(QMessageBox::No);
-    int ret = msgBox.exec();
+    // Устанавливается значение в базе
+    table->setField("block", "1", pos);
 
-    if(ret==QMessageBox::Yes)
-      table->setField("block", "1", pos);
+    // Обновляется строка на экране
+    int viewPos=index.row(); // Номер строки на экране
+    view->updateRow(viewPos);
+
+    find_object<TreeScreen>("treeScreen")->saveKnowTree(); // Сохранение дерева веток
   }
   else
   {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+
     msgBox.setText(tr("Unblock this note?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();
 
     if(ret==QMessageBox::Yes)
+    {
       table->setField("block", "", pos);
+
+      find_object<TreeScreen>("treeScreen")->saveKnowTree(); // Сохранение дерева веток
+    }
   }
 }
 
