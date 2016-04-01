@@ -88,6 +88,8 @@ public:
 
  void saveAllState(void);
 
+ void reload(void);
+
 signals:
 
  void globalPressKey(int key);
@@ -152,7 +154,6 @@ private:
 
  void reloadSaveStage(void);
  void reloadLoadStage(void);
- void reload(void);
 
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;

@@ -646,6 +646,14 @@ void KnowTreeModel::save()
  QTextStream out(&wfile);
  out.setCodec("UTF-8");
  out << doc.toString();
+
+ lastSaveDateTime=QDateTime::currentDateTime();
+}
+
+
+QDateTime KnowTreeModel::getLastSaveDateTime()
+{
+  return lastSaveDateTime;
 }
 
 

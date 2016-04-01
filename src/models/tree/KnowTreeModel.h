@@ -79,9 +79,13 @@ public:
     // Загрузка отдельной базы MyTetra в виде подветки (импорт)
     QString importBranchFromDirectory(TreeItem *startItem, QString importDir);
 
+    QDateTime getLastSaveDateTime();
+
 private:
 
     QString xmlFileName;
+
+    QDateTime lastSaveDateTime;
 
     void init(QDomDocument *domModel);
 
