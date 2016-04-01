@@ -5,6 +5,9 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QGroupBox>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QSpinBox>
 
 #include "ConfigPage.h"
 
@@ -21,13 +24,35 @@ private slots:
 
 protected:
 
-  QLineEdit *synchroCommand;
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
 
-  QCheckBox *synchroOnStartup;
-  QCheckBox *synchroOnExit;
 
-  // Объединяющая рамка
-  QGroupBox *synchroOnBox;
+  // Виджеты настройки синхронизации
+  QLineEdit   synchroCommand;
+  QLabel      commandText;
+  QLabel      commandAboutText;
+
+  QCheckBox   synchroOnStartup;
+  QCheckBox   synchroOnExit;
+  QVBoxLayout synchroOnLayout;
+  QGroupBox   synchroOnBox;
+
+
+  // Виджеты настройки периодической проверки
+  QCheckBox   enablePeriodicCheckBase;
+
+  QLabel      checkBasePeriodText;
+  QSpinBox    checkBasePeriod;
+  QLabel      checkBasePeriodPostfix;
+  QHBoxLayout checkBasePeriodLayout;
+
+  QCheckBox   enablePeriodicCheckMessage;
+  QVBoxLayout periodicCheckLayout;
+  QGroupBox   periodicCheckBox;
+
+  QVBoxLayout centralLayout;
 };
 
 

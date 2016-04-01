@@ -12,53 +12,77 @@ AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(paren
 {
   qDebug() << "Create synchro config page";
 
-  synchroCommand=new QLineEdit(this);
-  synchroCommand->setText(mytetraConfig.get_synchrocommand());
-  synchroCommand->setCursorPosition(0);
+  setupUi();
+  setupSignals();
+  assembly();
+}
 
+void AppConfigPage_Synchro::setupUi(void)
+{
+  synchroCommand.setText(mytetraConfig.get_synchrocommand());
+  synchroCommand.setCursorPosition(0);
 
-  synchroOnStartup=new QCheckBox(this);
-  synchroOnStartup->setText(tr("Synchronize at MyTetra startup"));
-  synchroOnStartup->setChecked(mytetraConfig.get_synchroonstartup());
+  synchroOnStartup.setText(tr("Synchronize at MyTetra startup"));
+  synchroOnStartup.setChecked(mytetraConfig.get_synchroonstartup());
 
-  synchroOnExit=new QCheckBox(this);
-  synchroOnExit->setText(tr("Synchronize when exit from MyTetra"));
-  synchroOnExit->setChecked(mytetraConfig.get_synchroonexit());
-
+  synchroOnExit.setText(tr("Synchronize when exit from MyTetra"));
+  synchroOnExit.setChecked(mytetraConfig.get_synchroonexit());
   
-  // Собирается основной слой
-  QVBoxLayout *central_layout=new QVBoxLayout();
-
   // Область ввода команды синхронизации
-  QLabel *commandText=new QLabel(this);
-  commandText->setText(tr("Synchronization command"));
+  commandText.setText(tr("Synchronization command"));
 
-  QLabel *commandAboutText=new QLabel(this);
-  commandAboutText->setText(tr("Use <b>%a</b> macro for get database directory path"));
-  commandAboutText->setWordWrap(true);
-
-  central_layout->addWidget(commandText);
-  central_layout->addWidget(synchroCommand);
-  central_layout->addWidget(commandAboutText);
-
-
+  commandAboutText.setText(tr("Use <b>%a</b> macro for get database directory path"));
+  commandAboutText.setWordWrap(true);
 
   // Группировщик виджетов для настройки автоматического старта синхронизации
-  synchroOnBox=new QGroupBox(this);
-  synchroOnBox->setTitle(tr("Automatic start synchronization"));
+  synchroOnBox.setTitle(tr("Automatic start synchronization"));
 
   // Виджеты вставляются в группировщик
-  QVBoxLayout *synchroOnLayout = new QVBoxLayout;
-  synchroOnLayout->addWidget(synchroOnStartup);
-  synchroOnLayout->addWidget(synchroOnExit);
-  synchroOnBox->setLayout(synchroOnLayout);
+  synchroOnLayout.addWidget( &synchroOnStartup );
+  synchroOnLayout.addWidget( &synchroOnExit );
+  synchroOnBox.setLayout( &synchroOnLayout );
 
-  central_layout->addWidget(synchroOnBox);
 
-  central_layout->addStretch();
+  // Виджеты настройки периодической проверки
+  enablePeriodicCheckBase.setText( tr("Periodic check database tree for change at 3rd-party app") ); // Периодически проверять дерево базы на предмет изменения сторонней программой
+
+  checkBasePeriodText.setText( tr("Cheking periodic: ") );
+  checkBasePeriod.setValue( mytetraConfig.getCheckBasePeriod() );
+  checkBasePeriodPostfix.setText( tr("sec.") );
+
+  checkBasePeriodLayout.addWidget( &checkBasePeriodText );
+  checkBasePeriodLayout.addWidget( &checkBasePeriod );
+  checkBasePeriodLayout.addWidget( &checkBasePeriodPostfix );
+  checkBasePeriodLayout.addStretch();
+
+  enablePeriodicCheckMessage.setText( tr("Show message if database tree is changed at 3rd-parety app") );
+
+  periodicCheckLayout.addWidget( &enablePeriodicCheckBase);
+  periodicCheckLayout.addLayout( &checkBasePeriodLayout);
+  periodicCheckLayout.addWidget( &enablePeriodicCheckMessage);
+
+  periodicCheckBox.setTitle( "Periodic checking database tree");
+  periodicCheckBox.setLayout( &periodicCheckLayout );
+}
+
+
+void AppConfigPage_Synchro::assembly(void)
+{
+  centralLayout.addWidget( &commandText );
+  centralLayout.addWidget( &synchroCommand );
+  centralLayout.addWidget( &commandAboutText );
+  centralLayout.addWidget( &synchroOnBox );
+  centralLayout.addWidget( &periodicCheckBox );
+  centralLayout.addStretch();
 
   // Основной слой устанавливается
-  setLayout(central_layout);
+  setLayout( &centralLayout );
+}
+
+
+void AppConfigPage_Synchro::setupSignals(void)
+{
+
 }
 
 
@@ -67,19 +91,19 @@ AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(paren
 // 1 - изменения требуют перезапуска программы
 int AppConfigPage_Synchro::applyChanges(void)
 {
- qDebug() << "Apply changes synchro";
+  qDebug() << "Apply changes synchro";
 
- // Сохраняется строка с командой синхронизации
- if(mytetraConfig.get_synchrocommand()!=synchroCommand->text())
-  mytetraConfig.set_synchrocommand(synchroCommand->text());
+  // Сохраняется строка с командой синхронизации
+  if(mytetraConfig.get_synchrocommand()!=synchroCommand.text())
+    mytetraConfig.set_synchrocommand(synchroCommand.text());
 
- // Сохраняется настройка запуска синхронизации при старте
- if(mytetraConfig.get_synchroonstartup()!=synchroOnStartup->isChecked())
-  mytetraConfig.set_synchroonstartup(synchroOnStartup->isChecked());
+  // Сохраняется настройка запуска синхронизации при старте
+  if(mytetraConfig.get_synchroonstartup()!=synchroOnStartup.isChecked())
+    mytetraConfig.set_synchroonstartup(synchroOnStartup.isChecked());
 
- // Сохраняется настройка запуска синхронизации при выходе
- if(mytetraConfig.get_synchroonexit()!=synchroOnExit->isChecked())
-  mytetraConfig.set_synchroonexit(synchroOnExit->isChecked());
+  // Сохраняется настройка запуска синхронизации при выходе
+  if(mytetraConfig.get_synchroonexit()!=synchroOnExit.isChecked())
+    mytetraConfig.set_synchroonexit(synchroOnExit.isChecked());
 
- return 0;
+  return 0;
 }
