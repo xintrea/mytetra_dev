@@ -774,15 +774,9 @@ unsigned int AppConfig::getActionLogMaximumSize(void)
 
 
 // Установка размера файла лога действий в мегабайтах
-bool AppConfig::setActionLogMaximumSize(unsigned int mbSize)
+void AppConfig::setActionLogMaximumSize(unsigned int mbSize)
 {
- if(mbSize>0)
-  {
-   conf->setValue("actionLogMaximumSize",mbSize);
-   return true;
-  }
- else
-  return false;
+  conf->setValue("actionLogMaximumSize", mbSize);
 }
 
 
@@ -823,6 +817,43 @@ void AppConfig::setRecordWithAttachHighlightColor(QString color)
  // Если сохраняема строка действительно содержит закодированный цвет
  if(saveColor.isValid())
   conf->setValue("recordWithAttachHighlightColor", color);
+}
+
+
+// Разрешена ли периодическая проверка файла базы на предмет изменения сторонней программой
+bool AppConfig::getEnablePeriodicCheckBase(void)
+{
+  return conf->value("enablePeriodicCheckBase").toBool();
+}
+
+void AppConfig::setEnablePeriodicCheckBase(bool state)
+{
+  conf->setValue("enablePeriodicCheckBase", state);
+}
+
+
+// Период проверки файла базы на предмет изменения сторонней программой
+unsigned int AppConfig::getCheckBasePeriod(void)
+{
+ return get_parameter("checkBasePeriod").toInt();
+}
+
+
+void AppConfig::setCheckBasePeriod(unsigned int period)
+{
+  conf->setValue("checkBasePeriod", period);
+}
+
+
+// Необходимо ли выводить сообщение если база была изменена другой программой
+bool AppConfig::getEnablePeriodicCheckMessage(void)
+{
+  return conf->value("enablePeriodicCheckMessage").toBool();
+}
+
+void AppConfig::setEnablePeriodicCheckMessage(bool state)
+{
+  conf->setValue("enablePeriodicCheckMessage", state);
 }
 
 
@@ -940,7 +971,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 29
+ // Последняя версия на данный момент - 30
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -997,6 +1028,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(27, 28, get_parameter_table_27(), get_parameter_table_28());
  if(fromVersion<=28)
   updater.update_version(28, 29, get_parameter_table_28(), get_parameter_table_29());
+ if(fromVersion<=29)
+  updater.update_version(29, 30, get_parameter_table_29(), get_parameter_table_30());
 }
 
 
@@ -1583,3 +1616,25 @@ QStringList AppConfig::get_parameter_table_29(bool withEndSignature)
 
  return table;
 }
+
+
+QStringList AppConfig::get_parameter_table_30(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 30
+ table << get_parameter_table_29(false);
+
+ table << "enablePeriodicCheckBase" << "bool" << "false";
+ table << "checkBasePeriod" << "int" << "20";
+ table << "enablePeriodicCheckMessage" << "bool" << "false";
+
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+

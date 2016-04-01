@@ -204,7 +204,7 @@ public:
 
     // Размер файла лога дейсвтвий
     unsigned int getActionLogMaximumSize();
-    bool setActionLogMaximumSize(unsigned int mbSize);
+    void setActionLogMaximumSize(unsigned int mbSize);
 
     // Разрешено ли логирование
     bool getEnableLogging(void);
@@ -217,6 +217,19 @@ public:
     // Цвет подсветки записей с прикрепленными файлами
     QString getRecordWithAttachHighlightColor(void);
     void setRecordWithAttachHighlightColor(QString color); // Формат цвета - "#0099FF"
+
+    // Разрешена ли периодическая проверка файла базы на предмет изменения сторонней программой
+    bool getEnablePeriodicCheckBase(void);
+    void setEnablePeriodicCheckBase(bool state);
+
+    // Период проверки файла базы на предмет изменения сторонней программой
+    unsigned int getCheckBasePeriod();
+    void setCheckBasePeriod(unsigned int period);
+
+    // Необходимо ли выводить сообщение если база была изменена другой программой
+    bool getEnablePeriodicCheckMessage(void);
+    void setEnablePeriodicCheckMessage(bool state);
+
 
 private:
 
@@ -260,6 +273,7 @@ private:
     QStringList get_parameter_table_27(bool withEndSignature=true);
     QStringList get_parameter_table_28(bool withEndSignature=true);
     QStringList get_parameter_table_29(bool withEndSignature=true);
+    QStringList get_parameter_table_30(bool withEndSignature=true);
 
     bool is_init_flag;
 };
