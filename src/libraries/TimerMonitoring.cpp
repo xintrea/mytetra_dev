@@ -37,24 +37,32 @@ void TimerMonitoring::init()
 
 void TimerMonitoring::setDelay(int sec)
 {
-  if(timerId!=0)
-    killTimer(timerId);
-
   delay=sec;
+
+  // Если таймер работает, он перезапускается с новой задержкой
+  if(timerId!=0)
+  {
+    stop();
+    start();
+  }
 }
 
 
 void TimerMonitoring::start()
 {
-  timerId=startTimer(delay*1000); // Периодичность таймера должна задаваться в миллисекундах
+  // Если периодическая проверка не разрешена в конфигурации
+  if( !mytetraConfig.getEnablePeriodicCheckBase() )
+    return; // Таймер не запускается
 
-  qDebug() << "Start timer with ID: " << timerId;
+  timerId=startTimer(delay*1000); // Периодичность таймера должна задаваться в миллисекундах
+  qDebug() << "Start timer with delay: " << delay << " ID: " << timerId;
 }
 
 
 void TimerMonitoring::stop()
 {
   killTimer(timerId);
+  timerId=0;
 }
 
 
@@ -70,7 +78,7 @@ void TimerMonitoring::timerEvent(QTimerEvent *)
   if(lastSave.isNull() && lastLoad.isNull())
     return;
 
-  QDateTime lastAccess= lastSave > lastLoad ? lastSave : lastLoad;
+  QDateTime lastAccess = lastSave > lastLoad ? lastSave : lastLoad;
 
   // Время последнего изменения файла дерева
   QString fileName=mytetraConfig.get_tetradir()+"/mytetra.xml";
@@ -81,6 +89,8 @@ void TimerMonitoring::timerEvent(QTimerEvent *)
   {
     (find_object<MainWindow>("mainwindow"))->reload();
 
-    showMessageBox(tr("Database changet at another program. Reload for work with actual data."));
+    // Если разрешена выдача сообщения о том, что база данных была изменена
+    if(mytetraConfig.getEnablePeriodicCheckMessage())
+      showMessageBox(tr("Database changet at another program.\nMyTetra reload tree for work with actual data."));
   }
 }

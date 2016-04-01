@@ -4,8 +4,10 @@
 
 #include "AppConfigPage_Synchro.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/TimerMonitoring.h"
 
 extern AppConfig mytetraConfig;
+extern TimerMonitoring timerMonitoring;
 
 
 AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(parent)
@@ -109,11 +111,22 @@ int AppConfigPage_Synchro::applyChanges(void)
 
   // Сохраняется разрешение переодически проверять дерево базы
   if(mytetraConfig.getEnablePeriodicCheckBase()!=enablePeriodicCheckBase.isChecked())
+  {
     mytetraConfig.setEnablePeriodicCheckBase(enablePeriodicCheckBase.isChecked());
 
-  // СОхраняется период проверки
+    if( mytetraConfig.getEnablePeriodicCheckBase() )
+      timerMonitoring.start();
+    else
+      timerMonitoring.stop();
+  }
+
+  // Сохраняется период проверки
   if(mytetraConfig.getCheckBasePeriod()!=checkBasePeriod.value())
-    mytetraConfig.setCheckBasePeriod(checkBasePeriod.value());
+  {
+    mytetraConfig.setCheckBasePeriod( checkBasePeriod.value() );
+
+    timerMonitoring.setDelay( checkBasePeriod.value() );
+  }
 
   // Сохраняется разрешение выводить сообщение при внешнем изменении базы
   if(mytetraConfig.getEnablePeriodicCheckMessage()!=enablePeriodicCheckMessage.isChecked())

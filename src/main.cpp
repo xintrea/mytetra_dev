@@ -826,7 +826,7 @@ int main(int argc, char ** argv)
 
  // Инициалиация объекта, отслеживающего различные состояния программы по таймеру
  timerMonitoring.init();
- timerMonitoring.setDelay(3);
+ timerMonitoring.setDelay( mytetraConfig.getCheckBasePeriod() );
  timerMonitoring.start();
 
 
