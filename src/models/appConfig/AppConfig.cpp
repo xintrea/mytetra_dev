@@ -833,13 +833,13 @@ void AppConfig::setEnablePeriodicCheckBase(bool state)
 
 
 // Период проверки файла базы на предмет изменения сторонней программой
-unsigned int AppConfig::getCheckBasePeriod(void)
+int AppConfig::getCheckBasePeriod(void)
 {
  return get_parameter("checkBasePeriod").toInt();
 }
 
 
-void AppConfig::setCheckBasePeriod(unsigned int period)
+void AppConfig::setCheckBasePeriod(int period)
 {
   conf->setValue("checkBasePeriod", period);
 }

@@ -223,8 +223,8 @@ public:
     void setEnablePeriodicCheckBase(bool state);
 
     // Период проверки файла базы на предмет изменения сторонней программой
-    unsigned int getCheckBasePeriod();
-    void setCheckBasePeriod(unsigned int period);
+    int getCheckBasePeriod();
+    void setCheckBasePeriod(int period);
 
     // Необходимо ли выводить сообщение если база была изменена другой программой
     bool getEnablePeriodicCheckMessage(void);
