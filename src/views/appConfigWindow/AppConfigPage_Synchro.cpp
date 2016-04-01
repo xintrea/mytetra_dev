@@ -45,6 +45,7 @@ void AppConfigPage_Synchro::setupUi(void)
 
   // Виджеты настройки периодической проверки
   enablePeriodicCheckBase.setText( tr("Periodic check database tree for change at 3rd-party app") ); // Периодически проверять дерево базы на предмет изменения сторонней программой
+  enablePeriodicCheckBase.setChecked( mytetraConfig.getEnablePeriodicCheckBase() );
 
   checkBasePeriodText.setText( tr("Cheking periodic: ") );
   checkBasePeriod.setValue( mytetraConfig.getCheckBasePeriod() );
@@ -56,6 +57,7 @@ void AppConfigPage_Synchro::setupUi(void)
   checkBasePeriodLayout.addStretch();
 
   enablePeriodicCheckMessage.setText( tr("Show message if database tree is changed at 3rd-parety app") );
+  enablePeriodicCheckMessage.setChecked( mytetraConfig.getEnablePeriodicCheckMessage() );
 
   periodicCheckLayout.addWidget( &enablePeriodicCheckBase);
   periodicCheckLayout.addLayout( &checkBasePeriodLayout);
@@ -104,6 +106,18 @@ int AppConfigPage_Synchro::applyChanges(void)
   // Сохраняется настройка запуска синхронизации при выходе
   if(mytetraConfig.get_synchroonexit()!=synchroOnExit.isChecked())
     mytetraConfig.set_synchroonexit(synchroOnExit.isChecked());
+
+  // Сохраняется разрешение переодически проверять дерево базы
+  if(mytetraConfig.getEnablePeriodicCheckBase()!=enablePeriodicCheckBase.isChecked())
+    mytetraConfig.setEnablePeriodicCheckBase(enablePeriodicCheckBase.isChecked());
+
+  // СОхраняется период проверки
+  if(mytetraConfig.getCheckBasePeriod()!=checkBasePeriod.value())
+    mytetraConfig.setCheckBasePeriod(checkBasePeriod.value());
+
+  // Сохраняется разрешение выводить сообщение при внешнем изменении базы
+  if(mytetraConfig.getEnablePeriodicCheckMessage()!=enablePeriodicCheckMessage.isChecked())
+    mytetraConfig.setEnablePeriodicCheckMessage(enablePeriodicCheckMessage.isChecked());
 
   return 0;
 }
