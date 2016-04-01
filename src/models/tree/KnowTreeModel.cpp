@@ -53,6 +53,8 @@ void KnowTreeModel::initFromXML(QString fileName)
   return;
 
  init(xmlt.getDomModel());
+
+ lastLoadDateTime=QDateTime::currentDateTime();
 }
 
 
@@ -654,6 +656,12 @@ void KnowTreeModel::save()
 QDateTime KnowTreeModel::getLastSaveDateTime()
 {
   return lastSaveDateTime;
+}
+
+
+QDateTime KnowTreeModel::getLastLoadDateTime()
+{
+  return lastLoadDateTime;
 }
 
 

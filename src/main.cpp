@@ -31,6 +31,7 @@
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/TraceLogger.h"
+#include "libraries/TimerMonitoring.h"
 
 using namespace std;
 
@@ -54,6 +55,8 @@ WalkHistory walkHistory;
 
 // Логгер действий с данными
 ActionLogger actionLogger;
+
+TimerMonitoring timerMonitoring;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -819,6 +822,13 @@ int main(int argc, char ** argv)
   exit(1);
  }
  */
+
+
+ // Инициалиация объекта, отслеживающего различные состояния программы по таймеру
+ timerMonitoring.init();
+ timerMonitoring.setDelay(3);
+ timerMonitoring.start();
+
 
  // При закрытии окна не выходить из программы.
  // Окно программы может быть снова открыто из трея

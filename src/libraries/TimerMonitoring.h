@@ -3,11 +3,8 @@
 
 #include <QObject>
 
-#include "models/tree/KnowTreeModel.h"
-#include "views/tree/KnowTreeView.h"
-
-// class KnowTreeView;
-// class KnowTreeModel;
+class KnowTreeView;
+class KnowTreeModel;
 
 class TimerMonitoring : public QObject
 {

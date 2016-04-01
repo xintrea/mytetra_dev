@@ -80,12 +80,14 @@ public:
     QString importBranchFromDirectory(TreeItem *startItem, QString importDir);
 
     QDateTime getLastSaveDateTime();
+    QDateTime getLastLoadDateTime();
 
 private:
 
     QString xmlFileName;
 
     QDateTime lastSaveDateTime;
+    QDateTime lastLoadDateTime;
 
     void init(QDomDocument *domModel);
 
