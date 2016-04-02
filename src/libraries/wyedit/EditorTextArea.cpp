@@ -465,43 +465,78 @@ bool EditorTextArea::canInsertFromMimeData(const QMimeData *source) const
 // Вставка MIME данных (из буфера обмена)
 void EditorTextArea::insertFromMimeData(const QMimeData *source)
 {
- QTextCursor cursor = this->textCursor();
- QTextDocument *document = this->document();
+  int mimeDataFormat=detectMimeDataFormat( source );
 
- // Вставка HTML-кода
- if(source->hasHtml())
- {
-  QString html=qvariant_cast<QString>(source->html());
+  QTextCursor cursor = this->textCursor();
+  QTextDocument *document = this->document();
 
-  // Вызов процесса загрузки картинок
-  emit downloadImages(html); // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()
-
-  return;
- }
-
- // Вставка обычного текста
- if(source->hasText())
- {
-  QString text=qvariant_cast<QString>(source->text());
-  cursor.insertText(text);
-  return;
- }
-
- // Вставка единичной картинки
- if(source->hasImage())
+  // Вставка обычного текста
+  if(mimeDataFormat==MimeDataText)
   {
-   QImage image=qvariant_cast<QImage>(source->imageData());
-
-   // Картинка будет хранится в ресурсах во внутреннем формате
-   // без потери качества, поэтому затем при записи
-   // легко сохраняется в PNG формат. Чтобы избежать путаницы,
-   // сразу имя ресурса картинки задается как PNG файл
-   QString imageName=getUnicalImageName();
-
-   document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
-   cursor.insertImage(imageName);
-   return;
+    QString text=qvariant_cast<QString>(source->text());
+    cursor.insertText(text);
+    return;
   }
+
+  // Вставка HTML-кода
+  if(mimeDataFormat==MimeDataHtml)
+  {
+    QString html=qvariant_cast<QString>(source->html());
+
+    // Вызов процесса загрузки картинок
+    emit downloadImages(html); // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()
+
+    return;
+  }
+
+  // Вставка единичной картинки
+  if(mimeDataFormat==MimeDataImage)
+  {
+    QImage image=qvariant_cast<QImage>(source->imageData());
+
+    // Картинка будет хранится в ресурсах во внутреннем формате
+    // без потери качества, поэтому затем при записи
+    // легко сохраняется в PNG формат. Чтобы избежать путаницы,
+    // сразу имя ресурса картинки задается как PNG файл
+    QString imageName=getUnicalImageName();
+
+    document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
+    cursor.insertImage(imageName);
+    return;
+  }
+}
+
+
+int EditorTextArea::detectMimeDataFormat(const QMimeData *source)
+{
+  qDebug() << "DetectMimeDataFormat";
+
+  // Однозначно текст
+  if(source->hasText() && !source->hasHtml() && !source->hasImage())
+    return MimeDataText;
+
+  // Однозначно HTML
+  if(!source->hasText() && source->hasHtml() && !source->hasImage())
+    return MimeDataHtml;
+
+  // Однозначно картинка
+  if(!source->hasText() && !source->hasHtml() && source->hasImage())
+    return MimeDataImage;
+
+  // Есть текст, есть HTML, нет картинки = HTML
+  if(source->hasText() && source->hasHtml() && !source->hasImage())
+    return MimeDataHtml;
+
+  // Есть текст, есть HTML и есть картинка = HTML (таблица из Calc, Excel)
+  if(source->hasText() && source->hasHtml() && source->hasImage())
+    return MimeDataHtml;
+
+  // Нет текста, есть HTML и есть картинка = картинка
+  if(!source->hasText() && source->hasHtml() && source->hasImage())
+    return MimeDataImage;
+
+  // В оставшихся случаях
+  return MimeDataHtml;
 }
 
 

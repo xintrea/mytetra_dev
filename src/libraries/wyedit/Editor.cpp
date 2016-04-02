@@ -439,13 +439,13 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
   // Вызов загрузки картинок
-  connect(textArea,           SIGNAL(downloadImages(const QString)),
+  connect(textArea,       SIGNAL(downloadImages(const QString)),
           imageFormatter, SLOT  (onDownloadImages(const QString)),
           Qt::DirectConnection);
 
   // Вставка загруженных картинок в текст
   connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
-          textArea, SLOT  (onDownloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
+          textArea,       SLOT  (onDownloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
           Qt::DirectConnection);
 
   // Клик по ссылке при зажатой клавише Ctrl

@@ -14,14 +14,21 @@ class EditorTextArea : public QTextEdit
  Q_OBJECT
 
  public:
+
   EditorTextArea(QWidget *parent=0);
   ~EditorTextArea(void);
+
+  // Константы, используемые для определения формата данных в буфере обмена
+  enum MimeDataFormat{MimeDataText=1,
+                      MimeDataHtml=2,
+                      MimeDataImage=3};
 
   virtual void paintEvent(QPaintEvent *event);
   virtual void resizeEvent(QResizeEvent *event);
 
   virtual bool canInsertFromMimeData(const QMimeData *source) const;
   virtual void insertFromMimeData(const QMimeData *source);
+  int detectMimeDataFormat(const QMimeData *source);
 
   bool get_showformatting(void);
   void set_showformatting(bool i);
