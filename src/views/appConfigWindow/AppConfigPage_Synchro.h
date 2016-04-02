@@ -22,6 +22,8 @@ public:
 
 private slots:
 
+  void onEnablePeriodicCheckBase(bool);
+
 protected:
 
   void setupUi(void);

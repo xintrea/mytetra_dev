@@ -67,6 +67,9 @@ void AppConfigPage_Synchro::setupUi(void)
 
   periodicCheckBox.setTitle( "Periodic checking database tree");
   periodicCheckBox.setLayout( &periodicCheckLayout );
+
+  // Начальное состояние зависимых параметров (активны-неактивны) выставляются в зависимости от галки
+  onEnablePeriodicCheckBase( mytetraConfig.getEnablePeriodicCheckBase() );
 }
 
 
@@ -86,8 +89,19 @@ void AppConfigPage_Synchro::assembly(void)
 
 void AppConfigPage_Synchro::setupSignals(void)
 {
-
+  connect( &enablePeriodicCheckBase, SIGNAL( toggled(bool) ), this, SLOT( onEnablePeriodicCheckBase(bool) ) );
 }
+
+
+void AppConfigPage_Synchro::onEnablePeriodicCheckBase(bool state)
+{
+  checkBasePeriodText.setEnabled(state);
+  checkBasePeriod.setEnabled(state);
+  checkBasePeriodPostfix.setEnabled(state);
+
+  enablePeriodicCheckMessage.setEnabled(state);
+}
+
 
 
 // Метод должен возвращать уровень сложности сделанных изменений

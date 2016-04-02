@@ -30,7 +30,7 @@ void AppConfigPage_Attach::setupUi(void)
   labelHighlightColor.setText( tr("Highlight color: ") );
   setColorForButtonHighlightColor( QColor( mytetraConfig.getRecordWithAttachHighlightColor() ) );
 
-  // Выбор цвета активируется или отключается в зависимости от галки
+  // Начальный выбор цвета активируется или отключается в зависимости от галки
   onEnableRecordWithAttachHighlight( mytetraConfig.getEnableRecordWithAttachHighlight() );
 }
 
