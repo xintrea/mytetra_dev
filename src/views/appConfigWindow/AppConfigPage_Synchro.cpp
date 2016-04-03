@@ -58,7 +58,7 @@ void AppConfigPage_Synchro::setupUi(void)
   checkBasePeriodLayout.addWidget( &checkBasePeriodPostfix );
   checkBasePeriodLayout.addStretch();
 
-  enablePeriodicCheckMessage.setText( tr("Show message if database tree is changed at 3rd-parety app") );
+  enablePeriodicCheckMessage.setText( tr("Show message if database tree is changed at 3rd-party app") );
   enablePeriodicCheckMessage.setChecked( mytetraConfig.getEnablePeriodicCheckMessage() );
 
   periodicCheckLayout.addWidget( &enablePeriodicCheckBase);

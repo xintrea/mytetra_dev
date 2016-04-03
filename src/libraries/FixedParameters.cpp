@@ -47,9 +47,11 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
   itemFieldAvailableList=(QStringList() << "id" \
                                         << "name" \
                                         << "ctime" \
-                                        << "crypt");
+                                        << "crypt" \
+                                        << "icon");
 
-  itemFieldCryptedList=(QStringList() << "name");
+  itemFieldCryptedList=(QStringList() << "name" \
+                                      << "icon");
 }
 
 

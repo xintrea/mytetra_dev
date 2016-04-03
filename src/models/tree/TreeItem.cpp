@@ -502,9 +502,9 @@ void TreeItem::switchToEncrypt(void)
  // Устанавливается поле, что ветка зашифрована
  fieldsTable["crypt"]="1";
 
- // Шифруется имя ветки
- fieldsTable["name"]=CryptService::encryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
-
+ // Шифруются поля ветки, подлежащие шифрованию
+ foreach(QString fieldName, fixedParameters.itemFieldCryptedList)
+   fieldsTable[fieldName]=CryptService::encryptString(globalParameters.getCryptKey(), fieldsTable[fieldName]);
 
  // Шифрация конечных записей для этой ветки
  recordsTable.switchToEncrypt();
@@ -529,9 +529,9 @@ void TreeItem::switchToDecrypt(void)
  // Устанавливается поле, что ветка не зашифрована
  fieldsTable["crypt"]="0";
 
- // Расшифровка имени ветки
- fieldsTable["name"]=CryptService::decryptString(globalParameters.getCryptKey(), fieldsTable["name"]);
-
+ // Расшифровка полей ветки, подлежащих шифрованию
+ foreach(QString fieldName, fixedParameters.itemFieldCryptedList)
+   fieldsTable[fieldName]=CryptService::decryptString(globalParameters.getCryptKey(), fieldsTable[fieldName]);
 
  // Дешифрация конечных записей для этой ветки
  recordsTable.switchToDecrypt();
