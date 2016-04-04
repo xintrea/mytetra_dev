@@ -1,0 +1,98 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
+[
+ <!ATTLIST svg
+  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xml:space="preserve"
+   width="128pt"
+   height="128pt"
+   viewBox="0 0 507.946 507.946"
+   id="svg49"
+   sodipodi:version="0.27"
+   sodipodi:docname="/mnt/windows/Themes/Work/Blue-Sphere/logout-c.svg"
+   sodipodi:docbase="/mnt/windows/Themes/Work/Blue-Sphere/"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs62">
+    <radialGradient
+       id="aigrd1"
+       cx="218.9404"
+       cy="219.7715"
+       r="150.7063"
+       fx="218.9404"
+       fy="219.7715"
+       gradientUnits="userSpaceOnUse"
+       style="stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;">
+      <stop
+         offset="0"
+         style="stop-color:#73ffff;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;"
+         id="stop53" />
+      <stop
+         offset="0.2809"
+         style="stop-color:#2EA6B9;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;"
+         id="stop54" />
+      <stop
+         offset="1"
+         style="stop-color:#006b8b;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;"
+         id="stop55" />
+    </radialGradient>
+    <linearGradient
+       xlink:href="#aigrd1"
+       id="linearGradient88" />
+    <radialGradient
+       xlink:href="#aigrd1"
+       id="radialGradient89"
+       cx="-1.3722e-08"
+       cy="-1.76538e-08"
+       fx="-1.3722e-08"
+       fy="-1.76538e-08"
+       r="1.13114"
+       gradientUnits="objectBoundingBox"
+       gradientTransform="matrix(1.01607,0,0,0.984186,0.144147,0.137813)"
+       spreadMethod="pad" />
+    <radialGradient
+       xlink:href="#aigrd1"
+       id="radialGradient64" />
+  </defs>
+  <sodipodi:namedview
+     id="base" />
+  <rect
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:#1c6772;stroke-width:17.3015;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.992157;"
+     id="rect87"
+     x="87.328261"
+     y="68.100056"
+     width="328.974152"
+     height="374.950653"
+     rx="0.000000"
+     ry="0.000000" />
+  <rect
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:url(#radialGradient89);stroke-width:30.8764;stroke-opacity:0.992157;"
+     id="rect90"
+     x="110.859572"
+     y="91.631413"
+     width="284.172180"
+     height="329.114899"
+     rx="0.000000"
+     ry="0.000000" />
+  <rect
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:#1c6772;stroke-width:15.0837;stroke-linejoin:round;stroke-opacity:0.992157;"
+     id="rect91"
+     x="133.510970"
+     y="114.504902"
+     width="240.340820"
+     height="285.820984"
+     rx="0.000000"
+     ry="0.000000" />
+  <path
+     style="font-size:12;opacity:0.7;fill:url(#radialGradient64);stroke:#1c6772;stroke-width:7.28102;stroke-opacity:0.992157;stroke-linejoin:round;stroke-linecap:round;fill-opacity:1;"
+     d="M 296.974 234.395 C 299.406 231.976 298.797 223.275 294.343 218.052 C 290.395 213.348 279.4 212.777 276.846 216.384 L 202.982 289.07 C 197.83 295.098 202.899 303.263 206.738 306.734 C 211.083 310.725 218.291 313.11 222.188 309.238 C 222.188 309.238 293.34 237.935 296.974 234.395 z "
+     id="path44"
+     transform="matrix(1.50015,-1.19261,1.53996,1.1618,-521.946,251.992)"
+     sodipodi:nodetypes="czcczcc" />
+</svg>
