@@ -273,11 +273,17 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
   RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
   // Установка надписи блокировки/разблокировки записи
-  QModelIndexList selectItems=selectionModel()->selectedIndexes();
-  if(selectItems.at(0).data(RECORD_BLOCK_ROLE).toString()=="1") // Все время забываю, что у объекта QModelIndex есть метод data()
-    parentPointer->actionBlock->setText(tr("Unblock note"));
+  QModelIndex selectItem=currentIndex();
+
+  if(!selectItem.isValid())
+    parentPointer->actionBlock->setText(tr("Block/Unblock note"));
   else
-    parentPointer->actionBlock->setText(tr("Block note"));
+  {
+    if(selectItem.data(RECORD_BLOCK_ROLE).toString()=="1") // Все время забываю, что у объекта QModelIndex есть метод data()
+      parentPointer->actionBlock->setText(tr("Unblock note"));
+    else
+      parentPointer->actionBlock->setText(tr("Block note"));
+  }
 
   // Устанавливается надпись для режима выбора записей
   if(selectionMode()==QAbstractItemView::SingleSelection)
@@ -308,8 +314,9 @@ void RecordTableView::editFieldContext(void)
  qDebug() << "In RecordTableView::editFieldContext";
 
  // Получение индекса выделенного элемента
- QModelIndexList selectItems=selectionModel()->selectedIndexes();
- QModelIndex index=selectItems.at(0);
+ // QModelIndexList selectItems=selectionModel()->selectedIndexes();
+ // QModelIndex index=selectItems.at(0);
+ QModelIndex index=currentIndex();
 
  controller->editFieldContext(index);
 
