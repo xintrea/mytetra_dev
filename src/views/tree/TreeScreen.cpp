@@ -1375,7 +1375,10 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
 {
  // Если попытка установить курсор на корень (а корень в MyTetra не отображается)
  if(index.column()==0 && index.row()==0)
+ {
+   qDebug() << "Try set cursor to ROOT index. Disabled.";
    return;
+ }
 
  // Курсор устанавливается на нужный элемент дерева
  // В desktop-варианте на сигнал currentRowChanged() будет вызван слот on_knowtree_clicked()

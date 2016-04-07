@@ -530,6 +530,10 @@ bool RecordTableData::isRecordExists(QString id)
 
 int RecordTableData::getPosById(QString id)
 {
+  qDebug() << "RecordTableData - getPosById() - id:" << id;
+  qDebug() << "RecordTableData - this:" << this;
+  qDebug() << "RecordTableData - this - size()" << size();
+
   for(unsigned int i=0; i<size(); i++)
     if(getField("id", i)==id)
       return i;
