@@ -319,7 +319,7 @@ void MainWindow::setTreePosition(QStringList path)
   // Получаем указатель на элемент вида TreeItem, используя путь
   TreeItem *item =treeScreen->knowTreeModel->getItem(path);
 
-  qDebug() << "Set tree position to " << item->getField("name") << " id " << item->getField("id");
+  // qDebug() << "Set tree position to " << item->getField("name") << " id " << item->getField("id");
 
   // Из указателя на элемент TreeItem получаем QModelIndex
   QModelIndex setto=treeScreen->knowTreeModel->getIndexByItem(item);

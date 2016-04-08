@@ -1373,12 +1373,23 @@ QItemSelectionModel * TreeScreen::getSelectionModel(void)
 
 void TreeScreen::setCursorToIndex(QModelIndex index)
 {
+  // qDebug() << "Set cursor to tree item: " << index.data(Qt::DisplayRole);
+
+  // Если индекс невалидный
+  if(!index.isValid())
+  {
+    qDebug() << "Try set cursor to bad index. Set cursor disabled.";
+    return;
+  }
+
+
  // Если попытка установить курсор на корень (а корень в MyTetra не отображается)
- if(index.column()==0 && index.row()==0)
+ if(!index.parent().isValid())
  {
    qDebug() << "Try set cursor to ROOT index. Disabled.";
    return;
  }
+
 
  // Курсор устанавливается на нужный элемент дерева
  // В desktop-варианте на сигнал currentRowChanged() будет вызван слот on_knowtree_clicked()

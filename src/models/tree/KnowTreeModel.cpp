@@ -874,19 +874,26 @@ QModelIndex KnowTreeModel::indexChildren(const QModelIndex &parent, int n) const
 // Получение QModelIndex по известному TreeItem
 QModelIndex KnowTreeModel::getIndexByItem(TreeItem *item)
 {
- int itemrow=item->childNumber();
- 
- return this->createIndex(itemrow, 0, item);
+  // Данный метод используется только функциями видов, поэтому скорость от него не требуется, можно вводить любые проверки
+  if(item)
+  {
+    int itemrow=item->childNumber();
+    return this->createIndex(itemrow, 0, item);
+  }
+  else
+  {
+    return QModelIndex(); // Возвращается некорректный индекс модели
+  }
 }
 
 
 // Возвращает общее количество записей, хранимых в дереве
 int KnowTreeModel::getAllRecordCount(void)
 {
- // Обнуление счетчика
- getAllRecordCountRecurse(rootItem, 0);
+  // Обнуление счетчика
+  getAllRecordCountRecurse(rootItem, 0);
 
- return getAllRecordCountRecurse(rootItem, 1);
+  return getAllRecordCountRecurse(rootItem, 1);
 }
 
 
