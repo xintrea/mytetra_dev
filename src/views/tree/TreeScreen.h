@@ -54,6 +54,7 @@ private slots:
  void ins_subbranch(void);
  void ins_branch(void);
  void edit_branch(void);
+ void setIcon(void);
 
  void del_branch(QString mode="delete");
  void del_one_branch(QModelIndex index);

@@ -104,5 +104,6 @@
         <file>resource/pic/print_table.svg</file>
         <file>resource/pic/switch_note_selection_mode.svg</file>
         <file>resource/pic/note_reference.svg</file>
+        <file>resource/pic/set_icon.svg</file>
     </qresource>
 </RCC>

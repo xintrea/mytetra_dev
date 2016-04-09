@@ -148,6 +148,13 @@ void TreeScreen::setupActions(void)
  connect(ac, SIGNAL(triggered()), this, SLOT(decrypt_branch()));
  actionList["decryptBranch"]=ac;
 
+ // Добавление иконки к ветке
+ ac = new QAction(tr("Set icon"), this);
+ ac->setStatusTip(tr("Set item icon"));
+ ac->setIcon(QIcon(":/resource/pic/set_icon.svg"));
+ connect(ac, SIGNAL(triggered()), this, SLOT(setIcon()));
+ actionList["setIcon"]=ac;
+
  // Открытие поиска по базе (связывание клика происходит в MainWindows)
  ac = new QAction(tr("Find in base"), this);
  ac->setStatusTip(tr("Find in base"));
@@ -244,6 +251,7 @@ void TreeScreen::on_customContextMenuRequested(const QPoint &pos)
   menu.addAction(actionList["insBranch"]);
   menu.addAction(actionList["editBranch"]);
   menu.addAction(actionList["delBranch"]);
+  menu.addAction(actionList["setIcon"]);
   menu.addSeparator();
   menu.addAction(actionList["expandAllSubbranch"]);
   menu.addAction(actionList["collapseAllSubbranch"]);
@@ -1155,6 +1163,13 @@ void TreeScreen::decryptBranchItem(void)
  // Проверяется, остались ли в дереве зашифрованные данные
  // если зашифрованных данных нет, будет предложено сбросить пароль
  treeCryptControl();
+}
+
+
+// Установка иконки для ветки
+void TreeScreen::setIcon(void)
+{
+  showMessageBox("Set icon");
 }
 
 
