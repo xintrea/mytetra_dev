@@ -1383,25 +1383,31 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
   }
 
 
- // Если попытка установить курсор на корень (а корень в MyTetra не отображается)
- if(!index.parent().isValid())
- {
-   qDebug() << "Try set cursor to ROOT index. Disabled.";
-   return;
- }
+  // Если попытка установить курсор на корень (а корень в MyTetra не отображается)
+  // Это условие некорректно.
+  // В древовидной Qt-модели узлы, находящиеся на верхнем уровне, считаются корневыми.
+  // У них нет общего корня. Модель хранит просто список узлов.
+  // Но надо разобраться дальше. Ведь по-хорошему должен быть корневой узел, в котором перечислены узлы верхнего уровня.
+  /*
+  if(!index.parent().isValid())
+  {
+    qDebug() << "Try set cursor to ROOT index. Disabled.";
+    return;
+  }
+  */
 
 
- // Курсор устанавливается на нужный элемент дерева
- // В desktop-варианте на сигнал currentRowChanged() будет вызван слот on_knowtree_clicked()
- knowTreeView->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
+  // Курсор устанавливается на нужный элемент дерева
+  // В desktop-варианте на сигнал currentRowChanged() будет вызван слот on_knowtree_clicked()
+  knowTreeView->selectionModel()->setCurrentIndex(index,QItemSelectionModel::ClearAndSelect);
 
- // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены строки в модели выбора)
- // Поэтому по ветке должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
- // Метод clicked() публичный начиная с Qt5 (мобильный интерфейс возможен только в Qt5)
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
- if(mytetraConfig.getInterfaceMode()=="mobile")
-   emit knowTreeView->clicked(index);
- #endif
+  // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены строки в модели выбора)
+  // Поэтому по ветке должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
+  // Метод clicked() публичный начиная с Qt5 (мобильный интерфейс возможен только в Qt5)
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+  if(mytetraConfig.getInterfaceMode()=="mobile")
+    emit knowTreeView->clicked(index);
+#endif
 }
 
 
