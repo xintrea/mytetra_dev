@@ -1169,7 +1169,7 @@ void TreeScreen::decryptBranchItem(void)
 // Установка иконки для ветки
 void TreeScreen::setIcon(void)
 {
-  showMessageBox("Set icon");
+  showMessageBox("Set icon to item");
 }
 
 
