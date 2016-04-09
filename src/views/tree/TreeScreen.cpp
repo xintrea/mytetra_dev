@@ -20,6 +20,7 @@
 #include "libraries/ClipboardBranch.h"
 #include "views/record/MetaEditor.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/DiskHelper.h"
@@ -27,7 +28,7 @@
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
-
+extern FixedParameters fixedParameters;
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
 {
@@ -1169,7 +1170,35 @@ void TreeScreen::decryptBranchItem(void)
 // Установка иконки для ветки
 void TreeScreen::setIcon(void)
 {
-  showMessageBox("Set icon to item");
+  QString startDirectory=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/standart";
+  qDebug() << "Set start directory for select icon: " << startDirectory;
+
+  // Создается окно выбора файла иконки
+  QFileDialog directorySelectDialog(this);
+  directorySelectDialog.setFileMode(QFileDialog::ExistingFile);
+  directorySelectDialog.setWindowTitle(tr("Select icon for item"));
+  directorySelectDialog.setDirectory( startDirectory );
+  directorySelectDialog.setNameFilter(tr("Images (*.svg)"));
+
+  if( directorySelectDialog.exec() )
+    if( !directorySelectDialog.selectedFiles().isEmpty() ) // Если был выбран файл иконки (а не нажат Cancel)
+    {
+      QString fullIconFileName=directorySelectDialog.selectedFiles().at(0);
+      QFileInfo iconFileInfo(fullIconFileName);
+      QString iconFileName=iconFileInfo.fileName();
+      QString iconDir=iconFileInfo.dir().dirName();
+      QString relatedFileName="/"+iconDir+"/"+iconFileName;
+
+      TreeItem *currentItem=knowTreeModel->getItem( getCurrentItemIndex() );
+
+      currentItem->setField("icon", relatedFileName);
+
+      // Обновляеются на экране ветка и ее подветки
+      updateBranchOnScreen( getCurrentItemIndex() );
+
+      // Записывается дерево
+      saveKnowTree();
+    }
 }
 
 

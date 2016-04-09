@@ -23,6 +23,7 @@ public:
 
     void init(void);
 
+    // Получение рабочей директории. Рабочая директория - это та, где лежит файл conf.ini
     QString getWorkDirectory(void);
 
     QString getActionLogFileName();

@@ -3,8 +3,12 @@
 #include "main.h"
 #include "models/recordTable/RecordTableData.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
+#include "models/appConfig/AppConfig.h"
 
 extern GlobalParameters globalParameters;
+extern FixedParameters fixedParameters;
+extern AppConfig mytetraConfig;
 
 
 // TreeModel - Это модель данных, которая работает с видом TreeScreen
@@ -67,6 +71,15 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DecorationRole)
     {
      TreeItem *item = getItem(index);
+
+     QString iconFileName=item->getField("icon");
+
+     if(iconFileName.length()>0)
+     {
+       QString iconFullName=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/"+iconFileName;
+       qDebug() << "Icon file name: " << iconFullName;
+       return QIcon(iconFullName);
+     }
 
      // Если ветка зашифрована
      if(item->getField("crypt")=="1")

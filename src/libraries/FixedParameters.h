@@ -32,6 +32,9 @@ public:
 
  QMap<QString, QString> recordFieldDescription(QStringList list) const;
 
+ // Директория относительно XML-файла, в которой хранятся директории с иконками
+ const QString iconsRelatedDirectory="icons";
+
 signals:
 
 public slots:
