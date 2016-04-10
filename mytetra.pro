@@ -179,7 +179,9 @@ HEADERS = src/main.h \
     src/libraries/ActionLogger.h \
     src/libraries/wyedit/EditorTablePropertiesForm.h \
     src/views/appConfigWindow/AppConfigPage_Attach.h \
-    src/libraries/TimerMonitoring.h
+    src/libraries/TimerMonitoring.h \
+    src/libraries/PreviewFileDialog.h \
+    src/libraries/IconSelectDialog.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -294,7 +296,9 @@ SOURCES = src/main.cpp \
     src/libraries/ActionLogger.cpp \
     src/libraries/wyedit/EditorTablePropertiesForm.cpp \
     src/views/appConfigWindow/AppConfigPage_Attach.cpp \
-    src/libraries/TimerMonitoring.cpp
+    src/libraries/TimerMonitoring.cpp \
+    src/libraries/PreviewFileDialog.cpp \
+    src/libraries/IconSelectDialog.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

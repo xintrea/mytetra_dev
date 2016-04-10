@@ -25,6 +25,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/DiskHelper.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "libraries/IconSelectDialog.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -1174,15 +1175,17 @@ void TreeScreen::setIcon(void)
   qDebug() << "Set start directory for select icon: " << startDirectory;
 
   // Создается окно выбора файла иконки
-  QFileDialog directorySelectDialog(this);
-  directorySelectDialog.setFileMode(QFileDialog::ExistingFile);
-  directorySelectDialog.setWindowTitle(tr("Select icon for item"));
-  directorySelectDialog.setDirectory( startDirectory );
-  directorySelectDialog.setNameFilter(tr("Images (*.svg)"));
+  IconSelectDialog iconSelectDialog;
+  iconSelectDialog.setPath( startDirectory );
+  iconSelectDialog.setDefaultSection( "standart" );
 
-  if( directorySelectDialog.exec() )
-    if( !directorySelectDialog.selectedFiles().isEmpty() ) // Если был выбран файл иконки (а не нажат Cancel)
+  // iconSelectDialog.setNameFilter("*.svg");
+
+  if( iconSelectDialog.exec() )
+    if( !iconSelectDialog.getSelectFileName().isEmpty() ) // Если был выбран файл иконки (а не нажат Cancel)
     {
+
+      /*
       QString fullIconFileName=directorySelectDialog.selectedFiles().at(0);
       QFileInfo iconFileInfo(fullIconFileName);
       QString iconFileName=iconFileInfo.fileName();
@@ -1198,6 +1201,7 @@ void TreeScreen::setIcon(void)
 
       // Записывается дерево
       saveKnowTree();
+      */
     }
 }
 

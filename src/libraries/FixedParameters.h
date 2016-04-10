@@ -10,30 +10,30 @@
 
 class FixedParameters : public QObject
 {
- Q_OBJECT
+  Q_OBJECT
 
 public:
- FixedParameters(QObject *parent=0);
- virtual ~FixedParameters();
+  FixedParameters(QObject *parent=0);
+  virtual ~FixedParameters();
 
- // Поля для записей
- QStringList recordFieldAvailableList;
- QStringList recordNaturalFieldAvailableList;
- QStringList recordCalculableFieldAvailableList;
- QStringList recordFieldCryptedList;
+  // Поля для записей
+  QStringList recordFieldAvailableList;
+  QStringList recordNaturalFieldAvailableList;
+  QStringList recordCalculableFieldAvailableList;
+  QStringList recordFieldCryptedList;
 
- // Поля для веток
- QStringList itemFieldAvailableList;
- QStringList itemFieldCryptedList;
+  // Поля для веток
+  QStringList itemFieldAvailableList;
+  QStringList itemFieldCryptedList;
 
- bool isRecordFieldAvailable(QString name) const;
- bool isRecordFieldNatural(QString name) const;
- bool isRecordFieldCalculable(QString name) const;
+  bool isRecordFieldAvailable(QString name) const;
+  bool isRecordFieldNatural(QString name) const;
+  bool isRecordFieldCalculable(QString name) const;
 
- QMap<QString, QString> recordFieldDescription(QStringList list) const;
+  QMap<QString, QString> recordFieldDescription(QStringList list) const;
 
- // Директория относительно XML-файла, в которой хранятся директории с иконками
- const QString iconsRelatedDirectory="icons";
+  // Директория относительно XML-файла, в которой хранятся директории с иконками
+  QString iconsRelatedDirectory;
 
 signals:
 
