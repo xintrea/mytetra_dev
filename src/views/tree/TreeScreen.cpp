@@ -1171,13 +1171,13 @@ void TreeScreen::decryptBranchItem(void)
 // Установка иконки для ветки
 void TreeScreen::setIcon(void)
 {
-  QString startDirectory=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/standart";
+  QString startDirectory=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory;
   qDebug() << "Set start directory for select icon: " << startDirectory;
 
   // Создается окно выбора файла иконки
   IconSelectDialog iconSelectDialog;
-  iconSelectDialog.setPath( startDirectory );
   iconSelectDialog.setDefaultSection( "standart" );
+  iconSelectDialog.setPath( startDirectory );
 
   // iconSelectDialog.setNameFilter("*.svg");
 

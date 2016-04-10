@@ -1,6 +1,5 @@
 #include <QObject>
 #include <QMimeData>
-#include <QProgressBar>
 #include <QMap>
 #include <QList>
 
