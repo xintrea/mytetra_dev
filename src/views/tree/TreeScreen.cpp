@@ -1176,17 +1176,13 @@ void TreeScreen::setIcon(void)
 
   // Создается окно выбора файла иконки
   IconSelectDialog iconSelectDialog;
-  iconSelectDialog.setDefaultSection( "standart" );
+  iconSelectDialog.setDefaultSection( "Essential" );
   iconSelectDialog.setPath( startDirectory );
-
-  // iconSelectDialog.setNameFilter("*.svg");
 
   if( iconSelectDialog.exec() )
     if( !iconSelectDialog.getSelectFileName().isEmpty() ) // Если был выбран файл иконки (а не нажат Cancel)
     {
-
-      /*
-      QString fullIconFileName=directorySelectDialog.selectedFiles().at(0);
+      QString fullIconFileName=iconSelectDialog.getSelectFileName();
       QFileInfo iconFileInfo(fullIconFileName);
       QString iconFileName=iconFileInfo.fileName();
       QString iconDir=iconFileInfo.dir().dirName();
@@ -1201,7 +1197,6 @@ void TreeScreen::setIcon(void)
 
       // Записывается дерево
       saveKnowTree();
-      */
     }
 }
 

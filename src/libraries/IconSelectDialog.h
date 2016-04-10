@@ -22,10 +22,15 @@ public:
 
   QString getSelectFileName(void);
 
+  int exec();
+
 protected slots:
 
   void okClick();
   void onSectionCurrentIndexChanged(const QString &iText);
+  void updateIcons();
+
+  void onIconItemSelectionChanged();
 
 protected:
 
@@ -41,6 +46,11 @@ protected:
 
   QString path;
   QString defaultSectionName;
+  QString currentSectionName;
+
+  bool enableIconUpdate;
+
+  QString currentFileName;
 };
 
 #endif // ICONSELECTDIALOG_H
