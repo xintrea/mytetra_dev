@@ -1,0 +1,146 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
+[
+ <!ATTLIST svg
+  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   width="128pt"
+   height="128pt"
+   id="svg1"
+   sodipodi:version="0.27"
+   sodipodi:docname="/mnt/windows/themes/Work/Blue-Sphere/button_ok.svg"
+   sodipodi:docbase="/mnt/windows/themes/Work/Blue-Sphere/"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs22">
+    <linearGradient
+       id="linearGradient601">
+      <stop
+         offset="0.000000"
+         style="stop-color:#ffffff;stop-opacity:1;"
+         id="stop603" />
+      <stop
+         offset="1.000000"
+         style="stop-color:#000000;stop-opacity:1;"
+         id="stop602" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient168">
+      <stop
+         offset="0.000000"
+         style="stop-color:#cdffff;stop-opacity:1;"
+         id="stop169" />
+      <stop
+         offset="1.000000"
+         style="stop-color:#0c5d7d;stop-opacity:0.905882;"
+         id="stop170" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient90">
+      <stop
+         offset="0.000000"
+         style="stop-color:#cdffff;stop-opacity:1;"
+         id="stop91" />
+      <stop
+         offset="1.000000"
+         style="stop-color:#006b97;stop-opacity:0.905882;"
+         id="stop92" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient67">
+      <stop
+         offset="0.000000"
+         style="stop-color:#d7ffff;stop-opacity:0.898039;"
+         id="stop70" />
+      <stop
+         offset="1.000000"
+         style="stop-color:#2ea6b9;stop-opacity:0.952941;"
+         id="stop69" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient57">
+      <stop
+         offset="0.000000"
+         style="stop-color:#ffffff;stop-opacity:1;"
+         id="stop59" />
+      <stop
+         offset="1.000000"
+         style="stop-color:#797979;stop-opacity:1;"
+         id="stop58" />
+    </linearGradient>
+    <defs
+       id="defs4">
+      <radialGradient
+         id="1"
+         cx="869.603027"
+         cy="1973.579956"
+         r="2106.649902"
+         fx="869.603027"
+         fy="1973.579956"
+         gradientUnits="userSpaceOnUse"
+         xlink:href="#linearGradient67" />
+    </defs>
+    <defs
+       id="defs11">
+      <linearGradient
+         id="2"
+         x1="255.848007"
+         y1="119.147003"
+         x2="375.686005"
+         y2="34.100899"
+         gradientUnits="userSpaceOnUse"
+         xlink:href="#linearGradient601" />
+    </defs>
+    <defs
+       id="defs16">
+      <linearGradient
+         id="3"
+         x1="275.053009"
+         y1="109.384003"
+         x2="356.480988"
+         y2="30.864300"
+         gradientUnits="userSpaceOnUse"
+         xlink:href="#linearGradient57" />
+    </defs>
+    <radialGradient
+       cx="3.03981e-14"
+       cy="1.05578e-10"
+       r="0.773346"
+       fx="3.03981e-14"
+       fy="1.05578e-10"
+       xlink:href="#linearGradient168"
+       id="radialGradient88"
+       gradientUnits="objectBoundingBox"
+       gradientTransform="matrix(0.945877,0,0,1.05722,0.264368,0.249996)"
+       spreadMethod="pad" />
+    <linearGradient
+       x1="2.69643"
+       y1="1.14655"
+       x2="3.85147"
+       y2="0.623116"
+       xlink:href="#linearGradient67"
+       id="linearGradient89"
+       gradientUnits="objectBoundingBox"
+       gradientTransform="translate(-2.65767,-0.201241)"
+       spreadMethod="pad" />
+  </defs>
+  <sodipodi:namedview
+     id="base" />
+  <path
+     style="font-size:12;fill:#539c3b;fill-opacity:0.992157;stroke:#0c482b;stroke-width:2.15943;stroke-opacity:0.992157;"
+     id="path2325"
+     d="M 66.8815 73.5265 C 71.2964 78.0037 73.2596 79.9409 79.4971 86.9468 C 85.4033 93.5707 85.9959 95.465 91.869 104.749 L 88.1023 107.751 C 82.2572 99.9539 82.4402 99.479 76.78 92.8584 L 62.4694 77.0077 L 66.8815 73.5265 z "
+     transform="matrix(2.01519,0,0,2.01519,-104.295,-85.0585)"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="font-size:12;fill:#539c3b;fill-opacity:0.992157;stroke:#0c482b;stroke-width:3.06807;stroke-opacity:0.992157;"
+     id="path2326"
+     d="M 86.078 89.2022 C 71.0432 101.063 61.0665 114.762 46.7762 130.744 L 41.6946 127.243 C 55.9372 108.272 63.811 98.2898 85.79 82.242 L 86.078 89.2022 z "
+     transform="matrix(1.67487,0,0,1.85521,-0.932201,-110.944)"
+     sodipodi:nodetypes="ccccc" />
+</svg>
