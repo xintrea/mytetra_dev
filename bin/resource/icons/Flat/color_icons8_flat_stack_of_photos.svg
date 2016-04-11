@@ -1,4 +1,5 @@
-<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
     <rect x="12.3" y="12.3" transform="matrix(.948 .318 -.318 .948 9.725 -6.994)" fill="#64B5F6" width="28" height="28"/>
     <rect x="15.6" y="15.4" transform="matrix(.951 .31 -.31 .951 9.176 -6.977)" fill="#1E88E5" width="22" height="20"/>
     <rect x="8.1" y="8.1" transform="matrix(.983 .181 -.181 .983 4.385 -3.65)" fill="#90CAF9" width="28" height="28"/>

@@ -1,4 +1,5 @@
-<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
     <polygon fill="#FF9800" points="24,37 19,31 19,25 29,25 29,31"/>
     <g fill="#FFA726">
         <circle cx="33" cy="19" r="2"/>

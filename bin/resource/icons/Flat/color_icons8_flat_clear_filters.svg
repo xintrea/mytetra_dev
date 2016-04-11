@@ -1,4 +1,5 @@
-<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 48 48" enable-background="new 0 0 48 48">
     <polygon fill="#F57C00" points="29,23 19,23 7,9 41,9"/>
     <g fill="#FF9800">
         <polygon points="29,38 19,44 19,23 29,23"/>
