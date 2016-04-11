@@ -42,7 +42,7 @@ UI_DIR = build
 
 TARGET = mytetra
 RESOURCES = bin/mytetra.qrc \
-    bin/icons.qrc
+            bin/icons.qrc
 TRANSLATIONS = bin/resource/translations/mytetra_ru.ts
 CODECFORTR  = utf8
 

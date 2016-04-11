@@ -857,6 +857,19 @@ void AppConfig::setEnablePeriodicCheckMessage(bool state)
 }
 
 
+int AppConfig::getPreviewIconSize(void)
+{
+ return conf->value("previewIconSize",0).toInt();
+}
+
+
+void AppConfig::setPreviewIconSize(int n)
+{
+ conf->setValue("previewIconSize", n);
+}
+
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -971,7 +984,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 30
+ // Последняя версия на данный момент - 31
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -1030,6 +1043,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(28, 29, get_parameter_table_28(), get_parameter_table_29());
  if(fromVersion<=29)
   updater.update_version(29, 30, get_parameter_table_29(), get_parameter_table_30());
+ if(fromVersion<=30)
+  updater.update_version(30, 31, get_parameter_table_30(), get_parameter_table_31());
 }
 
 
@@ -1624,7 +1639,7 @@ QStringList AppConfig::get_parameter_table_30(bool withEndSignature)
  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
  QStringList table;
 
- // Старые параметры, аналогичные версии 30
+ // Старые параметры, аналогичные версии 29
  table << get_parameter_table_29(false);
 
  table << "enablePeriodicCheckBase" << "bool" << "false";
@@ -1638,3 +1653,20 @@ QStringList AppConfig::get_parameter_table_30(bool withEndSignature)
  return table;
 }
 
+
+QStringList AppConfig::get_parameter_table_31(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 30
+  table << get_parameter_table_30(false);
+
+  table << "previewIconSize" << "int" << "24";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}

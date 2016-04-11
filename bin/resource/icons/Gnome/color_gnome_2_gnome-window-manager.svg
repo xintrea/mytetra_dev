@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:s="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48" id="svg2" s:version="0.32" inkscape:version="0.44" version="1.0" s:docbase="/home/lapo/Templates" s:docname="Icona 48x48.svg" inkscape:export-filename="/home/lapo/Desktop/xubuntu/pngs/wksp.png" inkscape:export-xdpi="90" inkscape:export-ydpi="90" sodipodi:version="0.32" sodipodi:docname="preferences-system-windows.svg" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/apps" inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <sodipodi:namedview inkscape:window-height="663" inkscape:window-width="1051" inkscape:pageshadow="2" inkscape:pageopacity="0.0" guidetolerance="10.0" gridtolerance="10.0" objecttolerance="10.0" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff" id="base" showgrid="false" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:showpageshadow="false" showborder="false" inkscape:zoom="1" inkscape:cx="128.38142" inkscape:cy="5.770186" inkscape:window-x="621" inkscape:window-y="135" inkscape:current-layer="layer1"/>
   <defs id="defs4">
     <linearGradient id="linearGradient3690">
       <stop style="stop-color:white;stop-opacity:1;" offset="0" id="stop3692"/>
@@ -26,32 +25,6 @@
     <s:guide orientation="vertical" position="24.041631" id="guide2191"/>
     <s:guide orientation="horizontal" position="25.986174" id="guide2203"/>
   </s:namedview>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:title>Window Manager</dc:title>
-        <dc:subject>
-          <rdf:Bag/>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1">
     <g id="g2865" transform="translate(0,-1)">
       <rect ry="2" rx="2" y="14" x="12.5" height="30.499985" width="33.000038" id="rect1887" style="fill:url(#linearGradient2882);fill-opacity:1;stroke:#888a85;stroke-width:1.00000024;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"/>

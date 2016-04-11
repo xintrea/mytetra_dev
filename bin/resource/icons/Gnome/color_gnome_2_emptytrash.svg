@@ -28,40 +28,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient5411" id="linearGradient5417" x1="-17.000057" y1="73.479156" x2="-19.345716" y2="98.479156" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.979216,0,1.222246)"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient4524" id="linearGradient4530" x1="-33.22401" y1="71.791658" x2="7.1282601" y2="71.791658" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview inkscape:document-units="px" id="base" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.11372549" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="4" inkscape:cx="32.887321" inkscape:cy="22.661013" inkscape:current-layer="g1623" inkscape:window-width="872" inkscape:window-height="695" inkscape:window-x="790" inkscape:window-y="365" fill="#204a87" inkscape:showpageshadow="false" showgrid="false"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Trash</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:date/>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>trash</rdf:li>
-            <rdf:li>delete</rdf:li>
-            <rdf:li>wastebasket</rdf:li>
-            <rdf:li>empty</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <dc:description/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:groupmode="layer" id="layer2" inkscape:label="Shadow">
     <path sodipodi:type="arc" style="opacity:1;color:#000000;fill:url(#radialGradient4217);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999982px;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path3336" sodipodi:cx="18.738329" sodipodi:cy="41.63604" sodipodi:rx="21.743534" sodipodi:ry="7.2478447" d="M 40.481863 41.63604 A 21.743534 7.2478447 0 1 1  -3.0052052,41.63604 A 21.743534 7.2478447 0 1 1  40.481863 41.63604 z" transform="translate(5.303301,-0.707107)"/>
   </g>

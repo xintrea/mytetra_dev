@@ -20,39 +20,6 @@
     </linearGradient>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient7025" id="linearGradient10840" gradientUnits="userSpaceOnUse" gradientTransform="translate(53,1.428571)" x1="13.630114" y1="28.5" x2="25.208096" y2="41.180992"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666" borderopacity="0.14117647" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="47.732719" inkscape:cy="24.207046" inkscape:current-layer="layer1" showgrid="true" inkscape:grid-bbox="true" inkscape:document-units="px" showguides="true" inkscape:guide-bbox="true" inkscape:window-width="810" inkscape:window-height="807" inkscape:window-x="610" inkscape:window-y="91" inkscape:showpageshadow="false"/>
-  <metadata id="metadata4294">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Accessories</dc:title>
-        <dc:date>August 2006</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Andreas Nilsson</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://www.gnome.org</dc:source>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>accessories</rdf:li>
-            <rdf:li>ruler</rdf:li>
-            <rdf:li>scissors</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g22150" style="opacity:0.3" transform="matrix(0.916667,0,0,0.714282,2,16.00012)">
       <rect y="35" x="0" height="7" width="4" id="rect22120" style="opacity:1;fill:url(#radialGradient23040);fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1"/>

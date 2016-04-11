@@ -57,13 +57,5 @@
     <linearGradient x1="-0.01654" y1="-0.546712" x2="0.0148676" y2="0.138341" xlink:href="#linearGradient120" id="linearGradient123" gradientUnits="objectBoundingBox" gradientTransform="matrix(1.27999,-1.2809,0.380134,0.400852,0.419179,0.455777)" spreadMethod="pad"/>
     <linearGradient x1="-0.01654" y1="-0.546712" x2="0.0148676" y2="0.138341" xlink:href="#linearGradient124" id="linearGradient127" gradientUnits="objectBoundingBox" gradientTransform="matrix(1.27999,-1.2809,0.380134,0.400852,0.419179,0.455777)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="vertical" position="62.788643" id="sodipodi:guide528"/>
-    <sodipodi:guide orientation="horizontal" position="61.981071" id="sodipodi:guide529"/>
-    <sodipodi:guide orientation="vertical" position="48.252365" id="sodipodi:guide530"/>
-    <sodipodi:guide orientation="horizontal" position="78.940063" id="sodipodi:guide531"/>
-    <sodipodi:guide orientation="vertical" position="78.536278" id="sodipodi:guide532"/>
-    <sodipodi:guide orientation="horizontal" position="45.425869" id="sodipodi:guide533"/>
-  </sodipodi:namedview>
   <path transform="matrix(0.856489,0,0,0.856489,-1.24074,85.8138)" style="font-size:12;fill:url(#radialGradient1860);fill-rule:evenodd;stroke:#1c6671;stroke-width:5.83779;stroke-opacity:0.988235;" d="M 92.9409 73.5477 L 71.7788 21.1856 L 21.1317 -3.71448 L 71.8332 -27.866 L 93.3599 -84.7621 L 116.128 -28.6777 L 168.101 -3.72656 L 116.541 20.3187 L 92.9409 73.5477 z " id="path521" sodipodi:nodetypes="ccccccccc"/>
 </svg>

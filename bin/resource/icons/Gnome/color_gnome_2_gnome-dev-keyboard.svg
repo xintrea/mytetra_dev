@@ -100,38 +100,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3028" id="radialGradient3038" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0,-0.750002,1.333334,0,-88.28573,-30.49999)" cx="2.9999995" cy="33.214287" fx="2.9999995" fy="33.214287" r="3"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3042" id="linearGradient3048" x1="37.03125" y1="35.062885" x2="37.03125" y2="29.995127" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,0.888889,0,3.833333)"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#849193" borderopacity="1.0000000" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="47.386599" inkscape:cy="0.8079723" inkscape:current-layer="layer3" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:showpageshadow="false" showborder="false" inkscape:window-width="1041" inkscape:window-height="745" inkscape:window-x="229" inkscape:window-y="229" showguides="true" inkscape:guide-bbox="true" inkscape:grid-points="false" stroke="#babdb6" fill="#888a85" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" borderlayer="top"/>
-  <metadata id="metadata3309">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Keyboard</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:subject>
-          <rdf:Bag/>
-        </dc:subject>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:groupmode="layer" id="layer3" inkscape:label="tastiera" style="display:inline">
     <g style="display:inline" id="g2932">
       <path sodipodi:nodetypes="czzc" id="path1541" d="M 33.050044,28.000002 C 25.031634,17.205412 50,24.993444 46.5,19.639172 C 43,14.2849 17,21.58618 19,16.231908 C 20.840343,11.305061 34.5,17.205412 32,5.0366119" style="opacity:0.10112359;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient5265);stroke-width:1.00000012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"/>

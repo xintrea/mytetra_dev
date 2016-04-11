@@ -579,6 +579,84 @@ void init_random(void)
 }
 
 
+void iconsCollectionCheck()
+{
+  qDebug() << "In iconsCollectionCheck(). Mytetra XML dir is: " << mytetraConfig.get_tetradir();
+
+  QString mytetraXmlDirName=mytetraConfig.get_tetradir();
+  QDir mytetraXmlDir( mytetraXmlDirName );
+
+  QString iconsDirName="icons"; // Путь относительно каталога где лежит mytetra.xml
+  QFileInfo iconsDirInfo(mytetraXmlDirName+"/"+iconsDirName);
+
+  // Если директория иконок существует, ничего делать не нужно
+  if(iconsDirInfo.exists())
+  {
+    qDebug() << "Icons directory is exist";
+    return;
+  }
+
+  // Создаются файлы иконок из ресурсов
+
+  QMessageBox msgBox;
+  msgBox.setText("Create icons...");
+  msgBox.setStandardButtons(QMessageBox::NoButton);
+  msgBox.setModal(false);
+  msgBox.show();
+
+  Q_INIT_RESOURCE(icons);
+
+  // Выясняется список директорий (т. е. разделов с иконками)
+  QDir sectionListDir(":/resource/icons/");
+  sectionListDir.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
+  QFileInfoList subdirList=sectionListDir.entryInfoList();
+
+  // Перебираются секции
+  for(int i=0; i<subdirList.size(); ++i)
+  {
+    QString sectionName=subdirList.at(i).fileName();
+
+    // Создается директория секции
+    QString sectionDirName=iconsDirName+"/"+sectionName;
+    if( !mytetraXmlDir.mkpath(sectionDirName) )
+    {
+      QString msg="Can't create icons section directory: "+sectionDirName;
+      showMessageBox(msg);
+      qDebug() << msg;
+      return;
+    }
+
+    QFile::setPermissions(sectionDirName, QFile::ReadUser | QFile::WriteUser);
+
+    // Выясняется список иконок в директории раздела
+    QDir iconsFileDir(":/resource/icons/"+sectionName);
+    iconsFileDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+    iconsFileDir.setNameFilters( (QStringList() << "*.svg" << "*.png") );
+    QFileInfoList iconsFileList=iconsFileDir.entryInfoList();
+
+    // Перебираются файлы иконок
+    for(int i=0; i<iconsFileList.size(); ++i)
+    {
+      QString iconName=iconsFileList.at(i).fileName();
+
+      QString iconFromName=":/resource/icons/"+sectionName+"/"+iconName;
+      QString iconToName=mytetraXmlDirName+"/"+iconsDirName+"/"+sectionName+"/"+iconName;
+
+      // qDebug() << "Copy icon file. From: " << iconFromName << " To: " << iconToName;
+
+      QFile::copy(iconFromName, iconToName);
+      QFile::setPermissions(iconFromName, QFile::ReadUser | QFile::WriteUser);
+    }
+  }
+
+  // Ресурсы иконок из памяти удаляются, так как они теперь развернуты на файловую систему
+  Q_CLEANUP_RESOURCE(icons);
+
+  msgBox.hide();
+  msgBox.close();
+}
+
+
 void printHelp()
 {
   printf("\n");
@@ -711,6 +789,9 @@ int main(int argc, char ** argv)
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
+
+ // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутсвуют)
+ iconsCollectionCheck();
 
  // Установка CSS-оформления
  setCssStyle();

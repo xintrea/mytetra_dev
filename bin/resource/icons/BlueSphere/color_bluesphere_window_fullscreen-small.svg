@@ -36,13 +36,6 @@
     <radialGradient cx="3.03981e-14" cy="1.05578e-10" r="0.773346" fx="3.03981e-14" fy="1.05578e-10" xlink:href="#linearGradient168" id="radialGradient88" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.945877,0,0,1.05722,0.264368,0.249996)" spreadMethod="pad"/>
     <linearGradient x1="2.69643" y1="1.14655" x2="3.85147" y2="0.623116" xlink:href="#linearGradient67" id="linearGradient89" gradientUnits="objectBoundingBox" gradientTransform="translate(-2.65767,-0.201241)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="114.876968" id="sodipodi:guide589"/>
-    <sodipodi:guide orientation="vertical" position="47.041008" id="sodipodi:guide590"/>
-    <sodipodi:guide orientation="vertical" position="83.381706" id="sodipodi:guide655"/>
-    <sodipodi:guide orientation="horizontal" position="76.921135" id="sodipodi:guide1057"/>
-    <sodipodi:guide orientation="horizontal" position="42.195583" id="sodipodi:guide1058"/>
-  </sodipodi:namedview>
   <path d="M 32.5 12 L 56.8988 34.5471 L 42.9771 34.8537 L 42.7252 52.7029 L 22.2748 52.7029 L 22.0229 34.8537 L 8.21868 35.1477 L 32.5 12 z " transform="matrix(0.797584,0,0,1.24992,56.2305,-2.71824)" style="stroke-width:3.72423;fill:#0c5d7d;stroke:#0c5d7d;stroke-opacity:0.99;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.992157;" id="polygon3" sodipodi:nodetypes="cccccccc"/>
   <path d="M 32.5 12 L 56.8988 34.5471 L 42.9771 34.8537 L 42.7252 52.7029 L 22.2748 52.7029 L 22.0229 34.8537 L 8.21868 35.1477 L 32.5 12 z " transform="matrix(9.95215e-19,0.781212,-1.22426,1.55963e-18,171.015,60.3555)" style="stroke-width:3.72423;fill:#0c5d7d;stroke:#0c5d7d;stroke-opacity:0.99;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.992157;" id="path651" sodipodi:nodetypes="cccccccc"/>
   <path d="M 32.5 12 L 56.8988 34.5471 L 42.9771 34.8537 L 42.7252 52.7029 L 22.2748 52.7029 L 22.0229 34.8537 L 8.21868 35.1477 L 32.5 12 z " transform="matrix(-0.81341,2.07245e-18,-3.24781e-18,-1.27472,108.565,172.894)" style="stroke-width:3.72423;fill:#0c5d7d;stroke:#0c5d7d;stroke-opacity:0.99;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:0.992157;" id="path652" sodipodi:nodetypes="cccccccc"/>

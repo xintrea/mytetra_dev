@@ -92,9 +92,6 @@
     <linearGradient x1="-0.258715" y1="-0.109747" x2="0.241703" y2="1.236570" xlink:href="#linearGradient408" id="linearGradient416"/>
     <linearGradient x1="0.107623" y1="0.133438" x2="1.00448" y2="0.986385" xlink:href="#linearGradient232" id="linearGradient418" gradientUnits="objectBoundingBox" gradientTransform="matrix(1,-5.11905e-06,0,1,-8.06426e-09,2.67899e-08)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="26.447950" id="sodipodi:guide411"/>
-  </sodipodi:namedview>
   <path style="font-size:12;fill:url(#radialGradient88);stroke:#0c5d7d;stroke-width:4.03585;stroke-opacity:0.99;" d="M 35.399 39.1321L 277.219 39.1321L 377.219 137.984L 377.219 548.198L 35.399 548.198L 35.399 39.1321z" id="path1761" transform="matrix(0.247445,0,0,0.252895,3.32667,0.98651)"/>
   <path style="font-size:12;fill:#ffffff;fill-opacity:0.699301;stroke:#2ea6b9;stroke-width:16.2714;stroke-opacity:0.82;" d="M 23.9471 20.1241L 265.767 20.1241L 365.767 120.124L 365.767 535.103L 23.9471 535.103L 23.9471 20.1241z" id="path1762" transform="matrix(0.247445,0,0,0.247445,3.32667,2.86417)"/>
   <path style="font-size:12;fill:url(#2);" d="M 276.767 133.124L 365.767 120.124L 265.767 20.1241" id="path1763" transform="matrix(0.247445,0,0,0.247445,3.32667,2.86417)"/>

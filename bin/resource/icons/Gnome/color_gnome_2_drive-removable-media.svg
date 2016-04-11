@@ -52,47 +52,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3709" id="linearGradient3715" x1="19.5625" y1="31.8125" x2="19.5625" y2="33.65863" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,1.333333,0,-8.33333)"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3725" id="linearGradient3731" x1="29.521708" y1="32.023651" x2="29.521708" y2="33.553349" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,1.333333,0,-8.33333)"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#c5c5c5" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="34.273727" inkscape:cy="22.63914" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="false" inkscape:document-units="px" stroke="#888a85" fill="#babdb6" inkscape:window-width="1262" inkscape:window-height="813" inkscape:window-x="376" inkscape:window-y="129" inkscape:showpageshadow="false" inkscape:guide-points="false" inkscape:object-points="false" inkscape:object-paths="false" inkscape:guide-bbox="true" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:grid-points="true" showguides="false" showborder="true" inkscape:object-bbox="true">
-    <sodipodi:guide orientation="horizontal" position="2.8125" id="guide2906"/>
-  </sodipodi:namedview>
-  <metadata id="metadata1311">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Drive Removable Media</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:description/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:source>http://www.gnome.org</dc:source>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <dc:date>2006</dc:date>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>drive</rdf:li>
-            <rdf:li>removable</rdf:li>
-            <rdf:li>media</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g transform="matrix(2.364027e-2,0,0,3.669526e-2,45.52649,31.53641)" id="g3895">
       <rect style="opacity:0.40206185;color:black;fill:url(#linearGradient3903);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="rect3897" width="1339.6335" height="478.35718" x="-1559.2523" y="-150.69685"/>

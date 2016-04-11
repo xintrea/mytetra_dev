@@ -29,37 +29,6 @@
       <feGaussianBlur inkscape:collect="always" stdDeviation="1.4531044" id="feGaussianBlur5657"/>
     </filter>
   </defs>
-  <sodipodi:namedview inkscape:showpageshadow="false" id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.16862745" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="31.500535" inkscape:cy="28.945566" inkscape:current-layer="layer2" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" fill="#9db029" stroke="#727e0a" inkscape:window-width="872" inkscape:window-height="815" inkscape:window-x="202" inkscape:window-y="68"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Person</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz</dc:source>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>user</rdf:li>
-            <rdf:li>person</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="cipek" inkscape:groupmode="layer" style="display:inline">
     <path style="opacity:1;color:#000000;fill:url(#linearGradient1372);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" d="M 13.365469,24.850231 L 19.043607,24.850231 L 15.731361,21.774572 L 15.021593,22.720929 L 14.311825,22.011162 L 13.365469,24.850231 z " id="path4173"/>
     <path sodipodi:nodetypes="cccc" id="path4370" d="M 19.882923,32.490544 C 21.530768,31.712992 22.297815,29.810737 22.297815,29.810737 C 21.014177,24.39981 16.976336,20.652646 16.976336,20.652646 C 16.976336,20.652646 20.274824,29.141269 19.882923,32.490544 z " style="opacity:0.22784807;color:#000000;fill:url(#linearGradient1366);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"/>

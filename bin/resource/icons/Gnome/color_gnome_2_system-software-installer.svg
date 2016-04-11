@@ -82,39 +82,6 @@
       <feGaussianBlur inkscape:collect="always" stdDeviation="2.0286765" id="feGaussianBlur6292"/>
     </filter>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#e0e0e0" borderopacity="1" gridtolerance="10000" guidetolerance="10" objecttolerance="10" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="43.072993" inkscape:cy="-8.275881" inkscape:document-units="px" inkscape:current-layer="layer1" width="48px" height="48px" inkscape:showpageshadow="false" inkscape:window-width="880" inkscape:window-height="829" inkscape:window-x="760" inkscape:window-y="280" showgrid="false"/>
-  <metadata id="metadata7859">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz</dc:source>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Software Installer</dc:title>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>software</rdf:li>
-            <rdf:li>install</rdf:li>
-            <rdf:li>installer</rdf:li>
-            <rdf:li>setup</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
     <rect style="opacity:0.5;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:block;overflow:visible;filter:url(#filter6290);enable-background:accumulate" id="rect6264" width="36.5" height="8" x="5" y="31" rx="4" ry="4"/>
     <rect style="opacity:1;color:#000000;fill:url(#linearGradient6232);fill-opacity:1;fill-rule:nonzero;stroke:#a0670c;stroke-width:1.00000083;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:block;overflow:visible;enable-background:accumulate" id="rect4873" width="31" height="25.999998" x="7.5" y="11.5" rx="1.9142135" ry="1.9142135"/>

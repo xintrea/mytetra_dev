@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:s="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48px" height="48px" id="svg1307" s:version="0.32" inkscape:version="0.44" s:docbase="/home/dobey" s:docname="cvs-removed.svg" sodipodi:version="0.32" sodipodi:docname="emblem-cvs-removed.svg" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/emblems" inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <sodipodi:namedview inkscape:window-height="480" inkscape:window-width="640" inkscape:pageshadow="2" inkscape:pageopacity="0.0" guidetolerance="10.0" gridtolerance="10.0" objecttolerance="10.0" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff" id="base"/>
   <defs id="defs1309"/>
   <s:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="13.5" inkscape:cx="24" inkscape:cy="24" inkscape:current-layer="layer1" showgrid="true" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="726" inkscape:window-height="843" inkscape:window-x="165" inkscape:window-y="48"/>
-  <metadata id="metadata1312">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <path style="fill:#555753;fill-opacity:1;fill-rule:evenodd;stroke:#2e3436;stroke-width:0.99999923px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M 5.5601022,14.501738 L 42.512786,14.501738 L 24.668712,46.499814 L 5.5601022,14.501738 z " id="path1325"/>
     <path style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#888a86;stroke-width:0.99999875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M 7.4629624,15.577414 L 40.520221,15.573565 L 24.656076,44.500001 L 7.4629624,15.577414 z " id="path2200" s:nodetypes="cccc"/>

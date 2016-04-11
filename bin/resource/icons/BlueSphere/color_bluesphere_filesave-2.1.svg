@@ -92,9 +92,6 @@
     <linearGradient x1="-0.258715" y1="-0.109747" x2="0.241703" y2="1.236570" xlink:href="#linearGradient408" id="linearGradient416"/>
     <linearGradient x1="0.107623" y1="0.133438" x2="1.00448" y2="0.986385" xlink:href="#linearGradient232" id="linearGradient418" gradientUnits="objectBoundingBox" gradientTransform="matrix(1,-5.11905e-06,0,1,-8.06426e-09,2.67899e-08)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="26.447950" id="sodipodi:guide411"/>
-  </sodipodi:namedview>
   <path style="font-size:12;fill:url(#radialGradient88);fill-opacity:0.99;stroke:#0c5c7d;stroke-width:9.27151;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99;" d="M -49.21 250.253 C -50.4531 237.758 -40.2031 227.28 -26.5727 228.549 L 281.811 293.495 C 293.021 296.711 300.174 303.367 303.271 318.626 L 303.001 556.999 L 271.496 574.417 L -20.6248 515.348 L -49.1325 483.196 L -49.21 250.253 z " id="path208" transform="matrix(0.376674,-0.0915178,0,0.44405,33.3526,-83.6463)" sodipodi:nodetypes="ccccccccc"/>
   <path style="font-size:12;fill:url(#linearGradient231);fill-opacity:0.699301;stroke-width:8.96855;stroke:#1c2942;stroke-opacity:0.992157;" d="M -46.2318 305.669 L 141.393 358.659 L 143.013 470.95 L -47.4986 417.316 L -46.2318 305.669 z " id="path230" transform="matrix(0.341557,-0.106441,0,0.377152,67.042,-16.847)" sodipodi:nodetypes="ccccc"/>
   <path style="font-size:12;fill:#ffffff;fill-opacity:0.992157;stroke-width:39.1707;stroke:#1c2942;stroke-opacity:0.992157;" d="M -54.9317 113.669 L 347.321 224.163 L 346.804 333.491 L -55.046 228.132 L -54.9317 113.669 z " id="path313" transform="matrix(-0.0205959,0.0210272,-0.000227304,-0.0794206,29.0843,49.5847)" sodipodi:nodetypes="ccccc"/>

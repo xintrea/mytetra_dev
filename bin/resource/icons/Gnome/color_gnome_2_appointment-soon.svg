@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48" id="svg1307" sodipodi:version="0.32" inkscape:version="0.44" version="1.0" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/status" sodipodi:docname="appointment-soon.svg" inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <sodipodi:namedview inkscape:cy="1.0951335" inkscape:cx="61.670128" inkscape:zoom="4" inkscape:window-height="1070" inkscape:window-width="1070" inkscape:pageshadow="2" inkscape:pageopacity="0.0" guidetolerance="10.0" gridtolerance="10.0" objecttolerance="10.0" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff" id="base" showgrid="false" inkscape:showpageshadow="false" inkscape:window-x="2489" inkscape:window-y="51" inkscape:current-layer="layer1"/>
   <defs id="defs1309">
     <linearGradient inkscape:collect="always" id="linearGradient2789">
       <stop style="stop-color:white;stop-opacity:1;" offset="0" id="stop2791"/>
@@ -25,32 +24,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2789" id="linearGradient2797" x1="25.593685" y1="20.92672" x2="26.1399" y2="51.027462" gradientUnits="userSpaceOnUse"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient2322" id="radialGradient2806" cx="23.965719" cy="24.92437" fx="23.965719" fy="24.92437" r="17.709194" gradientTransform="matrix(1.06539,0,0,1.065439,-1.567128,-7.700173)" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="namedview25" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="5.598901" inkscape:cx="33.956881" inkscape:cy="16" inkscape:current-layer="layer1" showgrid="true" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="736" inkscape:window-height="928" inkscape:window-x="198" inkscape:window-y="12"/>
-  <metadata id="metadata1312">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Appointment Soon</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Rodney Dawes</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>appointment</rdf:li>
-            <rdf:li>soon</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <path sodipodi:type="arc" style="opacity:0.65979381;color:black;fill:url(#radialGradient4499);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path4491" sodipodi:cx="16" sodipodi:cy="27.875" sodipodi:rx="12.125" sodipodi:ry="3.5" d="M 45.000003,40.5 C 45.000004,44.642135 35.374125,48 23.500002,48 C 11.625879,48 2.0000005,44.642135 2.0000005,40.5 C 2.0000005,36.357864 11.625879,33 23.500002,33 C 35.374125,33 45.000004,36.357864 45.000004,40.5 L 45.000003,40.5 z "/>
     <path sodipodi:type="arc" style="opacity:1;fill:url(#radialGradient2806);fill-opacity:1.0;stroke:#babdb6;stroke-width:1.00000048;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path2286" sodipodi:cx="8.6624146" sodipodi:cy="10.078017" sodipodi:rx="6.4298334" sodipodi:ry="7.0996075" d="M 41.17491,22.980241 C 41.17491,32.485067 33.470092,40.190252 23.965716,40.190252 C 14.46134,40.190252 6.7565222,32.485067 6.7565222,22.980241 C 6.7565222,13.475414 14.46134,5.7702302 23.965716,5.7702302 C 33.470092,5.7702302 41.17491,13.475414 41.17491,22.980241 L 41.17491,22.980241 z "/>

@@ -91,9 +91,6 @@
     <linearGradient x1="-0.0287253" y1="0.0341933" x2="-0.0612692" y2="0.311325" xlink:href="#linearGradient314" id="linearGradient319" gradientUnits="objectBoundingBox" gradientTransform="matrix(1.07397,0.00217354,-0.000316583,0.931124,0.53185,0.277306)" spreadMethod="pad"/>
     <linearGradient x1="0.254711" y1="0.138513" x2="-0.113999" y2="0.0703983" xlink:href="#linearGradient732" id="linearGradient735" gradientUnits="objectBoundingBox" gradientTransform="matrix(1.72489,1.17189,-0.0575163,0.540671,0.503708,0.486073)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="31.697161" id="sodipodi:guide619"/>
-  </sodipodi:namedview>
   <g id="g830" transform="matrix(0.971088,0,0,0.971088,15.7896,7.02533)">
     <path style="font-size:12;fill:url(#linearGradient215);fill-opacity:0.701961;stroke:#1c6671;stroke-width:9.25243;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.99;" d="M -49.21 243.091 C -46.9287 238.079 -38.9781 233.065 -32.1615 233.824 L 173.669 267.357 C 189.611 256.808 212.948 243.966 237.003 247.181 L 271.976 250.84 L 316.171 257.383 C 341.971 263.24 362.36 275.405 364.498 299.613 L 364.227 591.258 L -50.8332 491.502 L -49.21 243.091 z " id="path10" transform="matrix(0.296773,0,0,0.349857,36.2361,-65.7623)" sodipodi:nodetypes="cccccccccc"/>
     <g id="g822" transform="matrix(1,0,0.170856,0.992675,-24.2946,0.673683)">

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48" id="svg2" sodipodi:version="0.32" inkscape:version="0.44+devel" version="1.0" sodipodi:docbase="/home/lapo/Icone/svn/gnome-icon-theme/scalable/categories" sodipodi:docname="applications-graphics.svg" inkscape:export-filename="/home/lapo/Desktop/xubuntu/pngs/wksp.png" inkscape:export-xdpi="90" inkscape:export-ydpi="90" inkscape:output_extension="org.inkscape.output.svg.inkscape" sodipodi:modified="true">
-  <sodipodi:namedview inkscape:window-height="808" inkscape:window-width="1051" inkscape:pageshadow="2" inkscape:pageopacity="0.0" guidetolerance="10.0" gridtolerance="10.0" objecttolerance="10.0" borderopacity="1" bordercolor="#c8c8c8" pagecolor="#ffffff" id="base" showgrid="false" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:showpageshadow="false" showborder="false" inkscape:zoom="32" inkscape:cx="6.2542374" inkscape:cy="4.8355043" inkscape:window-x="58" inkscape:window-y="62" inkscape:current-layer="layer1" inkscape:grid-points="true" showguides="true" inkscape:guide-bbox="true"/>
   <defs id="defs4">
     <linearGradient inkscape:collect="always" id="linearGradient3310">
       <stop style="stop-color:#c17d11;stop-opacity:1" offset="0" id="stop3312"/>
@@ -81,41 +80,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3310" id="linearGradient3279" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.8048011,-8.4058945e-2,-0.2587753,0.8411918,10.723364,3.5105159)" x1="33.175713" y1="18.657627" x2="31.180811" y2="17.17729"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3301" id="linearGradient3308" x1="18.1875" y1="28.625" x2="41.4375" y2="6.1875" gradientUnits="userSpaceOnUse" gradientTransform="translate(0,-1)"/>
   </defs>
-  <sodipodi:namedview id="namedview30" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="10.097903" inkscape:cy="38.917761" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" gridempspacing="2" gridspacingx="0.5px" gridspacingy="0.5px" inkscape:window-width="965" inkscape:window-height="763" inkscape:window-x="176" inkscape:window-y="103" fill="#729fcf" stroke="#3465a4" inkscape:showpageshadow="false" showguides="false" inkscape:guide-bbox="true" inkscape:grid-points="true" inkscape:grid-bbox="false" showborder="true">
-    <sodipodi:guide orientation="vertical" position="24.041631" id="guide2191"/>
-    <sodipodi:guide orientation="horizontal" position="25.986174" id="guide2203"/>
-  </sodipodi:namedview>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Ulisse Perusin</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:title>applications-graphics</dc:title>
-        <dc:subject>
-          <rdf:Bag/>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1">
     <path sodipodi:type="arc" style="opacity:0.1;fill:url(#radialGradient3321);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="path3305" sodipodi:cx="10.5625" sodipodi:cy="46.0625" sodipodi:rx="8.5625" sodipodi:ry="4.5625" d="M 19.125 46.0625 A 8.5625 4.5625 0 1 1  2,46.0625 A 8.5625 4.5625 0 1 1  19.125 46.0625 z" transform="matrix(1.1094891,0,0,0.5479452,-1.7189781,16.635274)"/>
     <g id="g3828" transform="matrix(1.2345971,0,0,1.1113159,-22.671972,-10.707451)" style="opacity:0.30268196">

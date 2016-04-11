@@ -165,40 +165,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient5166" id="radialGradient5176" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.465649,0,0,1.221374,-84.36641,-101.0725)" cx="33" cy="45.5" fx="33" fy="45.5" r="2.046875"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient5180" id="linearGradient5186" x1="39" y1="48.000099" x2="39" y2="43" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="11.313708" inkscape:cx="50.13597" inkscape:cy="2.1579587" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="1051" inkscape:window-height="885" inkscape:window-x="520" inkscape:window-y="137" inkscape:showpageshadow="false" inkscape:grid-points="false" showborder="false"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Network Offline</dc:title>
-        <dc:date>2005-03-08</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:subject>
-          <rdf:Bag/>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/by-sa/2.0/"/>
-        <dc:source/>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner, Luca Ferretti</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/by-sa/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Attribution"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g5480" transform="translate(14.98536,1)">
       <g style="display:inline" inkscape:label="Layer 1" id="g5482"/>

@@ -166,48 +166,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2384" id="linearGradient2392" x1="10.5" y1="19.836557" x2="10.5" y2="21.077166" gradientUnits="userSpaceOnUse" gradientTransform="translate(0,1)"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2394" id="linearGradient2400" x1="13.5625" y1="19.84375" x2="13.5625" y2="21.3125" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview inkscape:window-y="183" inkscape:window-x="2217" inkscape:window-height="905" inkscape:window-width="895" stroke="#c17d11" fill="#e9b96e" inkscape:showpageshadow="false" inkscape:document-units="px" inkscape:grid-bbox="true" showgrid="false" inkscape:current-layer="layer1" inkscape:cy="3.1138858" inkscape:cx="43.822846" inkscape:zoom="1" inkscape:pageshadow="2" inkscape:pageopacity="0.0" borderopacity="1" bordercolor="#e0e0e0" pagecolor="#ffffff" id="base" showguides="false" inkscape:guide-bbox="true" showborder="true" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:grid-points="false">
-    <sodipodi:guide orientation="horizontal" position="27.499825" id="guide3495"/>
-  </sodipodi:namedview>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Misc Stuff</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source/>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>stuff</rdf:li>
-            <rdf:li>box</rdf:li>
-            <rdf:li>misc</rdf:li>
-            <rdf:li>various</rdf:li>
-            <rdf:li>mess</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <dc:date>2007-01-12</dc:date>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:groupmode="layer" inkscape:label="Layer 1" id="layer1">
     <g id="g3760" style="opacity:0.17241378" transform="matrix(1,0,0,1.0909091,0,-2.181818)">
       <rect y="35" x="37.064781" height="11" width="4.9352183" id="rect3762" style="opacity:1;fill:url(#radialGradient3768);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1"/>

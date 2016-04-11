@@ -63,7 +63,6 @@
     <linearGradient xlink:href="#linearGradient96" id="linearGradient98" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox" gradientTransform="translate(-1.43369e-09,3.91856e-09)" spreadMethod="pad"/>
     <radialGradient cx="-3.10843e-05" cy="-9.44729e-06" r="0.393446" fx="-3.10843e-05" fy="-9.44729e-06" xlink:href="#linearGradient124" id="radialGradient219" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.890575,0,0,1.12287,0.325906,0.375118)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base"/>
   <g id="g47" transform="matrix(0.43789,-0.654261,0.825347,0.72064,-60.4297,45.4951)">
     <path style="font-size:12;fill:url(#radialGradient88);stroke:#0c5d7d;stroke-width:4.03585;stroke-opacity:0.99;" d="M 35.399 39.1321 L 375.893 33.5501 L 377.219 548.198 L 35.399 548.198 L 35.399 39.1321 z " id="path1761" transform="matrix(0.343119,0.0837266,-0.0592633,0.120197,28.844,55.371)" sodipodi:nodetypes="ccccc"/>
     <path style="font-size:12;fill:#ffffff;fill-opacity:0.699301;stroke:#2ea6b9;stroke-width:16.2714;stroke-opacity:0.82;" d="M 23.9471 20.1241 L 364.441 25.8291 L 365.767 535.103 L 23.9471 535.103 L 23.9471 20.1241 z " id="path1762" transform="matrix(0.343119,0.0837266,-0.0579864,0.117606,28.4038,56.2633)" sodipodi:nodetypes="ccccc"/>

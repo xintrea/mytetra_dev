@@ -48,36 +48,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2301" id="linearGradient2307" x1="23.955357" y1="10.008928" x2="29.214285" y2="30.276785" gradientUnits="userSpaceOnUse"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2309" id="linearGradient2315" x1="6.7230334" y1="37.683041" x2="37.804565" y2="29.096745" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#a8a8a8" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="7.919596" inkscape:cx="41.482905" inkscape:cy="24.425816" inkscape:document-units="px" inkscape:current-layer="layer1" inkscape:showpageshadow="false" inkscape:grid-bbox="true" showgrid="true" inkscape:grid-points="true" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:window-width="872" inkscape:window-height="694" inkscape:window-x="0" inkscape:window-y="25" fill="#75507b"/>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Ulisse Perusin</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:title>Dictionary</dc:title>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>dictionary</rdf:li>
-            <rdf:li>translation</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1">
     <path sodipodi:type="arc" style="opacity:0.50196078;color:#000000;fill:url(#radialGradient2292);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:17.85;stroke-opacity:1;visibility:visible;display:block;overflow:visible" id="path2284" sodipodi:cx="24" sodipodi:cy="36.75" sodipodi:rx="22.5" sodipodi:ry="6.75" d="M 46.5 36.75 A 22.5 6.75 0 1 1  1.5,36.75 A 22.5 6.75 0 1 1  46.5 36.75 z" transform="matrix(1.066667,0,0,0.962963,-1.600001,1.111111)"/>
     <path style="color:#000000;fill:#523856;fill-opacity:1;fill-rule:nonzero;stroke:#3e263b;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:17.85;stroke-opacity:1;visibility:visible;display:block;overflow:visible" d="M 4.5,11.5 L 43.5,11.5 L 47.5,38.5 L 29,38.5 L 28,37.5 C 26,39 22,39 20,37.5 L 19,38.5 L 0.5,38.5 L 4.5,11.5 z " id="rect1304" sodipodi:nodetypes="ccccccccc"/>

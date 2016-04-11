@@ -83,43 +83,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3261" id="linearGradient2404" gradientUnits="userSpaceOnUse" gradientTransform="translate(0,1)" x1="31.246544" y1="21.75" x2="49.086681" y2="43.582108"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient5891" id="linearGradient2406" gradientUnits="userSpaceOnUse" gradientTransform="translate(10.000001,12.000001)" x1="23.9375" y1="11.21875" x2="32.5625" y2="14.09375"/>
   </defs>
-  <sodipodi:namedview inkscape:window-y="101" inkscape:window-x="222" inkscape:window-height="872" inkscape:window-width="1048" inkscape:document-units="px" inkscape:grid-bbox="true" showgrid="false" inkscape:current-layer="layer5" inkscape:cy="24.807258" inkscape:cx="29.214409" inkscape:zoom="1" inkscape:pageshadow="2" inkscape:pageopacity="0.0" borderopacity="1" bordercolor="#666" pagecolor="#ffffff" id="base" inkscape:showpageshadow="false" showborder="false"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Document Revert</dc:title>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>document</rdf:li>
-            <rdf:li>revert</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source/>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title/>
-          </cc:Agent>
-        </dc:contributor>
-        <dc:date>2007-02-15</dc:date>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:groupmode="layer" id="layer6" inkscape:label="Shadow"/>
   <g style="display:inline" inkscape:groupmode="layer" inkscape:label="Base" id="layer1"/>
   <g inkscape:groupmode="layer" id="layer5" inkscape:label="Text" style="display:inline">

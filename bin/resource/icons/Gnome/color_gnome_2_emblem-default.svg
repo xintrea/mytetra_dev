@@ -28,15 +28,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient5891" id="linearGradient5897" x1="8.587862" y1="14.717" x2="8.7232141" y2="7.4402122" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.8975788,0,0,2.0014635,3.6526132,0.494878)"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient9048" id="linearGradient9054" x1="14.651786" y1="26.13393" x2="14.249997" y2="12.160716" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.348032,0,0,1.3913043,2.7860361,2.2391312)"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1.4" inkscape:cx="5.7052451" inkscape:cy="26.070691" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" inkscape:window-width="1674" inkscape:window-height="968" inkscape:window-x="0" inkscape:window-y="26" fill="#8ae234" showguides="true" inkscape:guide-bbox="true" width="48px" height="48px"/>
-  <metadata id="metadata11060">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
     <path sodipodi:type="arc" style="opacity:1;fill:#cc0000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1" id="path11086" sodipodi:cx="3.0430846" sodipodi:cy="26.016556" sodipodi:rx="0.87125659" sodipodi:ry="0.87125659" d="M 3.9143412 26.016556 A 0.87125659 0.87125659 0 1 1  2.171828,26.016556 A 0.87125659 0.87125659 0 1 1  3.9143412 26.016556 z" transform="matrix(1.2658324,0,0,1.2715788,28.279647,-11.611853)"/>
     <path style="fill:url(#radialGradient11386);fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient5897);stroke-width:1.00000036px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M 5.5644329,23.566487 C 9.9796224,23.621579 18.420037,39.679751 18.598584,41.499998 L 25.479091,41.492291 C 25.524484,38.005771 37.580444,13.462673 42.55298,7.5134808 C 40.232557,7.5089876 37.810534,7.5044944 36.760918,7.5000002 C 26.346413,20.548538 21.561621,31.567727 21.537923,31.454753 C 21.610463,31.502325 17.184048,23.514559 12.943499,23.487481 L 5.5644329,23.566487 z " id="path11090" sodipodi:nodetypes="cccccccc"/>

@@ -67,7 +67,6 @@
     <linearGradient id="linearGradient434" x1="275.053009" y1="109.384003" x2="356.480988" y2="30.864300" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient57"/>
     <radialGradient cx="0.000000" cy="0.000000" r="0.773346" fx="0.000000" fy="0.000000" xlink:href="#linearGradient439" id="radialGradient458"/>
   </defs>
-  <sodipodi:namedview id="base"/>
   <g id="g444" transform="matrix(0.830023,0.21344,-0.21344,0.830023,34.527,-12.6722)">
     <path style="font-size:12;fill:url(#linearGradient89);fill-opacity:0.699301;stroke:#2ea6b9;stroke-width:14.0463;stroke-opacity:0.98;" d="M -52.1016 244.649 L 366.038 243.458 L 365.767 535.103 L -53.9123 533.292 L -52.1016 244.649 z " id="path10" transform="matrix(0.327849,0,0,0.386492,29.9559,-76.1115)" sodipodi:nodetypes="ccccc"/>
     <path style="font-size:12;fill:url(#radialGradient88);stroke:#0c5d7d;stroke-opacity:0.99;stroke-width:4.03585;" d="M -42.4604 274.763 L 433.35 273.812 L 434.557 303.708 L -42.4604 305.48 L -42.4604 274.763 z " id="path9" transform="matrix(0.278752,0,0,0.284891,26.8038,-57.9251)" sodipodi:nodetypes="ccccc"/>

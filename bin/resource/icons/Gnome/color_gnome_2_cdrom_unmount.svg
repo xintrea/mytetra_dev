@@ -35,37 +35,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#aigrd1" id="linearGradient3526" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.190476,0,0,1.190476,-4.308944,-3.833323)" x1="14.9966" y1="11.1885" x2="32.511" y2="34.3075"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient4409" id="linearGradient4415" x1="25.985928" y1="24.919628" x2="15.889072" y2="11.669628" gradientUnits="userSpaceOnUse" gradientTransform="translate(0.5,-0.353553)"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.22745098" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="172.97601" inkscape:cy="46.579636" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" stroke="#888a85" fill="#eeeeec" inkscape:window-width="1280" inkscape:window-height="949" inkscape:window-x="302" inkscape:window-y="165" inkscape:showpageshadow="false"/>
-  <metadata id="metadata1311">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Removable drive</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Andreas Nilsson</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:description/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:source>http://www.gnome.org</dc:source>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <path sodipodi:type="arc" style="opacity:0.55;color:#000000;fill:url(#radialGradient3507);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path23417" sodipodi:cx="23.334524" sodipodi:cy="41.63604" sodipodi:rx="22.627417" sodipodi:ry="5.6568542" d="M 45.961941 41.63604 A 22.627417 5.6568542 0 1 1  0.70710754,41.63604 A 22.627417 5.6568542 0 1 1  45.961941 41.63604 z" inkscape:r_cx="true" inkscape:r_cy="true" transform="matrix(1,0,0,1.066291,0.91548,-4.218429)"/>
     <path inkscape:r_cy="true" inkscape:r_cx="true" id="path3040" d="M 24.262486,2.8333435 C 12.714866,2.8333435 3.4291519,12.119058 3.4291519,23.666677 C 3.4291519,35.214297 12.714866,44.500012 24.262486,44.500012 C 35.810106,44.500012 45.095821,35.214297 45.095821,23.666677 C 45.095821,12.119058 35.810106,2.8333435 24.262486,2.8333435 L 24.262486,2.8333435 z M 24.262486,28.666678 C 21.524391,28.666678 19.262486,26.404773 19.262486,23.666677 C 19.262486,20.928582 21.524391,18.666677 24.262486,18.666677 C 27.000581,18.666677 29.262486,20.928582 29.262486,23.666677 C 29.262486,26.404773 27.000581,28.666678 24.262486,28.666678 z " style="fill:url(#linearGradient3526);fill-rule:nonzero;stroke:none;stroke-miterlimit:4"/>

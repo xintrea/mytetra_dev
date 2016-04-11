@@ -36,9 +36,6 @@
     <radialGradient cx="3.03981e-14" cy="1.05578e-10" r="0.773346" fx="3.03981e-14" fy="1.05578e-10" xlink:href="#linearGradient168" id="radialGradient88" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.945877,0,0,1.05722,0.264368,0.249996)" spreadMethod="pad"/>
     <linearGradient x1="2.69643" y1="1.14655" x2="3.85147" y2="0.623116" xlink:href="#linearGradient67" id="linearGradient89" gradientUnits="objectBoundingBox" gradientTransform="translate(-2.65767,-0.201241)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="-36.542587" id="sodipodi:guide743"/>
-  </sodipodi:namedview>
   <g id="g519">
     <path style="font-size:12;fill:#bceff1;fill-opacity:0.992157;stroke:#1c5574;stroke-width:14.6092;stroke-opacity:0.992157;" d="M 23.9471 20.1241L 265.767 20.1241L 365.767 120.124L 365.767 535.103L 23.9471 535.103L 23.9471 20.1241z" id="path1762" transform="matrix(0.213907,0,0,0.213907,18.2621,5.05336)"/>
     <path style="font-size:12;fill:url(#2);" d="M 276.767 133.124L 365.767 120.124L 265.767 20.1241" id="path1763" transform="matrix(0.213907,0,0,0.213907,18.2621,5.05336)"/>

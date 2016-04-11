@@ -63,37 +63,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3198" id="radialGradient3204" cx="15.3125" cy="34.65625" fx="15.3125" fy="34.65625" r="9.5" gradientTransform="matrix(1,0,0,1.003289,0,-0.114001)" gradientUnits="userSpaceOnUse"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3198" id="radialGradient3208" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1,0,0,1.003289,0,-0.114001)" cx="15.3125" cy="34.65625" fx="15.3125" fy="34.65625" r="9.5"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="31.777116" inkscape:cy="6.2374543" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" gridempspacing="2" gridspacingx="0.5px" gridspacingy="0.5px" inkscape:window-width="1051" inkscape:window-height="738" inkscape:window-x="263" inkscape:window-y="212" inkscape:showpageshadow="false" width="48px" height="48px" gridtolerance="10000" inkscape:grid-points="false" inkscape:grid-bbox="true" showborder="false" borderlayer="true" inkscape:guide-bbox="false" inkscape:object-paths="false"/>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:title>System Run</dc:title>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>run</rdf:li>
-            <rdf:li>launch</rdf:li>
-            <rdf:li>exec</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1">
     <path sodipodi:type="arc" style="opacity:0.49019608;fill:url(#radialGradient3204);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path3110" sodipodi:cx="15.3125" sodipodi:cy="34.65625" sodipodi:rx="9.5" sodipodi:ry="9.53125" d="M 24.8125 34.65625 A 9.5 9.53125 0 1 1  5.8125,34.65625 A 9.5 9.53125 0 1 1  24.8125 34.65625 z" transform="matrix(1.388157,0,0,0.498361,-4.756162,25.47868)"/>
     <path sodipodi:type="arc" style="opacity:0.24705882;fill:url(#radialGradient3208);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path3206" sodipodi:cx="15.3125" sodipodi:cy="34.65625" sodipodi:rx="9.5" sodipodi:ry="9.53125" d="M 24.8125 34.65625 A 9.5 9.53125 0 1 1  5.8125,34.65625 A 9.5 9.53125 0 1 1  24.8125 34.65625 z" transform="matrix(1.473683,0,0,0.655738,10.43425,15.52458)"/>

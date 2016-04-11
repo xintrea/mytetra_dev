@@ -23,36 +23,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient4928" id="radialGradient4915" cx="-6.0070167" cy="32.837029" fx="-6.0070167" fy="32.837029" r="9.90625" gradientTransform="matrix(1,-1.487184e-8,1.425535e-8,0.958546,22.7158,1.575973)" gradientUnits="userSpaceOnUse"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient4616" id="linearGradient4622" x1="25.355263" y1="34.006802" x2="25.355263" y2="32.409008" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.21960784" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="53.582131" inkscape:cy="0.81648389" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" fill="#fcaf3e" stroke="#555753" showguides="true" inkscape:guide-bbox="true" inkscape:window-width="895" inkscape:window-height="760" inkscape:window-x="336" inkscape:window-y="253" inkscape:showpageshadow="false"/>
-  <metadata id="metadata1311">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Generic Image</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner, Andreas Nilsson</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://www.gnome.org</dc:source>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title/>
-          </cc:Agent>
-        </dc:contributor>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g3799" transform="matrix(1.055093,0,0,1,-167.2219,125.75)" inkscape:r_cx="true" inkscape:r_cy="true" style="opacity:0.58241763">
       <path inkscape:r_cy="true" inkscape:r_cx="true" id="path1196" style="opacity:0.04787233;fill-rule:evenodd;stroke-width:3pt" d="M 162.36286,-88.911137 C 160.1183,-88.911137 158.3113,-86.711005 158.3113,-83.978106 C 158.3113,-81.245207 160.1183,-79.045075 162.36286,-79.045075 L 199.63718,-79.045075 C 201.88174,-79.045075 203.68873,-81.245207 203.68873,-83.978106 C 203.68873,-86.711005 201.88174,-88.911137 199.63718,-88.911137 L 162.36286,-88.911137 z "/>

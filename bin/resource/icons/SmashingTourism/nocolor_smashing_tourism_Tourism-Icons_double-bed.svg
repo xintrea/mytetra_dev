@@ -2,12 +2,12 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="48px" height="48px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<g id="Layer_2" display="none">
+  <g id="Layer_2" display="none">
 	<g display="inline" opacity="0.5">
 		<polygon fill="#0034DB" points="-102,-51 -102,-1 -306,-1 -306,51 201,51 201,1.5 201,-1.5 201,-51   "/>
 	</g>
 </g>
-<g id="Layer_1">
+  <g id="Layer_1">
 	<g>
 		<path d="M43.568,5.133c-1.335,0-2.395,1.082-2.395,2.416v7.882H6.826V4.649c0-1.334-1.06-2.416-2.395-2.416    c-1.334,0-2.394,1.082-2.394,2.416v39.617c0,1.334,1.06,2.416,2.394,2.416c1.335,0,2.395-1.082,2.395-2.416v-2.763h34.348v2.763    c0,1.334,1.06,2.416,2.395,2.416c1.334,0,2.394-1.082,2.394-2.416V7.548C45.962,6.214,44.902,5.133,43.568,5.133z M6.826,35.728    V21.26h34.348v14.468H6.826z"/>
 		<circle cx="12.106" cy="30.497" r="3.405"/>

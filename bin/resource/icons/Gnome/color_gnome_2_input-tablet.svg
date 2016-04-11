@@ -55,38 +55,6 @@
       <feGaussianBlur inkscape:collect="always" stdDeviation="1.3985314" id="feGaussianBlur5660"/>
     </filter>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="76.958663" inkscape:cy="21.57038" inkscape:document-units="px" inkscape:current-layer="layer1" inkscape:window-width="872" inkscape:window-height="902" inkscape:window-x="400" inkscape:window-y="130" inkscape:showpageshadow="false" width="48px" height="48px" showgrid="false" inkscape:grid-points="true" gridtolerance="1.4" gridspacingx="0.5px" gridspacingy="0.5px"/>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Graphic tablet</dc:title>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Sebastien Kraft</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>tablet</rdf:li>
-            <rdf:li>pen</rdf:li>
-            <rdf:li>input</rdf:li>
-            <rdf:li>stylus</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Ebene 1" inkscape:groupmode="layer" id="layer1">
     <path style="fill:none;fill-rule:evenodd;stroke:url(#radialGradient4667);stroke-width:0.99999994px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="M 13.91719,11.500001 C 11.738325,13.671032 28.288808,15.425275 29.441611,16.927577 C 32.396831,20.778743 13.808426,19.231703 10.240354,21.196732 C 5.5555129,23.067939 16.91313,22.897913 16.913132,26.522237" id="path46799" sodipodi:nodetypes="cscc"/>
     <path style="opacity:0.27058824;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter5658)" d="M 12.19393,28.500083 L 38.34636,28.500083 C 38.34636,28.500083 39.190322,28.471214 39.657664,29.48902 C 39.657664,29.48902 45.712165,43.506932 46.067164,44.310111 C 46.403002,45.069941 45.212186,45.755834 44.150175,45.755834 L 5.9180739,45.755834 C 4.8560623,45.755834 3.6652479,45.069941 4.0010855,44.310111 C 4.3560832,43.506932 10.882627,29.48902 10.882627,29.48902 C 11.194189,28.588698 12.19393,28.500083 12.19393,28.500083 z " id="path8537" sodipodi:nodetypes="ccccccccc"/>

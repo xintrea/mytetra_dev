@@ -2,13 +2,13 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="48px" height="48px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<g id="Layer_2" display="none">
+  <g id="Layer_2" display="none">
 	<g display="inline" opacity="0.5">
 		<polygon fill="#0034DB" points="148,-101 148,-51 -56,-51 -56,1 451,1 451,-48.5 451,-51.5 451,-101   "/>
 		<polygon fill="#D80000" points="451,0 -55,0 -55,50.5 -55,51.5 -55,101 99,101 99,52 451,52   "/>
 	</g>
 </g>
-<g id="Layer_1">
+  <g id="Layer_1">
 	<g>
 		<path d="M40.928,3.137H23.811c-2.473,0-4.477,2.004-4.477,4.477v10.82c0.017,0.164,0,0.33,0,0.497v6.171l2.83-1.02V7.592    c0-0.931,0.755-1.686,1.686-1.686h17.1c0.931,0,1.686,0.755,1.686,1.686v32.755c0,0.932-0.755,1.687-1.686,1.687h-17.1    c-0.931,0-1.686-0.755-1.686-1.687v-1.863l-2.83,1.042v0.861c0,2.472,2.004,4.477,4.477,4.477h17.118    c2.473,0,4.477-2.004,4.477-4.477V7.613C45.405,5.141,43.401,3.137,40.928,3.137z"/>
 		<path d="M32.501,8.917h-6.043c-0.642,0-1.163,0.521-1.163,1.163v7.911c0,0.642,0.521,1.163,1.163,1.163h6.043    c0.643,0,1.163-0.521,1.163-1.163V10.08C33.664,9.438,33.144,8.917,32.501,8.917z"/>

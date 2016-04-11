@@ -230,6 +230,9 @@ public:
     bool getEnablePeriodicCheckMessage(void);
     void setEnablePeriodicCheckMessage(bool state);
 
+    // Размер иконок в окне выбора (иконки, прикрепляемые к веткам)
+    int  getPreviewIconSize(void);
+    void setPreviewIconSize(int n);
 
 private:
 
@@ -274,6 +277,7 @@ private:
     QStringList get_parameter_table_28(bool withEndSignature=true);
     QStringList get_parameter_table_29(bool withEndSignature=true);
     QStringList get_parameter_table_30(bool withEndSignature=true);
+    QStringList get_parameter_table_31(bool withEndSignature=true);
 
     bool is_init_flag;
 };

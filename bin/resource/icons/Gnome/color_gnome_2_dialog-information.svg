@@ -29,38 +29,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient4712" id="linearGradient4718" x1="20.643551" y1="9.0398531" x2="25.755913" y2="26.8943" gradientUnits="userSpaceOnUse"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2990" id="linearGradient2996" x1="26" y1="22.116529" x2="27.550253" y2="28.126938" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview stroke="#3465a4" fill="#fce94f" id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.25490196" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="45.038263" inkscape:cy="20.92372" inkscape:current-layer="layer1" showgrid="true" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:showpageshadow="false" inkscape:window-width="856" inkscape:window-height="630" inkscape:window-x="817" inkscape:window-y="340"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz</dc:source>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Dialog Information</dc:title>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>dialog</rdf:li>
-            <rdf:li>info</rdf:li>
-            <rdf:li>information</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g4634" transform="translate(-60.46391,17)">
       <path inkscape:r_cy="true" inkscape:r_cx="true" sodipodi:type="arc" style="opacity:0.8;color:#000000;fill:url(#radialGradient4646);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path20208" sodipodi:cx="26.0625" sodipodi:cy="42.0625" sodipodi:rx="13.8125" sodipodi:ry="4.4375" d="M 39.875 42.0625 A 13.8125 4.4375 0 1 1  12.25,42.0625 A 13.8125 4.4375 0 1 1  39.875 42.0625 z" transform="matrix(1.197183,0,0,1.098591,55.79842,-20.08448)"/>

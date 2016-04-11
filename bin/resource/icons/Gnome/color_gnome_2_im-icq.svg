@@ -8,31 +8,6 @@
     </linearGradient>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient4876" id="radialGradient4882" cx="24.25" cy="39.5" fx="24.25" fy="39.5" r="19.75" gradientTransform="matrix(1,0,0,0.341772,0,26)" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview stroke="#fcaf3e" fill="#edd400" id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.25490196" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="33.11761" inkscape:cy="23.847589" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:showpageshadow="false" inkscape:window-width="750" inkscape:window-height="546" inkscape:window-x="533" inkscape:window-y="347"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz</dc:source>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>IM - ICQ</dc:title>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <path sodipodi:nodetypes="ccsccsc" id="path4856" d="M 22.405204,25.633363 L 7.5213078,29.093917 C 4.7544871,29.218216 2.4269788,27.090843 2.3026795,24.324022 C 2.1783801,21.557201 4.3057539,19.229694 7.072574,19.105394 L 22.206817,21.217386 C 23.430043,21.162431 24.459045,22.102955 24.513999,23.326181 C 24.568952,24.549407 23.628431,25.578409 22.405204,25.633363 z " style="color:#000000;fill:#edd400;fill-opacity:1;fill-rule:evenodd;stroke:#fcaf3e;stroke-width:0.99999952;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"/>
     <path style="color:#000000;fill:#edd400;fill-opacity:1;fill-rule:evenodd;stroke:#fcaf3e;stroke-width:0.99999952;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" d="M 24.466812,20.280122 L 28.686207,5.5933087 C 29.923971,3.1156712 32.915071,2.1175056 35.392708,3.3552698 C 37.870346,4.5930337 38.868511,7.5841333 37.630747,10.06177 L 28.421239,22.255652 C 27.874018,23.351029 26.551637,23.792323 25.456261,23.245101 C 24.360884,22.697879 23.91959,21.375499 24.466812,20.280122 z " id="path4854" sodipodi:nodetypes="ccsccsc"/>

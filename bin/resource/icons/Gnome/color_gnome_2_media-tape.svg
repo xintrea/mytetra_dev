@@ -98,39 +98,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2951" id="linearGradient1968" gradientUnits="userSpaceOnUse" x1="83.8125" y1="19.496916" x2="86.3125" y2="36" gradientTransform="translate(-50,0)"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2870" id="linearGradient2876" x1="35.1875" y1="42.312241" x2="32.8125" y2="22.157804" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#afafaf" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="27.814925" inkscape:cy="16.599125" inkscape:document-units="px" inkscape:current-layer="layer1" width="48px" height="48px" gridspacingx="0.5px" gridspacingy="0.5px" inkscape:showpageshadow="false" borderlayer="true" gridempspacing="2" inkscape:window-width="1051" inkscape:window-height="797" inkscape:window-x="0" inkscape:window-y="0" showgrid="false" inkscape:object-points="false" inkscape:object-paths="false" inkscape:grid-points="true" showborder="false"/>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Tape</dc:title>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>media</rdf:li>
-            <rdf:li>tape</rdf:li>
-            <rdf:li>cassette</rdf:li>
-            <rdf:li>backup</rdf:li>
-            <rdf:li>dds</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1">
     <path style="opacity:1;color:black;fill:url(#linearGradient2905);fill-opacity:1;fill-rule:nonzero;stroke:black;stroke-width:1.00000024;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" d="M 6.4968,7.5 L 4.5,9.5 L 4.5,25 L 43.5,25 L 43.5,9.5 L 43.4376,9.5 L 41.4408,7.5 L 6.4968,7.5 z " id="rect2853"/>
     <path style="opacity:1;color:black;fill:url(#radialGradient2913);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.00000024;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" d="M 6.616789,7.9946858 L 4.998544,9.7052704 L 5.005131,10.001073 L 43.058594,10 L 43.0642,9.7734375 L 41.39985,8 L 6.616789,7.9946858 z " id="path2862" sodipodi:nodetypes="ccccccc"/>

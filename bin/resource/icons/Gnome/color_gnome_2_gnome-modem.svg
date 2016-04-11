@@ -128,46 +128,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient5302" id="linearGradient2077" gradientUnits="userSpaceOnUse" x1="33.5" y1="34" x2="33.5625" y2="39.3125"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient2954" id="linearGradient2960" x1="21.8125" y1="13.249833" x2="21.8125" y2="40.441154" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#a8a8a8" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="8" inkscape:cx="22.089613" inkscape:cy="14.788443" inkscape:current-layer="layer2" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:grid-points="true" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:window-width="1051" inkscape:window-height="622" inkscape:window-x="78" inkscape:window-y="75" fill="#e9b96e" showguides="false" inkscape:guide-bbox="true" inkscape:showpageshadow="false" inkscape:object-paths="false" inkscape:object-points="false" showborder="false">
-    <sodipodi:guide orientation="vertical" position="11.010663" id="guide2239"/>
-    <sodipodi:guide orientation="vertical" position="3.9395949" id="guide2241"/>
-    <sodipodi:guide orientation="vertical" position="37.072598" id="guide2243"/>
-    <sodipodi:guide orientation="vertical" position="43.941636" id="guide2245"/>
-    <sodipodi:guide orientation="horizontal" position="39.0625" id="guide2983"/>
-  </sodipodi:namedview>
-  <metadata id="metadata1312">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Ulisse Perusin</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:title>Modem</dc:title>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>modem</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g5310" transform="matrix(1,0,0,1.6875,-6,-5.5625)" style="opacity:0.4">
       <rect y="21" x="9.5" height="8" width="4" id="rect5312" style="opacity:1;fill:url(#radialGradient5318);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:0.17241378"/>

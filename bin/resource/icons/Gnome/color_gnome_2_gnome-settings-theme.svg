@@ -1,35 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.0" x="0.0000000" y="0.0000000" width="48.000000px" height="48.000000px" id="svg1" sodipodi:version="0.32" inkscape:version="0.44" sodipodi:docname="preferences-desktop-theme.svg" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/apps" inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <metadata id="metadata162">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Magliette</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:date/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:identifier/>
-        <dc:subject>
-          <rdf:Bag/>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666" borderopacity="1" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-width="1043" inkscape:window-height="655" inkscape:cy="27.295512" inkscape:cx="50.306063" inkscape:zoom="1" inkscape:document-units="px" showgrid="false" inkscape:window-x="515" inkscape:window-y="341" inkscape:current-layer="layer2" inkscape:showpageshadow="false" showborder="false" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:grid-points="false" inkscape:guide-bbox="false"/>
   <defs id="defs3">
     <linearGradient id="linearGradient3073" inkscape:collect="always">
       <stop id="stop3075" offset="0" style="stop-color:#c4a000;stop-opacity:1"/>

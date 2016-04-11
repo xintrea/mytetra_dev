@@ -48,37 +48,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3816" id="radialGradient5498" gradientUnits="userSpaceOnUse" cx="31.112698" cy="19.008621" fx="31.112698" fy="19.008621" r="8.6620579"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient4562" id="radialGradient5500" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.558489,0,-1.377346e-8,0.563387,14.87134,4.364123)" cx="29.922075" cy="17.727694" fx="29.922075" fy="17.727694" r="17.986024"/>
   </defs>
-  <sodipodi:namedview inkscape:showpageshadow="false" id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="0.16862745" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="52.946513" inkscape:cy="-8.8981619" inkscape:current-layer="layer2" showgrid="true" inkscape:grid-bbox="true" inkscape:document-units="px" fill="#9db029" stroke="#727e0a" inkscape:window-width="866" inkscape:window-height="957" inkscape:window-x="2420" inkscape:window-y="156"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Person</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz</dc:source>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>user</rdf:li>
-            <rdf:li>person</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="cipek" inkscape:groupmode="layer" style="display:inline"/>
   <g inkscape:groupmode="layer" id="layer2" inkscape:label="dalsi cipek" style="display:inline">
     <g id="g5419" style="opacity:0.78857141" transform="translate(1,3)">

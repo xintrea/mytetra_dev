@@ -23,35 +23,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient2796" id="radialGradient2802" cx="31.760437" cy="22.226139" fx="31.760437" fy="22.226139" r="18.624397" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1.316528,0,0,1.316528,-10.05306,-9.280346)"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient2806" id="radialGradient2812" cx="25.25" cy="39.75" fx="25.25" fy="39.75" r="17.25" gradientTransform="matrix(1,0,0,0.333333,0,26.5)" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666" borderopacity="0.23529412" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="40.138787" inkscape:cy="11.506498" inkscape:window-width="1097" inkscape:window-height="956" gridspacingx="0.50000000mm" gridspacingy="0.50000000mm" showgrid="false" inkscape:grid-bbox="false" inkscape:window-x="391" inkscape:window-y="65" inkscape:current-layer="svg1" width="48px" height="48px" inkscape:showpageshadow="false"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Emblem Urgent</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Andreas Nilsson</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <path sodipodi:type="arc" style="opacity:0.64432989;color:black;fill:url(#radialGradient2812);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path2804" sodipodi:cx="25.25" sodipodi:cy="39.75" sodipodi:rx="17.25" sodipodi:ry="5.75" d="M 42.5 39.75 A 17.25 5.75 0 1 1  8,39.75 A 17.25 5.75 0 1 1  42.5 39.75 z" transform="matrix(1.15942,0,0,1.507246,-3.775362,-22.16304)"/>
   <path sodipodi:type="arc" style="fill:url(#radialGradient2784);fill-opacity:1.0;fill-rule:evenodd;stroke:#a40000;stroke-width:1.48962476;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" id="path907" sodipodi:cx="29.392656" sodipodi:cy="29.207693" sodipodi:rx="29.010935" sodipodi:ry="29.010935" d="M 58.403591 29.207693 A 29.010935 29.010935 0 1 1  0.3817215,29.207693 A 29.010935 29.010935 0 1 1  58.403591 29.207693 z" transform="matrix(0.67131,0,0,0.67131,5.222369,3.418373)"/>
   <path sodipodi:type="arc" style="fill:url(#radialGradient2802);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" id="path2159" sodipodi:cx="31.760445" sodipodi:cy="29.319231" sodipodi:rx="18.624397" sodipodi:ry="18.624397" d="M 50.384842 29.319231 A 18.624397 18.624397 0 1 1  13.136047,29.319231 A 18.624397 18.624397 0 1 1  50.384842 29.319231 z" transform="matrix(0.780964,0,0,0.780964,0.172888,-0.147684)"/>

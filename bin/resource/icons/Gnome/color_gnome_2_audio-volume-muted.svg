@@ -82,33 +82,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3698" id="radialGradient2001" cx="6.1016178" cy="20.352701" fx="6.1016178" fy="20.352701" r="2.5000024" gradientTransform="matrix(0.774994,6.9459,-1.923675,0.21464,39.98579,-31.37473)" gradientUnits="userSpaceOnUse"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient21582" id="linearGradient2009" x1="21.582108" y1="26.525888" x2="18.187626" y2="26" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="31.719735" inkscape:cy="15.738965" inkscape:document-units="px" inkscape:current-layer="layer4" width="48px" height="48px" inkscape:showpageshadow="false" borderlayer="true" showgrid="false" gridspacingx="0.5px" gridspacingy="0.5px" gridempspacing="2" inkscape:window-width="1051" inkscape:window-height="727" inkscape:window-x="153" inkscape:window-y="198" inkscape:guide-points="false" inkscape:grid-points="true" showguides="false" inkscape:guide-bbox="true" showborder="false" inkscape:grid-bbox="true">
-    <sodipodi:guide orientation="vertical" position="20.5" id="guide21670"/>
-    <sodipodi:guide orientation="horizontal" position="25.5" id="guide21672"/>
-  </sodipodi:namedview>
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Audio Volume Muted</dc:title>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="Livello 1" inkscape:groupmode="layer" id="layer1" style="display:inline">
     <path sodipodi:type="arc" style="opacity:1;fill:url(#radialGradient15347);fill-opacity:1;stroke:url(#linearGradient21614);stroke-width:0.94791663;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1" id="path13559" sodipodi:cx="20.84375" sodipodi:cy="21.84375" sodipodi:rx="2.84375" sodipodi:ry="2.84375" d="M 23.6875 21.84375 A 2.84375 2.84375 0 1 1  18,21.84375 A 2.84375 2.84375 0 1 1  23.6875 21.84375 z" transform="matrix(1.054945,0,0,1.054945,-1.48901,-0.543956)"/>
     <path sodipodi:type="arc" style="opacity:0.2;fill:url(#radialGradient17129);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1" id="path16236" sodipodi:cx="11.402097" sodipodi:cy="36.863068" sodipodi:rx="10.69499" sodipodi:ry="3.5355339" d="M 22.097087 36.863068 A 10.69499 3.5355339 0 1 1  0.70710659,36.863068 A 10.69499 3.5355339 0 1 1  22.097087 36.863068 z" transform="matrix(1.45582,0,0,2.078338,-1.697314,-43.43834)"/>

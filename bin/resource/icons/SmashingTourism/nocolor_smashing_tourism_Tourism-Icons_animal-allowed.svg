@@ -2,13 +2,13 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="48px" height="48px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<g id="Layer_2" display="none">
+  <g id="Layer_2" display="none">
 	<g display="inline" opacity="0.5">
 		<polygon fill="#0034DB" points="-52,-1 -52,49 -256,49 -256,101 251,101 251,51.5 251,48.5 251,-1   "/>
 		<polygon fill="#DD5E00" points="-151,-51 -151,-1 -255,-1 -255,48 -52,48 -52,-1 251,-1 251,-51   "/>
 	</g>
 </g>
-<g id="Layer_1">
+  <g id="Layer_1">
 	<g>
 		<ellipse transform="matrix(0.5075 -0.8616 0.8616 0.5075 -0.0975 29.2405)" cx="25.531" cy="14.706" rx="5.15" ry="3.756"/>
 		<ellipse transform="matrix(-0.264 0.9645 -0.9645 -0.264 32.8405 3.647)" cx="15.029" cy="14.353" rx="5.151" ry="3.755"/>

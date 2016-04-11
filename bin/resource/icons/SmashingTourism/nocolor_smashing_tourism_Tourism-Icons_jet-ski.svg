@@ -2,12 +2,12 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="48px" height="48px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
-<g id="Layer_2" display="none">
+  <g id="Layer_2" display="none">
 	<g display="inline" opacity="0.5">
 		<polygon fill="#00B7E8" points="49,-53 49,-3 -253,-3 -253,48 251,48 251,7.5 251,1.5 251,-53   "/>
 	</g>
 </g>
-<g id="Layer_1">
+  <g id="Layer_1">
 	<g>
 		<path d="M17.682,15.764h-2.671L5.01,14.045c-1.501-0.259-2.873,0.897-2.873,2.421v4.906h17.83v-3.323    C19.967,16.787,18.943,15.764,17.682,15.764z"/>
 		<path d="M1.025,28.039v0.055c0,3.046,2.99,5.5,6.68,5.5h32.521c3.689,0,6.671-2.454,6.671-5.5v-0.055H1.025z"/>

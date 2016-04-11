@@ -28,38 +28,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient5191" id="radialGradient5197" cx="22.288452" cy="34.537094" fx="22.288452" fy="34.537094" r="9.9375" gradientTransform="matrix(1.498147,2.619729e-16,-1.977154e-16,1.130677,-11.10293,-5.288817)" gradientUnits="userSpaceOnUse"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient5199" id="radialGradient5205" cx="24.125" cy="9.7349367" fx="24.125" fy="9.7349367" r="15.75" gradientTransform="matrix(1.652014,3.935566e-16,-2.592475e-16,1.088231,-15.72984,3.156134)" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="white" bordercolor="#666" borderopacity="0.34117647" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="58.57467" inkscape:cy="10.960154" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="822" inkscape:window-height="900" inkscape:window-x="581" inkscape:window-y="130" inkscape:showpageshadow="false"/>
-  <metadata id="metadata1311">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-        <dc:title>Weather Clear (Night)</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>weather</rdf:li>
-            <rdf:li>clear</rdf:li>
-            <rdf:li>night</rdf:li>
-            <rdf:li>moon</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <path sodipodi:type="arc" style="opacity:1;color:black;fill:url(#radialGradient5170);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path5162" sodipodi:cx="23.688078" sodipodi:cy="23.42804" sodipodi:rx="22.45064" sodipodi:ry="22.45064" d="M 46.138718 23.42804 A 22.45064 22.45064 0 1 1  1.2374382,23.42804 A 22.45064 22.45064 0 1 1  46.138718 23.42804 z" transform="translate(-0.146446,0.103554)"/>
     <path sodipodi:type="arc" style="opacity:1;color:black;fill:url(#radialGradient5160);fill-opacity:1.0;fill-rule:evenodd;stroke:#888a85;stroke-width:1.34021831;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="path1314" sodipodi:cx="23.071428" sodipodi:cy="23.142857" sodipodi:rx="22.142857" sodipodi:ry="22.142857" d="M 45.214285 23.142857 A 22.142857 22.142857 0 1 1  0.9285717,23.142857 A 22.142857 22.142857 0 1 1  45.214285 23.142857 z" transform="matrix(0.746154,0,0,0.74614,6.850475,6.75386)"/>

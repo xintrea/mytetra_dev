@@ -77,37 +77,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3002" id="linearGradient3059" gradientUnits="userSpaceOnUse" x1="37.211494" y1="36.354836" x2="37.211494" y2="37.51897"/>
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3063" id="radialGradient3061" cx="18.770273" cy="46.490704" fx="18.770273" fy="46.490704" r="18.958748" gradientTransform="matrix(1.5393,0,0,0.130217,-11.26806,34.38362)" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="28.704557" inkscape:cy="10.238295" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="1270" inkscape:window-height="945" inkscape:window-x="0" inkscape:window-y="25" inkscape:showpageshadow="false" showborder="false"/>
-  <metadata id="metadata4294">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Terminal Emulator</dc:title>
-        <dc:date>July 2006</dc:date>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Andreas Nilsson</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://www.gnome.org</dc:source>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
     <g id="g3029" style="opacity:0.7" transform="matrix(1,0,0,1.375,0,-16.5)">
       <rect style="opacity:1;color:black;fill:url(#linearGradient3034);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" id="rect6709" width="30.349747" height="7.9999976" x="8.8251228" y="36"/>

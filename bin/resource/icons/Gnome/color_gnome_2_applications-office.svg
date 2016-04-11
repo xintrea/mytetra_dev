@@ -1,34 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" id="svg2" sodipodi:version="0.32" inkscape:version="0.44" width="48" height="48" version="1.0" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/categories" sodipodi:docname="applications-office.svg" inkscape:output_extension="org.inkscape.output.svg.inkscape">
-  <metadata id="metadata7">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Josef Vybiral</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:contributor>
-          <cc:Agent>
-            <dc:title>Lapo Calamandrei, Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:contributor>
-        <dc:title>Office category</dc:title>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <defs id="defs5">
     <linearGradient inkscape:collect="always" id="linearGradient6506">
       <stop style="stop-color:white;stop-opacity:1;" offset="0" id="stop6508"/>
@@ -107,7 +79,6 @@
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient6490" id="linearGradient6496" x1="35.283695" y1="7.9827366" x2="35.194096" y2="6.3250184" gradientUnits="userSpaceOnUse"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient6506" id="linearGradient6512" x1="-71.724426" y1="8.4029417" x2="-71.637245" y2="6.193233" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview inkscape:window-height="676" inkscape:window-width="972" inkscape:pageshadow="2" inkscape:pageopacity="0.0" guidetolerance="10.0" gridtolerance="10.0" objecttolerance="10.0" borderopacity="1" bordercolor="#b3b3b3" pagecolor="#ffffff" id="base" showgrid="false" gridempspacing="2" gridspacingx="0.5px" gridspacingy="0.5px" showguides="true" inkscape:showpageshadow="false" inkscape:zoom="1" inkscape:cx="30.423598" inkscape:cy="18.081508" inkscape:window-x="436" inkscape:window-y="179" inkscape:current-layer="svg2" showborder="true" inkscape:object-points="false" inkscape:object-paths="false" inkscape:grid-points="true"/>
   <g inkscape:groupmode="layer" id="layer1" inkscape:label="vectors"/>
   <g id="g3314" style="opacity:0.3" transform="matrix(1.025079,0,0,1.567924,-0.589373,-22.96863)">
     <rect transform="scale(-1,-1)" y="-41.5" x="-5" height="6" width="3" id="rect3288" style="opacity:1;fill:url(#radialGradient3296);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.4;stroke-opacity:1"/>

@@ -31,9 +31,6 @@
     <radialGradient cx="1.06812e-14" cy="1.07223e-14" r="0.666083" fx="1.06812e-14" fy="1.07223e-14" xlink:href="#radialGradient194" id="radialGradient193" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.979595,0,0,1.02083,0.337068,0.292637)" spreadMethod="pad"/>
     <radialGradient xlink:href="#radialGradient189" id="radialGradient197" cx="4.04749e-17" cy="3.89647e-17" fx="4.04749e-17" fy="3.89647e-17" r="0.496336" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.974445,0,0,1.02623,0.518471,0.499208)" spreadMethod="pad"/>
   </defs>
-  <sodipodi:namedview id="base">
-    <sodipodi:guide orientation="horizontal" position="36.946373" id="sodipodi:guide74"/>
-  </sodipodi:namedview>
   <path style="font-size:12;fill-opacity:0.99;stroke:#2ea6b9;stroke-width:14.0463;stroke-opacity:0.98;fill:#fefcfe;" d="M -52.1016 244.649 L 366.038 243.458 L 365.767 535.103 L -53.9123 533.292 L -52.1016 244.649 z " id="path451" transform="matrix(0.860944,0,0,0.905602,149.79,-22.773)" sodipodi:nodetypes="ccccc"/>
   <path style="font-size:12;fill:#0c5d7d;stroke:#0c5d7d;stroke-width:4.03585;stroke-opacity:0.99;fill-opacity:0.992157;" d="M -42.4604 274.763 L 433.35 273.812 L 434.557 303.708 L -42.4604 305.48 L -42.4604 274.763 z " id="path455" transform="matrix(0.272474,0,0,0.636507,162.57,80.3058)" sodipodi:nodetypes="ccccc"/>
   <path style="font-size:12;fill:#0c5d7d;stroke:#0c5d7d;stroke-width:4.03585;stroke-opacity:0.99;fill-opacity:0.992157;" d="M -42.4604 274.763 L 433.35 273.812 L 434.557 303.708 L -42.4604 305.48 L -42.4604 274.763 z " id="path459" transform="matrix(0.272474,0,0,0.636507,162.57,126.358)" sodipodi:nodetypes="ccccc"/>

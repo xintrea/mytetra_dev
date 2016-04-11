@@ -18,41 +18,6 @@
     <radialGradient gradientUnits="userSpaceOnUse" r="11.689870" fy="72.568001" fx="14.287618" cy="68.872971" cx="14.287618" gradientTransform="matrix(1.399258,-2.234445e-7,8.196178e-8,0.513264,4.365074,4.839285)" id="radialGradient2308" xlink:href="#linearGradient2300" inkscape:collect="always"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient4746" id="linearGradient4752" x1="25.625187" y1="31.785736" x2="25.821404" y2="58.910736" gradientUnits="userSpaceOnUse"/>
   </defs>
-  <sodipodi:namedview inkscape:showpageshadow="false" id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="63.362147" inkscape:cy="-4.2524833" inkscape:current-layer="layer1" showgrid="false" inkscape:grid-bbox="true" inkscape:document-units="px" inkscape:window-width="872" inkscape:window-height="697" inkscape:window-x="414" inkscape:window-y="275"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Executable</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz/</dc:source>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>executable</rdf:li>
-            <rdf:li>program</rdf:li>
-            <rdf:li>binary</rdf:li>
-            <rdf:li>bin</rdf:li>
-            <rdf:li>script</rdf:li>
-            <rdf:li>shell</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:label="shadow" id="layer2" inkscape:groupmode="layer">
     <path transform="matrix(1.186380,0.000000,0.000000,1.186380,-4.539687,-7.794678)" d="M 44.285715 38.714287 A 19.928572 9.8372450 0 1 1  4.4285717,38.714287 A 19.928572 9.8372450 0 1 1  44.285715 38.714287 z" sodipodi:ry="9.8372450" sodipodi:rx="19.928572" sodipodi:cy="38.714287" sodipodi:cx="24.357143" id="path1538" style="color:#000000;fill:url(#radialGradient2308);fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:0.50000042;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible" sodipodi:type="arc"/>
   </g>

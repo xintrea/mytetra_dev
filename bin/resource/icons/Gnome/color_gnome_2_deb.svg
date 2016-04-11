@@ -40,45 +40,6 @@
     <radialGradient inkscape:collect="always" xlink:href="#linearGradient3681" id="radialGradient3720" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.99001,0,0,1.1,-14.88523,-86.15)" cx="5" cy="41.5" fx="5" fy="41.5" r="5"/>
     <linearGradient inkscape:collect="always" xlink:href="#linearGradient3703" id="linearGradient3722" gradientUnits="userSpaceOnUse" x1="17.554192" y1="46.000275" x2="17.554192" y2="34.999718" gradientTransform="matrix(1.179548,0,0,1,-4.219389,0)"/>
   </defs>
-  <sodipodi:namedview inkscape:window-y="131" inkscape:window-x="605" inkscape:window-height="891" inkscape:window-width="1051" stroke="#c17d11" fill="#e9b96e" inkscape:showpageshadow="false" inkscape:document-units="px" inkscape:grid-bbox="true" showgrid="false" inkscape:current-layer="layer1" inkscape:cy="6.8455345" inkscape:cx="39.429646" inkscape:zoom="11.313708" inkscape:pageshadow="2" inkscape:pageopacity="0.0" borderopacity="0.16470588" bordercolor="#666666" pagecolor="#ffffff" id="base"/>
-  <metadata id="metadata4">
-    <rdf:RDF>
-      <cc:Work rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-        <dc:title>Package</dc:title>
-        <dc:creator>
-          <cc:Agent>
-            <dc:title>Jakub Steiner</dc:title>
-          </cc:Agent>
-        </dc:creator>
-        <dc:source>http://jimmac.musichall.cz/</dc:source>
-        <dc:subject>
-          <rdf:Bag>
-            <rdf:li>package</rdf:li>
-            <rdf:li>archive</rdf:li>
-            <rdf:li>tarball</rdf:li>
-            <rdf:li>tar</rdf:li>
-            <rdf:li>bzip</rdf:li>
-            <rdf:li>gzip</rdf:li>
-            <rdf:li>zip</rdf:li>
-            <rdf:li>arj</rdf:li>
-            <rdf:li>tar</rdf:li>
-            <rdf:li>jar</rdf:li>
-          </rdf:Bag>
-        </dc:subject>
-        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
-      </cc:Work>
-      <cc:License rdf:about="http://creativecommons.org/licenses/GPL/2.0/">
-        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
-        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
-        <cc:requires rdf:resource="http://web.resource.org/cc/SourceCode"/>
-      </cc:License>
-    </rdf:RDF>
-  </metadata>
   <g inkscape:groupmode="layer" inkscape:label="Layer 1" id="layer1">
     <g id="g3713" transform="matrix(1.000001,0,0,0.818184,-3.376531e-6,7.363559)" style="opacity:0.4">
       <rect y="35" x="37.064781" height="11" width="4.9352183" id="rect1907" style="opacity:1;fill:url(#radialGradient3718);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.20000057;stroke-opacity:1"/>
