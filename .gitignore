@@ -12,6 +12,7 @@ mytetra.pro.user*
 !/bin/resource
 !/bin/resource/*
 !/bin/mytetra.qrc
+!/bin/icons.qrc
 
 
 # Ignore compiled Object files

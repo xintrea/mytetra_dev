@@ -13,6 +13,9 @@
 
 #include "main.h"
 #include "IconSelectDialog.h"
+#include "models/appConfig/AppConfig.h"
+
+extern AppConfig mytetraConfig;
 
 
 IconSelectDialog::IconSelectDialog()
@@ -40,7 +43,8 @@ void IconSelectDialog::setupUI()
   sectionLabel.setText(tr("Section"));
 
   // В списке иконок устанавливается размер отображаемых иконок
-  iconList.setIconSize(QSize(24, 24));
+  int iconSize=mytetraConfig.getPreviewIconSize();
+  iconList.setIconSize(QSize(iconSize, iconSize));
 
   // Линейка наполяемости скрывается. Она должна быть видна только в процессе загрузки иконок
   progressBar.hide();

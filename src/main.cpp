@@ -597,13 +597,6 @@ void iconsCollectionCheck()
   }
 
   // Создаются файлы иконок из ресурсов
-
-  QMessageBox msgBox;
-  msgBox.setText("Create icons...");
-  msgBox.setStandardButtons(QMessageBox::NoButton);
-  msgBox.setModal(false);
-  msgBox.show();
-
   Q_INIT_RESOURCE(icons);
 
   // Выясняется список директорий (т. е. разделов с иконками)
@@ -615,6 +608,8 @@ void iconsCollectionCheck()
   for(int i=0; i<subdirList.size(); ++i)
   {
     QString sectionName=subdirList.at(i).fileName();
+
+    qDebug() << "Extract icon section: " << sectionName;
 
     // Создается директория секции
     QString sectionDirName=iconsDirName+"/"+sectionName;
@@ -651,9 +646,6 @@ void iconsCollectionCheck()
 
   // Ресурсы иконок из памяти удаляются, так как они теперь развернуты на файловую систему
   Q_CLEANUP_RESOURCE(icons);
-
-  msgBox.hide();
-  msgBox.close();
 }
 
 
