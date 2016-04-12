@@ -70,28 +70,24 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     // Если запрашиваются элементы оформления
     if(role == Qt::DecorationRole)
     {
-     TreeItem *item = getItem(index);
+      TreeItem *item = getItem(index);
 
-     QString iconFileName=item->getField("icon");
+      QIcon resultIcon=item->getIcon();
 
-     if(iconFileName.length()>0)
-     {
-       QString iconFullName=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/"+iconFileName;
-       qDebug() << "Icon file name: " << iconFullName;
-       return QIcon(iconFullName);
-     }
+      // Если иконка существует, она выводится
+      if( !resultIcon.isNull() )
+        return resultIcon;
 
-     // Если ветка зашифрована
-     if(item->getField("crypt")=="1")
+      // Если ветка зашифрована
+      if(item->getField("crypt")=="1")
       {
-       // Если пароль не введен, доступа к ветке нет
-       if(globalParameters.getCryptKey().length()==0)
-        return QIcon(":/resource/pic/branch_closed.svg");
-       else
-        return QIcon(":/resource/pic/branch_opened.svg");
+        // Если пароль не введен, доступа к ветке нет
+        if(globalParameters.getCryptKey().length()==0)
+         return QIcon(":/resource/pic/branch_closed.svg");
+        else
+         return QIcon(":/resource/pic/branch_opened.svg");
       }
     }
-
 
     return QVariant();
 }

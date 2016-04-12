@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QDomElement>
 #include <QDomDocument>
+#include <QIcon>
 
 #include "models/recordTable/RecordTableData.h"
 
@@ -39,7 +40,7 @@ class TreeItem
     void setField(QString name, QString value);
 
     // Заполнение указанного поля данными напрямую, без преобразований
-    void setFieldDirect(QString name, QString value);
+    void setAllFieldDirect(const QMap<QString, QString> nameAndValue);
     
     // Добавление потомка (потомков) к текущему элементу
     // position - после какой позиции массива childItems вставить
@@ -92,6 +93,9 @@ class TreeItem
     // Получение идентификатора родительской ветки
     QString getParentId();
 
+    // Получение иконки ветки
+    QIcon getIcon();
+
     // Шифрация данной ветки и всех подветок
     void switchToEncrypt(void);
     
@@ -133,6 +137,8 @@ private:
     RecordTableData recordsTable;
 
     bool detachedState; // Флаг, влияющий на деструктор. Если detachedState=true, подчиненные элементы удаляться не будут
+
+    QIcon icon; // Иконка ветки
 };
 
 #endif

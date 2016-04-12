@@ -182,17 +182,16 @@ void KnowTreeModel::parseNodeElement(QDomElement domElement, TreeItem *iParent)
     QDomNamedNodeMap attributeMap = domElement.attributes();
 
     // Перебираются атрибуты узла дерева разделов
+    QMap<QString, QString> nameAndValue;
     for(int i = 0; i<attributeMap.count(); ++i)
      {
       QDomNode attribute = attributeMap.item(i);
 
-      QString name=attribute.nodeName();
-      QString value=attribute.nodeValue();
-
-      // В дерево разделов устанавливаются считанные атрибуты
-      parent->child(parent->childCount()-1)->setFieldDirect(name ,value);
+      nameAndValue[ attribute.nodeName() ]=attribute.nodeValue();
      }
 
+    // В дерево разделов устанавливаются считанные атрибуты (сразу все значения)
+    parent->child(parent->childCount()-1)->setAllFieldDirect(nameAndValue);
 
     // Вызов перебора оставшегося DOM дерева с прикреплением обнаруженных объектов
     // к только что созданному элементу
