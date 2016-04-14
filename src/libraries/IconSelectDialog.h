@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QListWidget>
-#include <QDialogButtonBox>
+#include <QPushButton>
 #include <QLabel>
 #include <QComboBox>
 #include <QProgressBar>
@@ -17,6 +17,8 @@ public:
   IconSelectDialog();
   ~IconSelectDialog();
 
+  enum resultCode{RemoveIconCode=2};
+
   void setPath(QString iPath);
   void setDefaultSection(QString iSectionName);
 
@@ -26,7 +28,9 @@ public:
 
 protected slots:
 
-  void okClick();
+  void onRemoveIconClick();
+  void onOkClick();
+  void onCancelClick();
   void onSectionCurrentIndexChanged(const QString &iText);
   void updateIcons();
 
@@ -41,7 +45,9 @@ protected:
   QLabel sectionLabel;
   QComboBox sectionComboBox;
   QListWidget iconList;
-  QDialogButtonBox buttonBox;
+  QPushButton buttonRemoveIcon;
+  QPushButton buttonOk;
+  QPushButton buttonCancel;
   QProgressBar progressBar;
 
   QString path;

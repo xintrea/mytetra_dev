@@ -14,6 +14,7 @@
 #include "main.h"
 #include "IconSelectDialog.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/mainWindow/MainWindow.h"
 
 extern AppConfig mytetraConfig;
 
@@ -36,6 +37,13 @@ IconSelectDialog::~IconSelectDialog()
 
 void IconSelectDialog::setupUI()
 {
+  // Установка ширины и высоты окна
+  int dialogWidth=int( 0.5 * (float)(find_object<MainWindow>("mainwindow")->width()) );
+  int dialogHeight=int( 0.5 * (float)(find_object<MainWindow>("mainwindow")->height()) );
+  setMinimumWidth( dialogWidth );
+  setMinimumHeight( dialogHeight );
+  resize( size() );
+
   // Заголовок окна
   setWindowTitle(tr("Select icon"));
 
@@ -49,9 +57,14 @@ void IconSelectDialog::setupUI()
   // Линейка наполяемости скрывается. Она должна быть видна только в процессе загрузки иконок
   progressBar.hide();
 
-  // Кнопки OK и Cancel
-  buttonBox.setOrientation(Qt::Horizontal);
-  buttonBox.setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+  // Кнопки
+  buttonRemoveIcon.setText(tr("Unset icon"));
+
+  buttonOk.setText(tr("Ok"));
+  buttonOk.setAutoDefault(true);
+  buttonOk.setDefault(true);
+
+  buttonCancel.setText(tr("Cancel"));
 }
 
 
@@ -66,8 +79,9 @@ void IconSelectDialog::setupSignals()
   // Двойной клик
   connect( &iconList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(accept()));
 
-  connect( &buttonBox, SIGNAL(accepted()), this, SLOT(okClick(void)) );
-  connect( &buttonBox, SIGNAL(rejected()), this, SLOT(reject()) );
+  connect( &buttonRemoveIcon, SIGNAL(clicked()), this, SLOT(onRemoveIconClick()) );
+  connect( &buttonOk, SIGNAL(clicked()), this, SLOT(onOkClick(void)) );
+  connect( &buttonCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()) );
 }
 
 
@@ -77,11 +91,18 @@ void IconSelectDialog::assembly()
   sectionLayout->addWidget( &sectionLabel );
   sectionLayout->addWidget( &sectionComboBox );
 
+  QHBoxLayout *buttonLayout=new QHBoxLayout(); // Указывать this не нужно, так как он назначится в момент вставки в основной слой
+  buttonLayout->addWidget( &buttonRemoveIcon );
+  buttonLayout->addStretch();
+  buttonLayout->addSpacing( int( 0.05 * (float)(find_object<MainWindow>("mainwindow")->width()) ) );
+  buttonLayout->addWidget( &buttonOk );
+  buttonLayout->addWidget( &buttonCancel );
+
   QVBoxLayout *mainLayout=new QVBoxLayout(); // Указывать this не нужно, так как он назначится когда этот слой станет основным слоем
-  mainLayout->addLayout(sectionLayout);
+  mainLayout->addLayout( sectionLayout );
   mainLayout->addWidget( &iconList );
   mainLayout->addWidget( &progressBar );
-  mainLayout->addWidget( &buttonBox );
+  mainLayout->addLayout( buttonLayout );
 
   setLayout(mainLayout);
 }
@@ -94,7 +115,7 @@ int IconSelectDialog::exec()
   enableIconUpdate=true;
 
   // Загрузка иконок запустится через 1 сек после старта основного цикла диалога
-  QTimer::singleShot(500, this, SLOT(updateIcons()));
+  QTimer::singleShot(0, this, SLOT(updateIcons()));
 
   return QDialog::exec();
 }
@@ -248,9 +269,21 @@ void IconSelectDialog::onIconItemSelectionChanged()
 }
 
 
-void IconSelectDialog::okClick()
+void IconSelectDialog::onRemoveIconClick()
+{
+  done(RemoveIconCode);
+}
+
+
+void IconSelectDialog::onOkClick()
 {
   accept();
+}
+
+
+void IconSelectDialog::onCancelClick()
+{
+  reject();
 }
 
 

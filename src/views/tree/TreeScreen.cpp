@@ -1179,25 +1179,41 @@ void TreeScreen::setIcon(void)
   iconSelectDialog.setDefaultSection( "Essential" );
   iconSelectDialog.setPath( startDirectory );
 
-  if( iconSelectDialog.exec() )
-    if( !iconSelectDialog.getSelectFileName().isEmpty() ) // Если был выбран файл иконки (а не нажат Cancel)
-    {
-      QString fullIconFileName=iconSelectDialog.getSelectFileName();
-      QFileInfo iconFileInfo(fullIconFileName);
-      QString iconFileName=iconFileInfo.fileName();
-      QString iconDir=iconFileInfo.dir().dirName();
-      QString relatedFileName="/"+iconDir+"/"+iconFileName;
+  int result=iconSelectDialog.exec();
 
-      TreeItem *currentItem=knowTreeModel->getItem( getCurrentItemIndex() );
+  if( result==QDialog::Accepted && iconSelectDialog.getSelectFileName().isEmpty() )
+  {
+    showMessageBox(tr("You don't select icon")); // Сообщение "Вы не выбрали иконку"
+  }
+  else if( result==QDialog::Accepted && !iconSelectDialog.getSelectFileName().isEmpty() ) // Если был выбран файл иконки и нажат Ok
+  {
+    QString fullIconFileName=iconSelectDialog.getSelectFileName();
+    QFileInfo iconFileInfo(fullIconFileName);
+    QString iconFileName=iconFileInfo.fileName();
+    QString iconDir=iconFileInfo.dir().dirName();
+    QString relatedFileName="/"+iconDir+"/"+iconFileName;
 
-      currentItem->setField("icon", relatedFileName);
+    TreeItem *currentItem=knowTreeModel->getItem( getCurrentItemIndex() );
 
-      // Обновляеются на экране ветка и ее подветки
-      updateBranchOnScreen( getCurrentItemIndex() );
+    currentItem->setField("icon", relatedFileName);
 
-      // Записывается дерево
-      saveKnowTree();
-    }
+    // Обновляеются на экране ветка и ее подветки
+    updateBranchOnScreen( getCurrentItemIndex() );
+
+    // Записывается дерево
+    saveKnowTree();
+  }
+  else if( result==IconSelectDialog::RemoveIconCode ) // Если было выбрано действие убирание иконки, назначенной для ветки
+  {
+    TreeItem *currentItem=knowTreeModel->getItem( getCurrentItemIndex() );
+    currentItem->setField("icon", "");
+
+    // Обновляеются на экране ветка и ее подветки
+    updateBranchOnScreen( getCurrentItemIndex() );
+
+    // Записывается дерево
+    saveKnowTree();
+  }
 }
 
 
