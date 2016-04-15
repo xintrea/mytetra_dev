@@ -209,7 +209,7 @@ void IconSelectDialog::updateIcons()
 }
 
 
-// Слот, срабатывающий при изменении строки в sectionComboBox
+// Слот при изменении строки раздела в sectionComboBox
 void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
 {
   // Если еще не разрешено обновлять список иконок
@@ -218,8 +218,8 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
 
   currentSectionName=iText;
 
-  // Очищаестя экранный список иконок
-  iconList.clear();
+  // Очищается экранный список иконок
+  iconList.clear(); // todo: Здесь сегфолт... Разобраться.
 
   QString iconDirName=path+"/"+iText;
 
@@ -263,7 +263,8 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
 // Когда выбрана иконка
 void IconSelectDialog::onIconItemSelectionChanged()
 {
-  QString shortSelectFileName=iconList.selectedItems().at(0)->text();
+  // QString shortSelectFileName=iconList.selectedItems().at(0)->text(); // Неясно, но похоже что после этой конструкции идет сегфолт в методе clean()
+  QString shortSelectFileName=iconList.currentItem()->text();
 
   currentFileName=path+"/"+currentSectionName+"/"+shortSelectFileName;
 }
