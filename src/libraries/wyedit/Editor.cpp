@@ -1097,6 +1097,12 @@ void Editor::onCopy(void)
 
 void Editor::onPaste(void)
 {
+  // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
+  // все равно можно сделать вставку текста (и замену выделенного текста на вставляемый) через контекстное меню.
+  // Здесь происходит блокировка этого действия
+  if(textArea->isReadOnly())
+    return;
+
   textArea->paste();
   editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }

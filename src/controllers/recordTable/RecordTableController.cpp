@@ -649,6 +649,9 @@ void RecordTableController::onBlockContext(void)
       find_object<TreeScreen>("treeScreen")->saveKnowTree(); // Сохранение дерева веток
     }
   }
+
+  // По записи происходит виртуальный клик, чтобы интерфейс принял новое состояние блокировки записи
+  clickToRecord(index);
 }
 
 
