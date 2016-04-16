@@ -25,68 +25,68 @@ public:
   virtual ~EditorToolBar();
 
   // Кнопки форматирования текста
-  QToolButton   *bold=NULL;
-  QToolButton   *italic=NULL;
-  QToolButton   *underline=NULL;
-  QToolButton   *monospace=NULL;
-  QToolButton   *code=NULL;
-  QToolButton   *clear=NULL;
+  QToolButton   bold;
+  QToolButton   italic;
+  QToolButton   underline;
+  QToolButton   monospace;
+  QToolButton   code;
+  QToolButton   clear;
 
-  QToolButton   *numericList=NULL;
-  QToolButton   *dotList=NULL;
+  QToolButton   numericList;
+  QToolButton   dotList;
 
-  QToolButton   *indentPlus=NULL;
-  QToolButton   *indentMinus=NULL;
+  QToolButton   indentPlus;
+  QToolButton   indentMinus;
 
-  QToolButton   *alignLeft=NULL;
-  QToolButton   *alignCenter=NULL;
-  QToolButton   *alignRight=NULL;
-  QToolButton   *alignWidth=NULL;
+  QToolButton   alignLeft;
+  QToolButton   alignCenter;
+  QToolButton   alignRight;
+  QToolButton   alignWidth;
 
-  QToolButton   *settings=NULL;
+  QToolButton   settings;
 
-  QFontComboBox *fontSelect=NULL;
-  MtComboBox    *fontSize=NULL;
-  QToolButton   *fontColor=NULL;
+  QFontComboBox fontSelect;
+  MtComboBox    fontSize;
+  QToolButton   fontColor;
 
-  QToolButton   *reference=NULL;
+  QToolButton   reference;
 
-  QToolButton   *showHtml=NULL;
+  QToolButton   showHtml;
 
-  QToolButton   *findText=NULL;
+  QToolButton   findText;
 
-  QToolButton   *showFormatting=NULL;
+  QToolButton   showFormatting;
 
-  QToolButton   *createTable=NULL;
-  QToolButton   *tableRemoveRow=NULL;
-  QToolButton   *tableRemoveCol=NULL;
-  QToolButton   *tableAddRow=NULL;
-  QToolButton   *tableAddCol=NULL;
-  QToolButton   *tableMergeCells=NULL;
-  QToolButton   *tableSplitCell=NULL;
-  QToolButton   *tableProperties=NULL;
+  QToolButton   createTable;
+  QToolButton   tableRemoveRow;
+  QToolButton   tableRemoveCol;
+  QToolButton   tableAddRow;
+  QToolButton   tableAddCol;
+  QToolButton   tableMergeCells;
+  QToolButton   tableSplitCell;
+  QToolButton   tableProperties;
 
-  QToolButton   *insertImageFromFile=NULL;
-  QToolButton   *expandEditArea=NULL;
-  QToolButton   *expandToolsLines=NULL;
-  QToolButton   *save=NULL;
+  QToolButton   insertImageFromFile;
+  QToolButton   expandEditArea;
+  QToolButton   expandToolsLines;
+  QToolButton   save;
 
-  QToolButton   *back=NULL;
-  QToolButton   *findInBase=NULL;
+  QToolButton   back;
+  QToolButton   findInBase;
 
-  QToolButton   *showText=NULL;
+  QToolButton   showText;
 
-  QToolButton   *toAttach=NULL;
+  QToolButton   toAttach;
 
   QIcon         iconAttachExists; // Иконка, когда аттачи есть
   QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
   // Линейки с кнопками форматирования текста
-  QToolBar    *toolsLine1=NULL;
-  QToolBar    *toolsLine2=NULL;
+  QToolBar    toolsLine1;
+  QToolBar    toolsLine2;
 
   // Область, содержащая линейки с кнопками форматирования
-  QVBoxLayout *textformatButtonsLayout=NULL;
+  QVBoxLayout textformatButtonsLayout;
 
   void init();
 
@@ -116,7 +116,7 @@ protected:
   void setupButtons(void);
   void assemblyButtons(void);
 
-  void insertButtonToToolsLine(QString toolName, QToolBar *line);
+  void insertButtonToToolsLine(QString toolName, QToolBar &line);
 
   QList<QWidget *> getButtonWidgetList(void);
   void hideAllToolsElements(void);

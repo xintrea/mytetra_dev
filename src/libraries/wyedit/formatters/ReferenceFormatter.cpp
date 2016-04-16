@@ -37,7 +37,7 @@ void ReferenceFormatter::onReferenceClicked(void)
   // Создание виджета запроса URL с указанием редактора как родительского виджета
   QInputDialog inputDialog(editor);
 
-  // Установка ширины
+  // Установка ширины виджета запроса URL
   int dialogWidth=int(0.8*(float)textArea->width());
   inputDialog.setMinimumWidth( dialogWidth );
   inputDialog.resize(inputDialog.size());
