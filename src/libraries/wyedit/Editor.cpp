@@ -255,6 +255,9 @@ void Editor::setupSignals(void)
   connect( &(editorToolBarAssistant->clear), SIGNAL(clicked()),
            typefaceFormatter,                SLOT  (onClearClicked()),
           Qt::DirectConnection);
+  connect( &(editorToolBarAssistant->fixBreakSymbol), SIGNAL(clicked()),
+           typefaceFormatter,                SLOT  (onFixBreakSymbolClicked()),
+          Qt::DirectConnection);
 
   connect( &(editorToolBarAssistant->fontSelect), SIGNAL(currentFontChanged(const QFont &)),
            typefaceFormatter,                     SLOT  (onFontselectChanged(const QFont &)),

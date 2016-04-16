@@ -31,6 +31,7 @@ public:
   QToolButton   monospace;
   QToolButton   code;
   QToolButton   clear;
+  QToolButton   fixBreakSymbol;
 
   QToolButton   numericList;
   QToolButton   dotList;

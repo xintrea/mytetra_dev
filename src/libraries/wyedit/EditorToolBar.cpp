@@ -107,6 +107,12 @@ void EditorToolBar::setupButtons(void)
   clear.setIcon(QIcon(":/resource/pic/edit_clear.svg"));
   clear.setObjectName("editor_tb_clear");
 
+  // Кнопка замены символов мягкого переноса (тег <br/> заменяется на разрыв параграфа </p><p>)
+  fixBreakSymbol.setParent(this);
+  // fixBreakSymbol.setShortcut(QKeySequence(tr("Ctrl+K")));
+  fixBreakSymbol.setStatusTip(tr("Replace soft carriage return to standard carriage return.")); // Замена символов мягкого перевода строк на обычный
+  fixBreakSymbol.setIcon(QIcon(":/resource/pic/edit_fixBreakSymbol.svg"));
+  fixBreakSymbol.setObjectName("editor_tb_fix_break_symbol");
 
   // Кнопка нумерованного списка
   numericList.setParent(this);
@@ -426,12 +432,6 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
   {
     QString name("editor_tb_"+toolName);
 
-    // QWidget *tool=this->findChild<QWidget *>(name); // Исходная команда, когда в классе содержались указатели на виджеты кнопок
-    // QWidget *tool=&( qobject_cast<QWidget>( this->findChild<QWidget>(name) ) );
-    // QWidget *tool=&( qobject_cast<QWidget>( &(this->findChild<QObject>(name)) ) );
-    // QWidget *tool=this->findChild<QWidget *>(name);
-    // QWidget *tool=qobject_cast<QWidget *>( &(this->findChild<QObject>(name)) );
-    // QWidget *tool=qobject_cast<QWidget *>( this->findChild<QObject *>(name) ); // Компилится, но не находит объекта
     QWidget *tool=qobject_cast<QWidget *>(this->findChild<QObject *>(name));
 
     if(tool!=NULL)

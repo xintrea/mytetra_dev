@@ -366,6 +366,41 @@ void TypefaceFormatter::onClearClicked(void)
 }
 
 
+void TypefaceFormatter::onFixBreakSymbolClicked()
+{
+  textArea->textCursor().beginEditBlock();
+
+  int startCursorPos=textArea->textCursor().position();
+  int stopCursorPos=textArea->textCursor().anchor();
+
+  // Получение исходного кода выделенного фрагмента
+  QString htmlCode=textArea->textCursor().selection().toHtml();
+
+  qDebug() << "Before remove style: " << htmlCode;
+
+  // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
+  // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
+  QRegExp replace_expression("<br\\s?/>");
+  replace_expression.setMinimal(true);
+
+  htmlCode.replace(replace_expression, "</p><p>");
+
+  qDebug() << "After remove style: " << htmlCode;
+
+  // Старый код убирается
+  textArea->textCursor().removeSelectedText();
+
+  // Новый код вставляется
+  textArea->textCursor().insertHtml(htmlCode);
+
+  textArea->textCursor().setPosition(startCursorPos);
+  textArea->textCursor().setPosition(stopCursorPos, QTextCursor::KeepAnchor);
+  // textArea->setTextCursor( textArea->textCursor() );
+
+  textArea->textCursor().endEditBlock();
+}
+
+
 // Слот, срабатывающий при изменении шрифта в списке шрифтов
 void TypefaceFormatter::onFontselectChanged(const QFont &font)
 {
