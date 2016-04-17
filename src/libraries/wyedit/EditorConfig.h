@@ -77,18 +77,19 @@ private:
 
     void update_version_process(void);
 
-    QStringList get_parameter_table_1(bool withEndSignature=true);
-    QStringList get_parameter_table_2(bool withEndSignature=true);
-    QStringList get_parameter_table_3(bool withEndSignature=true);
-    QStringList get_parameter_table_4(bool withEndSignature=true);
-    QStringList get_parameter_table_5(bool withEndSignature=true);
-    QStringList get_parameter_table_6(bool withEndSignature=true);
-    QStringList get_parameter_table_7(bool withEndSignature=true);
-    QStringList get_parameter_table_8(bool withEndSignature=true);
-    QStringList get_parameter_table_9(bool withEndSignature=true);
-    QStringList get_parameter_table_10(bool withEndSignature=true);
+    static QStringList get_parameter_table_1(bool withEndSignature=true);
+    static QStringList get_parameter_table_2(bool withEndSignature=true);
+    static QStringList get_parameter_table_3(bool withEndSignature=true);
+    static QStringList get_parameter_table_4(bool withEndSignature=true);
+    static QStringList get_parameter_table_5(bool withEndSignature=true);
+    static QStringList get_parameter_table_6(bool withEndSignature=true);
+    static QStringList get_parameter_table_7(bool withEndSignature=true);
+    static QStringList get_parameter_table_8(bool withEndSignature=true);
+    static QStringList get_parameter_table_9(bool withEndSignature=true);
+    static QStringList get_parameter_table_10(bool withEndSignature=true);
+    static QStringList get_parameter_table_11(bool withEndSignature=true);
 
-    QStringList remove_option(QStringList table, QString optionName);
+    static QStringList remove_option(QStringList table, QString optionName);
 
     QString update_version_allowcollision(int versionFrom,
                                           int versionTo,

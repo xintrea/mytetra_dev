@@ -323,25 +323,24 @@ void EditorConfig::update_version_process(void)
 {
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 10
- if(fromVersion<=1)
-  update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
- if(fromVersion<=2)
-  update_version(2,  3,  get_parameter_table_2(),  get_parameter_table_3());
- if(fromVersion<=3)
-  update_version(3,  4,  get_parameter_table_3(),  get_parameter_table_4());
- if(fromVersion<=4)
-  update_version(4,  5,  get_parameter_table_4(),  get_parameter_table_5());
- if(fromVersion<=5)
-  update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
- if(fromVersion<=6)
-  update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
- if(fromVersion<=7)
-  update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
- if(fromVersion<=8)
-  update_version(8,  9,  get_parameter_table_8(),  get_parameter_table_9());
- if(fromVersion<=9)
-  update_version(9,  10,  get_parameter_table_9(),  get_parameter_table_10());
+ QList<QStringList (*)(bool)> parameterFunctions;
+
+ parameterFunctions << NULL; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+ parameterFunctions << get_parameter_table_1;
+ parameterFunctions << get_parameter_table_2;
+ parameterFunctions << get_parameter_table_3;
+ parameterFunctions << get_parameter_table_4;
+ parameterFunctions << get_parameter_table_5;
+ parameterFunctions << get_parameter_table_6;
+ parameterFunctions << get_parameter_table_7;
+ parameterFunctions << get_parameter_table_8;
+ parameterFunctions << get_parameter_table_9;
+ parameterFunctions << get_parameter_table_10;
+ parameterFunctions << get_parameter_table_11;
+
+ for(int i=1; i<parameterFunctions.count()-1; ++i)
+   if(fromVersion<=i)
+     update_version(i, i+1, (parameterFunctions.at(i))(true), (parameterFunctions.at(i+1))(true) );
 }
 
 
@@ -549,6 +548,25 @@ QStringList EditorConfig::get_parameter_table_10(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_11(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 10
+ table << get_parameter_table_10(false);
+
+ // В параметре tools_line_2 добавляется в конец кнопка fix_break_symbol
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -634,6 +652,11 @@ QString EditorConfig::update_version_change_value(int versionFrom,
           result=result+",table_properties";
       }
 
+  if(versionFrom==10 && versionTo==11)
+    if(name=="tools_line_2")
+      if(!result.contains("fix_break_symbol"))
+        result=result+",fix_break_symbol";
+
   return result;
 }
 
@@ -676,7 +699,7 @@ void EditorConfig::update_version(int versionFrom,
  // Контролирующий список нужен для того, чтобы не удалять записи
  // из конечного массива во время обхода через итератор
  QMap< QString, QMap< QString, QString > > toTable;
- QList<QString> controlList;
+ QStringList controlList;
  for(int i=0;i<100;i++)
  {
   QString name=     finalTable.at(i*3+0);
@@ -697,10 +720,10 @@ void EditorConfig::update_version(int versionFrom,
   controlList << name; // Имя заносится в контролирующий список
  }
 
- qDebug() << "From table";
- qDebug() << fromTable;
- qDebug() << "To table";
- qDebug() << toTable;
+ // qDebug() << "From table";
+ // qDebug() << fromTable;
+ // qDebug() << "To table";
+ // qDebug() << toTable;
 
  // Перебирается конечный массив
  QMapIterator< QString, QMap< QString, QString > > i(toTable);
@@ -714,9 +737,9 @@ void EditorConfig::update_version(int versionFrom,
    QString toType=line["type"];
    QString toValue=line["value"];
 
-   qDebug() << "To name: " << toName;
-   qDebug() << "To type: " << toType;
-   qDebug() << "To value: " << toValue;
+   // qDebug() << "To name: " << toName;
+   // qDebug() << "To type: " << toType;
+   // qDebug() << "To value: " << toValue;
 
    // Определяется, есть ли полный аналог параметра в предыдущей версии конфига
    int beforeParamFlag=0;
@@ -729,9 +752,9 @@ void EditorConfig::update_version(int versionFrom,
     fromType=line2["type"];
     fromValue=line2["value"];
 
-    qDebug() << "Line2: " << line2;
-    qDebug() << "From type: " << fromType;
-    qDebug() << "From value: " << fromValue;
+    // qDebug() << "Line2: " << line2;
+    // qDebug() << "From type: " << fromType;
+    // qDebug() << "From value: " << fromValue;
 
     if(toType==fromType)
      beforeParamFlag=1; // Параметр есть, и типы совпадают
@@ -780,11 +803,7 @@ void EditorConfig::update_version(int versionFrom,
 
  // Если в контролирующем массиве остались необработанные параметры
  if(controlList.size()>0)
- {
-  // Программа завершается
-  qDebug() << "Can not compute parameter " << controlList;
-  criticalError("Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo)) );
- }
+   criticalError( "Error while update config from "+(QString::number(versionFrom))+" to "+(QString::number(versionTo))+" Can not compute parameter "+controlList.join(",") );
 
  // Конфиг обнуляется
  conf->clear();
