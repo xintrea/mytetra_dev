@@ -21,6 +21,7 @@ public:
 
   void setPath(QString iPath);
   void setDefaultSection(QString iSectionName);
+  QString getCurrentSection();
 
   QString getSelectFileName(void);
 

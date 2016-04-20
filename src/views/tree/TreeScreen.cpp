@@ -1176,7 +1176,7 @@ void TreeScreen::setIcon(void)
 
   // Создается окно выбора файла иконки
   IconSelectDialog iconSelectDialog;
-  iconSelectDialog.setDefaultSection( "Essential" );
+  iconSelectDialog.setDefaultSection( mytetraConfig.getIconCurrentSectionName() );
   iconSelectDialog.setPath( startDirectory );
 
   int result=iconSelectDialog.exec();
@@ -1214,6 +1214,12 @@ void TreeScreen::setIcon(void)
     // Записывается дерево
     saveKnowTree();
   }
+
+
+  // Если текущая секция изменилась, ее имя запоминается чтобы в последующем открывать виджет с этой секцией
+  if(iconSelectDialog.getCurrentSection()!="" &&
+     iconSelectDialog.getCurrentSection()!=mytetraConfig.getIconCurrentSectionName())
+   mytetraConfig.setIconCurrentSectionName( iconSelectDialog.getCurrentSection() );
 }
 
 

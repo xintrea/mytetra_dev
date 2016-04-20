@@ -234,6 +234,10 @@ public:
     int  getPreviewIconSize(void);
     void setPreviewIconSize(int n);
 
+    // Последняя выбранная секция в окошке выбора иконок
+    QString getIconCurrentSectionName(void);
+    void setIconCurrentSectionName(QString name);
+
 private:
 
     QSettings *conf; // было static
@@ -278,6 +282,7 @@ private:
     QStringList get_parameter_table_29(bool withEndSignature=true);
     QStringList get_parameter_table_30(bool withEndSignature=true);
     QStringList get_parameter_table_31(bool withEndSignature=true);
+    QStringList get_parameter_table_32(bool withEndSignature=true);
 
     bool is_init_flag;
 };

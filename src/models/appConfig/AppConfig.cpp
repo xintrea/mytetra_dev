@@ -869,6 +869,16 @@ void AppConfig::setPreviewIconSize(int n)
 }
 
 
+QString AppConfig::getIconCurrentSectionName(void)
+{
+  return get_parameter("iconCurrentSectionName");
+}
+
+void AppConfig::setIconCurrentSectionName(QString name)
+{
+  conf->setValue("iconCurrentSectionName", name);
+}
+
 
 // --------------------
 // Номер версии конфига
@@ -984,7 +994,7 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 31
+ // Последняя версия на данный момент - 32
  if(fromVersion<=1)
   updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
  if(fromVersion<=2)
@@ -1045,6 +1055,8 @@ void AppConfig::update_version_process(void)
   updater.update_version(29, 30, get_parameter_table_29(), get_parameter_table_30());
  if(fromVersion<=30)
   updater.update_version(30, 31, get_parameter_table_30(), get_parameter_table_31());
+ if(fromVersion<=31)
+  updater.update_version(31, 32, get_parameter_table_31(), get_parameter_table_32());
 }
 
 
@@ -1664,6 +1676,24 @@ QStringList AppConfig::get_parameter_table_31(bool withEndSignature)
   table << get_parameter_table_30(false);
 
   table << "previewIconSize" << "int" << "24";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_32(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 31
+  table << get_parameter_table_31(false);
+
+  table << "iconCurrentSectionName" << "QString" << "Essential";
 
   if(withEndSignature)
     table << "0" << "0" << "0";

@@ -199,6 +199,12 @@ void IconSelectDialog::setDefaultSection(QString iSectionName)
 }
 
 
+QString IconSelectDialog::getCurrentSection()
+{
+  return currentSectionName;
+}
+
+
 // Обновление экранного списка иконок
 void IconSelectDialog::updateIcons()
 {
