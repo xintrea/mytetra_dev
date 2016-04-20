@@ -72,6 +72,7 @@ void AttachTableView::assemblyContextMenu(void)
   AttachTableScreen *screenPointer=qobject_cast<AttachTableScreen *>(controller->parent());
 
   contextMenu->addAction(screenPointer->actionAddAttach);
+  contextMenu->addAction(screenPointer->actionAddAttachFromUrl);
   contextMenu->addAction(screenPointer->actionEditFileName);
   contextMenu->addAction(screenPointer->actionDeleteAttach);
   contextMenu->addAction(screenPointer->actionSaveAsAttach);

@@ -17,6 +17,7 @@
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"
+#include "libraries/Downloader.h"
 
 
 extern GlobalParameters globalParameters;
@@ -78,6 +79,75 @@ void AttachTableController::onAddLink()
 }
 
 
+void AttachTableController::onAddAttachFromUrl(void)
+{
+  // Окно запроса URL
+  QInputDialog inputDialog(view);
+
+  // Установка ширины окна запроса URL
+  int dialogWidth=int(0.9*(float)view->width());
+  inputDialog.setMinimumWidth( dialogWidth );
+  inputDialog.resize(inputDialog.size());
+
+  // Основные настройки окна запроса URL
+  inputDialog.setWindowTitle(tr("Enter file URL"));
+  inputDialog.setLabelText(tr("Enter file URL"));
+  inputDialog.setTextEchoMode(QLineEdit::Normal);
+
+  // Запуск окна запроса URL
+  bool ok=inputDialog.exec();
+
+  // Если при вводе URL была нажата отмена или введено пустой URL
+  if(!ok || inputDialog.textValue().trimmed()=="")
+    return;
+
+  // Перечень скачиваемых файлов из одного файла
+  QStringList downloadReferences=(QStringList() << inputDialog.textValue());
+
+  // Виджет скачивания файлов
+  Downloader downloader;
+  downloader.setAboutText(tr("Download file"));
+  downloader.setSaveMode(Downloader::memory); // todo: переделать на закачку сразу на диск
+  downloader.setReferencesList(downloadReferences);
+
+  // Установка ширины для виджета скачивания файлов
+  downloader.setMinimumWidth( dialogWidth );
+  downloader.resize( downloader.size() );
+
+  // На передний план
+  downloader.raise();
+
+  // Запуск виджета скачивания файлов
+  downloader.run();
+
+  // Если при скачивании изображений появились какие-то ошибки
+  if(!downloader.isSuccess())
+  {
+    QMessageBox msgBox;
+    msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
+
+    if(downloader.getErrorLog().length()>0)
+      msgBox.setDetailedText(downloader.getErrorLog());
+
+    msgBox.exec();
+
+    return; // Файл был один, и при ошибке сохранения файла не происходит
+  }
+
+  // todo: Доделать
+  // downloader.getReferencesAndMemoryFiles()
+
+  showMessageBox("Development in progress...");
+
+
+
+
+
+
+  return;
+}
+
+
 void AttachTableController::addSmart(QString attachType)
 {
   QStringList files=selectFilesForAdding(attachType);
@@ -111,12 +181,9 @@ void AttachTableController::addSmart(QString attachType)
     // Текущее короткое имя файла
     QString currShortFileName=currFileInfo.fileName();
 
-    // Идентификатор аттача
-    QString id=get_unical_id();
-
     // Конструируется Attach, который нужно добавить
     Attach attach(attachType, attachTableData);
-    attach.setField("id", id);
+    attach.setField("id", get_unical_id());
     attach.setField("fileName", currShortFileName);
 
     bool result=false;

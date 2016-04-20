@@ -32,12 +32,17 @@ AttachTableScreen::~AttachTableScreen()
 // Настройка возможных действий
 void AttachTableScreen::setupActions(void)
 {
-  // Добавление файла
+  // Добавление локальнго файла
   actionAddAttach = new QAction(tr("Attach file"), this);
   actionAddAttach->setStatusTip(tr("Attach file"));
   actionAddAttach->setIcon(QIcon(":/resource/pic/attach_add.svg"));
 
-  // Добавление линка
+  // Добавление локальнго файла
+  actionAddAttachFromUrl = new QAction(tr("Attach file from URL"), this);
+  actionAddAttachFromUrl->setStatusTip(tr("Attach file from URL"));
+  actionAddAttachFromUrl->setIcon(QIcon(":/resource/pic/attach_add_from_url.svg"));
+
+  // Добавление линка на локальный файл
   actionAddLink = new QAction(tr("Add link"), this);
   actionAddLink->setStatusTip(tr("Add link without file copying"));
   actionAddLink->setIcon(QIcon(":/resource/pic/attach_add_link.svg"));
@@ -81,6 +86,7 @@ void AttachTableScreen::setupUI(void)
 
   // Создание кнопок на тулбаре
   insertActionAsButton(toolsLine, actionAddAttach);
+  insertActionAsButton(toolsLine, actionAddAttachFromUrl);
   insertActionAsButton(toolsLine, actionAddLink);
   insertActionAsButton(toolsLine, actionEditFileName);
   insertActionAsButton(toolsLine, actionDeleteAttach);
@@ -98,6 +104,7 @@ void AttachTableScreen::setupSignals(void)
 {
   // Связывание действий
   connect(actionAddAttach, SIGNAL(triggered()), attachTableController, SLOT(onAddAttach()));
+  connect(actionAddAttachFromUrl, SIGNAL(triggered()), attachTableController, SLOT(onAddAttachFromUrl()));
   connect(actionAddLink, SIGNAL(triggered()), attachTableController, SLOT(onAddLink()));
   connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
   connect(actionDeleteAttach, SIGNAL(triggered()), attachTableController, SLOT(onDeleteAttach()));

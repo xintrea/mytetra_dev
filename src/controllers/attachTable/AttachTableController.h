@@ -32,6 +32,7 @@ public:
 public slots:
 
   void onAddAttach(void);
+  void onAddAttachFromUrl(void);
   void onAddLink(void);
   void onEditFileName(void);
   void onDeleteAttach(void);

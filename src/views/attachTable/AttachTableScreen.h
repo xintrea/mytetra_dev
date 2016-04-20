@@ -21,8 +21,9 @@ public:
 
   void clear(void);
 
-  QAction *actionAddAttach;
-  QAction *actionAddLink;
+  QAction *actionAddAttach; // Добавление локального файла
+  QAction *actionAddAttachFromUrl; // Добавление файла по интернет-Url
+  QAction *actionAddLink; // Добавление линка на локальный файл
   QAction *actionEditFileName;
   QAction *actionDeleteAttach;
   QAction *actionOpenAttach;

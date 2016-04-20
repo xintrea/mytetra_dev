@@ -384,7 +384,6 @@ void ImageFormatter::onDownloadImages(const QString html)
 
     // На передний план
     downloader.raise();
-    // qApp->processEvents();
 
     // Запуск виджета скачивания файлов
     downloader.run();

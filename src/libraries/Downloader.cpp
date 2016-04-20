@@ -240,7 +240,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
         memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
 
       if(saveMode==disk)
-        qDebug() << "Development in process...";
+        qDebug() << "Save dowload file to disk: Development in process...";
     }
   }
   else

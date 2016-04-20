@@ -216,6 +216,7 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action)
   qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
 }
 
+
 void smartPrintDebugMessage(QString msg)
 {
  if(globalParameters.getTargetOs()=="any" ||
