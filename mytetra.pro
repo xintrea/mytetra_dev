@@ -9,6 +9,13 @@ TARGET_OS=ANY_OS
 # QMAKE_CXXFLAGS_DEBUG += -pg
 # QMAKE_LFLAGS_DEBUG += -pg
 
+# Enable C++11
+greaterThan(QT_MAJOR_VERSION, 4) {
+ CONFIG += c++11
+} else {
+  QMAKE_CXXFLAGS += -std=c++11
+}
+
 # Create define variable in C++ code
 DEFINES+="ANY_OS=1"
 DEFINES+="MEEGO_OS=2"

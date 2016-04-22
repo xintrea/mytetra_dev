@@ -1,3 +1,4 @@
+#include <functional>
 #include <QRect>
 
 #include "main.h"
@@ -994,69 +995,52 @@ void AppConfig::update_version_process(void)
 
  int fromVersion=get_config_version();
 
- // Последняя версия на данный момент - 32
- if(fromVersion<=1)
-  updater.update_version(1,  2,  get_parameter_table_1(),  get_parameter_table_2());
- if(fromVersion<=2)
-  updater.update_version(2,  3,  get_parameter_table_2(),  get_parameter_table_3());
- if(fromVersion<=3)
-  updater.update_version(3,  4,  get_parameter_table_3(),  get_parameter_table_4());
- if(fromVersion<=4)
-  updater.update_version(4,  5,  get_parameter_table_4(),  get_parameter_table_5());
- if(fromVersion<=5)
-  updater.update_version(5,  6,  get_parameter_table_5(),  get_parameter_table_6());
- if(fromVersion<=6)
-  updater.update_version(6,  7,  get_parameter_table_6(),  get_parameter_table_7());
- if(fromVersion<=7)
-  updater.update_version(7,  8,  get_parameter_table_7(),  get_parameter_table_8());
- if(fromVersion<=8)
-  updater.update_version(8,  9,  get_parameter_table_8(),  get_parameter_table_9());
- if(fromVersion<=9)
-  updater.update_version(9,  10, get_parameter_table_9(),  get_parameter_table_10());
- if(fromVersion<=10)
-  updater.update_version(10, 11, get_parameter_table_10(), get_parameter_table_11());
- if(fromVersion<=11)
-  updater.update_version(11, 12, get_parameter_table_11(), get_parameter_table_12());
- if(fromVersion<=12)
-  updater.update_version(12, 13, get_parameter_table_12(), get_parameter_table_13());
- if(fromVersion<=13)
-  updater.update_version(13, 14, get_parameter_table_13(), get_parameter_table_14());
- if(fromVersion<=14)
-  updater.update_version(14, 15, get_parameter_table_14(), get_parameter_table_15());
- if(fromVersion<=15)
-  updater.update_version(15, 16, get_parameter_table_15(), get_parameter_table_16());
- if(fromVersion<=16)
-  updater.update_version(16, 17, get_parameter_table_16(), get_parameter_table_17());
- if(fromVersion<=17)
-  updater.update_version(17, 18, get_parameter_table_17(), get_parameter_table_18());
- if(fromVersion<=18)
-  updater.update_version(18, 19, get_parameter_table_18(), get_parameter_table_19());
- if(fromVersion<=19)
-  updater.update_version(19, 20, get_parameter_table_19(), get_parameter_table_20());
- if(fromVersion<=20)
-  updater.update_version(20, 21, get_parameter_table_20(), get_parameter_table_21());
- if(fromVersion<=21)
-  updater.update_version(21, 22, get_parameter_table_21(), get_parameter_table_22());
- if(fromVersion<=22)
-  updater.update_version(22, 23, get_parameter_table_22(), get_parameter_table_23());
- if(fromVersion<=23)
-  updater.update_version(23, 24, get_parameter_table_23(), get_parameter_table_24());
- if(fromVersion<=24)
-  updater.update_version(24, 25, get_parameter_table_24(), get_parameter_table_25());
- if(fromVersion<=25)
-  updater.update_version(25, 26, get_parameter_table_25(), get_parameter_table_26());
- if(fromVersion<=26)
-  updater.update_version(26, 27, get_parameter_table_26(), get_parameter_table_27());
- if(fromVersion<=27)
-  updater.update_version(27, 28, get_parameter_table_27(), get_parameter_table_28());
- if(fromVersion<=28)
-  updater.update_version(28, 29, get_parameter_table_28(), get_parameter_table_29());
- if(fromVersion<=29)
-  updater.update_version(29, 30, get_parameter_table_29(), get_parameter_table_30());
- if(fromVersion<=30)
-  updater.update_version(30, 31, get_parameter_table_30(), get_parameter_table_31());
- if(fromVersion<=31)
-  updater.update_version(31, 32, get_parameter_table_31(), get_parameter_table_32());
+ // Эта строка компилируется нормально, сделать на ее основе список указателей на функцию
+ // std::function< QStringList(AppConfig&, bool) > pFunction=&AppConfig::get_parameter_table_1;
+
+ // Перечень функций, выдающих список параметров для конкретной версии конфига
+ QList< std::function< QStringList(AppConfig&, bool) > > parameterFunctions;
+
+ parameterFunctions << NULL; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+ parameterFunctions << &AppConfig::get_parameter_table_1;
+ parameterFunctions << &AppConfig::get_parameter_table_2;
+ parameterFunctions << &AppConfig::get_parameter_table_3;
+ parameterFunctions << &AppConfig::get_parameter_table_4;
+ parameterFunctions << &AppConfig::get_parameter_table_5;
+ parameterFunctions << &AppConfig::get_parameter_table_6;
+ parameterFunctions << &AppConfig::get_parameter_table_7;
+ parameterFunctions << &AppConfig::get_parameter_table_8;
+ parameterFunctions << &AppConfig::get_parameter_table_9;
+ parameterFunctions << &AppConfig::get_parameter_table_10;
+ parameterFunctions << &AppConfig::get_parameter_table_11;
+ parameterFunctions << &AppConfig::get_parameter_table_12;
+ parameterFunctions << &AppConfig::get_parameter_table_13;
+ parameterFunctions << &AppConfig::get_parameter_table_14;
+ parameterFunctions << &AppConfig::get_parameter_table_15;
+ parameterFunctions << &AppConfig::get_parameter_table_16;
+ parameterFunctions << &AppConfig::get_parameter_table_17;
+ parameterFunctions << &AppConfig::get_parameter_table_18;
+ parameterFunctions << &AppConfig::get_parameter_table_19;
+ parameterFunctions << &AppConfig::get_parameter_table_20;
+ parameterFunctions << &AppConfig::get_parameter_table_21;
+ parameterFunctions << &AppConfig::get_parameter_table_22;
+ parameterFunctions << &AppConfig::get_parameter_table_23;
+ parameterFunctions << &AppConfig::get_parameter_table_24;
+ parameterFunctions << &AppConfig::get_parameter_table_25;
+ parameterFunctions << &AppConfig::get_parameter_table_26;
+ parameterFunctions << &AppConfig::get_parameter_table_27;
+ parameterFunctions << &AppConfig::get_parameter_table_28;
+ parameterFunctions << &AppConfig::get_parameter_table_29;
+ parameterFunctions << &AppConfig::get_parameter_table_30;
+ parameterFunctions << &AppConfig::get_parameter_table_31;
+ parameterFunctions << &AppConfig::get_parameter_table_32;
+
+ for(int i=1; i<parameterFunctions.count()-1; ++i)
+   if(fromVersion<=i)
+   {
+     // В вызове метода: *this - это объект, а true - это первый параметр метода. Именно так работает вызов метода для std::function
+     updater.update_version(i, i+1, (parameterFunctions.at(i))(*this, true), (parameterFunctions.at(i+1))(*this, true) );
+   }
 }
 
 
