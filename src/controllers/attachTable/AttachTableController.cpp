@@ -107,7 +107,8 @@ void AttachTableController::onAddAttachFromUrl(void)
   // Виджет скачивания файлов
   Downloader downloader;
   downloader.setAboutText(tr("Download file"));
-  downloader.setDownloadMode(Downloader::memory); // todo: переделать на закачку сразу на диск
+  downloader.setDownloadMode(Downloader::disk);
+  downloader.setSaveDirectory( QDir::tempPath() );
   downloader.setReferencesList(downloadReferences);
 
   // Установка ширины для виджета скачивания файлов
@@ -131,20 +132,30 @@ void AttachTableController::onAddAttachFromUrl(void)
 
     msgBox.exec();
 
-    return; // Файл был один, и при ошибке сохранения файла не происходит
+    return; // Файл был один, и при ошибке скачивания не происходит сохранения файла
   }
 
-  // todo: Доделать
-  // downloader.getReferencesAndMemoryFiles()
+  // Здесь закачка завершена, и надо сохранить файлы как Attach
+  QMap<QString, QString> referencesAndFileNames=downloader.getReferencesAndFileNames();
 
-  showMessageBox("Development in progress...");
+  int sucessLoadCount=0;
+  foreach (QString reference, referencesAndFileNames.keys())
+  {
+    QString shortFileName=referencesAndFileNames.value(reference);
+    QString fullFileName=downloader.getSaveDirectory()+"/"+shortFileName;
 
+    QUrl url(reference);
+    QString displayName=url.fileName();
 
+    if( addAttach("file", fullFileName, displayName) )
+      sucessLoadCount++;
 
+    // Исходный файл в директории закачки удаляется
+    QFile(fullFileName).remove();
+  }
 
-
-
-  return;
+  // Дерево записей сохраняется
+  saveState();
 }
 
 
@@ -183,15 +194,8 @@ void AttachTableController::addSmart(QString attachType)
       break;
   } // Закончился цикл перебора файлов
 
-  // Сохранение дерева веток
-  find_object<TreeScreen>("treeScreen")->saveKnowTree();
-
-  // Обновление иконки аттачей в редакторе
-  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-  if(sucessLoadCount>0)
-    edView->switchAttachIconExists(true);
-  else
-    edView->switchAttachIconExists(false);
+  // Дерево записей сохраняется
+  saveState();
 }
 
 
@@ -235,6 +239,27 @@ bool AttachTableController::addAttach(QString attachType, QString currFullFileNa
     showMessageBox(tr("An error occurred while copying file(s). File(s) can't attach."));
     return false;
   }
+}
+
+
+void AttachTableController::saveState()
+{
+  // Сохранение дерева веток
+  find_object<TreeScreen>("treeScreen")->saveKnowTree();
+
+
+  // Указатель на данные таблицы приаттаченных файлов, чтобы обновить иконку аттачей в редакторе
+  AttachTableData *attachTableData=getAttachTableData();
+  if(attachTableData==NULL)
+    criticalError("Unset attach table data in AttachTableController::addAttach()");
+
+  // Указатель на редактор
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+
+  if(attachTableData->size()>0)
+    edView->switchAttachIconExists(true);
+  else
+    edView->switchAttachIconExists(false);
 }
 
 

@@ -104,6 +104,12 @@ void Downloader::setSaveDirectory(QString iDir)
 }
 
 
+QString Downloader::getSaveDirectory()
+{
+  return saveDirectory;
+}
+
+
 // Установка списка ссылок для закачивания
 void Downloader::setReferencesList(QStringList iReferencesList)
 {

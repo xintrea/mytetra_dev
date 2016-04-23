@@ -25,7 +25,10 @@ public:
   enum downloadModeType{disk, memory};
 
   void setDownloadMode(int iMode);
+
   void setSaveDirectory(QString iDir);
+  QString getSaveDirectory();
+
   void setReferencesList(QStringList iReferencesList);
 
   void setAboutText(QString iAboutText);
