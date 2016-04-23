@@ -12,6 +12,7 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QUrl>
+#include <QFileInfo>
 
 #include "Downloader.h"
 #include "main.h"
@@ -19,11 +20,11 @@
 
 Downloader::Downloader()
 {
-  saveMode=disk;
+  downloadMode=disk;
   saveDirectory="";
   referencesList.clear();
   memoryFiles.clear();
-  diskFilesList.clear();
+  diskFilesNames.clear();
   isSuccessFlag=false;
   errorLog="";
   currentReferenceNum=-1;
@@ -91,9 +92,9 @@ void Downloader::assembly()
 }
 
 
-void Downloader::setSaveMode(int iMode)
+void Downloader::setDownloadMode(int iMode)
 {
-  saveMode=iMode;
+  downloadMode=iMode;
 }
 
 
@@ -107,6 +108,18 @@ void Downloader::setSaveDirectory(QString iDir)
 void Downloader::setReferencesList(QStringList iReferencesList)
 {
   referencesList=iReferencesList;
+
+  if(downloadMode==disk)
+  {
+    diskFilesNames.clear();
+    diskFilesNames.resize(referencesList.size());
+  }
+
+  if(downloadMode==memory)
+  {
+    memoryFiles.clear();
+    memoryFiles.resize(referencesList.size());
+  }
 
   // Перебирается список ссылок
   for(int i=0; i<referencesList.count(); i++)
@@ -122,6 +135,18 @@ void Downloader::setReferencesList(QStringList iReferencesList)
     QProgressBar *progressBar=new QProgressBar();
     progressBar->setRange(0,100);
     table->setCellWidget(i, downloadPercentCol, progressBar);
+
+    // Генерируются имена файлов на диске, куда будут сохранятся выкачиваемые файлы
+    if(downloadMode==disk)
+    {
+      QUrl fileUrl( referencesList.at(i) );
+      QString fileName=fileUrl.fileName(); // Имя файла из URL, содержащее расширение
+
+      QFileInfo fileInfo(fileName);
+      QString fileExtention = fileInfo.completeSuffix();
+
+      diskFilesNames[i]=get_unical_id()+"."+fileExtention;
+    }
   }
 }
 
@@ -143,30 +168,53 @@ QString Downloader::getAboutText()
 }
 
 
-QMap<int, QByteArray> Downloader::getMemoryFiles() const
+QVector<QByteArray> Downloader::getMemoryFiles() const
 {
+  if(downloadMode==disk)
+    criticalError("Cant execute Downloader::getMemoryFiles() for disk mode. Current Download instance use memory mode.");
+
   return memoryFiles;
 }
 
 
 QMap<QString, QByteArray> Downloader::getReferencesAndMemoryFiles() const
 {
+  if(downloadMode==disk)
+    criticalError("Cant execute Downloader::getReferencesAndMemoryFiles() for disk mode. Current Download instance use memory mode.");
+
   QMap<QString, QByteArray> tempReferencesAndMemoryFiles;
 
-  for(int i=0; i<memoryFiles.count(); i++)
+  for(int i=0; i<memoryFiles.count(); ++i)
     tempReferencesAndMemoryFiles[ referencesList.at(i) ]=memoryFiles.value(i);
 
   return tempReferencesAndMemoryFiles;
 }
 
 
+QMap<QString, QString> Downloader::getReferencesAndFileNames() const
+{
+  if(downloadMode==memory)
+    criticalError("Cant execute Downloader::getReferencesAndFileNames() for memory mode. Current Download instance use disk mode.");
+
+  QMap<QString, QString> tempReferencesAndFileNames;
+
+  for(int i=0; i<referencesList.count(); ++i)
+    tempReferencesAndFileNames[ referencesList.at(i) ]=diskFilesNames.value(i);
+
+  return tempReferencesAndFileNames;
+}
+
+
 QStringList Downloader::getDiskFilesList() const
 {
+  if(downloadMode==memory)
+    criticalError("Cant execute Downloader::getDiskFilesList() for memory mode. Current Download instance use disk mode.");
+
   return QStringList();
 }
 
 
-QStringList Downloader::getReferencesList()
+QStringList Downloader::getReferencesList() const
 {
   return referencesList;
 }
@@ -211,6 +259,7 @@ void Downloader::startNextDownload()
 }
 
 
+// Слот, вызываемый в конце загрузки очередного файла
 void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 {
   bool enableNextDownload=true;
@@ -236,11 +285,24 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
     {
       // Иначе перенаправления нет, и значит в ответе содержится принятый файл
 
-      if(saveMode==memory)
-        memoryFiles[currentReferenceNum]=reply->readAll(); // Загруженные данные сохраняются
+      // Загруженные данные сохраняются в память
+      if(downloadMode==memory)
+        memoryFiles[currentReferenceNum]=reply->readAll();
 
-      if(saveMode==disk)
-        qDebug() << "Save dowload file to disk: Development in process...";
+      // Загруженные данные сохраняются на диск
+      if(downloadMode==disk)
+      {
+        QString fileName=saveDirectory+"/"+diskFilesNames[currentReferenceNum];
+
+        QFile file( fileName );
+        if( file.open( QIODevice::WriteOnly ) )
+        {
+          file.write( reply->readAll() );
+          file.close();
+        }
+        else
+          showMessageBox( tr("Has problem with save file to directory %1").arg(saveDirectory) );
+      }
     }
   }
   else

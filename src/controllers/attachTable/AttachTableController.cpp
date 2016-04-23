@@ -107,7 +107,7 @@ void AttachTableController::onAddAttachFromUrl(void)
   // Виджет скачивания файлов
   Downloader downloader;
   downloader.setAboutText(tr("Download file"));
-  downloader.setSaveMode(Downloader::memory); // todo: переделать на закачку сразу на диск
+  downloader.setDownloadMode(Downloader::memory); // todo: переделать на закачку сразу на диск
   downloader.setReferencesList(downloadReferences);
 
   // Установка ширины для виджета скачивания файлов
@@ -155,13 +155,8 @@ void AttachTableController::addSmart(QString attachType)
   if(files.size()==0)
     return; // Если ни один файл не выбран
 
-  // Указатель на данные таблицы приаттаченных файлов
-  AttachTableData *attachTableData=getAttachTableData();
-
-  if(attachTableData==NULL)
-    criticalError("Unset attach table data in AttachTableController::addSmart()");
-
   // Перебираются выбранные в диалоге файлы
+  int sucessLoadCount=0;
   for(int i=0; i<files.size(); ++i)
   {
     // Текущее полное имя файла
@@ -181,39 +176,11 @@ void AttachTableController::addSmart(QString attachType)
     // Текущее короткое имя файла
     QString currShortFileName=currFileInfo.fileName();
 
-    // Конструируется Attach, который нужно добавить
-    Attach attach(attachType, attachTableData);
-    attach.setField("id", get_unical_id());
-    attach.setField("fileName", currShortFileName);
-
-    bool result=false;
-    if(attachType=="file")
-      result=attach.copyFileToBase(currFullFileName); // Файл аттача копируется в базу
-    else if(attachType=="link")
-    {
-      attach.setField("link", currFullFileName); // Запоминается куда указывает линк
-      result=true;
-    }
+    // Добавляется файл аттача
+    if( addAttach(attachType, currFullFileName, currShortFileName) )
+      sucessLoadCount++;
     else
-      criticalError("Unsupport adding mode");
-
-
-    // Если запись, к которой добавляется аттач, зашифрована
-    if( attachTableData->isRecordCrypt() )
-      attach.encrypt();
-
-
-    if(result)
-    {
-      // Данные аттача добавляются в таблицу приаттаченных файлов
-      attachTableData->addAttach(attach);
-    }
-    else
-    {
-      showMessageBox(tr("An error occurred while copying file(s). File(s) can't attach."));
       break;
-    }
-
   } // Закончился цикл перебора файлов
 
   // Сохранение дерева веток
@@ -221,10 +188,53 @@ void AttachTableController::addSmart(QString attachType)
 
   // Обновление иконки аттачей в редакторе
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-  if(attachTableData->size()>0)
+  if(sucessLoadCount>0)
     edView->switchAttachIconExists(true);
   else
     edView->switchAttachIconExists(false);
+}
+
+
+bool AttachTableController::addAttach(QString attachType, QString currFullFileName, QString currShortFileName)
+{
+  // Выясняется указатель на данные таблицы приаттаченных файлов
+  AttachTableData *attachTableData=getAttachTableData();
+  if(attachTableData==NULL)
+    criticalError("Unset attach table data in AttachTableController::addAttach()");
+
+  // Конструируется Attach, который нужно добавить
+  Attach attach(attachType, attachTableData);
+  attach.setField("id", get_unical_id());
+  attach.setField("fileName", currShortFileName);
+
+  bool result=false;
+  if(attachType=="file")
+    result=attach.copyFileToBase(currFullFileName); // Файл аттача копируется в базу
+  else if(attachType=="link")
+  {
+    attach.setField("link", currFullFileName); // Запоминается куда указывает линк
+    result=true;
+  }
+  else
+    criticalError("Unsupport adding mode");
+
+
+  // Если запись, к которой добавляется аттач, зашифрована
+  if( attachTableData->isRecordCrypt() )
+    attach.encrypt();
+
+
+  if(result)
+  {
+    // Данные аттача добавляются в таблицу приаттаченных файлов
+    attachTableData->addAttach(attach);
+    return true;
+  }
+  else
+  {
+    showMessageBox(tr("An error occurred while copying file(s). File(s) can't attach."));
+    return false;
+  }
 }
 
 

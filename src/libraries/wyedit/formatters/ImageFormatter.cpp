@@ -374,7 +374,7 @@ void ImageFormatter::onDownloadImages(const QString html)
     // Виджет скачивания файлов
     Downloader downloader;
     downloader.setAboutText(tr("Download images"));
-    downloader.setSaveMode(Downloader::memory);
+    downloader.setDownloadMode(Downloader::memory);
     downloader.setReferencesList(downloadReferences);
 
     // Установка ширины для виджета скачивания файлов

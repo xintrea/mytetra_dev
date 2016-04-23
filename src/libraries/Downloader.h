@@ -22,20 +22,20 @@ public:
   Downloader();
   ~Downloader();
 
-  enum saveModeType{disk, memory};
+  enum downloadModeType{disk, memory};
 
-  void setSaveMode(int iMode);
+  void setDownloadMode(int iMode);
   void setSaveDirectory(QString iDir);
   void setReferencesList(QStringList iReferencesList);
 
   void setAboutText(QString iAboutText);
   QString getAboutText(void);
 
-  QMap<int, QByteArray> getMemoryFiles() const;
+  QVector<QByteArray> getMemoryFiles() const;
   QMap<QString, QByteArray> getReferencesAndMemoryFiles() const;
+  QMap<QString, QString> getReferencesAndFileNames() const;
   QStringList getDiskFilesList() const;
-  QStringList getReferencesList();
-
+  QStringList getReferencesList() const;
 
   void run();
 
@@ -52,12 +52,12 @@ private slots:
 
 protected:
 
-  int saveMode;
+  int downloadMode;
   QString saveDirectory;
   QStringList referencesList;
 
-  QMap<int, QByteArray> memoryFiles;
-  QStringList diskFilesList;
+  QVector<QByteArray> memoryFiles; // Содержимое файлов при скачивании в режиме memory
+  QVector<QString> diskFilesNames; // Имена файлов на диске при скачивании в режиме disk
 
   bool isSuccessFlag;
 
