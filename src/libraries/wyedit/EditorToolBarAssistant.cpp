@@ -65,7 +65,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
 EditorToolBarAssistant::~EditorToolBarAssistant()
 {
-  // EditorToolBar::~EditorToolBar();
+
 }
 
 

@@ -51,7 +51,7 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 Editor::~Editor(void)
 {
   delete editorConfig;
-  delete editorToolBarAssistant;
+  // delete editorToolBarAssistant; // Закомментировано, т. к. объект удалится автоматически
   delete buttonsAndEditLayout;
   delete editorContextMenu;
   delete textArea;
@@ -163,6 +163,7 @@ void Editor::init(int mode)
 // Создание и настройка панели инструментов редактора
 void Editor::setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList)
 {
+  // Установлен this в качестве родителя, поэтому вручную удалять объект в деструкторе ненужно
   editorToolBarAssistant=new EditorToolBarAssistant(this, mode, textArea, disableToolList);
   editorToolBarAssistant->setObjectName("toolBarAssistant");
 }
