@@ -261,7 +261,11 @@ void Downloader::startNextDownload()
   // Запуск загрузки
   qDebug() << "Start download" << currentReference;
   QNetworkRequest request(currentReference);
-  webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
+
+  // В конце загрузки автоматически будет вызван слот onFileDownloadFinished() ( см. связывание сингнал-слот в setupSignals() )
+  QNetworkReply* networkReply=webManager.get(request);
+
+  connect(networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
 }
 
 
@@ -345,6 +349,15 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
   }
 
   reply->deleteLater();
+}
+
+
+void Downloader::onDownloadProgress(qint64 read, qint64 total)
+{
+  qint64 percent=(read * 100) / total;
+
+  // На экране изменяется процент загрузки ссылки
+  qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(percent);
 }
 
 

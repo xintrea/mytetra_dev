@@ -7,8 +7,9 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
-class Editor;
-class InfoFieldEnter;
+#include "libraries/wyedit/Editor.h"
+#include "views/record/InfoFieldEnter.h"
+
 
 // Окно добавления новой записи
 
@@ -36,12 +37,12 @@ private slots:
 private:
 
  // Ввод инфополей записи
- InfoFieldEnter *infoField;
+ InfoFieldEnter infoField;
 
  // Ввод текста записи
- Editor    *recordTextEditor;
+ Editor recordTextEditor;
 
- QDialogButtonBox *buttonBox;
+ QDialogButtonBox buttonBox;
 
  QString imagesDirName;
 

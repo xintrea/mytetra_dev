@@ -50,6 +50,7 @@ public:
 private slots:
 
  void onFileDownloadFinished(QNetworkReply* pReply); // Слот, вызываемый при завершении загрузки очередного файла
+ void onDownloadProgress(qint64 read, qint64 total);
  void onSslErrors(QNetworkReply *reply, const QList<QSslError> &errors);
  void onCancelClicked();
 

@@ -44,24 +44,19 @@ void AddNewRecord::setupUI(void)
 {
  this->setWindowTitle(tr("Enter a new note"));
 
- // Ввод инфополей записи
- infoField=new InfoFieldEnter();
-
  // Редактор текста записи
- recordTextEditor=new Editor();
- recordTextEditor->initEnableAssembly(true);
- recordTextEditor->initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
- recordTextEditor->initEnableRandomSeed(false);
- recordTextEditor->initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
- recordTextEditor->init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
+ recordTextEditor.initEnableAssembly(true);
+ recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
+ recordTextEditor.initEnableRandomSeed(false);
+ recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
+ recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
 
  // Кнопки OK и Cancel
- buttonBox=new QDialogButtonBox();
- buttonBox->setOrientation(Qt::Horizontal);
- buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::NoButton|QDialogButtonBox::Cancel);
+ buttonBox.setOrientation(Qt::Horizontal);
+ buttonBox.setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::NoButton|QDialogButtonBox::Cancel);
  
  // На кнопку OK назначается комбинация клавиш Ctrl+Enter
- QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+ QPushButton *OkButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
  OkButton->setToolTip(tr("Ctrl+Enter"));
 }
@@ -69,8 +64,8 @@ void AddNewRecord::setupUI(void)
 
 void AddNewRecord::setupSignals(void)
 {
- connect(buttonBox, SIGNAL(accepted()), this, SLOT(okClick(void)));
- connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+ connect(&buttonBox, SIGNAL(accepted()), this, SLOT(okClick(void)));
+ connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
@@ -82,14 +77,14 @@ void AddNewRecord::assembly(void)
  layout->setSpacing(10);
 
  // Добавление элементов в размещалку
- layout->addWidget(infoField);
- layout->addWidget(recordTextEditor);
- layout->addWidget(buttonBox,0,Qt::AlignRight);
+ layout->addWidget(&infoField);
+ layout->addWidget(&recordTextEditor);
+ layout->addWidget(&buttonBox,0,Qt::AlignRight);
 
  setLayout(layout);
 
  // Фокус устанавливается на поле ввода названия записи
- infoField->setFocusToStart();
+ infoField.setFocusToStart();
 
  // QWidget *wdgt=new QWidget;
  // wdgt->setLayout(vbl);
@@ -100,7 +95,7 @@ void AddNewRecord::assembly(void)
 void AddNewRecord::setupEventFilter(void)
 {
   // Для области редактирования задается eventFilter (используется для отлова нажатия на ESC)
-  recordTextEditor->installEventFilter(this);
+  recordTextEditor.installEventFilter(this);
 }
 
 
@@ -109,7 +104,7 @@ bool AddNewRecord::eventFilter(QObject *object, QEvent *event)
   // qDebug() << "Editor::eventFilter()";
 
   // Отслеживание нажатия ESC в области редактирования текста
-  if (object == recordTextEditor)
+  if (object == &recordTextEditor)
   {
     if(event->type() == QEvent::KeyPress)
     {
@@ -131,7 +126,7 @@ void AddNewRecord::okClick(void)
  QString message="";
 
  // Проверка наличия названия записи
- if(infoField->getField("name").length()==0)
+ if(infoField.getField("name").length()==0)
   message=message+tr("Please enter the note's <b>title</b>. ");
 
  // Проверка наличия текста записи
@@ -153,8 +148,8 @@ void AddNewRecord::okClick(void)
 
  // Картинки сохраняются
  imagesDirName=DiskHelper::createTempDirectory();
- recordTextEditor->setWorkDirectory(imagesDirName);
- recordTextEditor->saveTextareaImages(Editor::SAVE_IMAGES_SIMPLE);
+ recordTextEditor.setWorkDirectory(imagesDirName);
+ recordTextEditor.saveTextareaImages(Editor::SAVE_IMAGES_SIMPLE);
 
  emit(accept());
 }
@@ -179,10 +174,10 @@ QString AddNewRecord::getField(QString name)
     name=="author" ||
     name=="url" ||
     name=="tags")
-  return infoField->getField(name);
+  return infoField.getField(name);
 
  if(name=="text")
-  return recordTextEditor->getTextarea();
+  return recordTextEditor.getTextarea();
 
  // Если запрашиваемого поля нет, возвращается пустая строка
  return QString();
