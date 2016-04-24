@@ -63,8 +63,8 @@ public slots:
 
 protected:
 
-  Editor *editor;
-  EditorTextArea *textArea;
+  Editor *editor; // Указатель на объект редактора, с которым работает эта панель кнопок
+  EditorTextArea *textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок
 
   int viewMode;
 

@@ -34,6 +34,7 @@ AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(paren
  setupEventFilter();
 }
 
+
 AddNewRecord::~AddNewRecord()
 {
 
