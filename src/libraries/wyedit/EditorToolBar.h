@@ -24,6 +24,13 @@ public:
   explicit EditorToolBar(QWidget *parent = 0);
   virtual ~EditorToolBar();
 
+  // Область, содержащая линейки с кнопками форматирования
+  QVBoxLayout textformatButtonsLayout;
+
+  // Линейки с кнопками форматирования текста
+  QToolBar    toolsLine1;
+  QToolBar    toolsLine2;
+
   // Кнопки форматирования текста
   QToolButton   bold;
   QToolButton   italic;
@@ -81,13 +88,6 @@ public:
 
   QIcon         iconAttachExists; // Иконка, когда аттачи есть
   QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
-
-  // Линейки с кнопками форматирования текста
-  QToolBar    toolsLine1;
-  QToolBar    toolsLine2;
-
-  // Область, содержащая линейки с кнопками форматирования
-  QVBoxLayout textformatButtonsLayout;
 
   void init();
 
