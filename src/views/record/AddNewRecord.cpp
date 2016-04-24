@@ -135,7 +135,6 @@ void AddNewRecord::okClick(void)
  QString j;
  i=QTextDocumentFragment::fromHtml(getField("text"));
  j=i.toPlainText();
- qDebug() << "AddNewRecord::okClick() : recordtext " << j;
  if(j.length()==0)
   message=message+tr("Please enter the note's <b>text</b>. ");
 
