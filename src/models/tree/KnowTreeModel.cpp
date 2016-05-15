@@ -876,8 +876,13 @@ QModelIndex KnowTreeModel::getIndexByItem(TreeItem *item)
   // Данный метод используется только функциями видов, поэтому скорость от него не требуется, можно вводить любые проверки
   if(item)
   {
-    int itemrow=item->childNumber();
-    return this->createIndex(itemrow, 0, item);
+    if(item!=rootItem)
+    {
+      int itemrow=item->childNumber();
+      return this->createIndex(itemrow, 0, item);
+    }
+    else
+      return QModelIndex(); // Индекс для корня
   }
   else
   {

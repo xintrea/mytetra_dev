@@ -316,7 +316,7 @@ void MainWindow::setTreePosition(QStringList path)
   if(treeScreen->knowTreeModel->isItemValid(path)==false)
     return;
 
-  // Получаем указатель на элемент вида TreeItem, используя путь
+  // Получаем указатель на элемент вида TreeItem, используя путь, этот указатель может вернуть и корень (если путь пустой)
   TreeItem *item =treeScreen->knowTreeModel->getItem(path);
 
   // qDebug() << "Set tree position to " << item->getField("name") << " id " << item->getField("id");

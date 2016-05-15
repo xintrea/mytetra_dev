@@ -95,35 +95,35 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid())
-        return Qt::ItemIsEnabled;
+  if (!index.isValid())
+    return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+  return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 
 // Получение указателя на Item-злемент связанный с заданным QModelIndex
 TreeItem *TreeModel::getItem(const QModelIndex &index) const
 {
- if (index.isValid())
+  if (index.isValid())
   {
-   TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
 
-   if (item)
+    if (item)
     {
-     // qDebug() << "Get tree item " << item->data("name").toString();
-     return item;
+      // qDebug() << "Get tree item " << item->data("name").toString();
+      return item;
     }
-   else
+    else
     {
-     qDebug() << "Detect bad castind to TreeItem in getItem() method ";
-     return NULL;
+      qDebug() << "Detect bad castind to TreeItem in getItem() method ";
+      return NULL;
     }
-            
+
   }
 
- // qDebug() << "Detect bad QModelIndex in getItem() method ";
- return rootItem;
+  // qDebug() << "Detect bad QModelIndex in getItem() method ";
+  return rootItem;
 }
 
 
@@ -236,7 +236,7 @@ bool TreeModel::isItemValid(QStringList path) const
 
 void TreeModel::emitSignalDataChanged(const QModelIndex &index)
 {
- emit dataChanged(index, index);
+  emit dataChanged(index, index);
 }
 
 
@@ -247,14 +247,14 @@ void TreeModel::emitSignalDataChanged(const QModelIndex &index)
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
- Q_UNUSED(section);
- Q_UNUSED(orientation);
- Q_UNUSED(role);
+  Q_UNUSED(section);
+  Q_UNUSED(orientation);
+  Q_UNUSED(role);
   
- // Для всех столбцов возвращается одинаковое значение
- // фактически используется только один столбец
- return "";
- 
+  // Для всех столбцов возвращается одинаковое значение
+  // фактически используется только один столбец
+  return "";
+
   /*
    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return rootItem->data(section);
@@ -269,62 +269,62 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
 // Загадочный метод, надо еще подумать что он делает на самом деле
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (parent.isValid() && parent.column() != 0)
-        return QModelIndex();
+  if (parent.isValid() && parent.column() != 0)
+    return QModelIndex();
 
-    TreeItem *parentItem = getItem(parent);
+  TreeItem *parentItem = getItem(parent);
 
-    TreeItem *childItem = parentItem->child(row);
-    if (childItem)
-        return createIndex(row, column, childItem);
-    else
-        return QModelIndex();
+  TreeItem *childItem = parentItem->child(row);
+  if (childItem)
+    return createIndex(row, column, childItem);
+  else
+    return QModelIndex();
 }
 
 
 // Вставка пустых строк с позиции position в количестве rows
 bool TreeModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
- TreeItem *parentItem = getItem(parent);
- bool success;
+  TreeItem *parentItem = getItem(parent);
+  bool success;
 
- beginInsertRows(parent, position, position + rows - 1);
- 
- // Добавляются строки начиная с указанной позиции, в количестве rows
- // с числом столбцов равным единице
- success = parentItem->insertChildren(position, rows, 1); 
- 
- endInsertRows();
+  beginInsertRows(parent, position, position + rows - 1);
 
- return success;
+  // Добавляются строки начиная с указанной позиции, в количестве rows
+  // с числом столбцов равным единице
+  success = parentItem->insertChildren(position, rows, 1);
+
+  endInsertRows();
+
+  return success;
 }
 
 
 QModelIndex TreeModel::parent(const QModelIndex &index) const
 {
-    if (!index.isValid())
-        return QModelIndex();
+  if(!index.isValid())
+    return QModelIndex();
 
-    TreeItem *childItem = getItem(index);
-    TreeItem *parentItem = childItem->parent();
+  TreeItem *childItem = getItem(index);
+  TreeItem *parentItem = childItem->parent();
 
-    if (parentItem == rootItem)
-        return QModelIndex();
+  if(parentItem == rootItem)
+    return QModelIndex();
 
-    return createIndex(parentItem->childNumber(), 0, parentItem);
+  return createIndex(parentItem->childNumber(), 0, parentItem);
 }
 
 
 bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
 {
-    TreeItem *parentItem = getItem(parent);
-    bool success = true;
+  TreeItem *parentItem = getItem(parent);
+  bool success = true;
 
-    beginRemoveRows(parent, position, position + rows - 1);
-    success = parentItem->removeChildren(position, rows);
-    endRemoveRows();
+  beginRemoveRows(parent, position, position + rows - 1);
+  success = parentItem->removeChildren(position, rows);
+  endRemoveRows();
 
-    return success;
+  return success;
 }
 
 
@@ -338,50 +338,50 @@ int TreeModel::rowCount(const QModelIndex &itemIndex) const
 // Установка значений в Item элементе, связанного с указанным QModelIndex 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
- // Роль UserRole в настоящий момент используется для задания флага, сообщающего
- // что курсор неаходится над элементом при Drag and Drop
- if(role==Qt::UserRole)
+  // Роль UserRole в настоящий момент используется для задания флага, сообщающего
+  // что курсор неаходится над элементом при Drag and Drop
+  if(role==Qt::UserRole)
   {
-   QModelIndex previousIndex=cursorOverIndex;
+    QModelIndex previousIndex=cursorOverIndex;
 
-   if(value.toBool())
-    cursorOverIndex=index;
-   else
-    cursorOverIndex=QModelIndex();
+    if(value.toBool())
+      cursorOverIndex=index;
+    else
+      cursorOverIndex=QModelIndex();
 
-   if(previousIndex.isValid())
-    emitSignalDataChanged(previousIndex);
+    if(previousIndex.isValid())
+      emitSignalDataChanged(previousIndex);
 
-   if(cursorOverIndex.isValid())
-    emitSignalDataChanged(cursorOverIndex);
+    if(cursorOverIndex.isValid())
+      emitSignalDataChanged(cursorOverIndex);
 
-   return true;
+    return true;
   }
 
- if(role==Qt::EditRole)
+  if(role==Qt::EditRole)
   {
 
-   // Вычисляется указатель на Item элемент по QModelIndex
-   // в визуальной модели дерева
-   TreeItem *item = getItem(index);
+    // Вычисляется указатель на Item элемент по QModelIndex
+    // в визуальной модели дерева
+    TreeItem *item = getItem(index);
 
-   // Устанавливаются данные в Item элемент
-   item->setField("name", value.toString());
+    // Устанавливаются данные в Item элемент
+    item->setField("name", value.toString());
 
-   return true;
+    return true;
   }
 
- return false;
+  return false;
 }
 
 
 bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
                               const QVariant &value, int role)
 {
-    if (role != Qt::EditRole || orientation != Qt::Horizontal)
-        return false;
+  if (role != Qt::EditRole || orientation != Qt::Horizontal)
+    return false;
 
-    Q_UNUSED(section);
-    rootItem->setField("name", value.toString());
-    return true;
+  Q_UNUSED(section);
+  rootItem->setField("name", value.toString());
+  return true;
 }
