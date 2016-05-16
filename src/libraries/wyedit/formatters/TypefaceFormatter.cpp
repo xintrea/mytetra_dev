@@ -360,49 +360,45 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   QRegExp removeStyleEx("style=\".*\"");
   removeStyleEx.setMinimal(true);
   htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
-  qDebug() << "After remove style: " << htmlCode;
+  // qDebug() << "After remove style: " << htmlCode;
 
   QRegExp startFragmentEx("<!--StartFragment-->");
   startFragmentEx.setMinimal(true);
   htmlCode.replace(startFragmentEx, "");
-  qDebug() << "After remove start fragment: " << htmlCode;
+  // qDebug() << "After remove start fragment: " << htmlCode;
 
   QRegExp endFragmentEx("<!--EndFragment-->");
   endFragmentEx.setMinimal(true);
   htmlCode.replace(endFragmentEx, "");
-  qDebug() << "After remove end fragment: " << htmlCode;
+  // qDebug() << "After remove end fragment: " << htmlCode;
 
-  // Жадная регулярка не всегда корректно захватывает строку, приходится разбивать на подстроки
+  // Жадная регулярка не всегда корректно захватывает строку (почему-то работает как ленивая), приходится разбивать на подстроки
+  // Кроме того, в Qt нет возможности переключать режим multiline/не-multiline в регулярных выражениях
   QStringList list=htmlCode.split(QRegularExpression("\\n"));
   QString tempHtmlCode;
-  int lineNum=1;
-  foreach(const QString &line, list)
+  for(int lineNum=0; lineNum<list.count(); ++lineNum)
   {
-    QString currLine=line;
-    qDebug() << "L" << lineNum << " " << currLine;
+    // qDebug() << "L" << lineNum << " " << list[lineNum];
 
     QRegExp replacePBrP("<p.*><br.?\\/><\\/p.*>");
     replacePBrP.setMinimal(true);
-    currLine.replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
-    qDebug() << "L" << lineNum << " " << currLine;
+    list[lineNum].replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
+    // qDebug() << "L" << lineNum << " " << list[lineNum];
 
-    tempHtmlCode+=currLine+"\n";
-
-    ++lineNum;
+    tempHtmlCode+=list[lineNum]+"\n";
   }
   htmlCode=tempHtmlCode;
-  qDebug() << "After replace p br p: " << htmlCode;
+  // qDebug() << "After replace p br p: " << htmlCode;
 
   QRegExp replaceOpenHeaderEx("<[hH]\\d.*>");
   replaceOpenHeaderEx.setMinimal(true);
   htmlCode.replace(replaceOpenHeaderEx, "<p>");
-  qDebug() << "After remove open header: " << htmlCode;
+  // qDebug() << "After remove open header: " << htmlCode;
 
   QRegExp replaceCloseHeaderEx("</[hH]\\d.*>");
   replaceCloseHeaderEx.setMinimal(true);
   htmlCode.replace(replaceCloseHeaderEx, "</p>");
-  qDebug() << "After remove close header: " << htmlCode;
-
+  // qDebug() << "After remove close header: " << htmlCode;
 
   return htmlCode;
 }
