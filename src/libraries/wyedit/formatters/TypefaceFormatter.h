@@ -45,6 +45,8 @@ public slots:
 private:
 
   void smartFormat(int formatType);
+  QString clearTypeFace(QString htmlCode);
+
 };
 
 #endif // TYPEFACEFORMATTER_H

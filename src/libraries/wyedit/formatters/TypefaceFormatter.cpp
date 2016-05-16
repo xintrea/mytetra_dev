@@ -262,7 +262,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Очистка возможна только если что-то выделено
   // Или курсор стоит на пустой строке с одним символом перевода строки
-  // Или курсор стоит на строке, в которой нет текста
+  // Или курсор стоит на строке, в которой нет текста (одни пробелы)
   if(!(textArea->textCursor().hasSelection() ||
        flag_cursor_on_empty_line ||
        flag_cursor_on_space_line))
@@ -270,6 +270,9 @@ void TypefaceFormatter::onClearClicked(void)
 
   textArea->textCursor().beginEditBlock();
 
+  // Если что-то было выделено - выделение уже есть
+  // Если курсор стоит на пустой строке с одним символом перевода строки - ничего выделять не нужно
+  // Или курсор стоит на строке, в которой нет текста (одни пробелы) - нужно выделить эту строку
   if(flag_cursor_on_space_line)
     (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
 
@@ -288,12 +291,27 @@ void TypefaceFormatter::onClearClicked(void)
   // В выпадающем списке размеров выставляется установленный размер
   emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
 
+
+  // *****************************
+  // Установка начертания символов
+  // *****************************
+
   // Очищается формат символов
+  /*
   QColor clearColor;
   QBrush clearBrush( clearColor );
   QTextCharFormat clearCharFormat;
   clearCharFormat.setForeground( clearBrush );
   textArea->textCursor().mergeCharFormat(clearCharFormat);
+  */
+  QString htmlCode=clearTypeFace( textArea->textCursor().selection().toHtml() );
+  textArea->textCursor().removeSelectedText();
+  textArea->textCursor().insertHtml(htmlCode);
+
+
+  // *******************************
+  // Установка форматирования абзаца
+  // *******************************
 
   // Если выделен блок
   // или курсор на пустой линии
@@ -316,45 +334,10 @@ void TypefaceFormatter::onClearClicked(void)
   }
 
 
-  // Далее весь код располагался в другом месте, разобраться в каком
-
-
   // Если была работа со строкой, в которой нет символов,
   // курсор переносится на начало строки, чтобы не путать пользователя
   if(flag_cursor_on_space_line)
     textArea->moveCursor(QTextCursor::StartOfLine);
-
-
-  // Очистка закомментирована, так как она заменена очисткой формата символов setCurrentCharFormat()
-  // А так же эта очистка некорректно работает из-за особенностей вставки в Qt (первая строка получает отличный от остальных строк формат).
-  // Думать дальше
-  /*
- // Удаление какого-либо форматирования стилем
- QString htmlCode=textArea->textCursor().selection().toHtml();
- qDebug() << "Before remove style: " << htmlCode;
-
- // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
- // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
- QRegExp replace_expression("style=\".*\"");
- replace_expression.setMinimal(true);
-
- htmlCode.replace(replace_expression, "");
- qDebug() << "After remove style: " << htmlCode;
-
- QString currStyleSheet=textArea->document()->defaultStyleSheet();
- textArea->document()->setDefaultStyleSheet(" ");
-
- textArea->textCursor().removeSelectedText();
- textArea->textCursor().insertHtml(htmlCode);
-
- textArea->document()->setDefaultStyleSheet(currStyleSheet);
-
- textArea->textCursor().setPosition(startCursorPos);
- textArea->textCursor().setPosition(stopCursorPos, QTextCursor::KeepAnchor);
- // textArea->setTextCursor( textArea->textCursor() );
-
- qDebug() << "Cursor position: " << textArea->textCursor().position() << "Cursor anchor: " << textArea->textCursor().anchor();
- */
 
   textArea->textCursor().endEditBlock();
 
@@ -363,6 +346,65 @@ void TypefaceFormatter::onClearClicked(void)
   editor->onSelectionChanged();
 
   editor->updateIndentsliderToActualFormat();
+}
+
+
+// Очистка начертания символов
+QString TypefaceFormatter::clearTypeFace(QString htmlCode)
+{
+  // Удаление какого-либо форматирования стилем
+  qDebug() << "Before remove style: " << htmlCode;
+
+  // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
+  // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
+  QRegExp removeStyleEx("style=\".*\"");
+  removeStyleEx.setMinimal(true);
+  htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
+  qDebug() << "After remove style: " << htmlCode;
+
+  QRegExp startFragmentEx("<!--StartFragment-->");
+  startFragmentEx.setMinimal(true);
+  htmlCode.replace(startFragmentEx, "");
+  qDebug() << "After remove start fragment: " << htmlCode;
+
+  QRegExp endFragmentEx("<!--EndFragment-->");
+  endFragmentEx.setMinimal(true);
+  htmlCode.replace(endFragmentEx, "");
+  qDebug() << "After remove end fragment: " << htmlCode;
+
+  // Жадная регулярка не всегда корректно захватывает строку, приходится разбивать на подстроки
+  QStringList list=htmlCode.split(QRegularExpression("\\n"));
+  QString tempHtmlCode;
+  int lineNum=1;
+  foreach(const QString &line, list)
+  {
+    QString currLine=line;
+    qDebug() << "L" << lineNum << " " << currLine;
+
+    QRegExp replacePBrP("<p.*><br.?\\/><\\/p.*>");
+    replacePBrP.setMinimal(true);
+    currLine.replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
+    qDebug() << "L" << lineNum << " " << currLine;
+
+    tempHtmlCode+=currLine+"\n";
+
+    ++lineNum;
+  }
+  htmlCode=tempHtmlCode;
+  qDebug() << "After replace p br p: " << htmlCode;
+
+  QRegExp replaceOpenHeaderEx("<[hH]\\d.*>");
+  replaceOpenHeaderEx.setMinimal(true);
+  htmlCode.replace(replaceOpenHeaderEx, "<p>");
+  qDebug() << "After remove open header: " << htmlCode;
+
+  QRegExp replaceCloseHeaderEx("</[hH]\\d.*>");
+  replaceCloseHeaderEx.setMinimal(true);
+  htmlCode.replace(replaceCloseHeaderEx, "</p>");
+  qDebug() << "After remove close header: " << htmlCode;
+
+
+  return htmlCode;
 }
 
 
