@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QColorDialog>
 #include <QColor>
+#include <QDomNode>
 
 #include "TypefaceFormatter.h"
 
@@ -326,6 +327,10 @@ void TypefaceFormatter::onClearClicked(void)
   // Получение HTML-кода очищенного фрагмента
   QString htmlCode=clearTypeFace( textArea->textCursor().selection().toHtml() );
 
+  // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
+  htmlCode=replaceSpaces(htmlCode);
+  qDebug() << "After replace spaces" << htmlCode;
+
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
 
@@ -457,6 +462,55 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   qDebug() << "After remove end tags: " << htmlCode;
 
   return htmlCode;
+}
+
+
+// Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
+QString TypefaceFormatter::replaceSpaces(QString htmlCode)
+{
+  QDomDocument doc;
+  bool isDocParse=doc.setContent("<root>"+htmlCode+"</root>");
+
+  if(!isDocParse)
+  {
+    // Вывод сообщения: Слишком сложно еформатирование текста. Не могу разобрать выделенный текст. Возможно некоторое нарушение верстки
+    showMessageBox(tr("Too hard text formatting. Can't normal parse selected text. May be any format regression"));
+    return htmlCode;
+  }
+
+  // Рекурсивная правка текстовых узлов, начиная с корневого элемента
+  recurseReplaceSpaces(doc.documentElement());
+
+  return doc.toString();
+}
+
+
+void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
+{
+  QDomNode domNode = node.firstChild();
+  QDomText domText;
+
+  // Если текущий элемент существует
+  while(!(domNode.isNull()))
+  {
+    // Если узел - это текст
+    if(domNode.isText())
+    {
+      QDomText domText = domNode.toText();
+      if(!domText.isNull())
+      {
+        QString text=domText.data();
+        text.replace(" ", "&nbsp;");
+        qDebug() << "Replace spaces: " << text;
+
+        // В узле устанавливается новая строка
+        domNode.setNodeValue(text);
+      }
+    }
+
+    recurseReplaceSpaces(domNode);
+    domNode = domNode.nextSibling();
+  }
 }
 
 

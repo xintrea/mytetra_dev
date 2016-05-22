@@ -7,6 +7,7 @@
 
 // Класс форматирования для начертания текста
 
+class QDomNode;
 
 class TypefaceFormatter : public Formatter
 {
@@ -47,6 +48,8 @@ private:
 
   void smartFormat(int formatType);
   QString clearTypeFace(QString htmlCode);
+  QString replaceSpaces(QString htmlCode);
+  void recurseReplaceSpaces(const QDomNode &node);
 
 };
 
