@@ -256,6 +256,9 @@ void Editor::setupSignals(void)
   connect( &(editorToolBarAssistant->clear), SIGNAL(clicked()),
            typefaceFormatter,                SLOT  (onClearClicked()),
           Qt::DirectConnection);
+  connect( &(editorToolBarAssistant->textOnly), SIGNAL(clicked()),
+           typefaceFormatter,                SLOT  (onTextOnlyClicked()),
+          Qt::DirectConnection);
   connect( &(editorToolBarAssistant->fixBreakSymbol), SIGNAL(clicked()),
            typefaceFormatter,                SLOT  (onFixBreakSymbolClicked()),
           Qt::DirectConnection);

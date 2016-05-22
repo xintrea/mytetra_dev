@@ -107,5 +107,6 @@
         <file>resource/pic/set_icon.svg</file>
         <file>resource/pic/edit_fixBreakSymbol.svg</file>
         <file>resource/pic/attach_add_from_url.svg</file>
+        <file>resource/pic/edit_text_only.svg</file>
     </qresource>
 </RCC>

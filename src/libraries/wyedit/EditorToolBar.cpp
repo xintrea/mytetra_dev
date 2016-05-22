@@ -107,6 +107,12 @@ void EditorToolBar::setupButtons(void)
   clear.setIcon(QIcon(":/resource/pic/edit_clear.svg"));
   clear.setObjectName("editor_tb_clear");
 
+  // Кнопка TextOnly - преобразование выделенного фрагмента в чистый текст
+  textOnly.setParent(this);
+  textOnly.setStatusTip(tr("Reset selected text to text only"));
+  textOnly.setIcon(QIcon(":/resource/pic/edit_text_only.svg"));
+  textOnly.setObjectName("editor_tb_text_only");
+
   // Кнопка замены символов мягкого переноса (тег <br/> заменяется на разрыв параграфа </p><p>)
   fixBreakSymbol.setParent(this);
   // fixBreakSymbol.setShortcut(QKeySequence(tr("Ctrl+K")));

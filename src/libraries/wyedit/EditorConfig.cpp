@@ -337,6 +337,7 @@ void EditorConfig::update_version_process(void)
  parameterFunctions << get_parameter_table_9;
  parameterFunctions << get_parameter_table_10;
  parameterFunctions << get_parameter_table_11;
+ parameterFunctions << get_parameter_table_12;
 
  for(int i=1; i<parameterFunctions.count()-1; ++i)
    if(fromVersion<=i)
@@ -567,6 +568,25 @@ QStringList EditorConfig::get_parameter_table_11(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_12(bool withEndSignature)
+{
+ // Таблица параметров
+ // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+ QStringList table;
+
+ // Старые параметры, аналогичные версии 11
+ table << get_parameter_table_11(false);
+
+ // В параметре tools_line_1 добавляется кнопка text_only
+ // см. метод update_version_change_value()
+
+ if(withEndSignature)
+  table << "0" << "0" << "0";
+
+ return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -656,6 +676,16 @@ QString EditorConfig::update_version_change_value(int versionFrom,
     if(name=="tools_line_2")
       if(!result.contains("fix_break_symbol"))
         result=result+",fix_break_symbol";
+
+  if(versionFrom==11 && versionTo==12)
+    if(name=="tools_line_1")
+      if(!result.contains("table_properties"))
+      {
+        if(result.contains("code"))
+          result.replace("code", "code,text_only");
+        else
+          result=result+",text_only";
+      }
 
   return result;
 }

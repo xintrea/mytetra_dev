@@ -252,9 +252,10 @@ void TypefaceFormatter::onClearClicked(void)
 {
   // TRACELOG
 
-  int startCursorPos=textArea->textCursor().position();
-  int stopCursorPos=textArea->textCursor().anchor();
-  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+  int startCursorPos=textArea->textCursor().position(); // Начало выделения (всегда меньше чем конец выделения независимо от того, справа-налево или слева-направо был выделен фрагмент)
+  int stopCursorPos=textArea->textCursor().anchor(); // Конец выделения
+  int userCursorPos=textArea->textCursor().position(); // Где стоял курсор. Переменная нужна чтобы установить туда курсор после совершения всех действий
+  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
 
 
   bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
@@ -308,6 +309,8 @@ void TypefaceFormatter::onClearClicked(void)
   textArea->textCursor().removeSelectedText();
   textArea->textCursor().insertHtml(htmlCode);
 
+  qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
+
 
   // *******************************
   // Установка форматирования абзаца
@@ -320,6 +323,7 @@ void TypefaceFormatter::onClearClicked(void)
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
   {
+    qDebug() << "Set default text format";
     QTextBlockFormat format;
 
     // Убираются отступы
@@ -331,6 +335,8 @@ void TypefaceFormatter::onClearClicked(void)
 
     // Применение форматирование
     textArea->textCursor().setBlockFormat(format);
+
+    qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
   }
 
 
@@ -360,17 +366,17 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   QRegExp removeStyleEx("style=\".*\"");
   removeStyleEx.setMinimal(true);
   htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
-  // qDebug() << "After remove style: " << htmlCode;
+  qDebug() << "After remove style: " << htmlCode;
 
   QRegExp startFragmentEx("<!--StartFragment-->");
   startFragmentEx.setMinimal(true);
   htmlCode.replace(startFragmentEx, "");
-  // qDebug() << "After remove start fragment: " << htmlCode;
+  qDebug() << "After remove start fragment: " << htmlCode;
 
   QRegExp endFragmentEx("<!--EndFragment-->");
   endFragmentEx.setMinimal(true);
   htmlCode.replace(endFragmentEx, "");
-  // qDebug() << "After remove end fragment: " << htmlCode;
+  qDebug() << "After remove end fragment: " << htmlCode;
 
   // Жадная регулярка не всегда корректно захватывает строку (почему-то работает как ленивая), приходится разбивать на подстроки
   // Кроме того, в Qt нет возможности переключать режим multiline/не-multiline в регулярных выражениях
@@ -378,29 +384,46 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   QString tempHtmlCode;
   for(int lineNum=0; lineNum<list.count(); ++lineNum)
   {
-    // qDebug() << "L" << lineNum << " " << list[lineNum];
+    qDebug() << "L" << lineNum << " " << list[lineNum];
 
     QRegExp replacePBrP("<p.*><br.?\\/><\\/p.*>");
     replacePBrP.setMinimal(true);
     list[lineNum].replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
-    // qDebug() << "L" << lineNum << " " << list[lineNum];
+    qDebug() << "L" << lineNum << " " << list[lineNum];
 
     tempHtmlCode+=list[lineNum]+"\n";
   }
   htmlCode=tempHtmlCode;
-  // qDebug() << "After replace p br p: " << htmlCode;
+  qDebug() << "After replace p br p: " << htmlCode;
 
   QRegExp replaceOpenHeaderEx("<[hH]\\d.*>");
   replaceOpenHeaderEx.setMinimal(true);
   htmlCode.replace(replaceOpenHeaderEx, "<p>");
-  // qDebug() << "After remove open header: " << htmlCode;
+  qDebug() << "After remove open header: " << htmlCode;
 
   QRegExp replaceCloseHeaderEx("</[hH]\\d.*>");
   replaceCloseHeaderEx.setMinimal(true);
   htmlCode.replace(replaceCloseHeaderEx, "</p>");
-  // qDebug() << "After remove close header: " << htmlCode;
+  qDebug() << "After remove close header: " << htmlCode;
+
+
+  QRegExp removeStartTagsEx(".*<body>");
+  removeStartTagsEx.setMinimal(true);
+  htmlCode.replace(removeStartTagsEx, "");
+  qDebug() << "After remove start tags: " << htmlCode;
+
+  QRegExp removeEndTagsEx("</body>.*");
+  removeEndTagsEx.setMinimal(true);
+  htmlCode.replace(removeEndTagsEx, "");
+  qDebug() << "After remove end tags: " << htmlCode;
 
   return htmlCode;
+}
+
+
+void TypefaceFormatter::onTextOnlyClicked()
+{
+  qDebug() << "onTextOnlyClicked";
 }
 
 

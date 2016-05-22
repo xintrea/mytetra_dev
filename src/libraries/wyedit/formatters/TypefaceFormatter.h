@@ -36,6 +36,7 @@ public slots:
   void onMonospaceClicked(void);
   void onCodeClicked(void);
   void onClearClicked(void);
+  void onTextOnlyClicked(void);
   void onFixBreakSymbolClicked(void);
 
   void onFontselectChanged(const QFont &font);

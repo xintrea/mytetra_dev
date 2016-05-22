@@ -37,7 +37,8 @@ public:
   QToolButton   underline;
   QToolButton   monospace;
   QToolButton   code;
-  QToolButton   clear;
+  QToolButton   clear; // Очистка начертания текста
+  QToolButton   textOnly; // Полная очистка текста (оставить один текст)
   QToolButton   fixBreakSymbol;
 
   QToolButton   numericList;
