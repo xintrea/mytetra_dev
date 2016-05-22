@@ -257,6 +257,15 @@ void TypefaceFormatter::onClearClicked(void)
   int userCursorPos=textArea->textCursor().position(); // Где стоял курсор. Переменная нужна чтобы установить туда курсор после совершения всех действий
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
 
+  // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
+  if(startCursorPos>stopCursorPos)
+  {
+    int tempCursorPos=startCursorPos;
+    startCursorPos=stopCursorPos;
+    stopCursorPos=tempCursorPos;
+  }
+  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+
 
   // С помощью дополнительного курсора выясняется последняя позиция в еще не измененном тексте
   // Это необходимо чтобы определить на сколько уменьшится текст после удаления выделенного куска
@@ -438,12 +447,12 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 
 
   QRegExp removeStartTagsEx(".*<body>");
-  removeStartTagsEx.setMinimal(true);
+  removeStartTagsEx.setMinimal(false);
   htmlCode.replace(removeStartTagsEx, "");
   qDebug() << "After remove start tags: " << htmlCode;
 
   QRegExp removeEndTagsEx("</body>.*");
-  removeEndTagsEx.setMinimal(true);
+  removeEndTagsEx.setMinimal(false);
   htmlCode.replace(removeEndTagsEx, "");
   qDebug() << "After remove end tags: " << htmlCode;
 
