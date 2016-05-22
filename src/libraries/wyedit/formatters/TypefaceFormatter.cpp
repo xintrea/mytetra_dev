@@ -258,6 +258,14 @@ void TypefaceFormatter::onClearClicked(void)
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
 
 
+  // С помощью дополнительного курсора выясняется последняя позиция в еще не измененном тексте
+  // Это необходимо чтобы определить на сколько уменьшится текст после удаления выделенного куска
+  QTextCursor cursor=textArea->textCursor();
+  cursor.movePosition(QTextCursor::End);
+  int beforeClearLen=cursor.position();
+  qDebug() << "Before clear length: " << beforeClearLen;
+
+
   bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
   bool flag_cursor_on_space_line=editor->cursorPositionDetector->isCursorOnSpaceLine();
 
@@ -305,10 +313,32 @@ void TypefaceFormatter::onClearClicked(void)
   clearCharFormat.setForeground( clearBrush );
   textArea->textCursor().mergeCharFormat(clearCharFormat);
   */
+
+  // Получение HTML-кода очищенного фрагмента
   QString htmlCode=clearTypeFace( textArea->textCursor().selection().toHtml() );
+
+  // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
+
+  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
+  cursor.movePosition(QTextCursor::End);
+  int afterRemoveSelectionLen=cursor.position();
+  qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
+
+  // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
 
+  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
+  cursor.movePosition(QTextCursor::End);
+  int afterClearLen=cursor.position();
+  qDebug() << "After clear length: " << afterClearLen;
+
+  int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
+  qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+
+  cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
+  cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+  textArea->setTextCursor(cursor);
   qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
 
 
