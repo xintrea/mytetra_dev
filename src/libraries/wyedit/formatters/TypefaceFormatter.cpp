@@ -469,7 +469,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 QString TypefaceFormatter::replaceSpaces(QString htmlCode)
 {
   QDomDocument doc;
-  bool isDocParse=doc.setContent("<root>"+htmlCode+"</root>");
+  bool isDocParse=doc.setContent("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html>\n<root>"+htmlCode+"</root>");
 
   if(!isDocParse)
   {
@@ -500,7 +500,7 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
       if(!domText.isNull())
       {
         QString text=domText.data();
-        text.replace(" ", "&nbsp;");
+        text.replace(" ", "&#32;"); // &nbsp;
         qDebug() << "Replace spaces: " << text;
 
         // В узле устанавливается новая строка
