@@ -342,6 +342,13 @@ void TypefaceFormatter::onClearClicked(void)
   // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
 
+
+  // ********************************
+  // Выделение вставленного фрагмента
+  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы
+  // Это особенность Qt
+  // ********************************
+
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
   int afterClearLen=cursor.position();
@@ -349,6 +356,26 @@ void TypefaceFormatter::onClearClicked(void)
 
   int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
   qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+
+
+  // Замена RC-символа на пробелы
+  QTextCursor replacementCursor=textArea->textCursor();
+  for(int pos=startCursorPos; pos<(calculateEndCursorPos-1); pos++)
+  {
+    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
+
+    if(replacementCursor.selectedText().length()>0)
+    {
+      qDebug() << "Pos: " << pos << " Len: "<< replacementCursor.selectedText().length() << " Char: " << replacementCursor.selectedText().at(0);
+
+      if(replacementCursor.selectedText().at(0)==QChar::ReplacementCharacter)
+      {
+        replacementCursor.insertText(" ");
+        qDebug() << "Replace RC to space in position: " << pos;
+      }
+    }
+  }
 
   cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
   cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
@@ -481,8 +508,11 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
   // Рекурсивная правка текстовых узлов, начиная с корневого элемента
   recurseReplaceSpaces(doc.documentElement());
 
-  return doc.toString().replace("&amp;nbsp;", "&nbsp;");
+  // Особенность Qt. Преобразование DOM-XML портит символ амперсанда. Поэтому он восстанавливается
+  // return doc.toString().replace("&amp;nbsp;", "&nbsp;");
   // return doc.toString().replace("&amp;#32;", "&#32;");
+  // return doc.toString().replace("&amp;#65532;", "&#65532;");
+  return doc.toString().replace("&amp;#65533;", "&#65533;");
 }
 
 
@@ -501,8 +531,12 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
       if(!domText.isNull())
       {
         QString text=domText.data();
-        text.replace(" ", "&nbsp;");
-        // text.replace(" ", "&#32;");
+
+        // Чтобы не смыкаликись повторяющиеся пробелы, они временно заменяются на RC
+        // text.replace(" ", "&nbsp;"); // Non-break space
+        // text.replace(" ", "&#32;"); // Classic space
+        // text.replace(" ", "&#65532;"); // OBJECT REPLACEMENT CHARACTER
+        text.replace(" ", "&#65533;"); // REPLACEMENT CHARACTER
 
         qDebug() << "Replace spaces: " << text;
 
