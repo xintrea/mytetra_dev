@@ -256,7 +256,7 @@ void TypefaceFormatter::onClearClicked(void)
   int startCursorPos=textArea->textCursor().position(); // Начало выделения (всегда меньше чем конец выделения независимо от того, справа-налево или слева-направо был выделен фрагмент)
   int stopCursorPos=textArea->textCursor().anchor(); // Конец выделения
   int userCursorPos=textArea->textCursor().position(); // Где стоял курсор. Переменная нужна чтобы установить туда курсор после совершения всех действий
-  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
+  // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
 
   // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
   if(startCursorPos>stopCursorPos)
@@ -265,7 +265,7 @@ void TypefaceFormatter::onClearClicked(void)
     startCursorPos=stopCursorPos;
     stopCursorPos=tempCursorPos;
   }
-  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+  // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
 
   // С помощью дополнительного курсора выясняется последняя позиция в еще не измененном тексте
@@ -273,7 +273,7 @@ void TypefaceFormatter::onClearClicked(void)
   QTextCursor cursor=textArea->textCursor();
   cursor.movePosition(QTextCursor::End);
   int beforeClearLen=cursor.position();
-  qDebug() << "Before clear length: " << beforeClearLen;
+  // qDebug() << "Before clear length: " << beforeClearLen;
 
 
   bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
@@ -304,7 +304,7 @@ void TypefaceFormatter::onClearClicked(void)
   // Применяется стандартный шрифт
   textArea->setCurrentFont(font);
 
-    // Новый установленный шрифт показывается в выпадающем списке шрифтов
+  // Новый установленный шрифт показывается в выпадающем списке шрифтов
   emit changeFontselectOnDisplay(font.family());
 
   // В выпадающем списке размеров выставляется установленный размер
@@ -337,39 +337,34 @@ void TypefaceFormatter::onClearClicked(void)
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
   cursor.movePosition(QTextCursor::End);
   int afterRemoveSelectionLen=cursor.position();
-  qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
+  // qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
 
   // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
 
-
-  // ********************************
-  // Выделение вставленного фрагмента
-  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы
-  // Это особенность Qt
-  // ********************************
-
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
   int afterClearLen=cursor.position();
-  qDebug() << "After clear length: " << afterClearLen;
+  // qDebug() << "After clear length: " << afterClearLen;
 
+  // Вычисляется последняя позиция выделения очищенного текста
   int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
-  qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+  // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
 
 
   // Замена RC-символа на пробелы
   QTextCursor replacementCursor=textArea->textCursor();
-  for(int pos=startCursorPos; pos<(calculateEndCursorPos-1); pos++)
+  for(int pos=startCursorPos; pos<calculateEndCursorPos; pos++)
   {
     replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
     replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
 
     if(replacementCursor.selectedText().length()>0)
     {
-      qDebug() << "Pos: " << pos << " Len: "<< replacementCursor.selectedText().length() << " Char: " << replacementCursor.selectedText().at(0);
+      QChar currentChar=replacementCursor.selectedText().at(0);
+      qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
 
-      if(replacementCursor.selectedText().at(0)==QChar::ReplacementCharacter)
+      if(currentChar==QChar::ReplacementCharacter)
       {
         replacementCursor.insertText(" ");
         qDebug() << "Replace RC to space in position: " << pos;
@@ -377,6 +372,12 @@ void TypefaceFormatter::onClearClicked(void)
     }
   }
 
+
+  // ********************************
+  // Выделение вставленного фрагмента
+  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы
+  // Это особенность Qt
+  // ********************************
   cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
   cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
   textArea->setTextCursor(cursor);
@@ -407,7 +408,7 @@ void TypefaceFormatter::onClearClicked(void)
     // Применение форматирование
     textArea->textCursor().setBlockFormat(format);
 
-    qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
+    // qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
   }
 
 
@@ -442,13 +443,13 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   QRegExp startFragmentEx("<!--StartFragment-->");
   startFragmentEx.setMinimal(true);
   htmlCode.replace(startFragmentEx, "");
-  qDebug() << "After remove start fragment: " << htmlCode;
 
   QRegExp endFragmentEx("<!--EndFragment-->");
   endFragmentEx.setMinimal(true);
   htmlCode.replace(endFragmentEx, "");
-  qDebug() << "After remove end fragment: " << htmlCode;
 
+  // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
+  // и тем самым создает лишнюю пустую строку
   // Жадная регулярка не всегда корректно захватывает строку (почему-то работает как ленивая), приходится разбивать на подстроки
   // Кроме того, в Qt нет возможности переключать режим multiline/не-multiline в регулярных выражениях
   QStringList list=htmlCode.split(QRegularExpression("\\n"));
@@ -465,28 +466,23 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
     tempHtmlCode+=list[lineNum]+"\n";
   }
   htmlCode=tempHtmlCode;
-  qDebug() << "After replace p br p: " << htmlCode;
+  // qDebug() << "After replace p br p: " << htmlCode;
 
   QRegExp replaceOpenHeaderEx("<[hH]\\d.*>");
   replaceOpenHeaderEx.setMinimal(true);
   htmlCode.replace(replaceOpenHeaderEx, "<p>");
-  qDebug() << "After remove open header: " << htmlCode;
 
   QRegExp replaceCloseHeaderEx("</[hH]\\d.*>");
   replaceCloseHeaderEx.setMinimal(true);
   htmlCode.replace(replaceCloseHeaderEx, "</p>");
-  qDebug() << "After remove close header: " << htmlCode;
-
 
   QRegExp removeStartTagsEx(".*<body>");
   removeStartTagsEx.setMinimal(false);
   htmlCode.replace(removeStartTagsEx, "");
-  qDebug() << "After remove start tags: " << htmlCode;
 
   QRegExp removeEndTagsEx("</body>.*");
   removeEndTagsEx.setMinimal(false);
   htmlCode.replace(removeEndTagsEx, "");
-  qDebug() << "After remove end tags: " << htmlCode;
 
   return htmlCode;
 }
@@ -512,7 +508,7 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
   // return doc.toString().replace("&amp;nbsp;", "&nbsp;");
   // return doc.toString().replace("&amp;#32;", "&#32;");
   // return doc.toString().replace("&amp;#65532;", "&#65532;");
-  return doc.toString().replace("&amp;#65533;", "&#65533;");
+  return doc.toString(0).replace("&amp;#65533;", "&#65533;");
 }
 
 
@@ -533,12 +529,7 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
         QString text=domText.data();
 
         // Чтобы не смыкаликись повторяющиеся пробелы, они временно заменяются на RC
-        // text.replace(" ", "&nbsp;"); // Non-break space
-        // text.replace(" ", "&#32;"); // Classic space
-        // text.replace(" ", "&#65532;"); // OBJECT REPLACEMENT CHARACTER
         text.replace(" ", "&#65533;"); // REPLACEMENT CHARACTER
-
-        qDebug() << "Replace spaces: " << text;
 
         // В узле устанавливается новая строка
         domNode.setNodeValue(text);
