@@ -322,7 +322,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
   htmlCode=replaceSpaces(htmlCode);
-  // qDebug() << "After replace spaces" << htmlCode;
+  qDebug() << "After replace spaces" << htmlCode;
 
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
@@ -614,9 +614,6 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
   recurseReplaceSpaces(doc.documentElement());
 
   // Особенность Qt. Преобразование DOM-XML портит символ амперсанда. Поэтому он восстанавливается
-  // return doc.toString().replace("&amp;nbsp;", "&nbsp;");
-  // return doc.toString().replace("&amp;#32;", "&#32;");
-  // return doc.toString().replace("&amp;#65532;", "&#65532;");
   return doc.toString(0).replace("&amp;#65533;", "&#65533;");
 }
 
@@ -624,11 +621,24 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
 void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
 {
   QDomNode domNode = node.firstChild();
-  QDomText domText;
 
   // Если текущий элемент существует
   while(!(domNode.isNull()))
   {
+    // Отладка
+    if( domNode.isElement() )
+    {
+      QDomElement element = domNode.toElement();
+      qDebug() << "IS ELEMENT" << element.tagName();
+      qDebug() << "IS ELEMENT ATTRIBUTE NAME" << element.attribute( "name", "not set" );
+    }
+    if( domNode.isText() )
+    {
+      QDomText text = domNode.toText();
+      qDebug() << "IS TEXT" << text.data();
+    }
+
+
     // Если узел - это текст
     if(domNode.isText())
     {
@@ -636,6 +646,7 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
       if(!domText.isNull())
       {
         QString text=domText.data();
+        qDebug() << "Found text node: " << text;
 
         // Чтобы не смыкаликись повторяющиеся пробелы, они временно заменяются на RC
         text.replace(" ", "&#65533;"); // REPLACEMENT CHARACTER
