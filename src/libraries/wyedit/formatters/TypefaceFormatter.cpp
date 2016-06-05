@@ -294,7 +294,7 @@ void TypefaceFormatter::onClearClicked(void)
   font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
   font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
 
-  // Применяется стандартный шрифт
+  // К выделенному тексту применяется стандартный шрифт
   textArea->setCurrentFont(font);
 
   // Новый установленный шрифт показывается в выпадающем списке шрифтов
@@ -318,7 +318,7 @@ void TypefaceFormatter::onClearClicked(void)
   */
 
   // Получение HTML-кода очищенного фрагмента
-  QString htmlCode=clearTypeFace( textArea->textCursor().selection().toHtml() );
+  QString htmlCode=clearTypeFace( replaceSpacesOnlyTags( textArea->textCursor().selection().toHtml() ) );
 
   // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
   htmlCode=replaceSpaces(htmlCode);
@@ -466,11 +466,81 @@ void TypefaceFormatter::onClearClicked(void)
 }
 
 
+// Замена пробелов в тегах <span атрибуты>...</span>, содержимое которых состоит из одних только пробелов
+QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
+{
+
+  QRegExp replaceSpaceTagsEx("<span[^>]*>\\s*</span>");
+  replaceSpaceTagsEx.setMinimal(true);
+
+  // Поиск тегов <span> с одними пробелами внутри, с запоминанием их
+  QStringList list;
+  int lastPos = 0;
+  while( ( lastPos = replaceSpaceTagsEx.indexIn( htmlCode, lastPos ) ) != -1 )
+  {
+    lastPos += replaceSpaceTagsEx.matchedLength();
+
+    list << replaceSpaceTagsEx.cap(0);
+    qDebug() << "Find space only sttring: " << list.last();
+  }
+
+
+  // Замена найденных тегов на теги с "&#65533;" вместо пробелов
+  for( int n = 0; n < list.size(); n++)
+  {
+    QString line=list.at(n);
+
+    // Здесь однозначно известно, что строка имеет вид "<span атрибуты>пробелы</span>"
+    int spaceFrom=line.indexOf(">")+1;
+    int spaceTo=line.indexOf("<", spaceFrom)-1;
+    int spaceLen=spaceTo-spaceFrom;
+    qDebug() << "Space length:" << spaceLen;
+
+    QString spaceLine;
+    for(int i=0; i<spaceLen; ++i)
+      spaceLine+="&#65533;";
+
+    QString replaceLineLeft=line.mid(0, spaceFrom-1);
+    QString replaceLineRight=line.mid(spaceTo+1);
+    QString replaceLine=replaceLineLeft+spaceLine+replaceLineRight;
+
+    qDebug() << "Replace space line from: " << list.at(n);
+    qDebug() << "Replace space line to  : " << replaceLine;
+    htmlCode.replace( list.at(n), replaceLine);
+  }
+
+  return htmlCode;
+
+/*
+  htmlCode.replace(replaceSpaceTagsEx, "");
+
+  QRegExp rx("<pre[^>]*>([^<]*)</pre>");
+  rx.setMinimal(true);
+
+  QStringList list;
+  int pos = 0;
+  while((pos = rx.indexIn( data, pos)) != -1)
+  {
+    list << rx.cap(1);
+    pos += rx.matchedLength();
+  }
+
+  for( int n = 0; n < list.size(); n++)
+  {
+    QString szTmp = list.at(n);
+    szTmp.replace( "\n", "<br/>");
+
+    data.replace( list.at(n), szTmp);
+  }
+*/
+}
+
+
 // Очистка начертания символов
 QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 {
   // Удаление какого-либо форматирования стилем
-  qDebug() << "Before remove style: " << htmlCode;
+  qDebug() << "Before clearTypeFace apply: " << htmlCode;
 
   // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
   // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
@@ -669,7 +739,7 @@ void TypefaceFormatter::onFixBreakSymbolClicked()
   // Получение исходного кода выделенного фрагмента
   QString htmlCode=textArea->textCursor().selection().toHtml();
 
-  qDebug() << "Before remove style: " << htmlCode;
+  qDebug() << "Before replace break in onFixBreakSymbolClicked: " << htmlCode;
 
   // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
   // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые

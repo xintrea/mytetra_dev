@@ -47,6 +47,7 @@ public slots:
 private:
 
   void smartFormat(int formatType);
+  QString replaceSpacesOnlyTags(QString htmlCode);
   QString clearTypeFace(QString htmlCode);
   QString replaceSpaces(QString htmlCode);
   void recurseReplaceSpaces(const QDomNode &node);
