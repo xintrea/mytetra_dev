@@ -346,71 +346,11 @@ void TypefaceFormatter::onClearClicked(void)
   int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
   // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
 
-
-  // Замена ReplacementCharacter-символа на пробелы
-  // Это необходимо, так как Qt самопроизвольно удаляет ведущие пробелы при вызове textArea->textCursor().insertHtml(htmlCode);
-  QTextCursor replacementCursor=textArea->textCursor();
-  for(int pos=startCursorPos; pos<calculateEndCursorPos; pos++)
-  {
-    // Выделяется один символ
-    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
-    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
-
-    // Если выделение символа прошло успешно
-    if(replacementCursor.selectedText().length()>0)
-    {
-      QChar currentChar=replacementCursor.selectedText().at(0);
-      // qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
-
-      if(currentChar==QChar::ReplacementCharacter)
-      {
-        replacementCursor.insertText(" ");
-        // qDebug() << "Replace RC to space in position: " << pos;
-      }
-    }
-  }
-
+  // Замена заранее внесенных символов ReplacementCharacter на пробелы
+  replaceReplacementCharacterToSpaceInSelectedText(startCursorPos, calculateEndCursorPos);
 
   // Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
-  // Эти самопроизвольно встваляемые пробелы появляются при вызове textArea->textCursor().insertHtml(htmlCode);
-  bool flagPreviousSpace=false;
-  for(int pos=startCursorPos; pos<=calculateEndCursorPos; pos++)
-  {
-    // Выделяется один символ
-    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
-    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
-
-    // Если выделение символа прошло успешно
-    if(replacementCursor.selectedText().length()>0)
-    {
-      QChar currentChar=replacementCursor.selectedText().at(0);
-      qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
-
-      if(currentChar==QChar::ParagraphSeparator && flagPreviousSpace)
-      {
-        qDebug() << "Find space + paragraph separator";
-
-        // Снимается выделение, чтобы правильно сработало удаление символа
-        replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
-
-        // Удаляется предыдущий символ
-        replacementCursor.deletePreviousChar();
-
-        // Номер текущего символа уменьшается на единицу, чтобы не пропустить следующую строку из пробела+QChar::ParagraphSeparator
-        --pos;
-
-        // Так как символ удален, длина всего вставляемого фрагмента уменьшается на единицу
-        --calculateEndCursorPos;
-
-        // Снимается флаг, что предыдущий символ был пробелом
-        flagPreviousSpace=false;
-      }
-
-      if(currentChar==QChar::Space)
-        flagPreviousSpace=true;
-    }
-  }
-
+  calculateEndCursorPos=replaceSpaceAndParagraphSeparatorToParagraphSeparator(startCursorPos, calculateEndCursorPos);
 
   // ********************************
   // Выделение вставленного фрагмента
@@ -636,6 +576,84 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
     recurseReplaceSpaces(domNode);
     domNode = domNode.nextSibling();
   }
+}
+
+
+// Замена заранее внесенных символов ReplacementCharacter на пробелы
+// Если предварительно не заменять пробелы на ReplacementCharacter,
+// то пробелы исчезнут, ибо Qt самопроизвольно удаляет ведущие пробелы при вызове textArea->textCursor().insertHtml(htmlCode);
+void TypefaceFormatter::replaceReplacementCharacterToSpaceInSelectedText(int startCursorPos, int endCursorPos)
+{
+  QTextCursor replacementCursor=textArea->textCursor();
+
+  for(int pos=startCursorPos; pos<endCursorPos; pos++)
+  {
+    // Выделяется один символ
+    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
+
+    // Если выделение символа прошло успешно
+    if(replacementCursor.selectedText().length()>0)
+    {
+      QChar currentChar=replacementCursor.selectedText().at(0);
+      // qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
+
+      if(currentChar==QChar::ReplacementCharacter)
+      {
+        replacementCursor.insertText(" ");
+        // qDebug() << "Replace RC to space in position: " << pos;
+      }
+    }
+  }
+}
+
+
+// Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
+// Эти самопроизвольно встваляемые пробелы появляются при вызове textArea->textCursor().insertHtml(htmlCode);
+int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int startCursorPos, int calculateEndCursorPos)
+{
+  QTextCursor replacementCursor=textArea->textCursor();
+
+  bool flagPreviousSpace=false;
+
+  for(int pos=startCursorPos; pos<=calculateEndCursorPos; pos++)
+  {
+    // Выделяется один символ
+    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
+
+    // Если выделение символа прошло успешно
+    if(replacementCursor.selectedText().length()>0)
+    {
+      QChar currentChar=replacementCursor.selectedText().at(0);
+      qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
+
+      if(currentChar==QChar::ParagraphSeparator && flagPreviousSpace)
+      {
+        qDebug() << "Find space + paragraph separator";
+
+        // Снимается выделение, чтобы правильно сработало удаление символа
+        replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+
+        // Удаляется предыдущий символ
+        replacementCursor.deletePreviousChar();
+
+        // Номер текущего символа уменьшается на единицу, чтобы не пропустить следующую строку из пробела+QChar::ParagraphSeparator
+        --pos;
+
+        // Так как символ удален, длина всего вставляемого фрагмента уменьшается на единицу
+        --calculateEndCursorPos;
+
+        // Снимается флаг, что предыдущий символ был пробелом
+        flagPreviousSpace=false;
+      }
+
+      if(currentChar==QChar::Space)
+        flagPreviousSpace=true;
+    }
+  }
+
+  return calculateEndCursorPos; // Возвращается последняя позиция в выделении, так как количество символов в выделении изменилось
 }
 
 

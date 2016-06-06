@@ -51,6 +51,8 @@ private:
   QString clearTypeFace(QString htmlCode);
   QString replaceSpaces(QString htmlCode);
   void recurseReplaceSpaces(const QDomNode &node);
+  void replaceReplacementCharacterToSpaceInSelectedText(int startCursorPos, int endCursorPos);
+  int replaceSpaceAndParagraphSeparatorToParagraphSeparator(int startCursorPos, int calculateEndCursorPos);
 
 };
 
