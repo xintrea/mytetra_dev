@@ -346,11 +346,14 @@ void TypefaceFormatter::onClearClicked(void)
   int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
   // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
 
-  // Замена заранее внесенных символов ReplacementCharacter на пробелы
+  // Удаление самопроизвольно вставляемых Qt концевых пробелов в каждой текстовой ноде (компенсация поведения insertHtml())
+  calculateEndCursorPos=removeSpaces(startCursorPos, calculateEndCursorPos);
+
+  // Замена заранее внесенных символов ReplacementCharacter на пробелы (компенсация поведения insertHtml())
   replaceReplacementCharacterToSpaceInSelectedText(startCursorPos, calculateEndCursorPos);
 
   // Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
-  calculateEndCursorPos=replaceSpaceAndParagraphSeparatorToParagraphSeparator(startCursorPos, calculateEndCursorPos);
+  // calculateEndCursorPos=replaceSpaceAndParagraphSeparatorToParagraphSeparator(startCursorPos, calculateEndCursorPos);
 
   // ********************************
   // Выделение вставленного фрагмента
@@ -466,13 +469,12 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
   qDebug() << "After remove style: " << htmlCode;
 
-  QRegExp startFragmentEx("<!--StartFragment-->");
-  startFragmentEx.setMinimal(true);
-  htmlCode.replace(startFragmentEx, "");
+  // Тег <pre> превращается в <p>, так как последующая вставка <pre>-тегов через insertHtml() автоматически добавляет системный моноширинный стиль
+  htmlCode.replace("<pre ", "<p ");
+  htmlCode.replace("</pre>", "</p>");
 
-  QRegExp endFragmentEx("<!--EndFragment-->");
-  endFragmentEx.setMinimal(true);
-  htmlCode.replace(endFragmentEx, "");
+  htmlCode.replace("<!--StartFragment-->", "");
+  htmlCode.replace("<!--EndFragment-->", "");
 
   // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
   // и тем самым создает лишнюю пустую строку
@@ -514,7 +516,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 }
 
 
-// Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
+// Замена в HTML-коде пробелов на спец-последовательности, иначе все повторяющиеся пробелы будут удален Qt-движком
 QString TypefaceFormatter::replaceSpaces(QString htmlCode)
 {
   QDomDocument doc;
@@ -539,25 +541,10 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
 {
   QDomNode domNode = node.firstChild();
 
-  // Если текущий элемент существует
+  // Если текущий узел существует
   while(!(domNode.isNull()))
   {
-    // Отладка
-    if( domNode.isElement() )
-    {
-      QDomElement element = domNode.toElement();
-      qDebug() << "IS ELEMENT" << element.tagName();
-      qDebug() << "IS ELEMENT ATTRIBUTE NAME" << element.attribute( "name", "not set" );
-    }
-    if( domNode.isText() )
-    {
-      QDomText text = domNode.toText();
-      qDebug() << "IS TEXT" << text.data();
-    }
-
-
-    // Если узел - это текст
-    if(domNode.isText())
+    if(domNode.isText()) // Если текущий узел - это текст
     {
       QDomText domText = domNode.toText();
       if(!domText.isNull())
@@ -605,6 +592,44 @@ void TypefaceFormatter::replaceReplacementCharacterToSpaceInSelectedText(int sta
       }
     }
   }
+}
+
+
+// Удаление пробелов происходит из предположения о том, во вставляем тексте вообще не должно быть пробелов,
+// т. к. все пробелы были предварительно заменены на RC-символ
+int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPos)
+{
+  QTextCursor replacementCursor=textArea->textCursor();
+
+  for(int pos=startCursorPos; pos<=calculateEndCursorPos; pos++)
+  {
+    // Выделяется один символ
+    replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+    replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
+
+    // Если выделение символа прошло успешно
+    if(replacementCursor.selectedText().length()>0)
+    {
+      QChar currentChar=replacementCursor.selectedText().at(0);
+
+      if(currentChar==QChar::Space)
+      {
+        qDebug() << "Find space";
+
+        // Удаляется пробел
+        replacementCursor.deleteChar();
+
+        // Номер текущего символа уменьшается на единицу, чтобы не пропустить следующий символ
+        --pos;
+
+        // Так как символ удален, длина всего вставляемого фрагмента уменьшается на единицу
+        --calculateEndCursorPos;
+
+      }
+    }
+  }
+
+  return calculateEndCursorPos; // Возвращается последняя позиция в выделении, так как количество символов в выделении изменилось
 }
 
 
