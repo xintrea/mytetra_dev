@@ -485,7 +485,7 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
   }
 
 
-  // Замена найденных тегов на теги с "&#65533;" вместо пробелов
+  // Замена найденных тегов на теги с RC-символом вместо пробелов
   for( int n = 0; n < list.size(); n++)
   {
     QString line=list.at(n);
@@ -493,14 +493,14 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
     // Здесь однозначно известно, что строка имеет вид "<span атрибуты>пробелы</span>"
     int spaceFrom=line.indexOf(">")+1;
     int spaceTo=line.indexOf("<", spaceFrom)-1;
-    int spaceLen=spaceTo-spaceFrom;
+    int spaceLen=spaceTo-spaceFrom+1;
     qDebug() << "Space length:" << spaceLen;
 
     QString spaceLine;
     for(int i=0; i<spaceLen; ++i)
-      spaceLine+="&#65533;";
+      spaceLine.append(QChar::ReplacementCharacter); // spaceLine+="&#65533;" - это была вставка как HTML-код, она работала, но лучше сразу вставлять Unicode символ
 
-    QString replaceLineLeft=line.mid(0, spaceFrom-1);
+    QString replaceLineLeft=line.mid(0, spaceFrom);
     QString replaceLineRight=line.mid(spaceTo+1);
     QString replaceLine=replaceLineLeft+spaceLine+replaceLineRight;
 
@@ -510,29 +510,6 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
   }
 
   return htmlCode;
-
-/*
-  htmlCode.replace(replaceSpaceTagsEx, "");
-
-  QRegExp rx("<pre[^>]*>([^<]*)</pre>");
-  rx.setMinimal(true);
-
-  QStringList list;
-  int pos = 0;
-  while((pos = rx.indexIn( data, pos)) != -1)
-  {
-    list << rx.cap(1);
-    pos += rx.matchedLength();
-  }
-
-  for( int n = 0; n < list.size(); n++)
-  {
-    QString szTmp = list.at(n);
-    szTmp.replace( "\n", "<br/>");
-
-    data.replace( list.at(n), szTmp);
-  }
-*/
 }
 
 
