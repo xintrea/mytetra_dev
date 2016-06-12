@@ -252,6 +252,7 @@ void TypefaceFormatter::onCodeClicked(void)
 
 // Очистка форматирования, т.е. установка стандартного шрифта,
 // размера и убирание утолщения, наклона, подчеркивания
+// Картинки и таблицы не удаляются
 void TypefaceFormatter::onClearClicked(void)
 {
   // TRACELOG
@@ -280,7 +281,15 @@ void TypefaceFormatter::onClearClicked(void)
        flag_cursor_on_space_line))
     return;
 
+  // Запоминается положение прокрутки окна редактирования.
+  // Это нужно, чтобы вернуться к такому положению после всех действий.
+  // Иначе прокрутка перепрыгнет наверх документа
+  int scrollBarPosition=editor->getScrollBarPosition();
+
+
+  // Начало изменения текста
   textArea->textCursor().beginEditBlock();
+
 
   // Если что-то было выделено - выделение уже есть
   // Если курсор стоит на пустой строке с одним символом перевода строки - ничего выделять не нужно
@@ -357,8 +366,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // ********************************
   // Выделение вставленного фрагмента
-  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы
-  // Это особенность Qt
+  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы. Это особенность Qt
   // ********************************
   cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
   cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
@@ -399,7 +407,10 @@ void TypefaceFormatter::onClearClicked(void)
   if(flag_cursor_on_space_line)
     textArea->moveCursor(QTextCursor::StartOfLine);
 
+  // Завершение изменения текста
   textArea->textCursor().endEditBlock();
+
+  editor->setScrollBarPosition(scrollBarPosition);
 
   // Вызывается метод, как будто переместился курсор с выделением, чтобы
   // обновились состояния подсветок кнопок форматирования
