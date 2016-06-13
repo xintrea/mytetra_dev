@@ -320,15 +320,6 @@ void TypefaceFormatter::onClearClicked(void)
   // Установка начертания символов
   // *****************************
 
-  // Очищается формат символов
-  /*
-  QColor clearColor;
-  QBrush clearBrush( clearColor );
-  QTextCharFormat clearCharFormat;
-  clearCharFormat.setForeground( clearBrush );
-  textArea->textCursor().mergeCharFormat(clearCharFormat);
-  */
-
   // Получение HTML-кода очищенного фрагмента
   QString htmlCode=clearTypeFace( replaceSpacesOnlyTags( textArea->textCursor().selection().toHtml() ) );
 
@@ -396,7 +387,7 @@ void TypefaceFormatter::onClearClicked(void)
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
   {
-    qDebug() << "Set default text format";
+    // qDebug() << "Set default text format";
     QTextBlockFormat format;
 
     // Убираются отступы
@@ -620,9 +611,11 @@ void TypefaceFormatter::replaceReplacementCharacterToSpaceInSelectedText(int sta
 // т. к. все пробелы были предварительно заменены на RC-символ
 int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPos)
 {
+  // qDebug() << "Replace spaces from pos" << startCursorPos << "to pos" << calculateEndCursorPos;
+
   QTextCursor replacementCursor=textArea->textCursor();
 
-  for(int pos=startCursorPos; pos<=calculateEndCursorPos; pos++)
+  for(int pos=startCursorPos; pos<calculateEndCursorPos; pos++)
   {
     // Выделяется один символ
     replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
@@ -635,7 +628,7 @@ int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPo
 
       if(currentChar==QChar::Space)
       {
-        // qDebug() << "Find space";
+        // qDebug() << "Find space in pos" << pos;
 
         // Удаляется пробел
         replacementCursor.deleteChar();
@@ -656,6 +649,7 @@ int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPo
 
 // Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
 // Эти самопроизвольно встваляемые пробелы появляются при вызове textArea->textCursor().insertHtml(htmlCode);
+// Метод временно не используется
 int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int startCursorPos, int calculateEndCursorPos)
 {
   QTextCursor replacementCursor=textArea->textCursor();
