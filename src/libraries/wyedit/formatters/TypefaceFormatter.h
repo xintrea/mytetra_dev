@@ -54,6 +54,8 @@ private:
   void replaceReplacementCharacterToSpaceInSelectedText(int startCursorPos, int endCursorPos);
   int removeSpaces(int startCursorPos, int calculateEndCursorPos);
   int replaceSpaceAndParagraphSeparatorToParagraphSeparator(int startCursorPos, int calculateEndCursorPos);
+  void applyStandartFontForSelection();
+  void applyPureBlockFormatForSelection();
 
 };
 

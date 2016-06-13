@@ -294,27 +294,12 @@ void TypefaceFormatter::onClearClicked(void)
   textArea->textCursor().beginEditBlock();
 
 
-  // Если что-то было выделено - выделение уже есть
-  // Если курсор стоит на пустой строке с одним символом перевода строки - ничего выделять не нужно
-  // Или курсор стоит на строке, в которой нет текста (одни пробелы) - нужно выделить эту строку
+  // Если курсор стоит на строке, в которой нет текста (одни пробелы) - нужно выделить эту строку
   if(flag_cursor_on_space_line)
     (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
 
-
-  // Создается стандартный шрифт
-  QFont font;
-  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
-  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
-
-  // К выделенному тексту применяется стандартный шрифт
-  textArea->setCurrentFont(font);
-
-  // Новый установленный шрифт показывается в выпадающем списке шрифтов
-  emit changeFontselectOnDisplay(font.family());
-
-  // В выпадающем списке размеров выставляется установленный размер
-  emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
-
+  // К выделению применяется стандартный шрифт
+  applyStandartFontForSelection();
 
   // *****************************
   // Установка начертания символов
@@ -376,32 +361,14 @@ void TypefaceFormatter::onClearClicked(void)
   // qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
 
 
-  // *******************************
   // Установка форматирования абзаца
-  // *******************************
-
   // Если выделен блок
   // или курсор на пустой линии
   // или курсор на линии на которой нет символов
   if(editor->cursorPositionDetector->isBlockSelect() ||
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
-  {
-    // qDebug() << "Set default text format";
-    QTextBlockFormat format;
-
-    // Убираются отступы
-    format.setLeftMargin(0);   // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
-    format.setRightMargin(0);
-    format.setTopMargin(0);    // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
-    format.setBottomMargin(0);
-    format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
-
-    // Применение форматирование
-    textArea->textCursor().setBlockFormat(format);
-
-    // qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
-  }
+    applyPureBlockFormatForSelection();
 
   // Если была работа со строкой, в которой нет символов,
   // курсор переносится на начало строки, чтобы не путать пользователя
@@ -418,6 +385,44 @@ void TypefaceFormatter::onClearClicked(void)
   editor->onSelectionChanged();
 
   editor->updateIndentsliderToActualFormat();
+}
+
+
+void TypefaceFormatter::applyStandartFontForSelection()
+{
+  // Создается стандартный шрифт
+  QFont font;
+  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
+  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
+
+  // К выделенному тексту применяется стандартный шрифт
+  textArea->setCurrentFont(font);
+
+  // Новый установленный шрифт показывается в выпадающем списке шрифтов
+  emit changeFontselectOnDisplay(font.family());
+
+  // В выпадающем списке размеров выставляется установленный размер
+  emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
+}
+
+
+void TypefaceFormatter::applyPureBlockFormatForSelection()
+{
+  // qDebug() << "Set default text format";
+
+  QTextBlockFormat format;
+
+  // Убираются отступы
+  format.setLeftMargin(0);   // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
+  format.setRightMargin(0);
+  format.setTopMargin(0);    // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
+  format.setBottomMargin(0);
+  format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
+
+  // Применение форматирование
+  textArea->textCursor().setBlockFormat(format);
+
+  // qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
 }
 
 
@@ -516,13 +521,13 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   replaceCloseHeaderEx.setMinimal(true);
   htmlCode.replace(replaceCloseHeaderEx, "</p>");
 
-  QRegExp removeStartTagsEx(".*<body>");
-  removeStartTagsEx.setMinimal(false);
-  htmlCode.replace(removeStartTagsEx, "");
+  QStringList chunks=htmlCode.split("<body>"); // Вместо удаления ".*<body>" через медленную регулярку
+  if(chunks.length()==2)
+    htmlCode=chunks.at(1);
 
-  QRegExp removeEndTagsEx("</body>.*");
-  removeEndTagsEx.setMinimal(false);
-  htmlCode.replace(removeEndTagsEx, "");
+  chunks=htmlCode.split("</body>"); // Вместо удаления "</body>.*" через медленную регулярку
+  if(chunks.length()==2)
+    htmlCode=chunks.at(0);
 
   return htmlCode;
 }
@@ -699,10 +704,22 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
 
 void TypefaceFormatter::onTextOnlyClicked()
 {
-  int startCursorPos=textArea->textCursor().position();
-  int stopCursorPos=textArea->textCursor().anchor();
-
+  int startCursorPos=textArea->textCursor().anchor(); // Начало выделения
+  int stopCursorPos=textArea->textCursor().position(); // Конец выделения
   qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+
+  // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
+  bool isSelectionReverse=false;
+  if(startCursorPos>stopCursorPos)
+  {
+    int tempCursorPos=startCursorPos;
+    startCursorPos=stopCursorPos;
+    stopCursorPos=tempCursorPos;
+
+    isSelectionReverse=true;
+  }
+  // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+
   bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
   bool flag_cursor_on_space_line=editor->cursorPositionDetector->isCursorOnSpaceLine();
 
@@ -720,26 +737,59 @@ void TypefaceFormatter::onTextOnlyClicked()
   if(flag_cursor_on_space_line)
     (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
 
-  // Создается стандартный шрифт
-  QFont font;
-  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
-  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
+  // Запоминается выделенный текст - только текст, без форматирования
+  QString text=textArea->textCursor().selectedText();
 
-  // Применяется стандартный шрифт
-  textArea->setCurrentFont(font);
+  // Удаление выделенного фрагмента
+  textArea->textCursor().removeSelectedText();
 
-  // Новый установленный шрифт показывается в выпадающем списке шрифтов
-  emit changeFontselectOnDisplay(font.family());
+  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
+  QTextCursor cursor=textArea->textCursor();
+  cursor.movePosition(QTextCursor::End);
+  int afterRemoveSelectionLen=cursor.position();
+  // qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
 
-  // В выпадающем списке размеров выставляется установленный размер
-  emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
+  // Вставка запомненного текста
+  textArea->textCursor().insertText(text);
+  // qDebug() << "After insert HTML: "<< textArea->toHtml();
+
+  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
+  cursor.movePosition(QTextCursor::End);
+  int afterClearLen=cursor.position();
+  // qDebug() << "After clear length: " << afterClearLen;
+
+  // Вычисляется последняя позиция выделения очищенного текста
+  int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
+  // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+
+
+  // ********************************
+  // Выделение вставленного фрагмента
+  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы. Это особенность Qt
+  // ********************************
+  if(!isSelectionReverse)
+  {
+    cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
+    cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+  }
+  else
+  {
+    cursor.setPosition(calculateEndCursorPos, QTextCursor::MoveAnchor);
+    cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
+  }
+  textArea->setTextCursor(cursor);
+
 
   // Очищается формат символов
+  /*
   QColor clearColor;
   QBrush clearBrush( clearColor );
   QTextCharFormat clearCharFormat;
   clearCharFormat.setForeground( clearBrush );
   textArea->textCursor().mergeCharFormat(clearCharFormat);
+  */
+
+  applyStandartFontForSelection();
 
   // Если выделен блок
   // или курсор на пустой линии
@@ -747,19 +797,7 @@ void TypefaceFormatter::onTextOnlyClicked()
   if(editor->cursorPositionDetector->isBlockSelect() ||
      flag_cursor_on_empty_line ||
      flag_cursor_on_space_line)
-  {
-    QTextBlockFormat format;
-
-    // Убираются отступы
-    format.setLeftMargin(0); // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
-    format.setRightMargin(0);
-    format.setTopMargin(0); // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
-    format.setBottomMargin(0);
-    format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
-
-    // Применение форматирование
-    textArea->textCursor().setBlockFormat(format);
-  }
+    applyPureBlockFormatForSelection();
 
   // Если была работа со строкой, в которой нет символов,
   // курсор переносится на начало строки, чтобы не путать пользователя
