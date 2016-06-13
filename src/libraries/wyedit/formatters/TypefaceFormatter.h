@@ -56,6 +56,7 @@ private:
   int replaceSpaceAndParagraphSeparatorToParagraphSeparator(int startCursorPos, int calculateEndCursorPos);
   void applyStandartFontForSelection();
   void applyPureBlockFormatForSelection();
+  void clearBackgroundColorForSelection();
 
 };
 

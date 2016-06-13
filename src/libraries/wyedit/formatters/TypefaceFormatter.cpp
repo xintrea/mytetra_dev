@@ -301,6 +301,9 @@ void TypefaceFormatter::onClearClicked(void)
   // К выделению применяется стандартный шрифт
   applyStandartFontForSelection();
 
+  // Очищается цвет заднего фона - теперь не нужно, так как очистка происходит путем полного удаления атрибутов стиля
+  // clearBackgroundColorForSelection();
+
   // *****************************
   // Установка начертания символов
   // *****************************
@@ -423,6 +426,18 @@ void TypefaceFormatter::applyPureBlockFormatForSelection()
   textArea->textCursor().setBlockFormat(format);
 
   // qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
+}
+
+
+// В настоящий момент этот метод не нужен, так как очистка происходит в стилях (через полное удаление атрибуторв стиля)
+void TypefaceFormatter::clearBackgroundColorForSelection()
+{
+  // Сбрасывается цвет заднего фона
+  QColor clearColor;
+  QBrush clearBrush( clearColor );
+  QTextCharFormat clearCharFormat;
+  clearCharFormat.setForeground( clearBrush );
+  textArea->textCursor().mergeCharFormat(clearCharFormat);
 }
 
 
@@ -778,16 +793,6 @@ void TypefaceFormatter::onTextOnlyClicked()
     cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
   }
   textArea->setTextCursor(cursor);
-
-
-  // Очищается формат символов
-  /*
-  QColor clearColor;
-  QBrush clearBrush( clearColor );
-  QTextCharFormat clearCharFormat;
-  clearCharFormat.setForeground( clearBrush );
-  textArea->textCursor().mergeCharFormat(clearCharFormat);
-  */
 
   applyStandartFontForSelection();
 
