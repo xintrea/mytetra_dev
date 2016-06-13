@@ -257,16 +257,19 @@ void TypefaceFormatter::onClearClicked(void)
 {
   // TRACELOG
 
-  int startCursorPos=textArea->textCursor().position(); // Начало выделения (всегда меньше чем конец выделения независимо от того, справа-налево или слева-направо был выделен фрагмент)
-  int stopCursorPos=textArea->textCursor().anchor(); // Конец выделения
-  // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos << " User cursor pos: " << userCursorPos;
+  int startCursorPos=textArea->textCursor().anchor(); // Начало выделения
+  int stopCursorPos=textArea->textCursor().position(); // Конец выделения
+  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
   // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
+  bool isSelectionReverse=false;
   if(startCursorPos>stopCursorPos)
   {
     int tempCursorPos=startCursorPos;
     startCursorPos=stopCursorPos;
     stopCursorPos=tempCursorPos;
+
+    isSelectionReverse=true;
   }
   // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
@@ -331,7 +334,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
   htmlCode=replaceSpaces(htmlCode);
-  qDebug() << "After replace spaces" << htmlCode;
+  // qDebug() << "After replace spaces" << htmlCode;
 
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
@@ -344,7 +347,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
-  qDebug() << "After insert HTML: "<< textArea->toHtml();
+  // qDebug() << "After insert HTML: "<< textArea->toHtml();
 
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
@@ -368,8 +371,16 @@ void TypefaceFormatter::onClearClicked(void)
   // Выделение вставленного фрагмента
   // Если его не сделать, то первая строка получит дополнительные вертикальные отступы. Это особенность Qt
   // ********************************
-  cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
-  cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+  if(!isSelectionReverse)
+  {
+    cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
+    cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+  }
+  else
+  {
+    cursor.setPosition(calculateEndCursorPos, QTextCursor::MoveAnchor);
+    cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
+  }
   textArea->setTextCursor(cursor);
   // qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
 
@@ -400,7 +411,6 @@ void TypefaceFormatter::onClearClicked(void)
 
     // qDebug() << "Select text after apply format: " << textArea->textCursor().selection().toHtml();
   }
-
 
   // Если была работа со строкой, в которой нет символов,
   // курсор переносится на начало строки, чтобы не путать пользователя
@@ -435,7 +445,7 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
     lastPos += replaceSpaceTagsEx.matchedLength();
 
     list << replaceSpaceTagsEx.cap(0);
-    qDebug() << "Find space only sttring: " << list.last();
+    // qDebug() << "Find space only sttring: " << list.last();
   }
 
 
@@ -448,7 +458,7 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
     int spaceFrom=line.indexOf(">")+1;
     int spaceTo=line.indexOf("<", spaceFrom)-1;
     int spaceLen=spaceTo-spaceFrom+1;
-    qDebug() << "Space length:" << spaceLen;
+    // qDebug() << "Space length:" << spaceLen;
 
     QString spaceLine;
     for(int i=0; i<spaceLen; ++i)
@@ -458,8 +468,8 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
     QString replaceLineRight=line.mid(spaceTo+1);
     QString replaceLine=replaceLineLeft+spaceLine+replaceLineRight;
 
-    qDebug() << "Replace space line from: " << list.at(n);
-    qDebug() << "Replace space line to  : " << replaceLine;
+    // qDebug() << "Replace space line from: " << list.at(n);
+    // qDebug() << "Replace space line to  : " << replaceLine;
     htmlCode.replace( list.at(n), replaceLine);
   }
 
@@ -471,14 +481,14 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
 QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 {
   // Удаление какого-либо форматирования стилем
-  qDebug() << "Before clearTypeFace apply: " << htmlCode;
+  // qDebug() << "Before clearTypeFace apply: " << htmlCode;
 
   // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
   // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
   QRegExp removeStyleEx("style=\".*\"");
   removeStyleEx.setMinimal(true);
   htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
-  qDebug() << "After remove style: " << htmlCode;
+  // qDebug() << "After remove style: " << htmlCode;
 
   // Тег <pre> превращается в <p>, так как последующая вставка <pre>-тегов через insertHtml() автоматически добавляет системный моноширинный стиль
   htmlCode.replace("<pre ", "<p ");
@@ -495,12 +505,12 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   QString tempHtmlCode;
   for(int lineNum=0; lineNum<list.count(); ++lineNum)
   {
-    qDebug() << "L" << lineNum << " " << list[lineNum];
+    // qDebug() << "L" << lineNum << " " << list[lineNum];
 
     QRegExp replacePBrP("<p.*><br.?\\/><\\/p.*>");
     replacePBrP.setMinimal(true);
     list[lineNum].replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
-    qDebug() << "L" << lineNum << " " << list[lineNum];
+    // qDebug() << "L" << lineNum << " " << list[lineNum];
 
     tempHtmlCode+=list[lineNum]+"\n";
   }
@@ -561,7 +571,7 @@ void TypefaceFormatter::recurseReplaceSpaces(const QDomNode &node)
       if(!domText.isNull())
       {
         QString text=domText.data();
-        qDebug() << "Found text node: " << text;
+        // qDebug() << "Found text node: " << text;
 
         // Чтобы не смыкаликись повторяющиеся пробелы, они временно заменяются на RC
         text.replace(" ", "&#65533;"); // REPLACEMENT CHARACTER
@@ -625,7 +635,7 @@ int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPo
 
       if(currentChar==QChar::Space)
       {
-        qDebug() << "Find space";
+        // qDebug() << "Find space";
 
         // Удаляется пробел
         replacementCursor.deleteChar();
@@ -662,11 +672,11 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
     if(replacementCursor.selectedText().length()>0)
     {
       QChar currentChar=replacementCursor.selectedText().at(0);
-      qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
+      // qDebug() << "Pos: " << pos << " Char: " << currentChar << " Char code: " << currentChar.unicode();
 
       if(currentChar==QChar::ParagraphSeparator && flagPreviousSpace)
       {
-        qDebug() << "Find space + paragraph separator";
+        // qDebug() << "Find space + paragraph separator";
 
         // Снимается выделение, чтобы правильно сработало удаление символа
         replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
@@ -770,6 +780,85 @@ void TypefaceFormatter::onTextOnlyClicked()
   editor->updateIndentsliderToActualFormat();
 }
 
+
+/*
+void TypefaceFormatter::onTextOnlyClickedV1()
+{
+  int startCursorPos=textArea->textCursor().position();
+  int stopCursorPos=textArea->textCursor().anchor();
+
+  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+  bool flag_cursor_on_empty_line=editor->cursorPositionDetector->isCursorOnEmptyLine();
+  bool flag_cursor_on_space_line=editor->cursorPositionDetector->isCursorOnSpaceLine();
+
+  // Очистка возможна только если что-то выделено
+  // Или курсор стоит на пустой строке с одним символом перевода строки
+  // Или курсор стоит на строке, в которой нет текста
+  if(!(textArea->textCursor().hasSelection() ||
+       flag_cursor_on_empty_line ||
+       flag_cursor_on_space_line))
+    return;
+
+  textArea->textCursor().beginEditBlock();
+
+  // Если курсор на строке, у которой нет текста
+  if(flag_cursor_on_space_line)
+    (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
+
+  // Создается стандартный шрифт
+  QFont font;
+  font.fromString( editorConfig->get_default_font() ); // Стандартное начертание взятое из конфига
+  font.setPointSize( editorConfig->get_default_font_size() ); // Стандартный размер взятый из конфига
+
+  // Применяется стандартный шрифт
+  textArea->setCurrentFont(font);
+
+  // Новый установленный шрифт показывается в выпадающем списке шрифтов
+  emit changeFontselectOnDisplay(font.family());
+
+  // В выпадающем списке размеров выставляется установленный размер
+  emit changeFontsizeOnDisplay(editorConfig->get_default_font_size());
+
+  // Очищается формат символов
+  QColor clearColor;
+  QBrush clearBrush( clearColor );
+  QTextCharFormat clearCharFormat;
+  clearCharFormat.setForeground( clearBrush );
+  textArea->textCursor().mergeCharFormat(clearCharFormat);
+
+  // Если выделен блок
+  // или курсор на пустой линии
+  // или курсор на линии на которой нет символов
+  if(editor->cursorPositionDetector->isBlockSelect() ||
+     flag_cursor_on_empty_line ||
+     flag_cursor_on_space_line)
+  {
+    QTextBlockFormat format;
+
+    // Убираются отступы
+    format.setLeftMargin(0); // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
+    format.setRightMargin(0);
+    format.setTopMargin(0); // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
+    format.setBottomMargin(0);
+    format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
+
+    // Применение форматирование
+    textArea->textCursor().setBlockFormat(format);
+  }
+
+  // Если была работа со строкой, в которой нет символов,
+  // курсор переносится на начало строки, чтобы не путать пользователя
+  if(flag_cursor_on_space_line)
+    textArea->moveCursor(QTextCursor::StartOfLine);
+
+  textArea->textCursor().endEditBlock();
+
+  // Вызывается метод, как будто переместился курсор с выделением, чтобы
+  // обновились состояния подсветок кнопок форматирования
+  editor->onSelectionChanged();
+  editor->updateIndentsliderToActualFormat();
+}
+*/
 
 void TypefaceFormatter::onFixBreakSymbolClicked()
 {
