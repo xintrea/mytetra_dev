@@ -442,7 +442,17 @@ void RecordTableScreen::setSelectionToId(QString id)
 // Действия при нажатии кнопки синхронизации
 void RecordTableScreen::onSyncroClick(void)
 {
+  // Блокируется кнопка синхронизации, чтобы два раза случайно не нажать синхронизацию (окно синхронизации не модально)
+  actionSyncro->setEnabled(false);
+
   find_object<MainWindow>("mainwindow")->synchronization();
+}
+
+
+void RecordTableScreen::onExecuteCommandConsoleHide(void)
+{
+  // Разблокируется кнопка синхронизации
+  actionSyncro->setEnabled(true);
 }
 
 

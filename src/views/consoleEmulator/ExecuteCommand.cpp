@@ -215,6 +215,15 @@ void ExecuteCommand::errorHanler(QProcess::ProcessError error)
 }
 
 
+// Переопределенный метод, вызываемый при событии hide
+void ExecuteCommand::hideEvent(QHideEvent * event)
+{
+  emit dialogHide();
+
+  QDialog::hideEvent(event);
+}
+
+
 /*
 void ExecuteCommand::run(void)
 {

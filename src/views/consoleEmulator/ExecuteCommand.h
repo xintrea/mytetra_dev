@@ -23,6 +23,9 @@ public:
  void setWindowTitle(QString title);
  void setMessageText(QString text);
 
+signals:
+ void dialogHide();
+
 private slots:
 
  void manualCloseProcess(void);
@@ -45,6 +48,8 @@ private:
 
  void printOutput(QProcess *process, ConsoleEmulator *console);
  void closeProcess(void);
+
+ void hideEvent(QHideEvent * event);
 
 };
 

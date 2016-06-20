@@ -56,6 +56,8 @@ public slots:
  // Обновление состояния экранных элементов согласно состоянию записи и положении зиписи в таблице
  void toolsUpdate(void);
 
+ void onExecuteCommandConsoleHide(void);
+
 private slots:
  
  void onSyncroClick(void);
