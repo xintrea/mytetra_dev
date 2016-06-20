@@ -26,6 +26,10 @@ public:
 signals:
  void dialogHide();
 
+
+public slots:
+ void onConsoleHide();
+
 private slots:
 
  void manualCloseProcess(void);
@@ -48,9 +52,6 @@ private:
 
  void printOutput(QProcess *process, ConsoleEmulator *console);
  void closeProcess(void);
-
- void hideEvent(QHideEvent * event);
-
 };
 
 #endif	/* _EXECUTECOMMAND_H_ */

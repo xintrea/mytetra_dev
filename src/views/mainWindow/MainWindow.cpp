@@ -994,21 +994,22 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 
-bool MainWindow::eventFilter( QObject * o, QEvent * e )
+bool MainWindow::eventFilter( QObject *o, QEvent * e )
 {
-  Q_UNUSED(o);
-
+  // Q_UNUSED(o);
   // qDebug() << "Event: " << e->type();
   
   // Отлавливание потери фокуса
   // QEvent::ActivationChange
-  if( e->type() == QEvent::WindowDeactivate)
+  if(o==this && e->type() == QEvent::WindowDeactivate)
   {
     qDebug() << "Main window focus deactivate, save all state.";
     saveAllState();
   }
 
-  return false; // Продолжать оработку событий дальше
+  // Продолжать оработку событий дальше
+  // return false;
+  return QMainWindow::eventFilter(o, e);
 }    
 
 

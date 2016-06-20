@@ -118,7 +118,8 @@ bool AddNewRecord::eventFilter(QObject *object, QEvent *event)
       }
     }
   }
-  return true;
+
+  return QDialog::eventFilter(object, event); // todo: тут подумать, возможно здесь надо возвращать false
 }
 
 

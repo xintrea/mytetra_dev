@@ -104,7 +104,7 @@ bool EditorTextArea::eventFilter(QObject *o, QEvent *e)
   if(e->type()==QEvent::Hide || e->type()==QEvent::Show)
     emit updateIndentlineGeometry();
 
- return false; // Продолжать оработку событий дальше
+ return QTextEdit::eventFilter(o, e); // Продолжать обработку событий дальше
 }
 
 

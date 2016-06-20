@@ -118,6 +118,8 @@ void ExecuteCommand::run(void)
  // Создается виджет эмулятора консоли
  console=new ConsoleEmulator();
 
+ connect(console, SIGNAL(dialogHide()), this, SLOT(onConsoleHide()));
+
  console->setWindowTitle(windowTitle);
  console->setMessageText(messageText);
  console->setConsoleOutput(commandLine+"\n");
@@ -215,12 +217,11 @@ void ExecuteCommand::errorHanler(QProcess::ProcessError error)
 }
 
 
-// Переопределенный метод, вызываемый при событии hide
-void ExecuteCommand::hideEvent(QHideEvent * event)
+void ExecuteCommand::onConsoleHide()
 {
-  emit dialogHide();
+  qDebug() << "ExecuteCommand::onConsoleHide()";
 
-  QDialog::hideEvent(event);
+  emit dialogHide();
 }
 
 

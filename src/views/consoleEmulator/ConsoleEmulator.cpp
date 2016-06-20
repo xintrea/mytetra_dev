@@ -132,6 +132,21 @@ void ConsoleEmulator::closeEvent(QCloseEvent *event)
 }
 
 
+// Переопределенный метод, вызываемый для обработки событий
+bool ConsoleEmulator::event(QEvent *event)
+{
+  // qDebug() << "ConsoleEmulator::event:" << event->type();
+
+  if(event->type()==QEvent::Hide)
+  {
+    qDebug() << "Emit signal dialogHide";
+    emit dialogHide();
+  }
+
+  return QDialog::event(event);
+}
+
+
 void ConsoleEmulator::onDetailsClick(void)
 {
  if(consoleOutput->isHidden())
