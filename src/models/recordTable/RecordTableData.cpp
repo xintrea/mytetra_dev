@@ -528,6 +528,16 @@ bool RecordTableData::isRecordExists(QString id)
 }
 
 
+bool RecordTableData::isBlockRecordExists()
+{
+  for(unsigned int i=0; i<size(); i++)
+    if(getField("block", i)=="1")
+      return true;
+
+  return false;
+}
+
+
 int RecordTableData::getPosById(QString id)
 {
   qDebug() << "RecordTableData - getPosById() - id:" << id;

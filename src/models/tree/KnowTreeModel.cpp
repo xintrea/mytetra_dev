@@ -1295,6 +1295,39 @@ bool KnowTreeModel::isContainsCryptBranchesRecurse(TreeItem *item, int mode)
 }
 
 
+// Метод определяющий есть ли в элементе и подэлементах заблокированные записи
+bool KnowTreeModel::isItemContainsBlockRecords(TreeItem *item)
+{
+ isContainsBlockRecordsRecurse(item, 0);
+
+ return isContainsBlockRecordsRecurse(item, 1);
+}
+
+
+bool KnowTreeModel::isContainsBlockRecordsRecurse(TreeItem *item, int mode)
+{
+ static bool isBlock=false;
+
+ if(mode==0)
+  {
+   isBlock=false;
+   return isBlock;
+  }
+
+ // Если таблица записей текущей ветки содержит заблокированную запись
+ if(item->recordtableGetTableData()->isBlockRecordExists())
+  {
+   isBlock=true;
+   return isBlock;
+  }
+
+ for(unsigned int i=0; i < item->childCount(); i++)
+   isContainsBlockRecordsRecurse(item->child(i), 1);
+
+ return isBlock;
+}
+
+
 // Старый вариант поиска QModelIndex по известному TreeItem закомментирован,
 // но алгоритм может пригодиться для поиска других данных
 /*

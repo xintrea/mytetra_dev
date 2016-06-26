@@ -66,6 +66,7 @@ public:
     void deleteRecordById(QString id);
 
     bool isRecordExists(QString id);
+    bool isBlockRecordExists();
 
     int getPosById(QString id);
 

@@ -65,6 +65,8 @@ public:
     bool isContainsCryptBranches(void);
     bool isItemContainsCryptBranches(TreeItem *item);
 
+    bool isItemContainsBlockRecords(TreeItem *item);
+
     QStringList getRecordPath(QString recordId);
 
     // Проверка наличия идентификатора ветки во всем дереве
@@ -122,6 +124,8 @@ private:
     TreeItem *getItemByIdRecurse(TreeItem *item, QString id, int mode);
 
     bool isContainsCryptBranchesRecurse(TreeItem *item, int mode);
+
+    bool isContainsBlockRecordsRecurse(TreeItem *item, int mode);
 
     // Добавление подветки из буфера обмена относительно указанного элемента
     QString pasteSubbranch(TreeItem *item, ClipboardBranch *subbranch);

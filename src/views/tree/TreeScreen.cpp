@@ -717,6 +717,42 @@ void TreeScreen::del_branch(QString mode)
   } // Закрылось условие что системный пароль не установлен
  
 
+ // Перебираются ветоки, которые нужно удалить, и в них проверяется наличие заблокированных записей
+ bool isSelectionContainBlockRecords=false;
+ for(int i = 0; i < selectitems.size(); ++i)
+ {
+   QModelIndex index=selectitems.at(i);
+   TreeItem *item=knowTreeModel->getItem(index);
+
+   if( knowTreeModel->isItemContainsBlockRecords(item) )
+   {
+     isSelectionContainBlockRecords=true;
+     break;
+   }
+ }
+
+
+ // Если есть записи, помеченные как заблокированные
+ if(isSelectionContainBlockRecords)
+ {
+   QMessageBox messageBox(this);
+   messageBox.setWindowTitle(tr("Confirmation request")); // Запрос подтверждения
+   messageBox.setText(tr("In your selected item found blocked record. However, do you want to delete the selected item?"));
+   messageBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+   messageBox.setDefaultButton(QMessageBox::Cancel);
+
+   int ret = messageBox.exec();
+
+   if(ret==QMessageBox::Cancel)
+   {
+     // Разблокируется главное окно
+     find_object<MainWindow>("mainwindow")->setEnabled(true);
+     find_object<MainWindow>("mainwindow")->blockSignals(false);
+     return;
+   }
+ }
+
+
  // Создается окно с вопросом, нужно удалять ветки или нет
  QString title, text, del_button;
  bool enable_question=true;
