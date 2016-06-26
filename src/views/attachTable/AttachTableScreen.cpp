@@ -141,3 +141,14 @@ void AttachTableScreen::clear()
 {
   attachTableController->setAttachTableData(NULL);
 }
+
+
+void AttachTableScreen::setReadOnly(bool state)
+{
+  // Обрабатываются разрешаемые/запрещаемые действия
+  actionAddAttach->setEnabled( !state );
+  actionAddAttachFromUrl->setEnabled( !state );
+  actionAddLink->setEnabled( !state );
+  actionEditFileName->setEnabled( !state );
+  actionDeleteAttach->setEnabled( !state );
+}

@@ -407,8 +407,12 @@ void MetaEditor::onClickToTag(const QString &link_text)
 // Метод используется, когда запись заблокирована
 void MetaEditor::setReadOnly(bool state)
 {
+  // Слой редактирования
   editorToolBarAssistant->setEnableModifyTextButton( !state );
   indentSliderAssistant->getIndentSlider()->setEnabled( !state );
 
   textArea->setReadOnly(state); // textArea->setEnabled(false);
+
+  // Слой прикрепленных файлов
+  attachTableScreen->setReadOnly(state);
 }

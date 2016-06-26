@@ -10,7 +10,7 @@ class AttachTableView;
 class AttachTableController;
 
 
-// Виджет
+// Виджет таблицы приаттаченных файлов (с кнопками)
 
 class AttachTableScreen : public QWidget
 {
@@ -29,6 +29,8 @@ public:
   QAction *actionOpenAttach;
   QAction *actionSaveAsAttach;
   QAction *actionShowAttachInfo;
+
+  void setReadOnly(bool state);
 
 signals:
 
