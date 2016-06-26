@@ -577,6 +577,11 @@ void RecordTableController::addNewRecord(int mode)
 
   // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
   addNew(mode, record);
+
+  // После добавления новой записи редактор всегда должен переключаться на слой текста
+  // (а не оставаться на слое аттачей, если он ранее был активным)
+  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+  edView->switchToEditorLayout();
 }
 
 
