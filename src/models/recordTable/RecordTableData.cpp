@@ -421,6 +421,9 @@ int RecordTableData::insertNewRecord(int mode,
     actionLogger.addAction("createCryptRecord", data);
 
 
+  // В историю перемещений по записям добавляется только что созданная запись
+  walkHistory.add(record.getNaturalFieldSource("id"), 0, 0);
+
   // Возвращается номера строки, на которую должна быть установлена засветка после выхода из данного метода
   return insertPos;
 }
