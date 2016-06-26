@@ -388,6 +388,8 @@ void TypefaceFormatter::onClearClicked(void)
   editor->onSelectionChanged();
 
   editor->updateIndentsliderToActualFormat();
+
+  emit updateOutlineButtonHiglight();
 }
 
 
