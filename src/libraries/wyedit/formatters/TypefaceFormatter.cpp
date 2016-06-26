@@ -817,6 +817,8 @@ void TypefaceFormatter::onTextOnlyClicked()
   // обновились состояния подсветок кнопок форматирования
   editor->onSelectionChanged();
   editor->updateIndentsliderToActualFormat();
+
+  emit updateOutlineButtonHiglight();
 }
 
 
