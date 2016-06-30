@@ -35,6 +35,13 @@
 #include "libraries/DiskHelper.h"
 
 
+// Максимально возможная длина выделения текста (в символах) при которой
+// происходит проверка, есть ли в выделенном тексте различные шрифты, размеры текста, BUI форматирование
+// с соответствующем изменением панели кнопок и другоих элементов форматированиятекста
+// Если выделено текста больше, такая проверка не происходит
+#define WYEDIT_MAX_SELECTION_SIZE_WHILE_CHECK_TOOLBAR_ITEM 4096
+
+
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {
   isInit=false;
@@ -929,54 +936,70 @@ void Editor::onSelectionChanged(void)
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
 
-  int differentFontFlag=0;
-  int differentSizeFlag=0;
-  int differentBoldFlag=0;
-  int differentItalicFlag=0;
-  int differentUnderlineFlag=0;
-  int differentAlignFlag=0;
+  bool differentFontFlag=false;
+  bool differentSizeFlag=false;
+  bool differentBoldFlag=false;
+  bool differentItalicFlag=false;
+  bool differentUnderlineFlag=false;
+  bool differentAlignFlag=false;
 
-  // Пробегаем по выделенному куску текста дополнительным курсором
-  // и выясняем, есть ли разные шрифты, разные размеры,
-  // разные начертания символов, разное выравнивание в выделенном тексте
-  while(cursor.position()<=stop)
+  // Слишком большие выделения текста нельзя обрабатывать, так как выделение становится слишком медленным
+  if(abs(stop-start)>WYEDIT_MAX_SELECTION_SIZE_WHILE_CHECK_TOOLBAR_ITEM)
   {
-    if(differentFontFlag==0 && startFontFamily!=cursor.charFormat().fontFamily())
-      differentFontFlag=1;
-
-    if(differentSizeFlag==0 && startSize!=cursor.charFormat().fontPointSize())
-      differentSizeFlag=1;
-
-    if(differentBoldFlag==0)
+    differentFontFlag=true;
+    differentSizeFlag=true;
+    differentBoldFlag=true;
+    differentItalicFlag=true;
+    differentUnderlineFlag=true;
+    differentAlignFlag=true;
+  }
+  else
+  {
+    // Программа пробегает по выделенному куску текста дополнительным курсором
+    // и выясняет, есть ли разные шрифты, разные размеры,
+    // разные начертания символов, разное выравнивание в выделенном тексте
+    while(cursor.position()<=stop)
     {
-      int b=cursor.charFormat().fontWeight();
-      if(startBold==false && b==QFont::Bold)differentBoldFlag=1;
-      else if(startBold==true && b==QFont::Normal)differentBoldFlag=1;
+      if(differentFontFlag==false && startFontFamily!=cursor.charFormat().fontFamily())
+        differentFontFlag=true;
+
+      if(differentSizeFlag==false && startSize!=cursor.charFormat().fontPointSize())
+        differentSizeFlag=true;
+
+      if(differentBoldFlag==false)
+      {
+        int b=cursor.charFormat().fontWeight();
+        if(startBold==false && b==QFont::Bold)
+          differentBoldFlag=true;
+        else
+          if(startBold==true && b==QFont::Normal)
+            differentBoldFlag=true;
+      }
+
+      if(differentItalicFlag==false && startItalic!=cursor.charFormat().fontItalic())
+        differentItalicFlag=true;
+
+      if(differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline())
+        differentUnderlineFlag=true;
+
+      if(differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment())
+        differentAlignFlag=true;
+
+      // Курсор передвигается на одну позицию вперед
+      // Если дальше двигаться некуда (конец документа) цикл досрочно завершается
+      if(cursor.movePosition(QTextCursor::NextCharacter)==false)
+        break;
     }
-
-    if(differentItalicFlag==0 && startItalic!=cursor.charFormat().fontItalic())
-      differentItalicFlag=1;
-
-    if(differentUnderlineFlag==0 && startUnderline!=cursor.charFormat().fontUnderline())
-      differentUnderlineFlag=1;
-
-    if(differentAlignFlag==0 && startAlign!=cursor.blockFormat().alignment())
-      differentAlignFlag=1;
-
-    // Курсор передвигается на одну позицию вперед
-    // Если дальше двигаться некуда (конец документа) цикл досрочно завершается
-    if(cursor.movePosition(QTextCursor::NextCharacter)==false) break;
   }
 
-
   // Список выбора шрифта начинает указывать на нужный шрифт
-  if(differentFontFlag==0)
+  if(differentFontFlag==false)
     emit changeFontselectOnDisplay(startFontFamily); // Если всё выделение одним шрифтом
   else
     emit changeFontselectOnDisplay("");
 
   // Список выбора размера начинает указывать на нужный размер
-  if(differentSizeFlag==0)
+  if(differentSizeFlag==false)
     emit changeFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
   else
     emit changeFontsizeOnDisplay(0); // В выделении есть разные размеры
@@ -984,28 +1007,28 @@ void Editor::onSelectionChanged(void)
   // Кнопка Bold выключается, если есть разное Bold форматирование
   // и включается, если форматирование одинаковое,
   // и выделение начиналось с Bold
-  if(differentBoldFlag==1)
+  if(differentBoldFlag==true)
     editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_BOLD,false);
   else
     if(startBold==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_BOLD,true);
 
   // Кнопка Italic
-  if(differentItalicFlag==1)
+  if(differentItalicFlag==true)
     editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_ITALIC,false);
   else
     if(startItalic==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_ITALIC,true);
 
   // Кнопка Underline
-  if(differentUnderlineFlag==1)
+  if(differentUnderlineFlag==true)
     editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,false);
   else
     if(startUnderline==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,true);
 
   // Кнопки выравнивания
-  if(differentAlignFlag==1)
+  if(differentAlignFlag==true)
     emit updateAlignButtonHiglight(false);
   else
     emit updateAlignButtonHiglight(true);
