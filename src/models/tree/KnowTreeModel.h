@@ -100,7 +100,7 @@ private:
     void parseNodeElement(QDomElement n, TreeItem *parent);
 
     // Преобразование Item в DOM модель
-    void parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem);
+    void parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, TreeItem *currItem);
 
     // Стандартный DOM-документ для сохранения дерева знаний
     QDomDocument createStandartDocument();

@@ -212,7 +212,7 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 
  QTime start = QTime::currentTime();
 
- parseTreeToDom(&doc, elm, root);
+ parseTreeToDom(&doc, &elm, root);
 
  qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
 
@@ -557,7 +557,7 @@ QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &d
 
 
 // Рекурсивное преобразование Item-элементов в Dom дерево
-void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, TreeItem *currItem)
+void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, TreeItem *currItem)
 {
 
  // Если в ветке присутсвует таблица конечных записей
@@ -573,7 +573,7 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, Tree
    // Dom дерево таблицы конечных записей добавляется
    // как подчиненный элемент к текущему элементу
    if(!recordTableDom.isNull())
-    xmlData.appendChild(recordTableDom.cloneNode());
+    xmlData->appendChild(recordTableDom.cloneNode());
   }
 
  // Обработка каждой подчиненной ветки
@@ -597,13 +597,13 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement &xmlData, Tree
 
 
    // Добавление временного элемента к основному документу
-   xmlData.appendChild(tempElement);
+   xmlData->appendChild(tempElement);
 
    // qDebug() << "In parsetreetodom() current construct doc " << xmlNodeToString(*xmldata);
 
    // Рекурсивная обработка
-   QDomElement workElement=xmlData.lastChildElement();
-   parseTreeToDom(doc, workElement, currItem->child(i) );
+   QDomElement workElement=xmlData->lastChildElement();
+   parseTreeToDom(doc, &workElement, currItem->child(i) );
   }
 
 }
