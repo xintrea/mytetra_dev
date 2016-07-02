@@ -6,6 +6,7 @@
 #include <QVariant>
 #include <QObject>
 #include <QtXml>
+#include <QXmlStreamWriter>
 
 #include "TreeModel.h"
 
@@ -27,6 +28,7 @@ public:
     void reload(void);
 
     QDomElement exportFullModelDataToDom(TreeItem *root);
+    void exportFullModelDataToStreamWriter(QXmlStreamWriter *xmlWriter, TreeItem *root);
 
     void save(void);
 
@@ -101,6 +103,7 @@ private:
 
     // Преобразование Item в DOM модель
     void parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, TreeItem *currItem);
+    void parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeItem *currItem);
 
     // Стандартный DOM-документ для сохранения дерева знаний
     QDomDocument createStandartDocument();

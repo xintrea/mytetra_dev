@@ -314,6 +314,22 @@ QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
 }
 
 
+void RecordTableData::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const
+{
+  // Если у ветки нет таблицы конечных записей
+  if(tableData.size()==0)
+    return;
+
+  xmlWriter->writeStartElement("recordtable");
+
+  // Пробегаются все записи в таблице
+  for(int i=0; i<tableData.size(); i++)
+    tableData.at(i).exportDataToStreamWriter( xmlWriter );
+
+  xmlWriter->writeEndElement(); // Закрылся recordtable
+}
+
+
 // Добавление новой записи
 // Метод только добавляет во внутреннее представление новые данные,
 // сохраняет текст файла и обновляет данные на экране.

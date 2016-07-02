@@ -101,6 +101,30 @@ QDomElement Record::exportDataToDom(QDomDocument *doc) const
 }
 
 
+void Record::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const
+{
+  xmlWriter->writeStartElement("record");
+
+  // Перебираются допустимые имена полей, доступных для сохранения
+  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList;
+  int availableFieldListSize=availableFieldList.size();
+  for(int j=0; j<availableFieldListSize; ++j)
+  {
+    QString currentFieldName=availableFieldList.at(j);
+
+    // Устанавливается значение поля как атрибут записи
+    if(isNaturalFieldExists(currentFieldName))
+      xmlWriter->writeAttribute(currentFieldName, getNaturalFieldSource(currentFieldName));
+  }
+
+  // К элементу записи прикрепляется элемент таблицы приаттаченных файлов, если таковые есть
+  if(attachTableData.size()>0)
+    attachTableData.exportDataToStreamWriter( xmlWriter );
+
+  xmlWriter->writeEndElement(); // Закрылся record
+}
+
+
 bool Record::isEmpty() const
 {
   // Заполненная запись не может содержать пустые свойства

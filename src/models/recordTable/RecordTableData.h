@@ -51,6 +51,7 @@ public:
 
     // Функция создания DOM-документа из данных таблицы конечных записей
     QDomElement exportDataToDom(QDomDocument *doc) const;
+    void exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const;
 
     // Получение ссылки на объект ветки, которой принадлежит таблица
     TreeItem *getItem(void);

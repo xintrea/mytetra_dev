@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QByteArray>
 #include <QDomElement>
+#include <QXmlStreamWriter>
 
 
 class AttachTableData;
@@ -23,6 +24,7 @@ public:
 
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
+  void exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const;
 
   QString getField(QString name) const;
   void setField(QString name, QString value);

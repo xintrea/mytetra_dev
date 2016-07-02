@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QByteArray>
 #include <QDomElement>
+#include <QXmlStreamWriter>
 
 #include "models/attachTable/Attach.h"
 #include "models/attachTable/AttachTableData.h"
@@ -32,6 +33,7 @@ public:
 
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
+  void exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const;
 
   QString getText() const;
   QString getTextDirect();

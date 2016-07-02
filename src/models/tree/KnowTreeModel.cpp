@@ -222,6 +222,22 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
 }
 
 
+// Генерирование полного дерева хранимых данных в поток XML
+void KnowTreeModel::exportFullModelDataToStreamWriter(QXmlStreamWriter *xmlWriter, TreeItem *root)
+{
+  xmlWriter->writeStartElement("content");
+
+  QTime start = QTime::currentTime();
+
+  parseTreeToStreamWriter( xmlWriter, root);
+
+  xmlWriter->writeEndElement(); // Закрылся content
+
+ qDebug() << "Parse tree to Stream Writer elapsed time: " << start.elapsed() << " ms";
+}
+
+
+
 // Выгрузка ветки и ее подветок в отдельную директорию
 bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportDir)
 {
@@ -609,6 +625,40 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, Tree
 }
 
 
+// Рекурсивное преобразование Item-элементов в поток XML-элементов
+void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeItem *currItem)
+{
+  // Если в ветке присутсвует таблица конечных записей
+  // В первую очередь добавляется она
+  if(currItem->recordtableGetRowCount() > 0)
+   currItem->recordtableExportDataToStreamWriter( xmlWriter );
+
+  // Обработка каждой подчиненной ветки
+  for(unsigned int i=0;i<currItem->childCount();i++)
+   {
+    xmlWriter->writeStartElement("node");
+
+    // Получение всех полей для данной ветки
+    QMap<QString, QString> fields=currItem->child(i)->getAllFieldsDirect();
+
+    // Перебираются поля элемента ветки
+    QMapIterator<QString, QString> fields_iterator(fields);
+    while (fields_iterator.hasNext())
+     {
+      fields_iterator.next();
+
+      // Поля сохраняются как атрибуты элемента
+      xmlWriter->writeAttribute(fields_iterator.key(), fields_iterator.value());
+     }
+
+    // Рекурсивная обработка вложенных узлов (веток)
+    parseTreeToStreamWriter(xmlWriter, currItem->child(i) );
+
+    xmlWriter->writeEndElement(); // Закрылся node
+   }
+}
+
+
 // Запись всех данных в XML файл
 void KnowTreeModel::save()
 {
@@ -616,6 +666,48 @@ void KnowTreeModel::save()
  if(xmlFileName=="")
   criticalError(tr("In KnowTreeModel can't set file name for XML file"));
 
+ // Перенос текущего файла дерева в корзину
+ DiskHelper::removeFileToTrash(xmlFileName);
+
+ // Создается новый файл дерева
+ QFile writeFile(xmlFileName);
+ if (!writeFile.open(QIODevice::WriteOnly)) // | QIODevice::Text
+   criticalError("Cant open file "+xmlFileName+" for write.");
+
+ // Создание объекта потоковой генерации XML-данных в файл
+ QXmlStreamWriter xmlWriter(&writeFile);
+ xmlWriter.setCodec("UTF-8");
+ xmlWriter.setAutoFormatting(true);
+ xmlWriter.setAutoFormattingIndent(1);
+
+ // Начало документа
+ xmlWriter.writeStartDocument();
+
+ // Doctype заголовок
+ xmlWriter.writeDTD("<!DOCTYPE mytetradoc>"); // Пишется в явном виде
+
+ // Начало корневого элемента
+ xmlWriter.writeStartElement("root");
+
+ // Элемент версии данных
+ xmlWriter.writeStartElement("format");
+ xmlWriter.writeAttribute("version", QString::number( CURRENT_FORMAT_VERSION ));
+ xmlWriter.writeAttribute("subversion", QString::number(CURRENT_FORMAT_SUBVERSION));
+ xmlWriter.writeEndElement();
+
+ exportFullModelDataToStreamWriter( &xmlWriter, rootItem );
+
+ // Завершение корневого элемента
+ xmlWriter.writeEndElement();
+
+ // Завершение документа
+ xmlWriter.writeEndDocument();
+
+
+ writeFile.close();
+
+
+ /*
  // Коструирование DOM документа для записи в файл
  QDomDocument doc=createStandartDocument();
 
@@ -647,6 +739,7 @@ void KnowTreeModel::save()
  QTextStream out(&wfile);
  out.setCodec("UTF-8");
  out << doc.toString();
+ */
 
  lastSaveDateTime=QDateTime::currentDateTime();
 }

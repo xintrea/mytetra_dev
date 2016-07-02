@@ -4,6 +4,7 @@
 #include <QList>
 #include <QMetaType>
 #include <QDomElement>
+#include <QXmlStreamWriter>
 
 #include "models/attachTable/Attach.h"
 
@@ -22,6 +23,7 @@ public:
 
   void setupDataFromDom(QDomElement iDomElement);
   QDomElement exportDataToDom(QDomDocument *doc) const;
+  void exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const;
 
   void setRecord(Record *iRecord);
   void setRelatedAttachTableModel(AttachTableModel *model);

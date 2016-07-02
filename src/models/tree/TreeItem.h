@@ -8,6 +8,7 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QIcon>
+#include <QXmlStreamWriter>
 
 #include "models/recordTable/RecordTableData.h"
 
@@ -113,6 +114,7 @@ class TreeItem
     
     // Преобразование таблицы конечных записей в DOM представление, "промежуточный" метод
     QDomElement recordtableExportDataToDom(QDomDocument *doc);
+    void recordtableExportDataToStreamWriter(QXmlStreamWriter *xmlWriter);
 
     // Взятие ссылки на данные конечных записей
     RecordTableData *recordtableGetTableData(void);

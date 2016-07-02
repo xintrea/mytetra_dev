@@ -82,6 +82,22 @@ QDomElement AttachTableData::exportDataToDom(QDomDocument *doc) const
 }
 
 
+void AttachTableData::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const
+{
+  // Если у записи нет таблицы приаттаченных файлов
+  if(attachTable.size()==0)
+    return;
+
+  xmlWriter->writeStartElement("files");
+
+  // Пробегаются все приаттаченные файлы
+  for(int i=0; i<attachTable.size(); i++)
+    attachTable.at(i).exportDataToStreamWriter( xmlWriter ); // К элементу files прикрепляются элементы file
+
+  xmlWriter->writeEndElement(); // Закрылся files
+}
+
+
 void AttachTableData::setRelatedAttachTableModel(AttachTableModel *model)
 {
   // Запоминание указателя на модель

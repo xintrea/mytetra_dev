@@ -98,6 +98,19 @@ QDomElement Attach::exportDataToDom(QDomDocument *doc) const
 }
 
 
+void Attach::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const
+{
+  xmlWriter->writeStartElement("file");
+
+  QStringList fieldsName=fieldAvailableList();
+  foreach( QString fieldName, fieldsName ) // Перебираются имена полей (XML-тегов)
+    if( fields[fieldName].size()>0 )
+      xmlWriter->writeAttribute(fieldName, fields[fieldName]);
+
+  xmlWriter->writeEndElement(); // Закрылся file
+}
+
+
 bool Attach::isEmpty() const
 {
   // Заполненный аттач не может содержать пустой id

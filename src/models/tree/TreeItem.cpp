@@ -611,6 +611,12 @@ QDomElement TreeItem::recordtableExportDataToDom(QDomDocument *doc)
 }
 
 
+void TreeItem::recordtableExportDataToStreamWriter(QXmlStreamWriter *xmlWriter)
+{
+  recordsTable.exportDataToStreamWriter( xmlWriter );
+}
+
+
 void TreeItem::recordtableDeleteAllRecords(void)
 {
   recordsTable.deleteAllRecords();
