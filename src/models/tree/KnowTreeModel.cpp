@@ -662,6 +662,8 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
 // Запись всех данных в XML файл
 void KnowTreeModel::save()
 {
+ QTime start = QTime::currentTime();
+
  // Если имя файла небыло проинициализировано
  if(xmlFileName=="")
   criticalError(tr("In KnowTreeModel can't set file name for XML file"));
@@ -706,8 +708,22 @@ void KnowTreeModel::save()
 
  writeFile.close();
 
+ lastSaveDateTime=QDateTime::currentDateTime();
 
- /*
+ qDebug() << "Save tree to Stream Writer elapsed time: " << start.elapsed() << " ms";
+}
+
+
+/*
+// Запись всех данных в XML файл
+void KnowTreeModel::save()
+{
+ QTime start = QTime::currentTime();
+
+ // Если имя файла небыло проинициализировано
+ if(xmlFileName=="")
+  criticalError(tr("In KnowTreeModel can't set file name for XML file"));
+
  // Коструирование DOM документа для записи в файл
  QDomDocument doc=createStandartDocument();
 
@@ -739,11 +755,12 @@ void KnowTreeModel::save()
  QTextStream out(&wfile);
  out.setCodec("UTF-8");
  out << doc.toString();
- */
 
  lastSaveDateTime=QDateTime::currentDateTime();
-}
 
+ qDebug() << "Save tree to DOM elapsed time: " << start.elapsed() << " ms";
+}
+*/
 
 QDateTime KnowTreeModel::getLastSaveDateTime()
 {
