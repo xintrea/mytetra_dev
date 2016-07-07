@@ -263,9 +263,10 @@ void Downloader::startNextDownload()
   QNetworkRequest request(currentReference);
 
   // В конце загрузки автоматически будет вызван слот onFileDownloadFinished() ( см. связывание сингнал-слот в setupSignals() )
-  QNetworkReply* networkReply=webManager.get(request);
+  networkReply=webManager.get(request);
 
-  connect(networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
+  connect( networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
+  connect( this, SIGNAL(cancelDownload()), networkReply, SLOT(abort()) );
 }
 
 
@@ -287,7 +288,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
       qDebug() << "Redirected to " << urlRedirectedTo.toString();
 
       QNetworkRequest request(urlRedirectedTo);
-      webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
+      networkReply=webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
 
       enableNextDownload=false;
     }
@@ -354,7 +355,10 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 
 void Downloader::onDownloadProgress(qint64 read, qint64 total)
 {
-  qint64 percent=(read * 100) / total;
+  qint64 percent=0;
+
+  if(total!=0)
+    percent=(read * 100) / total;
 
   // На экране изменяется процент загрузки ссылки
   qobject_cast<QProgressBar *>(table->cellWidget(currentReferenceNum, downloadPercentCol))->setValue(percent);
@@ -388,6 +392,8 @@ void Downloader::onSslErrors(QNetworkReply *reply, const QList<QSslError> &error
 
 void Downloader::onCancelClicked()
 {
+  emit cancelDownload();
+
   addErrorLog("Cancel download by user.");
 
   isSuccessFlag=false;

@@ -46,6 +46,9 @@ public:
 
   QString getErrorLog();
 
+signals:
+
+  void cancelDownload(void);
 
 private slots:
 
@@ -74,6 +77,7 @@ protected:
   int downloadPercentCol; // Номер колонки с процентами загрузки, определяется в конструкторе
 
   QNetworkAccessManager webManager; // Объект для работы с HTTP
+  QNetworkReply* networkReply;
 
   QTableWidget *table;
   QPushButton *cancelButton;

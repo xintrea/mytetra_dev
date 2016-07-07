@@ -227,13 +227,9 @@ void KnowTreeModel::exportFullModelDataToStreamWriter(QXmlStreamWriter *xmlWrite
 {
   xmlWriter->writeStartElement("content");
 
-  QTime start = QTime::currentTime();
-
   parseTreeToStreamWriter( xmlWriter, root);
 
   xmlWriter->writeEndElement(); // Закрылся content
-
- qDebug() << "Parse tree to Stream Writer elapsed time: " << start.elapsed() << " ms";
 }
 
 
@@ -662,8 +658,6 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
 // Запись всех данных в XML файл
 void KnowTreeModel::save()
 {
- QTime start = QTime::currentTime();
-
  // Если имя файла небыло проинициализировано
  if(xmlFileName=="")
   criticalError(tr("In KnowTreeModel can't set file name for XML file"));
@@ -709,58 +703,8 @@ void KnowTreeModel::save()
  writeFile.close();
 
  lastSaveDateTime=QDateTime::currentDateTime();
-
- qDebug() << "Save tree to Stream Writer elapsed time: " << start.elapsed() << " ms";
 }
 
-
-/*
-// Запись всех данных в XML файл
-void KnowTreeModel::save()
-{
- QTime start = QTime::currentTime();
-
- // Если имя файла небыло проинициализировано
- if(xmlFileName=="")
-  criticalError(tr("In KnowTreeModel can't set file name for XML file"));
-
- // Коструирование DOM документа для записи в файл
- QDomDocument doc=createStandartDocument();
-
- // Создание корневого элемента
- QDomElement rootElement=createStandartRootElement(doc);
-
- // Получение полного DOM дерева хранимых данных
- QDomElement elmDomTree=exportFullModelDataToDom(rootItem);
-
- // Добавление полного дерева DOM хранимых данных к корневому элементу
- rootElement.appendChild(elmDomTree);
-
- // Добавление корневого элемента в DOM документ
- doc.appendChild(rootElement);
-
- // Распечатка на экран, что будет выводиться в XML файл
- // qDebug() << "Doc document for write " << doc.toString();
-
- // Перенос текущего файла дерева в корзину
- DiskHelper::removeFileToTrash(xmlFileName);
-
- // Запись DOM данных в файл
- QFile wfile(xmlFileName);
- if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-  {
-   qDebug() << "Cant open file " << xmlFileName << " for write.";
-   exit(1);
-  }
- QTextStream out(&wfile);
- out.setCodec("UTF-8");
- out << doc.toString();
-
- lastSaveDateTime=QDateTime::currentDateTime();
-
- qDebug() << "Save tree to DOM elapsed time: " << start.elapsed() << " ms";
-}
-*/
 
 QDateTime KnowTreeModel::getLastSaveDateTime()
 {
