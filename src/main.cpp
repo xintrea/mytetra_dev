@@ -888,6 +888,7 @@ int main(int argc, char ** argv)
  // Распечатывается дерево сгенерированных объектов
  // print_object_tree();
 
+
  // Проверяется наличие системного трея
  /*
  if(!QSystemTrayIcon::isSystemTrayAvailable()) {
