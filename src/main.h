@@ -151,4 +151,5 @@ public:
     static void sleep(unsigned long secs){QThread::sleep(secs);}
 };
 
+
 #endif // __MAIN_H__
