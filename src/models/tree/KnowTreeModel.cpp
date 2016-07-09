@@ -235,6 +235,7 @@ void KnowTreeModel::exportFullModelDataToStreamWriter(QXmlStreamWriter *xmlWrite
 
 
 // Выгрузка ветки и ее подветок в отдельную директорию
+// todo: Подумать, и сделать выгрузку через режим StreamWriter. Похоже, что пока что мешает расшифровка выгружаемых данных
 bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportDir)
 {
   // Полный путь до создаваемого файла с деревом
