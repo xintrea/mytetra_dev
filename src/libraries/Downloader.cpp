@@ -251,6 +251,16 @@ QString Downloader::getErrorLog()
 }
 
 
+void Downloader::reconnectSignalsNetworkReply(QNetworkReply *networkReply)
+{
+  disconnect( networkReply, SIGNAL(downloadProgress(qint64, qint64)), 0, 0 );
+  connect(    networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
+
+  disconnect( this, SIGNAL(cancelDownload()), 0, 0 );
+  connect(    this, SIGNAL(cancelDownload()), networkReply, SLOT(abort()) );
+}
+
+
 // Запуск загрузки очередной ссылки
 void Downloader::startNextDownload()
 {
@@ -264,9 +274,7 @@ void Downloader::startNextDownload()
 
   // В конце загрузки автоматически будет вызван слот onFileDownloadFinished() ( см. связывание сингнал-слот в setupSignals() )
   networkReply=webManager.get(request);
-
-  connect( networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
-  connect( this, SIGNAL(cancelDownload()), networkReply, SLOT(abort()) );
+  reconnectSignalsNetworkReply(networkReply);
 }
 
 
@@ -289,6 +297,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 
       QNetworkRequest request(urlRedirectedTo);
       networkReply=webManager.get(request); // В конце загрузки будет вызван слот onFileDownloadFinished()
+      reconnectSignalsNetworkReply(networkReply);
 
       enableNextDownload=false;
     }

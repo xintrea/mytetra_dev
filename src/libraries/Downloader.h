@@ -77,7 +77,7 @@ protected:
   int downloadPercentCol; // Номер колонки с процентами загрузки, определяется в конструкторе
 
   QNetworkAccessManager webManager; // Объект для работы с HTTP
-  QNetworkReply* networkReply;
+  QNetworkReply *networkReply;
 
   QTableWidget *table;
   QPushButton *cancelButton;
@@ -91,6 +91,8 @@ protected:
   QUrl checkedRedirectUrl(const QUrl& possibleRedirectUrl) const;
 
   void addErrorLog(const QString text);
+
+  void reconnectSignalsNetworkReply(QNetworkReply *networkReply);
 };
 
 #endif // DOWNLOADER_H
