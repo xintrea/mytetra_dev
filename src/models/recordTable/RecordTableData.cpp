@@ -647,17 +647,18 @@ void RecordTableData::switchToDecrypt(void)
 // Получение ссылки на объект ветки, которой принадлежит таблица
 TreeItem *RecordTableData::getItem(void)
 {
- return treeItem;
+  return treeItem;
 }
 
 
 int RecordTableData::getWorkPos(void)
 {
- return workPos;
+  return workPos;
 }
 
 
 void RecordTableData::setWorkPos(int pos)
 {
- workPos=pos;
+  qDebug() << "RecordTableData save work cursor position as " << pos;
+  workPos=pos;
 }

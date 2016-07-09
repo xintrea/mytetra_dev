@@ -261,7 +261,7 @@ void RecordTableController::setTableData(RecordTableData *rtData)
     int workPos=rtData->getWorkPos();
 
     // Если номер записи допустимый
-    if(workPos>0 && workPos<recordSourceModel->rowCount())
+    if(workPos>=0 && workPos<recordSourceModel->rowCount())
     {
       // Выделение устанавливается на нужную запись
       // selectionModel()->setCurrentIndex( model()->index( workPos, 0 ) , QItemSelectionModel::SelectCurrent);
