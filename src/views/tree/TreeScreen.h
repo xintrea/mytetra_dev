@@ -48,32 +48,32 @@ public:
 
 private slots:
 
- void expand_all_subbranch(void);
- void collapse_all_subbranch(void);
- void expand_or_collapse_recurse(QModelIndex index, bool mode);
- void ins_subbranch(void);
- void ins_branch(void);
- void edit_branch(void);
+ void expandAllSubbranch(void);
+ void collapseAllSubbranch(void);
+ void expandOrCollapseRecurse(QModelIndex index, bool mode);
+ void insSubbranch(void);
+ void insBranch(void);
+ void editBranch(void);
  void setIcon(void);
 
- void del_branch(QString mode="delete");
- void del_one_branch(QModelIndex index);
+ void delBranch(QString mode="delete");
+ void delOneBranch(QModelIndex index);
 
- void move_up_branch(void);
- void move_dn_branch(void);
- void cut_branch(void);
- bool copy_branch(void);
- void paste_branch(void);
- void paste_subbranch(void);
+ void moveUpBranch(void);
+ void moveDnBranch(void);
+ void cutBranch(void);
+ bool copyBranch(void);
+ void pasteBranch(void);
+ void pasteSubbranch(void);
 
- void encrypt_branch(void);
- void decrypt_branch(void);
+ void encryptBranch(void);
+ void decryptBranch(void);
 
  // Действия при клике на ветку дерева
- void on_knowtree_clicked(const QModelIndex &index);
+ void onKnowtreeClicked(const QModelIndex &index);
 
  // Открытие контекстного меню
- void on_customContextMenuRequested(const QPoint &pos);
+ void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
  QToolBar *toolsLine;

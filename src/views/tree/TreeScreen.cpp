@@ -56,98 +56,98 @@ void TreeScreen::setupActions(void)
  ac=new QAction(tr("Expand all sub items"), this);
  ac->setStatusTip(tr("Expand all sub items"));
  ac->setIcon(QIcon(":/resource/pic/expand_all_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(expand_all_subbranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(expandAllSubbranch()));
  actionList["expandAllSubbranch"]=ac;
 
  // Сворачивание всех подветок
  ac = new QAction(tr("Collapse all sub items"), this);
  ac->setStatusTip(tr("Collapse all sub items"));
  ac->setIcon(QIcon(":/resource/pic/collapse_all_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(collapse_all_subbranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(collapseAllSubbranch()));
  actionList["collapseAllSubbranch"]=ac;
 
  // Перемещение ветки вверх
  ac = new QAction(tr("Move item up"), this);
  ac->setStatusTip(tr("Move item up"));
  ac->setIcon(QIcon(":/resource/pic/move_up.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(move_up_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(moveUpBranch()));
  actionList["moveUpBranch"]=ac;
 
  // Перемещение ветки вниз
  ac = new QAction(tr("Move item down"), this);
  ac->setStatusTip(tr("Move item down"));
  ac->setIcon(QIcon(":/resource/pic/move_dn.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(move_dn_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(moveDnBranch()));
  actionList["moveDnBranch"]=ac;
 
  // Вставка новой подветки
  ac = new QAction(tr("Insert a new sub item"), this);
  ac->setStatusTip(tr("Insert a new sub item into selected"));
  ac->setIcon(QIcon(":/resource/pic/add_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(ins_subbranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(insSubbranch()));
  actionList["insSubbranch"]=ac;
 
  // Вставка новой ветки
  ac = new QAction(tr("Insert a new sibling item"), this);
  ac->setStatusTip(tr("Insert a new sibling item after selected"));
  ac->setIcon(QIcon(":/resource/pic/add_branch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(ins_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(insBranch()));
  actionList["insBranch"]=ac;
 
  // Редактирование ветки
  ac = new QAction(tr("Edit item name"), this);
  ac->setStatusTip(tr("Edit name of selected item"));
  ac->setIcon(QIcon(":/resource/pic/note_edit.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(edit_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(editBranch()));
  actionList["editBranch"]=ac;
 
  // Удаление ветки
  ac = new QAction(tr("Delete item"), this);
  ac->setStatusTip(tr("Delete selected item and all sub items"));
  ac->setIcon(QIcon(":/resource/pic/note_delete.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(del_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
  actionList["delBranch"]=ac;
 
  // Удаление ветки с сохранением копии в буфер обмена
  ac = new QAction(tr("Cut item"), this);
  ac->setStatusTip(tr("Cut item including sub items"));
  ac->setIcon(QIcon(":/resource/pic/branch_cut.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(cut_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(cutBranch()));
  actionList["cutBranch"]=ac;
 
  // Копирование ветки в буфер обмена
  ac = new QAction(tr("Copy item"), this);
  ac->setStatusTip(tr("Copy item including sub items"));
  ac->setIcon(QIcon(":/resource/pic/branch_copy.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(copy_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(copyBranch()));
  actionList["copyBranch"]=ac;
 
  // Вставка ветки из буфера обмена
  ac = new QAction(tr("Paste item"), this);
  ac->setStatusTip(tr("Paste sibling item after selected"));
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(paste_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(pasteBranch()));
  actionList["pasteBranch"]=ac;
 
  // Вставка ветки из буфера обмена в виде подветки
  ac = new QAction(tr("Paste as sub item"), this);
  ac->setStatusTip(tr("Paste item as sub item for selected"));
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(paste_subbranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(pasteSubbranch()));
  actionList["pasteSubbranch"]=ac;
 
  // Шифрование ветки
  ac = new QAction(tr("Encrypt item"), this);
  ac->setStatusTip(tr("Encrypt item and all subitem"));
  // actionEncryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(encrypt_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(encryptBranch()));
  actionList["encryptBranch"]=ac;
 
  // Расшифровка ветки (снятие пароля)
  ac = new QAction(tr("Decrypt item"), this);
  ac->setStatusTip(tr("Decrypt item and all subitem"));
  // actionDecryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(decrypt_branch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(decryptBranch()));
  actionList["decryptBranch"]=ac;
 
  // Добавление иконки к ветке
@@ -243,9 +243,9 @@ void TreeScreen::setupModels(void)
 
 
 // Открытие контекстного меню в дереве разделов
-void TreeScreen::on_customContextMenuRequested(const QPoint &pos)
+void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
 {
-  qDebug() << "In TreeScreen::on_customContextMenuRequested";
+  qDebug() << "In TreeScreen::onCustomContextMenuRequested";
 
   // Конструирование меню
   QMenu menu(this);
@@ -341,20 +341,20 @@ void TreeScreen::setupSignals(void)
 {
  // Соединение сигнал-слот чтобы показать контекстное меню по правому клику на ветке
  connect(knowTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-         this,SLOT(on_customContextMenuRequested(const QPoint &)));
+         this,SLOT(onCustomContextMenuRequested(const QPoint &)));
 
  // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
  connect(knowTreeView, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
-         this, SLOT(on_customContextMenuRequested(const QPoint &)));
+         this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 
  // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре
  if(mytetraConfig.getInterfaceMode()=="desktop")
    connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
-           this, SLOT(on_knowtree_clicked(const QModelIndex&)));
+           this, SLOT(onKnowtreeClicked(const QModelIndex&)));
  
  if(mytetraConfig.getInterfaceMode()=="mobile")
    connect(knowTreeView, SIGNAL(clicked(const QModelIndex &)),
-           this, SLOT(on_knowtree_clicked(const QModelIndex &)));
+           this, SLOT(onKnowtreeClicked(const QModelIndex &)));
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  // connect(knowTreeView, SIGNAL(doubleClicked(const QModelIndex &)),
@@ -386,47 +386,47 @@ void TreeScreen::assembly(void)
 }
 
 
-void TreeScreen::expand_all_subbranch(void)
+void TreeScreen::expandAllSubbranch(void)
 {
  // Получение индексов выделенных строк
  QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  for(int i = 0; i < selectitems.size(); ++i) 
-  expand_or_collapse_recurse(selectitems.at(i), true);
+  expandOrCollapseRecurse(selectitems.at(i), true);
 }
 
 
-void TreeScreen::collapse_all_subbranch(void)
+void TreeScreen::collapseAllSubbranch(void)
 {
  // Получение индексов выделенных строк
  QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
  for(int i = 0; i < selectitems.size(); ++i) 
-  expand_or_collapse_recurse(selectitems.at(i), false);
+  expandOrCollapseRecurse(selectitems.at(i), false);
 }
 
 
-void TreeScreen::expand_or_collapse_recurse(QModelIndex index, bool mode)
+void TreeScreen::expandOrCollapseRecurse(QModelIndex index, bool mode)
 {
  knowTreeView->setExpanded(index, mode);
 
  int i=0;
  while( (index.child(i,0)).isValid() )  
   {
-   expand_or_collapse_recurse(index.child(i,0), mode);
+   expandOrCollapseRecurse(index.child(i,0), mode);
    i++;
   } 
 
 }
 
 
-void TreeScreen::move_up_branch(void)
+void TreeScreen::moveUpBranch(void)
 {
  moveUpDnBranch(1);
 }
 
 
-void TreeScreen::move_dn_branch(void)
+void TreeScreen::moveDnBranch(void)
 {
  moveUpDnBranch(-1);
 }
@@ -477,7 +477,7 @@ bool TreeScreen::moveCheckEnable(void)
 }
 
 
-void TreeScreen::ins_branch(void)
+void TreeScreen::insBranch(void)
 {
  qDebug() << "In ins_branch()";
 
@@ -485,7 +485,7 @@ void TreeScreen::ins_branch(void)
 }
 
 
-void TreeScreen::ins_subbranch(void)
+void TreeScreen::insSubbranch(void)
 {
  qDebug() << "In ins_subbranch()";
 
@@ -586,7 +586,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
 }
 
 
-void TreeScreen::edit_branch(void)
+void TreeScreen::editBranch(void)
 {
  qDebug() << "In edit_branch()";
 
@@ -643,7 +643,7 @@ void TreeScreen::edit_branch(void)
 
 // Удаление выбранных веток, вызывается при выборе соотвествущей
 // кнопки или пункта меню
-void TreeScreen::del_branch(QString mode)
+void TreeScreen::delBranch(QString mode)
 {
  qDebug() << "In del_branch()";
 
@@ -814,7 +814,7 @@ void TreeScreen::del_branch(QString mode)
 
    // Вызов удаления веток
    for(int i = 0; i < selectitems.size(); ++i)
-    del_one_branch(selectitems.at(i));
+    delOneBranch(selectitems.at(i));
 
    qDebug() << "Delete finish";
 
@@ -834,7 +834,7 @@ void TreeScreen::del_branch(QString mode)
 
 
 // Удаление одной ветки и её подветок
-void TreeScreen::del_one_branch(QModelIndex index)
+void TreeScreen::delOneBranch(QModelIndex index)
 {
 
  if(!index.isValid()) return;
@@ -902,18 +902,18 @@ void TreeScreen::del_one_branch(QModelIndex index)
 }
 
 
-void TreeScreen::cut_branch(void)
+void TreeScreen::cutBranch(void)
 {
  bool copy_result;
  
- copy_result=copy_branch();
+ copy_result=copyBranch();
 
  if(copy_result)
-  del_branch("cut");
+  delBranch("cut");
 }
 
 
-bool TreeScreen::copy_branch(void)
+bool TreeScreen::copyBranch(void)
 {
  qDebug() << "In copy_branch()";
 
@@ -1048,7 +1048,7 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
 
 
 // Вставка ветки из буфера на том же уровне, что и выбранная
-void TreeScreen::paste_branch(void)
+void TreeScreen::pasteBranch(void)
 {
  qDebug() << "In paste_branch";
 
@@ -1057,7 +1057,7 @@ void TreeScreen::paste_branch(void)
 
 
 // Вставка ветки из буфера в виде подветки выбранной ветки
-void TreeScreen::paste_subbranch(void)
+void TreeScreen::pasteSubbranch(void)
 {
  qDebug() << "In paste_subbranch";
 
@@ -1128,7 +1128,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
 
 
 // Шифрование ветки
-void TreeScreen::encrypt_branch(void)
+void TreeScreen::encryptBranch(void)
 {
  // Если пароль в данной сессии не вводился
  if(globalParameters.getCryptKey().size()==0)
@@ -1149,7 +1149,7 @@ void TreeScreen::encrypt_branch(void)
 
 
 // Расшифровка ветки
-void TreeScreen::decrypt_branch(void)
+void TreeScreen::decryptBranch(void)
 {
  // Если пароль в данной сессии не вводился
  if(globalParameters.getCryptKey().size()==0)
@@ -1375,7 +1375,7 @@ void TreeScreen::updateBranchOnScreen(const QModelIndex &index)
 
 
 // Действия при клике на ветку дерева
-void TreeScreen::on_knowtree_clicked(const QModelIndex &index)
+void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 {
  // QModelIndex index = nodetreeview->selectionModel()->currentIndex();
 
