@@ -9,12 +9,12 @@
 class ConsoleEmulator;
 
 
-class ExecuteCommand : public QDialog
+class ExecuteCommand : public QObject
 {
  Q_OBJECT
 
 public:
- ExecuteCommand(QWidget *parent=0);
+ ExecuteCommand(QObject *parent=0);
  virtual ~ExecuteCommand();
 
  void setCommand(QString cmd);

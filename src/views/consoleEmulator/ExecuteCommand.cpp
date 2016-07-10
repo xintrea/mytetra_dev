@@ -10,7 +10,7 @@
 #include "main.h"
 
 
-ExecuteCommand::ExecuteCommand(QWidget *parent) : QDialog(parent)
+ExecuteCommand::ExecuteCommand(QObject *parent) : QObject(parent)
 {
  command="";
  console=NULL;

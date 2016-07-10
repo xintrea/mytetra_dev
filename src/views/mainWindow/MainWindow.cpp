@@ -858,16 +858,16 @@ void MainWindow::synchronization(void)
   command.replace("%a", databasePath);
 
   // Запуск команды синхронизации
-  ExecuteCommand cons;
+  ExecuteCommand exCommand;
 
   // Связывание сигнала закрытия окна выполнения команды синхронизации со слотом, срабатывающем при закрытии окна
-  connect(&cons, SIGNAL(dialogHide()), recordTableScreen, SLOT(onExecuteCommandConsoleHide()));
+  connect(&exCommand, SIGNAL(dialogHide()), recordTableScreen, SLOT(onExecuteCommandConsoleHide()));
 
-  cons.setWindowTitle(tr("MyTetra synchronization"));
-  cons.setMessageText(tr("Synchronization in progress, please wait..."));
+  exCommand.setWindowTitle(tr("MyTetra synchronization"));
+  exCommand.setMessageText(tr("Synchronization in progress, please wait..."));
 
-  cons.setCommand(command);
-  cons.run();
+  exCommand.setCommand(command);
+  exCommand.run();
 
   reloadLoadStage();
 }
