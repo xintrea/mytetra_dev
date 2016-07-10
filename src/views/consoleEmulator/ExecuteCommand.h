@@ -18,7 +18,7 @@ public:
  virtual ~ExecuteCommand();
 
  void setCommand(QString cmd);
- void run(void);
+ void run(bool visible=true);
 
  void setWindowTitle(QString title);
  void setMessageText(QString text);

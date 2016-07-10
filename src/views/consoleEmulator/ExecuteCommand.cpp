@@ -102,7 +102,7 @@ void ExecuteCommand::closeProcess(void)
 }
 
 
-void ExecuteCommand::run(void)
+void ExecuteCommand::run(bool visible)
 {
  // Если командный интерпретатор не установлен
  if(shell.length()==0)
@@ -123,7 +123,9 @@ void ExecuteCommand::run(void)
  console->setWindowTitle(windowTitle);
  console->setMessageText(messageText);
  console->setConsoleOutput(commandLine+"\n");
- console->show();
+
+ if(visible)
+   console->show();
 
  qDebug() << "Run shell" << shell;
  qDebug() << "Run command" << command;
