@@ -881,6 +881,33 @@ void AppConfig::setIconCurrentSectionName(QString name)
 }
 
 
+
+// Разрешена ли периодическая синхронизация
+bool AppConfig::getEnablePeriodicSyncro(void)
+{
+  return conf->value("enablePeriodicSyncro").toBool();
+}
+
+void AppConfig::setEnablePeriodicSyncro(bool state)
+{
+  conf->setValue("enablePeriodicSyncro", state);
+}
+
+
+// Период автоматической периодической синхронизации
+int AppConfig::getPeriodicSyncroPeriod(void)
+{
+ return get_parameter("periodicSyncroPeriod").toInt();
+}
+
+
+void AppConfig::setPeriodicSyncroPeriod(int period)
+{
+  conf->setValue("periodicSyncroPeriod", period);
+}
+
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -1034,6 +1061,7 @@ void AppConfig::update_version_process(void)
  parameterFunctions << &AppConfig::get_parameter_table_30;
  parameterFunctions << &AppConfig::get_parameter_table_31;
  parameterFunctions << &AppConfig::get_parameter_table_32;
+ parameterFunctions << &AppConfig::get_parameter_table_33;
 
  for(int i=1; i<parameterFunctions.count()-1; ++i)
    if(fromVersion<=i)
@@ -1684,3 +1712,24 @@ QStringList AppConfig::get_parameter_table_32(bool withEndSignature)
 
   return table;
 }
+
+
+QStringList AppConfig::get_parameter_table_33(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 32
+  table << get_parameter_table_32(false);
+
+  table << "enablePeriodicSyncro" << "bool" << "false";
+  table << "periodicSyncroPeriod" << "int" << "300";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
+

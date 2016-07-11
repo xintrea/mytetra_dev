@@ -28,6 +28,8 @@ public:
 
 private:
 
+    const int maxParameterCount;
+
     QString update_version_allowcollision(int versionFrom,
                                           int versionTo,
                                           QString name,

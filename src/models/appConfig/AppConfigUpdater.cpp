@@ -7,7 +7,7 @@
 #define APPCONFIGUPDATER_VERSION "APPCONFIGUPDATER v.1.0 Build 29.10.2010"
 
 
-AppConfigUpdater::AppConfigUpdater(QObject *pobj)
+AppConfigUpdater::AppConfigUpdater(QObject *pobj) : maxParameterCount(100)
 {
  Q_UNUSED(pobj);
 
@@ -70,30 +70,31 @@ void AppConfigUpdater::update_version(int versionFrom,
                                       QStringList baseTable,
                                       QStringList finalTable)
 {
- // Таблица исходных параметров преобразуется к более удобному для работы виду
- // И параллельно заполняется значениями из конфига
- QMap< QString, QMap< QString, QString > > fromTable;
- for(int i=0;i<100;i++)
- {
-  QString name=    baseTable.at(i*3+0);
-  QString type=    baseTable.at(i*3+1);
-  QString defValue=baseTable.at(i*3+2);
+  // Таблица исходных параметров преобразуется к более удобному для работы виду
+  // И параллельно заполняется значениями из конфига
+  QMap< QString, QMap< QString, QString > > fromTable;
+  for(int i=0; i<maxParameterCount; i++)
+  {
+    QString name=    baseTable.at(i*3+0);
+    QString type=    baseTable.at(i*3+1);
+    QString defValue=baseTable.at(i*3+2);
 
-  // Если достигнут конец массива
-  if(name=="0" && type=="0" && defValue=="0") break;
+    // Если достигнут конец массива
+    if(name=="0" && type=="0" && defValue=="0")
+      break;
 
-  // Подготовка массива для текущего параметра
-  QMap< QString, QString > line;
-  line.clear();
-  line["type"]=type;
-  if(conf->contains(name))
-   line["value"]=conf->value(name).toString(); // Значение из конфига
-  else
-   line["value"]=defValue; // Дефолтное значение
+    // Подготовка массива для текущего параметра
+    QMap< QString, QString > line;
+    line.clear();
+    line["type"]=type;
+    if(conf->contains(name))
+      line["value"]=conf->value(name).toString(); // Значение из конфига
+    else
+      line["value"]=defValue; // Дефолтное значение
 
-  // Для текущего имени параметра запоминается массив
-  fromTable[name]=line;
- }
+    // Для текущего имени параметра запоминается массив
+    fromTable[name]=line;
+  }
 
 
  // Таблица конечных параметров преобразуется к более удобному для работы виду

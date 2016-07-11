@@ -238,6 +238,14 @@ public:
     QString getIconCurrentSectionName(void);
     void setIconCurrentSectionName(QString name);
 
+    // Разрешена ли периодическая синхронизация
+    bool getEnablePeriodicSyncro(void);
+    void setEnablePeriodicSyncro(bool state);
+
+    // Период автоматической периодической синхронизации
+    int  getPeriodicSyncroPeriod(void);
+    void setPeriodicSyncroPeriod(int period);
+
 private:
 
     QSettings *conf; // было static
@@ -283,6 +291,7 @@ private:
     QStringList get_parameter_table_30(bool withEndSignature=true);
     QStringList get_parameter_table_31(bool withEndSignature=true);
     QStringList get_parameter_table_32(bool withEndSignature=true);
+    QStringList get_parameter_table_33(bool withEndSignature=true);
 
     bool is_init_flag;
 };
