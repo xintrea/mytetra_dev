@@ -366,7 +366,7 @@ void Downloader::onDownloadProgress(qint64 read, qint64 total)
 {
   qint64 percent=0;
 
-  if(total!=0)
+  if(total>0) // На 0 делить нельзя, а -1 означает что размер данных не известен
     percent=(read * 100) / total;
 
   // На экране изменяется процент загрузки ссылки
