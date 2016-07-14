@@ -4,6 +4,7 @@
 #include "TimerMonitoring.h"
 #include "PeriodicSyncro.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/mainWindow/MainWindow.h"
 
 
 extern AppConfig mytetraConfig;
@@ -25,5 +26,6 @@ void PeriodicSyncro::timerEvent(QTimerEvent *)
   if(mytetraConfig.get_synchrocommand().trimmed().length()==0)
     return;
 
-
+  // Запуск синхронизации в скрытом режиме
+  find_object<MainWindow>("mainwindow")->synchronization(false);
 }
