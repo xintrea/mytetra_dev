@@ -32,6 +32,7 @@
 #include "libraries/crypt/Password.h"
 #include "libraries/TraceLogger.h"
 #include "libraries/PeriodicCheckBase.h"
+#include "libraries/PeriodicSyncro.h"
 
 using namespace std;
 
@@ -57,6 +58,7 @@ WalkHistory walkHistory;
 ActionLogger actionLogger;
 
 PeriodicCheckBase periodicCheckBase;
+PeriodicSyncro periodicSyncro;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -899,11 +901,15 @@ int main(int argc, char ** argv)
  */
 
 
- // Инициалиация объекта, отслеживающего различные состояния программы по таймеру
+ // Инициалиация периодической проверки изменения базы сторонними программами
  periodicCheckBase.init();
  periodicCheckBase.setDelay( mytetraConfig.getCheckBasePeriod() );
  periodicCheckBase.start();
 
+ // Инициалиация периодической синхронизации
+ periodicSyncro.init();
+ periodicSyncro.setDelay( mytetraConfig.getPeriodicSyncroPeriod() );
+ periodicSyncro.start();
 
  // При закрытии окна не выходить из программы.
  // Окно программы может быть снова открыто из трея
