@@ -79,7 +79,7 @@ public:
 
  void setRecordtablePositionById(QString id);
 
- void synchronization(void);
+ void synchronization(bool visible=true);
 
  void goWalkHistoryPrevious(void);
  void goWalkHistoryNext(void);

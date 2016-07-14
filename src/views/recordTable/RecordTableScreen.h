@@ -51,6 +51,9 @@ public:
  QAction *actionCopyRecordReference;
  QAction *actionSwitchSelectionMode;
 
+ // Действие, которое может быть вызвано из MainWindows
+ QAction *actionSyncro;
+
 public slots:
 
  // Обновление состояния экранных элементов согласно состоянию записи и положении зиписи в таблице
@@ -80,7 +83,6 @@ private:
 
  QAction *actionMoveUp;
  QAction *actionMoveDn;
- QAction *actionSyncro;
  QAction *actionWalkHistoryPrevious;
  QAction *actionWalkHistoryNext;
   

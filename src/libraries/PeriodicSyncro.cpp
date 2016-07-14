@@ -21,4 +21,9 @@ void PeriodicSyncro::timerEvent(QTimerEvent *)
 {
   qDebug() << "In timer PeriodicSyncro working method";
 
+  // Если команда синхронизации пуста, нечего выполнять
+  if(mytetraConfig.get_synchrocommand().trimmed().length()==0)
+    return;
+
+
 }

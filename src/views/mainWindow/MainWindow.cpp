@@ -832,8 +832,15 @@ void MainWindow::reload(void)
 }
 
 
-void MainWindow::synchronization(void)
+void MainWindow::synchronization(bool visible)
 {
+  // Если кнопка синхронизации заблокирована, начинать синхронизацию нельзя
+  if(!recordTableScreen->actionSyncro->isEnabled())
+    return;
+
+  // Блокируется кнопка синхронизации, чтобы два раза случайно не нажать синхронизацию (окно синхронизации не модально)
+  recordTableScreen->actionSyncro->setEnabled(false);
+
   reloadSaveStage();
 
   // Считывается команда синхронизации
@@ -867,7 +874,7 @@ void MainWindow::synchronization(void)
   exCommand.setMessageText(tr("Synchronization in progress, please wait..."));
 
   exCommand.setCommand(command);
-  exCommand.run();
+  exCommand.run(visible);
 
   reloadLoadStage();
 }
