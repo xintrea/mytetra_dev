@@ -31,7 +31,7 @@
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/TraceLogger.h"
-#include "libraries/TimerMonitoring.h"
+#include "libraries/PeriodicCheckBase.h"
 
 using namespace std;
 
@@ -56,7 +56,7 @@ WalkHistory walkHistory;
 // Логгер действий с данными
 ActionLogger actionLogger;
 
-TimerMonitoring timerMonitoring;
+PeriodicCheckBase periodicCheckBase;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -900,9 +900,9 @@ int main(int argc, char ** argv)
 
 
  // Инициалиация объекта, отслеживающего различные состояния программы по таймеру
- timerMonitoring.init();
- timerMonitoring.setDelay( mytetraConfig.getCheckBasePeriod() );
- timerMonitoring.start();
+ periodicCheckBase.init();
+ periodicCheckBase.setDelay( mytetraConfig.getCheckBasePeriod() );
+ periodicCheckBase.start();
 
 
  // При закрытии окна не выходить из программы.

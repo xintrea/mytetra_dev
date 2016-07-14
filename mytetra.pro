@@ -189,7 +189,8 @@ HEADERS = src/main.h \
     src/views/appConfigWindow/AppConfigPage_Attach.h \
     src/libraries/TimerMonitoring.h \
     src/libraries/PreviewFileDialog.h \
-    src/libraries/IconSelectDialog.h
+    src/libraries/IconSelectDialog.h \
+    src/libraries/PeriodicCheckBase.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -306,7 +307,8 @@ SOURCES = src/main.cpp \
     src/views/appConfigWindow/AppConfigPage_Attach.cpp \
     src/libraries/TimerMonitoring.cpp \
     src/libraries/PreviewFileDialog.cpp \
-    src/libraries/IconSelectDialog.cpp
+    src/libraries/IconSelectDialog.cpp \
+    src/libraries/PeriodicCheckBase.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

@@ -1,11 +1,7 @@
 #include "main.h"
 #include "TimerMonitoring.h"
-#include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
-#include "views/mainWindow/MainWindow.h"
-
-extern AppConfig mytetraConfig;
 
 
 TimerMonitoring::TimerMonitoring(void)
@@ -51,7 +47,7 @@ void TimerMonitoring::setDelay(int sec)
 void TimerMonitoring::start()
 {
   // Если периодическая проверка не разрешена в конфигурации
-  if( !mytetraConfig.getEnablePeriodicCheckBase() )
+  if( !isStartEnabled() )
     return; // Таймер не запускается
 
   timerId=startTimer(delay*1000); // Периодичность таймера должна задаваться в миллисекундах
@@ -65,32 +61,3 @@ void TimerMonitoring::stop()
   timerId=0;
 }
 
-
-// Действия, происходящие по таймеру
-void TimerMonitoring::timerEvent(QTimerEvent *)
-{
-  // qDebug() << "In timer working method";
-
-  QDateTime lastSave=knowTreeModel->getLastSaveDateTime();
-  QDateTime lastLoad=knowTreeModel->getLastLoadDateTime();
-
-  // Если доступа к файла за текущий сеанс ни разу не производилось, нечего сравнивать
-  if(lastSave.isNull() && lastLoad.isNull())
-    return;
-
-  QDateTime lastAccess = lastSave > lastLoad ? lastSave : lastLoad;
-
-  // Время последнего изменения файла дерева
-  QString fileName=mytetraConfig.get_tetradir()+"/mytetra.xml";
-  QFileInfo fileInfo(fileName);
-  QDateTime modifyDateTime=fileInfo.lastModified();
-
-  if(modifyDateTime>lastAccess)
-  {
-    (find_object<MainWindow>("mainwindow"))->reload();
-
-    // Если разрешена выдача сообщения о том, что база данных была изменена
-    if(mytetraConfig.getEnablePeriodicCheckMessage())
-      showMessageBox(tr("Database changet at another program.\nMyTetra reload tree for work with actual data."));
-  }
-}

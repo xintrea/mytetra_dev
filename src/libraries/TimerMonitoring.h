@@ -21,9 +21,10 @@ public:
   void stop();
 
  
-private:
+protected:
 
-  void timerEvent(QTimerEvent *);
+  virtual bool isStartEnabled()=0;
+  virtual void timerEvent(QTimerEvent *)=0;
 
   int delay;
   int timerId;
