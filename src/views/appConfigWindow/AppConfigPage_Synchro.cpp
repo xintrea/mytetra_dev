@@ -5,9 +5,11 @@
 #include "AppConfigPage_Synchro.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/PeriodicCheckBase.h"
+#include "libraries/PeriodicSyncro.h"
 
 extern AppConfig mytetraConfig;
 extern PeriodicCheckBase periodicCheckBase;
+extern PeriodicSyncro periodicSyncro;
 
 
 AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(parent)
@@ -149,6 +151,39 @@ int AppConfigPage_Synchro::applyChanges(void)
   if(mytetraConfig.get_synchroonexit()!=synchroOnExit.isChecked())
     mytetraConfig.set_synchroonexit(synchroOnExit.isChecked());
 
+
+  // Сохраняется период синхронизации
+  // установка периода должна производиться перед обработкой галки включения/выключения
+  if(mytetraConfig.getPeriodicSyncroPeriod()!=synchroPeriod.value())
+  {
+    mytetraConfig.setPeriodicSyncroPeriod( synchroPeriod.value() );
+
+    periodicSyncro.setDelay( synchroPeriod.value() );
+  }
+
+
+  // Сохраняется настройка париодического запуска синхронизации
+  if(mytetraConfig.getEnablePeriodicSyncro()!=synchroOnPeriodic.isChecked())
+  {
+    mytetraConfig.setEnablePeriodicSyncro(synchroOnPeriodic.isChecked());
+
+    if( mytetraConfig.getEnablePeriodicSyncro() )
+      periodicSyncro.start();
+    else
+      periodicSyncro.stop();
+  }
+
+
+  // Сохраняется период проверки дерева базы
+  // установка периода должна производиться перед обработкой галки включения/выключения
+  if(mytetraConfig.getCheckBasePeriod()!=checkBasePeriod.value())
+  {
+    mytetraConfig.setCheckBasePeriod( checkBasePeriod.value() );
+
+    periodicCheckBase.setDelay( checkBasePeriod.value() );
+  }
+
+
   // Сохраняется разрешение переодически проверять дерево базы
   if(mytetraConfig.getEnablePeriodicCheckBase()!=enablePeriodicCheckBase.isChecked())
   {
@@ -158,14 +193,6 @@ int AppConfigPage_Synchro::applyChanges(void)
       periodicCheckBase.start();
     else
       periodicCheckBase.stop();
-  }
-
-  // Сохраняется период проверки
-  if(mytetraConfig.getCheckBasePeriod()!=checkBasePeriod.value())
-  {
-    mytetraConfig.setCheckBasePeriod( checkBasePeriod.value() );
-
-    periodicCheckBase.setDelay( checkBasePeriod.value() );
   }
 
   // Сохраняется разрешение выводить сообщение при внешнем изменении базы
