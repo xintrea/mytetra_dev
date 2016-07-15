@@ -118,9 +118,6 @@ void ExecuteCommand::run(bool visible)
 
  // Создается виджет эмулятора консоли
  console=new ConsoleEmulator();
-
- connect(console, SIGNAL(finishWork()), this, SLOT(onConsoleFinishWork()));
-
  console->setWindowTitle(windowTitle);
  console->setMessageText(messageText);
  console->setConsoleOutput(commandLine+"\n");
@@ -221,12 +218,3 @@ void ExecuteCommand::errorHanler(QProcess::ProcessError error)
  isError=true;
 }
 
-
-// Подумать, а нужен ли этот слот
-void ExecuteCommand::onConsoleFinishWork()
-{
-  qDebug() << "ExecuteCommand::onConsoleFinishWork()";
-
-  // Для отладки слот ничего не делает
-  // emit finishWork();
-}

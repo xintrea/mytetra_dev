@@ -26,10 +26,6 @@ public:
 signals:
  void finishWork();
 
-
-public slots:
- void onConsoleFinishWork();
-
 private slots:
 
  void manualCloseProcess(void);
