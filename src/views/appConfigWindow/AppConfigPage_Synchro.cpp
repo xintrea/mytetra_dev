@@ -59,6 +59,9 @@ void AppConfigPage_Synchro::setupUi(void)
 
   synchroOnBox.setLayout( &synchroOnLayout );
 
+  // Начальное состояние зависимых параметров (активны-неактивны) для периодической синхронизации
+  onEnablePeriodicSyncro( mytetraConfig.getEnablePeriodicSyncro() );
+
 
   // Виджеты настройки периодической проверки базы на предмет изменений
   enablePeriodicCheckBase.setText( tr("Periodic check database tree for change at 3rd-party app") ); // Периодически проверять дерево базы на предмет изменения сторонней программой
@@ -105,6 +108,7 @@ void AppConfigPage_Synchro::assembly(void)
 void AppConfigPage_Synchro::setupSignals(void)
 {
   connect( &enablePeriodicCheckBase, SIGNAL( toggled(bool) ), this, SLOT( onEnablePeriodicCheckBase(bool) ) );
+  connect( &synchroOnPeriodic, SIGNAL( toggled(bool) ), this, SLOT( onEnablePeriodicSyncro(bool) ) );
 }
 
 
@@ -117,6 +121,13 @@ void AppConfigPage_Synchro::onEnablePeriodicCheckBase(bool state)
   enablePeriodicCheckMessage.setEnabled(state);
 }
 
+
+void AppConfigPage_Synchro::onEnablePeriodicSyncro(bool state)
+{
+  synchroPeriodText.setEnabled(state);
+  synchroPeriod.setEnabled(state);
+  synchroPeriodPostfix.setEnabled(state);
+}
 
 
 // Метод должен возвращать уровень сложности сделанных изменений
