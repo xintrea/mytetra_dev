@@ -29,6 +29,9 @@ void AppConfigPage_Synchro::setupUi(void)
 
   synchroOnExit.setText(tr("Synchronize when exit from MyTetra"));
   synchroOnExit.setChecked(mytetraConfig.get_synchroonexit());
+
+  synchroOnPeriodic.setText(tr("Enable periodic synchronize"));
+  synchroOnPeriodic.setChecked(mytetraConfig.getEnablePeriodicSyncro());
   
   // Область ввода команды синхронизации
   commandText.setText(tr("Synchronization command"));
@@ -39,17 +42,29 @@ void AppConfigPage_Synchro::setupUi(void)
   // Группировщик виджетов для настройки автоматического старта синхронизации
   synchroOnBox.setTitle(tr("Automatic start synchronization"));
 
-  // Виджеты вставляются в группировщик
+  // Виджеты автоматического старта синхронизации вставляются в группировщик
   synchroOnLayout.addWidget( &synchroOnStartup );
   synchroOnLayout.addWidget( &synchroOnExit );
+  synchroOnLayout.addWidget( &synchroOnPeriodic );
+
+  synchroPeriodText.setText( tr("Synchronization period: ") );
+  synchroPeriod.setValue( mytetraConfig.getPeriodicSyncroPeriod() );
+  synchroPeriodPostfix.setText( tr("sec.") );
+
+  synchroPeriodLayout.addWidget( &synchroPeriodText );
+  synchroPeriodLayout.addWidget( &synchroPeriod );
+  synchroPeriodLayout.addWidget( &synchroPeriodPostfix );
+  synchroPeriodLayout.addStretch();
+  synchroOnLayout.addLayout( &synchroPeriodLayout );
+
   synchroOnBox.setLayout( &synchroOnLayout );
 
 
-  // Виджеты настройки периодической проверки
+  // Виджеты настройки периодической проверки базы на предмет изменений
   enablePeriodicCheckBase.setText( tr("Periodic check database tree for change at 3rd-party app") ); // Периодически проверять дерево базы на предмет изменения сторонней программой
   enablePeriodicCheckBase.setChecked( mytetraConfig.getEnablePeriodicCheckBase() );
 
-  checkBasePeriodText.setText( tr("Cheking periodic: ") );
+  checkBasePeriodText.setText( tr("Cheking period: ") );
   checkBasePeriod.setValue( mytetraConfig.getCheckBasePeriod() );
   checkBasePeriodPostfix.setText( tr("sec.") );
 

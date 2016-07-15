@@ -38,8 +38,14 @@ protected:
 
   QCheckBox   synchroOnStartup;
   QCheckBox   synchroOnExit;
+  QCheckBox   synchroOnPeriodic;
   QVBoxLayout synchroOnLayout;
   QGroupBox   synchroOnBox;
+
+  QLabel      synchroPeriodText;
+  QSpinBox    synchroPeriod;
+  QLabel      synchroPeriodPostfix;
+  QHBoxLayout synchroPeriodLayout;
 
 
   // Виджеты настройки периодической проверки
