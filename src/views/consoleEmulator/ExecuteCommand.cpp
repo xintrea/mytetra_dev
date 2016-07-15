@@ -102,6 +102,7 @@ void ExecuteCommand::closeProcess(void)
 }
 
 
+// Метод с основным циклом ожидания завершения процесса
 void ExecuteCommand::run(bool visible)
 {
  // Если командный интерпретатор не установлен
@@ -118,7 +119,7 @@ void ExecuteCommand::run(bool visible)
  // Создается виджет эмулятора консоли
  console=new ConsoleEmulator();
 
- connect(console, SIGNAL(dialogHide()), this, SLOT(onConsoleHide()));
+ connect(console, SIGNAL(finishWork()), this, SLOT(onConsoleFinishWork()));
 
  console->setWindowTitle(windowTitle);
  console->setMessageText(messageText);
@@ -178,6 +179,8 @@ void ExecuteCommand::run(bool visible)
 
  delete process;
 
+ emit finishWork();
+
  qDebug() << "Process stop";
 }
 
@@ -219,61 +222,11 @@ void ExecuteCommand::errorHanler(QProcess::ProcessError error)
 }
 
 
-void ExecuteCommand::onConsoleHide()
+// Подумать, а нужен ли этот слот
+void ExecuteCommand::onConsoleFinishWork()
 {
-  qDebug() << "ExecuteCommand::onConsoleHide()";
+  qDebug() << "ExecuteCommand::onConsoleFinishWork()";
 
-  emit dialogHide();
+  // Для отладки слот ничего не делает
+  // emit finishWork();
 }
-
-
-/*
-void ExecuteCommand::run(void)
-{
- if(shell.length()==0)
-  critical_error("ExecuteCommand::run() : Not detect available shell");
-
- QString commandLine=shell.toAscii()+" \""+command.toAscii()+"\"";
-
- ConsoleEmulator console;
- console.setWindowTitle(windowTitle);
- console.setMessageText(messageText);
- console.setConsoleOutput(commandLine);
- console.show();
-
-
- qDebug() << "Run shell" << shell;
- qDebug() << "Run command" << command;
-
-
- QProcess process;
- process.start(commandLine);
-
- qDebug() << "Process started";
-
- qApp->processEvents();
-
- while(process.state()!=QProcess::NotRunning)
-  {
-   if(process.waitForReadyRead())
-    {
-     QString output=QString::fromAscii(process.readAll().data());
-
-     if(output.length()>0)
-      {
-       console.addConsoleOutput(output);
-
-       qApp->processEvents();
-
-       qDebug() << "[Console] " << output;
-      }
-    }
-
-   // if((rand()%10)==1) qApp->processEvents();
-  }
-
- console.hide();
-
- qDebug() << "Process stop";
-}
-*/

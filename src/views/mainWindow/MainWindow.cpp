@@ -867,8 +867,8 @@ void MainWindow::synchronization(bool visible)
   // Запуск команды синхронизации
   ExecuteCommand exCommand;
 
-  // Связывание сигнала закрытия окна выполнения команды синхронизации со слотом, срабатывающем при закрытии окна
-  connect(&exCommand, SIGNAL(dialogHide()), recordTableScreen, SLOT(onExecuteCommandConsoleHide()));
+  // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
+  connect(&exCommand, SIGNAL(finishWork()), recordTableScreen, SLOT(onExecuteCommandFinishWork()));
 
   exCommand.setWindowTitle(tr("MyTetra synchronization"));
   exCommand.setMessageText(tr("Synchronization in progress, please wait..."));

@@ -24,11 +24,11 @@ public:
  void setMessageText(QString text);
 
 signals:
- void dialogHide();
+ void finishWork();
 
 
 public slots:
- void onConsoleHide();
+ void onConsoleFinishWork();
 
 private slots:
 
