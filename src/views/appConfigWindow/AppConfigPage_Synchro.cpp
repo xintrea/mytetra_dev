@@ -50,8 +50,8 @@ void AppConfigPage_Synchro::setupUi(void)
   synchroOnLayout.addWidget( &synchroOnPeriodic );
 
   synchroPeriodText.setText( tr("Synchronization period: ") );
+  synchroPeriod.setMaximum( 100000 ); // Максимальная граница должна устанавливаться перед заданием значения
   synchroPeriod.setValue( mytetraConfig.getPeriodicSyncroPeriod() );
-  synchroPeriod.setMaximum( 100000 );
   synchroPeriodPostfix.setText( tr("sec.") );
 
   synchroPeriodLayout.addWidget( &synchroPeriodText );
@@ -71,8 +71,8 @@ void AppConfigPage_Synchro::setupUi(void)
   enablePeriodicCheckBase.setChecked( mytetraConfig.getEnablePeriodicCheckBase() );
 
   checkBasePeriodText.setText( tr("Cheking period: ") );
+  checkBasePeriod.setMaximum( 100000 ); // Максимальная граница должна устанавливаться перед заданием значения
   checkBasePeriod.setValue( mytetraConfig.getCheckBasePeriod() );
-  checkBasePeriod.setMaximum( 100000 );
   checkBasePeriodPostfix.setText( tr("sec.") );
 
   checkBasePeriodLayout.addWidget( &checkBasePeriodText );
