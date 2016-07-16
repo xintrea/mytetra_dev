@@ -33,11 +33,14 @@ extern FixedParameters fixedParameters;
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
 {
- setupActions();
- setupUI();
- setupModels();
- setupSignals();
- assembly();
+  lastKnowTreeModifyDateTime=QDateTime();
+  lastKnowTreeSize=0;
+
+  setupActions();
+  setupUI();
+  setupModels();
+  setupSignals();
+  assembly();
 }
 
 
@@ -1574,12 +1577,44 @@ void TreeScreen::treeCryptControl(void)
 // Сохранение дерева веток на диск
 void TreeScreen::saveKnowTree(void)
 {
- knowTreeModel->save();
+  knowTreeModel->save();
+
+  updateLastKnowTreeData( QFileInfo(), false );
 }
 
 
 // Перечитывание дерева веток с диска
-void TreeScreen::reloadKnowTree(void)
+bool TreeScreen::reloadKnowTree(void)
 {
- knowTreeModel->reload();
+  // Если по каким-то причинам нет данных о файле сохраненного дерева
+  if(lastKnowTreeModifyDateTime.isValid()==false || lastKnowTreeSize==0)
+  {
+    knowTreeModel->reload();
+    updateLastKnowTreeData( QFileInfo(), false );
+    qDebug() << "Reload XML data if last data not found";
+    return true;
+  }
+
+  // Если сохраненные ранее данные отличаются от текущих
+  QFileInfo fileInfo( knowTreeModel->getXmlFileName() );
+  if(fileInfo.lastModified()!=lastKnowTreeModifyDateTime || fileInfo.size()!=lastKnowTreeSize)
+  {
+    knowTreeModel->reload();
+    updateLastKnowTreeData( fileInfo, true );
+    qDebug() << "Reload XML data";
+    return true;
+  }
+
+  qDebug() << "Skip reload XML data";
+  return false;
+}
+
+
+void TreeScreen::updateLastKnowTreeData(QFileInfo fileInfo, bool fileInfoValid)
+{
+  if(fileInfoValid==false)
+    fileInfo=QFileInfo( knowTreeModel->getXmlFileName() );
+
+  lastKnowTreeModifyDateTime=fileInfo.lastModified();
+  lastKnowTreeSize=fileInfo.size();
 }

@@ -1383,6 +1383,12 @@ bool KnowTreeModel::isContainsBlockRecordsRecurse(TreeItem *item, int mode)
 }
 
 
+QString KnowTreeModel::getXmlFileName() const
+{
+  return xmlFileName;
+}
+
+
 // Старый вариант поиска QModelIndex по известному TreeItem закомментирован,
 // но алгоритм может пригодиться для поиска других данных
 /*

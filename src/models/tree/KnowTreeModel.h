@@ -86,6 +86,8 @@ public:
     QDateTime getLastSaveDateTime();
     QDateTime getLastLoadDateTime();
 
+    QString getXmlFileName() const;
+
 private:
 
     QString xmlFileName;

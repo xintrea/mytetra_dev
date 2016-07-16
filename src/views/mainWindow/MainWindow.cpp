@@ -813,11 +813,13 @@ void MainWindow::reloadLoadStage(void)
   walkHistory.setDrop(true);
 
   // Заново считываются данные в дерево
-  treeScreen->reloadKnowTree();
-  restoreTreePosition();
-  restoreRecordTablePosition();
-  restoreEditorCursorPosition();
-  restoreEditorScrollBarPosition();
+  if( treeScreen->reloadKnowTree() )
+  {
+    restoreTreePosition();
+    restoreRecordTablePosition();
+    restoreEditorCursorPosition();
+    restoreEditorScrollBarPosition();
+  }
 
   // Разблокируется история посещений элементов
   walkHistory.setDrop(false);

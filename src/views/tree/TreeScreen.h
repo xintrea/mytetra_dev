@@ -9,6 +9,8 @@
 #include <QVBoxLayout>
 #include <QToolBar>
 #include <QInputDialog>
+#include <QFileInfo>
+#include <QDateTime>
 
 class KnowTreeModel;
 class KnowTreeView;
@@ -28,7 +30,7 @@ public:
  KnowTreeModel *knowTreeModel;
 
  void saveKnowTree(void);
- void reloadKnowTree(void);
+ bool reloadKnowTree(void);
 
  void updateSelectedBranch(void);
 
@@ -82,6 +84,9 @@ private:
 
  QVBoxLayout *treeScreenLayout;
 
+ QDateTime lastKnowTreeModifyDateTime;
+ qint64    lastKnowTreeSize;
+
  void setupUI(void);
  void setupModels(void);
  void setupSignals(void);
@@ -103,6 +108,8 @@ private:
 
  void encryptBranchItem(void);
  void decryptBranchItem(void);
+
+ void updateLastKnowTreeData(QFileInfo fileInfo, bool fileInfoValid);
 };
 
 
