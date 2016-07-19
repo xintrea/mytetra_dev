@@ -94,7 +94,7 @@ void ActionLogView::paintEvent(QPaintEvent *event)
       QPainter painter(viewport());
       painter.setPen( QApplication::palette().color(QPalette::ToolTipText) ); // Qt::gray
       // painter.setFont(QFont("Arial", 14));
-      painter.drawText(rect(), Qt::AlignCenter, tr("Action log is empty\nPlease set enable for action logging in Tools -> Preferences -> Misc"));
+      painter.drawText(rect(), Qt::AlignCenter, tr("Action log is empty\nPlease enable action logging in Tools -> Preferences -> Misc"));
     }
 }
 

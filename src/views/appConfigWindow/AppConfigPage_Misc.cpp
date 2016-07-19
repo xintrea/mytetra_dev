@@ -30,7 +30,7 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
 
   // Разрешение/запрещение лога действий
   enableActionLog=new QCheckBox(this);
-  enableActionLog->setText(tr("Enable action logging"));
+  enableActionLog->setText(tr("Enable action logging (experimental)"));
   enableActionLog->setChecked(mytetraConfig.getEnableLogging());
 
 

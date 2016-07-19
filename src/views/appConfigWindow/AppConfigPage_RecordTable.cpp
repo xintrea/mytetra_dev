@@ -29,7 +29,7 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
     QString name=allFieldNames[i];
     fields[ name ]=new QCheckBox(this);
 
-    fields[ name ]->setText( tr(descriptionFields.value(name).toLocal8Bit().data()) );
+    fields[ name ]->setText( descriptionFields.value(name) ); // Ранее было tr(descriptionFields.value(name).toLocal8Bit().data()), разобраться зачем
 
     if( showFields.contains(name) )
       fields[ name ]->setCheckState( Qt::Checked );
