@@ -8,6 +8,9 @@
 #include "ExecuteCommand.h"
 #include "ConsoleEmulator.h"
 #include "main.h"
+#include "libraries/ActionLogger.h"
+
+extern ActionLogger actionLogger;
 
 
 ExecuteCommand::ExecuteCommand(QObject *parent) : QObject(parent)
@@ -214,6 +217,10 @@ void ExecuteCommand::printOutput(QProcess *process, ConsoleEmulator *console)
 void ExecuteCommand::errorHanler(QProcess::ProcessError error)
 {
  qDebug() << "ExecuteCommand::errorHanler(): Detect error! Error code: " << error;
+
+ QMap<QString, QString> data;
+ data["errCode"]=QString::number(error);
+ actionLogger.addAction("syncroProcessError", data);
 
  isError=true;
 }

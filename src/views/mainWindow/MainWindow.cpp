@@ -843,6 +843,8 @@ void MainWindow::synchronization(bool visible)
   // Блокируется кнопка синхронизации, чтобы два раза случайно не нажать синхронизацию (окно синхронизации не модально)
   recordTableScreen->actionSyncro->setEnabled(false);
 
+  actionLogger.addAction("startSyncro");
+
   reloadSaveStage();
 
   // Считывается команда синхронизации
@@ -879,6 +881,8 @@ void MainWindow::synchronization(bool visible)
   exCommand.run(visible);
 
   reloadLoadStage();
+
+  actionLogger.addAction("stopSyncro");
 }
 
 

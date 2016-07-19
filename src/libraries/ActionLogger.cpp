@@ -42,6 +42,11 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
   actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
 
+  actionStructure["startSyncro"];
+  actionStructure["stopSyncro"];
+  actionStructure["syncroProcessError"] = (QStringList() << "errCode" );
+  actionStructure["syncroError"];
+
   actionStructure["criticalError"] =(QStringList() << "errorMessage" );
 
   // По-умолчанию логирование запрещено
@@ -229,6 +234,18 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
                                                                          arg( iData["recordId"] ).
                                                                          arg( iData["branchName"] ).
                                                                          arg( iData["branchId"] );
+
+  else if( iData["a"] == "startSyncro")
+    line=tr("Start synchronization");
+
+  else if( iData["a"] == "stopSyncro")
+    line=tr("Stop synchronization");
+
+  else if( iData["a"] == "syncroProcessError")
+    line=tr("Synchronization process error detected. Error code: %1").arg( iData["errCode"]);
+
+  else if( iData["a"] == "syncroError")
+    line=tr("Synchronization error");
 
   else if( iData["a"] == "criticalError")
     line=tr("Critical error: %1").arg( iData["errorMessage"] );

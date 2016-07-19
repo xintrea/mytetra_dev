@@ -5,9 +5,10 @@
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "libraries/ActionLogger.h"
 
 extern AppConfig mytetraConfig;
-
+extern ActionLogger actionLogger;
 
 ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 {
@@ -169,6 +170,8 @@ void ConsoleEmulator::switchToErrorView(void)
  qDebug() << "ConsoleEmulator::switchToErrorView() : Detect error!";
 
  isError=true;
+
+ actionLogger.addAction("syncroError");
 
  // Верхняя строка скрывается
  // QLayoutItem *child;
