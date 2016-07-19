@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QDateTime>
+#include <QCommonStyle>
 
 #include "main.h"
 #include "ActionLogModel.h"
@@ -43,7 +44,7 @@ int ActionLogModel::rowCount(const QModelIndex& parent) const
 // Получение данных
 QVariant ActionLogModel::data(const QModelIndex& index, int role) const
 {
-  if (index.isValid() && role == Qt::DisplayRole)
+  if (index.isValid() && (role == Qt::DisplayRole || role == Qt::DecorationRole))
     return getCell(index.row(), index.column(), role);
 
   return QVariant();
@@ -77,7 +78,18 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
         return QVariant( element.attribute("t") ); // Время передается в сыром виде (формат TIMESTAMP), чтобы была возможность сортировки
 
     case ACTIONLOG_COLUMN_ACTION:
-      return QVariant( actionLogger.getFullDescription(element) );
+      if(role==Qt::DisplayRole)
+        return QVariant( actionLogger.getFullDescription(element) );
+
+      // Вывод иконок
+      if(role==Qt::DecorationRole)
+      {
+        if(element.attribute("a")=="syncroProcessError" || element.attribute("a")=="syncroError")
+          return QCommonStyle().standardIcon(QStyle::SP_MessageBoxWarning);
+
+        if(element.attribute("a")=="criticalError")
+          return QCommonStyle().standardIcon(QStyle::SP_MessageBoxCritical);
+      }
 
     default:
       return QVariant();
