@@ -56,7 +56,7 @@ void AppConfigPage_Attach::assembly(void)
   decorBoxlayout->addLayout( colorLayout );
 
   // Рамка
-  decorBox.setTitle( tr("Notes with attachments decor") );
+  decorBox.setTitle( tr("Displaying notes with attachments") );
   decorBox.setLayout( decorBoxlayout );
 
   // Собирается основной слой

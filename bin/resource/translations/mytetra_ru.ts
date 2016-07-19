@@ -213,7 +213,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Attach.cpp" line="26"/>
         <source>Enable highlight notes with attachments</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить подсветку записей с прикрепленными файлами</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Attach.cpp" line="30"/>
@@ -223,7 +223,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Attach.cpp" line="59"/>
         <source>Notes with attachments decor</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение записей с прикрепленными файлами</translation>
     </message>
 </context>
 <context>
@@ -282,12 +282,12 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Crypt.cpp" line="138"/>
         <source>File decrypt method for attach preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Метод расшифровки прикрепляемых файлов при предпросмотре</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Crypt.cpp" line="140"/>
         <source>Enable temporary decrypt attach file to trash directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешить временную расшифровку прикрепленного файла в директорию корзины</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Crypt.cpp" line="199"/>
@@ -379,17 +379,17 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="92"/>
         <source>Date and time show settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение даты и времени</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
         <source>Show date and time by OS locale settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображать дату и время согласно настройкам операционной системы</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="95"/>
         <source>Custom date and time show format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Использовать вручную заданный формат даты и времени</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="311"/>
@@ -2390,12 +2390,12 @@ MyTetra reload tree for work with actual data.</source>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="239"/>
         <source>Bad link. File not found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Некорректный линк. Файл не найден.</translation>
     </message>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="350"/>
         <source>Can&apos;t open file %1. File not exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно открыть файл %1. Файл не существует.</translation>
     </message>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="361"/>
@@ -2433,17 +2433,17 @@ MyTetra reload tree for work with actual data.</source>
     <message>
         <location filename="../../../src/views/record/RecordInfoFieldsEditor.cpp" line="48"/>
         <source>Ctrl+Enter</source>
-        <translation type="unfinished">Ctrl+Enter</translation>
+        <translation>Ctrl+Enter</translation>
     </message>
     <message>
         <location filename="../../../src/views/record/RecordInfoFieldsEditor.cpp" line="87"/>
         <source>Please enter the note&apos;s &lt;b&gt;title&lt;/b&gt;.</source>
-        <translation type="unfinished">Пожалуйста, введите &lt;b&gt;название&lt;/b&gt; записи.</translation>
+        <translation>Пожалуйста, введите &lt;b&gt;название&lt;/b&gt; записи.</translation>
     </message>
     <message>
         <location filename="../../../src/views/record/RecordInfoFieldsEditor.cpp" line="92"/>
         <source>The note&apos;s fields cannot be modified</source>
-        <translation type="unfinished">Поля записи не могут быть отредактированы</translation>
+        <translation>Поля записи не могут быть отредактированы</translation>
     </message>
 </context>
 <context>
@@ -2508,7 +2508,7 @@ MyTetra reload tree for work with actual data.</source>
     <message>
         <location filename="../../../src/views/recordTable/RecordTablePrint.cpp" line="169"/>
         <source>HTML Files (*.html)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../../src/views/recordTable/RecordTablePrint.cpp" line="175"/>

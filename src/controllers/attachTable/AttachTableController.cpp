@@ -355,7 +355,7 @@ void AttachTableController::onSaveAsAttach(void)
     // Должен быть выбран только один файл
     if(selectFiles.size()!=1)
     {
-      showMessageBox(tr("For save sigle file you must set single result file name."));
+      showMessageBox(tr("For save single file you must set single result file name."));
       return;
     }
 

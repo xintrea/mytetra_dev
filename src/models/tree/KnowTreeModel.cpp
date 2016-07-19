@@ -661,7 +661,7 @@ void KnowTreeModel::save()
 {
   // Если имя файла небыло проинициализировано
   if(xmlFileName=="")
-    criticalError(tr("In KnowTreeModel can't set file name for XML file"));
+    criticalError("In KnowTreeModel can't set file name for XML file");
 
   // Перенос текущего файла дерева в корзину
   DiskHelper::removeFileToTrash(xmlFileName);
