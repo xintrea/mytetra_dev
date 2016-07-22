@@ -121,11 +121,11 @@ void AttachTableController::onAddAttachFromUrl(void)
   // Запуск виджета скачивания файлов
   downloader.run();
 
-  // Если при скачивании изображений появились какие-то ошибки
+  // Если при скачивании файлов появились какие-то ошибки
   if(!downloader.isSuccess())
   {
     QMessageBox msgBox;
-    msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
+    msgBox.setText(tr("Probably error in a process of files download."));
 
     if(downloader.getErrorLog().length()>0)
       msgBox.setDetailedText(downloader.getErrorLog());
@@ -178,7 +178,7 @@ void AttachTableController::addSmart(QString attachType)
     // Если пользователь выбрал директорию (директорию выбирать нельзя, пока что можно выбирать только файлы)
     if(currFileInfo.isDir())
     {
-      showMessageBox(tr("Can't add directory. Please, select files."));
+      showMessageBox(tr("Select Error. Choose file(s)."));
       break;
     }
 
@@ -236,7 +236,7 @@ bool AttachTableController::addAttach(QString attachType, QString currFullFileNa
   }
   else
   {
-    showMessageBox(tr("An error occurred while copying file(s). File(s) can't attach."));
+    showMessageBox(tr("Error copying file(s). Unable to attach file(s)."));
     return false;
   }
 }
@@ -311,7 +311,7 @@ void AttachTableController::onSaveAsAttach(void)
   // Если ни один аттач не выбран
   if(selectedId.size()==0)
   {
-    showMessageBox(tr("Please select any attach(es) for save to your directory."));
+    showMessageBox(tr("Please, select at least one attached file to save."));
     return;
   }
 
@@ -355,7 +355,7 @@ void AttachTableController::onSaveAsAttach(void)
     // Должен быть выбран только один файл
     if(selectFiles.size()!=1)
     {
-      showMessageBox(tr("For save single file you must set single result file name."));
+      showMessageBox(tr("To save single file you must set single result file name."));
       return;
     }
 
@@ -416,7 +416,7 @@ void AttachTableController::saveAttachToUserPlace(QString fromFullFileName, QStr
 
   if(file.exists()==false)
   {
-    showMessageBox(tr("Can't save file. File %1 not exists in database.").arg(fromFullFileName));
+    showMessageBox(tr("Unable to save the file: file %1 not found in the database.").arg(fromFullFileName));
     return;
   }
 
@@ -425,7 +425,7 @@ void AttachTableController::saveAttachToUserPlace(QString fromFullFileName, QStr
 
   if(!result)
   {
-    showMessageBox(tr("Can't save file %1. Any i/o problem.").arg(toFullFileName));
+    showMessageBox(tr("Unable to save the file: file %1 input/output error.").arg(toFullFileName));
     return;
   }
 
@@ -496,7 +496,7 @@ void AttachTableController::onDeleteAttach(void)
 
   // Запрос подтверждения об удалении
   QMessageBox msgBox;
-  msgBox.setText(tr("Do you want to delete attach file(s)?"));
+  msgBox.setText(tr("Do you want to delete attached file(s)?"));
   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
   msgBox.setDefaultButton(QMessageBox::Cancel);
   int ret = msgBox.exec();
@@ -545,7 +545,7 @@ void AttachTableController::onOpenAttach(void)
       }
       else
       {
-        showMessageBox(tr("Can't preview encrypted attach file %1.\n\nUse \"Save As...\" button or enable decrypt to temporary file in settings.").arg(fullFileName));
+        showMessageBox(tr("Unable to preview the encrypted attached file %1.\nPlease, use «Save As...» button, or\nenable «Decrypt to a temporary file» option in Settings.").arg(fullFileName));
         continue;
       }
     }
@@ -570,7 +570,7 @@ void AttachTableController::onShowAttachInfo(void)
   // Если выбрано больше одного аттача
   if(selectedId.size()>1)
   {
-    showMessageBox(tr("Please select single attach for see info."));
+    showMessageBox(tr("Please, select a single file to see information about one."));
     return;
   }
 

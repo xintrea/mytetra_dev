@@ -63,7 +63,7 @@ void KnowTreeModel::init(QDomDocument *domModel)
   // Проверка формата XML-файла
   if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
   {
-    criticalError(tr("Unsupported format version for data base.\nPlease upgrade your MyTetra application."));
+    criticalError(tr("Unsupported version of the database format.\nYou need to update MyTetra."));
     return;
   }
 
@@ -284,7 +284,7 @@ bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportD
   QFile wfile(mytetraXmlFile);
   if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-    showMessageBox(tr("Cant open export file %1 for write.").arg(mytetraXmlFile));
+    showMessageBox(tr("The exporting file %1 is not writable.").arg(mytetraXmlFile));
     return false;
   }
   QTextStream out(&wfile);

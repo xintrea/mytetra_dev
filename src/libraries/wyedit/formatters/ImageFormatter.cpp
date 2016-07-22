@@ -392,7 +392,7 @@ void ImageFormatter::onDownloadImages(const QString html)
     if(!downloader.isSuccess())
     {
       QMessageBox msgBox;
-      msgBox.setText(tr("Error at download process. Maybe not all images is dowload."));
+      msgBox.setText(tr("Probably error in a process of images download."));
 
       if(downloader.getErrorLog().length()>0)
         msgBox.setDetailedText(downloader.getErrorLog());

@@ -134,7 +134,7 @@ void IconSelectDialog::setPath(QString iPath)
   // Если директорию по переданному пути невозможно прочитать
   if( !QFileInfo(iPath).isReadable() )
   {
-    showMessageBox(tr("The icon directory %1 is not readable.").arg(iPath));
+    showMessageBox(tr("The icons directory %1 is not readable.").arg(iPath));
     return;
   }
 
@@ -149,7 +149,7 @@ void IconSelectDialog::setPath(QString iPath)
   // Если нет никаких поддиректорий, значит нет и секций
   if(subdirList.count()==0)
   {
-    showMessageBox(tr("Not found any icon sections in directory %1").arg(iPath));
+    showMessageBox(tr("The directory %1 has not any icon section.").arg(iPath));
     this->close();
     return;
   }
@@ -180,7 +180,7 @@ void IconSelectDialog::setPath(QString iPath)
 
     if(!find)
     {
-      showMessageBox(tr("Can't set default section: %1").arg(defaultSectionName));
+      showMessageBox(tr("Unable to set a default section %1.").arg(defaultSectionName));
       return;
     }
   }
@@ -238,7 +238,7 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
   // Если в выбранной секции нет никаких иконок
   if(iconFileList.count()==0)
   {
-    showMessageBox(tr("In section \"%1\" icons not found").arg(iText));
+    showMessageBox(tr("The section \"%1\" has not any icons").arg(iText));
     this->close();
     return;
   }
