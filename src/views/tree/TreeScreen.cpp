@@ -972,7 +972,7 @@ bool TreeScreen::copyBranch(void)
  // Копирование в буфер
  // -------------------
 
- qDebug() << "Branch copy to buffer";
+ qDebug() << "Tree item copy to buffer";
 
  // Создается ссылка на буфер обмена
  QClipboard *cbuf=QApplication::clipboard();

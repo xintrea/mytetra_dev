@@ -38,7 +38,7 @@ void ClipboardBranch::print(void) const
  foreach(branch_type current_branch, branchData.branch)
  {
   // Перебираются и печатаются значения полей текущей ветки
-  qDebug() << "Branch:";
+  qDebug() << "Tree item fields:";
   foreach(QString field_name, current_branch.keys())
    if(field_name=="id" || field_name=="name")
     qDebug() << field_name << ":" << current_branch.value(field_name);

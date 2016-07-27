@@ -52,14 +52,22 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation>Завершение работы программы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="161"/>
         <source>Create record &quot;%1&quot; with ID %2 in branch &quot;%3&quot; with ID %4</source>
-        <translation>Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+        <translation type="vanished">Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <source>Create crypt record &quot;%1&quot; with ID %2 in branch &quot;%3&quot; with ID %4</source>
+        <translation type="vanished">Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="161"/>
+        <source>Create record &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="180"/>
-        <source>Create crypt record &quot;%1&quot; with ID %2 in branch &quot;%3&quot; with ID %4</source>
-        <translation>Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+        <source>Create crypt record &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="187"/>
@@ -103,13 +111,21 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="227"/>
-        <source>Start drag record &quot;%1&quot; with ID %2 from branch &quot;%3&quot; with ID %4</source>
-        <translation>Начало перетаскивания записи &quot;%1&quot; с ID %2 из ветки &quot;%3&quot; с ID %4</translation>
+        <source>Start drag record &quot;%1&quot; with ID %2 from tree item &quot;%3&quot; with ID %4</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="233"/>
+        <source>Drop record &quot;%1&quot; with ID %2 to tree item &quot;%3&quot; with ID %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start drag record &quot;%1&quot; with ID %2 from branch &quot;%3&quot; with ID %4</source>
+        <translation type="vanished">Начало перетаскивания записи &quot;%1&quot; с ID %2 из ветки &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
         <source>Drop record &quot;%1&quot; with ID %2 to branch &quot;%3&quot; with ID %4</source>
-        <translation>Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
+        <translation type="vanished">Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="239"/>
@@ -222,8 +238,12 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Attach.cpp" line="59"/>
+        <source>Displaying notes with attachments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Notes with attachments decor</source>
-        <translation>Отображение записей с прикрепленными файлами</translation>
+        <translation type="vanished">Отображение записей с прикрепленными файлами</translation>
     </message>
 </context>
 <context>
@@ -377,19 +397,16 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="92"/>
         <source>Date and time show settings</source>
-        <translation>Отображение даты и времени</translation>
+        <translation type="vanished">Отображение даты и времени</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
         <source>Show date and time by OS locale settings</source>
-        <translation>Отображать дату и время согласно настройкам операционной системы</translation>
+        <translation type="vanished">Отображать дату и время согласно настройкам операционной системы</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="95"/>
         <source>Custom date and time show format</source>
-        <translation type="unfinished">Использовать вручную заданный формат даты и времени</translation>
+        <translation type="obsolete">Использовать вручную заданный формат даты и времени</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="311"/>
@@ -405,6 +422,21 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="76"/>
         <source>files</source>
         <translation>файлов</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="92"/>
+        <source>Date and time format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
+        <source>Locale settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="95"/>
+        <source>Custom format</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="224"/>
@@ -501,9 +533,13 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Синхронизировать при выходе из MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="35"/>
         <source>Enable periodic synchronize</source>
-        <translation>Включить периодическую синхронизацию</translation>
+        <translation type="vanished">Включить периодическую синхронизацию</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="35"/>
+        <source>Enable periodic background synchronize</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="39"/>
@@ -543,7 +579,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="83"/>
-        <source>Show message if database tree is changed at 3rd-party app</source>
+        <source>Show message if a database tree was changed by external app</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -561,19 +597,8 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Скачивание файла</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="128"/>
-        <source>Error at download process. Maybe not all images is dowload.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="181"/>
         <source>Can&apos;t add directory. Please, select files.</source>
-        <translation type="unfinished">Невозможно добавить директорию. Пожалуйста, выберите файлы.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="239"/>
-        <source>An error occurred while copying file(s). File(s) can&apos;t attach.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Невозможно добавить директорию. Пожалуйста, выберите файлы.</translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="273"/>
@@ -586,19 +611,9 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Добавление линка на файл</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="314"/>
-        <source>Please select any attach(es) for save to your directory.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="324"/>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="358"/>
-        <source>For save sigle file you must set single result file name.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="373"/>
@@ -606,13 +621,38 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Сохранить прикрепленные файлы в директорию...</translation>
     </message>
     <message>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="128"/>
+        <source>Probably error in a process of files download.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="181"/>
+        <source>Select Error. Choose file(s).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="239"/>
+        <source>Error copying file(s). Unable to attach file(s).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="314"/>
+        <source>Please, select at least one attached file to save.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="358"/>
+        <source>To save single file you must set single result file name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="419"/>
-        <source>Can&apos;t save file. File %1 not exists in database.</source>
+        <source>Unable to save the file: file %1 not found in the database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="428"/>
-        <source>Can&apos;t save file %1. Any i/o problem.</source>
+        <source>Unable to save the file: file %1 input/output error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -642,19 +682,19 @@ Stored password will be cleared if uncheck this checkbox.</source>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="499"/>
-        <source>Do you want to delete attach file(s)?</source>
+        <source>Do you want to delete attached file(s)?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="548"/>
-        <source>Can&apos;t preview encrypted attach file %1.
-
-Use &quot;Save As...&quot; button or enable decrypt to temporary file in settings.</source>
+        <source>Unable to preview the encrypted attached file %1.
+Please, use «Save As...» button, or
+enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="573"/>
-        <source>Please select single attach for see info.</source>
+        <source>Please, select a single file to see information about one.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1706,9 +1746,13 @@ Enter your old password and new password.
         <translation>Вся база</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="108"/>
         <source>In current branch</source>
-        <translation>Текущая ветка</translation>
+        <translation type="vanished">Текущая ветка</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="108"/>
+        <source>Current tree item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="183"/>
@@ -1770,27 +1814,26 @@ Enter your old password and new password.
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="440"/>
-        <source>Cant set start search element in tree.</source>
+        <source>Starting position for a tree searching is not set.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="475"/>
+        <source>No search results.
+Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
+        <source>No search results.
+Hint: search produced in current tree item.
+Try to search for entire database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="449"/>
         <source>Search...</source>
         <translation>Поиск...</translation>
-    </message>
-    <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="475"/>
-        <source>Nothing found.
-Searching detected encrypted branches.
-However, the password is not entered, so the search for them was not carried out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
-        <source>Nothing found.
-Search produced within current branch.
-Try to search in entire database.</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1960,22 +2003,22 @@ in current directory  &quot;%1&quot;.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="137"/>
-        <source>The icon directory %1 is not readable.</source>
+        <source>The icons directory %1 is not readable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="152"/>
-        <source>Not found any icon sections in directory %1</source>
+        <source>The directory %1 has not any icon section.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="183"/>
-        <source>Can&apos;t set default section: %1</source>
+        <source>Unable to set a default section %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="241"/>
-        <source>In section &quot;%1&quot; icons not found</source>
+        <source>The section &quot;%1&quot; has not any icons</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2008,7 +2051,7 @@ in current directory  &quot;%1&quot;.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="395"/>
-        <source>Error at download process. Maybe not all images is dowload.</source>
+        <source>Probably error in a process of images download.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2039,29 +2082,23 @@ in current directory  &quot;%1&quot;.</source>
     <name>KnowTreeModel</name>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="66"/>
-        <source>Unsupported format version for data base.
-Please upgrade your MyTetra application.</source>
+        <source>Unsupported version of the database format.
+You need to update MyTetra.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="287"/>
-        <source>Cant open export file %1 for write.</source>
+        <source>The exporting file %1 is not writable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="412"/>
-        <source>Cant open XML file %1.
-Import not available.</source>
+        <source>Import error: unable to read the XML file %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="504"/>
         <source>Find record id=&quot;%1&quot; without dir attribute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="664"/>
-        <source>In KnowTreeModel can&apos;t set file name for XML file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2101,14 +2138,22 @@ Import not available.</source>
         <translation>Экспорт в PDF...</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="443"/>
         <source>Export branch</source>
-        <translation>Экспорт ветки</translation>
+        <translation type="vanished">Экспорт ветки</translation>
+    </message>
+    <message>
+        <source>Import branch</source>
+        <translation type="vanished">Импорт ветки</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="443"/>
+        <source>Export tree item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="447"/>
-        <source>Import branch</source>
-        <translation>Импорт ветки</translation>
+        <source>Import tree item</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="453"/>
@@ -2190,12 +2235,12 @@ Import not available.</source>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="625"/>
-        <source>Select empty directory for export data</source>
+        <source>Select an empty directory to export data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="639"/>
-        <source>Select directory for import data</source>
+        <source>Select directory to import data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2325,8 +2370,8 @@ Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</sourc
     <name>PeriodicCheckBase</name>
     <message>
         <location filename="../../../src/libraries/PeriodicCheckBase.cpp" line="47"/>
-        <source>Database changet at another program.
-MyTetra reload tree for work with actual data.</source>
+        <source>The database was changed by external application.
+MyTetra needs to reload the database tree to keep data consistency.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2384,7 +2429,7 @@ MyTetra reload tree for work with actual data.</source>
     </message>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="227"/>
-        <source>Can&apos;t modify file name for link type attach.</source>
+        <source>Unable to rename a file which attached as a link.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2404,14 +2449,14 @@ MyTetra reload tree for work with actual data.</source>
     </message>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="378"/>
-        <source>Can&apos;t delete file %1 on disk. File not exists.</source>
+        <source>Unable to delete the file %1 from disk: file not found.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/models/recordTable/Record.cpp" line="903"/>
-        <source>Database consistency was broken.
- Directory %1 not found.
- MyTetra will try to create a blank entry for the corrections.</source>
+        <source>The database is not consistent.
+The directory %1 is not found.
+MyTetra will try to create a blank entry to fix it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2422,9 +2467,9 @@ MyTetra reload tree for work with actual data.</source>
     </message>
     <message>
         <location filename="../../../src/models/recordTable/Record.cpp" line="922"/>
-        <source>Database consistency was broken.
- File %1 not found.
- MyTetra will try to create a blank entry for the corrections.</source>
+        <source>The database is not consistent.
+The file %1 is not found.
+MyTetra will try to create a blank entry to fix it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2836,9 +2881,9 @@ MyTetra reload tree for work with actual data.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="511"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="603"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="708"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="933"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="977"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1087"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="919"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="963"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1073"/>
         <source>Unavailable action</source>
         <translation>Недопустимое действие</translation>
     </message>
@@ -2846,7 +2891,7 @@ MyTetra reload tree for work with actual data.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="473"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="512"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="604"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1088"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
         <source>You&apos;ve selected </source>
         <translation>У вас выделены </translation>
     </message>
@@ -3021,70 +3066,65 @@ Please select single item for moving.</source>
         <translation>Запрос на подтверждение</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="743"/>
-        <source>In your selected item found blocked record. However, do you want to delete the selected item?</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1211"/>
+        <source>No icon selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="978"/>
-        <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
-        <translation>Данная ветка содержит как незашифрованные, так и зашифрованные данные. Команды Copy/Paste разрешены только для веток, которые содержат однотипные данные.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1088"/>
-        <source> items.
-Please select single item for enabling paste operation.</source>
-        <translation>ветки.
-Выделите одну ветку, чтобы была доступна операция вставки ветки.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1225"/>
-        <source>You don&apos;t select icon</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1256"/>
+        <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1270"/>
-        <source>Directory &lt;b&gt;%1&lt;/b&gt; is not empty. Please select empty directory for export.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1263"/>
+        <source>No export tree item selected. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1277"/>
-        <source>Unspecified branches for export. Please, select any branch.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1284"/>
+        <source>Exported tree item contains encrypted data.
+Please click OK and enter the password.
+All data will be exported unencrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1298"/>
-        <source>In export branch detect crypt data.
-Please, click OK and enter password.
-All data in export directory will be decrypted.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1297"/>
+        <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1311"/>
-        <source>Export branch to directory &lt;b&gt;%1&lt;/b&gt; is completed.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1299"/>
+        <source>Errors occurred while exporting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1313"/>
-        <source>An error was detected while exporting data.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1308"/>
+        <source>No tree item selected for importing. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="1322"/>
-        <source>Unspecified branches for imports. Please, select any branch.</source>
+        <source>You are importing into an encrypted item.
+Please click Ok and enter the password.
+All data imported will be encrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1336"/>
-        <source>Import to encrypt item.
-Please, click OK and enter password.
-All data in import items will be encrypted.</source>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1339"/>
+        <source>Item importing finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1353"/>
-        <source>Import branch is completed.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="964"/>
+        <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
+        <translation>Данная ветка содержит как незашифрованные, так и зашифрованные данные. Команды Copy/Paste разрешены только для веток, которые содержат однотипные данные.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
+        <source> items.
+Please select single item for enabling paste operation.</source>
+        <translation>ветки.
+Выделите одну ветку, чтобы была доступна операция вставки ветки.</translation>
     </message>
     <message>
         <source>You’ve selected </source>
@@ -3095,9 +3135,9 @@ All data in import items will be encrypted.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="513"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="605"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="710"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="935"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="979"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1089"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="921"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="965"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -3127,6 +3167,11 @@ All data in import items will be encrypted.</source>
         <source> items.
 Please select single item for enabling edit operation.</source>
         <translation>ветки. Для редактирования, выберите, пожалуйста, одну ветку.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="743"/>
+        <source>In the selected item has been found blocked notes. Do you really want to delete one?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="764"/>
@@ -3160,7 +3205,7 @@ Please select single item for enabling edit operation.</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="934"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="920"/>
         <source>Please select a single item for copy.</source>
         <translation>Выберите, пожалуйста, одну ветку для копирования.</translation>
     </message>
@@ -3169,7 +3214,7 @@ Please select single item for enabling edit operation.</source>
         <translation type="vanished">Группы информации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1558"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1544"/>
         <source>Rename me</source>
         <translation>Переименуй меня</translation>
     </message>
@@ -3178,7 +3223,7 @@ Please select single item for enabling edit operation.</source>
     <name>TypefaceFormatter</name>
     <message>
         <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="562"/>
-        <source>Too hard text formatting. Can&apos;t normal parse selected text. May be any format regression</source>
+        <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

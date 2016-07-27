@@ -32,7 +32,7 @@ void AppConfigPage_Synchro::setupUi(void)
   synchroOnExit.setText(tr("Synchronize when exit from MyTetra"));
   synchroOnExit.setChecked(mytetraConfig.get_synchroonexit());
 
-  synchroOnPeriodic.setText(tr("Enable periodic synchronize"));
+  synchroOnPeriodic.setText(tr("Enable periodic background synchronize"));
   synchroOnPeriodic.setChecked(mytetraConfig.getEnablePeriodicSyncro());
   
   // Область ввода команды синхронизации
