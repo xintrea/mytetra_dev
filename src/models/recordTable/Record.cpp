@@ -900,7 +900,7 @@ void Record::checkAndCreateTextFile()
   // Если директория с файлом не существует
   if(!fileInfo.absoluteDir().exists())
   {
-    QString messageText=QObject::tr("Database consistency was broken.\n Directory %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileInfo.absoluteDir().absolutePath());
+    QString messageText=QObject::tr("The database is not consistent.\nThe directory %1 is not found.\nMyTetra will try to create a blank entry to fix it.").arg(fileInfo.absoluteDir().absolutePath());
 
     qWarning() << messageText;
 
@@ -919,7 +919,7 @@ void Record::checkAndCreateTextFile()
   // Если файл записи не существует
   if(!f.exists())
   {
-    QString messageText=QObject::tr("Database consistency was broken.\n File %1 not found.\n MyTetra will try to create a blank entry for the corrections.").arg(fileName);
+    QString messageText=QObject::tr("The database is not consistent.\nThe file %1 is not found.\nMyTetra will try to create a blank entry to fix it.").arg(fileName);
 
     qWarning() << messageText;
 

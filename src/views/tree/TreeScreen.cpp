@@ -740,7 +740,7 @@ void TreeScreen::delBranch(QString mode)
  {
    QMessageBox messageBox(this);
    messageBox.setWindowTitle(tr("Confirmation request")); // Запрос подтверждения
-   messageBox.setText(tr("In your selected item found blocked record. However, do you want to delete the selected item?"));
+   messageBox.setText(tr("In the selected item has been found blocked notes. Do you really want to delete one?"));
    messageBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
    messageBox.setDefaultButton(QMessageBox::Cancel);
 
@@ -842,27 +842,19 @@ void TreeScreen::delOneBranch(QModelIndex index)
 
  if(!index.isValid()) return;
 
- qDebug() << "Label 1";
-
  // Получение узла, который соответствует обрабатываемому индексу
  TreeItem *item=knowTreeModel->getItem(index);
 
- qDebug() << "Label 2, branch id:" << item->getField("id") << "name:" << item->getField("name");
+ // qDebug() << "Delete tree item id:" << item->getField("id") << "name:" << item->getField("name");
 
  // Получение пути к элементу
  QStringList path=item->getPath();
 
- qDebug() << "Label 3";
-
  // Получение путей ко всем подветкам
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
- qDebug() << "Label 4";
-
  // Сортировка массива веток по длине пути
  qSort(subbranchespath.begin(),subbranchespath.end(),compare_QStringList_len);
-
- qDebug() << "Label 5";
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок
@@ -874,15 +866,11 @@ void TreeScreen::delOneBranch(QModelIndex index)
   // ( knowTreeModel->getItem(subbranchespath.at(i)) )->removeAllChildren();
  }
 
- qDebug() << "Label 6";
-
  // Удаление таблицы конечных записей для самой удаляемой ветки
  // Удаление подчиненных элементов для самой удаляемой ветки
  qDebug() << "Delete rootbranch, id:" << knowTreeModel->getItem(path)->getField("id") << "name:" << knowTreeModel->getItem(path)->getField("name");
  ( knowTreeModel->getItem(path) )->recordtableDeleteAllRecords();
  // ( knowTreeModel->getItem(path) )->removeAllChildren();
-
- qDebug() << "Label 7";
 
  // Удаление ветки на экране, при этом удалятся все подветки
  qDebug() << "This branch have row() as" << index.row();
@@ -900,8 +888,6 @@ void TreeScreen::delOneBranch(QModelIndex index)
     delete current_item;
    }
  */
-
- qDebug() << "Label 8";
 }
 
 
@@ -1222,7 +1208,7 @@ void TreeScreen::setIcon(void)
 
   if( result==QDialog::Accepted && iconSelectDialog.getSelectFileName().isEmpty() )
   {
-    showMessageBox(tr("You don't select icon")); // Сообщение "Вы не выбрали иконку"
+    showMessageBox(tr("No icon selected.")); // Сообщение "Вы не выбрали иконку"
   }
   else if( result==QDialog::Accepted && !iconSelectDialog.getSelectFileName().isEmpty() ) // Если был выбран файл иконки и нажат Ok
   {
@@ -1267,14 +1253,14 @@ void TreeScreen::exportBranchToDirectory(QString exportDir)
   // Проверка, является ли выбранная директория пустой. Выгрузка возможна только в полностью пустую директорию
   if( !DiskHelper::isDirectoryEmpty(exportDir) )
   {
-    showMessageBox(tr("Directory <b>%1</b> is not empty. Please select empty directory for export.").arg(exportDir));
+    showMessageBox(tr("The export directory %1 is not empty. Please, select an empty directory.").arg(exportDir));
     return;
   }
 
   // Текущая выбранная ветка будет экспортироваться
   if( !getCurrentItemIndex().isValid() )
   {
-    showMessageBox(tr("Unspecified branches for export. Please, select any branch."));
+    showMessageBox(tr("No export tree item selected. Please select a item."));
     return;
   }
 
@@ -1295,7 +1281,7 @@ void TreeScreen::exportBranchToDirectory(QString exportDir)
   // пользователь отошел от компьютера
   if( isCryptPresent )
   {
-    showMessageBox(tr("In export branch detect crypt data.\nPlease, click OK and enter password.\nAll data in export directory will be decrypted."));
+    showMessageBox(tr("Exported tree item contains encrypted data.\nPlease click OK and enter the password.\nAll data will be exported unencrypted."));
 
     // Запрашивается пароль
     Password password;
@@ -1308,9 +1294,9 @@ void TreeScreen::exportBranchToDirectory(QString exportDir)
   bool result=knowTreeModel->exportBranchToDirectory(startItem, exportDir);
 
   if(result)
-    showMessageBox(tr("Export branch to directory <b>%1</b> is completed.").arg(exportDir));
+    showMessageBox(tr("Done exporting into <b>%1</b>.").arg(exportDir));
   else
-    showMessageBox(tr("An error was detected while exporting data."));
+    showMessageBox(tr("Errors occurred while exporting."));
 }
 
 
@@ -1319,7 +1305,7 @@ void TreeScreen::importBranchFromDirectory(QString importDir)
   // Импорт будет идти в текущую выбранную ветку
   if( !getCurrentItemIndex().isValid() )
   {
-    showMessageBox(tr("Unspecified branches for imports. Please, select any branch."));
+    showMessageBox(tr("No tree item selected for importing. Please select a item."));
     return;
   }
 
@@ -1333,7 +1319,7 @@ void TreeScreen::importBranchFromDirectory(QString importDir)
   // Если импорт происходит в зашифрованную ветку, но пароль не был введен
   if(startItem->getField("crypt")=="1" && globalParameters.getCryptKey().length()==0)
   {
-    showMessageBox(tr("Import to encrypt item.\nPlease, click OK and enter password.\nAll data in import items will be encrypted."));
+    showMessageBox(tr("You are importing into an encrypted item.\nPlease click Ok and enter the password.\nAll data imported will be encrypted."));
 
     // Запрашивается пароль
     Password password;
@@ -1350,7 +1336,7 @@ void TreeScreen::importBranchFromDirectory(QString importDir)
   if(importNodeId.count()>0)
     setCursorToId(importNodeId); // Курсор устанавливается на только что импортированную ветку
 
-  showMessageBox(tr("Import branch is completed."));
+  showMessageBox(tr("Item importing finished."));
 }
 
 
@@ -1549,11 +1535,11 @@ QModelIndex TreeScreen::getCurrentItemIndex(void)
 // Если дерево стало пустым, данный метод добавит одну ветку
 void TreeScreen::treeEmptyControl(void)
 {
- qDebug() << "treescreen::tree_empty_control() : Tree branch count " << knowTreeModel->rowCount();
+ qDebug() << "treescreen::tree_empty_control() : Tree item count " << knowTreeModel->rowCount();
 
  if(knowTreeModel->rowCount()==0)
   {
-   qDebug() << "treescreen::tree_empty_control() : Tree empty, create blank branch";
+   qDebug() << "treescreen::tree_empty_control() : Tree empty, create blank item";
 
    insBranchProcess(QModelIndex(), tr("Rename me"), false);
   }

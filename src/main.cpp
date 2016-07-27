@@ -660,7 +660,7 @@ void printHelp()
   printf("./mytetra --control --quit - Quit from MyTetra\n");
   printf("./mytetra --control --reload - Reload database\n");
   printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
-  printf("./mytetra --control --openBranch <branchId> - Jump to branch with <branchId>\n");
+  printf("./mytetra --control --openTreeItem <treeItemId> - Jump to tree item with <treeItemId>\n");
   printf("\n");
 }
 
@@ -724,10 +724,16 @@ void parseConsoleOption(QtSingleApplication &app)
       app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
       exit(0);
     }
-    else if (app.arguments().contains("--openBranch"))
+    else if (app.arguments().contains("--openBranch")) // Устаревшая опция
     {
       int openBranchIndex=app.arguments().indexOf("--openBranch");
-      app.sendMessage("openBranch "+app.arguments().at(openBranchIndex+1));
+      app.sendMessage("openTreeItem "+app.arguments().at(openBranchIndex+1)); // Аналог сигнала openTreeItem
+      exit(0);
+    }
+    else if (app.arguments().contains("--openTreeItem"))
+    {
+      int openTreeItemIndex=app.arguments().indexOf("--openTreeItem");
+      app.sendMessage("openTreeItem "+app.arguments().at(openTreeItemIndex+1));
       exit(0);
     }
     else

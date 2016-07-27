@@ -224,7 +224,7 @@ void Attach::setField(QString name, QString value)
       if(getField("fileName").length()>0 && value.length()>0) // Если имя уже было задано (при создании аттача), и новое имя не пустое
       {
         // Имя файла для линка менять нельзя
-        showMessageBox(QObject::tr("Can't modify file name for link type attach."));
+        showMessageBox(QObject::tr("Unable to rename a file which attached as a link."));
         return;
       }
 
@@ -375,7 +375,7 @@ void Attach::removeFile()
 
   if(file.exists()==false)
   {
-    showMessageBox(QObject::tr("Can't delete file %1 on disk. File not exists.").arg( getFullInnerFileName() ));
+    showMessageBox(QObject::tr("Unable to delete the file %1 from disk: file not found.").arg( getFullInnerFileName() ));
     return;
   }
 

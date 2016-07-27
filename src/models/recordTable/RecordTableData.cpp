@@ -344,7 +344,7 @@ int RecordTableData::insertNewRecord(int mode,
                                      int pos,
                                      Record record)
 {
-  qDebug() << "RecordTableData::insert_new_record() : Insert new record to branch " << treeItem->getAllFields();
+  qDebug() << "RecordTableData::insert_new_record() : Insert new record to tree item " << treeItem->getAllFields();
 
   // Мотод должен принять полновесный объект записи
   if(record.isLite()==true)
@@ -387,7 +387,7 @@ int RecordTableData::insertNewRecord(int mode,
      if(globalParameters.getCryptKey().length()>0)
       isCrypt=true;
      else
-      criticalError("RecordTableData::insertNewRecord() : Can not insert data to crypt branch. Password not setted.");
+      criticalError("RecordTableData::insertNewRecord() : Can not insert data to crypt tree item. Password not setted.");
     }
 
   // Запись полновесных данных с учетом шифрации

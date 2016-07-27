@@ -44,6 +44,6 @@ void PeriodicCheckBase::timerEvent(QTimerEvent *)
 
     // Если разрешена выдача сообщения о том, что база данных была изменена
     if(mytetraConfig.getEnablePeriodicCheckMessage())
-      showMessageBox(tr("Database changet at another program.\nMyTetra reload tree for work with actual data."));
+      showMessageBox(tr("The database was changed by external application.\nMyTetra needs to reload the database tree to keep data consistency."));
   }
 }

@@ -558,8 +558,8 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
 
   if(!isDocParse)
   {
-    // Вывод сообщения: Слишком сложно еформатирование текста. Не могу разобрать выделенный текст. Возможно некоторое нарушение верстки
-    showMessageBox(tr("Too hard text formatting. Can't normal parse selected text. May be any format regression"));
+    // Вывод сообщения: Слишком сложное форматирование текста. Не могу разобрать выделенный текст. Возможно некоторое нарушение верстки
+    showMessageBox(tr("Unreliable parsing of complexly formatted text. Expect formatting inconsistencies."));
     return htmlCode;
   }
 

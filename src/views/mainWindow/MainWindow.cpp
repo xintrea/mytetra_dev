@@ -223,11 +223,11 @@ void MainWindow::messageHandler(QString message)
     setRecordtablePositionById( recordId );
   }
 
-  else if(message.split(" ").at(0)=="openBranch")
+  else if(message.split(" ").at(0)=="openTreeItem")
   {
     QString branchId=message.split(" ").at(1);
 
-    // Если аргумент опции --openBranch не обнаружен
+    // Если аргумент опции --openTreeItem (устаревшее --openBranch) не обнаружен
     if(branchId.length()==0)
       return;
 
@@ -440,11 +440,11 @@ void MainWindow::initFileMenu(void)
 
   menu->addSeparator();
 
-  a = new QAction(tr("Export branch"), this);
+  a = new QAction(tr("Export tree item"), this);
   connect(a, SIGNAL(triggered()), this, SLOT(fileExportBranch()));
   menu->addAction(a);
 
-  a = new QAction(tr("Import branch"), this);
+  a = new QAction(tr("Import tree item"), this);
   connect(a, SIGNAL(triggered()), this, SLOT(fileImportBranch()));
   menu->addAction(a);
 
@@ -622,7 +622,7 @@ void MainWindow::fileExportBranch(void)
   // Создается окно выбора директории назначения
   QFileDialog directorySelectDialog(this);
   directorySelectDialog.setFileMode(QFileDialog::Directory);
-  directorySelectDialog.setWindowTitle(tr("Select empty directory for export data"));
+  directorySelectDialog.setWindowTitle(tr("Select an empty directory to export data"));
   directorySelectDialog.setDirectory("/");
 
   if( directorySelectDialog.exec() )
@@ -636,7 +636,7 @@ void MainWindow::fileImportBranch(void)
   // Создается окно выбора директории, откуда необходимо сделать импорт
   QFileDialog directorySelectDialog(this);
   directorySelectDialog.setFileMode(QFileDialog::Directory);
-  directorySelectDialog.setWindowTitle(tr("Select directory for import data"));
+  directorySelectDialog.setWindowTitle(tr("Select directory to import data"));
   directorySelectDialog.setDirectory("/");
 
   if( directorySelectDialog.exec() )

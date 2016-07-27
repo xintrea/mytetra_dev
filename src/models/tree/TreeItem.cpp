@@ -219,7 +219,7 @@ void TreeItem::setField(QString name, QString value)
     fieldsTable[name]=value;
   }
   else
-    criticalError("TreeItem::setField() : Set unavailable field \""+ name +"\" to item of branch tree");
+    criticalError("TreeItem::setField() : Set unavailable field \""+ name +"\" to tree item");
 }
 
 
@@ -230,7 +230,7 @@ void TreeItem::setAllFieldDirect(const QMap<QString, QString> nameAndValue)
 {
   foreach(QString name, nameAndValue.keys())
     if( !fixedParameters.itemFieldAvailableList.contains(name) )
-      criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to item of branch tree");
+      criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to tree item");
 
   // Устанавливаются значения полей
   fieldsTable=nameAndValue; // Qt сам должен правильно сделать привязку к переданным данным и оставить их в памяти
@@ -543,7 +543,7 @@ QList<QStringList> TreeItem::getAllChildrenPathAsFieldRecurse(TreeItem *item, QS
 // Переключение ветки и всех подветок в зашифрованное состояние
 void TreeItem::switchToEncrypt(void)
 {
-  qDebug() << "TreeItem::switchToEncrypt() : Crypt branch" << fieldsTable["name"] << "id" << fieldsTable["id"];
+  qDebug() << "TreeItem::switchToEncrypt() : Crypt tree item " << fieldsTable["name"] << "id" << fieldsTable["id"];
 
   // Если ветка оказалось заашифрованной ее нельзя зашифровывать второй раз
   if(fieldsTable["crypt"]=="1")
@@ -569,7 +569,7 @@ void TreeItem::switchToEncrypt(void)
 // Переключение ветки и всех подветок в расшифрованное состояние
 void TreeItem::switchToDecrypt(void)
 {
-  qDebug() << "TreeItem::switchToDecrypt() : Decrypt branch" << fieldsTable["name"] << "id" << fieldsTable["id"];
+  qDebug() << "TreeItem::switchToDecrypt() : Decrypt tree item" << fieldsTable["name"] << "id" << fieldsTable["id"];
 
   // Если ветка оказалось незашифрованной, нечего расшифровывать
   if(fieldsTable["crypt"].length()==0 ||

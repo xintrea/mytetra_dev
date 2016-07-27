@@ -158,10 +158,10 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
     line=tr("Program stop");
 
   else if( iData["a"] == "createRecord")
-    line=tr("Create record \"%1\" with ID %2 in branch \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                           arg( iData["recordId"] ).
-                                                                           arg( iData["branchName"] ).
-                                                                           arg( iData["branchId"] );
+    line=tr("Create record \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                              arg( iData["recordId"] ).
+                                                                              arg( iData["branchName"] ).
+                                                                              arg( iData["branchId"] );
 
   else if( iData["a"] == "createCryptRecord")
   {
@@ -177,10 +177,10 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
       iData["branchName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["branchName"]);
     }
 
-    line=tr("Create crypt record \"%1\" with ID %2 in branch \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                                 arg( iData["recordId"] ).
-                                                                                 arg( iData["branchName"] ).
-                                                                                 arg( iData["branchId"] );
+    line=tr("Create crypt record \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                                    arg( iData["recordId"] ).
+                                                                                    arg( iData["branchName"] ).
+                                                                                    arg( iData["branchId"] );
   }
 
   else if( iData["a"] == "editRecord")
@@ -224,16 +224,16 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
                                                              arg( iData["recordId"]);
 
   else if( iData["a"] == "startDragRecord")
-    line=tr("Start drag record \"%1\" with ID %2 from branch \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                                arg( iData["recordId"] ).
-                                                                                arg( iData["branchName"] ).
-                                                                                arg( iData["branchId"] );
+    line=tr("Start drag record \"%1\" with ID %2 from tree item \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                                    arg( iData["recordId"] ).
+                                                                                    arg( iData["branchName"] ).
+                                                                                    arg( iData["branchId"] );
 
   else if( iData["a"] == "dropRecord")
-    line=tr("Drop record \"%1\" with ID %2 to branch \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                         arg( iData["recordId"] ).
-                                                                         arg( iData["branchName"] ).
-                                                                         arg( iData["branchId"] );
+    line=tr("Drop record \"%1\" with ID %2 to tree item \"%3\" with ID %4").arg( iData["recordName"] ).
+                                                                            arg( iData["recordId"] ).
+                                                                            arg( iData["branchName"] ).
+                                                                            arg( iData["branchId"] );
 
   else if( iData["a"] == "startSyncro")
     line=tr("Start synchronization");

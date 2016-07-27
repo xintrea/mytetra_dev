@@ -409,7 +409,7 @@ QString KnowTreeModel::importBranchFromDirectory(TreeItem *startItem, QString im
   QFileInfo importXmlFileInfo( importXmlFileName );
   if(!importXmlFileInfo.isReadable())
   {
-    showMessageBox(tr("Cant open XML file %1.\nImport not available.").arg(importXmlFileName));
+    showMessageBox(tr("Import error: unable to read the XML file %1.").arg(importXmlFileName));
     return "";
   }
 
@@ -1152,7 +1152,7 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
   // Выясняется указатель на эту добавленную ветку
   TreeItem *newitem=getItemById(id);
 
-  qDebug() << "KnowTreeModel::paste_subbranch_recurse() : create branch with field" << newitem->getAllFields();
+  qDebug() << "KnowTreeModel::paste_subbranch_recurse() : create tree item with field" << newitem->getAllFields();
 
   // -----------------------------------------------
   // Для стартовой ветки добавляются конечные записи

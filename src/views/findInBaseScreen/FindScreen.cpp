@@ -105,7 +105,7 @@ void FindScreen::setupComboOption(void)
   // Выбор "Во всей базе" - "В текущей ветке"
   treeSearchArea=new MtComboBox();
   treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_search_all.svg"), tr("Entire base")); // Вся база
-  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_search_branch.svg"), tr("In current branch")); // Текущая ветка
+  treeSearchArea->addItem(QIcon(":/resource/pic/find_in_base_search_branch.svg"), tr("Current tree item")); // Текущая ветка
   treeSearchArea->setCurrentIndex(mytetraConfig.getFindScreenTreeSearchArea());
 
   if(mytetraConfig.getInterfaceMode()=="mobile")
@@ -472,11 +472,11 @@ void FindScreen::findStart(void)
   {
     // Если были непросмотренные ветки по причине того, что они зашифрованны, а пароль не введен
     if(isUnsearchCryptBranchPresent)
-      findTable->setOverdrawMessage(tr("No search results. Note: encrypted items has been detected. For searching in encrypted items you have to enter the password.")); // Ничего не найдено. При поиске обнаружены зашифрованные ветки. Однако пароль не был введен, поэтому поиск в них не проводился
+      findTable->setOverdrawMessage(tr("No search results.\nHint: encrypted items has been detected. For searching in encrypted items you have to enter the password.")); // Ничего не найдено. При поиске обнаружены зашифрованные ветки. Однако пароль не был введен, поэтому поиск в них не проводился
 
     // Иначе если поиск проводился не во всей базе
     else if(mytetraConfig.getFindScreenTreeSearchArea()!=0)
-      findTable->setOverdrawMessage(tr("No search results.\nNote: search produced in current tree item.\nTry to search for entire database.")); // Ничего не найдено. Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
+      findTable->setOverdrawMessage(tr("No search results.\nHint: search produced in current tree item.\nTry to search for entire database.")); // Ничего не найдено. Поиск производился внутри одной ветки. Попробуйте искать во всей базе.
   }
 
 }
