@@ -178,7 +178,7 @@ void AttachTableController::addSmart(QString attachType)
     // Если пользователь выбрал директорию (директорию выбирать нельзя, пока что можно выбирать только файлы)
     if(currFileInfo.isDir())
     {
-      showMessageBox(tr("Select Error. Choose file(s)."));
+      showMessageBox(tr("Cannot add a directory. Please select a file(s)."));
       break;
     }
 
