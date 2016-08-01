@@ -60,64 +60,44 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation type="vanished">Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="161"/>
         <source>Create record &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="180"/>
         <source>Create crypt record &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="187"/>
         <source>Edit fields of record &quot;%1&quot; with ID %2</source>
-        <translation>Отредактированы поля записи &quot;%1&quot; с ID %2</translation>
+        <translation type="vanished">Отредактированы поля записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="198"/>
         <source>Edit fields of crypt record &quot;%1&quot; with ID %2</source>
-        <translation>Отредактированы поля зашифрованной записи &quot;%1&quot; с ID %2</translation>
+        <translation type="vanished">Отредактированы поля зашифрованной записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="203"/>
         <source>Move up record &quot;%1&quot; with ID %2</source>
-        <translation>Перемещение записи вверх. Запись: &quot;%1&quot; с ID %2</translation>
+        <translation type="vanished">Перемещение записи вверх. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="207"/>
         <source>Move down record &quot;%1&quot; with ID %2</source>
-        <translation>Перемещение записи вниз. Запись: &quot;%1&quot; с ID %2</translation>
+        <translation type="vanished">Перемещение записи вниз. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="211"/>
         <source>Delete record &quot;%1&quot; with ID %2</source>
-        <translation>Удаление записи &quot;%1&quot; с ID %2</translation>
+        <translation type="vanished">Удаление записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="215"/>
         <source>Copy record &quot;%1&quot; with ID %2 to clipboard</source>
-        <translation>Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
+        <translation type="vanished">Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="219"/>
         <source>Cut record &quot;%1&quot; with ID %2 to clipboard</source>
-        <translation>Запись &quot;%1&quot; с ID %2 вырезана</translation>
+        <translation type="vanished">Запись &quot;%1&quot; с ID %2 вырезана</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="223"/>
         <source>Paste record &quot;%1&quot; with ID %2 from clipboard</source>
-        <translation>Вставка записи &quot;%1&quot; с ID %2 из буфера обмена</translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="227"/>
-        <source>Start drag record &quot;%1&quot; with ID %2 from tree item &quot;%3&quot; with ID %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="233"/>
-        <source>Drop record &quot;%1&quot; with ID %2 to tree item &quot;%3&quot; with ID %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Вставка записи &quot;%1&quot; с ID %2 из буфера обмена</translation>
     </message>
     <message>
         <source>Start drag record &quot;%1&quot; with ID %2 from branch &quot;%3&quot; with ID %4</source>
@@ -126,6 +106,66 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     <message>
         <source>Drop record &quot;%1&quot; with ID %2 to branch &quot;%3&quot; with ID %4</source>
         <translation type="vanished">Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="161"/>
+        <source>Create note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
+        <translation>Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="180"/>
+        <source>Create crypt note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
+        <translation>Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="187"/>
+        <source>Edit fields of note &quot;%1&quot; with ID %2</source>
+        <translation>Отредактированы поля записи &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="198"/>
+        <source>Edit fields of crypt note &quot;%1&quot; with ID %2</source>
+        <translation>Отредактированы поля зашифрованной записи &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="203"/>
+        <source>Move up note &quot;%1&quot; with ID %2</source>
+        <translation>Перемещение записи вверх. Запись: &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="207"/>
+        <source>Move down note &quot;%1&quot; with ID %2</source>
+        <translation>Перемещение записи вниз. Запись: &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="211"/>
+        <source>Delete note &quot;%1&quot; with ID %2</source>
+        <translation>Удаление записи &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="215"/>
+        <source>Copy note &quot;%1&quot; with ID %2 to clipboard</source>
+        <translation>Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="219"/>
+        <source>Cut note &quot;%1&quot; with ID %2 to clipboard</source>
+        <translation>Запись &quot;%1&quot; с ID %2 вырезана в буфер обмена</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="223"/>
+        <source>Paste note &quot;%1&quot; with ID %2 from clipboard</source>
+        <translation>Вставка записи &quot;%1&quot; с ID %2 из буфера обмена</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="227"/>
+        <source>Start drag note &quot;%1&quot; with ID %2 from tree item &quot;%3&quot; with ID %4</source>
+        <translation>Начало перетаскивания записи &quot;%1&quot; с ID %2 из ветки &quot;%3&quot; с ID %4</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="233"/>
+        <source>Drop note &quot;%1&quot; with ID %2 to tree item &quot;%3&quot; with ID %4</source>
+        <translation>Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="239"/>
@@ -239,7 +279,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Attach.cpp" line="59"/>
         <source>Displaying notes with attachments</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображение записей с прикрепленными файлами</translation>
     </message>
     <message>
         <source>Notes with attachments decor</source>
@@ -426,17 +466,17 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="92"/>
         <source>Date and time format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат времени и даты</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
         <source>Locale settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Локальные установки ОС</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="95"/>
         <source>Custom format</source>
-        <translation type="unfinished"></translation>
+        <translation>Собственный формат</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="224"/>
@@ -479,7 +519,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="33"/>
         <source>Enable action logging (experimental)</source>
-        <translation type="unfinished">Включить логирование действий (экспериментально)</translation>
+        <translation>Включить журнал действий (экспериментально)</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="39"/>
@@ -539,7 +579,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="35"/>
         <source>Enable periodic background synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить периодическую фоновую синхронизацию</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="39"/>
@@ -580,7 +620,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="83"/>
         <source>Show message if a database tree was changed by external app</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать сообщение, если данные были изменены сторонней программой</translation>
     </message>
 </context>
 <context>
@@ -627,7 +667,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="181"/>
-        <source>Select Error. Choose file(s).</source>
+        <source>Cannot add a directory. Please select a file(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -816,7 +856,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     <message>
         <location filename="../../../src/libraries/Downloader.cpp" line="32"/>
         <source>%</source>
-        <translation type="unfinished">%</translation>
+        <translation>%</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/Downloader.cpp" line="66"/>
@@ -1752,7 +1792,7 @@ Enter your old password and new password.
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="108"/>
         <source>Current tree item</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущая ветка</translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="183"/>
@@ -1815,20 +1855,24 @@ Enter your old password and new password.
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="440"/>
         <source>Starting position for a tree searching is not set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не выбрана ветка для поиска.</translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="475"/>
         <source>No search results.
 Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего не найдено.
+Примечание: При поиске обнаружены зашифрованные ветки.
+Для поиска внутри зашифрованных веток необходимо ввести пароль.</translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
         <source>No search results.
 Hint: search produced in current tree item.
 Try to search for entire database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ничего не найдено.
+Примечание: Поиск производился внутри одной ветки.
+Попробуйте искать во всей базе.</translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="449"/>
