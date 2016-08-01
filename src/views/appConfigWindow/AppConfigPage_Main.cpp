@@ -89,7 +89,7 @@ void AppConfigPage_Main::setupUi(void)
 
  // Блок работы с отображением даты и времени
  dateTimeFormatBox=new QGroupBox(this);
- dateTimeFormatBox->setTitle(tr("Date and time format"));
+ dateTimeFormatBox->setTitle(tr("Displaying date and time format"));
 
  disableCustomDateTimeFormat=new QRadioButton(tr("Locale settings"));
  enableCustomDateTimeFormat=new QRadioButton(tr("Custom format"));
