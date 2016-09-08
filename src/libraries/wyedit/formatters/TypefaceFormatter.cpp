@@ -313,7 +313,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
   htmlCode=replaceSpaces(htmlCode);
-  // qDebug() << "After replace spaces" << htmlCode;
+  qDebug() << "After replace spaces" << htmlCode;
 
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
@@ -322,20 +322,20 @@ void TypefaceFormatter::onClearClicked(void)
   QTextCursor cursor=textArea->textCursor();
   cursor.movePosition(QTextCursor::End);
   int afterRemoveSelectionLen=cursor.position();
-  // qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
+  qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
 
   // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
-  // qDebug() << "After insert HTML: "<< textArea->toHtml();
+  qDebug() << "After insert HTML: "<< textArea->toHtml();
 
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
   int afterClearLen=cursor.position();
-  // qDebug() << "After clear length: " << afterClearLen;
+  qDebug() << "After clear length: " << afterClearLen;
 
   // Вычисляется последняя позиция выделения очищенного текста
   int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
-  // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+  qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
 
   // Удаление самопроизвольно вставляемых Qt концевых пробелов в каждой текстовой ноде (компенсация поведения insertHtml())
   calculateEndCursorPos=removeSpaces(startCursorPos, calculateEndCursorPos);
@@ -361,7 +361,7 @@ void TypefaceFormatter::onClearClicked(void)
     cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
   }
   textArea->setTextCursor(cursor);
-  // qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
+  qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
 
 
   // Установка форматирования абзаца
@@ -446,6 +446,7 @@ void TypefaceFormatter::clearBackgroundColorForSelection()
 // Замена пробелов в тегах <span атрибуты>...</span>, содержимое которых состоит из одних только пробелов
 QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
 {
+  qDebug() << "In TypefaceFormatter::replaceSpacesOnlyTags(): " << htmlCode;
 
   QRegExp replaceSpaceTagsEx("<span[^>]*>\\s*</span>");
   replaceSpaceTagsEx.setMinimal(true);
@@ -508,7 +509,25 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   htmlCode.replace("</pre>", "</p>");
 
   htmlCode.replace("<!--StartFragment-->", "");
+  qDebug() << "After replace StartFragment: " << htmlCode;
+
+  // Просто так удалять <!--EndFragment--> нельзя.
+  // Нужно вначале удалить p-тег вида: <p style="..."><br /><!--EndFragment--></p>
+  // Так как такая конструкция свидетельствует, что в конце выделения курсор находится на строке,
+  // на которой ничего не выделено (т. е. находится в самой первой позиции).
+  // Таким образом данный p-тег будет лишним, и будет преобразовываться в отдельную пустую строку,
+  // если его сразу не убрать
+  /*
+  QRegExp removeEmptyFinishPTag("<p style=\"[^\"]*\"><br.?\\/><!--EndFragment--><\\/p>");
+  removeEmptyFinishPTag.setMinimal(true);
+  htmlCode.replace(removeEmptyFinishPTag, "");
+  qDebug() << "After replace spacial EndFragment: " << htmlCode;
+  */
+
+  // Теперь однозначно удаляется признак конца фрагмента, на тот случай, если предыдущая замена не сработала
   htmlCode.replace("<!--EndFragment-->", "");
+  qDebug() << "After replace EndFragment: " << htmlCode;
+
 
   // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
   // и тем самым создает лишнюю пустую строку
