@@ -518,14 +518,17 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   // на которой ничего не выделено (т. е. находится в самой первой позиции строки).
   // Таким образом данный p-тег будет лишним, и будет преобразовываться в отдельную пустую строку,
   // если его сразу не убрать
+  // Код лишний, но оставляю на будущее
+  /*
   QRegExp removeEmptyFinishPTag("<p style=\"[^\"]*\"><br.?\\/><!--EndFragment--><\\/p>");
   removeEmptyFinishPTag.setMinimal(true);
   htmlCode.replace(removeEmptyFinishPTag, "<!--EndFragment-->");
   qDebug() << "After replace special tag EndFragment: " << htmlSimplyfier( htmlCode );
+  */
 
   // Теперь однозначно удаляется признак конца фрагмента, на тот случай, если предыдущая замена не сработала
-  //htmlCode.replace("<!--EndFragment-->", "");
-  //qDebug() << "After replace EndFragment: " << htmlCode;
+  htmlCode.replace("<!--EndFragment-->", "");
+  qDebug() << "After replace EndFragment: " << htmlCode;
 
 
   // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
