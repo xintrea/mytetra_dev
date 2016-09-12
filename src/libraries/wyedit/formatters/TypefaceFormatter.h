@@ -57,6 +57,7 @@ private:
   void applyStandartFontForSelection();
   void applyPureBlockFormatForSelection();
   void clearBackgroundColorForSelection();
+  QString htmlSimplyfier(QString htmlCode);
 
 };
 

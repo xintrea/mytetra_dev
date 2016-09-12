@@ -313,10 +313,11 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
   htmlCode=replaceSpaces(htmlCode);
-  qDebug() << "After replace spaces" << htmlCode;
+  qDebug() << "After replace spaces" << htmlSimplyfier( htmlCode );
 
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
+  qDebug() << "After remove selected text: "<< htmlSimplyfier( textArea->toHtml() );
 
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
   QTextCursor cursor=textArea->textCursor();
@@ -326,7 +327,7 @@ void TypefaceFormatter::onClearClicked(void)
 
   // Вставка очищенного фрагмента
   textArea->textCursor().insertHtml(htmlCode);
-  qDebug() << "After insert HTML: "<< textArea->toHtml();
+  qDebug() << "After insert HTML: "<< htmlSimplyfier( textArea->toHtml() );
 
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
@@ -361,7 +362,7 @@ void TypefaceFormatter::onClearClicked(void)
     cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
   }
   textArea->setTextCursor(cursor);
-  qDebug() << "Select text after insert HTML: " << textArea->textCursor().selection().toHtml();
+  qDebug() << "Select text after insert HTML: " << htmlSimplyfier( textArea->textCursor().selection().toHtml() );
 
 
   // Установка форматирования абзаца
@@ -446,7 +447,7 @@ void TypefaceFormatter::clearBackgroundColorForSelection()
 // Замена пробелов в тегах <span атрибуты>...</span>, содержимое которых состоит из одних только пробелов
 QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
 {
-  qDebug() << "In TypefaceFormatter::replaceSpacesOnlyTags(): " << htmlCode;
+  qDebug() << "In TypefaceFormatter::replaceSpacesOnlyTags(): " << htmlSimplyfier( htmlCode );
 
   QRegExp replaceSpaceTagsEx("<span[^>]*>\\s*</span>");
   replaceSpaceTagsEx.setMinimal(true);
@@ -509,24 +510,22 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   htmlCode.replace("</pre>", "</p>");
 
   htmlCode.replace("<!--StartFragment-->", "");
-  qDebug() << "After replace StartFragment: " << htmlCode;
+  qDebug() << "After replace StartFragment: " << htmlSimplyfier( htmlCode );
 
   // Просто так удалять <!--EndFragment--> нельзя.
   // Нужно вначале удалить p-тег вида: <p style="..."><br /><!--EndFragment--></p>
   // Так как такая конструкция свидетельствует, что в конце выделения курсор находится на строке,
-  // на которой ничего не выделено (т. е. находится в самой первой позиции).
+  // на которой ничего не выделено (т. е. находится в самой первой позиции строки).
   // Таким образом данный p-тег будет лишним, и будет преобразовываться в отдельную пустую строку,
   // если его сразу не убрать
-  /*
   QRegExp removeEmptyFinishPTag("<p style=\"[^\"]*\"><br.?\\/><!--EndFragment--><\\/p>");
   removeEmptyFinishPTag.setMinimal(true);
-  htmlCode.replace(removeEmptyFinishPTag, "");
-  qDebug() << "After replace spacial EndFragment: " << htmlCode;
-  */
+  htmlCode.replace(removeEmptyFinishPTag, "<!--EndFragment-->");
+  qDebug() << "After replace special tag EndFragment: " << htmlSimplyfier( htmlCode );
 
   // Теперь однозначно удаляется признак конца фрагмента, на тот случай, если предыдущая замена не сработала
-  htmlCode.replace("<!--EndFragment-->", "");
-  qDebug() << "After replace EndFragment: " << htmlCode;
+  //htmlCode.replace("<!--EndFragment-->", "");
+  //qDebug() << "After replace EndFragment: " << htmlCode;
 
 
   // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
@@ -569,6 +568,18 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 }
 
 
+// Метод, применяемый при выводе отладочной информации, чтобы проще было смотреть на код
+QString TypefaceFormatter::htmlSimplyfier(QString htmlCode)
+{
+  QRegExp rx("style=\"([^\"]*)\"");
+  rx.setMinimal(true);
+  htmlCode.replace(rx, "");
+  // qDebug() << "After replace htmlSimplyfier: " << htmlCode;
+
+  return htmlCode;
+}
+
+
 // Замена в HTML-коде пробелов на спец-последовательности, иначе все повторяющиеся пробелы будут удален Qt-движком
 QString TypefaceFormatter::replaceSpaces(QString htmlCode)
 {
@@ -586,7 +597,12 @@ QString TypefaceFormatter::replaceSpaces(QString htmlCode)
   recurseReplaceSpaces(doc.documentElement());
 
   // Особенность Qt. Преобразование DOM-XML портит символ амперсанда. Поэтому он восстанавливается
-  return doc.toString(0).replace("&amp;#65533;", "&#65533;");
+  htmlCode=doc.toString(0).replace("&amp;#65533;", "&#65533;");
+
+  htmlCode.replace("<root>", "");
+  htmlCode.replace("</root>", "");
+
+  return htmlCode;
 }
 
 
