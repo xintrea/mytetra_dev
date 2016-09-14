@@ -284,6 +284,7 @@ void TypefaceFormatter::onClearClicked(void)
        flag_cursor_on_space_line))
     return;
 
+
   // Запоминается положение прокрутки окна редактирования.
   // Это нужно, чтобы вернуться к такому положению после всех действий.
   // Иначе прокрутка перепрыгнет наверх документа
@@ -294,90 +295,100 @@ void TypefaceFormatter::onClearClicked(void)
   textArea->textCursor().beginEditBlock();
 
 
-  // Если курсор стоит на строке, в которой нет текста (одни пробелы) - нужно выделить эту строку
-  if(flag_cursor_on_space_line)
-    (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
-
-  // К выделению применяется стандартный шрифт
-  applyStandartFontForSelection();
-
-  // Очищается цвет заднего фона - теперь не нужно, так как очистка происходит путем полного удаления атрибутов стиля
-  // clearBackgroundColorForSelection();
-
-  // *****************************
-  // Установка начертания символов
-  // *****************************
-
-  // Получение HTML-кода очищенного фрагмента
-  QString htmlCode=clearTypeFace( replaceSpacesOnlyTags( textArea->textCursor().selection().toHtml() ) );
-
-  // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
-  htmlCode=replaceSpaces(htmlCode);
-  qDebug() << "After replace spaces" << htmlSimplyfier( htmlCode );
-
-  // Удаление выделенного фрагмента
-  textArea->textCursor().removeSelectedText();
-  qDebug() << "After remove selected text: "<< htmlSimplyfier( textArea->toHtml() );
-
-  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
-  QTextCursor cursor=textArea->textCursor();
-  cursor.movePosition(QTextCursor::End);
-  int afterRemoveSelectionLen=cursor.position();
-  qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
-
-  // Вставка очищенного фрагмента
-  textArea->textCursor().insertHtml(htmlCode);
-  qDebug() << "After insert HTML: "<< htmlSimplyfier( textArea->toHtml() );
-
-  // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
-  cursor.movePosition(QTextCursor::End);
-  int afterClearLen=cursor.position();
-  qDebug() << "After clear length: " << afterClearLen;
-
-  // Вычисляется последняя позиция выделения очищенного текста
-  int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
-  qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
-
-  // Удаление самопроизвольно вставляемых Qt концевых пробелов в каждой текстовой ноде (компенсация поведения insertHtml())
-  calculateEndCursorPos=removeSpaces(startCursorPos, calculateEndCursorPos);
-
-  // Замена заранее внесенных символов ReplacementCharacter на пробелы (компенсация поведения insertHtml())
-  replaceReplacementCharacterToSpaceInSelectedText(startCursorPos, calculateEndCursorPos);
-
-  // Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
-  // calculateEndCursorPos=replaceSpaceAndParagraphSeparatorToParagraphSeparator(startCursorPos, calculateEndCursorPos);
-
-  // ********************************
-  // Выделение вставленного фрагмента
-  // Если его не сделать, то первая строка получит дополнительные вертикальные отступы. Это особенность Qt
-  // ********************************
-  if(!isSelectionReverse)
+  // Если выбран НЕ четко блок, и есть форматирование списка
+  if(editor->cursorPositionDetector->isBlockSelect()==false &&
+     textArea->textCursor().currentList()!=0)
   {
-    cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
-    cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+    // Выделение части строки в списке нельзя очищать обычным способом, так как появится перенос строки
+    clearSimple(); // Запускается упрощенная очистка
   }
   else
   {
-    cursor.setPosition(calculateEndCursorPos, QTextCursor::MoveAnchor);
-    cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
+    // Если курсор стоит на строке, в которой нет текста (одни пробелы) - нужно выделить эту строку
+    if(flag_cursor_on_space_line)
+      (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
+
+    // К выделению применяется стандартный шрифт
+    applyStandartFontForSelection();
+
+    // Очищается цвет заднего фона - теперь не нужно, так как очистка происходит путем полного удаления атрибутов стиля
+    // clearBackgroundColorForSelection();
+
+    // *****************************
+    // Установка начертания символов
+    // *****************************
+
+    // Получение HTML-кода очищенного фрагмента
+    QString htmlCode=clearTypeFace( replaceSpacesOnlyTags( textArea->textCursor().selection().toHtml() ) );
+
+    // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
+    htmlCode=replaceSpaces(htmlCode);
+    // qDebug() << "After replace spaces" << htmlSimplyfier( htmlCode );
+
+    // Удаление выделенного фрагмента
+    textArea->textCursor().removeSelectedText();
+    // qDebug() << "After remove selected text: "<< htmlSimplyfier( textArea->toHtml() );
+
+    // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором удален выделенный фрагмент
+    QTextCursor cursor=textArea->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    int afterRemoveSelectionLen=cursor.position();
+    // qDebug() << "After remove selection length: " << afterRemoveSelectionLen;
+
+    // Вставка очищенного фрагмента
+    textArea->textCursor().insertHtml(htmlCode);
+    // qDebug() << "After insert HTML: "<< htmlSimplyfier( textArea->toHtml() );
+
+    // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
+    cursor.movePosition(QTextCursor::End);
+    int afterClearLen=cursor.position();
+    // qDebug() << "After clear length: " << afterClearLen;
+
+    // Вычисляется последняя позиция выделения очищенного текста
+    int calculateEndCursorPos=startCursorPos + (afterClearLen - afterRemoveSelectionLen);
+    // qDebug() << "Calculate end cursor pos: " << calculateEndCursorPos;
+
+    // Удаление самопроизвольно вставляемых Qt концевых пробелов в каждой текстовой ноде (компенсация поведения insertHtml())
+    calculateEndCursorPos=removeSpaces(startCursorPos, calculateEndCursorPos);
+
+    // Замена заранее внесенных символов ReplacementCharacter на пробелы (компенсация поведения insertHtml())
+    replaceReplacementCharacterToSpaceInSelectedText(startCursorPos, calculateEndCursorPos);
+
+    // Замена самопроизвольно вставляемых Qt концевых пробелов (последовательность пробел+QChar::ParagraphSeparator на QChar::ParagraphSeparator)
+    // calculateEndCursorPos=replaceSpaceAndParagraphSeparatorToParagraphSeparator(startCursorPos, calculateEndCursorPos);
+
+    // ********************************
+    // Выделение вставленного фрагмента
+    // Если его не сделать, то первая строка получит дополнительные вертикальные отступы. Это особенность Qt
+    // ********************************
+    if(!isSelectionReverse)
+    {
+      cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
+      cursor.setPosition(calculateEndCursorPos, QTextCursor::KeepAnchor);
+    }
+    else
+    {
+      cursor.setPosition(calculateEndCursorPos, QTextCursor::MoveAnchor);
+      cursor.setPosition(startCursorPos, QTextCursor::KeepAnchor);
+    }
+    textArea->setTextCursor(cursor);
+    // qDebug() << "Select text after insert HTML: " << htmlSimplyfier( textArea->textCursor().selection().toHtml() );
+
+
+    // Установка форматирования абзаца
+    // Если выделен блок
+    // или курсор на пустой линии
+    // или курсор на линии на которой нет символов
+    if(editor->cursorPositionDetector->isBlockSelect() ||
+       flag_cursor_on_empty_line ||
+       flag_cursor_on_space_line)
+      applyPureBlockFormatForSelection();
+
+    // Если была работа со строкой, в которой нет символов,
+    // курсор переносится на начало строки, чтобы не путать пользователя
+    if(flag_cursor_on_space_line)
+      textArea->moveCursor(QTextCursor::StartOfLine);
   }
-  textArea->setTextCursor(cursor);
-  qDebug() << "Select text after insert HTML: " << htmlSimplyfier( textArea->textCursor().selection().toHtml() );
-
-
-  // Установка форматирования абзаца
-  // Если выделен блок
-  // или курсор на пустой линии
-  // или курсор на линии на которой нет символов
-  if(editor->cursorPositionDetector->isBlockSelect() ||
-     flag_cursor_on_empty_line ||
-     flag_cursor_on_space_line)
-    applyPureBlockFormatForSelection();
-
-  // Если была работа со строкой, в которой нет символов,
-  // курсор переносится на начало строки, чтобы не путать пользователя
-  if(flag_cursor_on_space_line)
-    textArea->moveCursor(QTextCursor::StartOfLine);
 
   // Завершение изменения текста
   textArea->textCursor().endEditBlock();
@@ -510,7 +521,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
   htmlCode.replace("</pre>", "</p>");
 
   htmlCode.replace("<!--StartFragment-->", "");
-  qDebug() << "After replace StartFragment: " << htmlSimplyfier( htmlCode );
+  // qDebug() << "After replace StartFragment: " << htmlSimplyfier( htmlCode );
 
   // Просто так удалять <!--EndFragment--> нельзя.
   // Нужно вначале удалить p-тег вида: <p style="..."><br /><!--EndFragment--></p>
@@ -528,7 +539,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 
   // Теперь однозначно удаляется признак конца фрагмента, на тот случай, если предыдущая замена не сработала
   htmlCode.replace("<!--EndFragment-->", "");
-  qDebug() << "After replace EndFragment: " << htmlCode;
+  // qDebug() << "After replace EndFragment: " << htmlCode;
 
 
   // Замена конструкции <p ...><br /></p>, которая вставляется автоматически Qt в конец HTML текста,
@@ -757,11 +768,72 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
 }
 
 
+// Упрощенная очистка начертания текста
+// Взята из старой версии MyTetra 1.32.163
+// Используется для очистки начертания в строках, отформатированных как нумерованное или ненумерованное перечисление
+// Так как при использовании стандартного более агрессивного метода очистки, происходит создание новой строки в месте выделения,
+// а условие в аггресиввный метод невозможно вставить, так как на вход очищающего кода (даже в случае одного
+// слова из нумерованной строки) подается конструкция <ul><li>слово</li></ul>, которую невозможно отличить от конструкции
+// с реальным одельным пунктом перечисления
+void TypefaceFormatter::clearSimple(void)
+{
+  int startCursorPos=textArea->textCursor().position();
+  int stopCursorPos=textArea->textCursor().anchor();
+  // qDebug() << "clearSimple(): Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+
+  bool flagCursorOnEmptyLine=editor->cursorPositionDetector->isCursorOnEmptyLine();
+  bool flagCursorOnSpaceLine=editor->cursorPositionDetector->isCursorOnSpaceLine();
+
+  // Очистка возможна только если что-то выделено
+  // Или курсор стоит на пустой строке с одним символом перевода строки
+  // Или курсор стоит на строке, в которой нет текста
+  if(!(textArea->textCursor().hasSelection() ||
+       flagCursorOnEmptyLine ||
+       flagCursorOnSpaceLine))
+    return;
+
+  if(flagCursorOnSpaceLine)
+    (textArea->textCursor()).select(QTextCursor::LineUnderCursor);
+
+  applyStandartFontForSelection();
+
+  // Очищается формат символов
+  QColor clearColor;
+  QBrush clearBrush( clearColor );
+  QTextCharFormat clearCharFormat;
+  clearCharFormat.setForeground( clearBrush );
+  textArea->setCurrentCharFormat( clearCharFormat );
+
+  // Если выделен блок
+  // или курсор на пустой линии
+  // или курсор на линии на которой нет символов
+  if(editor->cursorPositionDetector->isBlockSelect() ||
+     flagCursorOnEmptyLine ||
+     flagCursorOnSpaceLine)
+  {
+    QTextBlockFormat format;
+    // Убираются отступы
+    format.setLeftMargin(0); // Убирается левый отступ (который, возможно был установлен слайдером или кнопками изменения отступа)
+    format.setRightMargin(0);
+    format.setTopMargin(0); // Убираются межстрочные интервалы, которые самопроизвольно появляются при вставке из других программ
+    format.setBottomMargin(0);
+    format.setAlignment(Qt::AlignLeft); // Выравнивание по левому краю
+    // Применение форматирование
+    textArea->textCursor().setBlockFormat(format);
+  }
+
+  // Если была работа со строкой, в которой нет символов,
+  // курсор переносится на начало строки, чтобы не путать пользователя
+  if(flagCursorOnSpaceLine)
+    textArea->moveCursor(QTextCursor::StartOfLine);
+}
+
+
 void TypefaceFormatter::onTextOnlyClicked()
 {
   int startCursorPos=textArea->textCursor().anchor(); // Начало выделения
   int stopCursorPos=textArea->textCursor().position(); // Конец выделения
-  qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
+  // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
 
   // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
   bool isSelectionReverse=false;
@@ -949,7 +1021,7 @@ void TypefaceFormatter::onFixBreakSymbolClicked()
   // Получение исходного кода выделенного фрагмента
   QString htmlCode=textArea->textCursor().selection().toHtml();
 
-  qDebug() << "Before replace break in onFixBreakSymbolClicked: " << htmlCode;
+  // qDebug() << "Before replace break in onFixBreakSymbolClicked: " << htmlCode;
 
   // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
   // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
@@ -958,7 +1030,7 @@ void TypefaceFormatter::onFixBreakSymbolClicked()
 
   htmlCode.replace(replace_expression, "</p><p>");
 
-  qDebug() << "After remove style: " << htmlCode;
+  // qDebug() << "After remove style: " << htmlCode;
 
   // Старый код убирается
   textArea->textCursor().removeSelectedText();

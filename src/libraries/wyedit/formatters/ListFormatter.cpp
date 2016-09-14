@@ -31,10 +31,12 @@ void ListFormatter::onDotlistClicked(void)
 void ListFormatter::formatToList(QTextListFormat::Style setFormat)
 {
   // Если выделения нет
-  if(!textArea->textCursor().hasSelection()) return;
+  if(!textArea->textCursor().hasSelection())
+    return;
 
   // Форматирование в список возможно только если выделен блок
-  if(!editor->cursorPositionDetector->isBlockSelect()) return;
+  if(!editor->cursorPositionDetector->isBlockSelect())
+    return;
 
   // Если строки выбраны
   if(textArea->textCursor().hasSelection())

@@ -58,6 +58,7 @@ private:
   void applyPureBlockFormatForSelection();
   void clearBackgroundColorForSelection();
   QString htmlSimplyfier(QString htmlCode);
+  void clearSimple(void);
 
 };
 
