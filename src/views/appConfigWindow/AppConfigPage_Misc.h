@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QPushButton>
 
 #include "ConfigPage.h"
 
@@ -14,9 +15,12 @@ class AppConfigPage_Misc : public ConfigPage
 
 public:
   AppConfigPage_Misc(QWidget *parent = 0);
+  virtual ~AppConfigPage_Misc(void);
+
   int applyChanges(void);
 
 private slots:
+  void onClickedEditMyTetraConfigFile(void);
 
 protected:
 
@@ -24,6 +28,7 @@ protected:
   QCheckBox *printDebugMessages;
   QCheckBox *runInMinimizedWindow;
   QCheckBox *enableActionLog;
+  QPushButton *editMyTetraConfigFile;
 
   // Объединяющая рамка
   QGroupBox *historyBox;
@@ -31,6 +36,9 @@ protected:
   QCheckBox *rememberAtHistoryNavigationCheckBox;
   QCheckBox *rememberAtOrdinarySelectionCheckBox;
 
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
 
 };
 

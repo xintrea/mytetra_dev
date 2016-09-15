@@ -8,8 +8,8 @@
 
 EditorMultiLineInputDialog::EditorMultiLineInputDialog(QWidget *parent) : QDialog(parent)
 {
- setup_ui();
- setup_signals();
+ setupUi();
+ setupSignals();
  assembly();
 }
 
@@ -21,7 +21,7 @@ EditorMultiLineInputDialog::~EditorMultiLineInputDialog()
 }
 
 
-void EditorMultiLineInputDialog::setup_ui()
+void EditorMultiLineInputDialog::setupUi()
 {
  QSizePolicy sizePolicy;
  sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
@@ -49,7 +49,7 @@ void EditorMultiLineInputDialog::setup_ui()
 }
 
 
-void EditorMultiLineInputDialog::setup_signals()
+void EditorMultiLineInputDialog::setupSignals()
 {
  connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
  connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
@@ -68,19 +68,13 @@ void EditorMultiLineInputDialog::assembly()
 }
 
 
-void EditorMultiLineInputDialog::set_window_title(QString title)
-{
- this->setWindowTitle(title);
-}
-
-
-void EditorMultiLineInputDialog::set_text(QString text)
+void EditorMultiLineInputDialog::setText(QString text)
 {
  textArea->setPlainText(text);
 }
 
 
-QString EditorMultiLineInputDialog::get_text()
+QString EditorMultiLineInputDialog::getText()
 {
  return textArea->toPlainText();
 }
@@ -90,4 +84,10 @@ QString EditorMultiLineInputDialog::get_text()
 bool EditorMultiLineInputDialog::isModified() 
 { 
  return textArea->document()->isModified(); 
+}
+
+
+void EditorMultiLineInputDialog::setWordWrapMode(QTextOption::WrapMode mode)
+{
+  textArea->setWordWrapMode(mode);
 }

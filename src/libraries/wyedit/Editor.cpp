@@ -1148,13 +1148,13 @@ void Editor::onShowhtmlClicked(void)
 {
   EditorMultiLineInputDialog dialog(this);
 
-  dialog.set_text(textArea->toHtml());
-  dialog.set_window_title(tr("Edit HTML source"));
+  dialog.setText(textArea->toHtml());
+  dialog.setWindowTitle(tr("Edit HTML source"));
 
   if(dialog.exec()!=QDialog::Accepted)
     return;
 
-  textArea->setHtml(dialog.get_text());
+  textArea->setHtml(dialog.getText());
 
   // Если в диалоговом окне был иземен HTML код
   if(dialog.isModified())

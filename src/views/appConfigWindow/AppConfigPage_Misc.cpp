@@ -2,14 +2,33 @@
 #include <QBoxLayout>
 #include <QDir>
 #include <QLineEdit>
+#include <QTextOption>
 
+#include "main.h"
 #include "AppConfigPage_Misc.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/wyedit/EditorMultiLineInputDialog.h"
+#include "libraries/GlobalParameters.h"
 
 extern AppConfig mytetraConfig;
+extern GlobalParameters globalParameters;
 
 
 AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
+{
+  setupUi();
+  setupSignals();
+  assembly();
+}
+
+
+AppConfigPage_Misc::~AppConfigPage_Misc()
+{
+
+}
+
+
+void AppConfigPage_Misc::setupUi(void)
 {
   qDebug() << "Create misc config page";
 
@@ -33,11 +52,7 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
   enableActionLog->setText(tr("Enable action logging (experimental)"));
   enableActionLog->setChecked(mytetraConfig.getEnableLogging());
 
-
-  // Группировщик виджетов для настройки автоматического старта синхронизации
-  historyBox=new QGroupBox(this);
-  historyBox->setTitle(tr("History of visited notes"));
-
+  // Настройки курсора при навигации по истории
   rememberAtHistoryNavigationCheckBox=new QCheckBox(this);
   rememberAtHistoryNavigationCheckBox->setText(tr("Remember cursor position at history navigation"));
   rememberAtHistoryNavigationCheckBox->setChecked(mytetraConfig.getRememberCursorAtHistoryNavigation());
@@ -46,12 +61,38 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
   rememberAtOrdinarySelectionCheckBox->setText(tr("Try remember cursor position at ordinary selection"));
   rememberAtOrdinarySelectionCheckBox->setChecked(mytetraConfig.getRememberCursorAtOrdinarySelection());
 
-  // Виджеты вставляются в группировщик
+  // Кнопка редактирования файла конфигурации MyTetra
+  editMyTetraConfigFile=new QPushButton(this);
+  editMyTetraConfigFile->setText(tr("Edit config file"));
+  editMyTetraConfigFile->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
+}
+
+
+void AppConfigPage_Misc::setupSignals(void)
+{
+  connect(editMyTetraConfigFile,SIGNAL(clicked()),this,SLOT(onClickedEditMyTetraConfigFile()));
+}
+
+
+void AppConfigPage_Misc::assembly(void)
+{
+  // Группировщик виджетов для настроек курсора при навигации по истории
+  historyBox=new QGroupBox(this);
+  historyBox->setTitle(tr("History of visited notes"));
+
+  // Виджеты вставляются в группировщик настроек курсора при навигации по истории
   QVBoxLayout *historyLayout = new QVBoxLayout;
   historyLayout->addWidget(rememberAtHistoryNavigationCheckBox);
   historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
   historyBox->setLayout(historyLayout);
 
+  // Вспомогательный слой чтобы кнопка
+  /*
+  QHBoxLayout *historyLayout = new QVBoxLayout;
+  historyLayout->addWidget(rememberAtHistoryNavigationCheckBox);
+  historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
+  historyBox->setLayout(historyLayout);
+  */
 
   // Собирается основной слой
   QVBoxLayout *centralLayout=new QVBoxLayout();
@@ -60,10 +101,45 @@ AppConfigPage_Misc::AppConfigPage_Misc(QWidget *parent) : ConfigPage(parent)
   centralLayout->addWidget(runInMinimizedWindow);
   centralLayout->addWidget(enableActionLog);
   centralLayout->addWidget(historyBox);
+  centralLayout->addWidget(editMyTetraConfigFile);
   centralLayout->addStretch();
 
   // Основной слой устанавливается
   setLayout(centralLayout);
+}
+
+
+void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
+{
+  EditorMultiLineInputDialog dialog(this);
+
+  dialog.setWordWrapMode(QTextOption::NoWrap);
+  dialog.setWindowTitle(tr("Edit MyTetra config file"));
+
+  // Получение текста конфиг-файла
+  QString fileName=globalParameters.getWorkDirectory()+"/conf.ini";
+
+  QFile file(fileName);
+  if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    criticalError("Cant open config file "+fileName);
+    return;
+  }
+
+  // Установка в окне текста файла
+  dialog.setText( QString::fromUtf8(file.readAll()) );
+
+  // Если была нажата отмена
+  if(dialog.exec()!=QDialog::Accepted)
+    return;
+
+  // Если текст в окне не менялся
+  if(!dialog.isModified())
+    return;
+
+  // Здесь запомнить новый конфиг и перегрузить программу
+
+
 }
 
 

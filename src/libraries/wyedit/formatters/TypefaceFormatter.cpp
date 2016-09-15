@@ -778,10 +778,6 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
 // с реальным одельным пунктом перечисления
 void TypefaceFormatter::clearSimple(void)
 {
-  int startCursorPos=textArea->textCursor().position();
-  int stopCursorPos=textArea->textCursor().anchor();
-  // qDebug() << "clearSimple(): Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
-
   bool flagCursorOnEmptyLine=editor->cursorPositionDetector->isCursorOnEmptyLine();
   bool flagCursorOnSpaceLine=editor->cursorPositionDetector->isCursorOnSpaceLine();
 

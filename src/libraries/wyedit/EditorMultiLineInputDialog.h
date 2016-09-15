@@ -16,19 +16,19 @@ public:
  EditorMultiLineInputDialog(QWidget *parent=0);
  virtual ~EditorMultiLineInputDialog();
 
- void set_text(QString text);
- QString get_text();
+ void setText(QString text);
+ QString getText();
  bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
 
- void set_window_title(QString title);
+ void setWordWrapMode(QTextOption::WrapMode mode);
 
 private:
 
  QTextEdit *textArea;
  QDialogButtonBox *buttonBox;
 
- void setup_ui(void);
- void setup_signals(void);
+ void setupUi(void);
+ void setupSignals(void);
  void assembly(void);
 };
 
