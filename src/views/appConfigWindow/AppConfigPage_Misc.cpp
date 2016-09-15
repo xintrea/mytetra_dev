@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QLineEdit>
 #include <QTextOption>
+#include <QMessageBox>
 
 #include "main.h"
 #include "AppConfigPage_Misc.h"
@@ -111,8 +112,11 @@ void AppConfigPage_Misc::assembly(void)
 
 void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
 {
-  EditorMultiLineInputDialog dialog(this);
+  // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
+  mytetraConfig.sync();
 
+  // Окно диалога для редактирования файла конфига
+  EditorMultiLineInputDialog dialog(this);
   dialog.setWordWrapMode(QTextOption::NoWrap);
   dialog.setWindowTitle(tr("Edit MyTetra config file"));
 
@@ -129,6 +133,9 @@ void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
   // Установка в окне текста файла
   dialog.setText( QString::fromUtf8(file.readAll()) );
 
+  // Текст из файла получен, файл больше не требуется
+  file.close();
+
   // Если была нажата отмена
   if(dialog.exec()!=QDialog::Accepted)
     return;
@@ -137,9 +144,26 @@ void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
   if(!dialog.isModified())
     return;
 
-  // Здесь запомнить новый конфиг и перегрузить программу
 
+  // Файл конфига открывается на запись
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    criticalError("Cant open config file for write: "+fileName);
+    return;
+  }
 
+  // Измененный текст записывается в файл
+  QTextStream out(&file);
+  out << dialog.getText();
+
+  // Текст записан, файл больше не требуется
+  file.close();
+
+  // Для принятия изменений требуется перезапустить программу
+  QMessageBox::warning(this, tr("Warning"),
+                             tr("The program will have to be restarted for changes to take effect."),
+                             QMessageBox::Ok);
+  exit(0);
 }
 
 
