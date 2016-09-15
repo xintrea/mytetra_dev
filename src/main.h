@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  313
+#define APPLICATION_RELEASE_MICROVERSION  314
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -75,6 +75,7 @@ int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
 
 void showMessageBox(QString message); // Выдача на экран простого окна с сообщением
+void editConfigFile( QString fileName, float sizeCoeffitient ); // Редактирование какого-либо конфиг-файла
 
 QString htmlSpecialChars(QString line);
 QString htmlSpecialCharsDecode(QString line);

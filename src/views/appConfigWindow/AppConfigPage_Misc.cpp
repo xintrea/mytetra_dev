@@ -2,13 +2,10 @@
 #include <QBoxLayout>
 #include <QDir>
 #include <QLineEdit>
-#include <QTextOption>
-#include <QMessageBox>
 
 #include "main.h"
 #include "AppConfigPage_Misc.h"
 #include "models/appConfig/AppConfig.h"
-#include "libraries/wyedit/EditorMultiLineInputDialog.h"
 #include "libraries/GlobalParameters.h"
 
 extern AppConfig mytetraConfig;
@@ -115,55 +112,7 @@ void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
   // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
   mytetraConfig.sync();
 
-  // Окно диалога для редактирования файла конфига
-  EditorMultiLineInputDialog dialog(this);
-  dialog.setWordWrapMode(QTextOption::NoWrap);
-  dialog.setWindowTitle(tr("Edit MyTetra config file"));
-
-  // Получение текста конфиг-файла
-  QString fileName=globalParameters.getWorkDirectory()+"/conf.ini";
-
-  QFile file(fileName);
-  if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    criticalError("Cant open config file "+fileName);
-    return;
-  }
-
-  // Установка в окне текста файла
-  dialog.setText( QString::fromUtf8(file.readAll()) );
-
-  // Текст из файла получен, файл больше не требуется
-  file.close();
-
-  // Если была нажата отмена
-  if(dialog.exec()!=QDialog::Accepted)
-    return;
-
-  // Если текст в окне не менялся
-  if(!dialog.isModified())
-    return;
-
-
-  // Файл конфига открывается на запись
-  if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-  {
-    criticalError("Cant open config file for write: "+fileName);
-    return;
-  }
-
-  // Измененный текст записывается в файл
-  QTextStream out(&file);
-  out << dialog.getText();
-
-  // Текст записан, файл больше не требуется
-  file.close();
-
-  // Для принятия изменений требуется перезапустить программу
-  QMessageBox::warning(this, tr("Warning"),
-                             tr("The program will have to be restarted for changes to take effect."),
-                             QMessageBox::Ok);
-  exit(0);
+  editConfigFile( globalParameters.getWorkDirectory()+"/conf.ini", 0.8 );
 }
 
 

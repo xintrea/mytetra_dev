@@ -3,6 +3,7 @@
 #include <QTranslator>
 #include <QToolButton>
 #include <QSplashScreen>
+#include <QTextOption>
 
 #if QT_VERSION >= 0x050000
 #include <QScroller>
@@ -33,6 +34,8 @@
 #include "libraries/TraceLogger.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
+#include "libraries/wyedit/EditorMultiLineInputDialog.h"
+
 
 using namespace std;
 
@@ -334,6 +337,59 @@ int getScreenSizeY(void)
 #endif
 
   return size;
+}
+
+
+void editConfigFile( QString fileName, float sizeCoefficient )
+{
+  // Окно диалога для редактирования файла конфига
+  EditorMultiLineInputDialog dialog( qobject_cast<QWidget *>(pMainWindow) );
+  dialog.setWordWrapMode(QTextOption::NoWrap);
+  dialog.setWindowTitle(QObject::tr("Edit config file"));
+  dialog.setSizeCoefficient( sizeCoefficient );
+
+  QFile file(fileName);
+  if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    criticalError("Cant open config file "+fileName);
+    return;
+  }
+
+  // Установка в окне текста файла
+  dialog.setText( QString::fromUtf8(file.readAll()) );
+
+  // Текст из файла получен, файл больше не требуется
+  file.close();
+
+  // Если была нажата отмена
+  if(dialog.exec()!=QDialog::Accepted)
+    return;
+
+  // Если текст в окне не менялся
+  if(!dialog.isModified())
+    return;
+
+
+  // Файл конфига открывается на запись
+  if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+  {
+    criticalError("Cant open config file for write: "+fileName);
+    return;
+  }
+
+  // Измененный текст записывается в файл
+  QTextStream out(&file);
+  out << dialog.getText();
+
+  // Текст записан, файл больше не требуется
+  file.close();
+
+  // Для принятия изменений требуется перезапустить программу
+  QMessageBox::warning(qobject_cast<QWidget *>(pMainWindow),
+                       QObject::tr("Warning"),
+                       QObject::tr("The program will have to be restarted for changes to take effect."),
+                       QMessageBox::Ok);
+  exit(0);
 }
 
 

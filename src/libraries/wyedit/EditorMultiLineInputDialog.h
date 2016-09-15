@@ -21,15 +21,19 @@ public:
  bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
 
  void setWordWrapMode(QTextOption::WrapMode mode);
+ void setSizeCoefficient(float f);
 
 private:
 
+ float sizeCoefficient;
  QTextEdit *textArea;
  QDialogButtonBox *buttonBox;
 
  void setupUi(void);
  void setupSignals(void);
  void assembly(void);
+
+ void updateSize();
 };
 
 #endif	/* _EDITORMULTILINEINPUTDIALOG_H_ */
