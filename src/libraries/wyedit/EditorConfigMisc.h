@@ -5,6 +5,8 @@
 #include <QLineEdit>
 #include <QFontComboBox>
 #include <QSpinBox>
+#include <QPushButton>
+#include <QLabel>
 
 #include "views/appConfigWindow/ConfigPage.h"
 
@@ -21,11 +23,21 @@ public:
   int applyChanges(void);
     
 private slots:
+  void onClickedEditWyEditConfigFile(void);
  
 private:
+
+  QLabel *indentStepLabel;
+  QLabel *indentStepFlexion;
   QSpinBox *indentStep;
+
+  QPushButton *editWyEditConfigFile;
   
   EditorConfig *conf;
+
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
   
 };
 

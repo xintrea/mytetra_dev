@@ -84,14 +84,6 @@ void AppConfigPage_Misc::assembly(void)
   historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
   historyBox->setLayout(historyLayout);
 
-  // Вспомогательный слой чтобы кнопка
-  /*
-  QHBoxLayout *historyLayout = new QVBoxLayout;
-  historyLayout->addWidget(rememberAtHistoryNavigationCheckBox);
-  historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
-  historyBox->setLayout(historyLayout);
-  */
-
   // Собирается основной слой
   QVBoxLayout *centralLayout=new QVBoxLayout();
   centralLayout->addWidget(cutBranchConfirm);

@@ -15,17 +15,22 @@
 
 EditorConfigMisc::EditorConfigMisc(QWidget *parent) : ConfigPage(parent)
 {
- qDebug() << "Create editor config misc widget";
- 
- // Устанавливается указатель на объект работы с конфигфайлом
- conf=find_object<EditorConfig>("editorconfig");
+  // Устанавливается указатель на объект работы с конфигфайлом
+  conf=find_object<EditorConfig>("editorconfig");
 
- 
+  setupUi();
+  setupSignals();
+  assembly();
+}
+
+
+void EditorConfigMisc::setupUi(void)
+{
  // Шаг изменения отступа
- QLabel *indentStepLabel=new QLabel(this);
+ indentStepLabel=new QLabel(this);
  indentStepLabel->setText(tr("Indent step"));
 
- QLabel *indentStepFlexion=new QLabel(this);
+ indentStepFlexion=new QLabel(this);
  indentStepFlexion->setText(tr("pixels"));
 
  indentStep=new QSpinBox(this);
@@ -33,19 +38,41 @@ EditorConfigMisc::EditorConfigMisc(QWidget *parent) : ConfigPage(parent)
  indentStep->setMaximum(250);
  indentStep->setValue(conf->get_indent_step());
 
- 
- // Сборка всех блоков в окно
- QGridLayout *configLayout=new QGridLayout();
- configLayout->addWidget(indentStepLabel,   0, 0);
- configLayout->addWidget(indentStep,         0, 1);
- configLayout->addWidget(indentStepFlexion, 0, 2);
+
+ // Кнопка редактирования файла конфигурации WyEdit
+ editWyEditConfigFile=new QPushButton(this);
+ editWyEditConfigFile->setText(tr("Edit config file"));
+ editWyEditConfigFile->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
+}
 
 
- QVBoxLayout *centralLayout=new QVBoxLayout();
- centralLayout->addLayout(configLayout);
- centralLayout->addStretch();
- 
- setLayout(centralLayout);
+void EditorConfigMisc::setupSignals(void)
+{
+  connect(editWyEditConfigFile, SIGNAL(clicked()), this, SLOT(onClickedEditWyEditConfigFile()));
+}
+
+
+void EditorConfigMisc::assembly(void)
+{
+  // Сборка всех блоков настройки отступа в окно
+  QGridLayout *configLayout=new QGridLayout();
+  configLayout->addWidget(indentStepLabel,   0, 0);
+  configLayout->addWidget(indentStep,         0, 1);
+  configLayout->addWidget(indentStepFlexion, 0, 2);
+
+  QVBoxLayout *centralLayout=new QVBoxLayout();
+  centralLayout->addLayout(configLayout);
+  centralLayout->addWidget(editWyEditConfigFile);
+  centralLayout->addStretch();
+
+  setLayout(centralLayout);
+}
+
+
+void EditorConfigMisc::onClickedEditWyEditConfigFile(void)
+{
+
+
 }
 
 
