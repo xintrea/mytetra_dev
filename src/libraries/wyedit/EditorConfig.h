@@ -14,6 +14,8 @@ public:
     EditorConfig(QString config_file_name, QWidget *parent=0);
     ~EditorConfig();
 
+    void sync(void);
+
     // Настройка стандартного шрифта
     QString get_default_font(void);
     void set_default_font(QString fontName);

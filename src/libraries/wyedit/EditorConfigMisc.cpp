@@ -6,11 +6,15 @@
 #include <QAbstractSpinBox>
 #include <QtDebug>
 #include <QLabel>
+#include <QGroupBox>
 
 #include "../../main.h"
 
 #include "EditorConfigMisc.h"
 #include "EditorConfig.h"
+#include "libraries/GlobalParameters.h"
+
+extern GlobalParameters globalParameters;
 
 
 EditorConfigMisc::EditorConfigMisc(QWidget *parent) : ConfigPage(parent)
@@ -60,9 +64,20 @@ void EditorConfigMisc::assembly(void)
   configLayout->addWidget(indentStep,         0, 1);
   configLayout->addWidget(indentStepFlexion, 0, 2);
 
+
+  // Группировщик виджетов для опасной зоны
+  QGroupBox *dangerBox=new QGroupBox(this);
+  dangerBox->setTitle(tr("Danger action (Attention!)"));
+
+  // Виджеты вставляются в группировщик опасной зоны
+  QVBoxLayout *dangerLayout = new QVBoxLayout();
+  dangerLayout->addWidget(editWyEditConfigFile);
+  dangerBox->setLayout(dangerLayout);
+
+
   QVBoxLayout *centralLayout=new QVBoxLayout();
   centralLayout->addLayout(configLayout);
-  centralLayout->addWidget(editWyEditConfigFile);
+  centralLayout->addWidget(dangerBox);
   centralLayout->addStretch();
 
   setLayout(centralLayout);
@@ -71,8 +86,10 @@ void EditorConfigMisc::assembly(void)
 
 void EditorConfigMisc::onClickedEditWyEditConfigFile(void)
 {
+  // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
+  conf->sync();
 
-
+  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8 );
 }
 
 

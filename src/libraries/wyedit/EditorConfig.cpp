@@ -39,8 +39,14 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
 // Деструктор объекта настройки редактора
 EditorConfig::~EditorConfig()
 {
- qDebug() << "Save editor config file";
- conf->sync();
+  qDebug() << "Save editor config file";
+  conf->sync();
+}
+
+
+void EditorConfig::sync(void)
+{
+  conf->sync();
 }
 
 

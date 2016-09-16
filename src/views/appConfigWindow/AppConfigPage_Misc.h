@@ -32,6 +32,7 @@ protected:
 
   // Объединяющая рамка
   QGroupBox *historyBox;
+  QGroupBox *dangerBox;
 
   QCheckBox *rememberAtHistoryNavigationCheckBox;
   QCheckBox *rememberAtOrdinarySelectionCheckBox;

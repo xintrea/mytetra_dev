@@ -84,6 +84,17 @@ void AppConfigPage_Misc::assembly(void)
   historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
   historyBox->setLayout(historyLayout);
 
+
+  // Группировщик виджетов для опасной зоны
+  dangerBox=new QGroupBox(this);
+  dangerBox->setTitle(tr("Danger action (Attention!)"));
+
+  // Виджеты вставляются в группировщик опасной зоны
+  QVBoxLayout *dangerLayout = new QVBoxLayout;
+  dangerLayout->addWidget(editMyTetraConfigFile);
+  dangerBox->setLayout(dangerLayout);
+
+
   // Собирается основной слой
   QVBoxLayout *centralLayout=new QVBoxLayout();
   centralLayout->addWidget(cutBranchConfirm);
@@ -91,7 +102,7 @@ void AppConfigPage_Misc::assembly(void)
   centralLayout->addWidget(runInMinimizedWindow);
   centralLayout->addWidget(enableActionLog);
   centralLayout->addWidget(historyBox);
-  centralLayout->addWidget(editMyTetraConfigFile);
+  centralLayout->addWidget(dangerBox);
   centralLayout->addStretch();
 
   // Основной слой устанавливается
