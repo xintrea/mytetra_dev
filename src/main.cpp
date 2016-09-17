@@ -345,7 +345,7 @@ void editConfigFile( QString fileName, float sizeCoefficient )
   // Окно диалога для редактирования файла конфига
   EditorMultiLineInputDialog dialog( qobject_cast<QWidget *>(pMainWindow) );
   dialog.setWordWrapMode(QTextOption::NoWrap);
-  dialog.setWindowTitle(QObject::tr("Edit config file (dangerous!)"));
+  dialog.setWindowTitle(QObject::tr("Edit config file (Be careful!)"));
   dialog.setSizeCoefficient( sizeCoefficient );
 
   QFile file(fileName);

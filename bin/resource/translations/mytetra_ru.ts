@@ -506,37 +506,51 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="obsolete">Запрашивать подтверждение перед вырезанием ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="18"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="35"/>
         <source>Confirm item cut</source>
         <translation>Подтверждение перед вырезанием ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="23"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="40"/>
         <source>Print debug messages to console</source>
         <translation>Выводить отладочные сообщения в консоль</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="28"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="45"/>
         <source>Run MyTetra in a minimized window</source>
         <translation>Запускать MyTetra в свернутом окне</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="33"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="50"/>
         <source>Enable action logging (experimental)</source>
         <translation>Включить журнал действий (экспериментально)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="39"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="64"/>
+        <source>Edit config file</source>
+        <translation>Редактировать конфиг-файл</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="79"/>
         <source>History of visited notes</source>
         <translation>История просморенных записей</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="42"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="90"/>
+        <source>Danger actions (Attention!)</source>
+        <translation>Опасные действия (Будьте внимательны!)</translation>
+    </message>
+    <message>
+        <source>Danger action (Attention!)</source>
+        <translation type="vanished">Опасные действия (Будьте внимательны!)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="55"/>
         <source>Remember cursor position at history navigation</source>
         <translation>Вспоминать позицию курсора при навигации по истории</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="46"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="59"/>
         <source>Try remember cursor position at ordinary selection</source>
         <translation>Пытаться вспомнить позицию курсора при обычном выборе записи</translation>
     </message>
@@ -1188,14 +1202,28 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorConfigMisc</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="26"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="35"/>
         <source>Indent step</source>
         <translation>Шаг отступа</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="29"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="38"/>
         <source>pixels</source>
         <translation>точек</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="48"/>
+        <source>Edit config file</source>
+        <translation>Редактировать конфиг-файл</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="70"/>
+        <source>Danger actions (Attention!)</source>
+        <translation>Опасные действия (Будьте внимательны!)</translation>
+    </message>
+    <message>
+        <source>Danger action (Attention!)</source>
+        <translation type="vanished">Опасные действия (Будьте внимательны!)</translation>
     </message>
 </context>
 <context>
@@ -1315,12 +1343,12 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorMultiLineInputDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="35"/>
+        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="40"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="36"/>
+        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="41"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -2529,6 +2557,25 @@ MyTetra will try to create a blank entry to fix it.</source>
 Файл %1 не найден.
 Чтобы исправить ошибку, MyTetra создаст пустую запись.</translation>
     </message>
+    <message>
+        <source>Edit config file (dangerous!)</source>
+        <translation type="vanished">Редактирование конфиг-файла (Аккуратно!)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/main.cpp" line="348"/>
+        <source>Edit config file (Be careful!)</source>
+        <translation>Редактирование конфиг-файла (Аккуратно!)</translation>
+    </message>
+    <message>
+        <location filename="../../../src/main.cpp" line="389"/>
+        <source>Warning</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <location filename="../../../src/main.cpp" line="390"/>
+        <source>The program will have to be restarted for changes to take effect.</source>
+        <translation>Для применения изменений программа будет закрыта. Новые изменения вступят в силу при следующем запуске программы.</translation>
+    </message>
 </context>
 <context>
     <name>RecordInfoFieldsEditor</name>
@@ -3285,7 +3332,7 @@ Please select single item for enabling edit operation.</source>
 <context>
     <name>TypefaceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="562"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="607"/>
         <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation>Слишком сложное форматирование текста.
 Невозможно правильно обработать выбранный текст.

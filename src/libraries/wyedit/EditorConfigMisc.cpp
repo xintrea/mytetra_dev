@@ -67,7 +67,7 @@ void EditorConfigMisc::assembly(void)
 
   // Группировщик виджетов для опасной зоны
   QGroupBox *dangerBox=new QGroupBox(this);
-  dangerBox->setTitle(tr("Danger action (Attention!)"));
+  dangerBox->setTitle(tr("Danger actions (Attention!)"));
 
   // Виджеты вставляются в группировщик опасной зоны
   QVBoxLayout *dangerLayout = new QVBoxLayout();
