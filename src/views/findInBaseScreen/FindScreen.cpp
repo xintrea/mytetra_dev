@@ -373,7 +373,7 @@ void FindScreen::findClicked(void)
   }
 
  // Выясняется список слов, которые нужно искать
- searchWordList=text_delimiter_decompose(findText->text());
+ searchWordList=textDelimiterDecompose(findText->text());
 
  if(searchWordList.size()==0)
   {
@@ -606,7 +606,7 @@ bool FindScreen::findInTextProcess(const QString& text)
     {
      // Текст разбивается на слова с очисткой от лишних знаков 
      // и проверяется, есть ли в полученном списке текущее слово
-     if(text_delimiter_decompose(text).contains(searchWordList.at(i), Qt::CaseInsensitive))
+     if(textDelimiterDecompose(text).contains(searchWordList.at(i), Qt::CaseInsensitive))
       findFlag=1;
     }
    else
@@ -761,3 +761,75 @@ void FindScreen::switchToolsExpand(bool flag)
   findInText->setVisible(flag);
 }
 
+// Устаревшая функция, простое обнаружение токенов для поиска
+/*
+QStringList FindScreen::textDelimiterDecompose(QString text)
+{
+ text.replace('"',' ');
+ text.replace("'"," ");
+ text.replace('.',' ');
+ text.replace(',',' ');
+ text.replace(';',' ');
+ text.replace(':',' ');
+ text.replace('-',' ');
+ text.replace('?',' ');
+ text.replace('!',' ');
+
+ QStringList list = text.split(QRegExp("\\W+"), QString::SkipEmptyParts);
+
+ return list;
+}
+*/
+
+
+QStringList FindScreen::textDelimiterDecompose(QString text)
+{
+  QStringList list;
+  int len=text.length();
+  QString buf;
+  bool quoted=false;
+
+  QString delimiter;
+  delimiter.append(" ");
+  delimiter.append("'");
+  delimiter.append('.');
+  delimiter.append(',');
+  delimiter.append(';');
+  delimiter.append(':');
+  delimiter.append('-');
+  delimiter.append('?');
+  delimiter.append('!');
+
+  for(int i=0; i<len; i++)
+  {
+    // Если обнаружен разделитель
+    if(delimiter.contains( text[i] ))
+    {
+      if( !quoted )
+      {
+        if(buf.length() > 0)
+        {
+          list.append(buf);
+          buf = "";
+        }
+      }
+      else
+        buf += text[i];
+    }
+    else if(text[i] == '"')
+    {
+      quoted = (quoted == true ? false : true);
+    }
+    else
+    {
+      buf += text[i];
+    }
+  }
+
+  if(buf.length() > 0)
+    list.append(buf);
+
+  qDebug() << "Find split list:" << list;
+
+  return list;
+}

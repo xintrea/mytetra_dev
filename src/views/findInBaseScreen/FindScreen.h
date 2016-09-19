@@ -39,7 +39,6 @@ public slots:
  void setFindText(QString text);
 
 
-
 private slots:
 
  void enableFindButton(const QString &text);
@@ -119,6 +118,9 @@ private:
  bool findInTextProcess(const QString& text);
 
  void switchToolsExpand(bool flag);
+
+ QStringList textDelimiterDecompose(QString text);
+
  
  // Поля, где нужно искать (Заголовок, текст, теги...)
  QMap<QString, bool> searchArea;

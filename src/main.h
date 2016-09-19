@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  317
+#define APPLICATION_RELEASE_MICROVERSION  318
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -62,7 +62,6 @@ void print_object_tree(void);
 bool compare_QStringList_len(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action);
 void myMessageOutput(QtMsgType type, const char *msg);
-QStringList text_delimiter_decompose(QString text);
 QString get_unical_id(void);
 QString getUnicalImageName(void);
 int get_milli_count(void);

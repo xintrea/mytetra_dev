@@ -530,25 +530,6 @@ void setKineticScrollArea(QAbstractItemView *object)
 }
 
 
-
-QStringList text_delimiter_decompose(QString text)
-{
- text.replace('"',' ');
- text.replace("'"," ");
- text.replace('.',' ');
- text.replace(',',' ');
- text.replace(';',' ');
- text.replace(':',' ');
- text.replace('-',' ');
- text.replace('?',' ');
- text.replace('!',' ');
-
- QStringList list = text.split(QRegExp("\\W+"), QString::SkipEmptyParts);
-
- return list;
-}
-
-
 QString htmlSpecialChars(QString line)
 {
   line.replace("\"", "&quot;");
