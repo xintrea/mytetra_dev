@@ -784,21 +784,15 @@ QStringList FindScreen::textDelimiterDecompose(QString text)
 
 QStringList FindScreen::textDelimiterDecompose(QString text)
 {
+  const int len=text.length();
+
   QStringList list;
-  int len=text.length();
   QString buf;
   bool quoted=false;
 
-  QString delimiter;
-  delimiter.append(" ");
-  delimiter.append("'");
-  delimiter.append('.');
-  delimiter.append(',');
-  delimiter.append(';');
-  delimiter.append(':');
-  delimiter.append('-');
-  delimiter.append('?');
-  delimiter.append('!');
+  QString delimiter=" '.,;:-?!`";
+  delimiter.append(QChar::Tabulation);
+  delimiter.append(QChar::Nbsp);
 
   for(int i=0; i<len; i++)
   {
@@ -817,13 +811,9 @@ QStringList FindScreen::textDelimiterDecompose(QString text)
         buf += text[i];
     }
     else if(text[i] == '"')
-    {
-      quoted = (quoted == true ? false : true);
-    }
+      quoted = !quoted;
     else
-    {
       buf += text[i];
-    }
   }
 
   if(buf.length() > 0)
