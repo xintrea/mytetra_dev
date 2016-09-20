@@ -17,17 +17,17 @@ EditorShowText::~EditorShowText()
 
 void EditorShowText::setupUi()
 {
- QSizePolicy sizePolicy;
- sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
- sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
+  QSizePolicy sizePolicy;
+  sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+  sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
 
- setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
+  setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
 
- textArea=new QTextEdit(this);
- textArea->setAcceptRichText(true);
- textArea->setSizePolicy(sizePolicy);
+  textArea=new QTextEdit(this);
+  textArea->setAcceptRichText(true);
+  textArea->setSizePolicy(sizePolicy);
 
- textArea->setReadOnly(true); // Показываемый текст можно только просматривать
+  textArea->setReadOnly(true); // Показываемый текст можно только просматривать
 }
 
 

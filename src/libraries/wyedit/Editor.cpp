@@ -1200,7 +1200,7 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
   // Или нет выделения, но курсор находится на позиции картинки
   if(cursorPositionDetector->isImageSelect() ||
      cursorPositionDetector->isCursorOnImage())
-    editorContextMenu->setImageProperties( true );
+     editorContextMenu->setImageProperties( true );
   else
     editorContextMenu->setImageProperties( false );
 
