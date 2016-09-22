@@ -1282,7 +1282,10 @@ void Editor::onShowTextClicked(void)
     return;
   }
 
-  EditorShowText *showText=new EditorShowText(this);
+  // Создается открепленное окно
+  // Нелья в качестве parent указывать this, так если редактор станет неактивным (например, когда запись не выбрана)
+  // то данное окно тоже станет неактивным, и невозможно будет выделить в нем текст
+  EditorShowText *showText=new EditorShowText(find_object<MainWindow>("mainwindow"));
 
   // Устанавливается флаг удаления диалога после закрытия его окна
   showText->setAttribute( Qt::WA_DeleteOnClose );
