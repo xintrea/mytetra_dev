@@ -840,7 +840,8 @@ void TreeScreen::delBranch(QString mode)
 void TreeScreen::delOneBranch(QModelIndex index)
 {
 
- if(!index.isValid()) return;
+ if(!index.isValid())
+   return;
 
  // Получение узла, который соответствует обрабатываемому индексу
  TreeItem *item=knowTreeModel->getItem(index);
@@ -863,14 +864,14 @@ void TreeScreen::delOneBranch(QModelIndex index)
  {
   qDebug() << "Delete subbranch, id:" << knowTreeModel->getItem(subbranchespath.at(i))->getField("id") << "name:" << knowTreeModel->getItem(subbranchespath.at(i))->getField("name");
   ( knowTreeModel->getItem(subbranchespath.at(i)) )->recordtableDeleteAllRecords();
-  // ( knowTreeModel->getItem(subbranchespath.at(i)) )->removeAllChildren();
+  // ( knowTreeModel->getItem(subbranchespath.at(i)) )->removeAllChildren(); // Команда действительно не нужна. Далее в removeRows() вызывается removeChildren()
  }
 
  // Удаление таблицы конечных записей для самой удаляемой ветки
  // Удаление подчиненных элементов для самой удаляемой ветки
  qDebug() << "Delete rootbranch, id:" << knowTreeModel->getItem(path)->getField("id") << "name:" << knowTreeModel->getItem(path)->getField("name");
  ( knowTreeModel->getItem(path) )->recordtableDeleteAllRecords();
- // ( knowTreeModel->getItem(path) )->removeAllChildren();
+ // ( knowTreeModel->getItem(path) )->removeAllChildren(); // Команда действительно не нужна. Далее в removeRows() вызывается removeChildren()
 
  // Удаление ветки на экране, при этом удалятся все подветки
  qDebug() << "This branch have row() as" << index.row();
