@@ -863,6 +863,12 @@ void TypefaceFormatter::onTextOnlyClicked()
 
   // Запоминается выделенный текст - только текст, без форматирования
   QString text=textArea->textCursor().selectedText();
+  // qDebug() << "Text without formatting: " << text;
+
+  // Удаляются спецсимволы, замещающие картинки. Если этого не сделать, после вставки на экране текст будет виден,
+  // а во внутреннем представлении исчезнет целый абзац, где была картинка, и текст абзаца не будет сохранен
+  text=text.replace(QChar::ObjectReplacementCharacter, QChar::Space);
+  // qDebug() << "Text without difficul characters: " << text;
 
   // Удаление выделенного фрагмента
   textArea->textCursor().removeSelectedText();
@@ -875,7 +881,7 @@ void TypefaceFormatter::onTextOnlyClicked()
 
   // Вставка запомненного текста
   textArea->textCursor().insertText(text);
-  // qDebug() << "After insert HTML: "<< textArea->toHtml();
+  qDebug() << "After insert HTML: "<< textArea->toHtml();
 
   // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
   cursor.movePosition(QTextCursor::End);
