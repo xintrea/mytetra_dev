@@ -250,8 +250,9 @@ void MetaEditor::setTreePath(QString path)
 
 void MetaEditor::setName(QString name)
 {
+  // Наименование записи есть всегда, оно просто отображается
   recordName->setVisible(true);
-  recordName->setText("<b>"+name+"</b>");
+  recordName->setText("<b>"+name.toHtmlEscaped()+"</b>");
 }
 
 
@@ -265,7 +266,7 @@ void MetaEditor::setAuthor(QString author)
   else
   {
     recordAuthor->setVisible(true);
-    recordAuthor->setText("<i>"+author+"</i>");
+    recordAuthor->setText("<i>"+author.toHtmlEscaped()+"</i>");
   }
 }
 

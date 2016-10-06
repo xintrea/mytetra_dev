@@ -324,7 +324,7 @@ void TypefaceFormatter::onClearClicked(void)
 
     // Замена в HTML-коде пробелов на неразывные пробелы, иначе все повторяющиеся пробелы будут удален Qt-движком
     htmlCode=replaceSpaces(htmlCode);
-    qDebug() << "After replace spaces" << htmlSimplyfier( htmlCode );
+    // qDebug() << "After replace spaces" << htmlSimplyfier( htmlCode );
 
     // Замена в HTML-коде табуляции на спецкоды, иначе символы табуляции будут удален Qt-движком
     // Проблема осталась: спецкоды тоже удаляются в момент insertHtml()
@@ -343,7 +343,7 @@ void TypefaceFormatter::onClearClicked(void)
 
     // Вставка очищенного фрагмента
     textArea->textCursor().insertHtml(htmlCode);
-    qDebug() << "After insert HTML: "<< htmlSimplyfier( textArea->toHtml() );
+    // qDebug() << "After insert HTML: "<< htmlSimplyfier( textArea->toHtml() );
 
     // С помощью дополнительного курсора выясняется последняя позиция в тексте, в котором вставлен очищенный фрагмент
     cursor.movePosition(QTextCursor::End);
