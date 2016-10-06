@@ -50,6 +50,11 @@ void AppConfigPage_Misc::setupUi(void)
   enableActionLog->setText(tr("Enable action logging (experimental)"));
   enableActionLog->setChecked(mytetraConfig.getEnableLogging());
 
+  // Разрешение/запрещение создавать пустую запись (без текста)
+  enableCreateEmptyRecord=new QCheckBox(this);
+  enableCreateEmptyRecord->setText(tr("Create empty note enable"));
+  enableCreateEmptyRecord->setChecked(mytetraConfig.getEnableCreateEmptyRecord());
+
   // Настройки курсора при навигации по истории
   rememberAtHistoryNavigationCheckBox=new QCheckBox(this);
   rememberAtHistoryNavigationCheckBox->setText(tr("Remember cursor position at history navigation"));
@@ -101,6 +106,7 @@ void AppConfigPage_Misc::assembly(void)
   centralLayout->addWidget(printDebugMessages);
   centralLayout->addWidget(runInMinimizedWindow);
   centralLayout->addWidget(enableActionLog);
+  centralLayout->addWidget(enableCreateEmptyRecord);
   centralLayout->addWidget(historyBox);
   centralLayout->addWidget(dangerBox);
   centralLayout->addStretch();
@@ -146,6 +152,10 @@ int AppConfigPage_Misc::applyChanges(void)
     mytetraConfig.setEnableLogging(enableActionLog->isChecked());
     result=1;
   }
+
+  // Сохраняется настройка возможности создания записи, не содержащей текст
+  if(mytetraConfig.getEnableCreateEmptyRecord()!=enableCreateEmptyRecord->isChecked())
+    mytetraConfig.setEnableCreateEmptyRecord(enableCreateEmptyRecord->isChecked());
 
   // Сохраняется настройка нужно ли вспоминать позицию курсора при перемещении
   // по истории

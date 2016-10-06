@@ -907,6 +907,17 @@ void AppConfig::setPeriodicSyncroPeriod(int period)
 }
 
 
+// Разрешено ли создавать запись без текста
+bool AppConfig::getEnableCreateEmptyRecord(void)
+{
+  return conf->value("enableCreateEmptyRecord").toBool();
+}
+
+void AppConfig::setEnableCreateEmptyRecord(bool state)
+{
+  conf->setValue("enableCreateEmptyRecord", state);
+}
+
 
 // --------------------
 // Номер версии конфига
@@ -1062,6 +1073,7 @@ void AppConfig::update_version_process(void)
  parameterFunctions << &AppConfig::get_parameter_table_31;
  parameterFunctions << &AppConfig::get_parameter_table_32;
  parameterFunctions << &AppConfig::get_parameter_table_33;
+ parameterFunctions << &AppConfig::get_parameter_table_34;
 
  for(int i=1; i<parameterFunctions.count()-1; ++i)
    if(fromVersion<=i)
@@ -1733,3 +1745,19 @@ QStringList AppConfig::get_parameter_table_33(bool withEndSignature)
 }
 
 
+QStringList AppConfig::get_parameter_table_34(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 33
+  table << get_parameter_table_33(false);
+
+  table << "enableCreateEmptyRecord" << "bool" << "false";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}

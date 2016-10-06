@@ -246,6 +246,11 @@ public:
     int  getPeriodicSyncroPeriod(void);
     void setPeriodicSyncroPeriod(int period);
 
+    // Разрешено ли создавать запись без текста
+    bool getEnableCreateEmptyRecord(void);
+    void setEnableCreateEmptyRecord(bool state);
+
+
 private:
 
     QSettings *conf; // было static
@@ -292,6 +297,7 @@ private:
     QStringList get_parameter_table_31(bool withEndSignature=true);
     QStringList get_parameter_table_32(bool withEndSignature=true);
     QStringList get_parameter_table_33(bool withEndSignature=true);
+    QStringList get_parameter_table_34(bool withEndSignature=true);
 
     bool is_init_flag;
 };

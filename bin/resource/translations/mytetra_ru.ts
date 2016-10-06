@@ -216,12 +216,12 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation>Пожалуйста, введите &lt;b&gt;название&lt;/b&gt; записи. </translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="140"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="142"/>
         <source>Please enter the note&apos;s &lt;b&gt;text&lt;/b&gt;. </source>
         <translation>Пожалуйста, введите &lt;b&gt;текст&lt;/b&gt; записи. </translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="145"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="148"/>
         <source>A new note cannot be added</source>
         <translation>Невозможно добавить новую запись</translation>
     </message>
@@ -526,17 +526,26 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Включить журнал действий (экспериментально)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="64"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="55"/>
+        <source>Create empty note enable</source>
+        <translation>Разрешить создавать пустые записи</translation>
+    </message>
+    <message>
+        <source>Save empty note enable</source>
+        <translation type="vanished">Разрешить создавать пустые записи</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="69"/>
         <source>Edit config file</source>
         <translation>Редактировать конфиг-файл</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="79"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="84"/>
         <source>History of visited notes</source>
         <translation>История просморенных записей</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="90"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="95"/>
         <source>Danger actions (Attention!)</source>
         <translation>Опасные действия (Будьте внимательны!)</translation>
     </message>
@@ -545,12 +554,12 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="vanished">Опасные действия (Будьте внимательны!)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="55"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="60"/>
         <source>Remember cursor position at history navigation</source>
         <translation>Вспоминать позицию курсора при навигации по истории</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="59"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="64"/>
         <source>Try remember cursor position at ordinary selection</source>
         <translation>Пытаться вспомнить позицию курсора при обычном выборе записи</translation>
     </message>
@@ -2985,9 +2994,9 @@ MyTetra will try to create a blank entry to fix it.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="511"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="603"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="708"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="919"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="963"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1073"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="920"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="964"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
         <source>Unavailable action</source>
         <translation>Недопустимое действие</translation>
     </message>
@@ -2995,7 +3004,7 @@ MyTetra will try to create a blank entry to fix it.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="473"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="512"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="604"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
         <source>You&apos;ve selected </source>
         <translation>У вас выделены </translation>
     </message>
@@ -3170,23 +3179,23 @@ Please select single item for moving.</source>
         <translation>Запрос на подтверждение</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1211"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1212"/>
         <source>No icon selected.</source>
         <translation>Вы не выбрали иконку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1256"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1257"/>
         <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation>Директория &lt;b&gt;%1&lt;/b&gt; не является пустой.
 Пожалуйста, выберите пустую директорию для экспорта данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1263"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1264"/>
         <source>No export tree item selected. Please select a item.</source>
         <translation>Не указана ветка для экспорта. Пожалуйста, выберите нужную ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1284"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1285"/>
         <source>Exported tree item contains encrypted data.
 Please click OK and enter the password.
 All data will be exported unencrypted.</source>
@@ -3195,22 +3204,22 @@ All data will be exported unencrypted.</source>
 Все данные будут экспортированы в расшифрованном виде.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1297"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1298"/>
         <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation>Экспорт данных в директорию &lt;b&gt;%1&lt;/b&gt; завершен.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1299"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1300"/>
         <source>Errors occurred while exporting.</source>
         <translation>Обнаружены ошибки при экспорте данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1308"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1309"/>
         <source>No tree item selected for importing. Please select a item.</source>
         <translation>Не выбрана ветка для экспорта. Пожалуйста, выберите какую-нибудь ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1322"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1323"/>
         <source>You are importing into an encrypted item.
 Please click Ok and enter the password.
 All data imported will be encrypted.</source>
@@ -3219,17 +3228,17 @@ All data imported will be encrypted.</source>
 Все данные будут импортированы и зашифрованы.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1339"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1340"/>
         <source>Item importing finished.</source>
         <translation>Импорт ветки завершен.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="964"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="965"/>
         <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
         <translation>Данная ветка содержит как незашифрованные, так и зашифрованные данные. Команды Copy/Paste разрешены только для веток, которые содержат однотипные данные.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
         <source> items.
 Please select single item for enabling paste operation.</source>
         <translation>ветки.
@@ -3244,9 +3253,9 @@ Please select single item for enabling paste operation.</source>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="513"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="605"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="710"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="921"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="965"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="922"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="966"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1076"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -3315,7 +3324,7 @@ Please select single item for enabling edit operation.</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="920"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="921"/>
         <source>Please select a single item for copy.</source>
         <translation>Выберите, пожалуйста, одну ветку для копирования.</translation>
     </message>
@@ -3324,7 +3333,7 @@ Please select single item for enabling edit operation.</source>
         <translation type="vanished">Группы информации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1544"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1545"/>
         <source>Rename me</source>
         <translation>Переименуй меня</translation>
     </message>
@@ -3332,7 +3341,7 @@ Please select single item for enabling edit operation.</source>
 <context>
     <name>TypefaceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="607"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="612"/>
         <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation>Слишком сложное форматирование текста.
 Невозможно правильно обработать выбранный текст.
