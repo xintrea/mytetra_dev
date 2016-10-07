@@ -173,9 +173,6 @@ void TypefaceFormatter::onCodeClicked(void)
   if(!textArea->textCursor().hasSelection())
     return;
 
-  // Вначале происходит преобразование фрагмента в чистый текст (onClearClicked() не подходит, так как съедается табуляция)
-  onTextOnlyClicked();
-
   bool enableIndent;
 
   // Проверяется, выбран ли четко блок (блоки) текста,
@@ -207,7 +204,11 @@ void TypefaceFormatter::onCodeClicked(void)
   else
     enableIndent=true; // Выбран четко блок (блоки) текста, нужно делать отступ
 
+
   textArea->textCursor().beginEditBlock();
+
+  // Вначале происходит преобразование фрагмента в чистый текст (onClearClicked() не подходит, так как съедается табуляция)
+  onTextOnlyClicked();
 
   // Устанавливается шрифт
   QFont font;
