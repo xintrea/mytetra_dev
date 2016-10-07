@@ -2,6 +2,7 @@
 #include <QBoxLayout>
 #include <QLabel>
 
+#include "main.h"
 #include "AppConfigPage_Synchro.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/PeriodicCheckBase.h"
@@ -170,7 +171,10 @@ int AppConfigPage_Synchro::applyChanges(void)
     mytetraConfig.setEnablePeriodicSyncro(synchroOnPeriodic.isChecked());
 
     if( mytetraConfig.getEnablePeriodicSyncro() )
+    {
+      showMessageBox(tr("The first background <b>synchronizing</b> starting.<br/>Maybe a slight delay or freezing window..."));
       periodicSyncro.start();
+    }
     else
       periodicSyncro.stop();
   }
@@ -192,7 +196,10 @@ int AppConfigPage_Synchro::applyChanges(void)
     mytetraConfig.setEnablePeriodicCheckBase(enablePeriodicCheckBase.isChecked());
 
     if( mytetraConfig.getEnablePeriodicCheckBase() )
+    {
+      showMessageBox(tr("The first background <b>checking base</b> starting.<br/>Maybe a slight delay or freezing window..."));
       periodicCheckBase.start();
+    }
     else
       periodicCheckBase.stop();
   }

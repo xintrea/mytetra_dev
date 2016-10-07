@@ -11,7 +11,7 @@ class PeriodicCheckBase : public TimerMonitoring
 protected:
 
   bool isStartEnabled();
-  void timerEvent(QTimerEvent *);
+  void timerEvent(QTimerEvent *event);
 
 };
 

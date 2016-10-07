@@ -590,12 +590,12 @@ Stored password will be cleared if uncheck this checkbox.</source>
 <context>
     <name>AppConfigPage_Synchro</name>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="29"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="30"/>
         <source>Synchronize at MyTetra startup</source>
         <translation>Синхронизировать при старте MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="32"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="33"/>
         <source>Synchronize when exit from MyTetra</source>
         <translation>Синхронизировать при выходе из MyTetra</translation>
     </message>
@@ -604,50 +604,60 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="vanished">Включить периодическую синхронизацию</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="35"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="36"/>
         <source>Enable periodic background synchronize</source>
         <translation>Включить периодическую фоновую синхронизацию</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="39"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="40"/>
         <source>Synchronization command</source>
         <translation>Команда синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="41"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="42"/>
         <source>Use &lt;b&gt;%a&lt;/b&gt; macro for get database directory path</source>
         <translation>Используйте макрос &lt;b&gt;%a&lt;/b&gt; для получения имени директории с данными</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="45"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="46"/>
         <source>Automatic start synchronization</source>
         <translation>Автоматический запуск синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="52"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="53"/>
         <source>Synchronization period: </source>
         <translation>Периодичность синхронизации: </translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="55"/>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="76"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="56"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="77"/>
         <source>sec.</source>
         <translation>сек.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="70"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="71"/>
         <source>Periodic check database tree for change at 3rd-party app</source>
         <translation>Периодическая проверка дерева записей на изменение сторонними программами</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="73"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="74"/>
         <source>Cheking period: </source>
         <translation>Периодичность проверки:</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="83"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="84"/>
         <source>Show message if a database tree was changed by external app</source>
         <translation>Отображать сообщение если дерево записей было изменено сторонней программой</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="175"/>
+        <source>The first background &lt;b&gt;synchronizing&lt;/b&gt; starting.&lt;br/&gt;Maybe a slight delay or freezing window...</source>
+        <translation>Первый фоновый запуск &lt;b&gt;синхронизации&lt;/b&gt;.&lt;br/&gt;Возможна небольшая задержка или &quot;замерзание&quot; окна программы...</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="200"/>
+        <source>The first background &lt;b&gt;checking base&lt;/b&gt; starting.&lt;br/&gt;Maybe a slight delay or freezing window...</source>
+        <translation>Первый фоновый запуск &lt;b&gt;проверки базы на изменение сторонней программой&lt;/b&gt;.&lt;br/&gt;Возможна небольшая задержка или &quot;замерзание&quot; окна программы...</translation>
     </message>
 </context>
 <context>
@@ -2456,7 +2466,7 @@ Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</sourc
 <context>
     <name>PeriodicCheckBase</name>
     <message>
-        <location filename="../../../src/libraries/PeriodicCheckBase.cpp" line="47"/>
+        <location filename="../../../src/libraries/PeriodicCheckBase.cpp" line="49"/>
         <source>The database was changed by external application.
 MyTetra needs to reload the database tree to keep data consistency.</source>
         <translation>База данных была изменена сторонней программой.
@@ -3341,7 +3351,7 @@ Please select single item for enabling edit operation.</source>
 <context>
     <name>TypefaceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="612"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="613"/>
         <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation>Слишком сложное форматирование текста.
 Невозможно правильно обработать выбранный текст.

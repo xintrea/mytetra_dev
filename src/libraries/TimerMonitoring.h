@@ -26,6 +26,8 @@ protected:
   virtual bool isStartEnabled()=0;
   virtual void timerEvent(QTimerEvent *)=0;
 
+  bool isFirstStart;
+
   int delay;
   int timerId;
 

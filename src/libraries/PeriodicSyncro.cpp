@@ -18,8 +18,10 @@ bool PeriodicSyncro::isStartEnabled()
 
 
 // Действия, происходящие по таймеру
-void PeriodicSyncro::timerEvent(QTimerEvent *)
+void PeriodicSyncro::timerEvent(QTimerEvent *event)
 {
+  Q_UNUSED(event);
+
   qDebug() << "In timer PeriodicSyncro working method";
 
   // Если команда синхронизации пуста, нечего выполнять
