@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTextEdit>
+#include <QEvent>
 
 
 // Класс отдельного (открепляемого) окна для просмотра текста записи без возможности редактирования
@@ -24,9 +25,18 @@ private:
 
  QTextEdit *textArea;
 
+ int geomX;
+ int geomY;
+ int geomW;
+ int geomH;
+
  void setupUi(void);
  void setupSignals(void);
  void assembly(void);
+
+ void hideEvent(QHideEvent *event);
+ void showEvent(QShowEvent *event);
+ bool event(QEvent *event);
 
 };
 
