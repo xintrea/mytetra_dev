@@ -36,8 +36,6 @@ private:
 
  void hideEvent(QHideEvent *event);
  void showEvent(QShowEvent *event);
- bool event(QEvent *event);
-
 };
 
 #endif // EDITORSHOWTEXT_H
