@@ -286,7 +286,7 @@ void FindScreen::setupUI(void)
   findTable=new FindTableWidget();
 
   progress=new QProgressDialog(this);
-  progress->hide();
+  progress->cancel();
 }
 
 
