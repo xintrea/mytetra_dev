@@ -68,7 +68,7 @@ MainWindow::MainWindow() : QMainWindow()
   enableRealClose=false;
 
   // Инициализация генератора случайных чисел
-  init_random();
+  initRandom();
 }
 
 

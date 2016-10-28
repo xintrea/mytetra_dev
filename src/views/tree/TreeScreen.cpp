@@ -545,7 +545,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
  find_object<MainWindow>("mainwindow")->setDisabled(true);
 
  // Получение уникального идентификатора
- QString id=get_unical_id();
+ QString id=getUnicalId();
 
 
  // Вставка данных и установка курсора
@@ -855,7 +855,7 @@ void TreeScreen::delOneBranch(QModelIndex index)
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
  // Сортировка массива веток по длине пути
- qSort(subbranchespath.begin(),subbranchespath.end(),compare_QStringList_len);
+ qSort(subbranchespath.begin(),subbranchespath.end(),compareQStringListLen);
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок

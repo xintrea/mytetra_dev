@@ -286,6 +286,10 @@ void FindScreen::setupUI(void)
   findTable=new FindTableWidget();
 
   progress=new QProgressDialog(this);
+
+  // Корректировка регрессии в Qt 5.5 - 5.6.x QTBUG-47042 QTBUG-47049
+  // QProgressDialog показывает сам себя через 4 секунды (точнее, спустя minimumDuration() сек.) после отработки конструктора
+  // метод hide() не может скрыть такое окно
   progress->cancel();
 }
 

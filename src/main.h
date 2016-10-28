@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  331
+#define APPLICATION_RELEASE_MICROVERSION  332
 
 
 // Поддерживаемая версия формата базы (хранилища)
@@ -59,14 +59,14 @@ void logPrint(char *lpszText, ...);
 void criticalError(QString message);
 QString xmlNodeToString(QDomNode xmlData);
 
-void print_object_tree(void);
-bool compare_QStringList_len(const QStringList &list1, const QStringList &list2);
+void printObjectTree(void);
+bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action);
 void myMessageOutput(QtMsgType type, const char *msg);
-QString get_unical_id(void);
+QString getUnicalId(void);
 QString getUnicalImageName(void);
-int get_milli_count(void);
-void init_random(void);
+int getMilliCount(void);
+void initRandom(void);
 
 void setKineticScrollArea(QAbstractItemView *object);
 
@@ -114,7 +114,7 @@ template <class X> inline X *find_object(QString objectName)
    // print_object_tree();
    printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
 
-   print_object_tree();
+   printObjectTree();
 
    /*
    QList<QWidget *> widgets = pMainWindow->findChildren<QWidget *>();

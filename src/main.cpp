@@ -200,7 +200,7 @@ void print_object_tree_recurse(QObject *pobj)
 
 
 // Печать дерева объектов, основная функция
-void print_object_tree(void)
+void printObjectTree(void)
 {
   qDebug() << "Object tree";
 
@@ -209,7 +209,7 @@ void print_object_tree(void)
 
 
 // Функция для сортировки массива из QStringList исходя из длин списков
-bool compare_QStringList_len(const QStringList &list1, const QStringList &list2)
+bool compareQStringListLen(const QStringList &list1, const QStringList &list2)
 {
   return list1.size() < list2.size();
 }
@@ -551,7 +551,7 @@ QString htmlSpecialCharsDecode(QString line)
 
 
 // Функция всегда возвращает уникальный идентификатор
-QString get_unical_id(void)
+QString getUnicalId(void)
 {
  // Уникальный идентификатор состоит из 10 цифр количества секунд с эпохи UNIX
  // и 10 случайных символов 0-9 a-z
@@ -586,7 +586,7 @@ QString getUnicalImageName(void)
 }
 
 
-int get_milli_count(void)
+int getMilliCount(void)
 {
   // Something like GetTickCount but portable
   // It rolls over every ~ 12.1 days (0x100000/24/60/60)
@@ -598,18 +598,18 @@ int get_milli_count(void)
 }
 
 
-void init_random(void)
+void initRandom(void)
 {
  qDebug() << "Init random generator";
 
- unsigned int seed1=get_milli_count();
+ unsigned int seed1=getMilliCount();
  srand(seed1+rand());
 
  unsigned int delay=rand()%1000;
  unsigned int r=0;
  for(unsigned int i=0; i<delay; i++) r=r+rand();
 
- seed1=seed1-get_milli_count()+r;
+ seed1=seed1-getMilliCount()+r;
 
  unsigned int seed2=time(NULL);
  unsigned int seed3=seed1+seed2;
