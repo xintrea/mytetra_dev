@@ -746,53 +746,68 @@ QDomElement KnowTreeModel::createStandartRootElement(QDomDocument &doc)
 
 
 // Добавление новой подветки к указанной ветке
-void KnowTreeModel::addNewChildBranch(const QModelIndex &index, QString id, QString name)
+void KnowTreeModel::addNewChildBranch(const QModelIndex &index, QMap<QString, QString> branchFields)
 {
   // Получение ссылки на Item элемент по QModelIndex
   TreeItem *parent=getItem(index);
 
   beginInsertRows(index, parent->childCount(), parent->childCount());
-  addNewBranch(parent, id, name);
+  addNewBranch(parent, branchFields);
   endInsertRows();
 }
 
 
 // Добавление новой ветки после указанной ветки
-void KnowTreeModel::addNewSiblingBranch(const QModelIndex &index, QString id, QString name)
+void KnowTreeModel::addNewSiblingBranch(const QModelIndex &index, QMap<QString, QString> branchFields)
 {
   // Получение ссылки на родительский Item элемент по QModelIndex
   TreeItem *current=getItem(index);
   TreeItem *parent=current->parent();
 
   beginInsertRows(index.parent(), parent->childCount(), parent->childCount());
-  addNewBranch(parent, id, name);
+  addNewBranch(parent, branchFields);
   endInsertRows();
 }
 
 
 // Добавление новой подветки к Item элементу
-void KnowTreeModel::addNewBranch(TreeItem *parent, QString id, QString name)
+void KnowTreeModel::addNewBranch(TreeItem *parent, QMap<QString, QString> branchFields)
 {
   // Прикрепляется пустой подузел в конец списка подчиненных элементов
   parent->addChildrenEmpty();
 
   // Определяется ссылка на только что созданную ветку
-  TreeItem *current=parent->child(parent->childCount()-1);
+  TreeItem *newBranch=parent->child(parent->childCount()-1);
 
-  // Устанавливается идентификатор узла
-  current->setField("id",id);
+  // Обязательно должны быть установлены поля id и name
+  if(!branchFields.contains("id"))
+    criticalError("In KnowTreeModel::addNewBranch() cant setted ID field");
+  if(!branchFields.contains("name"))
+    criticalError("In KnowTreeModel::addNewBranch() cant setted name field");
 
-  // Устанавливается навание узла
-  current->setField("name",name);
+  // Перебираются поля новой ветки и их значения
+  foreach(QString fieldName, branchFields.keys())
+  {
+    // Ветка будет обычной или шифрованной в зависимости от типа ветки, куда она вставляется, это определяется дальше по коду
+    if(fieldName=="crypt")
+      continue;
+
+    // Добавляются только поля, разрешенные для ветки. Вспомогательные поля отбрасываются
+    if(!fixedParameters.itemFieldAvailableList.contains(fieldName))
+      continue;
+
+    QString value=branchFields.value(fieldName);
+    newBranch->setField(fieldName, value); // Новой ветке устанавливается поле и значение поля
+  }
 
   // Инициализируется таблица конечных записей
-  current->recordtableGetTableData()->init(current, QDomElement());
+  newBranch->recordtableGetTableData()->init(newBranch, QDomElement());
 
   // Определяется, является ли родительская ветка зашифрованной
   if(parent->getField("crypt")=="1")
   {
     // Новая ветка превращается в зашифрованную
-    current->switchToEncrypt();
+    newBranch->switchToEncrypt();
   }
 }
 
@@ -1137,20 +1152,21 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
   // Добавляется стартовая ветка
   // ---------------------------
 
-  // Выясняются поля стартовой ветки
-  QMap<QString, QString> subbranch_fields=subbranch->getBranchFieldsById(startBranchId);
-
-  // Выясняется имя ветки
-  QString subbranch_name=subbranch_fields["name"];
-
   // Получение уникального идентификатора, под которым будет добавляться ветка
   QString id=getUnicalId();
 
+  // Выясняются поля стартовой ветки
+  QMap<QString, QString> subbranchFields=subbranch->getBranchFieldsById(startBranchId);
+
+  // В полях заменяется идентификатор ветки на новый уникальный
+  subbranchFields["id"]=id;
+
   // Стартовая ветка добавляется
-  addNewBranch(item, id, subbranch_name);
+  addNewBranch(item, subbranchFields);
 
   // Выясняется указатель на эту добавленную ветку
   TreeItem *newitem=getItemById(id);
+
 
   qDebug() << "KnowTreeModel::paste_subbranch_recurse() : create tree item with field" << newitem->getAllFields();
 

@@ -547,6 +547,10 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
  // Получение уникального идентификатора
  QString id=getUnicalId();
 
+ // Инфополя создаваемой ветки
+ QMap<QString, QString> branchFields;
+ branchFields["id"]=id;
+ branchFields["name"]=name;
 
  // Вставка данных и установка курсора
 
@@ -554,7 +558,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
  if(is_branch)
   {
    // Вставка новых данных в модель дерева записей
-   knowTreeModel->addNewSiblingBranch(index, id, name);
+   knowTreeModel->addNewSiblingBranch(index, branchFields);
 
    // Установка курсора на только что созданную позицию
 
@@ -571,7 +575,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
    // Подветка
 
    // Вставка новых данных в модель дерева записей
-   knowTreeModel->addNewChildBranch(index, id, name);
+   knowTreeModel->addNewChildBranch(index, branchFields);
 
    // Установка курсора на только что созданную позицию
    QModelIndex setto=knowTreeModel->indexChildren(index,item->childCount()-1);
@@ -1010,39 +1014,40 @@ bool TreeScreen::copyBranch(void)
 // Вспомогательная функция при копировании ветки в буфер
 void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QStringList path, bool is_root)
 {
- TreeItem *curr_item;
- QMap<QString, QString> curr_item_fields;
- QString branch_id;
- RecordTableData *curr_item_record_table;
+  TreeItem *curr_item;
+  QMap<QString, QString> curr_item_fields;
+  QString branch_id;
+  RecordTableData *curr_item_record_table;
 
- // Добавление ветки
- curr_item=knowTreeModel->getItem(path);
- curr_item_fields=curr_item->getAllFields(); // Раньше было getAllFieldsDirect()
- branch_id=curr_item_fields["id"];
- if(is_root)
-  branch_clipboard_data->addBranch("-1", curr_item_fields);
- else
-  branch_clipboard_data->addBranch(curr_item->getParentId(),
-                                    curr_item_fields);
+  // Добавление ветки
+  curr_item=knowTreeModel->getItem(path);
+  curr_item_fields=curr_item->getAllFields(); // Раньше было getAllFieldsDirect()
+  branch_id=curr_item_fields["id"];
+  if(is_root)
+    branch_clipboard_data->addBranch("-1",
+                                     curr_item_fields);
+  else
+    branch_clipboard_data->addBranch(curr_item->getParentId(),
+                                     curr_item_fields);
 
- // Добавление конечных записей
- curr_item_record_table=curr_item->recordtableGetTableData();
- for(unsigned int i=0; i<curr_item_record_table->size(); i++)
- {
-  // Полный образ записи (с файлами и текстом)
-  Record record=curr_item_record_table->getRecordFat(i);
+  // Добавление конечных записей
+  curr_item_record_table=curr_item->recordtableGetTableData();
+  for(unsigned int i=0; i<curr_item_record_table->size(); i++)
+  {
+    // Полный образ записи (с файлами и текстом)
+    Record record=curr_item_record_table->getRecordFat(i);
 
-  branch_clipboard_data->addRecord(branch_id, record);
- }
+    branch_clipboard_data->addRecord(branch_id, record);
+  }
 }
 
 
 // Вставка ветки из буфера на том же уровне, что и выбранная
 void TreeScreen::pasteBranch(void)
 {
- qDebug() << "In paste_branch";
+  qDebug() << "In paste_branch";
 
- pasteBranchSmart(true);
+  pasteBranchSmart(true);
 }
 
 

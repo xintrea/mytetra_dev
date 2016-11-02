@@ -33,13 +33,13 @@ public:
     void save(void);
 
     // Добавление новой подветки к указанной ветке
-    void addNewChildBranch(const QModelIndex &index, QString id, QString name);
+    void addNewChildBranch(const QModelIndex &index, QMap<QString, QString> branchFields);
 
     // Добавление новой ветки после указанной ветки
-    void addNewSiblingBranch(const QModelIndex &index, QString id, QString name);
+    void addNewSiblingBranch(const QModelIndex &index, QMap<QString, QString> branchFields);
 
     // Добавление новой подветки к Item элементу
-    void addNewBranch(TreeItem *parent, QString id, QString name);
+    void addNewBranch(TreeItem *parent, QMap<QString, QString> branchFields);
 
     // Перемещение ветки вверх и вниз
     QModelIndex moveUpBranch(const QModelIndex &index);
