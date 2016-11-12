@@ -650,6 +650,11 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Отображать сообщение если дерево записей было изменено сторонней программой</translation>
     </message>
     <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="91"/>
+        <source>Periodic checking database tree</source>
+        <translation>Периодическая проверка дерева записей</translation>
+    </message>
+    <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="175"/>
         <source>The first background &lt;b&gt;synchronizing&lt;/b&gt; starting.&lt;br/&gt;Maybe a slight delay or freezing window...</source>
         <translation>Первый фоновый запуск &lt;b&gt;синхронизации&lt;/b&gt;.&lt;br/&gt;Возможна небольшая задержка или &quot;замерзание&quot; окна программы...</translation>
@@ -1878,40 +1883,40 @@ Enter your old password and new password.
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="368"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="439"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="372"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="443"/>
         <source>Cannot start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="369"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="373"/>
         <source>Verify that you selected fields for search for starting find process.</source>
         <translation>Проверьте, включены ли поля, по которым надо проводить поиск.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="370"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="383"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="441"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="374"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="387"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="445"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="381"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="385"/>
         <source>Can not start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="382"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="386"/>
         <source>The search request is too short. Enter at least one word.</source>
         <translation>Слишком короткий запрос поиска. Необходимо написать хотя бы одно слово.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="440"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="444"/>
         <source>Starting position for a tree searching is not set.</source>
         <translation>Не установлена начальная позиция для поиска по дереву.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="475"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
         <source>No search results.
 Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
         <translation>Ничего не найдено.
@@ -1919,7 +1924,7 @@ Hint: encrypted items has been detected. For searching in encrypted items you ha
 Для поиска внутри зашифрованных веток введите пароль.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="483"/>
         <source>No search results.
 Hint: search produced in current tree item.
 Try to search for entire database.</source>
@@ -1928,7 +1933,7 @@ Try to search for entire database.</source>
 Попробуйте сделать поиск по всей базе.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="449"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="453"/>
         <source>Search...</source>
         <translation>Поиск...</translation>
     </message>
@@ -3002,19 +3007,19 @@ MyTetra will try to create a blank entry to fix it.</source>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="472"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="511"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="603"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="708"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="920"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="964"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1074"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="607"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="712"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="924"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="968"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1079"/>
         <source>Unavailable action</source>
         <translation>Недопустимое действие</translation>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="473"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="512"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="604"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="608"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1080"/>
         <source>You&apos;ve selected </source>
         <translation>У вас выделены </translation>
     </message>
@@ -3025,7 +3030,7 @@ Please select single item for enabling insert operation.</source>
         <translation>ветки. Выделите одну ветку, чтобы была доступна операция вставки ветки.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="766"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="770"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
@@ -3075,7 +3080,7 @@ Please select single item for enabling insert operation.</source>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="101"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="627"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="631"/>
         <source>Edit item name</source>
         <translation>Редактировать название ветки</translation>
     </message>
@@ -3096,7 +3101,7 @@ Please select single item for enabling insert operation.</source>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="115"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="772"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="776"/>
         <source>Cut item</source>
         <translation>Вырезать ветку</translation>
     </message>
@@ -3179,33 +3184,33 @@ Please select single item for moving.</source>
 Для перемещения выберите, пожалуйста, одну ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="709"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="713"/>
         <source>In your selected data found closed item. Action canceled.</source>
         <translation>В выбранных вами данных обнаружена закрытая ветка. Действие отменено.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="742"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="746"/>
         <source>Confirmation request</source>
         <translation>Запрос на подтверждение</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1212"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1217"/>
         <source>No icon selected.</source>
         <translation>Вы не выбрали иконку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1257"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1262"/>
         <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation>Директория &lt;b&gt;%1&lt;/b&gt; не является пустой.
 Пожалуйста, выберите пустую директорию для экспорта данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1264"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1269"/>
         <source>No export tree item selected. Please select a item.</source>
         <translation>Не указана ветка для экспорта. Пожалуйста, выберите нужную ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1285"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1290"/>
         <source>Exported tree item contains encrypted data.
 Please click OK and enter the password.
 All data will be exported unencrypted.</source>
@@ -3214,22 +3219,22 @@ All data will be exported unencrypted.</source>
 Все данные будут экспортированы в расшифрованном виде.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1298"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1303"/>
         <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation>Экспорт данных в директорию &lt;b&gt;%1&lt;/b&gt; завершен.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1300"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1305"/>
         <source>Errors occurred while exporting.</source>
         <translation>Обнаружены ошибки при экспорте данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1309"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1314"/>
         <source>No tree item selected for importing. Please select a item.</source>
         <translation>Не выбрана ветка для экспорта. Пожалуйста, выберите какую-нибудь ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1323"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1328"/>
         <source>You are importing into an encrypted item.
 Please click Ok and enter the password.
 All data imported will be encrypted.</source>
@@ -3238,17 +3243,17 @@ All data imported will be encrypted.</source>
 Все данные будут импортированы и зашифрованы.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1340"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1345"/>
         <source>Item importing finished.</source>
         <translation>Импорт ветки завершен.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="965"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="969"/>
         <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
         <translation>Данная ветка содержит как незашифрованные, так и зашифрованные данные. Команды Copy/Paste разрешены только для веток, которые содержат однотипные данные.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1075"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1080"/>
         <source> items.
 Please select single item for enabling paste operation.</source>
         <translation>ветки.
@@ -3261,11 +3266,11 @@ Please select single item for enabling paste operation.</source>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="474"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="513"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="605"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="710"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="922"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="966"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1076"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="609"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="714"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="926"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="970"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1081"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -3276,7 +3281,7 @@ Please select single item for enabling paste operation.</source>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="523"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="628"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="632"/>
         <source>Item name:</source>
         <translation>Название ветки:</translation>
     </message>
@@ -3291,50 +3296,50 @@ Please select single item for enabling paste operation.</source>
         <translation>Имя подветки:</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="604"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="608"/>
         <source> items.
 Please select single item for enabling edit operation.</source>
         <translation>ветки. Для редактирования, выберите, пожалуйста, одну ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="743"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="747"/>
         <source>In the selected item has been found blocked notes. Do you really want to delete one?</source>
         <translation>В выбранной вами ветке обнаружены заблокированные записи.
 Тем не менее, вы желаете удалить выбранную ветку?</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="764"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="768"/>
         <source>Delete item(s)</source>
         <translation>Удаление</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="765"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="769"/>
         <source>Are you sure you wish to delete item(s) &lt;b&gt;</source>
         <translation>Вы уверены, что хотите удалить ветку (ветки) &lt;b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="765"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="773"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="769"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="777"/>
         <source>&lt;/b&gt; and all sub items?</source>
         <translation>&lt;/b&gt; и все подветки?</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="773"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="777"/>
         <source>Are you sure you wish to cut item &lt;b&gt;</source>
         <translation>Вы уверены, что хотите вырезать ветку &lt;b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="774"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="778"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="786"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="790"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="921"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="925"/>
         <source>Please select a single item for copy.</source>
         <translation>Выберите, пожалуйста, одну ветку для копирования.</translation>
     </message>
@@ -3343,7 +3348,7 @@ Please select single item for enabling edit operation.</source>
         <translation type="vanished">Группы информации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1545"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1550"/>
         <source>Rename me</source>
         <translation>Переименуй меня</translation>
     </message>

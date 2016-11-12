@@ -88,7 +88,7 @@ void AppConfigPage_Synchro::setupUi(void)
   periodicCheckLayout.addLayout( &checkBasePeriodLayout);
   periodicCheckLayout.addWidget( &enablePeriodicCheckMessage);
 
-  periodicCheckBox.setTitle( "Periodic checking database tree");
+  periodicCheckBox.setTitle( tr("Periodic checking database tree") );
   periodicCheckBox.setLayout( &periodicCheckLayout );
 
   // Начальное состояние зависимых параметров (активны-неактивны) выставляются в зависимости от галки
