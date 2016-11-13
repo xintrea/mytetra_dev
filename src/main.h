@@ -33,8 +33,8 @@ using namespace std;
 
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
-#define APPLICATION_RELEASE_SUBVERSION     32
-#define APPLICATION_RELEASE_MICROVERSION  334
+#define APPLICATION_RELEASE_SUBVERSION     42
+#define APPLICATION_RELEASE_MICROVERSION    0
 
 
 // Поддерживаемая версия формата базы (хранилища)

@@ -4,14 +4,37 @@
 # ANDROID_OS - for Android
 TARGET_OS=ANY_OS
 
+# Build type
+# "debug" or "release"
+BUILD_TYPE="release"
+
+# Enable console for Windows
+# 0 - disable, 1 - enable
+WINDOWS_CONSOLE_ENABLE=0
+
+# Profiling enable
+# 0 - disable, 1 - enable
+PROFILING_ENABLE=0
+
+
+##################
+# Configure logic
+##################
+
+message(Building running in Qt major version: $${QT_MAJOR_VERSION})
+
+# message(Value of QT_NO_SESSIONMANAGER is: $${QT_NO_SESSIONMANAGER})
 
 # Flags for profile application
-# QMAKE_CXXFLAGS_DEBUG += -pg
-# QMAKE_LFLAGS_DEBUG += -pg
+equals(PROFILING_ENABLE, 1) {
+  message(Enable profiling)
+  QMAKE_CXXFLAGS_DEBUG += -pg
+  QMAKE_LFLAGS_DEBUG += -pg
+}
 
 # Enable C++11
 greaterThan(QT_MAJOR_VERSION, 4) {
- CONFIG += c++11
+  CONFIG += c++11
 } else {
   QMAKE_CXXFLAGS += -std=c++11
 }
@@ -22,9 +45,6 @@ DEFINES+="MEEGO_OS=2"
 DEFINES+="ANDROID_OS=3"
 DEFINES+="TARGET_OS=$${TARGET_OS}"
 
-message(Building running in Qt major version: $${QT_MAJOR_VERSION})
-message(Value of QT_NO_SESSIONMANAGER is: $${QT_NO_SESSIONMANAGER})
-
 TEMPLATE = app
 QT = gui \
     core \
@@ -32,18 +52,30 @@ QT = gui \
     svg \
     network
 CONFIG += qt \
-    warn_on \
-    console \
-    debug
+    warn_on
+
+# If debug build
+equals(BUILD_TYPE, "debug") {
+  message(Is debug build)
+  CONFIG += debug
+} else {
+  message(Is release build)
+}
+
+# If Windows console enable
+equals(WINDOWS_CONSOLE_ENABLE, 1) {
+  message(Is enable Windows console)
+  CONFIG += console
+}
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets \
                                         printsupport
 
 contains(TARGET_OS, ANY_OS) {
-DESTDIR = bin
-OBJECTS_DIR = build
-MOC_DIR = build
-UI_DIR = build
+  DESTDIR = bin
+  OBJECTS_DIR = build
+  MOC_DIR = build
+  UI_DIR = build
 }
 
 
@@ -57,21 +89,21 @@ CODECFORTR  = utf8
 INCLUDEPATH += $${_PRO_FILE_PWD_}/src
 
 contains(TARGET_OS, ANY_OS) {
- message(Building the any OS version...)
- SYSTEM_PROGRAM_NAME=mytetra
- BINARY_INSTALL_PATH=/usr/local/bin
+  message(Building the any OS version...)
+  SYSTEM_PROGRAM_NAME=mytetra
+  BINARY_INSTALL_PATH=/usr/local/bin
 }
 
 contains(TARGET_OS, MEEGO_OS){
- message(Building the MeeGo OS version...)
- SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
- BINARY_INSTALL_PATH=/opt/$${SYSTEM_PROGRAM_NAME}/bin
+  message(Building the MeeGo OS version...)
+  SYSTEM_PROGRAM_NAME=ru.webhamster.mytetra
+  BINARY_INSTALL_PATH=/opt/$${SYSTEM_PROGRAM_NAME}/bin
 }
 
 contains(TARGET_OS, ANDROID_OS){
- message(Building the Android OS version...)
- SYSTEM_PROGRAM_NAME=mytetra
- BINARY_INSTALL_PATH=/
+  message(Building the Android OS version...)
+  SYSTEM_PROGRAM_NAME=mytetra
+  BINARY_INSTALL_PATH=/
 }
 
 
@@ -85,13 +117,13 @@ INSTALLS+=target
 
 desktop_file.path=/usr/share/applications
 contains(TARGET_OS, ANY_OS) {
- desktop_file.files=desktop/any/mytetra.desktop
+  desktop_file.files=desktop/any/mytetra.desktop
 }
 contains(TARGET_OS, MEEGO_OS) {
- desktop_file.files=desktop/meego/mytetra.desktop
+  desktop_file.files=desktop/meego/mytetra.desktop
 }
 contains(TARGET_OS, ANDROID_OS) {
- desktop_file.files=desktop/any/mytetra.desktop
+  desktop_file.files=desktop/any/mytetra.desktop
 }
 INSTALLS+=desktop_file
 
