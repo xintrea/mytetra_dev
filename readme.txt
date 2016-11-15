@@ -1,33 +1,44 @@
 
 MyTetra v.1.x 
 
-
-Before compile, please, set your terget OS in mytetra.pro:
-
-# Please, set manual your target OS
-# ANY_OS - for desktop Windows and Linux
-# MEEGO_OS - for MEEGO
-# ANDROID_OS - for Android
-TARGET_OS=ANY_OS
+MyTetra - smart manager for information collecting.
 
 
-For compile run commands:
+Install portable MyTetra:
+-------------------------
 
- qmake mytetra.pro
- make
-
-
-For install MyTetra run command (as root):
-
- make install
+1. Create any directory
+2. Copy all files from archive to this directory
+3. Running file mytetra.run
 
 
-For running mytetra, type command:
+First run portable MyTetra:
+---------------------------
 
- mytetra
+At the time of the first run of the MyTetra you will see dialog 
+to select "Standart" or "Portable" mode. Select "Portable" and click OK.
 
-or running MyTetra from desktop menu.
+In portable mode MyTetra created application files and directories in 
+MyTetra binary file directory.
 
+NOTE! If you make a mistake, and initting MyTetra to the "Standart" mode,
+then delete in your home directory "./mytetra" directory. After this,
+MyTetra will running as first time.
+
+
+Update program:
+---------------
+
+For update from older portable version, easy replace 
+
+iconengines  (directory)
+imageformats (directory)
+lib          (directory)
+platforms    (directory)
+mytetra      (binary file)
+
+in your directory to same directory/file from this archive, and 
+the new version will use the existing configuration and database.
 
 
 Author:
@@ -37,4 +48,4 @@ Contact us:
 xintrea@gmail.com
 www.webhamster.ru
 
-© Sergey M. Stepanov, 2010 
+Copyright Â© 2010 by Sergey M. Stepanov

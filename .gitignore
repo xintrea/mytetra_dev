@@ -31,6 +31,9 @@ mytetra.pro.user*
 # Ignore bash files
 *.sh
 
+# Ignore php tech files
+/src/*.php
+
 # Ignore IDE files
 *.Debug
 *.Release

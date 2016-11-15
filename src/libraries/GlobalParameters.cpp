@@ -203,7 +203,7 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  QDir dir(dirName);
 
  // Создается дерево директорий в указанной директории
- dir.mkpath("data/base/0000000001");
+ dir.mkpath("data/base/1300000000aaaaaaaaa2");
  dir.mkdir("trash");
 
  // Создаются файлы конфигурации
@@ -222,8 +222,8 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  QFile::setPermissions(dirName+"/data/mytetra.xml", QFile::ReadUser | QFile::WriteUser);
 
  // Создается файл первой записи
- QFile::copy(":/resource/standartdata/base/0000000001/text.html", dirName+"/data/base/0000000001/text.html");
- QFile::setPermissions(dirName+"/data/base/0000000001/text.html", QFile::ReadUser | QFile::WriteUser);
+ QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
+ QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
 }
 
 
