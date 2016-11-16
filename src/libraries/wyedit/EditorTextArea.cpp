@@ -498,7 +498,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
     // без потери качества, поэтому затем при записи
     // легко сохраняется в PNG формат. Чтобы избежать путаницы,
     // сразу имя ресурса картинки задается как PNG файл
-    QString imageName=getUnicalImageName();
+    QString imageName=getUniqueImageName();
 
     document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
     cursor.insertImage(imageName);

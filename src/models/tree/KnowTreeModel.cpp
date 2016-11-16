@@ -559,7 +559,7 @@ QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &d
 
       if(isAppend)
       {
-        translateTable[attribute]=getUnicalId();
+        translateTable[attribute]=getUniqueId();
         continue;
       }
     }
@@ -1153,7 +1153,7 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
   // ---------------------------
 
   // Получение уникального идентификатора, под которым будет добавляться ветка
-  QString id=getUnicalId();
+  QString id=getUniqueId();
 
   // Выясняются поля стартовой ветки
   QMap<QString, QString> subbranchFields=subbranch->getBranchFieldsById(startBranchId);

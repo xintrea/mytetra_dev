@@ -362,11 +362,11 @@ int RecordTableData::insertNewRecord(int mode,
     // Запись с таким ID в дереве есть, поэтому выделяются новый ID и новая директория хранения (чтобы не затереть существующие)
 
     // Директория хранения записи и файл
-    record.setField("dir", getUnicalId());
+    record.setField("dir", getUniqueId());
     record.setField("file", "text.html");
 
     // Уникальный идентификатор XML записи
-    QString id=getUnicalId();
+    QString id=getUniqueId();
     record.setField("id", id);
    }
 
