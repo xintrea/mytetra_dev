@@ -881,7 +881,7 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
   {
    // Создается новая директория в директории base
    QDir directory(mytetraConfig.get_tetradir()+"/base");
-   bool result=directory.mkdir( getShortDirName() );
+   bool result=directory.mkpath( getShortDirName() );
 
    if(!result)
      criticalError("Record::checkAndFillFileDir() : Can't create directory '"+getShortDirName()+"'");
