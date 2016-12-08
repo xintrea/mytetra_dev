@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>PCboard</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Tech_sliced" sketch:type="MSLayerGroup" transform="translate(-600.000000, -120.000000)"/>
+        <g id="Tech" sketch:type="MSLayerGroup" transform="translate(-598.000000, -113.000000)" stroke="#314E55" stroke-width="2">
+            <g id="PCboard" transform="translate(600.000000, 119.000000)" sketch:type="MSShapeGroup">
+                <path d="M0,0.952996322 L6,0.952996322 L6,48.0470037" id="Path-1134"/>
+                <path d="M11,6 L6,6 L6,37 L10,37 L10,41 L55,41 L55,6 L11,6 Z" id="Rectangle-537" fill="#EAEAEA"/>
+                <rect id="Rectangle-539" fill="#E4AD40" x="11" y="11" width="12" height="5" rx="2"/>
+                <rect id="Rectangle-540" fill="#E4AD40" x="11" y="20" width="12" height="5" rx="2"/>
+                <rect id="Rectangle-541" fill="#5ECC66" x="32" y="16" width="14" height="13"/>
+                <path d="M32,18 L30,18" id="Line" stroke-linecap="square"/>
+                <path d="M32,21 L30,21" id="Line-168" stroke-linecap="square"/>
+                <path d="M32,24 L30,24" id="Line-169" stroke-linecap="square"/>
+                <path d="M32,27 L30,27" id="Line-170" stroke-linecap="square"/>
+                <path d="M48,18 L46,18" id="Line-174" stroke-linecap="square"/>
+                <path d="M48,21 L46,21" id="Line-171" stroke-linecap="square"/>
+                <path d="M48,24 L46,24" id="Line-172" stroke-linecap="square"/>
+                <path d="M48,27 L46,27" id="Line-173" stroke-linecap="square"/>
+                <ellipse id="Oval-540" stroke-linecap="square" cx="21" cy="36" rx="1" ry="1"/>
+                <ellipse id="Oval-541" stroke-linecap="square" cx="27" cy="36" rx="1" ry="1"/>
+                <ellipse id="Oval-542" stroke-linecap="square" cx="46" cy="36" rx="1" ry="1"/>
+                <rect id="Rectangle-542" stroke-linecap="square" fill="#F28544" x="2" y="13" width="4" height="10"/>
+            </g>
+        </g>
+    </g>
+</svg>

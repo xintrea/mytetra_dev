@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Upload</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Tech_sliced" sketch:type="MSLayerGroup" transform="translate(-720.000000, -120.000000)"/>
+        <g id="Tech" sketch:type="MSLayerGroup" transform="translate(-718.000000, -113.000000)" stroke="#535353" stroke-width="2">
+            <g id="Upload" transform="translate(723.000000, 125.000000)" sketch:type="MSShapeGroup">
+                <path d="M44,35 L6,35 L6,28 L4.57695098e-17,28 L0,35.5 L0,41 L50,41 L50,35.5 L50,28 L44,28 L44,35 Z" id="Rectangle-543" fill="#5ECC66"/>
+                <path d="M25,27.9999993 L25,3.05223395" id="Line-175" stroke-linecap="square"/>
+                <path d="M18.2760495,7.18933983 L24.8973699,0.568019485 L31.7239505,7.39460004" id="Rectangle-321" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+        </g>
+    </g>
+</svg>

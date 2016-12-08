@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>HDD</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Tech_sliced" sketch:type="MSLayerGroup" transform="translate(-360.000000, -120.000000)"/>
+        <g id="Tech" sketch:type="MSLayerGroup" transform="translate(-358.000000, -113.000000)" stroke="#314E55" stroke-width="2">
+            <g id="HDD" transform="translate(366.000000, 116.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-528" fill="#EAEAEA" x="0" y="0" width="45" height="55"/>
+                <circle id="Oval-533" fill="#73C9C9" cx="22.5" cy="20.5" r="16.5"/>
+                <ellipse id="Oval-534" fill="#E4AD40" cx="22.5" cy="20.5" rx="5.5" ry="5.5"/>
+                <circle id="Oval-535" cx="41" cy="4" r="1"/>
+                <circle id="Oval-536" cx="41" cy="51" r="1"/>
+                <circle id="Oval-538" cx="4" cy="4" r="1"/>
+                <circle id="Oval-537" cx="4" cy="51" r="1"/>
+                <circle id="Oval-540" cx="9" cy="43" r="1"/>
+                <path d="M12.7535988,45.0078453 L29.7307464,27.9771138 L8.28733111,38.8605553 C7.89148097,38.9871339 7.50877299,39.1780507 7.15418055,39.4356772 C5.36694956,40.7341765 4.97075426,43.2356552 6.26925358,45.0228862 C7.56775291,46.8101172 10.0692316,47.2063125 11.8564626,45.9078131 C12.211055,45.6501866 12.5108909,45.3452062 12.7535988,45.0078453 L12.7535988,45.0078453 Z" id="Triangle-21" stroke-linecap="round" stroke-linejoin="round" fill="#E65F58"/>
+            </g>
+        </g>
+    </g>
+</svg>

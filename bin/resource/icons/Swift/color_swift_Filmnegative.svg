@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Filmnegative</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Photo_sliced" sketch:type="MSLayerGroup" transform="translate(-840.000000, 0.000000)"/>
+        <g id="Photo" sketch:type="MSLayerGroup" transform="translate(-834.000000, 3.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Filmnegative" transform="translate(837.000000, 5.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-2544" stroke-linecap="round" fill="#E65F58" x="3" y="5" width="26" height="37"/>
+                <path d="M0,5 L32.0156212,5" id="Line" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M0,42 L32.0156212,42" id="Line" stroke-linecap="square" fill="#D8D8D8"/>
+                <rect id="Rectangle-2545" stroke-linecap="round" fill="#E4AD40" x="7" y="0" width="18" height="5"/>
+                <rect id="Rectangle-2546" stroke-linecap="round" fill="#E4AD40" x="7" y="42" width="18" height="5"/>
+                <path d="M54,23 L54,11 L29,11 L29,36 L46,36 L46,23 L54,23 Z" id="Rectangle-2547" stroke-linecap="round" fill="#D8D8D8"/>
+                <path d="M33,14 L33,16" id="Line" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M37,14 L37,16" id="Line-420" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M41,14 L41,16" id="Line-421" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M33,31 L33,33" id="Line-426" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M37,31 L37,33" id="Line-424" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M41,31 L41,33" id="Line-425" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M45,14 L45,16" id="Line-422" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M49,14 L49,16" id="Line-423" stroke-linecap="square" fill="#D8D8D8"/>
+                <path d="M7,9 L7,38" id="Line" stroke-linecap="round" fill="#D8D8D8"/>
+            </g>
+        </g>
+    </g>
+</svg>

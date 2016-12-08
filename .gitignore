@@ -1,5 +1,7 @@
 # Ignore directories
 /build
+/release
+/misc
 /qtc-gdbmacros
 Makefile
 qdevelop-settings.db
@@ -10,6 +12,7 @@ mytetra.pro.user*
 !/bin/resource
 !/bin/resource/*
 !/bin/mytetra.qrc
+!/bin/icons.qrc
 
 
 # Ignore compiled Object files
@@ -25,3 +28,15 @@ mytetra.pro.user*
 *.la
 *.a
 
+# Ignore bash files
+*.sh
+
+# Ignore php tech files
+/src/*.php
+
+# Ignore IDE files
+*.Debug
+*.Release
+
+# Ignore gitignore self
+.gitignore

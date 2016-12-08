@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Coffecan</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Kitchen_sliced" sketch:type="MSLayerGroup" transform="translate(-480.000000, 0.000000)"/>
+        <g id="Kitchen" sketch:type="MSLayerGroup" transform="translate(-463.000000, -1.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Coffeecan" transform="translate(474.000000, 6.000000)" sketch:type="MSShapeGroup">
+                <path d="M4,8 L34,8 L31.8667056,49.59924 C31.7703883,51.4774279 30.1615525,53 28.2951654,53 L9.70483457,53 C7.82864471,53 6.22958893,51.4769841 6.13329436,49.59924 L4,8 Z" id="Rectangle-688" stroke-linecap="round" fill="#5ECC66"/>
+                <path d="M6,25 L32,25" id="Line" stroke-linecap="square"/>
+                <path d="M8.08539786,38 L29.793355,38" id="Line" stroke-linecap="square"/>
+                <rect id="Rectangle-689" stroke-linecap="round" fill="#EAEAEA" x="0" y="4" width="38" height="6"/>
+                <rect id="Rectangle-690" stroke-linecap="round" fill="#EAEAEA" x="7" y="0" width="24" height="6"/>
+            </g>
+        </g>
+    </g>
+</svg>

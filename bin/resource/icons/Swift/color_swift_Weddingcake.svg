@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Weddingcake</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Holidays_sliced" sketch:type="MSLayerGroup" transform="translate(-360.000000, 0.000000)"/>
+        <g id="Holidays" sketch:type="MSLayerGroup" transform="translate(-355.000000, 3.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Weddingcake" transform="translate(360.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <path d="M46,46 L46,54 L4,54 L4,46 L6,36.5 L45,37.5" id="Rectangle-1914" fill="#D26CBA"/>
+                <path d="M14,41 L8,41 L8,41 C8,43.209139 6.209139,45 4,45 C1.790861,45 0,43.209139 0,41 L0,37.5 C0,35.5670034 1.56507705,34 3.49603012,34 L46.5039699,34 C48.434774,34 50,35.5709366 50,37.5 L50,41 C50,43.209139 48.209139,45 46,45 C43.790861,45 42,43.209139 42,41 L42,41 L36,41 L36,41 C36,43.209139 34.209139,45 32,45 C29.790861,45 28,43.209139 28,41 L22,41 C22,43.209139 20.209139,45 18,45 C15.790861,45 14,43.209139 14,41 Z" id="Rectangle-1913" fill="#EAEAEA"/>
+                <path d="M40,26 L40,34 L10,34 L10,26" id="Rectangle-1914" fill="#D26CBA"/>
+                <path d="M14,25 L7,25 L7,21.5 C7,19.5670034 8.57002347,18 10.5009443,18 L39.4990557,18 C41.4325738,18 43,19.5709366 43,21.5 L43,25 L36,25 L36,25 C36,27.209139 34.209139,29 32,29 C29.790861,29 28,27.209139 28,25 L22,25 C22,27.209139 20.209139,29 18,29 C15.790861,29 14,27.209139 14,25 Z" id="Rectangle-1913" fill="#EAEAEA"/>
+                <path d="M19.8631978,0.242905472 C17.2191859,1.23251124 16.2276721,4.96059258 17.6485895,8.5698082 C19.0679319,12.175023 24.8550184,14.8105831 24.8550184,14.8105831 C24.8550184,14.8105831 30.9320681,12.175023 32.3514105,8.5698082 C33.7723279,4.96059258 32.7808141,1.23251124 30.1368022,0.242905472 C28.4726194,-0.379968022 26.5504289,0.230504562 25,1.66847366 C25,1.66847366 21.5273806,-0.379968022 19.8631978,0.242905472 Z" id="Oval-1693" fill="#E65F58"/>
+                <circle id="Oval-1696" cx="18" cy="40" r="1"/>
+                <circle id="Oval-1697" cx="46" cy="40" r="1"/>
+                <circle id="Oval-1698" cx="32" cy="25" r="1"/>
+            </g>
+        </g>
+    </g>
+</svg>

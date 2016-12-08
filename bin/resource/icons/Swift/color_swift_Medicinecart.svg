@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Medicinecart</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Medical_sliced" sketch:type="MSLayerGroup" transform="translate(-840.000000, 0.000000)"/>
+        <g id="Medical" sketch:type="MSLayerGroup" transform="translate(-837.000000, -15.000000)" stroke="#314E55" stroke-width="2">
+            <g id="Medicinecart" transform="translate(839.000000, 34.033748)" sketch:type="MSShapeGroup">
+                <circle id="Oval-255" stroke-linecap="round" stroke-linejoin="round" fill="#EBE9D3" cx="8" cy="32" r="4"/>
+                <circle id="Oval-256" stroke-linecap="round" stroke-linejoin="round" fill="#EBE9D3" cx="39" cy="32" r="4"/>
+                <path d="M12.5,32 L34.5,32" id="Line" stroke-linecap="square"/>
+                <path d="M0,25 L41,25" id="Line" stroke-linecap="square"/>
+                <path d="M40.9782316,28.1859022 L48.0531147,3.20735584 L55.3604788,3.20735584" id="Path-516" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1,0 L43,0 L37.2727273,25 L6.72727273,25 L1,0 Z" id="Rectangle-178" stroke-linecap="round" stroke-linejoin="round" fill="#EBE9D3"/>
+                <path d="M24,10 L24,6 L20,6 L20,10 L16,10 L16,14 L20,14 L20,18 L24,18 L24,14 L28,14 L28,10 L24,10 Z" id="Rectangle-150" stroke-linecap="round" fill="#E4AD40"/>
+            </g>
+        </g>
+    </g>
+</svg>

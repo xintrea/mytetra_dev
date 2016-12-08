@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Bandage</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Medical_sliced" sketch:type="MSLayerGroup" transform="translate(-480.000000, 0.000000)"/>
+        <g id="Medical" sketch:type="MSLayerGroup" transform="translate(-477.000000, -15.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Bandage" transform="translate(505.646447, 45.180195) rotate(-315.000000) translate(-505.646447, -45.180195) translate(474.146447, 13.680195)" sketch:type="MSShapeGroup">
+                <g id="Rectangle-177" transform="translate(1.000000, 21.000000)" fill="#E5D85A">
+                    <path d="M10.4977635,19 C5.25229357,19 1,14.7478587 1,9.5 L1,9.5 C1,4.25329488 5.25305649,0 10.4977635,0 L52.5022365,3.55271368e-15 C57.7477064,3.55271368e-15 62,4.25214127 62,9.5 L62,9.5 C62,14.7467051 57.7469435,19 52.5022365,19 L10.4977635,19 L10.4977635,19 Z"/>
+                </g>
+                <g id="Rectangle-177-+-Rectangle-178" transform="translate(22.000000, 0.000000)" fill="#E5D85A">
+                    <rect id="Rectangle-178" x="1" y="7.95807864e-13" width="19" height="61" rx="11"/>
+                </g>
+                <rect id="Rectangle-177" fill="#F28544" x="23" y="21" width="19" height="19"/>
+                <ellipse id="Oval-249" fill="#EAEAEA" cx="28.1213203" cy="26.1213203" rx="2" ry="2"/>
+                <ellipse id="Oval-250" fill="#EAEAEA" cx="36.6066017" cy="34.6066017" rx="2" ry="2"/>
+                <ellipse id="Oval-251" fill="#EAEAEA" cx="36.6066017" cy="26.1213203" rx="2" ry="2"/>
+                <ellipse id="Oval-252" fill="#EAEAEA" cx="28.1213203" cy="34.6066017" rx="2" ry="2"/>
+            </g>
+        </g>
+    </g>
+</svg>

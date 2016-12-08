@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
+  <path fill="#FFB300" d="M40,28c0,6-10.1,16-16,16V6c11.8,0,16,4,16,4V28z"/>
+  <path fill="#FFC107" d="M8,28c0,6,10.1,16,16,16V6C12.2,6,8,10,8,10V28z"/>
+  <g>
+	<path fill="#694A14" d="M35,21c0,0-2.8-2.3-8-1.4c0,0,1.4-2.6,4-2.6C34,17,35,21,35,21z"/>
+	<path fill="#694A14" d="M13,21c0,0,2.8-2.3,8-1.4c0,0-1.4-2.6-4-2.6C14,17,13,21,13,21z"/>
+	<path fill="#694A14" d="M24,29.9c-6.2,0-9-3.3-9-3.3s2.4,7.4,9,7.4s9-7.4,9-7.4S30.2,29.9,24,29.9z"/>
+</g>
+  <g>
+	<path fill="#B71C1C" d="M45,21c0,4.3-3,5-3,5v4c0,0,3-1.2,3-5S45,21,45,21z"/>
+	<path fill="#B71C1C" d="M3,21c0,4.3,2,5,2,5v4c0,0-2-1.2-2-5S3,21,3,21z"/>
+</g>
+  <g>
+	<path fill="#F44336" d="M45,25c0,0-1.1-4-5-4v-4c3.9,0,5,4,5,4V25z"/>
+	<path fill="#F44336" d="M3,25c0,0,1.1-4,5-4v-4c-3.9,0-5,4-5,4V25z"/>
+</g>
+</svg>

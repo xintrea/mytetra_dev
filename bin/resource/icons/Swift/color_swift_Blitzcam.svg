@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Blitzcam</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Photo_sliced" sketch:type="MSLayerGroup"/>
+        <g id="Photo" sketch:type="MSLayerGroup" transform="translate(6.000000, 3.000000)" stroke-width="2" stroke="#314E55" stroke-linejoin="round">
+            <g id="Blitzcam" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-2528" stroke-linecap="round" fill="#EAEAEA" x="10" y="0" width="28" height="21"/>
+                <rect id="Rectangle-2529" stroke-linecap="round" fill="#F28544" x="0" y="27" width="48" height="28"/>
+                <path d="M24,21 L24,27" id="Line" stroke-linecap="square" fill="#D8D8D8"/>
+                <circle id="Oval-1856" stroke-linecap="round" fill="#EAEAEA" cx="23.5" cy="41.5" r="8.5"/>
+                <path d="M23.5,36 C20.4624339,36 18,38.4624339 18,41.5" id="Oval-1857" stroke-linecap="round"/>
+                <path d="M4,32 L12,32" id="Line" stroke-linecap="square" fill="#D8D8D8"/>
+            </g>
+        </g>
+    </g>
+</svg>

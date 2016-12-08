@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Growing</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Marketing_sliced" sketch:type="MSLayerGroup" transform="translate(-600.000000, 0.000000)"/>
+        <g id="Marketing" sketch:type="MSLayerGroup" transform="translate(-592.000000, 0.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Growing" transform="translate(595.000000, 5.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-1495" stroke-linecap="round" fill="#EA86A5" x="7" y="20" width="9" height="28"/>
+                <rect id="Rectangle-1495" stroke-linecap="round" fill="#5ECB66" x="32" y="20" width="9" height="28"/>
+                <rect id="Rectangle-1495" stroke-linecap="round" fill="#81A4E3" x="14" y="0" width="9" height="48"/>
+                <rect id="Rectangle-1495" stroke-linecap="round" fill="#E65F58" x="39" y="0" width="9" height="48"/>
+                <path d="M0,47 L54.0092583,47" id="Line" stroke-linecap="square"/>
+                <path d="M0,51 L54.0092583,51" id="Line" stroke-linecap="square"/>
+            </g>
+        </g>
+    </g>
+</svg>

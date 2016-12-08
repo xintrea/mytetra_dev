@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Financestat</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Marketing_sliced" sketch:type="MSLayerGroup" transform="translate(-120.000000, 0.000000)"/>
+        <g id="Marketing" sketch:type="MSLayerGroup" transform="translate(-112.000000, 0.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Financestat" transform="translate(116.000000, 10.000000)" sketch:type="MSShapeGroup">
+                <path d="M1,0 L1,43" id="Line" stroke-linecap="square"/>
+                <path d="M1,46 L54,46" id="Line" stroke-linecap="square"/>
+                <path d="M14.6881359,20.2236994 C19.2714045,16.4283754 23.2111168,16.1338805 28.1940861,18.7967947 C33.1770554,21.4597089 34.3990613,26.2339301 37.5431206,30.9010771 C42.239918,37.8731605 51.4114872,43.0445469 51.4114872,43.0445469 L4.97668457,42.9509808 C4.97668457,42.9509808 10.1048672,24.0190234 14.6881359,20.2236994 Z" id="Path-3361" stroke-linecap="round" fill="#81A4E3"/>
+                <path d="M12.0667482,42.9901319 C12.0667482,42.9901319 8.86072843,7.54579212 16.1979471,5.60552767 C23.5351658,3.66526322 27.9594786,21.2527553 28.6227823,29.9325147 C29.286086,38.6122741 37.8193918,42.9901311 37.8193918,42.9901311 L12.0667482,42.9901319 Z" id="Path-3362" stroke-linecap="round" fill="#F28544"/>
+            </g>
+        </g>
+    </g>
+</svg>

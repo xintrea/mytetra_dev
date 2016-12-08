@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Musickeyboard</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Activities_sliced" sketch:type="MSLayerGroup" transform="translate(-480.000000, 0.000000)"/>
+        <g id="Activities" sketch:type="MSLayerGroup" transform="translate(-476.000000, 3.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Musickeyboard" transform="translate(477.000000, 13.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-1093" stroke-linecap="round" fill="#81A4E3" x="0" y="0" width="58" height="10"/>
+                <rect id="Rectangle-1093" stroke-linecap="round" fill="#EAEAEA" x="0" y="8" width="58" height="18"/>
+                <path d="M26,9 L26,17.9913533" id="Path-2113" stroke-linecap="round"/>
+                <path d="M35,9 L35,17.9913533" id="Path-2102" stroke-linecap="round"/>
+                <path d="M12,9 L12,17.9913533" id="Path-2103" stroke-linecap="round"/>
+                <path d="M29,9 L29,17.9913533" id="Path-2106" stroke-linecap="round"/>
+                <path d="M38,9 L38,17.9913533" id="Path-2107" stroke-linecap="round"/>
+                <path d="M45,9 L45,17.9913533" id="Path-2108" stroke-linecap="round"/>
+                <path d="M48,9 L48,17.9913533" id="Path-2109" stroke-linecap="round"/>
+                <path d="M15,9 L15,17.9913533" id="Path-2110" stroke-linecap="round"/>
+                <path d="M51,9 L51,17.9913533" id="Path-2111" stroke-linecap="round"/>
+                <path d="M18,9 L18,17.9913533" id="Path-2112" stroke-linecap="round"/>
+                <path d="M6,9 L6,17.9913533" id="Path-2112" stroke-linecap="round"/>
+                <path d="M50,5 L53,5" id="Line" stroke-linecap="square"/>
+                <path d="M6,5 L13,5" id="Line" stroke-linecap="square"/>
+                <path d="M9,38 L19,24 L39,24 L49,38" id="Rectangle-1095" stroke-linecap="round"/>
+            </g>
+        </g>
+    </g>
+</svg>

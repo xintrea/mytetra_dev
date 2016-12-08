@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Diving</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Activities_sliced" sketch:type="MSLayerGroup"/>
+        <g id="Activities" sketch:type="MSLayerGroup" transform="translate(4.000000, 3.000000)" stroke-width="2" stroke="#314E55" stroke-linejoin="round">
+            <g id="Diving" sketch:type="MSShapeGroup">
+                <path d="M25.4031016,27.9090917 C26.6807937,30.3375067 29.2809228,32 32.2807018,32 C36.5439525,32 40,28.6421356 40,24.5 C40,20.5876983 36.9168421,17.375049 32.9824561,17.0305748 L7.01754386,17 C3.08315789,17.375049 0,20.5876983 0,24.5 C0,28.6421356 3.45604755,32 7.71929825,32 C10.7190772,32 13.3192063,30.3375067 14.5968984,27.9090917 C14.5968984,27.9090917 17.2111429,23.1363636 20,23.1363636 C22.7888574,23.1363636 25.4031016,27.9090917 25.4031016,27.9090917 Z" id="Oval-880" stroke-linecap="round" fill="#73C9C9"/>
+                <rect id="Rectangle-1085" stroke-linecap="round" fill="#D8D8D8" x="14" y="36" width="12" height="6"/>
+                <path d="M20,41 C20,48.7319865 26.2680135,55 34,55 C41.7319865,55 48,48.7319865 48,41" id="Oval-880" stroke-linecap="round"/>
+                <path d="M48,42 L48,18" id="Line" stroke-linecap="square"/>
+                <path d="M6.28006001,21.3409377 L4.51876788,24.1304027" id="Path-2091" stroke-linecap="round"/>
+                <path d="M43,12 L53,12 L51,18 L45,18 L43,12 Z" id="Rectangle-1086" stroke-linecap="round" fill="#D8D8D8"/>
+                <ellipse id="Oval-880" stroke-linecap="round" fill="#D8D8D8" cx="46" cy="6" rx="3" ry="3"/>
+                <ellipse id="Oval-880" stroke-linecap="round" fill="#D8D8D8" cx="38.5" cy="1.5" rx="1.5" ry="1.5"/>
+            </g>
+        </g>
+    </g>
+</svg>

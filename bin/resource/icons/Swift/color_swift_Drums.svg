@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Drums</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Activities_sliced" sketch:type="MSLayerGroup" transform="translate(-240.000000, 0.000000)"/>
+        <g id="Activities" sketch:type="MSLayerGroup" transform="translate(-236.000000, 3.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Drums" transform="translate(247.000000, 3.000000)" sketch:type="MSShapeGroup">
+                <path d="M1,44 C1,47.8659932 9.0588745,51 19,51 C28.9411255,51 37,47.8659932 37,44" id="Oval-888" stroke-linecap="round" fill="#E65F58"/>
+                <path d="M37,44 L37,19.9791757" id="Line" stroke-linecap="square"/>
+                <path d="M1,44 L1,19.9791757" id="Line" stroke-linecap="square"/>
+                <ellipse id="Oval-888" stroke-linecap="round" fill="#D8D8D8" cx="19" cy="20" rx="18" ry="7"/>
+                <path d="M1.68649006,44.9720004 L9.4413674,25.9155331 L11.2922768,49.5908459 L19.2717046,26.9403242 L28.8488242,49.5157114 L30.317132,25.9155331 L36.5475814,44.5015675" id="Path-2097" stroke-linecap="round" fill="#E65F58"/>
+                <path d="M8,18.0000006 L31.0035807,0.0791017214 L8,18.0000006 Z" id="Path-2098" stroke-linecap="round"/>
+                <path d="M7,18.0000006 L30.0035807,0.0791017214 L7,18.0000006 Z" id="Path-2099" stroke-linecap="round" transform="translate(18.501790, 9.039551) scale(-1, 1) translate(-18.501790, -9.039551) "/>
+            </g>
+        </g>
+    </g>
+</svg>
