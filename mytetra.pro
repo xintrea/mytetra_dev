@@ -378,7 +378,7 @@ SOURCES+=\
     src/views/tree/KnowTreeView.cpp \
     src/libraries/MtStyledItemDelegate.cpp
 
-wince* { 
+wince* {
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll
     CONFIG(release, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvg4.dll
     addPlugins.path = imageformats
@@ -389,3 +389,6 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 OTHER_FILES += \
     android/AndroidManifest.xml
+
+# win icon
+win32:RC_FILE = desktop/win.rc
