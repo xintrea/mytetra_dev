@@ -1883,40 +1883,45 @@ Enter your old password and new password.
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="372"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="443"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="200"/>
+        <source>Name tree item</source>
+        <translation>Название ветки</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="380"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="451"/>
         <source>Cannot start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="373"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="381"/>
         <source>Verify that you selected fields for search for starting find process.</source>
         <translation>Проверьте, включены ли поля, по которым надо проводить поиск.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="374"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="387"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="445"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="382"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="395"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="453"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="385"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="393"/>
         <source>Can not start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="386"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="394"/>
         <source>The search request is too short. Enter at least one word.</source>
         <translation>Слишком короткий запрос поиска. Необходимо написать хотя бы одно слово.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="444"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="452"/>
         <source>Starting position for a tree searching is not set.</source>
         <translation>Не установлена начальная позиция для поиска по дереву.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="479"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="487"/>
         <source>No search results.
 Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
         <translation>Ничего не найдено.
@@ -1924,7 +1929,7 @@ Hint: encrypted items has been detected. For searching in encrypted items you ha
 Для поиска внутри зашифрованных веток введите пароль.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="483"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="491"/>
         <source>No search results.
 Hint: search produced in current tree item.
 Try to search for entire database.</source>
@@ -1933,7 +1938,7 @@ Try to search for entire database.</source>
 Попробуйте сделать поиск по всей базе.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="453"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="461"/>
         <source>Search...</source>
         <translation>Поиск...</translation>
     </message>
