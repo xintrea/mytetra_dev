@@ -18,8 +18,8 @@ DiskHelper::DiskHelper()
 // Удаление директории с копированием содержимого в корзину
 void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
 {
-  QDir dirfrom(nameDirFrom);
-  QStringList fileList=dirfrom.entryList();
+  QDir dirFrom(nameDirFrom);
+  QStringList fileList=dirFrom.entryList();
 
   QString nameDirTo=mytetraConfig.get_trashdir();
 
@@ -38,7 +38,7 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     bool targetFileFree=false;
     do {
       fileNameToShort=getUnicalId()+"_"+fileList.at(i);
-      fileNameTo       =nameDirTo+"/"+fileNameToShort;
+      fileNameTo     =nameDirTo+"/"+fileNameToShort;
 
       if(QFile::exists(fileNameTo)) targetFileFree=false;
       else targetFileFree=true;
@@ -47,11 +47,21 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
 
     // Перенос файла в корзину
-    if( QFile::rename(fileNameFrom,fileNameTo)==true )
+    if( QFile::rename(fileNameFrom, fileNameTo)==true )
       trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
     else
       criticalError("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
   }
+
+  // Проверка наличия файлов внутри очищенной директории
+  foreach(QString fileInDir, dirFrom.entryList())
+    qDebug() << "File in empty dir: " << fileInDir;
+
+  // Проверка наличия файлов внутри очищенной директории через новый временный объект директории
+  QDir tempDirFrom(nameDirFrom);
+  foreach(QString fileInDir, tempDirFrom.entryList())
+    qDebug() << "File in empty dir with temp dir object: " << fileInDir;
+
 
   // Удаление директории
   // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
