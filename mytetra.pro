@@ -6,11 +6,11 @@ TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="release"
+BUILD_TYPE="debug"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable
-WINDOWS_CONSOLE_ENABLE=0
+WINDOWS_CONSOLE_ENABLE=1
 
 # Profiling enable
 # 0 - disable, 1 - enable

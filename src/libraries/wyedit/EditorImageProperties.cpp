@@ -220,7 +220,7 @@ void EditorImageProperties::on_changed_width(int n)
 
 void EditorImageProperties::on_changed_height(int n)
 {
- if(imageRealHeight==0 || imageRealHeight==0) return;
+ if(imageRealWidth==0 || imageRealHeight==0) return;
 
  // Запрещается "циклическое" изменение ширины и высоты
  if(isRelateSizeSetted) return;
