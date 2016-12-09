@@ -1171,6 +1171,11 @@ void TreeScreen::encryptBranchItem(void)
  // Шифрация ветки и всех подветок
  item->switchToEncrypt();
 
+ // Объект редактора оповещается, что теперь идет работа с зашифрованными данными
+ // Это необходимо делать для предотвращения бага,
+ // когда запись начинала редактироваться незашифрованной, потом произошло шифрование, и редактирование записи было продолжено
+ find_object<MetaEditor>("editorScreen")->setMiscField("crypt", "1");
+
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
 
@@ -1186,6 +1191,9 @@ void TreeScreen::decryptBranchItem(void)
 
  // Расшифровка ветки и всех подветок
  item->switchToDecrypt();
+
+ // Объект редактора оповещается, что теперь идет работа с расшифрованными данными
+ find_object<MetaEditor>("editorScreen")->setMiscField("crypt", "0");
 
  // Сохранение дерева веток
  find_object<TreeScreen>("treeScreen")->saveKnowTree();
