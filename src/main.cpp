@@ -532,7 +532,7 @@ QString htmlSpecialCharsDecode(QString line)
 
 
 // Функция всегда возвращает уникальный идентификатор
-QString getUnicalId(void)
+QString getUniqueId(void)
 {
  // Уникальный идентификатор состоит из 10 цифр количества секунд с эпохи UNIX
  // и 10 случайных символов 0-9 a-z
@@ -561,7 +561,7 @@ QString getUnicalId(void)
 // Получение псевдо-уникального имени картинки
 // Внутренний формат для храния картинок в MyTetra - png
 // Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
-QString getUnicalImageName(void)
+QString getUniqueImageName(void)
 {
   return "image"+QString::number(rand())+".png";
 }

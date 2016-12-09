@@ -37,8 +37,13 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     QString fileNameTo;
     bool targetFileFree=false;
     do {
+<<<<<<< experimental
+      fileNameToShort=getUniqueId()+"_"+fileList.at(i);
+      fileNameTo       =nameDirTo+"/"+fileNameToShort;
+=======
       fileNameToShort=getUnicalId()+"_"+fileList.at(i);
       fileNameTo     =nameDirTo+"/"+fileNameToShort;
+>>>>>>> experimental
 
       if(QFile::exists(fileNameTo)) targetFileFree=false;
       else targetFileFree=true;
@@ -79,7 +84,7 @@ void DiskHelper::removeFileToTrash(QString fileNameFrom)
   QString fileNameFromShort=fileInfo.fileName();
 
   // Получение имени файла для сохранения в корзине
-  QString fileNameToShort=getUnicalId()+"_"+fileNameFromShort;
+  QString fileNameToShort=getUniqueId()+"_"+fileNameFromShort;
   QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
 
   qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
@@ -101,7 +106,7 @@ QString DiskHelper::copyFileToTrash(QString fileNameFrom)
   QString fileNameFromShort=fileInfo.fileName();
 
   // Получение имени файла для сохранения в корзине
-  QString fileNameToShort=getUnicalId()+"_"+fileNameFromShort;
+  QString fileNameToShort=getUniqueId()+"_"+fileNameFromShort;
   QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
 
   qDebug() << "Copy file from " << fileNameFrom << " to " << fileNameTo;
@@ -123,7 +128,7 @@ QString DiskHelper::createTempDirectory(void)
   QDir dir;
   QString systemTempDirName=dir.tempPath();
 
-  QString temp_dir_name="mytetra"+getUnicalId();
+  QString temp_dir_name="mytetra"+getUniqueId();
 
   // Создается директория
   dir.setPath(systemTempDirName);

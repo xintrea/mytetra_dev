@@ -545,7 +545,7 @@ void TreeScreen::insBranchProcess(QModelIndex index, QString name, bool is_branc
  find_object<MainWindow>("mainwindow")->setDisabled(true);
 
  // Получение уникального идентификатора
- QString id=getUnicalId();
+ QString id=getUniqueId();
 
  // Инфополя создаваемой ветки
  QMap<QString, QString> branchFields;

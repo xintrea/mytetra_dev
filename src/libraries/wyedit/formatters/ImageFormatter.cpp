@@ -245,7 +245,7 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
       QImage image = QImageReader(currFileName).read();
 
       // Внутреннее имя картинки
-      QString imageName=getUnicalImageName();
+      QString imageName=getUniqueImageName();
 
       // Картинка добавляется в хранилище документа
       textArea->document()->addResource(QTextDocument::ImageResource, QUrl(imageName), image );
@@ -334,7 +334,7 @@ void ImageFormatter::onDownloadImages(const QString html)
               downloadReferences << imageName;
 
               // Ссылке ставится в соответствие уникальное внутреннее имя картинки
-              internalImageName=getUnicalImageName();
+              internalImageName=getUniqueImageName();
               referencesAndInternalNames[imageName]=internalImageName;
             }
             else

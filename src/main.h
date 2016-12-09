@@ -63,8 +63,8 @@ void printObjectTree(void);
 bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action);
 void myMessageOutput(QtMsgType type, const char *msg);
-QString getUnicalId(void);
-QString getUnicalImageName(void);
+QString getUniqueId(void);
+QString getUniqueImageName(void);
 int getMilliCount(void);
 void initRandom(void);
 

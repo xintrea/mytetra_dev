@@ -151,7 +151,7 @@ void Downloader::setReferencesList(QStringList iReferencesList)
       QFileInfo fileInfo(fileName);
       QString fileExtention = fileInfo.completeSuffix();
 
-      diskFilesNames[i]=getUnicalId()+"."+fileExtention;
+      diskFilesNames[i]=getUniqueId()+"."+fileExtention;
     }
   }
 }

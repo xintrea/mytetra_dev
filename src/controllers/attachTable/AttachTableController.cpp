@@ -208,7 +208,7 @@ bool AttachTableController::addAttach(QString attachType, QString currFullFileNa
 
   // Конструируется Attach, который нужно добавить
   Attach attach(attachType, attachTableData);
-  attach.setField("id", getUnicalId());
+  attach.setField("id", getUniqueId());
   attach.setField("fileName", currShortFileName);
 
   bool result=false;
