@@ -53,28 +53,18 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
       criticalError("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
   }
 
-  // Проверка наличия файлов внутри очищенной директории
-  foreach(QString fileInDir, dirFrom.entryList())
-    qDebug() << "File in empty dir: " << fileInDir;
 
   // Проверка наличия файлов внутри очищенной директории через новый временный объект директории
-  QDir tempDirFrom(nameDirFrom);
-  foreach(QString fileInDir, tempDirFrom.entryList())
-    qDebug() << "File in empty dir with temp dir object: " << fileInDir;
+  // QDir tempDirFrom(nameDirFrom);
+  // foreach(QString fileInDir, tempDirFrom.entryList())
+  //   qDebug() << "File in empty dir with temp dir object: " << fileInDir;
 
 
   // Удаление директории
-  // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
-  // директорию, на которую указывает объект, поэтому удаление происходит
-  // через дополнительный QDir объект, который указывает на директорию
-  // где лежит бинарник.
-  // Если в rmdir() передать относительный путь, то будет удалена директория
-  // относительно директории бинарника.
-  // Если в rmdir() передать асолютный путь, то будет удалена директория
-  // по абсолютному пути
-  QDir applicationdir(QCoreApplication::applicationDirPath());
+  // Если в rmdir() передать относительный путь, то будет удалена директория относительно директории бинарника.
+  // Если в rmdir() передать асолютный путь, то будет удалена директория по абсолютному пути
   qDebug() << "Try delete directory " << nameDirFrom;
-  if(!applicationdir.rmdir(nameDirFrom))
+  if(!QDir().rmdir(nameDirFrom))
     qDebug() << "Directory " << nameDirFrom << " NOT deleted";
   else
     qDebug() << "Directory " << nameDirFrom << " delete succesfull";
