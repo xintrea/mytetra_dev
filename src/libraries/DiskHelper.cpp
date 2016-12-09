@@ -37,13 +37,8 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     QString fileNameTo;
     bool targetFileFree=false;
     do {
-<<<<<<< experimental
       fileNameToShort=getUniqueId()+"_"+fileList.at(i);
-      fileNameTo       =nameDirTo+"/"+fileNameToShort;
-=======
-      fileNameToShort=getUnicalId()+"_"+fileList.at(i);
       fileNameTo     =nameDirTo+"/"+fileNameToShort;
->>>>>>> experimental
 
       if(QFile::exists(fileNameTo)) targetFileFree=false;
       else targetFileFree=true;
