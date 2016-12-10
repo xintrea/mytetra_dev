@@ -25,7 +25,7 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
    this->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
  }
 
- configDialog=new ConfigDialog();
+ configDialog=new ConfigDialog(this);
  configDialog->setWindowTitle(tr("MyTetra settings"));
  
  pageMain       =configDialog->addWidget(new AppConfigPage_Main(this),        tr("Main"));

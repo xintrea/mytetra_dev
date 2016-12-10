@@ -11,7 +11,7 @@
 
 EditorConfigDialog::EditorConfigDialog(QWidget *parent) : QWidget(parent)
 {
- configDialog=new ConfigDialog();
+ configDialog=new ConfigDialog(this);
  
  configDialog->setWindowTitle(tr("Editor settings"));
  

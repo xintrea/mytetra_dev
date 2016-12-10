@@ -16,7 +16,7 @@ class ConfigDialog : public QDialog
     Q_OBJECT
 
 public:
-    ConfigDialog();
+    ConfigDialog(QWidget* parent = 0);
     QListWidgetItem *addWidget(QWidget *inswidget, QString name);
 
 

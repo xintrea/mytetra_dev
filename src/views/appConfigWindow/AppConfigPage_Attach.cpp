@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QLineEdit>
 #include <QColorDialog>
+#include <QGroupBox>
 
 #include "AppConfigPage_Attach.h"
 #include "models/appConfig/AppConfig.h"
@@ -51,17 +52,18 @@ void AppConfigPage_Attach::assembly(void)
   colorLayout->addStretch();
 
   // Слой для рамки
-  QVBoxLayout *decorBoxlayout = new QVBoxLayout;
+  QVBoxLayout *decorBoxlayout = new QVBoxLayout(this);
   decorBoxlayout->addWidget( &enableRecordWithAttachHighlight );
   decorBoxlayout->addLayout( colorLayout );
 
   // Рамка
-  decorBox.setTitle( tr("Displaying notes with attachments") );
-  decorBox.setLayout( decorBoxlayout );
+  decorBox = new QGroupBox(this);
+  decorBox->setTitle( tr("Displaying notes with attachments") );
+  decorBox->setLayout( decorBoxlayout );
 
   // Собирается основной слой
   QVBoxLayout *centralLayout=new QVBoxLayout();
-  centralLayout->addWidget( &decorBox );
+  centralLayout->addWidget( decorBox );
   centralLayout->addStretch();
 
   // Основной слой устанавливается

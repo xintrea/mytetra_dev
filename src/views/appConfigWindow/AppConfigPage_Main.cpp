@@ -93,8 +93,8 @@ void AppConfigPage_Main::setupUi(void)
 
  disableCustomDateTimeFormat=new QRadioButton(tr("Locale settings"));
  enableCustomDateTimeFormat=new QRadioButton(tr("Custom format"));
- customDateTimeFormat=new QLineEdit();
- dateTimeFormatHelpButton=new QToolButton();
+ customDateTimeFormat=new QLineEdit(this);
+ dateTimeFormatHelpButton=new QToolButton(this);
  QCommonStyle styleHelp;
  dateTimeFormatHelpButton->setIcon( styleHelp.standardIcon(QStyle::SP_MessageBoxQuestion) );
 
@@ -119,16 +119,17 @@ void AppConfigPage_Main::setupUi(void)
 
 AppConfigPage_Main::~AppConfigPage_Main(void)
 {
-  delete tetradirInput;
-  delete trashdirInput;
-  delete trashsizeInput;
-  delete trashmaxfilecountInput;
-  delete interfaceLanguage;
+  // Не нужно, так как был создан с указанием parent
+  //delete tetradirInput;
+  //delete trashdirInput;
+  //delete trashsizeInput;
+  //delete trashmaxfilecountInput;
+  //delete interfaceLanguage;
 
-  delete dateTimeFormatBox;
-  delete disableCustomDateTimeFormat;
-  delete enableCustomDateTimeFormat;
-  delete customDateTimeFormat;
+  //delete dateTimeFormatBox;
+  //delete disableCustomDateTimeFormat;
+  //delete enableCustomDateTimeFormat;
+  //delete customDateTimeFormat;
 }
 
 

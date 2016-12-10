@@ -3,12 +3,12 @@
 
 #include <QWidget>
 #include <QCheckBox>
-#include <QGroupBox>
 #include <QLabel>
 #include <QToolButton>
 
 #include "ConfigPage.h"
 
+class QGroupBox;
 
 class AppConfigPage_Attach : public ConfigPage
 {
@@ -41,7 +41,7 @@ protected:
   QColor highlightColor;
 
   // Объединяющая рамка
-  QGroupBox decorBox;
+  QGroupBox* decorBox;
 };
 
 

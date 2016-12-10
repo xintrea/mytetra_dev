@@ -9,7 +9,8 @@
 #include "ConfigPage.h"
 
 
-ConfigDialog::ConfigDialog()
+ConfigDialog::ConfigDialog(QWidget *parent)
+  : QDialog(parent)
 {
  setupUi();
  setupSignals();

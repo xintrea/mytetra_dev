@@ -2,15 +2,16 @@
 #define	_CONFIGPAGE_SYNCHRO_H_
 
 #include <QWidget>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QGroupBox>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QSpinBox>
 
 #include "ConfigPage.h"
 
+class QVBoxLayout;
+class QHBoxLayout;
+class QGroupBox;
+class QLineEdit;
+class QLabel;
+class QCheckBox;
+class QSpinBox;
 
 class AppConfigPage_Synchro : public ConfigPage
 {
@@ -33,35 +34,35 @@ protected:
 
 
   // Виджеты настройки синхронизации
-  QLineEdit   synchroCommand;
-  QLabel      commandText;
-  QLabel      commandAboutText;
+  QLineEdit*   synchroCommand;
+  QLabel*      commandText;
+  QLabel*      commandAboutText;
 
-  QCheckBox   synchroOnStartup;
-  QCheckBox   synchroOnExit;
-  QCheckBox   synchroOnPeriodic;
-  QVBoxLayout synchroOnLayout;
-  QGroupBox   synchroOnBox;
+  QCheckBox*   synchroOnStartup;
+  QCheckBox*   synchroOnExit;
+  QCheckBox*   synchroOnPeriodic;
+  QVBoxLayout* synchroOnLayout;
+  QGroupBox*   synchroOnBox;
 
-  QLabel      synchroPeriodText;
-  QSpinBox    synchroPeriod;
-  QLabel      synchroPeriodPostfix;
-  QHBoxLayout synchroPeriodLayout;
+  QLabel*      synchroPeriodText;
+  QSpinBox*    synchroPeriod;
+  QLabel*      synchroPeriodPostfix;
+  QHBoxLayout* synchroPeriodLayout;
 
 
   // Виджеты настройки периодической проверки
-  QCheckBox   enablePeriodicCheckBase;
+  QCheckBox*   enablePeriodicCheckBase;
 
-  QLabel      checkBasePeriodText;
-  QSpinBox    checkBasePeriod;
-  QLabel      checkBasePeriodPostfix;
-  QHBoxLayout checkBasePeriodLayout;
+  QLabel*      checkBasePeriodText;
+  QSpinBox*    checkBasePeriod;
+  QLabel*      checkBasePeriodPostfix;
+  QHBoxLayout* checkBasePeriodLayout;
 
-  QCheckBox   enablePeriodicCheckMessage;
-  QVBoxLayout periodicCheckLayout;
-  QGroupBox   periodicCheckBox;
+  QCheckBox*   enablePeriodicCheckMessage;
+  QVBoxLayout* periodicCheckLayout;
+  QGroupBox*   periodicCheckBox;
 
-  QVBoxLayout centralLayout;
+  QVBoxLayout* centralLayout;
 };
 
 
