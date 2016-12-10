@@ -1220,7 +1220,6 @@ void Editor::onSettingsClicked(void)
 {
   // Создается окно настроек, после выхода из этой функции окно удалится
   EditorConfigDialog dialog;
-  dialog.show();
 }
 
 
