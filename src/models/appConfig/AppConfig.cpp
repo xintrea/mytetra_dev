@@ -1074,6 +1074,7 @@ void AppConfig::update_version_process(void)
  parameterFunctions << &AppConfig::get_parameter_table_32;
  parameterFunctions << &AppConfig::get_parameter_table_33;
  parameterFunctions << &AppConfig::get_parameter_table_34;
+ parameterFunctions << &AppConfig::get_parameter_table_35;
 
  for(int i=1; i<parameterFunctions.count()-1; ++i)
    if(fromVersion<=i)
@@ -1755,6 +1756,23 @@ QStringList AppConfig::get_parameter_table_34(bool withEndSignature)
   table << get_parameter_table_33(false);
 
   table << "enableCreateEmptyRecord" << "bool" << "false";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
+QStringList AppConfig::get_parameter_table_35(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 34
+  table << get_parameter_table_34(false);
+  //новый флаг, поиск по названию ветки
+  table << "findscreen_find_innameItem"    << "bool" << "false";
 
   if(withEndSignature)
     table << "0" << "0" << "0";
