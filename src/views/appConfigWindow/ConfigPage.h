@@ -6,13 +6,12 @@
 
 class ConfigPage : public QWidget
 {
- Q_OBJECT
+  Q_OBJECT
 
 public:
-  ConfigPage(QWidget *parent = 0);
-  virtual ~ConfigPage();
+  explicit ConfigPage(QWidget *parent = 0);
 
-  virtual int applyChanges(void);
+  virtual int applyChanges(void) = 0;
 };
 
 
