@@ -35,6 +35,9 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  pageAttach     =configDialog->addWidget(new AppConfigPage_Attach(this),      tr("Attaches"));
  pageMisc       =configDialog->addWidget(new AppConfigPage_Misc(this),        tr("Misc"));
 
+ // После добавления страниц нужно сделать корректировку размера базового виджета
+ configDialog->adjustSize();
+
  configDialog->updateListWidth();
 
  // Если указано имя виджета настроек, происходит переключение на него, иначе будет выбран первый виджет (pageMain)
