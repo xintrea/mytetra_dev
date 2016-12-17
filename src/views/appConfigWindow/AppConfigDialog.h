@@ -11,7 +11,7 @@ class AppConfigDialog : public QWidget
  Q_OBJECT
 
 public:
-  explicit AppConfigDialog(const QString &firstPageName = QString());
+  explicit AppConfigDialog(const QString &firstPageName = QString(), QWidget* parent = 0);
   void execDialog();
 
 private:

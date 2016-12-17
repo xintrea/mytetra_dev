@@ -16,7 +16,8 @@
 extern AppConfig mytetraConfig;
 
 
-AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
+AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
+    : QWidget(parent)
 {
  if(mytetraConfig.getInterfaceMode()=="mobile") // if(true)
  {
@@ -39,6 +40,14 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  configDialog->adjustSize();
 
  configDialog->updateListWidth();
+
+ // Центрирование окна относительно родителя. TODO: может сделать сохранение/восстановление позиции.
+ if (parent && parent->geometry().isValid())
+ {
+     int left = parent->geometry().center().x() - configDialog->geometry().width() / 2;
+     int top = parent->geometry().center().y() - configDialog->geometry().height() / 2;
+     move(left, top);
+ }
 
  // Если указано имя виджета настроек, происходит переключение на него, иначе будет выбран первый виджет (pageMain)
  if(firstPageName.size()>0)
