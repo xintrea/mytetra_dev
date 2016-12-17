@@ -3,40 +3,35 @@
 
 #include <QDialog>
 
-class QDialogButtonBox;
-class QListWidget;
 class QListWidgetItem;
-class QStackedWidget;
-class QListWidgetItem;
-class QScrollArea;
 
+namespace Ui {
+class ConfigDialog;
+}
 
 class ConfigDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    ConfigDialog(QWidget* parent = 0);
-    QListWidgetItem *addWidget(QWidget *inswidget, QString name);
+    explicit ConfigDialog(QWidget* parent = 0);
 
+    QListWidgetItem* addWidget(QWidget *inswidget, QString name);
 
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);
 
-private slots:    
+private slots:
     void applyChanges(void);
     void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
-    void setupUi(void);
     void setupSignals(void);
-    void assembly(void);
 
     QListWidgetItem *createItems(QString name);
 
-    QListWidget *contentsWidget;
-    QStackedWidget *pagesWidget;
-    QDialogButtonBox *confirmButtons;
+private:
+    QScopedPointer<Ui::ConfigDialog> ui;
 };
 
 #endif // _CONFIGDIALOG_H_

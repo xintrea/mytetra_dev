@@ -378,6 +378,9 @@ SOURCES+=\
     src/views/tree/KnowTreeView.cpp \
     src/libraries/MtStyledItemDelegate.cpp
 
+FORMS += \
+    src/views/appConfigWindow/ConfigDialog.ui
+
 wince* { 
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll
     CONFIG(release, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvg4.dll
