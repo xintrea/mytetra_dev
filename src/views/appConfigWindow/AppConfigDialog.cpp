@@ -40,8 +40,12 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  // Если указано имя виджета настроек, происходит переключение на него, иначе будет выбран первый виджет (pageMain)
  if(firstPageName.size()>0)
    changePage(firstPageName);
+}
 
- configDialog->exec();
+
+void AppConfigDialog::execDialog()
+{
+    configDialog->exec();
 }
 
 
