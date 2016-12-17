@@ -1,24 +1,20 @@
 #ifndef _CONFIGPAGE_SYNCHRO_H_
-#define	_CONFIGPAGE_SYNCHRO_H_
+#define _CONFIGPAGE_SYNCHRO_H_
 
 #include <QWidget>
 
 #include "ConfigPage.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGroupBox;
-class QLineEdit;
-class QLabel;
-class QCheckBox;
-class QSpinBox;
+namespace Ui {
+class AppConfigPage_Synchro;
+}
 
 class AppConfigPage_Synchro : public ConfigPage
 {
  Q_OBJECT
 
 public:
-  AppConfigPage_Synchro(QWidget *parent = 0);
+  explicit AppConfigPage_Synchro(QWidget *parent = 0);
   int applyChanges(void);
 
 private slots:
@@ -30,41 +26,11 @@ protected:
 
   void setupUi(void);
   void setupSignals(void);
-  void assembly(void);
 
-
-  // Виджеты настройки синхронизации
-  QLineEdit*   synchroCommand;
-  QLabel*      commandText;
-  QLabel*      commandAboutText;
-
-  QCheckBox*   synchroOnStartup;
-  QCheckBox*   synchroOnExit;
-  QCheckBox*   synchroOnPeriodic;
-  QVBoxLayout* synchroOnLayout;
-  QGroupBox*   synchroOnBox;
-
-  QLabel*      synchroPeriodText;
-  QSpinBox*    synchroPeriod;
-  QLabel*      synchroPeriodPostfix;
-  QHBoxLayout* synchroPeriodLayout;
-
-
-  // Виджеты настройки периодической проверки
-  QCheckBox*   enablePeriodicCheckBase;
-
-  QLabel*      checkBasePeriodText;
-  QSpinBox*    checkBasePeriod;
-  QLabel*      checkBasePeriodPostfix;
-  QHBoxLayout* checkBasePeriodLayout;
-
-  QCheckBox*   enablePeriodicCheckMessage;
-  QVBoxLayout* periodicCheckLayout;
-  QGroupBox*   periodicCheckBox;
-
-  QVBoxLayout* centralLayout;
+private:
+  QScopedPointer<Ui::AppConfigPage_Synchro> ui;
 };
 
 
-#endif	// _CONFIGPAGE_SYNCHRO_H_
+#endif // _CONFIGPAGE_SYNCHRO_H_
 

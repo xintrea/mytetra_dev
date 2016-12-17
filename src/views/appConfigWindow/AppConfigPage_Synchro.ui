@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AppConfigPage_Synchro</class>
+ <widget class="QWidget" name="AppConfigPage_Synchro">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>410</width>
+    <height>358</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QLabel" name="commandText">
+     <property name="text">
+      <string>Synchronization command</string>
+     </property>
+     <property name="buddy">
+      <cstring>synchroCommand</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="synchroCommand"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="commandAboutText">
+     <property name="text">
+      <string>Use &lt;b&gt;%a&lt;/b&gt; macro for get database directory path</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="synchroOnBox">
+     <property name="title">
+      <string>Automatic start synchronization</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="synchroOnStartup">
+        <property name="text">
+         <string>Synchronize at MyTetra startup</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="synchroOnExit">
+        <property name="text">
+         <string>Synchronize when exit from MyTetra</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="synchroOnPeriodic">
+        <property name="text">
+         <string>Enable periodic background synchronize</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="synchroPeriodText">
+          <property name="text">
+           <string>Synchronization period:</string>
+          </property>
+          <property name="buddy">
+           <cstring>synchroPeriod</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="synchroPeriod">
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="synchroPeriodPostfix">
+          <property name="text">
+           <string>sec.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="periodicCheckBox">
+     <property name="title">
+      <string>Periodic checking database tree</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="enablePeriodicCheckBase">
+        <property name="text">
+         <string>Periodic check database tree for change at 3rd-party app</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="checkBasePeriodText">
+          <property name="text">
+           <string>Cheking period:</string>
+          </property>
+          <property name="buddy">
+           <cstring>checkBasePeriod</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="checkBasePeriod">
+          <property name="maximum">
+           <number>100000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="checkBasePeriodPostfix">
+          <property name="text">
+           <string>sec.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="enablePeriodicCheckMessage">
+        <property name="text">
+         <string>Show message if a database tree was changed by external app</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>36</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
