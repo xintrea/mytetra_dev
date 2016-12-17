@@ -1,21 +1,22 @@
-#include <QWidget>
-#include <QBoxLayout>
-#include <QDir>
-#include <QLineEdit>
-#include <QColorDialog>
-#include <QGroupBox>
-
 #include "AppConfigPage_Attach.h"
 #include "models/appConfig/AppConfig.h"
+#include "ui_AppConfigPage_Attach.h"
+
+#include <QWidget>
+#include <QDir>
+#include <QColorDialog>
+
 
 extern AppConfig mytetraConfig;
 
 
-AppConfigPage_Attach::AppConfigPage_Attach(QWidget *parent) : ConfigPage(parent)
+AppConfigPage_Attach::AppConfigPage_Attach(QWidget *parent)
+    : ConfigPage(parent)
+    , ui(new Ui::AppConfigPage_Attach)
 {
+  ui->setupUi(this);
   setupUi();
   setupSignals();
-  assembly();
 }
 
 
@@ -24,11 +25,9 @@ void AppConfigPage_Attach::setupUi(void)
   qDebug() << "Create attach config page";
 
   // Галка разрешения/запрещения подсветки записи с прикрепленными файлами
-  enableRecordWithAttachHighlight.setText( tr("Enable highlight notes with attachments") );
-  enableRecordWithAttachHighlight.setChecked( mytetraConfig.getEnableRecordWithAttachHighlight() );
+  ui->enableRecordWithAttachHighlight->setChecked( mytetraConfig.getEnableRecordWithAttachHighlight() );
 
   // Выбор цвета для записи с прикрепленными файлами
-  labelHighlightColor.setText( tr("Highlight color: ") );
   setColorForButtonHighlightColor( QColor( mytetraConfig.getRecordWithAttachHighlightColor() ) );
 
   // Начальный выбор цвета активируется или отключается в зависимости от галки
@@ -38,36 +37,8 @@ void AppConfigPage_Attach::setupUi(void)
 
 void AppConfigPage_Attach::setupSignals(void)
 {
-  connect( &enableRecordWithAttachHighlight, SIGNAL( toggled(bool) ), this, SLOT( onEnableRecordWithAttachHighlight(bool) ) );
-  connect( &buttonHighlightColor, SIGNAL(clicked()), this, SLOT(onClickedHighlightColor()) );
-}
-
-
-void AppConfigPage_Attach::assembly(void)
-{
-  // Слой для надписи выбора цвета и кнопки выбора цвета
-  QHBoxLayout *colorLayout = new QHBoxLayout;
-  colorLayout->addWidget( &labelHighlightColor );
-  colorLayout->addWidget( &buttonHighlightColor );
-  colorLayout->addStretch();
-
-  // Слой для рамки
-  QVBoxLayout *decorBoxlayout = new QVBoxLayout(this);
-  decorBoxlayout->addWidget( &enableRecordWithAttachHighlight );
-  decorBoxlayout->addLayout( colorLayout );
-
-  // Рамка
-  decorBox = new QGroupBox(this);
-  decorBox->setTitle( tr("Displaying notes with attachments") );
-  decorBox->setLayout( decorBoxlayout );
-
-  // Собирается основной слой
-  QVBoxLayout *centralLayout=new QVBoxLayout();
-  centralLayout->addWidget( decorBox );
-  centralLayout->addStretch();
-
-  // Основной слой устанавливается
-  setLayout( centralLayout );
+  connect( ui->enableRecordWithAttachHighlight, SIGNAL( toggled(bool) ), this, SLOT( onEnableRecordWithAttachHighlight(bool) ) );
+  connect( ui->buttonHighlightColor, SIGNAL(clicked()), this, SLOT(onClickedHighlightColor()) );
 }
 
 
@@ -76,7 +47,7 @@ void AppConfigPage_Attach::setColorForButtonHighlightColor(QColor iColor)
   // Квадратик на кнопке выбора цвета кода
   QPixmap pix(16, 16);
   pix.fill( iColor.rgb() );
-  buttonHighlightColor.setIcon(pix);
+  ui->buttonHighlightColor->setIcon(pix);
 
   highlightColor=iColor;
 }
@@ -84,8 +55,8 @@ void AppConfigPage_Attach::setColorForButtonHighlightColor(QColor iColor)
 
 void AppConfigPage_Attach::onEnableRecordWithAttachHighlight(bool state)
 {
-  labelHighlightColor.setEnabled(state);
-  buttonHighlightColor.setEnabled(state);
+  ui->labelHighlightColor->setEnabled(state);
+  ui->buttonHighlightColor->setEnabled(state);
 }
 
 
@@ -110,8 +81,8 @@ int AppConfigPage_Attach::applyChanges(void)
   int result=0;
 
   // Сохраняется настройка разрешения/запрещения подсветки записи с прикрепленными файлами
-  if(mytetraConfig.getEnableRecordWithAttachHighlight()!=enableRecordWithAttachHighlight.isChecked())
-    mytetraConfig.setEnableRecordWithAttachHighlight(enableRecordWithAttachHighlight.isChecked());
+  if(mytetraConfig.getEnableRecordWithAttachHighlight() != ui->enableRecordWithAttachHighlight->isChecked())
+    mytetraConfig.setEnableRecordWithAttachHighlight(ui->enableRecordWithAttachHighlight->isChecked());
 
   // Сохраняется цвет подсветки
   if(mytetraConfig.getRecordWithAttachHighlightColor()!=highlightColor.name())
