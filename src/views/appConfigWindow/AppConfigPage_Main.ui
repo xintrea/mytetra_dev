@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AppConfigPage_Main</class>
+ <widget class="QWidget" name="AppConfigPage_Main">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>326</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="tetradirLabel">
+       <property name="text">
+        <string>Data directory</string>
+       </property>
+       <property name="buddy">
+        <cstring>tetradirInput</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLineEdit" name="tetradirInput">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="tetradirButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="trashdirLabel">
+       <property name="text">
+        <string>Trash directory</string>
+       </property>
+       <property name="buddy">
+        <cstring>trashdirInput</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLineEdit" name="trashdirInput">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="trashdirButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="trashsizeLabel">
+       <property name="text">
+        <string>Trash size</string>
+       </property>
+       <property name="buddy">
+        <cstring>trashsizeInput</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QSpinBox" name="trashsizeInput">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="trashsizeFlexion">
+         <property name="text">
+          <string>Mb</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="trashmaxfilecountLabel">
+       <property name="text">
+        <string>Maximum files in trash</string>
+       </property>
+       <property name="buddy">
+        <cstring>trashmaxfilecountInput</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QSpinBox" name="trashmaxfilecountInput">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>3000</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="trashmaxfilecountFlexion">
+         <property name="text">
+          <string>files</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="interfaceLanguageLabel">
+       <property name="text">
+        <string>Language</string>
+       </property>
+       <property name="buddy">
+        <cstring>interfaceLanguage</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="MtComboBox" name="interfaceLanguage"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="dateTimeFormatBox">
+     <property name="title">
+      <string>Displaying date and time format</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="disableCustomDateTimeFormat">
+        <property name="text">
+         <string>Locale settings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="enableCustomDateTimeFormat">
+        <property name="text">
+         <string>Custom format</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="customDateTimeFormat"/>
+        </item>
+        <item>
+         <widget class="QToolButton" name="dateTimeFormatHelpButton">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>54</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MtComboBox</class>
+   <extends>QComboBox</extends>
+   <header>libraries/MtComboBox.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>tetradirInput</tabstop>
+  <tabstop>tetradirButton</tabstop>
+  <tabstop>trashdirInput</tabstop>
+  <tabstop>trashdirButton</tabstop>
+  <tabstop>trashsizeInput</tabstop>
+  <tabstop>trashmaxfilecountInput</tabstop>
+  <tabstop>interfaceLanguage</tabstop>
+  <tabstop>disableCustomDateTimeFormat</tabstop>
+  <tabstop>enableCustomDateTimeFormat</tabstop>
+  <tabstop>customDateTimeFormat</tabstop>
+  <tabstop>dateTimeFormatHelpButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
