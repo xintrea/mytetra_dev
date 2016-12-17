@@ -52,10 +52,9 @@ void ConfigDialog::changePage(QListWidgetItem *current, QListWidgetItem *previou
     ui->pagesWidget->setCurrentIndex(ui->contentsWidget->row(current));
 }
 
-
 void ConfigDialog::externalChangePage(QListWidgetItem *item)
 {
-    ui->contentsWidget->setCurrentItem(item);
+    ui->contentsWidget->setCurrentItem(item, QItemSelectionModel::ClearAndSelect);
 }
 
 

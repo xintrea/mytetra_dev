@@ -50,8 +50,7 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
  }
 
  // Если указано имя виджета настроек, происходит переключение на него, иначе будет выбран первый виджет (pageMain)
- if(firstPageName.size()>0)
-   changePage(firstPageName);
+ changePage(firstPageName);
 }
 
 
@@ -67,7 +66,7 @@ void AppConfigDialog::changePage(QString name)
 
  QListWidgetItem *item=NULL;
 
- if(name=="pageMain") item=pageMain;
+ if(name.isEmpty() || name=="pageMain") item=pageMain;
  if(name=="pageCrypt") item=pageCrypt;
  if(name=="pageSynchro") item=pageSynchro;
  if(name=="pageRecordTable") item=pageRecordTable;
