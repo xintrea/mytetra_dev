@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AppConfigPage_Misc</class>
+ <widget class="QWidget" name="AppConfigPage_Misc">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>316</width>
+    <height>328</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QCheckBox" name="cutBranchConfirm">
+     <property name="text">
+      <string>Confirm item cut</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="printDebugMessages">
+     <property name="text">
+      <string>Print debug messages to console</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="runInMinimizedWindow">
+     <property name="text">
+      <string>Run MyTetra in a minimized window</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="enableActionLog">
+     <property name="text">
+      <string>Enable action logging (experimental)</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="enableCreateEmptyRecord">
+     <property name="text">
+      <string>Create empty note enable</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="historyBox">
+     <property name="title">
+      <string>History of visited notes</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="rememberAtHistoryNavigationCheckBox">
+        <property name="text">
+         <string>Remember cursor position at history navigation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="rememberAtOrdinarySelectionCheckBox">
+        <property name="text">
+         <string>Try remember cursor position at ordinary selection</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="dangerBox">
+     <property name="title">
+      <string>Danger actions (Attention!)</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="editMyTetraConfigFile">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Edit config file</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>197</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>48</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>cutBranchConfirm</tabstop>
+  <tabstop>printDebugMessages</tabstop>
+  <tabstop>runInMinimizedWindow</tabstop>
+  <tabstop>enableActionLog</tabstop>
+  <tabstop>enableCreateEmptyRecord</tabstop>
+  <tabstop>rememberAtHistoryNavigationCheckBox</tabstop>
+  <tabstop>rememberAtOrdinarySelectionCheckBox</tabstop>
+  <tabstop>editMyTetraConfigFile</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

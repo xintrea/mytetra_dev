@@ -380,7 +380,8 @@ SOURCES+=\
 
 FORMS += \
     src/views/appConfigWindow/ConfigDialog.ui \
-    src/views/appConfigWindow/AppConfigPage_Attach.ui
+    src/views/appConfigWindow/AppConfigPage_Attach.ui \
+    src/views/appConfigWindow/AppConfigPage_Misc.ui
 
 wince* { 
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll
