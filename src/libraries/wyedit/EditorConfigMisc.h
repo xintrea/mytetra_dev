@@ -1,46 +1,36 @@
 #ifndef _EDITORCONFIGMISC_H_
-#define	_EDITORCONFIGMISC_H_
+#define _EDITORCONFIGMISC_H_
 
 #include <QWidget>
-#include <QLineEdit>
-#include <QFontComboBox>
-#include <QSpinBox>
-#include <QPushButton>
-#include <QLabel>
 
 #include "views/appConfigWindow/ConfigPage.h"
 
 class EditorConfig;
 
+namespace Ui {
+class EditorConfigMisc;
+}
 
 class EditorConfigMisc : public ConfigPage
 {
- Q_OBJECT
+  Q_OBJECT
 
 public:
-  EditorConfigMisc(QWidget *parent = 0);
-  
+  explicit EditorConfigMisc(QWidget *parent = 0);
+
   int applyChanges(void);
-    
+
 private slots:
   void onClickedEditWyEditConfigFile(void);
- 
+
 private:
+  QScopedPointer<Ui::EditorConfigMisc> ui;
 
-  QLabel *indentStepLabel;
-  QLabel *indentStepFlexion;
-  QSpinBox *indentStep;
-
-  QPushButton *editWyEditConfigFile;
-  
   EditorConfig *conf;
 
   void setupUi(void);
   void setupSignals(void);
-  void assembly(void);
-  
 };
 
-
-#endif	// _EDITORCONFIGMISC_H_
+#endif // _EDITORCONFIGMISC_H_
 
