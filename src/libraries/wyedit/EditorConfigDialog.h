@@ -9,8 +9,9 @@ class EditorConfigDialog : public QWidget
  Q_OBJECT
 
 public:
- EditorConfigDialog(QWidget *parent=0);
-    
+  explicit EditorConfigDialog(QWidget *parent=0);
+  void execDialog();
+
 private:
  ConfigDialog *configDialog;
 };

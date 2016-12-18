@@ -1219,7 +1219,8 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
 void Editor::onSettingsClicked(void)
 {
   // Создается окно настроек, после выхода из этой функции окно удалится
-  EditorConfigDialog dialog;
+  EditorConfigDialog dialog(this);
+  dialog.execDialog();
 }
 
 
