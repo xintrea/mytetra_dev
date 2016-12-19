@@ -13,6 +13,11 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     setupSignals();
 }
 
+ConfigDialog::~ConfigDialog()
+{
+  delete ui;
+}
+
 
 void ConfigDialog::setupSignals(void)
 {

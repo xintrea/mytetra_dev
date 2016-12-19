@@ -17,6 +17,7 @@ class AppConfigPage_Main : public ConfigPage
 
 public:
   explicit AppConfigPage_Main(QWidget *parent = 0);
+  ~AppConfigPage_Main();
 
   void setupUi(void);
   void setupSignals(void);
@@ -32,7 +33,7 @@ private slots:
   void onDateTimeFormatHelpButton(void);
 
 private:
-  QScopedPointer<Ui::AppConfigPage_Main> ui;
+  Ui::AppConfigPage_Main* ui;
 };
 
 

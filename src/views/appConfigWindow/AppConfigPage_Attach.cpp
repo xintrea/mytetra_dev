@@ -19,6 +19,11 @@ AppConfigPage_Attach::AppConfigPage_Attach(QWidget *parent)
   setupSignals();
 }
 
+AppConfigPage_Attach::~AppConfigPage_Attach()
+{
+  delete ui;
+}
+
 
 void AppConfigPage_Attach::setupUi(void)
 {

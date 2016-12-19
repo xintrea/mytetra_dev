@@ -21,6 +21,11 @@ AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent)
   setupSignals();
 }
 
+AppConfigPage_Synchro::~AppConfigPage_Synchro()
+{
+  delete ui;
+}
+
 void AppConfigPage_Synchro::setupUi(void)
 {
   ui->synchroCommand->setText(mytetraConfig.get_synchrocommand());

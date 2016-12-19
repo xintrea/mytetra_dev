@@ -17,6 +17,7 @@ class EditorConfigMisc : public ConfigPage
 
 public:
   explicit EditorConfigMisc(QWidget *parent = 0);
+  ~EditorConfigMisc();
 
   int applyChanges(void);
 
@@ -24,7 +25,7 @@ private slots:
   void onClickedEditWyEditConfigFile(void);
 
 private:
-  QScopedPointer<Ui::EditorConfigMisc> ui;
+  Ui::EditorConfigMisc* ui;
 
   EditorConfig *conf;
 

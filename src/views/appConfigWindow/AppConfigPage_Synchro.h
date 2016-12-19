@@ -15,6 +15,7 @@ class AppConfigPage_Synchro : public ConfigPage
 
 public:
   explicit AppConfigPage_Synchro(QWidget *parent = 0);
+  ~AppConfigPage_Synchro();
   int applyChanges(void);
 
 private slots:
@@ -28,7 +29,7 @@ protected:
   void setupSignals(void);
 
 private:
-  QScopedPointer<Ui::AppConfigPage_Synchro> ui;
+  Ui::AppConfigPage_Synchro* ui;
 };
 
 

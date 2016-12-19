@@ -15,6 +15,7 @@ class ConfigDialog : public QDialog
 
 public:
     explicit ConfigDialog(QWidget* parent = 0);
+    ~ConfigDialog();
 
     QListWidgetItem* addWidget(QWidget *inswidget, QString name);
 
@@ -31,7 +32,7 @@ private:
     QListWidgetItem *createItems(QString name);
 
 private:
-    QScopedPointer<Ui::ConfigDialog> ui;
+    Ui::ConfigDialog* ui;
 };
 
 #endif // _CONFIGDIALOG_H_

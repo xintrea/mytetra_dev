@@ -16,6 +16,7 @@ class AppConfigPage_Misc : public ConfigPage
 
 public:
   explicit AppConfigPage_Misc(QWidget *parent = 0);
+  ~AppConfigPage_Misc();
 
   int applyChanges(void);
 
@@ -27,7 +28,7 @@ protected:
   void setupSignals(void);
 
 private:
-  QScopedPointer<Ui::AppConfigPage_Misc> ui;
+  Ui::AppConfigPage_Misc* ui;
 };
 
 #endif // _CONFIGPAGE_MISC_H_

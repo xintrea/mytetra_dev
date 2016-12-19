@@ -24,6 +24,11 @@ AppConfigPage_Crypt::AppConfigPage_Crypt(QWidget *parent)
   setupSignals();
 }
 
+AppConfigPage_Crypt::~AppConfigPage_Crypt()
+{
+  delete ui;
+}
+
 
 void AppConfigPage_Crypt::setupUi(void)
 {

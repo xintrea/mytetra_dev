@@ -18,6 +18,11 @@ AppConfigPage_Main::AppConfigPage_Main(QWidget *parent)
   setupSignals();
 }
 
+AppConfigPage_Main::~AppConfigPage_Main()
+{
+  delete ui;
+}
+
 
 void AppConfigPage_Main::setupUi(void)
 {

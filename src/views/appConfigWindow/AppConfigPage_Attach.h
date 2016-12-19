@@ -15,6 +15,7 @@ class AppConfigPage_Attach : public ConfigPage
 
 public:
   explicit AppConfigPage_Attach(QWidget *parent = 0);
+  ~AppConfigPage_Attach();
 
   void setupUi(void);
   void setupSignals(void);
@@ -33,9 +34,9 @@ protected:
   QColor highlightColor;
 
 private:
-  QScopedPointer<Ui::AppConfigPage_Attach> ui;
+  Ui::AppConfigPage_Attach* ui;
 };
 
 
-#endif	// _CONFIGPAGE_ATTACH_H_
+#endif // _CONFIGPAGE_ATTACH_H_
 

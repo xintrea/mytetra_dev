@@ -17,6 +17,7 @@ class EditorConfigFont : public ConfigPage
 
 public:
   explicit EditorConfigFont(QWidget *parent = 0);
+  ~EditorConfigFont();
 
   void setup_ui(void);
   void setup_signals(void);
@@ -33,7 +34,7 @@ private slots:
 private:
   QColor* codeColor;
   EditorConfig *conf;
-  QScopedPointer<Ui::EditorConfigFont> ui;
+  Ui::EditorConfigFont* ui;
 };
 
 #endif // _EDITORCONFIGFONT_H_

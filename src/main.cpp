@@ -36,7 +36,6 @@
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
-
 using namespace std;
 
 // Фиксированные параметры программы (жестко заданные в текущей версии MyTetra)
@@ -566,7 +565,16 @@ QString getUniqueImageName(void)
   return "image"+QString::number(rand())+".png";
 }
 
-
+#ifdef Q_OS_ANDROID
+// ftime - deprecated
+int getMilliCount(void)
+{
+  struct timeval tv;
+  memset(&tv, 0, sizeof(timeval));
+  gettimeofday(&tv, NULL);
+  return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
+#else
 int getMilliCount(void)
 {
   // Something like GetTickCount but portable
@@ -577,7 +585,7 @@ int getMilliCount(void)
   int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
   return nCount;
 }
-
+#endif
 
 void initRandom(void)
 {

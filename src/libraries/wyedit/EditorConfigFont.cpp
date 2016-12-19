@@ -22,6 +22,11 @@ EditorConfigFont::EditorConfigFont(QWidget *parent)
  setup_signals();
 }
 
+EditorConfigFont::~EditorConfigFont()
+{
+  delete ui;
+}
+
 
 void EditorConfigFont::setup_ui(void)
 {

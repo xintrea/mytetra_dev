@@ -15,6 +15,7 @@ class AppConfigPage_Crypt : public ConfigPage
 
 public:
   explicit AppConfigPage_Crypt(QWidget *parent = 0);
+  ~AppConfigPage_Crypt();
 
   int applyChanges(void);
 
@@ -35,7 +36,7 @@ protected:
   void setupSignals(void);
 
 private:
-  QScopedPointer<Ui::AppConfigPage_Crypt> ui;
+  Ui::AppConfigPage_Crypt* ui;
 };
 
 

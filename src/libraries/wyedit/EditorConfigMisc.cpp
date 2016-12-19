@@ -22,6 +22,11 @@ EditorConfigMisc::EditorConfigMisc(QWidget *parent)
   setupSignals();
 }
 
+EditorConfigMisc::~EditorConfigMisc()
+{
+  delete ui;
+}
+
 
 void EditorConfigMisc::setupUi(void)
 {
