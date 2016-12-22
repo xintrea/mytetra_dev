@@ -127,7 +127,7 @@ RC5Simple::RC5Simple(bool enableRandomInit)
  rc5_q = 0x9e3779b9;
 
  // Cleaning user key
- for(int i=0; i<RC5_B; i++)
+ for(int i=0; i<RC5_B; ++i)
   rc5_key[i]=0;
 
  rc5_formatVersion=RC5_FORMAT_VERSION_CURRENT;
@@ -144,7 +144,7 @@ RC5Simple::RC5Simple(bool enableRandomInit)
 RC5Simple::~RC5Simple(void)
 { 
  // Cleaning user key
- for(int i=0; i<RC5_B; i++)
+ for(int i=0; i<RC5_B; ++i)
   rc5_key[i]=0;
 }
 
@@ -176,7 +176,7 @@ void RC5Simple::RC5_EncryptBlock(RC5_TWORD *pt, RC5_TWORD *ct)
   RC5_TWORD a=pt[0]+rc5_s[0];
   RC5_TWORD b=pt[1]+rc5_s[1];
 
-  for(i=1; i<=RC5_R; i++)
+  for(i=1; i<=RC5_R; ++i)
     { 
       a = RC5_ROTL(a^b, b)+rc5_s[2*i]; 
       b = RC5_ROTL(b^a, a)+rc5_s[2*i+1]; 
@@ -214,7 +214,7 @@ void RC5Simple::RC5_DecryptBlock(RC5_TWORD *ct, RC5_TWORD *pt)
 void RC5Simple::RC5_Setup(unsigned char *key)
 {
    RC5_LOG(( "RC5_Setup, set key to: " ));
-   for(int i=0; i<RC5_B; i++)
+   for(int i=0; i<RC5_B; ++i)
     RC5_LOG(( "%.2X", key[i] ));
    RC5_LOG(( "\n" ));
 
@@ -228,16 +228,16 @@ void RC5Simple::RC5_Setup(unsigned char *key)
     l[i/u] = (l[i/u]<<8)+key[i];
 
    RC5_LOG(( "RC5_Setup, l[]: " ));
-   for(int i=0; i<RC5_C; i++)
+   for(int i=0; i<RC5_C; ++i)
     RC5_LOG(( "%.2X", l[i] ));
    RC5_LOG(( "\n" ));
 
 
-   for(rc5_s[0]=rc5_p,i=1; i<RC5_T; i++) 
+   for(rc5_s[0]=rc5_p,i=1; i<RC5_T; ++i)
     rc5_s[i] = rc5_s[i-1]+rc5_q;
 
    RC5_LOG(( "RC5_Setup, rc5_s[]: " ));
-   for(int i=0; i<RC5_T; i++)
+   for(int i=0; i<RC5_T; ++i)
     RC5_LOG(( "%.2X", rc5_s[i] ));
    RC5_LOG(( "\n" ));
 
@@ -250,7 +250,7 @@ void RC5Simple::RC5_Setup(unsigned char *key)
      } 
 
    RC5_LOG(( "RC5_Setup, mix rc5_s[]: " ));
-   for(int i=0; i<RC5_T; i++)
+   for(int i=0; i<RC5_T; ++i)
     RC5_LOG(( "%.2X", rc5_s[i] ));
    RC5_LOG(( "\n" ));
 }
@@ -266,7 +266,7 @@ void RC5Simple::RC5_SetKey(vector<unsigned char> &key)
    return;
   }
   
- for(int i=0; i<RC5_B; i++)
+ for(int i=0; i<RC5_B; ++i)
   rc5_key[i]=key[i];
 }
 
@@ -294,14 +294,14 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
  // IV block
  unsigned char iv[RC5_BLOCK_LEN];
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   iv[i]=(unsigned char)RC5_Rand(0, 0xFF);
 
 
  // Block with data size
  unsigned char data_size[RC5_BLOCK_LEN];
 
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   {
    data_size[i]=RC5_GetByteFromInt( clean_data_size, i );
    RC5_LOG(( "Data size byte %d: %.2X\n", i, data_size[i] ));
@@ -310,7 +310,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
  // Insert data size to begin data
  in.insert( in.begin(), RC5_BLOCK_LEN, 0);
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   in[i]=data_size[i];
 
  // Отвлекли: почисть ребенку зубы
@@ -323,10 +323,10 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
   firsRandomDataBlocks=2; // At start at format version 3, in begin data add two blocks with random data (full width is 128 bit)
 
  if(firsRandomDataBlocks>0) 
-  for(unsigned int n=1; n<=firsRandomDataBlocks; n++)
+  for(unsigned int n=1; n<=firsRandomDataBlocks; ++n)
    {
     in.insert( in.begin(), RC5_BLOCK_LEN, 0);
-    for(int i=0; i<RC5_BLOCK_LEN; i++)
+    for(int i=0; i<RC5_BLOCK_LEN; ++i)
      in[i]=(unsigned char)RC5_Rand(0, 0xFF);
    }
 
@@ -338,7 +338,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  if(last_unalign_len>0)
   {
    // Add random data to end for align to block size
-   for(int i=0; i<(RC5_BLOCK_LEN-last_unalign_len); i++)
+   for(int i=0; i<(RC5_BLOCK_LEN-last_unalign_len); ++i)
     {
      RC5_LOG(( "Add byte: %d\n", i ));
      in.push_back( (unsigned char)RC5_Rand(0, 0xFF) );
@@ -348,7 +348,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  #if RC5_ENABLE_DEBUG_PRINT==1
   RC5_LOG(( "Data size after crypt setup: %d\n", in.size() ));
   RC5_LOG(( "Plain byte after crypt setup: " ));
-  for(int i=0; i<in.size(); i++)
+  for(int i=0; i<in.size(); ++i)
    RC5_LOG(( "%.2X ", in[i] ));
   RC5_LOG(( "\n" ));
  #endif
@@ -368,7 +368,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    out.resize(in.size()+RC5_BLOCK_LEN, 0); 
 
    // Save start IV to block 0 in output data
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     out[i]=iv[i];
 
    notCryptDataSize=RC5_BLOCK_LEN;
@@ -382,7 +382,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    // Signature bytes in header
    const char *signature=RC5_SIMPLE_SIGNATURE;
-   for(int i=0; i<(RC5_BLOCK_LEN-1); i++)
+   for(int i=0; i<(RC5_BLOCK_LEN-1); ++i)
     out[i]=signature[i];
 
    // Format version byte in header
@@ -392,7 +392,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
     out[RC5_BLOCK_LEN-1]=RC5_FORMAT_VERSION_CURRENT;
 
    // Save start IV to second block in output data
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     out[i+RC5_BLOCK_LEN]=iv[i];
 
    notCryptDataSize=RC5_BLOCK_LEN*2;
@@ -413,7 +413,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    unsigned char temp_in[RC5_BLOCK_LEN];
 
    // XOR block with current IV
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     temp_in[i]=in[shift+i] ^ iv[i];
 
    RC5_TWORD temp_word_1;
@@ -442,7 +442,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    // Отвлекли: надо покушать, кончай питаться йогуртами
    // Save crypt data
-   for(int i=0; i<RC5_WORD_LEN; i++)
+   for(int i=0; i<RC5_WORD_LEN; ++i)
     {
      // Save crypt data with shift to RC5_BLOCK_LEN
      // btw. in first block putted IV 
@@ -452,7 +452,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
 
    // Generate next IV for Cipher Block Chaining (CBC)
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     iv[i]=out[notCryptDataSize+shift+i];
 
 
@@ -461,7 +461,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
 
  // Cleaning IV
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   iv[i]=0;
 
 
@@ -477,7 +477,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
  // Отвлекли: давай поиграем в Shatter
  // Remove random data blocks
  if(firsRandomDataBlocks>0) 
-  for(unsigned int n=1; n<=firsRandomDataBlocks; n++)
+  for(unsigned int n=1; n<=firsRandomDataBlocks; ++n)
    in.erase(in.begin(), in.begin()+RC5_BLOCK_LEN);
 
  // Отвлекли: звонок, проверь ребенку зрение
@@ -517,7 +517,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
    // Detect signature
    bool isSignatureCorrect=true;
-   for(int i=0; i<(RC5_BLOCK_LEN-1); i++)
+   for(int i=0; i<(RC5_BLOCK_LEN-1); ++i)
     if(in[i]!=signature[i])
      isSignatureCorrect=false;
 
@@ -571,7 +571,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
  // Get IV
  unsigned char iv[RC5_BLOCK_LEN];
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   iv[i]=in[i+ivShift];
 
 
@@ -619,14 +619,14 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
    // Convert block words to plain array
    unsigned char ct_part[RC5_BLOCK_LEN];
 
-   for(int i=0; i<RC5_WORD_LEN; i++)
+   for(int i=0; i<RC5_WORD_LEN; ++i)
     { 
      ct_part[i]=RC5_GET_BYTE_FROM_WORD(ct[0], i);
      ct_part[i+RC5_WORD_LEN]=RC5_GET_BYTE_FROM_WORD(ct[1], i);
     }
 
    // Un XOR
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     ct_part[i]^=iv[i];  
 
    // Отвлекли: попугаи наверно голодные, кто бы их кормил, надо покормить
@@ -652,12 +652,12 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
 
    // Generate next IV for Cipher Block Chaining (CBC)
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     iv[i]=in[shift+i];
 
 
    // Save decrypt data
-   for(int i=0; i<RC5_BLOCK_LEN; i++)
+   for(int i=0; i<RC5_BLOCK_LEN; ++i)
     {
      RC5_LOG(( "Put decrypt data to vector out[%d] = %.2X\n", shift-(removeBlocksFromOutput*RC5_BLOCK_LEN)+i, ct_part[i] ));
      out[shift-(firstDataBlock*RC5_BLOCK_LEN)+i]=ct_part[i]; 
@@ -668,7 +668,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
 
  // Cleaning IV
- for(int i=0; i<RC5_BLOCK_LEN; i++)
+ for(int i=0; i<RC5_BLOCK_LEN; ++i)
   iv[i]=0;
 
  // Отвлекли: Пошли за ребенком
@@ -758,7 +758,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
   }
 
  // Fill output file
- for(unsigned int i=0; i<out.size(); i++)
+ const std::size_t size = out.size();
+ for(std::size_t i=0; i<size; ++i)
   {
    RC5_LOG(( "File byte %d : %.2X \n", i, out[i] )); 
    fputc(out[i], out_file);

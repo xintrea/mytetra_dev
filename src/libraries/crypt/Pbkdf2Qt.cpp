@@ -60,7 +60,7 @@ QByteArray Pbkdf2Qt::HmacSha1(QByteArray text,
 
  k_pad.fill(0);
  k_pad.replace(0, key.length(), key);
- for(int i = 0; i < PBKDF2QT_SHA1_BLOCK_LENGTH; i++)
+ for(int i = 0; i < PBKDF2QT_SHA1_BLOCK_LENGTH; ++i)
   k_pad[i]=k_pad[i]^0x36;
 
  ctx.reset();
@@ -70,7 +70,7 @@ QByteArray Pbkdf2Qt::HmacSha1(QByteArray text,
 
  k_pad.fill(0);
  k_pad.replace(0, key.length(), key);
- for(int i = 0; i < PBKDF2QT_SHA1_BLOCK_LENGTH; i++)
+ for(int i = 0; i < PBKDF2QT_SHA1_BLOCK_LENGTH; ++i)
   k_pad[i]=k_pad[i]^0x5c;
 
  ctx.reset();
@@ -109,7 +109,7 @@ int Pbkdf2Qt::Pbkdf2_calculate(const char *pass,
  QByteArray d1;
  QByteArray d2;
  
- for(count = 1; key_len > 0; count++) 
+ for(count = 1; key_len > 0; ++count)
   {
    asalt[salt_len + 0] = (count >> 24) & 0xff;
    asalt[salt_len + 1] = (count >> 16) & 0xff;
@@ -122,13 +122,13 @@ int Pbkdf2Qt::Pbkdf2_calculate(const char *pass,
 
    memcpy(obuf, d1.data(), sizeof(obuf));
    
-   for(i = 1; i < rounds; i++) 
+   for(i = 1; i < rounds; ++i)
     {
      d2=HmacSha1(d1, ba_pass);
 
      d1.replace(0, d1.size(), d2);
 
-     for(j = 0; j < sizeof(obuf); j++)
+     for(j = 0; j < sizeof(obuf); ++j)
       obuf[j] ^= d1[j];
     }
 

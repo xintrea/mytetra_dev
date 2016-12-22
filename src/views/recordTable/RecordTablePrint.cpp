@@ -108,7 +108,8 @@ void RecordTablePrint::generateHtmlTableFromModel(void)
 
   // Заголовок таблицы
   html+="<tr>";
-  for(int nColumn=0; nColumn < model->columnCount(); nColumn++)
+  const int columnCount = model->columnCount();
+  for(int nColumn=0; nColumn < columnCount; ++nColumn)
   {
     QVariant cellTextVariant=model->headerData(nColumn, Qt::Horizontal, Qt::DisplayRole);
     QString cellText=cellTextVariant.toString();
@@ -119,11 +120,13 @@ void RecordTablePrint::generateHtmlTableFromModel(void)
 
 
   // Данные из модели сразу преобразуются в HTML
-  for(int nRow=0; nRow < model->rowCount(); nRow++)
+  const int rowCount = model->rowCount();
+  for(int nRow=0; nRow < rowCount; ++nRow)
   {
     html+="<tr>";
 
-    for(int nColumn=0; nColumn < model->columnCount(); nColumn++)
+    const int columnCount = model->columnCount();
+    for(int nColumn=0; nColumn < columnCount; ++nColumn)
       if (model->index(nRow, nColumn).isValid())
       {
         QVariant cellTextVariant=model->index(nRow, nColumn).data(Qt::DisplayRole);

@@ -162,7 +162,8 @@ QModelIndex TreeModel::getIndexRecurse(QModelIndex index, TreeItem *item, int mo
     {
      // Иначе указатель узла не совпадает с заданным
      // и нужно рекурсивно искать далее
-     for(int i=0; i<index.row(); i++)
+     const int row = index.row();
+     for(int i=0; i<row; ++i)
       getIndexRecurse(index.child(i, 0), item, 1);
     }
   }
@@ -177,12 +178,14 @@ TreeItem *TreeModel::getItem(QStringList path) const
  TreeItem *curritem=rootItem;
 
  // Перебор идентификаторов пути
- for(int i=1;i<path.size();i++)
+ const int size = path.size();
+ for(int i=1; i<size; ++i)
  {
   int found=0;
 
   // Поиск нужного идентификатора в подчиненных узлах текущего узла
-  for(unsigned int j=0; j < curritem->childCount(); j++)
+  const unsigned int childCount = curritem->childCount();
+  for(unsigned int j=0; j < childCount; ++j)
    if( (curritem->child(j))->getField("id") == path.at(i) )
     {
      // Узел найден, он становится текущим
@@ -211,12 +214,14 @@ bool TreeModel::isItemValid(QStringList path) const
   TreeItem *curritem=rootItem;
 
   // Перебор идентификаторов пути
-  for(int i=1;i<path.size();i++)
+  const int size = path.size();
+  for(int i=1; i<size; ++i)
   {
     int found=0;
 
     // Поиск нужного идентификатора в подчиненных узлах текущего узла
-    for(unsigned int j=0;j<curritem->childCount();j++)
+    const unsigned int childCount = curritem->childCount();
+    for(unsigned int j=0; j<childCount; ++j)
       if( (curritem->child(j))->getField("id") == path.at(i) )
       {
         // Узел найден, он становится текущим

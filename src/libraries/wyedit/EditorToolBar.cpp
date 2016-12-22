@@ -191,7 +191,7 @@ void EditorToolBar::setupButtons(void)
 
   // Выбор размера шрифта
   fontSize.setParent(this);
-  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++)
+  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; ++i)
     fontSize.addItem(QString("%1").arg(i),i);
   fontSize.setCurrentIndex(fontSize.findData(10));
   fontSize.setMinimumContentsLength(3);

@@ -73,11 +73,12 @@ void AppConfigUpdater::update_version(int versionFrom,
   // Таблица исходных параметров преобразуется к более удобному для работы виду
   // И параллельно заполняется значениями из конфига
   QMap< QString, QMap< QString, QString > > fromTable;
-  for(int i=0; i<maxParameterCount; i++)
+  for(int i=0; i<maxParameterCount; ++i)
   {
-    QString name=    baseTable.at(i*3+0);
-    QString type=    baseTable.at(i*3+1);
-    QString defValue=baseTable.at(i*3+2);
+    const int mult = i*3;
+    QString name=    baseTable.at(mult+0);
+    QString type=    baseTable.at(mult+1);
+    QString defValue=baseTable.at(mult+2);
 
     // Если достигнут конец массива
     if(name=="0" && type=="0" && defValue=="0")
@@ -104,7 +105,7 @@ void AppConfigUpdater::update_version(int versionFrom,
  // из конечного массива во время обхода через итератор
  QMap< QString, QMap< QString, QString > > toTable;
  QList<QString> controlList;
- for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+ for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; ++i)
  {
   QString name=    finalTable.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+0);
   QString type=    finalTable.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+1);

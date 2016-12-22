@@ -129,7 +129,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
 
     if (mode == ReadLock) {
         int idx = 0;
-        for (; idx < MAX_READERS; idx++) {
+        for (; idx < MAX_READERS; ++idx) {
             rmutex = getMutexHandle(idx, false);
             if (!rmutex || waitMutex(rmutex, false))
                 break;
@@ -156,7 +156,7 @@ bool QtLockedFile::lock(LockMode mode, bool block)
     }
     else {
         Q_ASSERT(rmutexes.isEmpty());
-        for (int i = 0; i < MAX_READERS; i++) {
+        for (int i = 0; i < MAX_READERS; ++i) {
             Qt::HANDLE mutex = getMutexHandle(i, false);
             if (mutex)
                 rmutexes.append(mutex);

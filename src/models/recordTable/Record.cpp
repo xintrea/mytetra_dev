@@ -54,7 +54,8 @@ void Record::setupDataFromDom(QDomElement iDomElement)
 
   // Перебор атрибутов в списке и добавление их в запись
   int i;
-  for(i=0; i<attList.count(); i++)
+  const int count = attList.count();
+  for(i=0; i<count; ++i)
   {
     QDomAttr attcurr=attList.item(i).toAttr();
 

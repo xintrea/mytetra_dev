@@ -39,7 +39,8 @@ void TrashMonitoring::init(QString trashPath)
  QFileInfoList fileInfoList=dir.entryInfoList(QDir::Files, QDir::Time);
 
  // Перебор всех файлов в полученном списке
- for(int i=0;i<fileInfoList.size();i++)
+ const int size = fileInfoList.size();
+ for(int i=0; i<size; ++i)
  {
   QString      fileName=fileInfoList.at(i).fileName();
   unsigned int fileTime=fileInfoList.at(i).created().toTime_t();

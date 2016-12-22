@@ -24,7 +24,8 @@ AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPa
   QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
   // Создаются чекбоксы для каждого поля, хранимого в записи
-  for(int i=0; i<allFieldNames.size(); i++)
+  const int tempSize = allFieldNames.size();
+  for(int i=0; i<tempSize; ++i)
   {
     QString name=allFieldNames[i];
     fields[ name ]=new QCheckBox(this);
@@ -215,7 +216,8 @@ int AppConfigPage_RecordTable::applyChanges(void)
    qDebug() << "newFieldsWidth" << newFieldsWidth;
 
    // Добавляются ширины добавленных полей
-   for(int n=0; n<(newShowFields.size() - showFields.size()); n++)
+   const int cacheVal = newShowFields.size() - showFields.size();
+   for(int n=0; n<cacheVal; ++n)
      newFieldsWidth << QString::number( (int)insertFieldWidth );
 
    qDebug() << "newFieldsWidth" << newFieldsWidth;
@@ -233,8 +235,8 @@ int AppConfigPage_RecordTable::applyChanges(void)
    QStringList newFieldsWidth=fieldsWidth;
 
    qDebug() << "newFieldsWidth" << newFieldsWidth;
-
-   for(int n=0; n<(newShowFields.size() - showFields.size()); n++)
+   const int cacheVal = newShowFields.size() - showFields.size();
+   for(int n=0; n<cacheVal; ++n)
      newFieldsWidth.removeLast();
 
    qDebug() << "newFieldsWidth in result" << newFieldsWidth;

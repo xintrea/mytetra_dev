@@ -483,7 +483,8 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
 
 
   // Замена найденных тегов на теги с RC-символом вместо пробелов
-  for( int n = 0; n < list.size(); n++)
+  const int size = list.size();
+  for( int n = 0; n < size; ++n)
   {
     QString line=list.at(n);
 
@@ -663,7 +664,7 @@ void TypefaceFormatter::replaceReplacementCharacterToSpaceInSelectedText(int sta
 {
   QTextCursor replacementCursor=textArea->textCursor();
 
-  for(int pos=startCursorPos; pos<endCursorPos; pos++)
+  for(int pos=startCursorPos; pos<endCursorPos; ++pos)
   {
     // Выделяется один символ
     replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
@@ -693,7 +694,7 @@ int TypefaceFormatter::removeSpaces(int startCursorPos, int calculateEndCursorPo
 
   QTextCursor replacementCursor=textArea->textCursor();
 
-  for(int pos=startCursorPos; pos<calculateEndCursorPos; pos++)
+  for(int pos=startCursorPos; pos<calculateEndCursorPos; ++pos)
   {
     // Выделяется один символ
     replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
@@ -741,7 +742,7 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
 
   bool flagPreviousSpace=false;
 
-  for(int pos=startCursorPos; pos<=calculateEndCursorPos; pos++)
+  for(int pos=startCursorPos; pos<=calculateEndCursorPos; ++pos)
   {
     // Выделяется один символ
     replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);

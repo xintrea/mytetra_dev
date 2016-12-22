@@ -75,7 +75,8 @@ QDomElement AttachTableData::exportDataToDom(QDomDocument *doc) const
   QDomElement attachTableDom=doc->createElement("files");
 
   // Пробегаются все приаттаченные файлы
-  for(int i=0; i<attachTable.size(); i++)
+  const int size = attachTable.size();
+  for(int i=0; i<size; ++i)
     attachTableDom.appendChild( attachTable.at(i).exportDataToDom( doc ) ); // К элементу files прикрепляются элементы file
 
   return attachTableDom;
@@ -91,7 +92,8 @@ void AttachTableData::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) cons
   xmlWriter->writeStartElement("files");
 
   // Пробегаются все приаттаченные файлы
-  for(int i=0; i<attachTable.size(); i++)
+  const int size = attachTable.size();
+  for(int i=0; i<size; ++i)
     attachTable.at(i).exportDataToStreamWriter( xmlWriter ); // К элементу files прикрепляются элементы file
 
   xmlWriter->writeEndElement(); // Закрылся files
@@ -220,7 +222,8 @@ void AttachTableData::deleteAttach(QString id)
 
 int AttachTableData::getRowById(QString id)
 {
-  for(int i=0; i<attachTable.size(); i++)
+  const int size = attachTable.size();
+  for(int i=0; i<size; ++i)
     if(attachTable.at(i).getField("id")==id)
       return i;
 

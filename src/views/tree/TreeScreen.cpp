@@ -806,8 +806,9 @@ void TreeScreen::delBranch(QString mode)
 
    // Сортировка списка индексов по вложенности методом пузырька
    // Индексы с длинным путем перемещаются в начало списка
-   for(int i = 0; i < selectitems.size(); i++)
-    for(int j=selectitems.size()-1; j>i; j--)
+   const int size = selectitems.size();
+   for(int i = 0; i < size; ++i)
+    for(int j=selectitems.size()-1; j>i; --j)
      {
       QStringList path_1=(knowTreeModel->getItem(selectitems.at(j-1)))->getPath();
       QStringList path_2=(knowTreeModel->getItem(selectitems.at(j)))->getPath();
@@ -1032,7 +1033,8 @@ void TreeScreen::addBranchToClipboard(ClipboardBranch *branch_clipboard_data, QS
 
   // Добавление конечных записей
   curr_item_record_table=curr_item->recordtableGetTableData();
-  for(unsigned int i=0; i<curr_item_record_table->size(); i++)
+  const unsigned int size = curr_item_record_table->size();
+  for(unsigned int i=0; i<size; ++i)
   {
     // Полный образ записи (с файлами и текстом)
     Record record=curr_item_record_table->getRecordFat(i);
@@ -1230,7 +1232,12 @@ void TreeScreen::setIcon(void)
     QFileInfo iconFileInfo(fullIconFileName);
     QString iconFileName=iconFileInfo.fileName();
     QString iconDir=iconFileInfo.dir().dirName();
-    QString relatedFileName="/"+iconDir+"/"+iconFileName;
+    QString relatedFileName;
+    relatedFileName.reserve(2+iconDir.length()+iconFileName.length());
+    relatedFileName.append("/");
+    relatedFileName.append(iconDir);
+    relatedFileName.append("/");
+    relatedFileName.append(iconFileName);
 
     TreeItem *currentItem=knowTreeModel->getItem( getCurrentItemIndex() );
 

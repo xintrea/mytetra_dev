@@ -249,8 +249,8 @@ void WalkHistory::print(void)
   qDebug() << "WalkHistory leave mark: " << leaveMarkPoint;
 
   qDebug() << "WalkHistory table ---v";
-
-  for(int i=0; i<historyId.size(); i++)
+  const int size = historyId.size();
+  for(int i=0; i<size; ++i)
     qDebug() << "WalkHistory " << i << ":" << historyId.at(i);
 
   qDebug() << "WalkHistory table ---^";
@@ -284,8 +284,8 @@ void WalkHistory::checkId(QString id)
 
  // Происходит перемещение указателя назад на столько ячеек, сколько
  // было удалено идентификторов
- for(int i=0; i<idRemoveCount; i++)
+ for(int i=0; i<idRemoveCount; ++i)
   if(historyPoint>0)
-    historyPoint--;
+    --historyPoint;
 }
 

@@ -706,11 +706,12 @@ void EditorConfig::update_version(int versionFrom,
  // Таблица исходных параметров преобразуется к более удобному для работы виду
  // И параллельно заполняется значениями из конфига
  QMap< QString, QMap< QString, QString > > fromTable;
- for(int i=0;i<100;i++)
+ for(int i=0;i<100;++i)
  {
-  QString name=        baseTable.at(i*3+0);
-  QString type=        baseTable.at(i*3+1);
-  QString defaultValue=baseTable.at(i*3+2);
+  const int mult = i*3;
+  QString name=        baseTable.at(mult+0);
+  QString type=        baseTable.at(mult+1);
+  QString defaultValue=baseTable.at(mult+2);
 
   // Если достигнут конец массива
   if(name=="0" && type=="0" && defaultValue=="0") break;
@@ -736,11 +737,12 @@ void EditorConfig::update_version(int versionFrom,
  // из конечного массива во время обхода через итератор
  QMap< QString, QMap< QString, QString > > toTable;
  QStringList controlList;
- for(int i=0;i<100;i++)
+ for(int i=0;i<100;++i)
  {
-  QString name=     finalTable.at(i*3+0);
-  QString type=     finalTable.at(i*3+1);
-  QString defaultValue=finalTable.at(i*3+2);
+  const int mult = i*3;
+  QString name=     finalTable.at(mult+0);
+  QString type=     finalTable.at(mult+1);
+  QString defaultValue=finalTable.at(mult+2);
 
   // Если достигнут конец массива
   if(name=="0" && type=="0" && defaultValue=="0") break;
@@ -872,20 +874,22 @@ void EditorConfig::update_version(int versionFrom,
 QStringList EditorConfig::remove_option(QStringList table, QString optionName)
 {
  // Перебираются строки таблицы
- for(int i=0; i<(table.length()/3); i++)
+ const int len = table.length()/3;
+ for(int i=0; i<len; ++i)
  {
-  QString name=        table.at(i*3+0);
-  QString type=        table.at(i*3+1);
-  QString defaultValue=table.at(i*3+2);
+  const int mult = i*3;
+  QString name=        table.at(mult+0);
+  QString type=        table.at(mult+1);
+  QString defaultValue=table.at(mult+2);
 
   // Если достигнут конец массива
   if(name=="0" && type=="0" && defaultValue=="0") break;
 
   if(name==optionName)
    {
-    table.removeAt(i*3);
-    table.removeAt(i*3);
-    table.removeAt(i*3);
+    table.removeAt(mult);
+    table.removeAt(mult);
+    table.removeAt(mult);
     break;
    }
  }

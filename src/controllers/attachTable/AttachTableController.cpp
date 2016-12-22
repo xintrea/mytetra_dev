@@ -618,7 +618,8 @@ QList<QString> AttachTableController::getSelectedId(void)
 
   // Перебор выделенных элементов. Так как имеем несколько столбцов, то для одной строки будет несколько QModelIndex
   int previousRow=-1;
-  for(int i=0; i<selectItems.size(); i++)
+  const int size = selectItems.size();
+  for(int i=0; i<size; ++i)
   {
     int row=selectItems.at(i).row();
 

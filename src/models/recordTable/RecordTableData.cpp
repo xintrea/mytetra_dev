@@ -305,7 +305,8 @@ QDomElement RecordTableData::exportDataToDom(QDomDocument *doc) const
   QDomElement recordTableDomData=doc->createElement("recordtable");
 
   // Пробегаются все записи в таблице
-  for(int i=0; i<tableData.size(); i++)
+  const int size = tableData.size();
+  for(int i=0; i<size; ++i)
     recordTableDomData.appendChild( tableData.at(i).exportDataToDom( doc ) ); // К элементу recordtabledata прикрепляются конечные записи
 
   // qDebug() << "In export_modeldata_to_dom() recordtabledata " << doc.toString();
@@ -323,7 +324,8 @@ void RecordTableData::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) cons
   xmlWriter->writeStartElement("recordtable");
 
   // Пробегаются все записи в таблице
-  for(int i=0; i<tableData.size(); i++)
+  const int size = tableData.size();
+  for(int i=0; i<size; ++i)
     tableData.at(i).exportDataToStreamWriter( xmlWriter );
 
   xmlWriter->writeEndElement(); // Закрылся recordtable
@@ -511,7 +513,8 @@ void RecordTableData::deleteRecord(int i)
 
 void RecordTableData::deleteRecordById(QString id)
 {
-  for(unsigned int i=0; i<size(); i++)
+  const unsigned int tempSize = size();
+  for(unsigned int i=0; i<tempSize; ++i)
     if(getField("id", i)==id)
       deleteRecord(i); // Так как id уникальный, удаляться будет только одна запись
 }
@@ -522,7 +525,7 @@ void RecordTableData::deleteAllRecords(void)
 {
   int tableSize=size(); // Запоминается размер таблицы, так как он при удалении меняется
 
-  for(int i=0; i<tableSize; i++)
+  for(int i=0; i<tableSize; ++i)
     deleteRecord(0); // Удаляется самая первая запись много раз
 }
 
@@ -539,7 +542,8 @@ void RecordTableData::empty(void)
 
 bool RecordTableData::isRecordExists(QString id)
 {
-  for(unsigned int i=0; i<size(); i++)
+  const unsigned int tempSize = size();
+  for(unsigned int i=0; i<tempSize; ++i)
     if(getField("id", i)==id)
       return true;
 
@@ -549,7 +553,8 @@ bool RecordTableData::isRecordExists(QString id)
 
 bool RecordTableData::isBlockRecordExists()
 {
-  for(unsigned int i=0; i<size(); i++)
+  const unsigned int tempSize = size();
+  for(unsigned int i=0; i<tempSize; ++i)
     if(getField("block", i)=="1")
       return true;
 
@@ -561,9 +566,9 @@ int RecordTableData::getPosById(QString id)
 {
   qDebug() << "RecordTableData - getPosById() - id:" << id;
   qDebug() << "RecordTableData - this:" << this;
-  qDebug() << "RecordTableData - this - size()" << size();
-
-  for(unsigned int i=0; i<size(); i++)
+  const unsigned int tempSize = size();
+  qDebug() << "RecordTableData - this - size()" << tempSize;
+  for(unsigned int i=0; i<tempSize; ++i)
     if(getField("id", i)==id)
       return i;
 
@@ -615,7 +620,8 @@ void RecordTableData::moveDn(int pos)
 void RecordTableData::switchToEncrypt(void)
 {
   // Перебор записей
-  for(unsigned int i=0; i<size(); i++)
+  const unsigned int tempSize = size();
+  for(unsigned int i=0; i<tempSize; ++i)
   {
     // Если запись уже зашифрована, ее шифровать ненужно
     if(getField("crypt", i)=="1")
@@ -632,7 +638,8 @@ void RecordTableData::switchToEncrypt(void)
 void RecordTableData::switchToDecrypt(void)
 {
  // Перебор записей
- for(unsigned int i=0; i<size(); i++)
+ const unsigned int tempSize = size();
+ for(unsigned int i=0; i<tempSize; ++i)
   {
    // Если запись не зашифрована, ее не нужно расшифровывать
    if(getField("crypt", i)=="" || getField("crypt", i)=="0")

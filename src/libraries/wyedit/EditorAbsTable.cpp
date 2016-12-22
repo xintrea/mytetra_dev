@@ -48,10 +48,10 @@ void EditorAbsTable::set_table(int x, int y, QString tableText)
 // Первичное наполнение двумерного массива таблицы
 void EditorAbsTable::create_cells_array(int x, int y)
 {
- for(int j=0;j<x;j++)
+ for(int j=0; j<x; ++j)
   {
    QVector <EditorAbsTableCell> cellsLine;
-   for(int i=0;i<y;i++)
+   for(int i=0; i<y; ++i)
     {
      EditorAbsTableCell init_cell;
      cellsLine.push_back(init_cell);
@@ -65,8 +65,8 @@ void EditorAbsTable::create_cells_array(int x, int y)
 // Очистка таблицы
 void EditorAbsTable::clear_table(void)
 {
- for(int i=0;i<columns;i++)
-  for(int j=0;j<rows;j++)
+ for(int i=0;i<columns; ++i)
+  for(int j=0;j<rows; ++j)
    cells[i][j].clear();
 }
 
@@ -74,8 +74,8 @@ void EditorAbsTable::clear_table(void)
 // Очистка для суперячеек флага, информирующего что был изменен размер
 void EditorAbsTable::clear_supercell_size_is_modify(void)
 {
- for(int i=0;i<columns;i++)
-  for(int j=0;j<rows;j++)
+ for(int i=0;i<columns; ++i)
+  for(int j=0;j<rows; ++j)
    if(cells[i][j].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL)
     cells[i][j].set_supercell_size_is_modify(false);
 }
@@ -111,7 +111,7 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
       {
        qDebug() << "Find <table> element";
 
-       tagTableBalance++;
+       ++tagTableBalance;
 
        if(tagTableBalance==1)
         {
@@ -139,13 +139,13 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
       {
        qDebug() << "Find <tr> element";
 
-       tagTrBalance++;
+       ++tagTrBalance;
 
        // Если это начало первичной строки
        if(tagTrBalance==1)
         {
          x=-1; // Сбрасывается X-координата
-         y++;  // Увеличивается Y-координата
+         ++y;  // Увеличивается Y-координата
         }
       }
 
@@ -155,12 +155,12 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
       {
        qDebug() << "Find <td> element";
 
-       tagTdBalance++;
+       ++tagTdBalance;
 
        // Если это начало первичной ячейки
        if(tagTdBalance==1)
         {
-         x++;
+         ++x;
 
          // Если текущая обрабатываемая ячейка уже занята
          // (Это может произойти при rowspan>1 у каких-то предыдущих ячеек)
@@ -170,7 +170,8 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
          QXmlStreamAttributes attr=xmlReader.attributes();
 
          // Список атрибутов ячейки запоминается
-         for(int i=0; i<attr.size(); ++i)
+         const int tempSize = attr.size();
+         for(int i=0; i<tempSize; ++i)
           {
            QString name=(attr.at(i)).name().toString();
            QString value=(attr.at(i)).value().toString();
@@ -199,8 +200,8 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
            cells[x][y].set_cell_type(EditorAbsTableCell::IS_SUPER_CELL);
 
            // Заполняется прямоугольник подчиненных ячеек
-           for(int i=0;i<colSpan;i++)
-            for(int j=0;j<rowSpan;j++)
+           for(int i=0; i<colSpan; ++i)
+            for(int j=0; j<rowSpan; ++j)
              if(!(i==0 && j==0))
               {
                // Ячейка получает признак, что она подчиненная ячейка
@@ -229,20 +230,20 @@ void EditorAbsTable::convert_table_to_internal(QString tableText)
      // Если обнаружен конец таблицы
      if(xmlReader.name().toString()=="table")
       {
-       tagTableBalance--;
+       --tagTableBalance;
       }
 
      // Если обнаружен конец строки
      if(xmlReader.name().toString()=="tr")
       {
-       tagTrBalance--;
+       --tagTrBalance;
       }
 
      // Если обнаружен конец ячейки таблицы
      if(xmlReader.name().toString()=="td")
       {
 
-       tagTdBalance--;
+       --tagTdBalance;
 
        // Если закрылась первичная ячейка
        if(tagTdBalance==0)
@@ -292,11 +293,11 @@ QString EditorAbsTable::get_table(void)
 
  table=table+">";
 
- for(int y=0;y<rows;y++)
+ for(int y=0; y<rows; ++y)
   {
    table=table+"<tr>";
 
-   for(int x=0;x<columns;x++)
+   for(int x=0; x<columns; ++x)
     {
      if(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_NORMAL_CELL ||
         cells[x][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL)
@@ -337,9 +338,9 @@ QString EditorAbsTable::get_table(void)
 
 void EditorAbsTable::print_internal_table(void)
 {
- for(int y=0;y<rows;y++)
+ for(int y=0; y<rows; ++y)
   {
-   for(int x=0;x<columns;x++)
+   for(int x=0; x<columns; ++x)
     cells[x][y].print_cell();
    printf("\n");
   }
@@ -397,7 +398,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
 
 
  // Перебирается счетчик разбиений
- for(int k=1;k<div;k++)
+ for(int k=1; k<div; ++k)
   {
    clear_supercell_size_is_modify();
 
@@ -408,7 +409,7 @@ void EditorAbsTable::split_single_cell_by_horisontal(int x, int y, int div)
    print_internal_table();
 
    // Столбцы (основной и только что созданный) пробегаются сверху-вниз
-   for(int i=0;i<rows;i++)
+   for(int i=0; i<rows; ++i)
     {
      // Если обнаружена нулевая ячейка
      if(cells[x][i].get_cell_type()==EditorAbsTableCell::IS_NULL_CELL)
@@ -567,6 +568,7 @@ void EditorAbsTable::split_merged_cell_by_horisontal(int x, int y)
 
  // На сколько частей по горизонтали можно разбить эту ячейку
  int div=cells[x][y].get_html_property("colspan").toInt();
+ const int cacheDivVal = div-1;
  qDebug() << "Split cell to"<<div<<"by horisontal";
 
  // Сколько ячек эта суперячейка объединяет по высоте
@@ -577,7 +579,7 @@ void EditorAbsTable::split_merged_cell_by_horisontal(int x, int y)
  if(rowSpan<2)
   {
    // Все ячейки превращаются в обычную ячейку
-   for(int i=x; i<=(x+div-1); i++)
+   for(int i=x; i<=(x+cacheDivVal); ++i)
     {
      cells[i][y].set_cell_type(EditorAbsTableCell::IS_NORMAL_CELL);
      cells[i][y].set_html_property("colspan","0");
@@ -589,7 +591,7 @@ else
    // Иначе суперячейка объединяла ячейки и по вертикали
 
    // Все "верхние" ячейки превращаются в суперячейки с нужным rowspan
-   for(int i=x; i<=(x+div-1); i++)
+   for(int i=x; i<=(x+cacheDivVal); ++i)
     {
      cells[i][y].set_cell_type(EditorAbsTableCell::IS_SUPER_CELL);
      cells[i][y].set_html_property("colspan","0");
@@ -598,7 +600,7 @@ else
 
      // А все "нижние" уже являются подчиненными ячейками,
      // и им только корректируются ссылки на суперячейку
-     for(int j=(y+1); j<=(y+rowSpan-1); j++)
+     for(int j=(y+1); j<=(y+rowSpan-1); ++j)
       cells[i][j].set_ref_super_cell_xy(i,y);
     }
 
@@ -619,7 +621,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
  // Проверка, можно ли разбивать ячейки
  // Разбиваемые ячейки должны быть неразбиты по вертикали
  // то есть иметь rowspan равный 0 или 1
- for(int x=x1; x<=x2; x++)
+ for(int x=x1; x<=x2; ++x)
   {
    bool splitEnable=false;
    if(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_NORMAL_CELL)
@@ -635,7 +637,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
 
 
  // Перебирается счетчик разбиений
- for(int k=1;k<div;k++)
+ for(int k=1;k<div;++k)
   {
    clear_supercell_size_is_modify();
 
@@ -646,7 +648,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
    print_internal_table();
 
    // Строки (основная и только что созданная) пробегаются слева-напрво
-   for(int i=0;i<columns;i++)
+   for(int i=0;i<columns;++i)
     {
      // Если обнаружена нулевая ячейка
      if(cells[i][y].get_cell_type()==EditorAbsTableCell::IS_NULL_CELL)
@@ -801,29 +803,31 @@ void EditorAbsTable::split_merged_cell_by_vertical(int x1, int x2, int y)
  print_internal_table();
 
  // Проверка, можно ли разбивать ячейки
- for(int x=x1; x<=x2; x++)
+ for(int x=x1; x<=x2; ++x)
   {
    if(!(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL &&
         cells[x][y].get_html_property("rowspan").toInt()>=2))
     criticalError("Cell ("+QString::number(x)+","+QString::number(y)+") can not split by vertical, this is not supercell with rowspan>2");
   }
 
- for(int x=x1; x<=x2; x++)
+ for(int x=x1; x<=x2; ++x)
   if(cells[x][y].get_cell_type()==EditorAbsTableCell::IS_SUPER_CELL)
    {
     // На сколько частей по вертикали можно разбить эту ячейку
     int div=cells[x][y].get_html_property("rowspan").toInt();
+    const int cacheDivVal = div-1;
     qDebug() << "Split cell to"<<div<<"by vertical";
 
     // Сколько ячек эта суперячейка объединяет по горизонтали
     int colSpan=cells[x][y].get_html_property("colspan").toInt();
+    const int cacheColSpan = colSpan-1;
     qDebug() << "This cell merge by horisontal"<<colSpan<<"cells";
 
     // Если суперячейка объединяла только вертикальные ячейки
     if(colSpan<2)
      {
       // Все ячейки превращаются в обычную ячейку
-      for(int i=y; i<=(y+div-1); i++)
+      for(int i=y; i<=(y+cacheDivVal); ++i)
        {
         cells[x][i].set_cell_type(EditorAbsTableCell::IS_NORMAL_CELL);
         cells[x][i].set_html_property("colspan","0");
@@ -836,7 +840,7 @@ void EditorAbsTable::split_merged_cell_by_vertical(int x1, int x2, int y)
       // Иначе суперячейка объединяла ячейки и по вертикали
 
       // Все "левые" ячейки превращаются в суперячейки с нужным colspan
-      for(int i=y; i<=(y+div-1); i++)
+      for(int i=y; i<=(y+cacheDivVal); ++i)
        {
         cells[x][i].set_cell_type(EditorAbsTableCell::IS_SUPER_CELL);
         cells[x][i].set_html_property("rowspan","0");
@@ -845,7 +849,8 @@ void EditorAbsTable::split_merged_cell_by_vertical(int x1, int x2, int y)
 
         // А все "правые" уже являются подчиненными ячейками,
         // и им только корректируются ссылки на суперячейку
-        for(int j=(x+1); j<=(x+colSpan-1); j++)
+        const int maxVal = x+cacheColSpan;
+        for(int j=(x+1); j<=maxVal; ++j)
          cells[j][i].set_ref_super_cell_xy(x,i);
       }
 
@@ -865,7 +870,7 @@ void EditorAbsTable::insert_column(int insX)
 
  // Создается пустой столбец
  QVector <EditorAbsTableCell> cellsLine;
- for(int i=0;i<rows;i++)
+ for(int i=0;i<rows;++i)
   {
    EditorAbsTableCell init_cell;
    cellsLine.push_back(init_cell);
@@ -882,8 +887,8 @@ void EditorAbsTable::insert_column(int insX)
  // У всех подчиненных ячеек справа от вставленного столбца
  // надо подправить ссылку на суперячейку,
  // если суперячейка оказалась справа от вставленного слобца
- for(int i=insX+2;i<columns;i++)
-  for(int j=0;j<rows;j++)
+ for(int i=insX+2;i<columns;++i)
+  for(int j=0;j<rows;++j)
    if(cells[i][j].get_cell_type()==EditorAbsTableCell::IS_SUB_CELL)
     {
      int superX=cells[i][j].get_ref_super_cell_x();
@@ -901,7 +906,7 @@ void EditorAbsTable::insert_row(int insY)
  insY++; // Корректируется координата, куда будет вставлятся строка
 
  // Перебираются столбцы
- for(int i=0;i<columns;i++)
+ for(int i=0;i<columns;++i)
   {
    // Пустая ячейка
    EditorAbsTableCell init_cell;
@@ -919,8 +924,8 @@ void EditorAbsTable::insert_row(int insY)
  // У всех подчиненных ячеек снизу от вставленной строки
  // надо подправить ссылку на суперячейку,
  // если суперячейка оказалась снизу от вставленной строки
- for(int i=0;i<columns;i++)
-  for(int j=insY+2;j<rows;j++)
+ for(int i=0;i<columns;++i)
+  for(int j=insY+2;j<rows;++j)
    if(cells[i][j].get_cell_type()==EditorAbsTableCell::IS_SUB_CELL)
     {
      int superY=cells[i][j].get_ref_super_cell_y();

@@ -151,6 +151,7 @@ QString xmlNodeToString(QDomNode xmlData)
 // Рекурсивная печать дерева объектов, т.к. dumpObjectInfo() и dumpObjectTree() не работают
 void printObjectTreeRecurse(QObject *pobj)
 {
+  if(!pobj) return;
   static int indent=0;
 
   QObjectList olist;
@@ -162,8 +163,10 @@ void printObjectTreeRecurse(QObject *pobj)
     QObject *currobj;
     currobj=olist.at(i);
 
-    QString indentline=".";
-    for(int j=0;j<indent;j++)indentline=indentline+".";
+    QString indentline;
+    const int len = indent+1;
+    indentline.reserve(len);
+    indentline.fill('.', len);
 
     if((currobj->objectName()).length()==0)
       qDebug("%s%s", indentline.toLocal8Bit().data(),
@@ -173,9 +176,9 @@ void printObjectTreeRecurse(QObject *pobj)
                               currobj->metaObject()->className(),
                               (currobj->objectName()).toLocal8Bit().data() );
 
-    indent++;
+    ++indent;
     printObjectTreeRecurse(currobj);
-    indent--;
+    --indent;
   }
 }
 
@@ -210,12 +213,16 @@ void smartPrintDebugMessage(QString msg)
   {
    QTime currTime = QTime::currentTime();
    QString timeText=currTime.toString("hh:mm:ss");
-   msg=timeText+" "+msg;
+   QString newMsg;
+   newMsg.reserve(timeText.length()+1+msg.length());
+   newMsg.append(timeText);
+   newMsg.append(" ");
+   newMsg.append(msg);
 
-   unsigned int messageLen=msg.toLocal8Bit().size();
+   unsigned int messageLen=newMsg.toLocal8Bit().size();
    // printf("Len of line: %d\n", messageLen);
 
-   fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
+   fwrite(newMsg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
   }
  
  // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется
@@ -443,6 +450,7 @@ void setCssStyle()
   {
     qDebug() << "Stylesheet success loaded from" << csspath;
     QString style = QTextStream(&css).readAll();
+    css.close();
 
     style=replaceCssMetaIconSize(style);
 
@@ -538,8 +546,7 @@ QString getUniqueId(void)
  // и 10 случайных символов 0-9 a-z
 
  // Количество секунд как число
- long seconds;
- seconds=(long)time(NULL);
+ long seconds=static_cast<long>(time(NULL));
 
  // Количество секунд как строка
  QString secondsLine=QString::number(seconds, 10);
@@ -547,12 +554,12 @@ QString getUniqueId(void)
 
  // Строка из 10 случайных символов
  QString symbols="0123456789abcdefghijklmnopqrstuvwxyz";
- QString line;
-
- for(int i=0; i<10; i++)
-  line+=symbols.mid(rand()%symbols.length(), 1);
-
- QString result=secondsLine+line;
+ QString result;
+ result.reserve(secondsLine.length()+10);
+ result.append(secondsLine);
+ const int len = symbols.length();
+ for(int i=0; i<10; ++i)
+  result.append(symbols.mid(rand()%len, 1));
 
  return result;
 }
@@ -563,7 +570,13 @@ QString getUniqueId(void)
 // Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
 QString getUniqueImageName(void)
 {
-  return "image"+QString::number(rand())+".png";
+  QString num = QString::number(rand());
+  QString result;
+  result.reserve(9+num.length());
+  result.append("image");
+  result.append(num);
+  result.append(".png");
+  return result;
 }
 
 
@@ -588,7 +601,7 @@ void initRandom(void)
 
  unsigned int delay=rand()%1000;
  unsigned int r=0;
- for(unsigned int i=0; i<delay; i++) r=r+rand();
+ for(unsigned int i=0; i<delay; ++i) r+=rand();
 
  seed1=seed1-getMilliCount()+r;
 

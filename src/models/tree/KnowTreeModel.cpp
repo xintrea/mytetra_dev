@@ -359,7 +359,8 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 
        // Расшифровка приаттаченных файлов
        QDomNodeList list=element.elementsByTagName("file");
-       for(int i=0; i<list.count(); i++) // Цикл foreach в Qt до сих пор не работает с QDomNodeList
+       const int count = list.count();
+       for(int i=0; i<count; ++i) // Цикл foreach в Qt до сих пор не работает с QDomNodeList
        {
          QDomElement fileElement=list.at(i).toElement();
 
@@ -390,7 +391,8 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 
   // Рекурсивный вызов дочерних элементов
   QDomNodeList childList=element.childNodes();
-  for(int i=0; i<childList.count(); i++)
+  const int count = childList.count();
+  for(int i=0; i<count; ++i)
     if(childList.at(i).isElement())
     {
       QDomElement childElement=childList.at(i).toElement();
@@ -590,7 +592,8 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, Tree
   }
 
  // Обработка каждой подчиненной ветки
- for(unsigned int i=0;i<currItem->childCount();i++)
+ const unsigned int childCount = currItem->childCount();
+ for(unsigned int i=0; i<childCount; ++i)
   {
    // Временный элемент, куда будет внесена текущая перебираемая ветка
    QDomElement  tempElement = doc->createElement("node");
@@ -631,7 +634,8 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
    currItem->recordtableExportDataToStreamWriter( xmlWriter );
 
   // Обработка каждой подчиненной ветки
-  for(unsigned int i=0;i<currItem->childCount();i++)
+  const unsigned int childCount = currItem->childCount();
+  for(unsigned int i=0; i<childCount; ++i)
    {
     xmlWriter->writeStartElement("node");
 
@@ -821,7 +825,7 @@ QString KnowTreeModel::pasteNewChildBranch(const QModelIndex &index, ClipboardBr
   TreeItem *parent=getItem(index);
 
   beginInsertRows(index, parent->childCount(), parent->childCount());
-  pasted_branch_id=pasteSubbranch(parent, (ClipboardBranch *)subbranch);
+  pasted_branch_id=pasteSubbranch(parent, qobject_cast<ClipboardBranch *>(subbranch));
   endInsertRows();
 
   return pasted_branch_id;
@@ -837,7 +841,7 @@ QString KnowTreeModel::pasteNewSiblingBranch(const QModelIndex &index, Clipboard
   TreeItem *parent=current->parent();
 
   beginInsertRows(index.parent(), parent->childCount(), parent->childCount());
-  pasted_branch_id=pasteSubbranch(parent, (ClipboardBranch *)subbranch);
+  pasted_branch_id=pasteSubbranch(parent, qobject_cast<ClipboardBranch *>(subbranch));
   endInsertRows();
 
   return pasted_branch_id;
@@ -992,8 +996,8 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
   }
 
   n=n+item->recordtableGetRowCount();
-
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     getAllRecordCountRecurse(item->child(i), 1);
 
   return n;
@@ -1033,7 +1037,8 @@ bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mo
   }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     isItemIdExistsRecurse(item->child(i), findId, 1);
 
   return isExists;
@@ -1073,7 +1078,8 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
   }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     isRecordIdExistsRecurse(item->child(i), findId, 1);
 
   return isExists;
@@ -1114,7 +1120,8 @@ bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, in
     }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     isRecordDirExistsRecurse(item->child(i), findDir, 1);
 
   return isExists;
@@ -1270,7 +1277,8 @@ TreeItem *KnowTreeModel::getItemByIdRecurse(TreeItem *item, QString id, int mode
   }
   else
   {
-    for(unsigned int i=0; i < item->childCount(); i++)
+    const unsigned int childCount = item->childCount();
+    for(unsigned int i=0; i < childCount; ++i)
       getItemByIdRecurse(item->child(i), id, 1);
 
     return find_item;
@@ -1317,7 +1325,8 @@ QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
   else
   {
     // Иначе перебираются подветки
-    for(unsigned int i=0; i < item->childCount(); i++)
+    const unsigned int childCount = item->childCount();
+    for(unsigned int i=0; i < childCount; ++i)
       getRecordPathRecurse(item->child(i), currentPath, recordId, 1);
   }
 
@@ -1358,8 +1367,8 @@ bool KnowTreeModel::isContainsCryptBranchesRecurse(TreeItem *item, int mode)
     isCrypt=true;
     return isCrypt;
   }
-
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     isContainsCryptBranchesRecurse(item->child(i), 1);
 
   return isCrypt;
@@ -1391,8 +1400,8 @@ bool KnowTreeModel::isContainsBlockRecordsRecurse(TreeItem *item, int mode)
     isBlock=true;
     return isBlock;
   }
-
-  for(unsigned int i=0; i < item->childCount(); i++)
+  const unsigned int childCount = item->childCount();
+  for(unsigned int i=0; i < childCount; ++i)
     isContainsBlockRecordsRecurse(item->child(i), 1);
 
   return isBlock;

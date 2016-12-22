@@ -312,7 +312,7 @@ void Password::saveCheckPasswordKey(QString password)
   QByteArray hash;
   QByteArray salt;
 
-  for(int i=0; i<32; i++)
+  for(int i=0; i<32; ++i)
     salt.append(rand()%0xFF);
 
   Pbkdf2Qt hashAlgorythm;

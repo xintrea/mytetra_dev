@@ -134,7 +134,8 @@ void ConfigDialog::applyChanges(void)
  int difficult_flag=0;
 
  // Перебираются виджеты настройки
- for(int i=0;i<pagesWidget->count();i++)
+ const int count = pagesWidget->count();
+ for(int i=0; i<count; ++i)
   {
    // Выясняется указатель на виджет
    ConfigPage *cnpg=qobject_cast<ConfigPage *>(pagesWidget->widget(i));

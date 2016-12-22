@@ -128,7 +128,8 @@ void Downloader::setReferencesList(QStringList iReferencesList)
   }
 
   // Перебирается список ссылок
-  for(int i=0; i<referencesList.count(); i++)
+  const int count = referencesList.count();
+  for(int i=0; i< count; ++i)
   {
     // Добавляется строка на экране
     table->insertRow(i);

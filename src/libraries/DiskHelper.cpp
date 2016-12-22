@@ -24,13 +24,16 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
   QString nameDirTo=mytetraConfig.get_trashdir();
 
   // Перебор всех файлов в удаляемой директории
-  for(int i=0;i<fileList.size();i++)
+  const int size = fileList.size();
+  QString templNameDirFrom = nameDirFrom+"/";
+  QString templNameDirTo = nameDirTo+"/";
+  for(int i=0; i<size; ++i)
   {
     // Директории с именами "." и ".." обрабатывать не нужно
     if(fileList.at(i)=="." || fileList.at(i)=="..")continue;
 
     // Исходный файл, который будет перенесен в корзину
-    QString fileNameFrom=nameDirFrom+"/"+fileList.at(i);
+    QString fileNameFrom=templNameDirFrom+fileList.at(i);
 
     // Конечный файл, который должен лежать в корзине
     QString fileNameToShort;
@@ -38,7 +41,7 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     bool targetFileFree=false;
     do {
       fileNameToShort=getUniqueId()+"_"+fileList.at(i);
-      fileNameTo     =nameDirTo+"/"+fileNameToShort;
+      fileNameTo     =templNameDirTo+fileNameToShort;
 
       if(QFile::exists(fileNameTo)) targetFileFree=false;
       else targetFileFree=true;
@@ -129,7 +132,11 @@ QString DiskHelper::createTempDirectory(void)
   dir.setPath(systemTempDirName);
   dir.mkdir(temp_dir_name);
 
-  QString createTempDirName=systemTempDirName+"/"+temp_dir_name;
+  QString createTempDirName;
+  createTempDirName.reserve(systemTempDirName.length()+1+temp_dir_name.length());
+  createTempDirName.append(systemTempDirName);
+  createTempDirName.append("/");
+  createTempDirName.append(temp_dir_name);
 
   qDebug() << "Create temporary directory "+createTempDirName;
 

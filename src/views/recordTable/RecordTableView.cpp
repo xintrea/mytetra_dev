@@ -667,7 +667,8 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
 
   // Перемещение в данном представлении сбрасывается, так как модель берет последовательность полей из настроек
   // После это кода logicalIindex=visualIndex для всех полей
-  for(int logicalIdx=0; logicalIdx<showFields.size(); logicalIdx++)
+  const int size = showFields.size();
+  for(int logicalIdx=0; logicalIdx<size; ++logicalIdx)
   {
     int visualIdx=horizontalHeader()->visualIndex( logicalIdx );
     if( visualIdx != logicalIdx )
@@ -704,7 +705,7 @@ void RecordTableView::saveColumnWidth(void)
 
   QStringList columnWidthList;
 
-  for(int i=0; i<count; i++)
+  for(int i=0; i<count; ++i)
   {
     QString width;
     width.setNum( columnWidth(i) );
@@ -726,7 +727,8 @@ void RecordTableView::restoreColumnWidth(void)
 
   // Восстанавливается ширина всех колонок без последней
   // Чтобы последняя растягивалась по месту
-  for(int i=0; i<columnWidthList.size()-1; i++)
+  const int size = columnWidthList.size()-1;
+  for(int i=0; i<size; ++i)
     setColumnWidth( i, columnWidthList[i].toInt() );
 }
 

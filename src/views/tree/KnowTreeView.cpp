@@ -189,7 +189,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // но в дальнейшем планируется переносить несколько записей
    // и здесь код подготовлен для переноса нескольких записей
    RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");  // Указатель на контроллер таблицы конечных записей
-   for(int i=0; i<clipboardRecords->getCount(); i++)
+   const int count = clipboardRecords->getCount();
+   for(int i=0; i<count; ++i)
     {
      // Полные данные записи
      Record record=clipboardRecords->getRecord(i);

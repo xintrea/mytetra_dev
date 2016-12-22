@@ -508,7 +508,8 @@ void FindScreen::findRecurse(TreeItem *curritem)
     RecordTableData *searchRecordTable=curritem->recordtableGetTableData();
 
     // Перебираются записи таблицы
-    for(unsigned int i=0; i<searchRecordTable->size(); i++)
+    const unsigned int tempSize = searchRecordTable->size();
+    for(unsigned int i=0; i<tempSize; ++i)
     {
       // Обновляется линейка наполняемости
       progress->setValue(++totalProgressCounter);
@@ -587,7 +588,8 @@ void FindScreen::findRecurse(TreeItem *curritem)
 
 
   // Рекурсивная обработка каждой подчиненной ветки
-  for(unsigned int i=0; i<curritem->childCount(); i++)
+  const unsigned int childCount = curritem->childCount();
+  for(unsigned int i=0; i<childCount; ++i)
     findRecurse(curritem->child(i));
 
 }
@@ -798,7 +800,7 @@ QStringList FindScreen::textDelimiterDecompose(QString text)
   delimiter.append(QChar::Tabulation);
   delimiter.append(QChar::Nbsp);
 
-  for(int i=0; i<len; i++)
+  for(int i=0; i<len; ++i)
   {
     // Если обнаружен разделитель
     if(delimiter.contains( text[i] ))

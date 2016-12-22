@@ -941,7 +941,7 @@ void AppConfig::set_config_version(int i)
 QStringList AppConfig::removeParameterFromTable(QString removeName, QStringList table)
 {
  // Перебираются параметры в таблице
- for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+ for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; ++i)
  {
   // Выясняется имя параметра
   QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
@@ -951,7 +951,7 @@ QStringList AppConfig::removeParameterFromTable(QString removeName, QStringList 
    {
     // Удаляются данные об элементе (удаляется ячейка с одним и тем же номером
     // столько раз, сколько полей в таблице)
-    for(int j=0; j<MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD; j++)
+    for(int j=0; j<MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD; ++j)
      table.removeAt(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
 
     break;
@@ -966,7 +966,7 @@ QStringList AppConfig::removeParameterFromTable(QString removeName, QStringList 
 QString AppConfig::getParameterTypeFromTable(QString parameterName, QStringList table)
 {
   // Перебираются параметры в таблице
-  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; ++i)
   {
     // Выясняется имя параметра
     QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
@@ -983,7 +983,7 @@ QString AppConfig::getParameterTypeFromTable(QString parameterName, QStringList 
 QString AppConfig::getParameterValueFromTable(QString parameterName, QStringList table)
 {
   // Перебираются параметры в таблице
-  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; ++i)
   {
     // Выясняется имя параметра
     QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);
@@ -1000,7 +1000,7 @@ QString AppConfig::getParameterValueFromTable(QString parameterName, QStringList
 QStringList AppConfig::replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table)
 {
   // Перебираются параметры в таблице
-  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+  for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; ++i)
   {
     // Выясняется имя параметра
     QString name=table.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD);

@@ -365,7 +365,8 @@ bool TreeItem::removeChildren(int position, int count)
 
 void TreeItem::removeAllChildren()
 {
-  for(int i=0; i< childItems.size(); i++)
+  const int size = childItems.size();
+  for(int i=0; i< size; ++i)
     delete childItems.takeAt(0);
 }
 
@@ -527,8 +528,8 @@ QList<QStringList> TreeItem::getAllChildrenPathAsFieldRecurse(TreeItem *item, QS
     pathList.clear();
     return QList<QStringList>();
   }
-
-  for(unsigned int i=0;i<(item->childCount());i++)
+  const unsigned int childCount= item->childCount();
+  for(unsigned int i=0;i<childCount; ++i)
   {
     QStringList path=(item->child(i))->getPathAsField(fieldName);
     pathList << path;
@@ -561,7 +562,8 @@ void TreeItem::switchToEncrypt(void)
 
 
   // Шифрация подветок
-  for(unsigned int i=0; i<childCount(); i++)
+  const unsigned int tempChildCount = childCount();
+  for(unsigned int i=0; i<tempChildCount; ++i)
     child(i)->switchToEncrypt();
 }
 
@@ -588,7 +590,8 @@ void TreeItem::switchToDecrypt(void)
 
 
   // Дешифрация подветок
-  for(unsigned int i=0; i<childCount(); i++)
+  const unsigned int tempChildCount = childCount();
+  for(unsigned int i=0; i<tempChildCount; ++i)
     child(i)->switchToDecrypt();
 }
 
