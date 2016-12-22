@@ -504,7 +504,7 @@ void RecordTableController::paste(void)
   int nList=clipboardRecords->getCount();
 
   // Пробегаются все записи в буфере
-  for(int i=0;i<nList;i++)
+  for(int i=0;i<nList;++i)
     addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
 
   // Обновление на экране ветки, на которой стоит засветка,
@@ -779,7 +779,7 @@ void RecordTableController::deleteRecords(void)
   QVector<QString> delIds;
   QVector<int> delRows;
   QModelIndexList::iterator it;
-  for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); it++)
+  for(it=itemsForDelete.begin(); it!=itemsForDelete.end(); ++it)
   {
     QModelIndex currIdx;
     currIdx=*it;
@@ -853,8 +853,8 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
 
   if(table==NULL)
     return;
-
-  for(int i=0;i<delIds.count();i++)
+  const int count = delIds.count();
+  for(int i=0; i<count; ++i)
   {
     QString id=delIds[i];
     QModelIndex idx=convertIdToProxyIndex(id);
