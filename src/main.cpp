@@ -696,7 +696,7 @@ void parseConsoleOption(QtSingleApplication &app)
   if( app.arguments().count()>1 && !app.arguments().contains("--control"))
   {
     QString message="Bad options. May be you lost \"--control\"?\n";
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
     exit(1);
   }
 
@@ -704,7 +704,7 @@ void parseConsoleOption(QtSingleApplication &app)
   if(app.arguments().contains("--control") && !app.isRunning())
   {
     QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
     exit(2);
   }
 
@@ -713,7 +713,7 @@ void parseConsoleOption(QtSingleApplication &app)
   {
     QString message="Another MyTetra exemplar is running.\n";
 
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
 
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning); // Сообщение со значком предупреждения
@@ -757,7 +757,7 @@ void parseConsoleOption(QtSingleApplication &app)
     else
     {
       QString message="Unknown control option.\n";
-      printf(message.toLocal8Bit());
+      printf("%s", message.toLocal8Bit().data());
       exit(4);
     }
   }
