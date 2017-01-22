@@ -72,15 +72,15 @@ void logPrint(char *lpszText, ...)
   va_list argList;
   FILE *pFile;
 
-  // инициализируем список аргументов
-  va_start(argList, lpszText);
-
   // открываем лог-файл для добавления данных
   if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
   {
     printf("\nLog file not writable\n");
     return;
   }
+
+  // инициализируем список аргументов
+  va_start(argList, lpszText);
 
   // пишем текст в файл
   vfprintf(pFile, lpszText, argList);
