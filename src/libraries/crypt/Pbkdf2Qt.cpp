@@ -170,7 +170,11 @@ QByteArray Pbkdf2Qt::Pbkdf2(QByteArray pass,
                                        rounds);
 
  if(calculate_result==-1)
+ {
+  memset(key, 0, key_len);
+  free(key);
   return QByteArray();
+ }
 
  QByteArray result(key, key_len);
 
