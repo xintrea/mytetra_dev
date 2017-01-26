@@ -909,6 +909,28 @@ void MainWindow::showWindow()
   raise();
 }
 
+void MainWindow::showWindowNormal()
+{
+  activateWindow();
+  showNormal();
+  raise();
+}
+
+void MainWindow::activate() {
+//	bool wasHidden = !isVisible();
+	setWindowState(windowState() & ~Qt::WindowMinimized);
+	setVisible(true);
+	activateWindow();
+//	if (wasHidden) {
+//			show();
+//	}
+}
+
+bool MainWindow::isActive() const {
+	return isActiveWindow() && isVisible() && !(windowState() & Qt::WindowMinimized);
+}
+
+
 
 void MainWindow::createTrayIcon(void)
 {
@@ -947,43 +969,52 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
   switch (reason)
   {
     case QSystemTrayIcon::Trigger:
-    case QSystemTrayIcon::DoubleClick:
       // Если окно видно
       if(isVisible())
       {
-        // Если окно неактивно, значит активно другое (и возможно оно перекрывает окно MyTetra)
-        // Не работает в Windows, в Linux не проверял
-        // Причина неработоспособности - при клике на иконку, окно MyTera всегда становится неактивным (т.к. активен систрей)
-        // И условие срабатывает всегда. Доделать или отказаться
-        // if(QGuiApplication::applicationState() == Qt::ApplicationInactive)
-        // {
-        //   activateWindow();
-        //   return;
-        // }
-
-        if(isMinimized())
-        {
-          qDebug() << "If visible and minimized";
-          showWindow();
-          return;
+        if(!isActive()){
+          qDebug() << "If visible and not active";
+          activate();
         }
-        else
-        {
-          qDebug() << "Hide";
-          hide();
-          return;
-        }
+        //при клике на иконку, окно MyTera всегда становится неактивным (т.к. активен систрей)   
+//        else
+//        {
+//          qDebug() << "If visible and active then Hide";
+//          hide();
+//        }
       }
       else
       {
         qDebug() << "If not visible";
         showWindow();
-        return;
+        if(isMinimized())
+        {
+          showWindowNormal();
+        }
         // if(isMinimized()) showNormal();
         // else show();
       }
+      break;
+      
+    case QSystemTrayIcon::DoubleClick:
+    case QSystemTrayIcon::MiddleClick:
+      // Если окно видно
+      if(isVisible())
+      {
+        hide();
+      }
+      else
+      {
+        showWindow();
+        if(isMinimized())
+        {
+          showWindowNormal();
+        }
+      }
+      break;
+      
     default:
-      ;
+      break;
   }
 }
 
