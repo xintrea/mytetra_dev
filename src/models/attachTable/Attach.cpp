@@ -392,8 +392,12 @@ QString Attach::constructFileName(const QString type, const QString id, const QS
     // Выясняется расширение по видимому имени файла
     QFileInfo fileInfo( fileName );
     QString suffix=fileInfo.suffix();
-
-    return id+"."+suffix;
+//Правельнее сделать так, но это может сломать совместимость
+//    if(suffix.length()>0){
+      return id+"."+suffix;
+//    }else{
+//      return id;
+//    }
   }
 
   // Для линка просто возвращается имя файла, куда указывает линк
@@ -559,4 +563,30 @@ void Attach::decryptDomElement(QDomElement &iDomElement)
       }
 
   iDomElement.setAttribute("crypt", "0");
+}
+
+void Attach::renameFile(QString newFileName){
+  if(newFileName.length()==0){
+    showMessageBox(QObject::tr("Invalid empty file name."));
+     return;
+  }
+
+  QString type=getField("type");  
+  if(type=="link")
+  {
+    // Имя файла для линка менять нельзя
+    showMessageBox(QObject::tr("Unable to rename a file which attached as a link."));
+    return;
+  }
+  QFile file(getFullInnerFileName());
+  file.setPermissions(QFile::ReadOther | QFile::WriteOther);
+  if(!file.exists())
+  {
+    showMessageBox(QObject::tr("Unable to rename the file %1 from disk: file not found.").arg( getFullInnerFileName() ));
+    return;
+  }
+  
+  QString resultFileName=getFullInnerDirName()+"/"+constructFileName(type, getField("id"), newFileName);
+  file.rename(resultFileName);
+  setField("fileName", newFileName);
 }
