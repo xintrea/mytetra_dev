@@ -7,9 +7,9 @@ $baseGenerator=new BaseGenerator();
 class BaseGenerator
 {
 
-    public $treeLevels=3; // Уровень вложения генерируемого дерева
-    public $branchesQuantity=19; // Количество веток на одном уровне вложения
-    public $notesQuantity=15; // Количество записей в одной ветке
+    public $treeLevels=3;          // Уровень вложения генерируемого дерева
+    public $branchesQuantity=19;   // Количество веток на одном уровне вложения
+    public $notesQuantity=15;      // Количество записей в одной ветке
     public $minSymbolsInNote=2000; // Минимальное кол-во символов в записи
     public $maxSymbolsInNote=4000; // Максимальное кол-во символов в записи
 
@@ -18,7 +18,10 @@ class BaseGenerator
         
     protected $outDirName="./data";
 
-    
+    protected $branchCounter=0;
+    protected $noteCounter=0;
+
+        
     function __construct()
     {
         $this->printTotalNumberOfNotes();
@@ -53,7 +56,17 @@ class BaseGenerator
                 
         $rootElement=$doc->createElement('root');
         $doc->appendChild($rootElement);
-    
+
+        $formatElement=$doc->createElement('format');
+        $formatElement->setAttribute('version', 1);
+        $formatElement->setAttribute('subversion', 2);
+        $rootElement->appendChild($formatElement);
+
+        $contentElement=$doc->createElement('content');
+        $rootElement->appendChild($contentElement);                
+
+        $doc->preserveWhiteSpace = false;
+        $doc->formatOutput = true;
         $doc->save($this->outDirName."/mytetra.xml");
     }
 
