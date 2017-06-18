@@ -6,17 +6,16 @@ $baseGenerator=new BaseGenerator();
 
 class BaseGenerator
 {
+    protected $outDirName="/opt/mytetraHighLoad/data";
 
-    public $treeLevels=3;          // Уровень вложения генерируемого дерева
-    public $branchesQuantity=19;   // Количество веток на одном уровне вложения
-    public $notesQuantity=15;      // Количество записей в одной ветке
-    public $minSymbolsInNote=2000; // Минимальное кол-во символов в записи
-    public $maxSymbolsInNote=4000; // Максимальное кол-во символов в записи
+    protected $treeLevels=3;          // Уровень вложения генерируемого дерева
+    protected $branchesQuantity=19;   // Количество веток на одном уровне вложения
+    protected $notesQuantity=15;      // Количество записей в одной ветке
+    protected $minSymbolsInNote=2000; // Минимальное кол-во символов в записи
+    protected $maxSymbolsInNote=4000; // Максимальное кол-во символов в записи
 
     protected $dictFileName="./generateDictionary.txt";
     protected $dictWords=[];
-        
-    protected $outDirName="./data";
 
     protected $branchCounter=0;
     protected $noteCounter=0;
@@ -36,7 +35,8 @@ class BaseGenerator
     function createBaseDir()
     {
         delDir($this->outDirName);
-        mkdir($this->outDirName, 0777);
+        mkdir($this->outDirName, 0777, true); // Создание основной директории данных
+        mkdir($this->outDirName."/base", 0777); // Создание директории для хранения текстов записей
     }
 
 
@@ -54,18 +54,22 @@ class BaseGenerator
         $dtd=(new DOMImplementation)->createDocumentType('mytetradoc');
         $doc->appendChild($dtd);
                 
+        // Создание корневого элемента
         $rootElement=$doc->createElement('root');
         $doc->appendChild($rootElement);
 
+        // Создание элемента format
         $formatElement=$doc->createElement('format');
         $formatElement->setAttribute('version', 1);
         $formatElement->setAttribute('subversion', 2);
         $rootElement->appendChild($formatElement);
 
+        // Создание элемента content
         $contentElement=$doc->createElement('content');
         $this->generateTree(1, $doc, $contentElement);
         $rootElement->appendChild($contentElement);                
 
+        // Запись XML дерева на диск
         $doc->preserveWhiteSpace = false;
         $doc->formatOutput = true;
         $doc->save($this->outDirName."/mytetra.xml");
@@ -75,16 +79,52 @@ class BaseGenerator
     function generateTree($level, &$doc, &$currentElement)
     {
         for($i=0; $i<$this->branchesQuantity; $i++) {
-            $nodeElement=$doc->createElement('node');
-            $nodeElement->setAttribute('name', 'node'.$this->branchCounter++);
-            $nodeElement->setAttribute('id', getId());
+            $itemElement=$doc->createElement('node');
+            $itemElement->setAttribute('name', 'node'.$this->branchCounter++);
+            $itemElement->setAttribute('id', getId());
 
-            $currentElement->appendChild($nodeElement);
+            // Добавление к ветке элементов записей
+            $this->generateNotes($doc, $itemElement);
 
-            if($level<$this->treeLevels) {
-                $this->generateTree($level+1, $doc, $nodeElement);
+            $currentElement->appendChild($itemElement);
+
+            if($level < $this->treeLevels) {
+                $this->generateTree($level+1, $doc, $itemElement);
             }
         }
+    }
+
+
+    function generateNotes(&$doc, &$itemElement)
+    {
+        $recordTableElement=$doc->createElement('recordtable');
+    
+        for($i=0; $i<$this->notesQuantity; $i++) {
+            $noteElement=$doc->createElement('record');
+            $noteElement->setAttribute('name', 'record'.$this->noteCounter++);
+            $noteElement->setAttribute('id', getId());
+            $noteElement->setAttribute('dir', getId());
+            $noteElement->setAttribute('file', 'text.html');
+
+            $recordTableElement->appendChild($noteElement);
+
+            //Создание данных на диске для текущей записи (директория, файл с текстом записи)
+            $this->createNoteData($noteElement->getAttribute('dir'), $noteElement->getAttribute('file'));
+        }
+
+        $itemElement->appendChild($recordTableElement);
+    }        
+
+
+    function createNoteData($dirName, $fileName)
+    {
+        $resultDirName=$this->outDirName."/base/".$dirName;
+        mkdir($resultDirName, 0777);
+
+        $resultFileName=$resultDirName."/text.html";
+        $file=fopen($resultFileName, 'w');
+        fwrite($file, "Hello MyTetra");
+        fclose($file);
     }
 
 }
