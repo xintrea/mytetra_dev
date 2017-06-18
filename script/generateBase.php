@@ -63,6 +63,7 @@ class BaseGenerator
         $rootElement->appendChild($formatElement);
 
         $contentElement=$doc->createElement('content');
+        $this->generateTree(1, $doc, $contentElement);
         $rootElement->appendChild($contentElement);                
 
         $doc->preserveWhiteSpace = false;
@@ -70,6 +71,21 @@ class BaseGenerator
         $doc->save($this->outDirName."/mytetra.xml");
     }
 
+
+    function generateTree($level, &$doc, &$currentElement)
+    {
+        for($i=0; $i<$this->branchesQuantity; $i++) {
+            $nodeElement=$doc->createElement('node');
+            $nodeElement->setAttribute('name', 'node'.$this->branchCounter++);
+            $nodeElement->setAttribute('id', getId());
+
+            $currentElement->appendChild($nodeElement);
+
+            if($level<$this->treeLevels) {
+                $this->generateTree($level+1, $doc, $nodeElement);
+            }
+        }
+    }
 
 }
 
@@ -88,5 +104,19 @@ function delDir($dir)
     return;
 }     
 
+
+function getId() 
+{
+    $result = '';
+    $array = array_merge(range('a','z'), range('0','9'));
+
+    for($i=0; $i<10; $i++){
+  	    $result .= $array[mt_rand(0, 35)];
+    }
+
+    $result=((string) time()).$result;
+    
+    return $result;
+}
 
 ?>
