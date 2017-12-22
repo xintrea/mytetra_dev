@@ -53,6 +53,7 @@ private slots:
  void changedFindInUrl(int state);
  void changedFindInTags(int state);
  void changedFindInText(int state);
+ void changedFindInNameItem(int state);
 
 signals:
 
@@ -84,7 +85,8 @@ private:
  QCheckBox *findInUrl;
  QCheckBox *findInTags;
  QCheckBox *findInText;
- 
+ QCheckBox *findInNameItem;
+
  QHBoxLayout *toolsLine;
  QGridLayout *toolsGrid;
 

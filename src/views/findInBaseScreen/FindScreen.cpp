@@ -196,6 +196,9 @@ void FindScreen::setupWhereFindLine(void)
 
   findInText=new QCheckBox(tr("Text"));
   findInText->setChecked(mytetraConfig.get_findscreen_find_in_field("text"));
+
+  findInNameItem=new QCheckBox(tr("Name tree item"));
+  findInNameItem->setChecked(mytetraConfig.get_findscreen_find_in_field("nameItem"));
 }
 
 
@@ -214,6 +217,7 @@ void FindScreen::assemblyWhereFindLine(void)
   whereFindLine->addWidget(findInUrl);
   whereFindLine->addWidget(findInTags);
   whereFindLine->addWidget(findInText);
+  whereFindLine->addWidget(findInNameItem);
 
   whereFindLine->addStretch();
 
@@ -278,6 +282,9 @@ void FindScreen::setupSignals(void)
 
   connect(findInText,SIGNAL(stateChanged(int)),
           this,SLOT(changedFindInText(int)));
+
+  connect(findInNameItem,SIGNAL(stateChanged(int)),
+          this,SLOT(changedFindInNameItem(int)));
 }
 
 
@@ -359,6 +366,7 @@ void FindScreen::findClicked(void)
   searchArea["url"]   =findInUrl->isChecked();
   searchArea["tags"]  =findInTags->isChecked();
   searchArea["text"]  =findInText->isChecked();
+  searchArea["nameItem"]  =findInNameItem->isChecked();
 
   // Проверяется, установлено ли хоть одно поле для поиска
   int findEnableFlag=0;
@@ -497,6 +505,24 @@ void FindScreen::findRecurse(TreeItem *curritem)
   {
     isUnsearchCryptBranchPresent=true;
     return;
+  }
+
+  if(searchArea["nameItem"]==true)
+  {
+    // Поиск в имени ветви
+    QString itemName = curritem->getField("name");
+    bool findItem = findInTextProcess(itemName);
+    if(findItem)
+    {
+      QString path = curritem->getPathAsNameWithDelimeter(" ");
+      qDebug() << "Find branch succesfull " << path;
+      // В таблицу результатов добавляется запись о найденой ветке
+      findTable->addRow(path,
+                        itemName,
+                        "",
+                        curritem->getPath(),
+                        curritem->getField("id"));
+    }
   }
 
   // Если в ветке присутсвует таблица конечных записей
@@ -689,6 +715,11 @@ void FindScreen::changedFindInText(int state)
   changedFindInField("text",state);
 }
 
+void FindScreen::changedFindInNameItem(int state)
+{
+  changedFindInField("nameItem",state);
+}
+
 
 void FindScreen::changedFindInField(QString fieldname, int state)
 {
@@ -763,6 +794,7 @@ void FindScreen::switchToolsExpand(bool flag)
   findInUrl->setVisible(flag);
   findInTags->setVisible(flag);
   findInText->setVisible(flag);
+  findInNameItem->setVisible(flag);
 }
 
 // Устаревшая функция, простое обнаружение токенов для поиска
