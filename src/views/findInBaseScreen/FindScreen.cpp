@@ -361,12 +361,12 @@ void FindScreen::setFindText(QString text)
 void FindScreen::findClicked(void)
 {
   // Поля, где нужно искать (Заголовок, текст, теги...)
-  searchArea["name"]  =findInName->isChecked();
-  searchArea["author"]=findInAuthor->isChecked();
-  searchArea["url"]   =findInUrl->isChecked();
-  searchArea["tags"]  =findInTags->isChecked();
-  searchArea["text"]  =findInText->isChecked();
-  searchArea["nameItem"]  =findInNameItem->isChecked();
+  searchArea["name"]    =findInName->isChecked();
+  searchArea["author"]  =findInAuthor->isChecked();
+  searchArea["url"]     =findInUrl->isChecked();
+  searchArea["tags"]    =findInTags->isChecked();
+  searchArea["text"]    =findInText->isChecked(); // Поиск в тексте записи
+  searchArea["nameItem"]=findInNameItem->isChecked(); // Поиск по именам веток
 
   // Проверяется, установлено ли хоть одно поле для поиска
   int findEnableFlag=0;
@@ -509,7 +509,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
 
   if(searchArea["nameItem"]==true)
   {
-    // Поиск в имени ветви
+    // Проверка имени ветки
     QString itemName = curritem->getField("name");
     bool findItem = findInTextProcess(itemName);
     if(findItem)
@@ -557,7 +557,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
       // Текст в котором будет проводиться поиск
       QString inspectText;
 
-      // Цикл поиска в отмеченных пользователем полях
+      // Цикл поиска в отмеченных пользователем полях записи
       QMapIterator<QString, bool> j(iteration_search_result);
       while(j.hasNext())
       {
