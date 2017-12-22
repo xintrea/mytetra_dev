@@ -126,7 +126,7 @@ void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
   if( event->key() == Qt::Key_Control )
     switchReferenceClickMode(false);
 
-  QTextEdit::keyPressEvent(event);
+  QTextEdit::keyReleaseEvent(event);
 }
 
 
