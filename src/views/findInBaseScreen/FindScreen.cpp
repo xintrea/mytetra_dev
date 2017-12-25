@@ -291,13 +291,6 @@ void FindScreen::setupSignals(void)
 void FindScreen::setupUI(void)
 {
   findTable=new FindTableWidget();
-
-  progress=new QProgressDialog(this);
-
-  // Корректировка регрессии в Qt 5.5 - 5.6.x QTBUG-47042 QTBUG-47049
-  // QProgressDialog показывает сам себя через 4 секунды (точнее, спустя minimumDuration() сек.) после отработки конструктора
-  // метод hide() не может скрыть такое окно
-  progress->cancel();
 }
 
 
@@ -426,7 +419,7 @@ void FindScreen::findStart(void)
     // Корневой элемент дерева
     startItem=searchModel->rootItem;
 
-    // Количество элементов (веток) во всем дереве
+    // Количество конечных записей во всем дереве
     totalRec=searchModel->getAllRecordCount();
   }
   else if (mytetraConfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
@@ -437,7 +430,7 @@ void FindScreen::findStart(void)
     // Текущая ветка
     startItem=searchModel->getItem(currentItemIndex);
 
-    // Количество элементов (веток) в текущей ветке и всех подветках
+    // Количество конечных записей в текущей ветке и всех подветках
     totalRec=searchModel->getRecordCountForItem(startItem);
   }
 
@@ -455,6 +448,13 @@ void FindScreen::findStart(void)
     return;
   }
 
+  // Динамически создается виджет линейки наполяемости
+  progress=new QProgressDialog(this);
+
+  // Корректировка регрессии в Qt 5.5 - 5.6.x QTBUG-47042 QTBUG-47049
+  // QProgressDialog показывает сам себя через 4 секунды (точнее, спустя minimumDuration() сек.) после отработки конструктора
+  // метод hide() не может скрыть такое окно
+  progress->cancel();
 
   // Показывается виджет линейки наполняемости
   progress->reset();
@@ -462,7 +462,7 @@ void FindScreen::findStart(void)
   progress->setRange(0,totalRec);
   progress->setModal(true);
   progress->setMinimumDuration(0);
-  progress->show();
+  progress->show(); // Эта команда под вопросом, возможно она не нужна
 
   // Обнуляется счетчик обработанных конечных записей
   totalProgressCounter=0;
@@ -475,9 +475,8 @@ void FindScreen::findStart(void)
   // После вставки всех данных подгоняется ширина колонок
   findTable->updateColumnsWidth();
 
-  // Виджет линейки наполняемости скрывается
-  progress->hide();
-
+  // Линейка наполяемости удаляется
+  delete progress;
 
   // Если ничего небыло найдено
   if(findTable->getRowCount()==0)
@@ -507,23 +506,25 @@ void FindScreen::findRecurse(TreeItem *curritem)
     return;
   }
 
+
+  // Проверка имени ветки
   if(searchArea["nameItem"]==true)
   {
-    // Проверка имени ветки
     QString itemName = curritem->getField("name");
     bool findItem = findInTextProcess(itemName);
     if(findItem)
     {
-      QString path = curritem->getPathAsNameWithDelimeter(" ");
-      qDebug() << "Find branch succesfull " << path;
+      // QString path = curritem->getPathAsNameWithDelimeter(" ");
+      // qDebug() << "Find branch succesfull " << path;
       // В таблицу результатов добавляется запись о найденой ветке
-      findTable->addRow(path,
-                        itemName,
+      findTable->addRow(itemName,
+                        tr("[Tree item]"),
                         "",
                         curritem->getPath(),
                         curritem->getField("id"));
     }
   }
+
 
   // Если в ветке присутсвует таблица конечных записей
   if(curritem->recordtableGetRowCount() > 0)
@@ -567,6 +568,9 @@ void FindScreen::findRecurse(TreeItem *curritem)
         // Если в данном поле нужно проводить поиск
         if(searchArea[key]==true)
         {
+          if(key=="nameItem") // Здесь поиск по имени ветки не производится
+            continue;
+
           if(key!="text")
           {
             // Поиск в обычном поле

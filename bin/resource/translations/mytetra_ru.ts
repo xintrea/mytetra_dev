@@ -903,12 +903,12 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation>%</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/Downloader.cpp" line="66"/>
+        <location filename="../../../src/libraries/Downloader.cpp" line="69"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/Downloader.cpp" line="324"/>
+        <location filename="../../../src/libraries/Downloader.cpp" line="327"/>
         <source>Has problem with save file to directory %1</source>
         <translation>Возникли проблемы при сохранении файла в директорию %1</translation>
     </message>
@@ -1888,40 +1888,40 @@ Enter your old password and new password.
         <translation>Название ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="380"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="451"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="373"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="444"/>
         <source>Cannot start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="381"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="374"/>
         <source>Verify that you selected fields for search for starting find process.</source>
         <translation>Проверьте, включены ли поля, по которым надо проводить поиск.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="382"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="395"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="453"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="375"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="388"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="446"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="393"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="386"/>
         <source>Can not start find process</source>
         <translation>Невозможно начать поиск</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="394"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="387"/>
         <source>The search request is too short. Enter at least one word.</source>
         <translation>Слишком короткий запрос поиска. Необходимо написать хотя бы одно слово.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="452"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="445"/>
         <source>Starting position for a tree searching is not set.</source>
         <translation>Не установлена начальная позиция для поиска по дереву.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="487"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="486"/>
         <source>No search results.
 Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
         <translation>Ничего не найдено.
@@ -1929,13 +1929,22 @@ Hint: encrypted items has been detected. For searching in encrypted items you ha
 Для поиска внутри зашифрованных веток введите пароль.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="491"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="490"/>
         <source>No search results.
 Hint: search produced in current tree item.
 Try to search for entire database.</source>
         <translation>Ничего не найдено.
 Примечание: поиск производился в текущей ветке.
 Попробуйте сделать поиск по всей базе.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="521"/>
+        <source>[Tree item]</source>
+        <translation type="unfinished">[Ветка]</translation>
+    </message>
+    <message>
+        <source>Tree item</source>
+        <translation type="obsolete">Ветка</translation>
     </message>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="461"/>
@@ -2591,17 +2600,17 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Редактирование конфиг-файла (Аккуратно!)</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="348"/>
+        <location filename="../../../src/main.cpp" line="329"/>
         <source>Edit config file (Be careful!)</source>
         <translation>Редактирование конфиг-файла (Аккуратно!)</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="389"/>
+        <location filename="../../../src/main.cpp" line="370"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="390"/>
+        <location filename="../../../src/main.cpp" line="371"/>
         <source>The program will have to be restarted for changes to take effect.</source>
         <translation>Для применения изменений программа будет закрыта. Новые изменения вступят в силу при следующем запуске программы.</translation>
     </message>
@@ -3199,23 +3208,23 @@ Please select single item for moving.</source>
         <translation>Запрос на подтверждение</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1217"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1225"/>
         <source>No icon selected.</source>
         <translation>Вы не выбрали иконку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1262"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1270"/>
         <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation>Директория &lt;b&gt;%1&lt;/b&gt; не является пустой.
 Пожалуйста, выберите пустую директорию для экспорта данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1269"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1277"/>
         <source>No export tree item selected. Please select a item.</source>
         <translation>Не указана ветка для экспорта. Пожалуйста, выберите нужную ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1290"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1298"/>
         <source>Exported tree item contains encrypted data.
 Please click OK and enter the password.
 All data will be exported unencrypted.</source>
@@ -3224,22 +3233,22 @@ All data will be exported unencrypted.</source>
 Все данные будут экспортированы в расшифрованном виде.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1303"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1311"/>
         <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation>Экспорт данных в директорию &lt;b&gt;%1&lt;/b&gt; завершен.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1305"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1313"/>
         <source>Errors occurred while exporting.</source>
         <translation>Обнаружены ошибки при экспорте данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1314"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1322"/>
         <source>No tree item selected for importing. Please select a item.</source>
         <translation>Не выбрана ветка для экспорта. Пожалуйста, выберите какую-нибудь ветку.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1328"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1336"/>
         <source>You are importing into an encrypted item.
 Please click Ok and enter the password.
 All data imported will be encrypted.</source>
@@ -3248,7 +3257,7 @@ All data imported will be encrypted.</source>
 Все данные будут импортированы и зашифрованы.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1345"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1353"/>
         <source>Item importing finished.</source>
         <translation>Импорт ветки завершен.</translation>
     </message>
@@ -3353,7 +3362,7 @@ Please select single item for enabling edit operation.</source>
         <translation type="vanished">Группы информации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1550"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1558"/>
         <source>Rename me</source>
         <translation>Переименуй меня</translation>
     </message>

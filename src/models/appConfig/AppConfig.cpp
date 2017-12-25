@@ -239,7 +239,7 @@ QRect AppConfig::get_mainwingeometry(void)
 
 void AppConfig::set_mainwingeometry(int x, int y, int w, int h)
 {
- qDebug() << "Save new main window geometry";
+ qDebug() << "Save main window geometry";
 
  QString result=QString::number(x)+","+QString::number(y)+","+QString::number(w)+","+QString::number(h);
 
@@ -1772,7 +1772,7 @@ QStringList AppConfig::get_parameter_table_35(bool withEndSignature)
   // Старые параметры, аналогичные версии 34
   table << get_parameter_table_34(false);
   //новый флаг, поиск по названию ветки
-  table << "findscreen_find_innameItem"    << "bool" << "false";
+  table << "findscreen_find_innameItem" << "bool" << "false";
 
   if(withEndSignature)
     table << "0" << "0" << "0";
