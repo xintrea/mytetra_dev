@@ -298,7 +298,8 @@ private:
     QStringList get_parameter_table_32(bool withEndSignature=true);
     QStringList get_parameter_table_33(bool withEndSignature=true);
     QStringList get_parameter_table_34(bool withEndSignature=true);
-
+    QStringList get_parameter_table_35(bool withEndSignature=true);
+    
     bool is_init_flag;
 };
 
