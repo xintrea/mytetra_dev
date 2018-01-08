@@ -475,7 +475,7 @@ void AttachTableController::onEditFileName(void)
 
   // Данные изменяются
   Attach tempAttach=attachTableData->getAttach(id);
-  tempAttach.setField("fileName", newFileName);
+  tempAttach.renameFile(newFileName);
   attachTableData->modifyAttach(id, tempAttach);
 
   // Сохранение дерева веток
