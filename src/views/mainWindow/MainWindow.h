@@ -104,7 +104,8 @@ public slots:
 private slots:
 
  void showWindow();
-
+ void showWindowNormal();
+ 
  void fileNew(void);
  void fileOpen(void);
  bool fileSave(void);
@@ -154,6 +155,9 @@ private:
 
  void reloadSaveStage(void);
  void reloadLoadStage(void);
+ 
+ bool isActive() const;
+ void activate();
 
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;
