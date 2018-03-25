@@ -389,27 +389,35 @@ void Attach::removeFile()
 
 QString Attach::constructFileName(const QString type, const QString id, const QString fileName)
 {
-  // Для файла
-  if(type=="file")
-  {
-    // Выясняется расширение по видимому имени файла
-    QFileInfo fileInfo( fileName );
-    QString suffix=fileInfo.suffix();
-//Правельнее сделать так, но это может сломать совместимость
-//    if(suffix.length()>0){
-      return id+"."+suffix;
-//    }else{
-//      return id;
-//    }
-  }
+    // Для файла
+    if(type=="file")
+    {
+        if(fileName.startsWith(".")) { // Если это dot-файл
+            return "."+id;
+        }
+        else if(fileName.endsWith(".")) { // Если в имени файла точка в конце
+            return id+".";
+        }
+        else {
+            // Выясняется расширение по видимому имени файла
+            QFileInfo fileInfo( fileName );
+            QString suffix=fileInfo.suffix();
 
-  // Для линка просто возвращается имя файла, куда указывает линк
-  if(type=="link")
-    return fileName;
+            if(suffix.length()>0) {
+                return id+"."+suffix; // Если расширение есть
+            } else {
+                return id; // Без расширения
+            }
+        }
+    }
 
-  criticalError("Bad attach type in getInnerFileName():"+type);
+    // Для линка просто возвращается имя файла, куда указывает линк
+    if(type=="link")
+        return fileName;
 
-  return "";
+    criticalError("Bad attach type in getInnerFileName():"+type);
+
+    return "";
 }
 
 
