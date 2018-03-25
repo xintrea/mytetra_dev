@@ -379,7 +379,10 @@ void Attach::removeFile()
     return;
   }
 
-  file.setPermissions(QFile::ReadOther | QFile::WriteOther);
+  // Выставляются права чтобы удаление прошло корректно
+  file.setPermissions(file.permissions() | QFile::ReadUser | QFile::WriteUser);
+
+  // Непосредственно удаление
   file.remove();
 }
 
@@ -565,6 +568,7 @@ void Attach::decryptDomElement(QDomElement &iDomElement)
   iDomElement.setAttribute("crypt", "0");
 }
 
+
 void Attach::renameFile(QString newFileName){
   if(newFileName.length()==0){
     showMessageBox(QObject::tr("Invalid empty file name."));
@@ -578,8 +582,12 @@ void Attach::renameFile(QString newFileName){
     showMessageBox(QObject::tr("Unable to rename a file which attached as a link."));
     return;
   }
+
   QFile file(getFullInnerFileName());
-  file.setPermissions(QFile::ReadOther | QFile::WriteOther);
+
+  // Подправляются права, чтобы файл под новым именем нормально читался
+  file.setPermissions(file.permissions() | QFile::ReadUser | QFile::WriteUser);
+
   if(!file.exists())
   {
     showMessageBox(QObject::tr("Unable to rename the file %1 from disk: file not found.").arg( getFullInnerFileName() ));
@@ -587,6 +595,8 @@ void Attach::renameFile(QString newFileName){
   }
   
   QString resultFileName=getFullInnerDirName()+"/"+constructFileName(type, getField("id"), newFileName);
+
   file.rename(resultFileName);
+
   setField("fileName", newFileName);
 }

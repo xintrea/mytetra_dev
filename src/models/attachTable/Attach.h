@@ -7,6 +7,7 @@
 #include <QDomElement>
 #include <QXmlStreamWriter>
 
+// Класс, реализующий абстракцию одного прикрепляемого файла
 
 class AttachTableData;
 

@@ -922,7 +922,7 @@ void Editor::onSelectionChanged(void)
 
   // Выравнивание относится к форматированию строк, начальное состояние
   // берётся из начального положения курсора
-  int startAlign=cursor.blockFormat().alignment();
+  Qt::Alignment startAlign=cursor.blockFormat().alignment();
 
   // Курсор сдвигается на одну позицию вперёд
   cursor.movePosition(QTextCursor::NextCharacter);
