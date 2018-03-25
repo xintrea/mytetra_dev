@@ -56,10 +56,18 @@ void AddNewRecord::setupUI(void)
   buttonBox.setOrientation(Qt::Horizontal);
   buttonBox.setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::NoButton|QDialogButtonBox::Cancel);
 
-  // На кнопку OK назначается комбинация клавиш Ctrl+Enter
+  // На кнопку OK назначается комбинация клавиш Ctrl+Enter и она устанавливается как кнопка по умолчанию
   QPushButton *OkButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
   OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
   OkButton->setToolTip(tr("Ctrl+Enter"));
+  OkButton->setAutoDefault(true);
+  OkButton->setDefault(true);
+
+  // С кнопки Cancel снимается флаг срабатывания по умолчанию,
+  // это нужно для тулкитов основанных на GTK и прочих подобных библиотеках
+  QPushButton *CancelButton=buttonBox.button(QDialogButtonBox::Cancel); // Выясняется указатель на кнопку Cancel
+  CancelButton->setAutoDefault(false);
+  CancelButton->setDefault(false);
 }
 
 
