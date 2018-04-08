@@ -868,6 +868,11 @@ void TypefaceFormatter::onTextOnlyClicked()
        flag_cursor_on_space_line))
     return;
 
+  // Запоминается положение прокрутки окна редактирования.
+  // Это нужно, чтобы вернуться к такому положению после всех действий.
+  // Иначе прокрутка перепрыгнет наверх документа
+  int scrollBarPosition=editor->getScrollBarPosition();
+
   textArea->textCursor().beginEditBlock();
 
   // Если курсор на строке, у которой нет текста
@@ -938,6 +943,8 @@ void TypefaceFormatter::onTextOnlyClicked()
     textArea->moveCursor(QTextCursor::StartOfLine);
 
   textArea->textCursor().endEditBlock();
+
+  editor->setScrollBarPosition(scrollBarPosition);
 
   // Вызывается метод, как будто переместился курсор с выделением, чтобы
   // обновились состояния подсветок кнопок форматирования
