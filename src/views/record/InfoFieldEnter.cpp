@@ -184,7 +184,7 @@ QString InfoFieldEnter::getField(QString name)
    if(name=="name")  return  recordName->text();
    if(name=="author")return  recordAuthor->text();
    if(name=="url")   return  recordUrl->text();
-   if(name=="tags")  return  recordTags->text();
+   if(name=="tags")  return  recordTags->text().simplified(); // При возврате значения, для тегов обязательно нужно убирать переносы строк, если они есть
   }
  else
   criticalError("Can not get field "+name+" in InfoFieldEnter method get_field");
@@ -200,7 +200,7 @@ void InfoFieldEnter::setField(QString name,QString value)
    if(name=="name")  recordName->setText(value);
    if(name=="author")recordAuthor->setText(value);
    if(name=="url")   recordUrl->setText(value);
-   if(name=="tags")  recordTags->setText(value);
+   if(name=="tags")  recordTags->setText(value.simplified()); // При внешней установке значения, для тегов обязательно нужно убирать переносы строк, если они есть
   }
  else
   criticalError("Can not set field "+name+" in InfoFieldEnter method set_field");
