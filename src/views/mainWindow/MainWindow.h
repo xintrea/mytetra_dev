@@ -67,12 +67,13 @@ public:
  QStatusBar *statusBar;
  WindowSwitcher *windowSwitcher;
 
- void restoreGeometry(void);
+ void restoreWindowGeometry(void);
  void restoreTreePosition(void);
  void restoreRecordTablePosition(void);
  void restoreEditorCursorPosition(void);
  void restoreEditorScrollBarPosition(void);
  void restoreFindOnBaseVisible(void);
+ void restoreAllWindowState(void);
 
  void setTreePosition(QStringList path);
  bool isTreePositionCrypt();
@@ -146,7 +147,7 @@ private:
  void createTrayIcon(void);
  void setIcon(void);
 
- void saveGeometry(void);
+ void saveWindowGeometry(void);
  void saveTreePosition(void);
  void saveRecordTablePosition(void);
  void saveEditorCursorPosition(void);

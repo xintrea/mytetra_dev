@@ -59,8 +59,8 @@ public:
     void set_addnewrecord_expand_info(QString);
 
     // Геометрия основного окна
-    QRect get_mainwingeometry(void);
-    void set_mainwingeometry(int x, int y, int w, int h);    
+    QByteArray get_mainwingeometry(void);
+    void set_mainwingeometry(QByteArray dataGeometry);
     
 
     QList<int> get_vspl_size_list(void);

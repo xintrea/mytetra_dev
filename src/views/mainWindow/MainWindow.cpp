@@ -170,7 +170,7 @@ void MainWindow::saveAllState(void)
   saveTextarea();
 
   // Сохраняются данные сеанса работы
-  saveGeometry();
+  saveWindowGeometry();
   saveTreePosition();
   saveRecordTablePosition();
   saveEditorCursorPosition();
@@ -238,19 +238,12 @@ void MainWindow::messageHandler(QString message)
 
 
 // Восстанавливается геометрия окна и позиции основных разделителей
-void MainWindow::restoreGeometry(void)
+void MainWindow::restoreWindowGeometry(void)
 {
   if(globalParameters.getTargetOs()=="android")
     setWindowState(Qt::WindowMaximized); // Для Андроида окно просто разворачивается на весь экран
   else
-  {
-    QRect rect=mytetraConfig.get_mainwingeometry();
-    resize(rect.size());
-    move(rect.topLeft());
-  }
-
-  // move(rect.topLeft());
-  // resize(rect.size());
+    restoreGeometry( mytetraConfig.get_mainwingeometry() );
 
   vSplitter->setSizes(mytetraConfig.get_vspl_size_list());
   hSplitter->setSizes(mytetraConfig.get_hspl_size_list());
@@ -259,17 +252,11 @@ void MainWindow::restoreGeometry(void)
 
 
 // Запоминается геометрия окна и позиции основных разделителей
-void MainWindow::saveGeometry(void)
+void MainWindow::saveWindowGeometry(void)
 {
   qDebug() << "Save window geometry and splitter sizes";
 
-  QRect geom(pos(), size());
-
-  mytetraConfig.set_mainwingeometry(geom.x(), geom.y(),
-                                    geom.width(), geom.height());
-
-  // mytetraconfig.set_mainwingeometry(geometry().x(), geometry().y(),
-  //                                   geometry().width(), geometry().height());
+  mytetraConfig.set_mainwingeometry( saveGeometry() );
 
   mytetraConfig.set_vspl_size_list(vSplitter->sizes());
   mytetraConfig.set_hspl_size_list(hSplitter->sizes());
@@ -412,6 +399,19 @@ void MainWindow::restoreFindOnBaseVisible(void)
     findScreenRel->show();
   else
     findScreenRel->hide();
+}
+
+
+void MainWindow::restoreAllWindowState(void)
+{
+    globalParameters.getWindowSwitcher()->disableSwitch();
+    restoreFindOnBaseVisible();
+    restoreWindowGeometry();
+    restoreTreePosition();
+    restoreRecordTablePosition();
+    restoreEditorCursorPosition();
+    restoreEditorScrollBarPosition();
+    globalParameters.getWindowSwitcher()->enableSwitch();
 }
 
 

@@ -839,6 +839,12 @@ int main(int argc, char ** argv)
  // Создание объекта главного окна
  MainWindow win;
 
+ // Сразу восстанавливается вид окна в предыдущий запуск
+ // Эти действия нельзя делать в конструкторе главного окна, т.к. окно еще не создано
+ // Эти действия надо делать до установки заголовка. В некоторых оконных средах,
+ // если сделать после setWindowTitle(), геометрия восстановится некорректно, окно съедет вверх на толщину заголовка
+ win.restoreAllWindowState();
+
  // Настройка объекта главного окна
  win.setWindowTitle("MyTetra");
  if(globalParameters.getTargetOs()=="android")
@@ -851,25 +857,14 @@ int main(int argc, char ** argv)
      win.hide();
  }
 
- // Восстанавливается вид окна в предыдущий запуск
- // Эти действия нельзя делать в конструкторе главного окна, 
- // т.к. окно еще не создано
- globalParameters.getWindowSwitcher()->disableSwitch();
- win.restoreFindOnBaseVisible();
- win.restoreGeometry();
- win.restoreTreePosition();
- win.restoreRecordTablePosition();
- win.restoreEditorCursorPosition();
- win.restoreEditorScrollBarPosition();
- globalParameters.getWindowSwitcher()->enableSwitch();
-
+ // Восстановление видимости виджета, который был активный, для мобильного интерфейса
  if(mytetraConfig.getInterfaceMode()=="mobile")
    globalParameters.getWindowSwitcher()->restoreFocusWidget();
 
  qDebug() << "Restore session succesfull";
 
- // После восстановления последней редактируемой записи
- // история перехода очищается, так как в не может попасть
+ // В момент восстановления главного окна восстановилась и последняя редактируемая запись
+ // История перехода очищается, так как в нее может попасть
  // первая запись в востаналиваемой ветке и сама восстанавливаемая запись
  walkHistory.clear();
 

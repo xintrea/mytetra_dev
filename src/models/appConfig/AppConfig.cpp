@@ -216,34 +216,17 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
 }
 
 
-QRect AppConfig::get_mainwingeometry(void)
+QByteArray AppConfig::get_mainwingeometry(void)
 {
- QRect rect;
- QString rectString;
- QStringList rectParameter;
-
- rectString=conf->value("mainwingeometry", "0,0,500,400").toString();
-
- rectParameter=rectString.split(",");
-
- int x=rectParameter[0].toInt();
- int y=rectParameter[1].toInt();
- int w=rectParameter[2].toInt();
- int h=rectParameter[3].toInt();
-
- rect.setRect(x, y, w, h);
-
- return rect;
+ return QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
 }
 
 
-void AppConfig::set_mainwingeometry(int x, int y, int w, int h)
+void AppConfig::set_mainwingeometry(QByteArray dataGeometry)
 {
  qDebug() << "Save main window geometry";
 
- QString result=QString::number(x)+","+QString::number(y)+","+QString::number(w)+","+QString::number(h);
-
- conf->setValue("mainwingeometry", result);
+ conf->setValue( "mainwingeometry", QString( dataGeometry.toBase64().data() ) );
 }
 
 
