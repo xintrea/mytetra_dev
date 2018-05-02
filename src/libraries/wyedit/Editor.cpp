@@ -747,11 +747,10 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
       if( fileName.contains(QRegExp("\\.png$")) ) // Обрабатыватся только *.png файлы
         if( !imagesNames.contains(fileName) ) // Только картинки, не встречающиеся в тексте записи
           if( !miscFields["attachFileNameList"].contains(fileName) ) // Только имена файлов, не содержащиеся в прикрепленных файлах
-        {
-          // Этот файл лишний и он удаляется
-          QFile currentFile(workDirectory+"/"+fileName);
-          currentFile.remove();
-        }
+          {
+            // Этот файл лишний и он удаляется в корзину
+            DiskHelper::removeFileToTrash(workDirectory+"/"+fileName);
+          }
   }
 
   qDebug() << "Save images finish\n" ;

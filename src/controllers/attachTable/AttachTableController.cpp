@@ -14,7 +14,6 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/CryptService.h"
 #include "libraries/DiskHelper.h"
-#include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"
 #include "libraries/Downloader.h"
@@ -24,8 +23,12 @@ extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 
 
-AttachTableController::AttachTableController(QObject *parent) : QObject(parent)
+AttachTableController::AttachTableController(QObject *parent, QObject *iMetaEditor) : QObject(parent)
 {
+  // Запоминается указатель на редактор
+  // Область со списком приаттаченных файлов находится на том же логическом уровне что и редактор, и взаимодействует с ним
+  metaEditor=static_cast<MetaEditor*>(iMetaEditor);
+
   // Создается область со списком файлов
   view=new AttachTableView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
   view->setObjectName("attachTableView");
@@ -184,7 +187,7 @@ void AttachTableController::addSmart(QString attachType)
 
     qDebug() << "Select file from disk: " << currFullFileName;
 
-    // Текущее короткое имя файла
+    // Текущее короткое имя файла (имя файла без пути но с расширением или несколькими расширениями если их несколько)
     QString currShortFileName=currFileInfo.fileName();
 
     // Добавляется файл аттача
@@ -196,6 +199,9 @@ void AttachTableController::addSmart(QString attachType)
 
   // Дерево записей сохраняется
   saveState();
+
+  // В редакторе обновляется список приаттаченных файлов
+  updateAttachListInEditor();
 }
 
 
@@ -253,13 +259,10 @@ void AttachTableController::saveState()
   if(attachTableData==NULL)
     criticalError("Unset attach table data in AttachTableController::addAttach()");
 
-  // Указатель на редактор
-  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-
   if(attachTableData->size()>0)
-    edView->switchAttachIconExists(true);
+    metaEditor->switchAttachIconExists(true);
   else
-    edView->switchAttachIconExists(false);
+    metaEditor->switchAttachIconExists(false);
 }
 
 
@@ -517,10 +520,7 @@ void AttachTableController::onDeleteAttach(void)
 
   // Обновление иконки аттачей в редакторе
   if(attachTableData->size()==0)
-  {
-    MetaEditor *edView=find_object<MetaEditor>("editorScreen");
-    edView->switchAttachIconExists(false);
-  }
+    metaEditor->switchAttachIconExists(false);
 }
 
 
@@ -598,13 +598,17 @@ void AttachTableController::onShowAttachInfo(void)
 
 void AttachTableController::onSwitchToEditor(void)
 {
-  MetaEditor *edView=find_object<MetaEditor>("editorScreen");
+    updateAttachListInEditor();
 
-  // В редакторе обновляется информация о приаттаченных к записи файлах
-  edView->setMiscField("attachFileNameList", getAttachTableData()->getInnerFileNameOnDiskList().join(","));
-  qDebug() << "Set attach file name list at switch to editor: " << edView->getMiscField("attachFileNameList");
+    metaEditor->switchToEditorLayout();
+}
 
-  edView->switchToEditorLayout();
+
+void AttachTableController::updateAttachListInEditor(void)
+{
+    // В редакторе обновляется информация о приаттаченных к записи файлах
+    metaEditor->setMiscField("attachFileNameList", getAttachTableData()->getInnerFileNameOnDiskList().join(","));
+    qDebug() << "Set attach file name list to editor: " << metaEditor->getMiscField("attachFileNameList");
 }
 
 

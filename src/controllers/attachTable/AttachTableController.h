@@ -8,6 +8,7 @@
 #include "views/attachTable/AttachTableView.h"
 #include "models/attachTable/AttachTableModel.h"
 #include "models/attachTable/AttachTableData.h"
+#include "views/record/MetaEditor.h"
 
 // class Attach;
 // class AttachTableView;
@@ -20,7 +21,7 @@ class AttachTableController : public QObject
 
 public:
 
-  AttachTableController(QObject *parent = 0);
+  AttachTableController(QObject *parent, QObject *iMetaEditor );
   virtual ~AttachTableController();
 
   AttachTableView *getView(void);
@@ -50,10 +51,12 @@ protected:
   void saveState();
   QStringList selectFilesForAdding(QString attachType);
   void saveAttachToUserPlace(QString fromFullFileName, QString toFullFileName, QString attachType, bool isAttachCrypt);
+  void updateAttachListInEditor(void);
 
   AttachTableView *view;
   AttachTableModel *model;
 
+  MetaEditor *metaEditor;
 };
 
 #endif // __ATTACHTABLECONTROLLER_H__
