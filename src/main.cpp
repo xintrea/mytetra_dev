@@ -828,10 +828,8 @@ int main(int argc, char ** argv)
 
 
  // Подключение перевода интерфейса
- // QString langFileName=globalParameters.getWorkDirectory()+"/resource/translations/mytetra_"+mytetraconfig.get_interfacelanguage()+".qm";
  QString langFileName=":/resource/translations/mytetra_"+mytetraConfig.get_interfacelanguage()+".qm";
  qDebug() << "Use language file " << langFileName;
-
  QTranslator langTranslator;
  langTranslator.load(langFileName);
  app.installTranslator(&langTranslator);
@@ -919,7 +917,6 @@ int main(int argc, char ** argv)
  }
  */
 
-
  // Инициалиация периодической проверки изменения базы сторонними программами
  periodicCheckBase.init();
  periodicCheckBase.setDelay( mytetraConfig.getCheckBasePeriod() );
@@ -934,12 +931,8 @@ int main(int argc, char ** argv)
  // Окно программы может быть снова открыто из трея
  QApplication::setQuitOnLastWindowClosed(false);
 
-
- // win.show();
  app.connect(&app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
  app.connect(&app, SIGNAL( messageReceived(QString) ), &win, SLOT( messageHandler(QString) ) );
-
- // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
 
  // Окно сплеш-скрина скрывается
  if(mytetraConfig.getShowSplashScreen())
