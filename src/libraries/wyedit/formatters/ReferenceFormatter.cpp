@@ -42,12 +42,15 @@ void ReferenceFormatter::onReferenceClicked(void)
       // Запоминается позиция курсора
       int cursorPosition=cursor.position();
 
-      // Движение влево
-      do {
-        if(!cursor.movePosition(QTextCursor::PreviousCharacter)) {
-            break;
-        }
-      } while(cursor.charFormat().anchorHref()==href);
+      // Выясняется, надо ли вообще двигаться влево (не надо, если курсор стоит перед ссылкой, вот так: _|ссылка )
+      if(cursor.charFormat().anchorHref()==href) {
+          // Движение влево
+          do {
+            if(!cursor.movePosition(QTextCursor::PreviousCharacter)) {
+                break;
+            }
+          } while(cursor.charFormat().anchorHref()==href);
+      }
 
       // Запоминается откуда началась ссылка
       int firstCursorPosition=cursor.position();
