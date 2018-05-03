@@ -34,6 +34,53 @@ void ReferenceFormatter::onReferenceClicked(void)
   if(editor->cursorPositionDetector->isCursorOnReference())
     href=editor->cursorPositionDetector->referenceHref(); // Выясняется текст ссылки
 
+  // Если имеется текст ссылки, надо выделить курсором область текста, где эта ссылка находится
+  // в случае, если пользователь нажал на кнопку редактирования URL без предварительного выделения
+  if(href.size()>0 && !textArea->textCursor().hasSelection()) {
+      QTextCursor cursor=textArea->textCursor(); // Создается дополнительный курсор
+
+      // Запоминается позиция курсора
+      int cursorPosition=cursor.position();
+
+      // Движение влево
+      do {
+        if(!cursor.movePosition(QTextCursor::PreviousCharacter)) {
+            break;
+        }
+      } while(cursor.charFormat().anchorHref()==href);
+
+      // Запоминается откуда началась ссылка
+      int firstCursorPosition=cursor.position();
+
+      // Курсор снова устанавливается на начальную позицию
+      cursor.setPosition(cursorPosition);
+
+      // Движение вправо
+      bool isRightMoveBreak=false;
+      do {
+          if (!cursor.movePosition(QTextCursor::NextCharacter)) { // Если достигнут конец текста
+              isRightMoveBreak=true;
+              break;
+          }
+      } while(cursor.charFormat().anchorHref()==href);
+
+      // Запоминается где закончилась ссылка
+      int secondCursorPosition;
+      if(isRightMoveBreak) {
+          // Если это конец текста, нужно полное выделение чтобы захватился последний символ
+          secondCursorPosition=cursor.position();
+      } else {
+          // Если это не конец текста, прерывания цикла не было, и нужно исключить последний символ,
+          // так как он проверялся в цикле и на последней итерации достиг символа, где ссылки уже небыло
+          secondCursorPosition=cursor.position()-1;
+      }
+
+      // Происходит выделение дополнительным курсором
+      cursor.setPosition(firstCursorPosition);
+      cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, secondCursorPosition-firstCursorPosition);
+      textArea->setTextCursor(cursor); // Дополнительный курсор устанавливается как основной
+  }
+
   // Создание виджета запроса URL с указанием редактора как родительского виджета
   QInputDialog inputDialog(editor);
 
