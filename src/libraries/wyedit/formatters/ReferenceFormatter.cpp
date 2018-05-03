@@ -185,6 +185,7 @@ void ReferenceFormatter::onTextChanged(void)
 
     // Текущий символ становится обычным
     charFormat.setAnchor(false);
+    charFormat.setAnchorHref("");
     charFormat.setForeground(QApplication::palette().color(QPalette::Text));
     charFormat.setFontUnderline(false);
 
