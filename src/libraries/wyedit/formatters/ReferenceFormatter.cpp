@@ -144,7 +144,7 @@ void ReferenceFormatter::onTextChanged(void)
   // Запоминается его позиция
   int cursorPosition=cursor.position();
 
-  // Выделяется последний символ
+  // Выделяется символ слева от курсора
   cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
   QString prevCharacterAsString=cursor.selectedText();
   QChar prevCharacter;
@@ -174,12 +174,12 @@ void ReferenceFormatter::onTextChanged(void)
   cursor.movePosition(QTextCursor::NextCharacter);
   anchorCurrent=cursor.charFormat().isAnchor();
 
-  // Выясняется форматирование последующего символа
-  cursor.movePosition(QTextCursor::NextCharacter);
+  // Выясняется форматирование последующего символа (его может и не быть, если это конец текста)
+  bool isNextCharExists=cursor.movePosition(QTextCursor::NextCharacter);
   anchorNext=cursor.charFormat().isAnchor();
 
   // Если предыдущий и текущий сивол имеют форматирование ссылки, а последующий - обычный
-  if(anchorPrevious && anchorCurrent && !anchorNext)
+  if(anchorPrevious && anchorCurrent && (!anchorNext || !isNextCharExists))
   {
     QTextCharFormat charFormat;
 
