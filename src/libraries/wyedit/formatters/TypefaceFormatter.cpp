@@ -450,6 +450,27 @@ void TypefaceFormatter::applyPureBlockFormatForSelection()
 }
 
 
+void TypefaceFormatter::removeAnchorDataForSelection()
+{
+    QTextCharFormat format;
+    format.setAnchor(false);
+    format.setAnchorHref("");
+
+    // Применение форматирование
+    textArea->textCursor().mergeCharFormat(format);
+}
+
+
+void TypefaceFormatter::clearColorForSelection()
+{
+    QTextCharFormat format;
+    format.setForeground( qApp->palette("EditorTextArea").text() ); // QColor color=qApp->palette.text().color();
+
+    // Применение форматирование
+    textArea->textCursor().mergeCharFormat(format);
+}
+
+
 // В настоящий момент этот метод не нужен, так как очистка происходит в стилях (через полное удаление атрибуторв стиля)
 void TypefaceFormatter::clearBackgroundColorForSelection()
 {
@@ -786,7 +807,7 @@ int TypefaceFormatter::replaceSpaceAndParagraphSeparatorToParagraphSeparator(int
 // Взята из старой версии MyTetra 1.32.163
 // Используется для очистки начертания в строках, отформатированных как нумерованное или ненумерованное перечисление
 // Так как при использовании стандартного более агрессивного метода очистки, происходит создание новой строки в месте выделения,
-// а условие в аггресиввный метод невозможно вставить, так как на вход очищающего кода (даже в случае одного
+// а условие в агресивный метод невозможно вставить, так как на вход очищающего кода (даже в случае одного
 // слова из нумерованной строки) подается конструкция <ul><li>слово</li></ul>, которую невозможно отличить от конструкции
 // с реальным одельным пунктом перечисления
 void TypefaceFormatter::clearSimple(void)
@@ -928,6 +949,8 @@ void TypefaceFormatter::onTextOnlyClicked()
   textArea->setTextCursor(cursor);
 
   applyStandartFontForSelection();
+  removeAnchorDataForSelection();
+  clearColorForSelection();
 
   // Если выделен блок
   // или курсор на пустой линии

@@ -57,7 +57,9 @@ private:
   QString replaceTabs(QString htmlCode);
   void applyStandartFontForSelection();
   void applyPureBlockFormatForSelection();
+  void clearColorForSelection();
   void clearBackgroundColorForSelection();
+  void removeAnchorDataForSelection();
   QString htmlSimplyfier(QString htmlCode);
   void clearSimple(void);
 
