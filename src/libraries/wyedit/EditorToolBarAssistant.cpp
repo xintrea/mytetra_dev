@@ -85,6 +85,17 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
   flagSetFontParametersEnabled=false;
 
+  // Коррекция коротких имен шрифтов
+  if(fontName=="") {
+      // Выясняется имя шрифта из конфига до первой запятой, потому что после запятой идут еще параметры шрифта
+      fontName=editor->editorConfig->get_default_font();
+      int firstCommaPos=fontName.indexOf(",");
+      if(firstCommaPos>0)
+          fontName=fontName.left(firstCommaPos);
+  }
+  else if(fontName=="Sans")
+      fontName="Sans Serif";
+
   if(fontName.size()>0)
     fontSelect.setCurrentIndex(fontSelect.findText(fontName));
   else
@@ -214,12 +225,16 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 void EditorToolBarAssistant::updateToActualFormat(void)
 {
   // Список должен показывать текущий шрифт позиции, где находится курсор
-  if(currentFontFamily!=textArea->fontFamily())
-    onChangeFontselectOnDisplay(textArea->fontFamily());
+  QString actualFontFamily=textArea->fontFamily();
+
+  if(currentFontFamily!=actualFontFamily)
+    onChangeFontselectOnDisplay(actualFontFamily);
+
 
   // Размер
   if(currentFontSize!=(int)textArea->fontPointSize())
     onChangeFontsizeOnDisplay((int)textArea->fontPointSize());
+
 
   // Обновляются кнопки форматирования начертания
   onUpdateOutlineButtonHiglight();
