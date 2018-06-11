@@ -9,6 +9,7 @@ MtComboBox::MtComboBox(QWidget *parent) : QComboBox(parent)
  this->setItemDelegate(itemDelegate);
 }
 
+
 MtComboBox::~MtComboBox()
 {
  delete itemDelegate;

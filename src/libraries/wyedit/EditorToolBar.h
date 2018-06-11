@@ -8,12 +8,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-// Fix ugly Qt QSS bug
-#include "libraries/MtComboBox.h"
-
-#define MINIMUM_ALLOWED_FONT_SIZE 5
-#define MAXIMUM_ALLOWED_FONT_SIZE 100
-
+#include "EditorFontSizeComboBox.h"
 
 class EditorToolBar : public QWidget
 {
@@ -54,9 +49,9 @@ public:
 
   QToolButton   settings;
 
-  QFontComboBox fontSelect;
-  MtComboBox    fontSize;
-  QToolButton   fontColor;
+  QFontComboBox          fontSelect;
+  EditorFontSizeComboBox fontSize;
+  QToolButton            fontColor;
 
   QToolButton   reference;
 

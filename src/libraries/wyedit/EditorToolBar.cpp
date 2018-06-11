@@ -191,14 +191,6 @@ void EditorToolBar::setupButtons(void)
 
   // Выбор размера шрифта
   fontSize.setParent(this);
-  fontSize.addItem("-",0); // Пустой пункт в начале списка размеров шрифтов, используется для обозначения что в выделенном тексте несколько размеров
-  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++)
-    fontSize.addItem(QString("%1").arg(i),i);
-  fontSize.setCurrentIndex(fontSize.findData(10));
-  fontSize.setMinimumContentsLength(3);
-  fontSize.setEditable(true);
-  QValidator *fontsizeValidator = new QIntValidator(MINIMUM_ALLOWED_FONT_SIZE, MAXIMUM_ALLOWED_FONT_SIZE, this);
-  fontSize.setValidator(fontsizeValidator);
   fontSize.setObjectName("editor_tb_fontsize");
 
 
