@@ -10,7 +10,7 @@ EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(par
     isProgrammChanged=false;
 
     // Пустой пункт в начале списка размеров шрифтов, используется для обозначения что в выделенном тексте несколько размеров
-    this->addItem("-",0);
+    this->addItem("",0);
 
     // Заполнение списка значениями размера шрифта
     for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++)
@@ -20,7 +20,7 @@ EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(par
     this->setCurrentIndex(this->findData(10));
 
     this->setMaxVisibleItems(11);
-    this->setMinimumContentsLength(3);
+    this->setMinimumContentsLength(2);
     this->setEditable(true);
 
     // Устанавливается валидатор, однако он не работат как требуется, поэтому нужен дополнительный контроль

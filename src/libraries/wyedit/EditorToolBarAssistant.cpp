@@ -93,7 +93,7 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
       if(firstCommaPos>0)
           fontName=fontName.left(firstCommaPos);
   }
-  else if(fontName=="Sans" && fontSelect.findText(fontName)==false)
+  else if(fontName=="Sans" && fontSelect.findText(fontName)==-1)
       fontName="Sans Serif";
 
   if(fontName.size()>0)
@@ -124,9 +124,9 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
   flagSetFontParametersEnabled=false;
 
-  fontSize.setIsProgrammChanged(true);
+  fontSize.setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
   fontSize.setCurrentIndex(fontSize.findData(n));
-  fontSize.setIsProgrammChanged(false);
+  fontSize.setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
   currentFontSize=n;
 
   flagSetFontParametersEnabled=true;
@@ -227,23 +227,28 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 
 void EditorToolBarAssistant::updateToActualFormat(void)
 {
-  // Список должен показывать текущий шрифт позиции, где находится курсор
-  QString actualFontFamily=textArea->fontFamily();
+    // Список должен показывать текущий шрифт позиции, где находится курсор
+    QString actualFontFamily=textArea->fontFamily();
 
-  if(currentFontFamily!=actualFontFamily)
-    onChangeFontselectOnDisplay(actualFontFamily);
-
-
-  // Размер
-  if(currentFontSize!=(int)textArea->fontPointSize())
-    onChangeFontsizeOnDisplay((int)textArea->fontPointSize());
+    if(currentFontFamily!=actualFontFamily)
+        onChangeFontselectOnDisplay(actualFontFamily);
 
 
-  // Обновляются кнопки форматирования начертания
-  onUpdateOutlineButtonHiglight();
+    // Размер
+    int actualFontPointSize=(int)textArea->fontPointSize();
+    if(actualFontPointSize==0) { // Если размер определяется как неустановленный, должен показываться стандартный размер
+        actualFontPointSize=editor->editorConfig->get_default_font_size();
+    }
+    if(currentFontSize!=actualFontPointSize) {
+        onChangeFontsizeOnDisplay(actualFontPointSize);
+    }
 
-  // Обновляются кнопки выравнивания
-  onUpdateAlignButtonHiglight(true);
+
+    // Обновляются кнопки форматирования начертания
+    onUpdateOutlineButtonHiglight();
+
+    // Обновляются кнопки выравнивания
+    onUpdateAlignButtonHiglight(true);
 }
 
 

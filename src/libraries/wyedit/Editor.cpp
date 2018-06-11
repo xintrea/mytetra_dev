@@ -998,8 +998,13 @@ void Editor::onSelectionChanged(void)
     emit changeFontselectOnDisplay("");
 
   // Список выбора размера начинает указывать на нужный размер
-  if(differentSizeFlag==false)
-    emit changeFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
+  if(differentSizeFlag==false) { // Если всё отформатировано одним размером
+    int size=(int)startSize;
+    if(size==0) { // Если размер шрифта не определен (т.е. размер шрифта для текста просто не установлен)
+        size=editorConfig->get_default_font_size();
+    }
+    emit changeFontsizeOnDisplay(size);
+  }
   else
     emit changeFontsizeOnDisplay(0); // В выделении есть разные размеры
 
