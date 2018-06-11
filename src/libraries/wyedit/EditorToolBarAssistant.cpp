@@ -85,21 +85,21 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
   flagSetFontParametersEnabled=false;
 
-  // Коррекция коротких имен шрифтов
+  // Коррекция имен шрифтов
   if(fontName=="") {
-      // Выясняется имя шрифта из конфига до первой запятой, потому что после запятой идут еще параметры шрифта
+      // Имя шрифта берется из конфига до первой запятой (потому что после запятой идут еще параметры шрифта)
       fontName=editor->editorConfig->get_default_font();
       int firstCommaPos=fontName.indexOf(",");
       if(firstCommaPos>0)
           fontName=fontName.left(firstCommaPos);
   }
-  else if(fontName=="Sans")
+  else if(fontName=="Sans" && fontSelect.findText(fontName)==false)
       fontName="Sans Serif";
 
   if(fontName.size()>0)
     fontSelect.setCurrentIndex(fontSelect.findText(fontName));
   else
-    fontSelect.setCurrentIndex(fontSelect.count()-1);
+    fontSelect.setCurrentIndex(fontSelect.count()-1); // Пустой шрифт (теперь не используется, но пока оставлен)
 
   currentFontFamily=fontName;
 
