@@ -113,7 +113,8 @@ bool EditorToolBarAssistant::getFlagSetFontParametersEnabled()
 }
 
 
-// Слот только меняет значение, показываемое списком размеров шрифта
+// Слот только устанавливает значение, показываемое списком размеров шрифта
+// А размер шрифта текста не меняет
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
   // TRACELOG
@@ -123,7 +124,9 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
   flagSetFontParametersEnabled=false;
 
+  fontSize.setIsProgrammChanged(true);
   fontSize.setCurrentIndex(fontSize.findData(n));
+  fontSize.setIsProgrammChanged(false);
   currentFontSize=n;
 
   flagSetFontParametersEnabled=true;

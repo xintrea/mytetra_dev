@@ -18,9 +18,19 @@ public:
     EditorFontSizeComboBox(QWidget *parent=0);
     virtual ~EditorFontSizeComboBox();
 
-public slots:
-    void onCurrentTextChanged(QString text);
+    void setIsProgrammChanged(bool flag);
+
+protected slots:
+    void onCurrentIndexChanged(int index);
+
+protected:
+
+    bool isProgrammChanged;
+
+    QString previousText;
 
 };
+
+
 
 #endif // EDITORFONTSIZECOMBOBOX_H
