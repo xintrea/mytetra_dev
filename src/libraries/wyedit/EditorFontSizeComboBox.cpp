@@ -23,6 +23,8 @@ EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(par
     this->setMinimumContentsLength(2);
     this->setEditable(true);
 
+    previousIndex=this->currentIndex();
+
     // Устанавливается валидатор, однако он не работат как требуется, поэтому нужен дополнительный контроль
     QValidator *fontsizeValidator = new QIntValidator(MINIMUM_ALLOWED_FONT_SIZE, MAXIMUM_ALLOWED_FONT_SIZE, this);
     this->setValidator(fontsizeValidator);
@@ -44,16 +46,17 @@ void EditorFontSizeComboBox::setIsProgrammChanged(bool flag)
 }
 
 
+// Данный слот срабатывает уже после того, как в объекте выставлен индекс
 void EditorFontSizeComboBox::onCurrentIndexChanged(int index)
 {
     // Устанавливать неизвестный размер шрифта можно только программно
     if(!isProgrammChanged && index==0) {
         qDebug() << "EditorFontSizeComboBox::onCurrentTextChanged. Disable manual set dash.";
-        this->setCurrentText(previousText);
+        this->setCurrentIndex(previousIndex);
         return;
     }
 
-    previousText=this->currentText();
+    previousIndex=this->currentIndex();
 }
 
 

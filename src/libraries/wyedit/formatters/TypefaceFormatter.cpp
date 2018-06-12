@@ -1103,6 +1103,11 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
     if( !(editor->editorToolBarAssistant->getFlagSetFontParametersEnabled()) )
         return;
 
+    // Нельзя устанавливать через интерфейс пользователя неизвестный шрифт
+    if(font.family()=="") {
+        return;
+    }
+
     // textArea->setFontFamily(font.family()); // Устанавливается выбранный шрифт в области редактирования
     // editor->currentFontFamily=font.family();
     emit changeFontFamily(font.family());

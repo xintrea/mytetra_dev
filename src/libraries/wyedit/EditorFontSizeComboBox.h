@@ -27,7 +27,7 @@ protected:
 
     bool isProgrammChanged;
 
-    QString previousText;
+    int previousIndex;
 
 };
 

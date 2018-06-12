@@ -183,11 +183,6 @@ void EditorToolBar::setupButtons(void)
   fontSelect.setParent(this);
   fontSelect.setObjectName("editor_tb_fontselect");
 
-  // Пустой пункт в конце списка шрифтов, используется для обозначения что в
-  // выделенном тексте несколько шрифтов
-  fontSelect.addItem("");
-  fontSelect.setItemIcon((fontSelect.count())-1,QIcon(":/resource/pic/edit_font_many.svg"));
-
 
   // Выбор размера шрифта
   fontSize.setParent(this);

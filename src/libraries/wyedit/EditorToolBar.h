@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 
 #include "EditorFontSizeComboBox.h"
+#include "EditorFontFamilyComboBox.h"
 
 class EditorToolBar : public QWidget
 {
@@ -49,9 +50,9 @@ public:
 
   QToolButton   settings;
 
-  QFontComboBox          fontSelect;
-  EditorFontSizeComboBox fontSize;
-  QToolButton            fontColor;
+  EditorFontFamilyComboBox fontSelect;
+  EditorFontSizeComboBox   fontSize;
+  QToolButton              fontColor;
 
   QToolButton   reference;
 

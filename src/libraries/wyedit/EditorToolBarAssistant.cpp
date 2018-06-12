@@ -85,10 +85,12 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
     flagSetFontParametersEnabled=false;
 
+    fontSelect.setIsProgrammChanged(true);
     if(fontName.size()>0)
         fontSelect.setCurrentIndex(fontSelect.findText(fontName));
     else
-        fontSelect.setCurrentIndex(fontSelect.count()-1); // Пустой шрифт (теперь не используется, но пока оставлен)
+        fontSelect.setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    fontSelect.setIsProgrammChanged(false);
 
     currentFontFamily=fontName;
 
