@@ -140,6 +140,9 @@ public:
  int  getScrollBarPosition(void);
  void setScrollBarPosition(int n);
 
+ QString smartFontFamily(QString fontName); // Умное преобразование имени шрифта
+ int smartFontSize(int fontSize); // Умное преобразование размера шрифта
+
  void switchAttachIconExists(bool isExists);
 
  enum

@@ -894,6 +894,35 @@ bool Editor::getTextareaModified(void)
 }
 
 
+// Умное преобразование имени шрифта
+QString Editor::smartFontFamily(QString fontName)
+{
+    // Коррекция имен шрифтов
+    if(fontName=="") { // Если имени шрифта просто нет
+        // Имя шрифта берется из конфига до первой запятой (потому что после запятой идут еще параметры шрифта)
+        fontName=editorConfig->get_default_font();
+        int firstCommaPos=fontName.indexOf(",");
+        if(firstCommaPos>0)
+            fontName=fontName.left(firstCommaPos);
+    }
+    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect.findText(fontName)==-1)
+        fontName="Sans Serif";
+
+    return fontName;
+}
+
+
+// Умное преобразование размера шрифта
+int Editor::smartFontSize(int fontSize)
+{
+    if(fontSize==0) {
+        return editorConfig->get_default_font_size();
+    }
+
+    return fontSize;
+}
+
+
 /////////////////////////////////////////////////
 // Форматирование текста
 /////////////////////////////////////////////////
@@ -928,8 +957,8 @@ void Editor::onSelectionChanged(void)
 
   // Для анализа форматирования символов надо начинать
   // с позиции, следующей справа от начала выделения
-  QString startFontFamily=cursor.charFormat().fontFamily(); // Шрифт
-  qreal startSize=cursor.charFormat().fontPointSize(); // Размер шрифта
+  QString startFontFamily=smartFontFamily( cursor.charFormat().fontFamily() ); // Шрифт
+  qreal startSize=smartFontSize( cursor.charFormat().fontPointSize() ); // Размер шрифта
   bool startBold=false;
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
@@ -959,13 +988,13 @@ void Editor::onSelectionChanged(void)
     // разные начертания символов, разное выравнивание в выделенном тексте
     while(cursor.position()<=stop)
     {
-      if(differentFontFlag==false && startFontFamily!=cursor.charFormat().fontFamily())
+      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().fontFamily()) )
         differentFontFlag=true;
 
-      if(differentSizeFlag==false && startSize!=cursor.charFormat().fontPointSize())
+      if( differentSizeFlag==false && startSize!=smartFontSize(cursor.charFormat().fontPointSize()) )
         differentSizeFlag=true;
 
-      if(differentBoldFlag==false)
+      if( differentBoldFlag==false )
       {
         int b=cursor.charFormat().fontWeight();
         if(startBold==false && b==QFont::Bold)
@@ -975,18 +1004,18 @@ void Editor::onSelectionChanged(void)
             differentBoldFlag=true;
       }
 
-      if(differentItalicFlag==false && startItalic!=cursor.charFormat().fontItalic())
+      if( differentItalicFlag==false && startItalic!=cursor.charFormat().fontItalic() )
         differentItalicFlag=true;
 
-      if(differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline())
+      if( differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline() )
         differentUnderlineFlag=true;
 
-      if(differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment())
+      if( differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment() )
         differentAlignFlag=true;
 
       // Курсор передвигается на одну позицию вперед
       // Если дальше двигаться некуда (конец документа) цикл досрочно завершается
-      if(cursor.movePosition(QTextCursor::NextCharacter)==false)
+      if( cursor.movePosition(QTextCursor::NextCharacter)==false )
         break;
     }
   }
