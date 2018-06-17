@@ -770,12 +770,12 @@ void MainWindow::onClickHelpTechnicalInfo(void)
   infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
 
 #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 8 ))+"<br/>";
-  infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 8 ))+"<br/>";
+  infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 2 ))+"<br/>";
+  infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 2 ))+"<br/>";
 #endif
 
-  infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 8 ))+"<br/>";
-  infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 8 ))+"<br/>";
+  infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 2 ))+"<br/>";
+  infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 2 ))+"<br/>";
 
   QString info=infoTargetOs+
                infoProgramFile+
