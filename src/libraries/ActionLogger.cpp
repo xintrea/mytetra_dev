@@ -14,9 +14,6 @@ ActionLogger::ActionLogger(QObject *pobj)
 {
   Q_UNUSED(pobj);
 
-  // При создании объекта логирования, файл лога укорачивается до допустимого размера
-  trimLogFile();
-
   // Текущий номер версии формата строк лога
   version=1;
 
@@ -65,7 +62,10 @@ ActionLogger::~ActionLogger()
 
 void ActionLogger::init()
 {
-  openLogFileForWrite();
+    // Файл лога укорачивается до допустимого размера
+    trimLogFile();
+
+    openLogFileForWrite();
 }
 
 
@@ -147,7 +147,7 @@ void ActionLogger::trimLogFile()
 // Выяснение количества строк в лог-файле
 int ActionLogger::getLinesCount()
 {
-    logFileName=globalParameters.getActionLogFileName();
+    QString logFileName=globalParameters.getActionLogFileName();
 
     QFile file(logFileName);
 
