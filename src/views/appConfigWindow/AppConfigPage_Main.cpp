@@ -172,8 +172,8 @@ void AppConfigPage_Main::assembly(void)
 
 
   // Блок работы с отображением даты и времени
-  QVBoxLayout *dateTimeFormatVBox = new QVBoxLayout(this);
-  QHBoxLayout *dateTimeFormatHBox = new QHBoxLayout(this);
+  QVBoxLayout *dateTimeFormatVBox = new QVBoxLayout();
+  QHBoxLayout *dateTimeFormatHBox = new QHBoxLayout();
   dateTimeFormatVBox->addWidget(disableCustomDateTimeFormat);
   dateTimeFormatVBox->addWidget(enableCustomDateTimeFormat);
 
