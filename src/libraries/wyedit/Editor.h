@@ -199,6 +199,7 @@ private slots:
  void onCut(void);
  void onCopy(void);
  void onPaste(void);
+ void onPasteAsPlainText(void);
  void onSelectAll(void);
 
  void onFindtextSignalDetect(const QString &text, QTextDocument::FindFlags flags);

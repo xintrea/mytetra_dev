@@ -501,6 +501,9 @@ void Editor::setupSignals(void)
   connect(editorContextMenu, SIGNAL(paste()),
           this,              SLOT  (onPaste()),
           Qt::DirectConnection);
+  connect(editorContextMenu, SIGNAL(pasteAsPlainText()),
+          this,              SLOT  (onPasteAsPlainText()),
+          Qt::DirectConnection);
   connect(editorContextMenu, SIGNAL(selectAll()),
           this,              SLOT  (onSelectAll()),
           Qt::DirectConnection);
@@ -1169,6 +1172,19 @@ void Editor::onPaste(void)
 }
 
 
+void Editor::onPasteAsPlainText(void)
+{
+  // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
+  // все равно можно сделать вставку текста (и замену выделенного текста на вставляемый) через контекстное меню.
+  // Здесь происходит блокировка этого действия
+  if(textArea->isReadOnly())
+    return;
+
+  textArea->insertPlainText( QGuiApplication::clipboard()->text() );
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
+}
+
+
 void Editor::onSelectAll(void)
 {
   textArea->selectAll();
@@ -1221,31 +1237,34 @@ void Editor::onFindtextSignalDetect(const QString &text, QTextDocument::FindFlag
 // Открытие контекстного меню в области редактирования
 void Editor::onCustomContextMenuRequested(const QPoint &pos)
 {
-  qDebug() << "In Editor on_customContextMenuRequested";
+    qDebug() << "In Editor on_customContextMenuRequested";
 
-  // Конструирование меню
-  // editor_context_menu=textarea->createStandardContextMenu();
+    // Если выбрана картинка
+    // Или нет выделения, но курсор находится на позиции картинки
+    if(cursorPositionDetector->isImageSelect() ||
+            cursorPositionDetector->isCursorOnImage()) {
+        editorContextMenu->setImageProperties( true );
+    } else {
+        editorContextMenu->setImageProperties( false );
+    }
 
-  // Включение отображения меню на экране
-  // menu.exec(event->globalPos());
+    // Если курсор находится на ссылке (URL)
+    if(cursorPositionDetector->isCursorOnReference()) {
+        editorContextMenu->setGotoReference( true );
+    } else {
+        editorContextMenu->setGotoReference( false );
+    }
 
-  // Если выбрана картинка
-  // Или нет выделения, но курсор находится на позиции картинки
-  if(cursorPositionDetector->isImageSelect() ||
-     cursorPositionDetector->isCursorOnImage())
-     editorContextMenu->setImageProperties( true );
-  else
-    editorContextMenu->setImageProperties( false );
-
-  // Если курсор находится на ссылке (URL)
-  if(cursorPositionDetector->isCursorOnReference())
-    editorContextMenu->setGotoReference( true );
-  else
-    editorContextMenu->setGotoReference( false );
+    // Если в буфере обмена есть текст
+    if(QGuiApplication::clipboard()->text().size()>0) {
+        editorContextMenu->setPasteAsPlainText( true );
+    } else {
+        editorContextMenu->setPasteAsPlainText( false );
+    }
 
 
-  // Контекстное меню запускается
-  editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
+    // Контекстное меню запускается
+    editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
 }
 
 
