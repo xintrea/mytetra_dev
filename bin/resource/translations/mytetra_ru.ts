@@ -42,12 +42,12 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>ActionLogger</name>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="155"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="223"/>
         <source>Program started</source>
         <translation>Запуск программы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="158"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="226"/>
         <source>Program stop</source>
         <translation>Завершение работы программы</translation>
     </message>
@@ -108,92 +108,92 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation type="vanished">Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="161"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="229"/>
         <source>Create note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
         <translation>Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="180"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="248"/>
         <source>Create crypt note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
         <translation>Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="187"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="255"/>
         <source>Edit fields of note &quot;%1&quot; with ID %2</source>
         <translation>Отредактированы поля записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="198"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="266"/>
         <source>Edit fields of crypt note &quot;%1&quot; with ID %2</source>
         <translation>Отредактированы поля зашифрованной записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="203"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="271"/>
         <source>Move up note &quot;%1&quot; with ID %2</source>
         <translation>Перемещение записи вверх. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="207"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="275"/>
         <source>Move down note &quot;%1&quot; with ID %2</source>
         <translation>Перемещение записи вниз. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="211"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="279"/>
         <source>Delete note &quot;%1&quot; with ID %2</source>
         <translation>Удаление записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="215"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="283"/>
         <source>Copy note &quot;%1&quot; with ID %2 to clipboard</source>
         <translation>Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="219"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="287"/>
         <source>Cut note &quot;%1&quot; with ID %2 to clipboard</source>
         <translation>Запись &quot;%1&quot; с ID %2 вырезана в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="223"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="291"/>
         <source>Paste note &quot;%1&quot; with ID %2 from clipboard</source>
         <translation>Вставка записи &quot;%1&quot; с ID %2 из буфера обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="227"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="295"/>
         <source>Start drag note &quot;%1&quot; with ID %2 from tree item &quot;%3&quot; with ID %4</source>
         <translation>Начало перетаскивания записи &quot;%1&quot; с ID %2 из ветки &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="233"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="301"/>
         <source>Drop note &quot;%1&quot; with ID %2 to tree item &quot;%3&quot; with ID %4</source>
         <translation>Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="239"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="307"/>
         <source>Start synchronization</source>
         <translation>Запуск синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="242"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="310"/>
         <source>Stop synchronization</source>
         <translation>Завершение синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="245"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="313"/>
         <source>Synchronization process error detected. Error code: %1</source>
         <translation>Обнаружена ошибка процесса синхронизации. Код ошибки:  %1</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="248"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="316"/>
         <source>Synchronization error</source>
         <translation>Ошибка синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="251"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="319"/>
         <source>Critical error: %1</source>
         <translation>Критическая ошибка: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="254"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="322"/>
         <source>Unavailable action %1</source>
         <translation>Неизвестное действие %1</translation>
     </message>
@@ -211,17 +211,17 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation>Ctrl+Enter</translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="132"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="140"/>
         <source>Please enter the note&apos;s &lt;b&gt;title&lt;/b&gt;. </source>
         <translation>Пожалуйста, введите &lt;b&gt;название&lt;/b&gt; записи. </translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="142"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="150"/>
         <source>Please enter the note&apos;s &lt;b&gt;text&lt;/b&gt;. </source>
         <translation>Пожалуйста, введите &lt;b&gt;текст&lt;/b&gt; записи. </translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="148"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="156"/>
         <source>A new note cannot be added</source>
         <translation>Невозможно добавить новую запись</translation>
     </message>
@@ -437,7 +437,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="92"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
         <source>Displaying date and time format</source>
         <translation>Отображение даты и времени</translation>
     </message>
@@ -454,12 +454,12 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="obsolete">Использовать вручную заданный формат даты и времени</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="311"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="313"/>
         <source>The data directory does not exists or unavailable for reading.</source>
         <translation>Директория с данными либо не существует, либо недоступна для чтения.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="330"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="332"/>
         <source>The trash directory does not exists or unavailable for reading.</source>
         <translation>Директория корзины либо не существует, либо недоступна для чтения.</translation>
     </message>
@@ -473,28 +473,28 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="vanished">Формат времени и даты</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="94"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="96"/>
         <source>Locale settings</source>
         <translation>Локальные установки ОС</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="95"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="97"/>
         <source>Custom format</source>
         <translation>Собственный формат</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="224"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="226"/>
         <source>Select data directory</source>
         <translation>Выбор директории с данными</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="238"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="240"/>
         <source>Select trash directory</source>
         <translation>Выбор директории корзины</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="310"/>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="329"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="312"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Main.cpp" line="331"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
@@ -668,13 +668,13 @@ Stored password will be cleared if uncheck this checkbox.</source>
 <context>
     <name>AttachTableController</name>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="93"/>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="94"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="96"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="97"/>
         <source>Enter file URL</source>
         <translation>Ввод URL файла</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="109"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="112"/>
         <source>Download file</source>
         <translation>Скачивание файла</translation>
     </message>
@@ -683,87 +683,87 @@ Stored password will be cleared if uncheck this checkbox.</source>
         <translation type="obsolete">Невозможно добавить директорию. Пожалуйста, выберите файлы.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="273"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="276"/>
         <source>Attach file</source>
         <translation>Прикрепить файл</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="275"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="278"/>
         <source>Add link to file</source>
         <translation>Добавление линка на файл</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="324"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="327"/>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="373"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="376"/>
         <source>Save attaches to directory...</source>
         <translation>Сохранить прикрепленные файлы в директорию...</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="128"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="131"/>
         <source>Probably error in a process of files download.</source>
         <translation>Возникла ошибка в процессе скачивания изображений.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="181"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="184"/>
         <source>Cannot add a directory. Please select a file(s).</source>
         <translation>Невозможно добавить директорию. Для добавления выберите файл(ы).</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="239"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="245"/>
         <source>Error copying file(s). Unable to attach file(s).</source>
         <translation>Ошибка копирования файла. Невозможно прикрепить файл.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="314"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="317"/>
         <source>Please, select at least one attached file to save.</source>
         <translation>Пожалуйста, выберите хотя бы один прикрепленный файл для сохранения.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="358"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="361"/>
         <source>To save single file you must set single result file name.</source>
         <translation>Для сохранения одного файла, пожалуйста, укажите одно результирующее имя файла.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="419"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="422"/>
         <source>Unable to save the file: file %1 not found in the database.</source>
         <translation>Невозможно сохранить файл. Файл %1 отсутсвует в базе данных.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="428"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="431"/>
         <source>Unable to save the file: file %1 input/output error.</source>
         <translation>Невозможно сохранить файл %1. Возникла ошибка ввода/вывода.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="449"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="452"/>
         <source>Please select single attach for edit.</source>
         <translation>Для редактирования свойств необходимо выбрать один файл.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="461"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="464"/>
         <source>File name editing</source>
         <translation>Редактирование имени файла</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="462"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="465"/>
         <source>File name:</source>
         <translation>Имя файла:</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="472"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="475"/>
         <source>Cant save file with empty name.</source>
         <translation>Не могу сохранить файл с незаданным именем.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="493"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="496"/>
         <source>Please select any attach(es) for delete.</source>
         <translation>Пожалуйста, выберите прикрепляемый файл(ы) для удаления.</translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="499"/>
+        <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="502"/>
         <source>Do you want to delete attached file(s)?</source>
         <translation>Удалить прикрепленный файл(ы)?</translation>
     </message>
@@ -1063,22 +1063,22 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="vanished">Сохранить (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1152"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1201"/>
         <source>Edit HTML source</source>
         <translation>Редактирование исходного HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1181"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1230"/>
         <source>Search result</source>
         <translation>Результат поиска</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1182"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1231"/>
         <source>String &apos;&lt;b&gt;</source>
         <translation>Строка &apos;&lt;b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1182"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1231"/>
         <source>&lt;/b&gt;&apos; not found</source>
         <translation>&lt;/b&gt;&apos; не найдена</translation>
     </message>
@@ -1279,16 +1279,21 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="33"/>
+        <source>Paste plain text</source>
+        <translation>Вставить только текст</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="35"/>
         <source>Select All</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="35"/>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="37"/>
         <source>Edit image properties</source>
         <translation>Свойства картинки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="37"/>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="39"/>
         <source>Go to URL or reference</source>
         <translation>Перейти по URL или по ссылке</translation>
     </message>
@@ -1586,122 +1591,122 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation>По ширине (Ctrl+J)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="211"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="195"/>
         <source>Text color</source>
         <translation>Цвет текста</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="218"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="202"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="219"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="203"/>
         <source>Find text (Ctrl+F)</source>
         <translation>Поиск текста (Ctrl+F)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="225"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="209"/>
         <source>Editor settings</source>
         <translation>Настройки редактора</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="231"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="215"/>
         <source>Edit reference (URL)</source>
         <translation>Редактировать ссылку (или URL)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="237"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="221"/>
         <source>Edit HTML code</source>
         <translation>Редактирование HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="244"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="228"/>
         <source>Show special chars</source>
         <translation>Показать символы форматирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="250"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="234"/>
         <source>Create a new table</source>
         <translation>Создать таблицу</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="255"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="239"/>
         <source>Remove row(s)</source>
         <translation>Удалить строку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="260"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="244"/>
         <source>Remove column(s)</source>
         <translation>Удалить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="265"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="249"/>
         <source>Add row(s)</source>
         <translation>Добавить строки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="270"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="254"/>
         <source>Add column(s)</source>
         <translation>Добавить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="275"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="259"/>
         <source>Merge cells</source>
         <translation>Объединить ячейки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="280"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="264"/>
         <source>Split cell</source>
         <translation>Разделить ячейку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="285"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="269"/>
         <source>Table properties</source>
         <translation>Свойства таблицы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="290"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="274"/>
         <source>Insert image from file / edit image properties of selected image</source>
         <translation>Вставка картинки из файла / Редактирование свойств картинки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="295"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="279"/>
         <source>Expand edit area</source>
         <translation>Распахнуть область редактирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="300"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="284"/>
         <source>Expand tools</source>
         <translation>Развернуть панель инструментов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="305"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="289"/>
         <source>Save (Ctrl+S)</source>
         <translation>Сохранить (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="306"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="290"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="313"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="297"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="319"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="303"/>
         <source>Find in base</source>
         <translation>Найти в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="326"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="310"/>
         <source>Show text in detached window</source>
         <translation>Показать текст в открепляемом окне</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="334"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="318"/>
         <source>Show attach files</source>
         <translation>Показать прикрепленные файлы</translation>
     </message>
@@ -1940,7 +1945,7 @@ Try to search for entire database.</source>
     <message>
         <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="521"/>
         <source>[Tree item]</source>
-        <translation type="unfinished">[Ветка]</translation>
+        <translation>[Ветка]</translation>
     </message>
     <message>
         <source>Tree item</source>
@@ -2546,6 +2551,7 @@ MyTetra перечитает дерево для продолжения рабо
     </message>
     <message>
         <location filename="../../../src/models/attachTable/Attach.cpp" line="227"/>
+        <location filename="../../../src/models/attachTable/Attach.cpp" line="590"/>
         <source>Unable to rename a file which attached as a link.</source>
         <translation>Нельзя менять имя прикрепляемого файла если файл прикреплен как линк.</translation>
     </message>
@@ -2570,6 +2576,16 @@ MyTetra перечитает дерево для продолжения рабо
         <location filename="../../../src/models/attachTable/Attach.cpp" line="378"/>
         <source>Unable to delete the file %1 from disk: file not found.</source>
         <translation>Не могу удалить файл %1 на диске. Файл не существует.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/models/attachTable/Attach.cpp" line="582"/>
+        <source>Invalid empty file name.</source>
+        <translation>Некорректное пустое имя файла</translation>
+    </message>
+    <message>
+        <location filename="../../../src/models/attachTable/Attach.cpp" line="601"/>
+        <source>Unable to rename the file %1 from disk: file not found.</source>
+        <translation>Невозможно переименовать файл %1 на диске: файл не найден</translation>
     </message>
     <message>
         <location filename="../../../src/models/recordTable/Record.cpp" line="903"/>
@@ -2972,8 +2988,8 @@ MyTetra will try to create a blank entry to fix it.</source>
 <context>
     <name>ReferenceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ReferenceFormatter.cpp" line="45"/>
-        <location filename="../../../src/libraries/wyedit/formatters/ReferenceFormatter.cpp" line="46"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ReferenceFormatter.cpp" line="94"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ReferenceFormatter.cpp" line="95"/>
         <source>Reference or URL</source>
         <translation>Ссылка или URL</translation>
     </message>
@@ -3370,7 +3386,7 @@ Please select single item for enabling edit operation.</source>
 <context>
     <name>TypefaceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="613"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="634"/>
         <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation>Слишком сложное форматирование текста.
 Невозможно правильно обработать выбранный текст.
