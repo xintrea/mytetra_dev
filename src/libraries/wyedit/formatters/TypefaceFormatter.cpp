@@ -58,7 +58,7 @@ void TypefaceFormatter::smartFormat(int formatType)
             if(textArea->fontWeight() != QFont::Bold)
                 textArea->setFontWeight(QFont::Bold); // Bold
             else
-                textArea->setFontWeight(0); // Remove Bold
+                textArea->setFontWeight(QFont::Normal); // Remove Bold
         }
 
         if(formatType==Italic)
