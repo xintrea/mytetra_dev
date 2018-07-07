@@ -551,7 +551,7 @@ void RecordTableController::addNewRecord(int mode)
   AddNewRecord addNewRecordWin;
   int i=addNewRecordWin.exec();
   if(i==QDialog::Rejected)
-    return; // Была нажата отмена, ничего ненужно делать
+    return; // Была нажата отмена, ничего не нужно делать
 
   // Имя директории, в которой расположены файлы картинок, используемые в тексте и приаттаченные файлы
   QString directory=addNewRecordWin.getImagesDirectory();
@@ -686,7 +686,7 @@ void RecordTableController::editFieldContext(QModelIndex proxyIndex)
 
   int i=editRecordWin.exec();
   if(i==QDialog::Rejected)
-    return; // Была нажата отмена, ничего ненужно делать
+    return; // Была нажата отмена, ничего не нужно делать
 
   // Измененные данные записываются
   editField(pos,

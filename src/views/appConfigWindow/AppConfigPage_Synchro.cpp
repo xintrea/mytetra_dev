@@ -15,7 +15,7 @@ extern PeriodicSyncro periodicSyncro;
 
 AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(parent)
 {
-  qDebug() << "Create synchro config page";
+  qDebug() << "Create sync config page";
 
   setupUi();
   setupSignals();
@@ -71,7 +71,7 @@ void AppConfigPage_Synchro::setupUi(void)
   enablePeriodicCheckBase.setText( tr("Periodic check database tree for change at 3rd-party app") ); // Периодически проверять дерево базы на предмет изменения сторонней программой
   enablePeriodicCheckBase.setChecked( mytetraConfig.getEnablePeriodicCheckBase() );
 
-  checkBasePeriodText.setText( tr("Cheking period: ") );
+  checkBasePeriodText.setText( tr("Checking period: ") );
   checkBasePeriod.setMaximum( 100000 ); // Максимальная граница должна устанавливаться перед заданием значения
   checkBasePeriod.setValue( mytetraConfig.getCheckBasePeriod() );
   checkBasePeriodPostfix.setText( tr("sec.") );

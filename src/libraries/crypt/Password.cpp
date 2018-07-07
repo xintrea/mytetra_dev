@@ -50,7 +50,7 @@ bool Password::retrievePassword()
       EnterPassword enterPwd(ENTER_PASSWORD_MODE_DOUBLE);
       int i=enterPwd.exec();
       if(i==QDialog::Rejected)
-        return false; // Была нажата отмена, ничего ненужно делать
+        return false; // Была нажата отмена, ничего не нужно делать
 
       // В этом месте пароль введен правильно и подтвержден пользователем
       QString password=enterPwd.getPassword();
@@ -83,7 +83,7 @@ bool Password::retrievePassword()
         {
           setCryptKeyToMemoryFromMiddleHash();
 
-          // И пароль у пользователя запрашивать ненужно
+          // И пароль у пользователя запрашивать не нужно
           return true;
         }
         else
@@ -116,7 +116,7 @@ bool Password::replacePassword(void)
   EnterPassword enterPwd(ENTER_PASSWORD_MODE_WITH_PREVIOUS);
   int i=enterPwd.exec();
   if(i==QDialog::Rejected)
-    return false; // Была нажата отмена, ничего ненужно делать
+    return false; // Была нажата отмена, ничего не нужно делать
 
 
   // Здесь считается, что введен старый и новый пароль
@@ -341,7 +341,7 @@ bool Password::enterExistsPassword(void)
     enterPwd.setCancelDelay( mytetraConfig.get_autoClosePasswordDelay() );
   int i=enterPwd.exec();
   if(i==QDialog::Rejected)
-    return false; // Была нажата отмена, ничего ненужно делать
+    return false; // Была нажата отмена, ничего не нужно делать
 
   // В этом месте пароль введен
   QString password=enterPwd.getPassword();
@@ -354,7 +354,7 @@ bool Password::enterExistsPassword(void)
 
 
     // Дополнительно, если в общих настройках указано,
-    // что пароль нужно запоминать, и он (точнее промежуточный хеш )
+    // что пароль нужно запоминать, и он (точнее промежуточный хеш)
     // еще не запомнен
     if(mytetraConfig.getPasswordSaveFlag() &&
        mytetraConfig.getPasswordMiddleHash().length()==0)

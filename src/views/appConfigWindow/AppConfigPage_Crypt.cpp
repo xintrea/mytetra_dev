@@ -316,7 +316,7 @@ int AppConfigPage_Crypt::applyChanges(void)
   {
    mytetraConfig.setPasswordSaveFlag( passwordSaveEnable->isChecked() );
    
-   // Если галка установлена что хранить локально пароль ненужно
+   // Если галка установлена что хранить локально пароль не нужно
    if(!passwordSaveEnable->isChecked())
     {
      // Промежуточный хеш пароля удаляется 

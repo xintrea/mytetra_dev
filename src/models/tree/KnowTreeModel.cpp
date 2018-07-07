@@ -659,7 +659,7 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
 // Запись всех данных в XML файл
 void KnowTreeModel::save()
 {
-  // Если имя файла небыло проинициализировано
+  // Если имя файла не было проинициализировано
   if(xmlFileName=="")
     criticalError("In KnowTreeModel can't set file name for XML file");
 
@@ -1435,7 +1435,7 @@ QModelIndex knowtreemodel::get_item_index(TreeItem *item)
     }
   }
  
- // Если ничего небыло найдено, возвращается пустой индекс
+ // Если ничего не было найдено, возвращается пустой индекс
  return QModelIndex();
 }
 

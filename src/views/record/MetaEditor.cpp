@@ -174,14 +174,14 @@ void MetaEditor::metaAssembly(void)
   lt=layout();
   lt->setContentsMargins(0,2,0,0);
 
-  // По-умолчанию отображается слой редатирования
+  // По-умолчанию отображается слой редактирования
   switchToEditorLayout();
 }
 
 
 void MetaEditor::switchToEditorLayout(void)
 {
-  attachTableScreen->hide(); // Что бы небыло мерцания, вначале нужно делать сокрытие текущего виджета
+  attachTableScreen->hide(); // Чтобы не было мерцания, вначале нужно делать сокрытие текущего виджета
   editorMainScreen->show();
 }
 

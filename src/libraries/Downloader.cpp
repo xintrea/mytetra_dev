@@ -286,7 +286,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 {
   bool enableNextDownload=true;
 
-  // Если при получении ответа небыло ошибок сети
+  // Если при получении ответа не было ошибок сети
   if(reply->error() == QNetworkReply::NoError)
   {
     // Определение, есть ли перенаправление (редирект) в ответе сервера

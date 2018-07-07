@@ -16,14 +16,14 @@ First run portable MyTetra:
 ---------------------------
 
 At the time of the first run of the MyTetra you will see dialog 
-to select "Standart" or "Portable" mode. Select "Portable" and click OK.
+to select "Standard" or "Portable" mode. Select "Portable" and click OK.
 
 In portable mode MyTetra created application files and directories in 
 MyTetra binary file directory.
 
-NOTE! If you make a mistake, and initting MyTetra to the "Standart" mode,
+NOTE! If you make a mistake, and initiating MyTetra to the "Standard" mode,
 then delete in your home directory "./mytetra" directory. After this,
-MyTetra will running as first time.
+MyTetra will run as the first time.
 
 
 Update program:

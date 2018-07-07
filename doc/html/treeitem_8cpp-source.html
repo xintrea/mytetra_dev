@@ -49,7 +49,7 @@
 <a name="l00021"></a>00021 {
 <a name="l00022"></a>00022  <span class="comment">// В родительском объекте ссылка на данный объект удаляется</span>
 <a name="l00023"></a>00023  <span class="comment">// Подумать, нужно ли это действие</span>
-<a name="l00024"></a>00024  <span class="comment">// Вроде ненужно, но может понадобится вдальнейшем</span>
+<a name="l00024"></a>00024  <span class="comment">// Вроде не нужно, но может понадобится в дальнейшем</span>
 <a name="l00025"></a>00025  <span class="comment">// if(parentItem)parentItem-&gt;removeChildrenLink(childNumber(),1);</span>
 <a name="l00026"></a>00026   
 <a name="l00027"></a>00027  <span class="comment">// Удалятся все конечные записи, принадлежащие данному объекту</span>
@@ -212,7 +212,7 @@
 <a name="l00184"></a>00184  <span class="comment">// Выясняется номер данного элемента в списке родителя</span>
 <a name="l00185"></a>00185  <span class="keywordtype">int</span> num=<a class="code" href="classTreeItem.html#87e01b18fd3b575ef1338545380228f5">childNumber</a>();
 <a name="l00186"></a>00186 
-<a name="l00187"></a>00187  <span class="comment">// Если двигать вверх некуда, ничего делать ненужно</span>
+<a name="l00187"></a>00187  <span class="comment">// Если двигать вверх некуда, ничего делать не нужно</span>
 <a name="l00188"></a>00188  <span class="keywordflow">if</span>(num==0)<span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00189"></a>00189 
 <a name="l00190"></a>00190  <span class="comment">// Элемент перемещается вверх по списку</span>
@@ -227,7 +227,7 @@
 <a name="l00199"></a>00199  <span class="comment">// Выясняется номер данного элемента в списке родителя</span>
 <a name="l00200"></a>00200  <span class="keywordtype">int</span> num=<a class="code" href="classTreeItem.html#87e01b18fd3b575ef1338545380228f5">childNumber</a>();
 <a name="l00201"></a>00201 
-<a name="l00202"></a>00202  <span class="comment">// Если двигать вниз некуда, ничего делать ненужно</span>
+<a name="l00202"></a>00202  <span class="comment">// Если двигать вниз некуда, ничего делать не нужно</span>
 <a name="l00203"></a>00203  <span class="keywordflow">if</span>(num&gt;=(<a class="code" href="classTreeItem.html#24d1acb93b04dbf0f67036263d87b8af">parentItem</a>-&gt;<a class="code" href="classTreeItem.html#14551ec37f50067974fc93aa78b4b6e1">childCount</a>()-1))<span class="keywordflow">return</span> <span class="keyword">false</span>;
 <a name="l00204"></a>00204 
 <a name="l00205"></a>00205  <span class="comment">// Элемент перемещается вниз по списку</span>

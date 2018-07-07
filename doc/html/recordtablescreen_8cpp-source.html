@@ -240,7 +240,7 @@
 <a name="l00212"></a>00212  
 <a name="l00213"></a>00213  <span class="comment">// Если список конечных записей не пуст</span>
 <a name="l00214"></a>00214  <span class="comment">// Выделение надо устанавливается на первую запись</span>
-<a name="l00215"></a>00215  <span class="comment">// иначе выделение устанавливать ненужно, </span>
+<a name="l00215"></a>00215  <span class="comment">// иначе выделение устанавливать не нужно, </span>
 <a name="l00216"></a>00216  <span class="comment">// а надо очистить поля области редактировния</span>
 <a name="l00217"></a>00217  <span class="keywordflow">if</span>(<a class="code" href="classrecordtablescreen.html#1806a1e7cad7c5037c19ec88f3859f95">recordmodel</a>-&gt;<a class="code" href="classrecordtablemodel.html#d243937a7c319b06445655687347bfa0">rowCount</a>()&gt;0)
 <a name="l00218"></a>00218   <a class="code" href="classrecordtablescreen.html#f155dacd499c3f6da2816da222683e87">recordview</a>-&gt;selectionModel()-&gt;setCurrentIndex( <a class="code" href="classrecordtablescreen.html#f155dacd499c3f6da2816da222683e87">recordview</a>-&gt;model()-&gt;index( 0, 0 ) , QItemSelectionModel::SelectCurrent);
@@ -361,7 +361,7 @@
 <a name="l00333"></a>00333  <span class="comment">// Создается окно ввода данных, после выхода из этой функции окно должно удалиться</span>
 <a name="l00334"></a>00334  <a class="code" href="classaddnewrecord.html">addnewrecord</a> addnewrecordwin;
 <a name="l00335"></a>00335  <span class="keywordtype">int</span> i=addnewrecordwin.exec();
-<a name="l00336"></a>00336  <span class="keywordflow">if</span>(i==QDialog::Rejected)<span class="keywordflow">return</span>; <span class="comment">// Была нажата отмена, ничего ненужно делать</span>
+<a name="l00336"></a>00336  <span class="keywordflow">if</span>(i==QDialog::Rejected)<span class="keywordflow">return</span>; <span class="comment">// Была нажата отмена, ничего не нужно делать</span>
 <a name="l00337"></a>00337 
 <a name="l00338"></a>00338  <span class="comment">// Введенные данные добавляются</span>
 <a name="l00339"></a>00339  <a class="code" href="classrecordtablescreen.html#e3e3b5770bfdb550262ff4dab723599a">add_new</a>(mode,
@@ -385,7 +385,7 @@
 <a name="l00357"></a>00357 
 <a name="l00358"></a>00358  <span class="comment">// Получение номера первой выделенной строки</span>
 <a name="l00359"></a>00359  <span class="keywordtype">int</span> pos=<a class="code" href="classrecordtablescreen.html#edf8ac561d0f33acf6af0fe63fbc8a91">get_first_selection_pos</a>();
-<a name="l00360"></a>00360  <span class="keywordflow">if</span>(pos&lt;0)pos=0; <span class="comment">// Если ничего небыло выбрано</span>
+<a name="l00360"></a>00360  <span class="keywordflow">if</span>(pos&lt;0)pos=0; <span class="comment">// Если ничего не было выбрано</span>
 <a name="l00361"></a>00361 
 <a name="l00362"></a>00362  <span class="comment">// Выясняется ссылка на таблицу конечных данных</span>
 <a name="l00363"></a>00363  <a class="code" href="classrecordtabledata.html">recordtabledata</a> *table=<a class="code" href="classrecordtablescreen.html#1806a1e7cad7c5037c19ec88f3859f95">recordmodel</a>-&gt;<a class="code" href="classrecordtablemodel.html#e3a0df4eed2846f73e7858e27ce3fdb6">get_tabledata</a>();
@@ -433,7 +433,7 @@
 <a name="l00405"></a>00405 
 <a name="l00406"></a>00406 
 <a name="l00407"></a>00407  <span class="keywordtype">int</span> i=editrecordwin.exec();
-<a name="l00408"></a>00408  <span class="keywordflow">if</span>(i==QDialog::Rejected)<span class="keywordflow">return</span>; <span class="comment">// Была нажата отмена, ничего ненужно делать</span>
+<a name="l00408"></a>00408  <span class="keywordflow">if</span>(i==QDialog::Rejected)<span class="keywordflow">return</span>; <span class="comment">// Была нажата отмена, ничего не нужно делать</span>
 <a name="l00409"></a>00409 
 <a name="l00410"></a>00410  <span class="comment">// Введенные данные обновляются</span>
 <a name="l00411"></a>00411  <a class="code" href="classrecordtablescreen.html#41863650780dd07b0fc1275f748f78b4">edit_field</a>(pos,
@@ -568,7 +568,7 @@
 <a name="l00540"></a>00540   }
 <a name="l00541"></a>00541  <span class="keywordflow">else</span>
 <a name="l00542"></a>00542   {
-<a name="l00543"></a>00543    <span class="comment">// Иначе таблица конечных записей пуста, курсор устанавливать ненужно</span>
+<a name="l00543"></a>00543    <span class="comment">// Иначе таблица конечных записей пуста, курсор устанавливать не нужно</span>
 <a name="l00544"></a>00544 
 <a name="l00545"></a>00545    <span class="comment">// Нужно очистить поле редактирования чтобы невидно было текста</span>
 <a name="l00546"></a>00546    <span class="comment">// последней удаленной записи</span>

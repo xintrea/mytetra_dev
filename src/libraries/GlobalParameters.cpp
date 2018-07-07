@@ -125,11 +125,11 @@ void GlobalParameters::initWorkDirectory(void)
 
    QString infoText=welcomeText+"\n\n"+
                     tr("Please, select application mode: \n\n")+
-                    tr("Standart:\n")+standartText+"\n\n"+
+                    tr("Standard:\n")+standartText+"\n\n"+
                     tr("Portable:\n")+portableText+"\n\n";
 
    QStringList items;
-   QString standartItem=tr("Standart");
+   QString standartItem=tr("Standard");
    QString portableItem=tr("Portable");
    items << standartItem << portableItem;
 
@@ -163,7 +163,7 @@ void GlobalParameters::initWorkDirectory(void)
 
 void GlobalParameters::createStandartProgramFiles(void)
 {
- qDebug() << "Create standart program files";
+ qDebug() << "Create standard program files";
 
  QDir userDir=QDir::home();
  QString dataDirName=".config/"+getApplicationName();
@@ -350,7 +350,7 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
      // Если номер версии конфига до 3 включительно
      if(version<=3)
       {
-       // В этих версиях небыло переменной programm, поэтому проверяется
+       // В этих версиях не было переменной programm, поэтому проверяется
        // переменная tetradir
        if(conf->contains("tetradir")) return true;
        else return false;

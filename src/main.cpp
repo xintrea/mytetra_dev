@@ -674,7 +674,7 @@ void printHelp()
 {
   printf("\n");
   printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
-  printf("For use control mode, run by standart way MyTetra for show GUI interface, and next use command:\n");
+  printf("For use control mode, run by standard way MyTetra for show GUI interface, and next use command:\n");
   printf("./mytetra --control --quit - Quit from MyTetra\n");
   printf("./mytetra --control --reload - Reload database\n");
   printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
@@ -809,7 +809,7 @@ int main(int argc, char ** argv)
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
 
- // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутсвуют)
+ // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутствуют)
  iconsCollectionCheck();
 
  // Установка CSS-оформления
