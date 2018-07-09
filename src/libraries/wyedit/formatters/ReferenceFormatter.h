@@ -8,23 +8,23 @@
 
 class ReferenceFormatter : public Formatter
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  ReferenceFormatter();
+    ReferenceFormatter();
 
 signals:
 
 public slots:
 
-  void onReferenceClicked(void);
-  void onContextMenuGotoReference(void);
-  void onClickedGotoReference(QString href);
-  void onTextChanged(void);
+    void onReferenceClicked(void);
+    void onContextMenuGotoReference(void);
+    void onClickedGotoReference(QString href);
+    void onTextChanged(void);
 protected:
 
-  bool isHrefInternal(QString href);
-  QString getIdFromInternalHref(QString href);
+    bool isHrefInternal(QString href);
+    QString getIdFromInternalHref(QString href);
 };
 
 

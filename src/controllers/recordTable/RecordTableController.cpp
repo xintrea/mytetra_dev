@@ -463,21 +463,21 @@ int RecordTableController::convertProxyPosToSourcePos(int proxyPos)
 // из таблицы конечных записей
 void RecordTableController::cut(void)
 {
-  // Надо сохранить запись, так как перед копированием в буфер обмена запись
-  // обязательно должна быть сохранена, иначе редактирование,
-  // которое было после открытия записи и до нажатия Cut, потеряется
-  find_object<MetaEditor>("editorScreen")->saveTextarea();
-
-  copy();
-  deleteRecords();
+    copy();
+    deleteRecords();
 }
 
 
 // Копирование отмеченных записей в буфер обмена
 void RecordTableController::copy(void)
 {
-  // Объект с записями помещается в буфер обмена
-  QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
+    // Надо сохранить запись, так как перед копированием в буфер обмена запись
+    // обязательно должна быть сохранена, иначе редактирование,
+    // которое было после открытия записи, потеряется
+    find_object<MetaEditor>("editorScreen")->saveTextarea();
+
+    // Объект с записями помещается в буфер обмена
+    QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
 }
 
 

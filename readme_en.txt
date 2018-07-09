@@ -1,5 +1,5 @@
 
-MyTetra v.1.x 
+MyTetra v.1.x.x
 
 MyTetra - smart manager for information collecting.
 
@@ -42,10 +42,11 @@ the new version will use the existing configuration and database.
 
 
 Author:
-Sergey M. Stepanov, Russia, Volgodonsk, Pionerskaya st. 103/26
+Sergey M. Stepanov 
+Russia, Volgodonsk
 
 Contact us:
 xintrea@gmail.com
-www.webhamster.ru
+http://webhamster.ru
 
-Copyright © 2010 by Sergey M. Stepanov
+© Sergey M. Stepanov, 2010

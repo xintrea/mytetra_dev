@@ -13,7 +13,7 @@ class EditorContextMenu : public QMenu
 
  void setImageProperties(bool isImageSelect); // Активирование добавочного пункта меню "Свойства картинки")
  void setGotoReference(bool isReference); // Активирование добавочного пункта меню "Перейти по ссылке")
-
+ void setPasteAsPlainText(bool isPasteAsPlainText);
 
  signals:
   void undo(void);
@@ -21,6 +21,7 @@ class EditorContextMenu : public QMenu
   void cut(void);
   void copy(void);
   void paste(void);
+  void pasteAsPlainText(void);
   void selectAll(void);
   void contextMenuEditImageProperties(void);
   void contextMenuGotoReference(void);
@@ -31,6 +32,7 @@ class EditorContextMenu : public QMenu
   QAction *actionCut;
   QAction *actionCopy;
   QAction *actionPaste;
+  QAction *actionPasteAsPlainText;
   QAction *actionSelectAll;
   QAction *actionEditImageProperties;
   QAction *actionGotoReference;

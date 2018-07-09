@@ -14,7 +14,7 @@ AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
   setupActions();
 
   // Инициализируется контроллер списка файлов
-  attachTableController=new AttachTableController(this);
+  attachTableController=new AttachTableController(this, parent);
   attachTableController->setObjectName("attachTableController");
 
   setupUI();
@@ -32,12 +32,12 @@ AttachTableScreen::~AttachTableScreen()
 // Настройка возможных действий
 void AttachTableScreen::setupActions(void)
 {
-  // Добавление локальнго файла
+  // Добавление локального файла
   actionAddAttach = new QAction(tr("Attach file"), this);
   actionAddAttach->setStatusTip(tr("Attach file"));
   actionAddAttach->setIcon(QIcon(":/resource/pic/attach_add.svg"));
 
-  // Добавление локальнго файла
+  // Добавление локального файла
   actionAddAttachFromUrl = new QAction(tr("Attach file from URL"), this);
   actionAddAttachFromUrl->setStatusTip(tr("Attach file from URL"));
   actionAddAttachFromUrl->setIcon(QIcon(":/resource/pic/attach_add_from_url.svg"));

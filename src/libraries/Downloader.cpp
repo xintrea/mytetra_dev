@@ -33,6 +33,9 @@ Downloader::Downloader()
   downloadReferenceCol=0;
   downloadPercentCol=1;
 
+  // Попытка заставить работать закачку с HTTPS-сайтов на 64 bit, так не сработало
+  // webManager.setStrictTransportSecurityEnabled(false);
+
   setupUI();
   setupSignals();
   assembly();
@@ -151,7 +154,7 @@ void Downloader::setReferencesList(QStringList iReferencesList)
       QFileInfo fileInfo(fileName);
       QString fileExtention = fileInfo.completeSuffix();
 
-      diskFilesNames[i]=getUnicalId()+"."+fileExtention;
+      diskFilesNames[i]=getUniqueId()+"."+fileExtention;
     }
   }
 }

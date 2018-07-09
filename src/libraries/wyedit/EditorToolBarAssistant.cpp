@@ -78,73 +78,78 @@ void EditorToolBarAssistant::setupSignals()
 // Метод только меняет значение, показываемое списком шрифтов
 void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
-  // TRACELOG
+    // TRACELOG
 
-  if(flagSetFontParametersEnabled==false)
-    return;
+    if(flagSetFontParametersEnabled==false)
+        return;
 
-  flagSetFontParametersEnabled=false;
+    flagSetFontParametersEnabled=false;
 
-  if(fontName.size()>0)
-    fontSelect.setCurrentIndex(fontSelect.findText(fontName));
-  else
-    fontSelect.setCurrentIndex(fontSelect.count()-1);
+    fontSelect.setIsProgrammChanged(true);
+    if(fontName.size()>0)
+        fontSelect.setCurrentIndex(fontSelect.findText(fontName));
+    else
+        fontSelect.setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    fontSelect.setIsProgrammChanged(false);
 
-  currentFontFamily=fontName;
+    currentFontFamily=fontName;
 
-  flagSetFontParametersEnabled=true;
+    flagSetFontParametersEnabled=true;
 }
 
 
 bool EditorToolBarAssistant::getFlagSetFontParametersEnabled()
 {
-  return flagSetFontParametersEnabled;
+    return flagSetFontParametersEnabled;
 }
 
 
-// Слот только меняет значение, показываемое списком размеров шрифта
+// Слот только устанавливает значение, показываемое списком размеров шрифта
+// А размер шрифта текста не меняет
 void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
-  // TRACELOG
+    // TRACELOG
 
-  if(flagSetFontParametersEnabled==false)
-    return;
+    if(flagSetFontParametersEnabled==false)
+        return;
 
-  flagSetFontParametersEnabled=false;
+    flagSetFontParametersEnabled=false;
 
-  fontSize.setCurrentIndex(fontSize.findData(n));
-  currentFontSize=n;
+    fontSize.setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
+    fontSize.setCurrentIndex(fontSize.findData(n));
+    fontSize.setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
+    currentFontSize=n;
 
-  flagSetFontParametersEnabled=true;
+    flagSetFontParametersEnabled=true;
 }
 
 
 void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
 {
-  // TRACELOG
+    // TRACELOG
 
-  currentFontFamily=fontFamily;
+    currentFontFamily=fontFamily;
 }
 
 
 void EditorToolBarAssistant::onChangeFontPointSize(int n)
 {
-  // TRACELOG
+    // TRACELOG
 
-  currentFontSize=n;
+    currentFontSize=n;
 }
 
 
 void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 {
-  // TRACELOG
+    // TRACELOG
 
-  // Если цвет правильный
-  if(color.isValid())
-  {
-    fontColor.setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-    currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменна
-  }
+    // Если цвет правильный
+    if(color.isValid())
+    {
+        fontColor.setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
+        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменна
+    }
 
 }
 
@@ -154,86 +159,90 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
 // Если параметр activate=true, будет подсвечена кнопка, соответсвующая текущему форматированию
 void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
-  // TRACELOG
+    // TRACELOG
 
-  alignLeft.setChecked(false);
-  alignCenter.setChecked(false);
-  alignRight.setChecked(false);
-  alignWidth.setChecked(false);
+    alignLeft.setChecked(false);
+    alignCenter.setChecked(false);
+    alignRight.setChecked(false);
+    alignWidth.setChecked(false);
 
-  if(activate==false)
-    return;
+    if(activate==false)
+        return;
 
-  if(textArea->alignment()==Qt::AlignLeft)         alignLeft.setChecked(true);
-  else if(textArea->alignment()==Qt::AlignHCenter) alignCenter.setChecked(true);
-  else if(textArea->alignment()==Qt::AlignRight)   alignRight.setChecked(true);
-  else if(textArea->alignment()==Qt::AlignJustify) alignWidth.setChecked(true);
+    if(textArea->alignment()==Qt::AlignLeft)         alignLeft.setChecked(true);
+    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter.setChecked(true);
+    else if(textArea->alignment()==Qt::AlignRight)   alignRight.setChecked(true);
+    else if(textArea->alignment()==Qt::AlignJustify) alignWidth.setChecked(true);
 }
 
 
 // Обновление подсветки клавиш начертания текста
 void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
-  // TRACELOG
+    // TRACELOG
 
-  bold.setChecked(false);
-  italic.setChecked(false);
-  underline.setChecked(false);
+    bold.setChecked(false);
+    italic.setChecked(false);
+    underline.setChecked(false);
 
-  if(textArea->fontWeight()==QFont::Bold) bold.setChecked(true);
-  if(textArea->fontItalic()==true)        italic.setChecked(true);
-  if(textArea->fontUnderline()==true)     underline.setChecked(true);
+    if(textArea->fontWeight()==QFont::Bold) bold.setChecked(true);
+    if(textArea->fontItalic()==true)        italic.setChecked(true);
+    if(textArea->fontUnderline()==true)     underline.setChecked(true);
 }
 
 
 void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 {
-  if(button==BT_BOLD)
-  {
-    if(active==false) bold.setChecked(false);
-    else              bold.setChecked(true);
-    return;
-  }
+    if(button==BT_BOLD)
+    {
+        if(active==false) bold.setChecked(false);
+        else              bold.setChecked(true);
+        return;
+    }
 
-  if(button==BT_ITALIC)
-  {
-    if(active==false) italic.setChecked(false);
-    else              italic.setChecked(true);
-    return;
-  }
+    if(button==BT_ITALIC)
+    {
+        if(active==false) italic.setChecked(false);
+        else              italic.setChecked(true);
+        return;
+    }
 
-  if(button==BT_UNDERLINE)
-  {
-    if(active==false) underline.setChecked(false);
-    else              underline.setChecked(true);
-    return;
-  }
+    if(button==BT_UNDERLINE)
+    {
+        if(active==false) underline.setChecked(false);
+        else              underline.setChecked(true);
+        return;
+    }
 }
 
 
 void EditorToolBarAssistant::updateToActualFormat(void)
 {
-  // Список должен показывать текущий шрифт позиции, где находится курсор
-  if(currentFontFamily!=textArea->fontFamily())
-    onChangeFontselectOnDisplay(textArea->fontFamily());
+    // Текущий шрифт позиции, где находится курсор
+    QString actualFontFamily=editor->smartFontFamily( textArea->fontFamily() );
+    if(currentFontFamily!=actualFontFamily)
+        onChangeFontselectOnDisplay(actualFontFamily);
 
-  // Размер
-  if(currentFontSize!=(int)textArea->fontPointSize())
-    onChangeFontsizeOnDisplay((int)textArea->fontPointSize());
+    // Размер
+    int actualFontPointSize=editor->smartFontSize( (int)textArea->fontPointSize() );
+    if(currentFontSize!=actualFontPointSize) {
+        onChangeFontsizeOnDisplay(actualFontPointSize);
+    }
 
-  // Обновляются кнопки форматирования начертания
-  onUpdateOutlineButtonHiglight();
 
-  // Обновляются кнопки выравнивания
-  onUpdateAlignButtonHiglight(true);
+    // Обновляются кнопки форматирования начертания
+    onUpdateOutlineButtonHiglight();
+
+    // Обновляются кнопки выравнивания
+    onUpdateAlignButtonHiglight(true);
 }
 
 
 void EditorToolBarAssistant::onExpandToolsLinesClicked(void)
 {
-  // TRACELOG
+    // TRACELOG
 
-  switchExpandToolsLines();
+    switchExpandToolsLines();
 }
 
 
@@ -243,64 +252,65 @@ void EditorToolBarAssistant::onExpandToolsLinesClicked(void)
 // Параметр -1 - выключить полную видимость
 void EditorToolBarAssistant::switchExpandToolsLines(int flag)
 {
-  bool setFlag=true;
+    bool setFlag=true;
 
-  // Если метод был вызван без параметра
-  if(flag==0)
-  {
-    bool is_expand=editor->editorConfig->get_expand_tools_lines();
+    // Если метод был вызван без параметра
+    if(flag==0)
+    {
+        bool is_expand=editor->editorConfig->get_expand_tools_lines();
 
-    if(is_expand) setFlag=false; // Если панель инструментов распахнута, надо сомкнуть
-    else setFlag=true; // Иначе распахнуть
-  }
-  else
-  {
-    // Иначе метод вызывался с каким-то параметром
-    if(flag==1) setFlag=true;
-    if(flag==-1) setFlag=false;
-  }
+        if(is_expand) setFlag=false; // Если панель инструментов распахнута, надо сомкнуть
+        else setFlag=true; // Иначе распахнуть
+    }
+    else
+    {
+        // Иначе метод вызывался с каким-то параметром
+        if(flag==1) setFlag=true;
+        if(flag==-1) setFlag=false;
+    }
 
 
-  // Панели распахиваются/смыкаются (кроме первой линии инструментов)
-  toolsLine2.setVisible(setFlag);
-  if(viewMode==Editor::WYEDIT_DESKTOP_MODE)
-    editor->indentSliderAssistant->setVisible(setFlag);
+    // Панели распахиваются/смыкаются (кроме первой линии инструментов)
+    toolsLine2.setVisible(setFlag);
+    if(viewMode==Editor::WYEDIT_DESKTOP_MODE)
+        editor->indentSliderAssistant->setVisible(setFlag);
 
-  // Запоминается новое состояние
-  editor->editorConfig->set_expand_tools_lines(setFlag);
+    // Запоминается новое состояние
+    editor->editorConfig->set_expand_tools_lines(setFlag);
 
-  // Обновляется геометрия расположения движков на слайд-панели.
-  // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
-  // и вертикальная прокрутка при соответствующем размере текста может быть видна или не видна.
-  // То есть, возможен вариант, когда вертикальная прокрутка появляется при включении видимости слайд-панели,
-  // а ее наличие (ее ширина) влияет на ширину и правый движок слайд-панели
-  emit updateIndentSliderGeometry();
+    // Обновляется геометрия расположения движков на слайд-панели.
+    // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
+    // и вертикальная прокрутка при соответствующем размере текста может быть видна или не видна.
+    // То есть, возможен вариант, когда вертикальная прокрутка появляется при включении видимости слайд-панели,
+    // а ее наличие (ее ширина) влияет на ширину и правый движок слайд-панели
+    emit updateIndentSliderGeometry();
 }
+
 
 bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
 {
-  if(event->modifiers().testFlag(Qt::ControlModifier) ||
-     event->modifiers().testFlag(Qt::AltModifier) ||
-     event->modifiers().testFlag(Qt::MetaModifier) ||
-     event->key()==Qt::Key_F1 ||
-     event->key()==Qt::Key_F2 ||
-     event->key()==Qt::Key_F3 ||
-     event->key()==Qt::Key_F4 ||
-     event->key()==Qt::Key_F5 ||
-     event->key()==Qt::Key_F6 ||
-     event->key()==Qt::Key_F7 ||
-     event->key()==Qt::Key_F8 ||
-     event->key()==Qt::Key_F9 ||
-     event->key()==Qt::Key_F10 ||
-     event->key()==Qt::Key_F11 ||
-     event->key()==Qt::Key_F12)
-    return true;
-  else
-    return false;
+    if(event->modifiers().testFlag(Qt::ControlModifier) ||
+       event->modifiers().testFlag(Qt::AltModifier) ||
+       event->modifiers().testFlag(Qt::MetaModifier) ||
+       event->key()==Qt::Key_F1 ||
+       event->key()==Qt::Key_F2 ||
+       event->key()==Qt::Key_F3 ||
+       event->key()==Qt::Key_F4 ||
+       event->key()==Qt::Key_F5 ||
+       event->key()==Qt::Key_F6 ||
+       event->key()==Qt::Key_F7 ||
+       event->key()==Qt::Key_F8 ||
+       event->key()==Qt::Key_F9 ||
+       event->key()==Qt::Key_F10 ||
+       event->key()==Qt::Key_F11 ||
+       event->key()==Qt::Key_F12)
+        return true;
+    else
+        return false;
 }
 
 
 int EditorToolBarAssistant::getFontSizeByNum(int n)
 {
-  return fontSize.itemData(n).toInt();
+    return fontSize.itemData(n).toInt();
 }

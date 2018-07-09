@@ -30,6 +30,8 @@ void EditorContextMenu::setup_actions(void)
 
  actionPaste=new QAction(tr("Paste"),this);
 
+ actionPasteAsPlainText=new QAction(tr("Paste plain text"),this);
+
  actionSelectAll=new QAction(tr("Select All"),this);
 
  actionEditImageProperties=new QAction(tr("Edit image properties"),this);
@@ -54,6 +56,13 @@ void EditorContextMenu::setGotoReference(bool isReference)
 }
 
 
+// Показывать или нет пункт "Вставить только текст"
+void EditorContextMenu::setPasteAsPlainText(bool isPasteAsPlainText)
+{
+  actionPasteAsPlainText->setVisible(isPasteAsPlainText);
+}
+
+
 void EditorContextMenu::setup_signals(void)
 {
  connect(actionUndo,SIGNAL(triggered()),this,SIGNAL(undo()));
@@ -62,6 +71,7 @@ void EditorContextMenu::setup_signals(void)
  connect(actionCut,SIGNAL(triggered()),this,SIGNAL(cut()));
  connect(actionCopy,SIGNAL(triggered()),this,SIGNAL(copy()));
  connect(actionPaste,SIGNAL(triggered()),this,SIGNAL(paste()));
+ connect(actionPasteAsPlainText,SIGNAL(triggered()),this,SIGNAL(pasteAsPlainText()));
 
  connect(actionSelectAll,SIGNAL(triggered()),this,SIGNAL(selectAll()));
 
@@ -80,6 +90,7 @@ void EditorContextMenu::setup_menu(void)
  this->addAction(actionCut);
  this->addAction(actionCopy);
  this->addAction(actionPaste);
+ this->addAction(actionPasteAsPlainText);
 
  this->addSeparator();
 

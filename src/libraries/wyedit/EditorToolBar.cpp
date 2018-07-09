@@ -183,26 +183,10 @@ void EditorToolBar::setupButtons(void)
   fontSelect.setParent(this);
   fontSelect.setObjectName("editor_tb_fontselect");
 
-  // Пустой пункт в конце списка шрифтов, используется для обозначения что в
-  // выделенном тексте несколько шрифтов
-  fontSelect.addItem(" ");
-  fontSelect.setItemIcon((fontSelect.count())-1,QIcon(":/resource/pic/edit_font_many.svg"));
-
 
   // Выбор размера шрифта
   fontSize.setParent(this);
-  for(int i=MINIMUM_ALLOWED_FONT_SIZE; i<=MAXIMUM_ALLOWED_FONT_SIZE; i++)
-    fontSize.addItem(QString("%1").arg(i),i);
-  fontSize.setCurrentIndex(fontSize.findData(10));
-  fontSize.setMinimumContentsLength(3);
-  fontSize.setEditable(true);
-  QValidator *fontsizeValidator = new QIntValidator(MINIMUM_ALLOWED_FONT_SIZE, MAXIMUM_ALLOWED_FONT_SIZE, this);
-  fontSize.setValidator(fontsizeValidator);
   fontSize.setObjectName("editor_tb_fontsize");
-
-  // Пустой пункт в конце списка размеров шрифтов, используется для обозначения
-  // что в выделенном тексте несколько размеров
-  fontSize.addItem(" ",0);
 
 
   // Кнопка выбора цвета шрифта

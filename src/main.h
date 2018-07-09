@@ -23,18 +23,18 @@ using namespace std;
 
 // ----------------------------------------------------------
 // MyTetra - программа для накопления осмысленной информации
-// Волгодонск, 2010 - 2016 г.
+// Волгодонск, 2010 - 2018 г.
 // Контакты: xintrea@gmail.com, www.webhamster.ru
 // Данный исходный код распространяется под лицензиями:
 // - GPL v.3
 // - Modified BSD
-// © Степанов С. М. и товарищи 2010 - 2016
+// © Степанов С. М. и товарищи 2010 - 2018
 // ----------------------------------------------------------
 
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
-#define APPLICATION_RELEASE_SUBVERSION     42
-#define APPLICATION_RELEASE_MICROVERSION    2
+#define APPLICATION_RELEASE_SUBVERSION     43
+#define APPLICATION_RELEASE_MICROVERSION   27
 
 
 // Поддерживаемая версия формата базы (хранилища)
@@ -63,8 +63,8 @@ void printObjectTree(void);
 bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action);
 void myMessageOutput(QtMsgType type, const char *msg);
-QString getUnicalId(void);
-QString getUnicalImageName(void);
+QString getUniqueId(void);
+QString getUniqueImageName(void);
 int getMilliCount(void);
 void initRandom(void);
 

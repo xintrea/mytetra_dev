@@ -83,7 +83,9 @@ void AppConfigPage_Main::setupUi(void)
  interfaceLanguage=new MtComboBox(this);
  interfaceLanguage->setMinimumContentsLength(2);
  interfaceLanguage->addItem("en");
+ interfaceLanguage->setItemIcon(interfaceLanguage->count()-1, QIcon(":/resource/pic/countryFlags/United-Kingdom.png"));
  interfaceLanguage->addItem("ru");
+ interfaceLanguage->setItemIcon(interfaceLanguage->count()-1, QIcon(":/resource/pic/countryFlags/Russia.png"));
  interfaceLanguage->setCurrentIndex(interfaceLanguage->findText(mytetraConfig.get_interfacelanguage(), Qt::MatchCaseSensitive));
 
 
@@ -172,8 +174,8 @@ void AppConfigPage_Main::assembly(void)
 
 
   // Блок работы с отображением даты и времени
-  QVBoxLayout *dateTimeFormatVBox = new QVBoxLayout(this);
-  QHBoxLayout *dateTimeFormatHBox = new QHBoxLayout(this);
+  QVBoxLayout *dateTimeFormatVBox = new QVBoxLayout();
+  QHBoxLayout *dateTimeFormatHBox = new QHBoxLayout();
   dateTimeFormatVBox->addWidget(disableCustomDateTimeFormat);
   dateTimeFormatVBox->addWidget(enableCustomDateTimeFormat);
 

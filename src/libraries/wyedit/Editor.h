@@ -140,6 +140,9 @@ public:
  int  getScrollBarPosition(void);
  void setScrollBarPosition(int n);
 
+ QString smartFontFamily(QString fontName); // Умное преобразование имени шрифта
+ int smartFontSize(int fontSize); // Умное преобразование размера шрифта
+
  void switchAttachIconExists(bool isExists);
 
  enum
@@ -196,6 +199,7 @@ private slots:
  void onCut(void);
  void onCopy(void);
  void onPaste(void);
+ void onPasteAsPlainText(void);
  void onSelectAll(void);
 
  void onFindtextSignalDetect(const QString &text, QTextDocument::FindFlags flags);

@@ -7,6 +7,7 @@
 #include <QDomElement>
 #include <QXmlStreamWriter>
 
+// Класс, реализующий абстракцию одного прикрепляемого файла
 
 class AttachTableData;
 
@@ -58,7 +59,8 @@ public:
 
   // Расшифровка переданного DOM-элемента, полученного из тега <file> и его атрибутов
   static void decryptDomElement(QDomElement &iDomElement);
-
+  
+  void renameFile(QString newFileName);
 protected:
 
   void init(AttachTableData *iParentTable);

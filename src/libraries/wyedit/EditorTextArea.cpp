@@ -126,7 +126,7 @@ void EditorTextArea::keyReleaseEvent(QKeyEvent *event)
   if( event->key() == Qt::Key_Control )
     switchReferenceClickMode(false);
 
-  QTextEdit::keyPressEvent(event);
+  QTextEdit::keyReleaseEvent(event);
 }
 
 
@@ -498,7 +498,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
     // без потери качества, поэтому затем при записи
     // легко сохраняется в PNG формат. Чтобы избежать путаницы,
     // сразу имя ресурса картинки задается как PNG файл
-    QString imageName=getUnicalImageName();
+    QString imageName=getUniqueImageName();
 
     document->addResource(QTextDocument::ImageResource, QUrl(imageName), image);
     cursor.insertImage(imageName);

@@ -18,6 +18,8 @@ public:
   ActionLogger(QObject *pobj=0);
   ~ActionLogger();
 
+  const int maximumLinesCount=1000;
+
   void init();
   void setEnableLogging(bool flag);
   QString getXml();
@@ -45,6 +47,9 @@ protected:
   void openLogFileForWrite();
   void openLogFileForRead();
   void closeLogFile();
+
+  void trimLogFile();
+  int getLinesCount();
 
 };
 

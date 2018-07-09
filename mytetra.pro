@@ -6,11 +6,11 @@ TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="release"
+BUILD_TYPE="debug"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable
-WINDOWS_CONSOLE_ENABLE=0
+WINDOWS_CONSOLE_ENABLE=1
 
 # Profiling enable
 # 0 - disable, 1 - enable
@@ -223,7 +223,9 @@ HEADERS = src/main.h \
     src/libraries/PreviewFileDialog.h \
     src/libraries/IconSelectDialog.h \
     src/libraries/PeriodicCheckBase.h \
-    src/libraries/PeriodicSyncro.h
+    src/libraries/PeriodicSyncro.h \
+    src/libraries/wyedit/EditorFontSizeComboBox.h \
+    src/libraries/wyedit/EditorFontFamilyComboBox.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -342,7 +344,9 @@ SOURCES = src/main.cpp \
     src/libraries/PreviewFileDialog.cpp \
     src/libraries/IconSelectDialog.cpp \
     src/libraries/PeriodicCheckBase.cpp \
-    src/libraries/PeriodicSyncro.cpp
+    src/libraries/PeriodicSyncro.cpp \
+    src/libraries/wyedit/EditorFontSizeComboBox.cpp \
+    src/libraries/wyedit/EditorFontFamilyComboBox.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
@@ -378,7 +382,7 @@ SOURCES+=\
     src/views/tree/KnowTreeView.cpp \
     src/libraries/MtStyledItemDelegate.cpp
 
-wince* { 
+wince* {
     CONFIG(debug, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvgd4.dll
     CONFIG(release, release|debug):addPlugins.sources = $$QT_BUILD_TREE/plugins/imageformats/qsvg4.dll
     addPlugins.path = imageformats
@@ -389,3 +393,6 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 OTHER_FILES += \
     android/AndroidManifest.xml
+
+# win icon
+win32:RC_FILE = desktop/win.rc

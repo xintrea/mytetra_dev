@@ -178,7 +178,7 @@ bool EditorCursorPositionDetector::isCursorOnReferenceSmart(QString &resultHref)
   if(textArea->textCursor().hasSelection())
   {
     // Выясняются позиции начала и конца выделения
-    int start=textArea->textCursor().selectionStart()+1; // +1 так как Qt определяет формат сивола стоящего слева от курсора (как минимум для языков с записью слева направо)
+    int start=textArea->textCursor().selectionStart()+1; // +1 так как Qt определяет формат символа стоящего слева от курсора (как минимум для языков с записью слева направо)
     int stop =textArea->textCursor().selectionEnd();
 
     qDebug() << "Reference detector. Selection start:" << start << "selection stop:" << stop;

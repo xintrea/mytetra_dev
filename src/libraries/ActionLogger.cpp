@@ -62,7 +62,10 @@ ActionLogger::~ActionLogger()
 
 void ActionLogger::init()
 {
-  openLogFileForWrite();
+    // Файл лога укорачивается до допустимого размера
+    trimLogFile();
+
+    openLogFileForWrite();
 }
 
 
@@ -95,6 +98,71 @@ void ActionLogger::openLogFileForRead()
 void ActionLogger::closeLogFile()
 {
   logFile.close();
+}
+
+
+// Укорачивание лог-файла
+void ActionLogger::trimLogFile()
+{
+    // Если файл короткий, ничего убирать не нужно
+    int currentLogLinesCount=getLinesCount();
+    if(currentLogLinesCount<maximumLinesCount) {
+        return;
+    }
+
+    // Копирование необходимого количества строк во временный файл
+    QString logFileName=globalParameters.getActionLogFileName();
+    QString tempFileName=globalParameters.getActionLogFileName()+".tmp";
+
+    QFile logFile(logFileName);
+    QFile tempFile(tempFileName);
+
+    if(!logFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    if(!tempFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+
+    int i=0;
+    while(!logFile.atEnd()) {
+        QByteArray line=logFile.readLine();
+
+        // Если номер строки больше чем номер строки, начиная с которой надо копировать данные
+        if( i > (currentLogLinesCount-maximumLinesCount) ) {
+            tempFile.write(line);
+        }
+
+        i++;
+    }
+
+    logFile.close();
+    tempFile.close();
+
+
+    logFile.remove(); // Лог-файл удаляется
+    QFile::rename ( tempFileName, logFileName ); // Временный файл сохраняется как лог-файл
+    tempFile.remove(); // Временный файл удаляется
+}
+
+
+// Выяснение количества строк в лог-файле
+int ActionLogger::getLinesCount()
+{
+    QString logFileName=globalParameters.getActionLogFileName();
+
+    QFile file(logFileName);
+
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return 0;
+
+    int count=0;
+    while(!file.atEnd()) {
+        file.readLine();
+        count++;
+    }
+
+    file.close();
+
+    return count;
 }
 
 

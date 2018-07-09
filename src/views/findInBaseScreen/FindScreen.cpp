@@ -196,6 +196,9 @@ void FindScreen::setupWhereFindLine(void)
 
   findInText=new QCheckBox(tr("Text"));
   findInText->setChecked(mytetraConfig.get_findscreen_find_in_field("text"));
+
+  findInNameItem=new QCheckBox(tr("Name tree item"));
+  findInNameItem->setChecked(mytetraConfig.get_findscreen_find_in_field("nameItem"));
 }
 
 
@@ -214,6 +217,7 @@ void FindScreen::assemblyWhereFindLine(void)
   whereFindLine->addWidget(findInUrl);
   whereFindLine->addWidget(findInTags);
   whereFindLine->addWidget(findInText);
+  whereFindLine->addWidget(findInNameItem);
 
   whereFindLine->addStretch();
 
@@ -278,19 +282,15 @@ void FindScreen::setupSignals(void)
 
   connect(findInText,SIGNAL(stateChanged(int)),
           this,SLOT(changedFindInText(int)));
+
+  connect(findInNameItem,SIGNAL(stateChanged(int)),
+          this,SLOT(changedFindInNameItem(int)));
 }
 
 
 void FindScreen::setupUI(void)
 {
   findTable=new FindTableWidget();
-
-  progress=new QProgressDialog(this);
-
-  // Корректировка регрессии в Qt 5.5 - 5.6.x QTBUG-47042 QTBUG-47049
-  // QProgressDialog показывает сам себя через 4 секунды (точнее, спустя minimumDuration() сек.) после отработки конструктора
-  // метод hide() не может скрыть такое окно
-  progress->cancel();
 }
 
 
@@ -354,11 +354,12 @@ void FindScreen::setFindText(QString text)
 void FindScreen::findClicked(void)
 {
   // Поля, где нужно искать (Заголовок, текст, теги...)
-  searchArea["name"]  =findInName->isChecked();
-  searchArea["author"]=findInAuthor->isChecked();
-  searchArea["url"]   =findInUrl->isChecked();
-  searchArea["tags"]  =findInTags->isChecked();
-  searchArea["text"]  =findInText->isChecked();
+  searchArea["name"]    =findInName->isChecked();
+  searchArea["author"]  =findInAuthor->isChecked();
+  searchArea["url"]     =findInUrl->isChecked();
+  searchArea["tags"]    =findInTags->isChecked();
+  searchArea["text"]    =findInText->isChecked(); // Поиск в тексте записи
+  searchArea["nameItem"]=findInNameItem->isChecked(); // Поиск по именам веток
 
   // Проверяется, установлено ли хоть одно поле для поиска
   int findEnableFlag=0;
@@ -418,7 +419,7 @@ void FindScreen::findStart(void)
     // Корневой элемент дерева
     startItem=searchModel->rootItem;
 
-    // Количество элементов (веток) во всем дереве
+    // Количество конечных записей во всем дереве
     totalRec=searchModel->getAllRecordCount();
   }
   else if (mytetraConfig.getFindScreenTreeSearchArea()==1) // Если нужен поиск в текущей ветке
@@ -429,7 +430,7 @@ void FindScreen::findStart(void)
     // Текущая ветка
     startItem=searchModel->getItem(currentItemIndex);
 
-    // Количество элементов (веток) в текущей ветке и всех подветках
+    // Количество конечных записей в текущей ветке и всех подветках
     totalRec=searchModel->getRecordCountForItem(startItem);
   }
 
@@ -447,6 +448,13 @@ void FindScreen::findStart(void)
     return;
   }
 
+  // Динамически создается виджет линейки наполяемости
+  progress=new QProgressDialog(this);
+
+  // Корректировка регрессии в Qt 5.5 - 5.6.x QTBUG-47042 QTBUG-47049
+  // QProgressDialog показывает сам себя через 4 секунды (точнее, спустя minimumDuration() сек.) после отработки конструктора
+  // метод hide() не может скрыть такое окно
+  progress->cancel();
 
   // Показывается виджет линейки наполняемости
   progress->reset();
@@ -454,7 +462,7 @@ void FindScreen::findStart(void)
   progress->setRange(0,totalRec);
   progress->setModal(true);
   progress->setMinimumDuration(0);
-  progress->show();
+  progress->show(); // Эта команда под вопросом, возможно она не нужна
 
   // Обнуляется счетчик обработанных конечных записей
   totalProgressCounter=0;
@@ -467,9 +475,8 @@ void FindScreen::findStart(void)
   // После вставки всех данных подгоняется ширина колонок
   findTable->updateColumnsWidth();
 
-  // Виджет линейки наполняемости скрывается
-  progress->hide();
-
+  // Линейка наполяемости удаляется
+  delete progress;
 
   // Если ничего небыло найдено
   if(findTable->getRowCount()==0)
@@ -498,6 +505,26 @@ void FindScreen::findRecurse(TreeItem *curritem)
     isUnsearchCryptBranchPresent=true;
     return;
   }
+
+
+  // Проверка имени ветки
+  if(searchArea["nameItem"]==true)
+  {
+    QString itemName = curritem->getField("name");
+    bool findItem = findInTextProcess(itemName);
+    if(findItem)
+    {
+      // QString path = curritem->getPathAsNameWithDelimeter(" ");
+      // qDebug() << "Find branch succesfull " << path;
+      // В таблицу результатов добавляется запись о найденой ветке
+      findTable->addRow(itemName,
+                        tr("[Tree item]"),
+                        "",
+                        curritem->getPath(),
+                        curritem->getField("id"));
+    }
+  }
+
 
   // Если в ветке присутсвует таблица конечных записей
   if(curritem->recordtableGetRowCount() > 0)
@@ -531,7 +558,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
       // Текст в котором будет проводиться поиск
       QString inspectText;
 
-      // Цикл поиска в отмеченных пользователем полях
+      // Цикл поиска в отмеченных пользователем полях записи
       QMapIterator<QString, bool> j(iteration_search_result);
       while(j.hasNext())
       {
@@ -541,6 +568,9 @@ void FindScreen::findRecurse(TreeItem *curritem)
         // Если в данном поле нужно проводить поиск
         if(searchArea[key]==true)
         {
+          if(key=="nameItem") // Здесь поиск по имени ветки не производится
+            continue;
+
           if(key!="text")
           {
             // Поиск в обычном поле
@@ -689,6 +719,11 @@ void FindScreen::changedFindInText(int state)
   changedFindInField("text",state);
 }
 
+void FindScreen::changedFindInNameItem(int state)
+{
+  changedFindInField("nameItem",state);
+}
+
 
 void FindScreen::changedFindInField(QString fieldname, int state)
 {
@@ -763,6 +798,7 @@ void FindScreen::switchToolsExpand(bool flag)
   findInUrl->setVisible(flag);
   findInTags->setVisible(flag);
   findInText->setVisible(flag);
+  findInNameItem->setVisible(flag);
 }
 
 // Устаревшая функция, простое обнаружение токенов для поиска

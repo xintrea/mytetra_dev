@@ -18,8 +18,8 @@ DiskHelper::DiskHelper()
 // Удаление директории с копированием содержимого в корзину
 void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
 {
-  QDir dirfrom(nameDirFrom);
-  QStringList fileList=dirfrom.entryList();
+  QDir dirFrom(nameDirFrom);
+  QStringList fileList=dirFrom.entryList();
 
   QString nameDirTo=mytetraConfig.get_trashdir();
 
@@ -37,8 +37,8 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     QString fileNameTo;
     bool targetFileFree=false;
     do {
-      fileNameToShort=getUnicalId()+"_"+fileList.at(i);
-      fileNameTo       =nameDirTo+"/"+fileNameToShort;
+      fileNameToShort=getUniqueId()+"_"+fileList.at(i);
+      fileNameTo     =nameDirTo+"/"+fileNameToShort;
 
       if(QFile::exists(fileNameTo)) targetFileFree=false;
       else targetFileFree=true;
@@ -47,24 +47,24 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
     qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
 
     // Перенос файла в корзину
-    if( QFile::rename(fileNameFrom,fileNameTo)==true )
+    if( QFile::rename(fileNameFrom, fileNameTo)==true )
       trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
     else
       criticalError("Can not remove file\n"+fileNameFrom+"\nto directory\n"+nameDirTo+"\nwith new name\n"+fileNameTo);
   }
 
+
+  // Проверка наличия файлов внутри очищенной директории через новый временный объект директории
+  // QDir tempDirFrom(nameDirFrom);
+  // foreach(QString fileInDir, tempDirFrom.entryList())
+  //   qDebug() << "File in empty dir with temp dir object: " << fileInDir;
+
+
   // Удаление директории
-  // Из-за проблем с синтаксисом метода rmdir(), нельзя удалить ту
-  // директорию, на которую указывает объект, поэтому удаление происходит
-  // через дополнительный QDir объект, который указывает на директорию
-  // где лежит бинарник.
-  // Если в rmdir() передать относительный путь, то будет удалена директория
-  // относительно директории бинарника.
-  // Если в rmdir() передать асолютный путь, то будет удалена директория
-  // по абсолютному пути
-  QDir applicationdir(QCoreApplication::applicationDirPath());
+  // Если в rmdir() передать относительный путь, то будет удалена директория относительно директории бинарника.
+  // Если в rmdir() передать асолютный путь, то будет удалена директория по абсолютному пути
   qDebug() << "Try delete directory " << nameDirFrom;
-  if(!applicationdir.rmdir(nameDirFrom))
+  if(!QDir().rmdir(nameDirFrom))
     qDebug() << "Directory " << nameDirFrom << " NOT deleted";
   else
     qDebug() << "Directory " << nameDirFrom << " delete succesfull";
@@ -79,7 +79,7 @@ void DiskHelper::removeFileToTrash(QString fileNameFrom)
   QString fileNameFromShort=fileInfo.fileName();
 
   // Получение имени файла для сохранения в корзине
-  QString fileNameToShort=getUnicalId()+"_"+fileNameFromShort;
+  QString fileNameToShort=getUniqueId()+"_"+fileNameFromShort;
   QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
 
   qDebug() << "Move file from " << fileNameFrom << " to " << fileNameTo;
@@ -101,7 +101,7 @@ QString DiskHelper::copyFileToTrash(QString fileNameFrom)
   QString fileNameFromShort=fileInfo.fileName();
 
   // Получение имени файла для сохранения в корзине
-  QString fileNameToShort=getUnicalId()+"_"+fileNameFromShort;
+  QString fileNameToShort=getUniqueId()+"_"+fileNameFromShort;
   QString fileNameTo     =mytetraConfig.get_trashdir()+"/"+fileNameToShort;
 
   qDebug() << "Copy file from " << fileNameFrom << " to " << fileNameTo;
@@ -123,7 +123,7 @@ QString DiskHelper::createTempDirectory(void)
   QDir dir;
   QString systemTempDirName=dir.tempPath();
 
-  QString temp_dir_name="mytetra"+getUnicalId();
+  QString temp_dir_name="mytetra"+getUniqueId();
 
   // Создается директория
   dir.setPath(systemTempDirName);

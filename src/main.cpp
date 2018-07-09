@@ -72,15 +72,15 @@ void logPrint(char *lpszText, ...)
   va_list argList;
   FILE *pFile;
 
-  // инициализируем список аргументов
-  va_start(argList, lpszText);
-
   // открываем лог-файл для добавления данных
   if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
   {
     printf("\nLog file not writable\n");
     return;
   }
+
+  // инициализируем список аргументов
+  va_start(argList, lpszText);
 
   // пишем текст в файл
   vfprintf(pFile, lpszText, argList);
@@ -148,30 +148,8 @@ QString xmlNodeToString(QDomNode xmlData)
 }
 
 
-// Преобразование из QString в обычный char
-char* fromQStringToChar( const QString& str )
-{
-  /*
- char *tmpC=new char [str.size() + 1];
- QVariant var;
-
- for(int i=0;i<str.length();i++)
-  {
-   var=str.at(i);
-   tmpC[i] = var.toChar().toAscii();
-  }
-
- tmpC[str.size()] = 0;
-
- return tmpC;
- */
-
-  return str.toLocal8Bit().data();
-}
-
-
 // Рекурсивная печать дерева объектов, т.к. dumpObjectInfo() и dumpObjectTree() не работают
-void print_object_tree_recurse(QObject *pobj)
+void printObjectTreeRecurse(QObject *pobj)
 {
   static int indent=0;
 
@@ -188,12 +166,15 @@ void print_object_tree_recurse(QObject *pobj)
     for(int j=0;j<indent;j++)indentline=indentline+".";
 
     if((currobj->objectName()).length()==0)
-      qDebug("%s%s",fromQStringToChar(indentline), currobj->metaObject()->className() );
+      qDebug("%s%s", indentline.toLocal8Bit().data(),
+                     currobj->metaObject()->className() );
     else
-      qDebug("%s%s, NAME %s",fromQStringToChar(indentline), currobj->metaObject()->className(), fromQStringToChar(currobj->objectName()) );
+      qDebug("%s%s, NAME %s", indentline.toLocal8Bit().data(),
+                              currobj->metaObject()->className(),
+                              (currobj->objectName()).toLocal8Bit().data() );
 
     indent++;
-    print_object_tree_recurse(currobj);
+    printObjectTreeRecurse(currobj);
     indent--;
   }
 }
@@ -204,7 +185,7 @@ void printObjectTree(void)
 {
   qDebug() << "Object tree";
 
-  print_object_tree_recurse(pMainWindow);
+  printObjectTreeRecurse(pMainWindow);
 }
 
 
@@ -240,6 +221,8 @@ void smartPrintDebugMessage(QString msg)
  // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется
 }
 
+  // инициализируем список аргументов
+  va_start(argList, lpszText);
 
 // Обработчик (хендлер) вызовов qDebug()
 // Внутри этого обработчика нельзя использовать вызовы qDebug(), т. к. получится рекурсия
@@ -440,6 +423,8 @@ QString replaceCssMetaIconSize(QString styleText)
   return styleText;
 }
 
+   unsigned int messageLen=msg.toLocal8Bit().size();
+   // printf("Len of line: %d\n", messageLen);
 
 void setCssStyle()
 {
@@ -549,38 +534,50 @@ QString htmlSpecialCharsDecode(QString line)
   return line;
 }
 
+ // Для десктопных операционок можно переустановить обработчик qDebug()
+ // Для Андроида переустановка qDebug() приводит к невозможности получения отладочных сообщений в удаленном отладчике
+ if(globalParameters.getTargetOs()=="any" ||
+    globalParameters.getTargetOs()=="meego")
+  {
+   qDebug() << "Set alternative handler myMessageOutput() for debug message";
 
 // Функция всегда возвращает уникальный идентификатор
-QString getUnicalId(void)
+QString getUniqueId(void)
 {
  // Уникальный идентификатор состоит из 10 цифр количества секунд с эпохи UNIX
  // и 10 случайных символов 0-9 a-z
 
- // Количество секунд как число
- long seconds;
- seconds=(long)time(NULL);
+ qDebug() << "Debug message after set message handler";
+}
 
- // Количество секунд как строка
- QString secondsLine=QString::number(seconds, 10);
- secondsLine=secondsLine.rightJustified(10, '0');
 
- // Строка из 10 случайных символов
- QString symbols="0123456789abcdefghijklmnopqrstuvwxyz";
- QString line;
+// Выдача на экран простого окна с сообщением
+void showMessageBox(QString message)
+{
+  QMessageBox msgBox;
+  msgBox.setText(message);
+  msgBox.exec();
+}
 
- for(int i=0; i<10; i++)
-  line+=symbols.mid(rand()%symbols.length(), 1);
 
- QString result=secondsLine+line;
+int getScreenSizeY(void)
+{
+#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
+  int size=(qApp->desktop()->availableGeometry()).height();
+#endif
 
- return result;
+#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+  int size=(QApplication::screens().at(0)->availableGeometry()).height();
+#endif
+
+  return size;
 }
 
 
 // Получение псевдо-уникального имени картинки
 // Внутренний формат для храния картинок в MyTetra - png
 // Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
-QString getUnicalImageName(void)
+QString getUniqueImageName(void)
 {
   return "image"+QString::number(rand())+".png";
 }
@@ -588,15 +585,18 @@ QString getUnicalImageName(void)
 
 int getMilliCount(void)
 {
-  // Something like GetTickCount but portable
-  // It rolls over every ~ 12.1 days (0x100000/24/60/60)
-  // Use getMilliSpan to correct for rollover
-  timeb tb;
-  ftime( &tb );
-  int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
-  return nCount;
-}
+  // Окно диалога для редактирования файла конфига
+  EditorMultiLineInputDialog dialog( qobject_cast<QWidget *>(pMainWindow) );
+  dialog.setWordWrapMode(QTextOption::NoWrap);
+  dialog.setWindowTitle(QObject::tr("Edit config file (Be careful!)"));
+  dialog.setSizeCoefficient( sizeCoefficient );
 
+  QFile file(fileName);
+  if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  {
+    criticalError("Cant open config file "+fileName);
+    return;
+  }
 
 void initRandom(void)
 {
@@ -605,15 +605,12 @@ void initRandom(void)
  unsigned int seed1=getMilliCount();
  srand(seed1+rand());
 
- unsigned int delay=rand()%1000;
- unsigned int r=0;
- for(unsigned int i=0; i<delay; i++) r=r+rand();
+  // Если была нажата отмена
+  if(dialog.exec()!=QDialog::Accepted)
+    return;
 
  seed1=seed1-getMilliCount()+r;
 
- unsigned int seed2=time(NULL);
- unsigned int seed3=seed1+seed2;
- unsigned int seed=seed3;
 
  srand( seed );
 }
@@ -688,6 +685,8 @@ void iconsCollectionCheck()
   Q_CLEANUP_RESOURCE(icons);
 }
 
+  QString mytetraXmlDirName=mytetraConfig.get_tetradir();
+  QDir mytetraXmlDir( mytetraXmlDirName );
 
 void printHelp()
 {
@@ -715,7 +714,7 @@ void parseConsoleOption(QtSingleApplication &app)
   if( app.arguments().count()>1 && !app.arguments().contains("--control"))
   {
     QString message="Bad options. May be you lost \"--control\"?\n";
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
     exit(1);
   }
 
@@ -723,7 +722,7 @@ void parseConsoleOption(QtSingleApplication &app)
   if(app.arguments().contains("--control") && !app.isRunning())
   {
     QString message="MyTetra exemplar for control is not running.\nPlease, run MyTetra before running your command.\n";
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
     exit(2);
   }
 
@@ -732,7 +731,7 @@ void parseConsoleOption(QtSingleApplication &app)
   {
     QString message="Another MyTetra exemplar is running.\n";
 
-    printf(message.toLocal8Bit());
+    printf("%s", message.toLocal8Bit().data());
 
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning); // Сообщение со значком предупреждения
@@ -776,7 +775,7 @@ void parseConsoleOption(QtSingleApplication &app)
     else
     {
       QString message="Unknown control option.\n";
-      printf(message.toLocal8Bit());
+      printf("%s", message.toLocal8Bit().data());
       exit(4);
     }
   }
@@ -847,16 +846,20 @@ int main(int argc, char ** argv)
 
 
  // Подключение перевода интерфейса
- // QString langFileName=globalParameters.getWorkDirectory()+"/resource/translations/mytetra_"+mytetraconfig.get_interfacelanguage()+".qm";
  QString langFileName=":/resource/translations/mytetra_"+mytetraConfig.get_interfacelanguage()+".qm";
  qDebug() << "Use language file " << langFileName;
-
  QTranslator langTranslator;
  langTranslator.load(langFileName);
  app.installTranslator(&langTranslator);
 
  // Создание объекта главного окна
  MainWindow win;
+
+ // Сразу восстанавливается вид окна в предыдущий запуск
+ // Эти действия нельзя делать в конструкторе главного окна, т.к. окно еще не создано
+ // Эти действия надо делать до установки заголовка. В некоторых оконных средах,
+ // если сделать после setWindowTitle(), геометрия восстановится некорректно, окно съедет вверх на толщину заголовка
+ win.restoreAllWindowState();
 
  // Настройка объекта главного окна
  win.setWindowTitle("MyTetra");
@@ -870,25 +873,14 @@ int main(int argc, char ** argv)
      win.hide();
  }
 
- // Восстанавливается вид окна в предыдущий запуск
- // Эти действия нельзя делать в конструкторе главного окна, 
- // т.к. окно еще не создано
- globalParameters.getWindowSwitcher()->disableSwitch();
- win.restoreFindOnBaseVisible();
- win.restoreGeometry();
- win.restoreTreePosition();
- win.restoreRecordTablePosition();
- win.restoreEditorCursorPosition();
- win.restoreEditorScrollBarPosition();
- globalParameters.getWindowSwitcher()->enableSwitch();
-
+ // Восстановление видимости виджета, который был активный, для мобильного интерфейса
  if(mytetraConfig.getInterfaceMode()=="mobile")
    globalParameters.getWindowSwitcher()->restoreFocusWidget();
 
  qDebug() << "Restore session succesfull";
 
- // После восстановления последней редактируемой записи
- // история перехода очищается, так как в не может попасть
+ // В момент восстановления главного окна восстановилась и последняя редактируемая запись
+ // История перехода очищается, так как в нее может попасть
  // первая запись в востаналиваемой ветке и сама восстанавливаемая запись
  walkHistory.clear();
 
@@ -943,7 +935,6 @@ int main(int argc, char ** argv)
  }
  */
 
-
  // Инициалиация периодической проверки изменения базы сторонними программами
  periodicCheckBase.init();
  periodicCheckBase.setDelay( mytetraConfig.getCheckBasePeriod() );
@@ -958,12 +949,8 @@ int main(int argc, char ** argv)
  // Окно программы может быть снова открыто из трея
  QApplication::setQuitOnLastWindowClosed(false);
 
-
- // win.show();
  app.connect(&app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
  app.connect(&app, SIGNAL( messageReceived(QString) ), &win, SLOT( messageHandler(QString) ) );
-
- // app.connect(&app, SIGNAL(app.commitDataRequest(QSessionManager)), SLOT(win.commitData(QSessionManager)));
 
  // Окно сплеш-скрина скрывается
  if(mytetraConfig.getShowSplashScreen())

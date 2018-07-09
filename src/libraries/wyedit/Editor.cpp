@@ -501,6 +501,9 @@ void Editor::setupSignals(void)
   connect(editorContextMenu, SIGNAL(paste()),
           this,              SLOT  (onPaste()),
           Qt::DirectConnection);
+  connect(editorContextMenu, SIGNAL(pasteAsPlainText()),
+          this,              SLOT  (onPasteAsPlainText()),
+          Qt::DirectConnection);
   connect(editorContextMenu, SIGNAL(selectAll()),
           this,              SLOT  (onSelectAll()),
           Qt::DirectConnection);
@@ -747,11 +750,10 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
       if( fileName.contains(QRegExp("\\.png$")) ) // Обрабатыватся только *.png файлы
         if( !imagesNames.contains(fileName) ) // Только картинки, не встречающиеся в тексте записи
           if( !miscFields["attachFileNameList"].contains(fileName) ) // Только имена файлов, не содержащиеся в прикрепленных файлах
-        {
-          // Этот файл лишний и он удаляется
-          QFile currentFile(workDirectory+"/"+fileName);
-          currentFile.remove();
-        }
+          {
+            // Этот файл лишний и он удаляется в корзину
+            DiskHelper::removeFileToTrash(workDirectory+"/"+fileName);
+          }
   }
 
   qDebug() << "Save images finish\n" ;
@@ -895,6 +897,35 @@ bool Editor::getTextareaModified(void)
 }
 
 
+// Умное преобразование имени шрифта
+QString Editor::smartFontFamily(QString fontName)
+{
+    // Коррекция имен шрифтов
+    if(fontName=="") { // Если имени шрифта просто нет
+        // Имя шрифта берется из конфига до первой запятой (потому что после запятой идут еще параметры шрифта)
+        fontName=editorConfig->get_default_font();
+        int firstCommaPos=fontName.indexOf(",");
+        if(firstCommaPos>0)
+            fontName=fontName.left(firstCommaPos);
+    }
+    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect.findText(fontName)==-1)
+        fontName="Sans Serif";
+
+    return fontName;
+}
+
+
+// Умное преобразование размера шрифта
+int Editor::smartFontSize(int fontSize)
+{
+    if(fontSize==0) {
+        return editorConfig->get_default_font_size();
+    }
+
+    return fontSize;
+}
+
+
 /////////////////////////////////////////////////
 // Форматирование текста
 /////////////////////////////////////////////////
@@ -922,15 +953,15 @@ void Editor::onSelectionChanged(void)
 
   // Выравнивание относится к форматированию строк, начальное состояние
   // берётся из начального положения курсора
-  int startAlign=cursor.blockFormat().alignment();
+  Qt::Alignment startAlign=cursor.blockFormat().alignment();
 
   // Курсор сдвигается на одну позицию вперёд
   cursor.movePosition(QTextCursor::NextCharacter);
 
   // Для анализа форматирования символов надо начинать
   // с позиции, следующей справа от начала выделения
-  QString startFontFamily=cursor.charFormat().fontFamily(); // Шрифт
-  qreal startSize=cursor.charFormat().fontPointSize(); // Размер шрифта
+  QString startFontFamily=smartFontFamily( cursor.charFormat().fontFamily() ); // Шрифт
+  qreal startSize=smartFontSize( cursor.charFormat().fontPointSize() ); // Размер шрифта
   bool startBold=false;
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
@@ -960,13 +991,13 @@ void Editor::onSelectionChanged(void)
     // разные начертания символов, разное выравнивание в выделенном тексте
     while(cursor.position()<=stop)
     {
-      if(differentFontFlag==false && startFontFamily!=cursor.charFormat().fontFamily())
+      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().fontFamily()) )
         differentFontFlag=true;
 
-      if(differentSizeFlag==false && startSize!=cursor.charFormat().fontPointSize())
+      if( differentSizeFlag==false && startSize!=smartFontSize(cursor.charFormat().fontPointSize()) )
         differentSizeFlag=true;
 
-      if(differentBoldFlag==false)
+      if( differentBoldFlag==false )
       {
         int b=cursor.charFormat().fontWeight();
         if(startBold==false && b==QFont::Bold)
@@ -976,18 +1007,18 @@ void Editor::onSelectionChanged(void)
             differentBoldFlag=true;
       }
 
-      if(differentItalicFlag==false && startItalic!=cursor.charFormat().fontItalic())
+      if( differentItalicFlag==false && startItalic!=cursor.charFormat().fontItalic() )
         differentItalicFlag=true;
 
-      if(differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline())
+      if( differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline() )
         differentUnderlineFlag=true;
 
-      if(differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment())
+      if( differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment() )
         differentAlignFlag=true;
 
       // Курсор передвигается на одну позицию вперед
       // Если дальше двигаться некуда (конец документа) цикл досрочно завершается
-      if(cursor.movePosition(QTextCursor::NextCharacter)==false)
+      if( cursor.movePosition(QTextCursor::NextCharacter)==false )
         break;
     }
   }
@@ -999,8 +1030,13 @@ void Editor::onSelectionChanged(void)
     emit changeFontselectOnDisplay("");
 
   // Список выбора размера начинает указывать на нужный размер
-  if(differentSizeFlag==false)
-    emit changeFontsizeOnDisplay((int)startSize); // Если всё отформатировано одним размером
+  if(differentSizeFlag==false) { // Если всё отформатировано одним размером
+    int size=(int)startSize;
+    if(size==0) { // Если размер шрифта не определен (т.е. размер шрифта для текста просто не установлен)
+        size=editorConfig->get_default_font_size();
+    }
+    emit changeFontsizeOnDisplay(size);
+  }
   else
     emit changeFontsizeOnDisplay(0); // В выделении есть разные размеры
 
@@ -1136,6 +1172,19 @@ void Editor::onPaste(void)
 }
 
 
+void Editor::onPasteAsPlainText(void)
+{
+  // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
+  // все равно можно сделать вставку текста (и замену выделенного текста на вставляемый) через контекстное меню.
+  // Здесь происходит блокировка этого действия
+  if(textArea->isReadOnly())
+    return;
+
+  textArea->insertPlainText( QGuiApplication::clipboard()->text() );
+  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
+}
+
+
 void Editor::onSelectAll(void)
 {
   textArea->selectAll();
@@ -1188,31 +1237,34 @@ void Editor::onFindtextSignalDetect(const QString &text, QTextDocument::FindFlag
 // Открытие контекстного меню в области редактирования
 void Editor::onCustomContextMenuRequested(const QPoint &pos)
 {
-  qDebug() << "In Editor on_customContextMenuRequested";
+    qDebug() << "In Editor on_customContextMenuRequested";
 
-  // Конструирование меню
-  // editor_context_menu=textarea->createStandardContextMenu();
+    // Если выбрана картинка
+    // Или нет выделения, но курсор находится на позиции картинки
+    if(cursorPositionDetector->isImageSelect() ||
+            cursorPositionDetector->isCursorOnImage()) {
+        editorContextMenu->setImageProperties( true );
+    } else {
+        editorContextMenu->setImageProperties( false );
+    }
 
-  // Включение отображения меню на экране
-  // menu.exec(event->globalPos());
+    // Если курсор находится на ссылке (URL)
+    if(cursorPositionDetector->isCursorOnReference()) {
+        editorContextMenu->setGotoReference( true );
+    } else {
+        editorContextMenu->setGotoReference( false );
+    }
 
-  // Если выбрана картинка
-  // Или нет выделения, но курсор находится на позиции картинки
-  if(cursorPositionDetector->isImageSelect() ||
-     cursorPositionDetector->isCursorOnImage())
-     editorContextMenu->setImageProperties( true );
-  else
-    editorContextMenu->setImageProperties( false );
-
-  // Если курсор находится на ссылке (URL)
-  if(cursorPositionDetector->isCursorOnReference())
-    editorContextMenu->setGotoReference( true );
-  else
-    editorContextMenu->setGotoReference( false );
+    // Если в буфере обмена есть текст
+    if(QGuiApplication::clipboard()->text().size()>0) {
+        editorContextMenu->setPasteAsPlainText( true );
+    } else {
+        editorContextMenu->setPasteAsPlainText( false );
+    }
 
 
-  // Контекстное меню запускается
-  editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
+    // Контекстное меню запускается
+    editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
 }
 
 

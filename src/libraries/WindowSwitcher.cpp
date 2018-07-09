@@ -156,6 +156,8 @@ void WindowSwitcher::closeFindInBase(void)
 // Слот, срабатывающий при нажатии на кнопку перехода к поиску по базе в любом виджете
 void WindowSwitcher::findInBaseClick(void)
 {
+  qDebug() << "Button find in base click";
+
   // Определяется ссылка на виджет поиска
   FindScreen *findScreen=find_object<FindScreen>("findScreenDisp");
 

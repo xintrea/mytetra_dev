@@ -108,5 +108,7 @@
         <file>resource/pic/edit_fixBreakSymbol.svg</file>
         <file>resource/pic/attach_add_from_url.svg</file>
         <file>resource/pic/edit_text_only.svg</file>
+        <file>resource/pic/countryFlags/Russia.png</file>
+        <file>resource/pic/countryFlags/United-Kingdom.png</file>
     </qresource>
 </RCC>

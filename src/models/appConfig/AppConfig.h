@@ -59,8 +59,8 @@ public:
     void set_addnewrecord_expand_info(QString);
 
     // Геометрия основного окна
-    QRect get_mainwingeometry(void);
-    void set_mainwingeometry(int x, int y, int w, int h);    
+    QByteArray get_mainwingeometry(void);
+    void set_mainwingeometry(QByteArray dataGeometry);
     
 
     QList<int> get_vspl_size_list(void);
@@ -298,7 +298,8 @@ private:
     QStringList get_parameter_table_32(bool withEndSignature=true);
     QStringList get_parameter_table_33(bool withEndSignature=true);
     QStringList get_parameter_table_34(bool withEndSignature=true);
-
+    QStringList get_parameter_table_35(bool withEndSignature=true);
+    
     bool is_init_flag;
 };
 
