@@ -73,7 +73,7 @@ void ReferenceFormatter::onReferenceClicked(void)
             secondCursorPosition=cursor.position();
         } else {
             // Если это не конец текста, прерывания цикла не было, и нужно исключить последний символ,
-            // так как он проверялся в цикле и на последней итерации достиг символа, где ссылки уже небыло
+            // так как он проверялся в цикле и на последней итерации достиг символа, где ссылки уже не было
             secondCursorPosition=cursor.position()-1;
         }
 

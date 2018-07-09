@@ -96,7 +96,7 @@ EditorSplitCellForm::~EditorSplitCellForm()
 {
  // Так как неизвестно, какие объекты попадут на слои,
  // (и при этом установят parent на данный слой)
- // надо все объекты удалять вручную, чтобы небыло утечек памяти
+ // надо все объекты удалять вручную, чтобы не было утечек памяти
 
  if(checkboxFixHSplit!=NULL)delete checkboxFixHSplit;
  if(checkboxFixVSplit!=NULL)delete checkboxFixVSplit;

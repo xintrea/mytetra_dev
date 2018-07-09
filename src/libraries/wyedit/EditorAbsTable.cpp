@@ -794,7 +794,7 @@ void EditorAbsTable::split_single_cell_by_vertical(int x1, int x2, int y, int di
 // либо набор вертикально объединенных суперячеек
 // когда разбивка по горизонтали уже была осуществлена (при этом x1<x2)
 // либо одна суперячейка с объединением по вертикали
-// когда разбивки по горизонтали небыло  (при этом x1=x2)
+// когда разбивки по горизонтали не было  (при этом x1=x2)
 void EditorAbsTable::split_merged_cell_by_vertical(int x1, int x2, int y)
 {
  qDebug() << "Split merged cell ("<<x1<<","<<y<<")-("<<x2<<","<<y<<") by vertical";

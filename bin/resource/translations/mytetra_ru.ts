@@ -89,7 +89,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     </message>
     <message>
         <source>Copy record &quot;%1&quot; with ID %2 to clipboard</source>
-        <translation type="vanished">Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
+        <translation type="vanished">Копирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
     </message>
     <message>
         <source>Cut record &quot;%1&quot; with ID %2 to clipboard</source>
@@ -145,7 +145,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="283"/>
         <source>Copy note &quot;%1&quot; with ID %2 to clipboard</source>
-        <translation>Компирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
+        <translation>Копирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ActionLogger.cpp" line="287"/>
@@ -542,7 +542,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="84"/>
         <source>History of visited notes</source>
-        <translation>История просморенных записей</translation>
+        <translation>История просмотренных записей</translation>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Misc.cpp" line="95"/>
@@ -641,7 +641,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     </message>
     <message>
         <location filename="../../../src/views/appConfigWindow/AppConfigPage_Synchro.cpp" line="74"/>
-        <source>Cheking period: </source>
+        <source>Checking period: </source>
         <translation>Периодичность проверки:</translation>
     </message>
     <message>
@@ -730,7 +730,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="422"/>
         <source>Unable to save the file: file %1 not found in the database.</source>
-        <translation>Невозможно сохранить файл. Файл %1 отсутсвует в базе данных.</translation>
+        <translation>Невозможно сохранить файл. Файл %1 отсутствует в базе данных.</translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="431"/>
@@ -755,7 +755,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="475"/>
         <source>Cant save file with empty name.</source>
-        <translation>Не могу сохранить файл с незаданным именем.</translation>
+        <translation>Не могу сохранить файл с не заданным именем.</translation>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="496"/>
@@ -972,7 +972,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <source>Code (Ctrl+M). Select a whole paragraphs to format text as code.</source>
-        <translation type="vanished">Код (Ctrl+M). Для форматирования в код необходимо целеком выделить абзац(ы).</translation>
+        <translation type="vanished">Код (Ctrl+M). Для форматирования в код необходимо целиком выделить абзац(ы).</translation>
     </message>
     <message>
         <source>Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case.</source>
@@ -1360,7 +1360,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorImageProperties.cpp" line="63"/>
-        <source>Image properies</source>
+        <source>Image properties</source>
         <translation>Свойства изображения</translation>
     </message>
     <message>
@@ -1508,7 +1508,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="99"/>
         <source>Code (Ctrl+M). Select a whole paragraphs to format text as code.</source>
-        <translation>Код (Ctrl+M). Для форматирования в код необходимо целеком выделить абзац(ы).</translation>
+        <translation>Код (Ctrl+M). Для форматирования в код необходимо целиком выделить абзац(ы).</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="105"/>
@@ -2074,7 +2074,7 @@ in current directory  &quot;%1&quot;.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/GlobalParameters.cpp" line="128"/>
-        <source>Standart:
+        <source>Standard:
 </source>
         <translation type="unfinished"></translation>
     </message>
@@ -2086,7 +2086,7 @@ in current directory  &quot;%1&quot;.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/GlobalParameters.cpp" line="132"/>
-        <source>Standart</source>
+        <source>Standard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2162,7 +2162,7 @@ in current directory  &quot;%1&quot;.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="319"/>
-        <source>Images download initting...</source>
+        <source>Images download initiating...</source>
         <translation>Инициализация загрузки изображений...</translation>
     </message>
     <message>
@@ -2376,12 +2376,12 @@ You need to update MyTetra.</source>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="858"/>
-        <source>Do not set synchronization command.&lt;br&gt;Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</source>
+        <source>Do not set synchronization command.&lt;br&gt;Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <translation>Не задана команда синхронизации.&lt;br&gt;Проверьте меню &quot;Инструменты&quot;, &quot;Настройки&quot;, раздел &quot;Синхронизация&quot;.</translation>
     </message>
     <message>
         <source>Do not set synchronization command.
-Check the setting in &quot;Syncro&quot; section in &quot;Tools&quot; menu</source>
+Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <translation type="obsolete">Не задана команда синхронизации.\nПроверьте меню \&quot;Инструменты\&quot;, \&quot;Настройки\&quot;, раздел \&quot;Синхронизация\&quot;.</translation>
     </message>
     <message>
@@ -2728,7 +2728,7 @@ MyTetra will try to create a blank entry to fix it.</source>
     <message>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="113"/>
         <source>&amp;Move Up</source>
-        <translation>Пеместить вверх</translation>
+        <translation>Переместить вверх</translation>
     </message>
     <message>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="119"/>
@@ -2875,7 +2875,7 @@ MyTetra will try to create a blank entry to fix it.</source>
     <message>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="143"/>
         <source>Next viewing note</source>
-        <translation>Следущая запись</translation>
+        <translation>Следующая запись</translation>
     </message>
     <message>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="144"/>

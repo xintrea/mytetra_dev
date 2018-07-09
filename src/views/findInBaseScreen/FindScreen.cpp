@@ -478,7 +478,7 @@ void FindScreen::findStart(void)
   // Линейка наполяемости удаляется
   delete progress;
 
-  // Если ничего небыло найдено
+  // Если ничего не было найдено
   if(findTable->getRowCount()==0)
   {
     // Если были непросмотренные ветки по причине того, что они зашифрованны, а пароль не введен
@@ -658,7 +658,7 @@ bool FindScreen::findInTextProcess(const QString& text)
       return true; // То при первом же совпадении цикл прекращается
   }
 
-  // Искалось хотябы одно совпадение, но небыло найдено
+  // Искалось хотя бы одно совпадение, но не было найдено
   if(wordRegard->currentIndex()==0) return false;
   else
   {

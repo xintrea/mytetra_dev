@@ -170,7 +170,7 @@ void Editor::init(int mode)
 // Создание и настройка панели инструментов редактора
 void Editor::setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList)
 {
-  // Установлен this в качестве родителя, поэтому вручную удалять объект в деструкторе ненужно
+  // Установлен this в качестве родителя, поэтому вручную удалять объект в деструкторе не нужно
   editorToolBarAssistant=new EditorToolBarAssistant(this, mode, textArea, disableToolList);
   editorToolBarAssistant->setObjectName("toolBarAssistant");
 }

@@ -165,7 +165,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
 
  QString fileName=currEditor->getWorkDirectory()+"/"+currEditor->getFileName();
 
- // Если шифровать ненужно
+ // Если шифровать не нужно
  if(workWithCrypt==false)
   {
    // Текст сохраняется в файл
@@ -617,7 +617,7 @@ void RecordTableData::switchToEncrypt(void)
   // Перебор записей
   for(unsigned int i=0; i<size(); i++)
   {
-    // Если запись уже зашифрована, ее шифровать ненужно
+    // Если запись уже зашифрована, ее шифровать не нужно
     if(getField("crypt", i)=="1")
       continue;
 

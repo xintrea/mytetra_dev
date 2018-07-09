@@ -855,7 +855,7 @@ void MainWindow::synchronization(bool visible)
   {
     QMessageBox::warning(this,
                          tr("MyTetra: can't synchronization"),
-                         tr("Do not set synchronization command.<br>Check the setting in \"Syncro\" section in \"Tools\" menu"),
+                         tr("Do not set synchronization command.<br>Check the setting in \"Sync\" section in \"Tools\" menu"),
                          QMessageBox::Close);
     return;
   }

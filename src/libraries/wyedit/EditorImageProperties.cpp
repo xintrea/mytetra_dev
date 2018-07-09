@@ -60,7 +60,7 @@ void EditorImageProperties::setup_ui()
  buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
 
 
- this->setWindowTitle(tr("Image properies"));
+ this->setWindowTitle(tr("Image properties"));
 }
 
 

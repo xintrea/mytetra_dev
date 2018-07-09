@@ -256,7 +256,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
   }
 
 
- // Если символы форматирования ненужно рисовать
+ // Если символы форматирования не нужно рисовать
  if(flagShowFormatting==false)
    return;
 
@@ -341,7 +341,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
     int y=(rect.top()+rect.bottom())/2;
 
     // Если координаты курсора вышли за размер области обзора
-    if(y>viewport()->height())break; // Дальше рисовать ненужно
+    if(y>viewport()->height())break; // Дальше рисовать не нужно
 
     // Рисуется точка на месте пробела
     p.drawRect(rect.left()+2,y,1,1);
@@ -352,7 +352,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
     int y=(rect.top()+rect.bottom())/2;
 
     // Если координаты курсора вышли за размер области обзора
-    if(y>viewport()->height())break; // Дальше рисовать ненужно
+    if(y>viewport()->height())break; // Дальше рисовать не нужно
 
     // Рисуется стрелка на месте табуляции
     p.drawLine(rect.left()+2,y,rect.left()+10,y);
@@ -368,7 +368,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
     int w=h/2+2;
 
     // Если координаты курсора вышли за размер области обзора
-    if(y1>viewport()->height())break; // Дальше рисовать ненужно
+    if(y1>viewport()->height())break; // Дальше рисовать не нужно
 
     // Рисуется пи на месте перевода строки
     p.drawLine(rect.left()+(w/8)+3,y1,rect.left()+(w/8)+3,y2);
@@ -386,7 +386,7 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
     int w=h/2+1;
 
     // Если координаты курсора вышли за размер области обзора
-    if(y1>viewport()->height())break; // Дальше рисовать ненужно
+    if(y1>viewport()->height())break; // Дальше рисовать не нужно
 
     // Рисуется изогнутая стрелка на месте перевода строки
     p.drawLine(rect.left(),   y2, rect.left()+w, y2);

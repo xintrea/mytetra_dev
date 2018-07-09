@@ -108,7 +108,7 @@ protected:
   QStringList toolsListInLine1;
   QStringList toolsListInLine2;
 
-  // Список инструментов, которые ненужно подгружать
+  // Список инструментов, которые не нужно подгружать
   QStringList disableToolList;
 
   void setupButtons(void);

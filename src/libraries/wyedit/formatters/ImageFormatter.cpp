@@ -316,7 +316,7 @@ void ImageFormatter::onDownloadImages(const QString html)
           {
             if(msgBox.text().length()==0)
             {
-              msgBox.setText(tr("Images download initting..."));
+              msgBox.setText(tr("Images download initiating..."));
               msgBox.setStandardButtons(QMessageBox::NoButton);
               msgBox.setWindowModality(Qt::WindowModal);
               msgBox.show();

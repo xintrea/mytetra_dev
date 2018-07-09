@@ -50,7 +50,7 @@ void AddNewRecord::setupUI(void)
   recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
   recordTextEditor.initEnableRandomSeed(false);
   recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
-  recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режие его инициализировать ненужно, так как есть кнопка Отмена
+  recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
 
   // Кнопки OK и Cancel
   buttonBox.setOrientation(Qt::Horizontal);

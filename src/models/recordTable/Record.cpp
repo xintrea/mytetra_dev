@@ -286,7 +286,7 @@ void Record::setField(QString name, QString value)
   // Если имя поля принадлежит списку полей, которые могут шифроваться
   // и в наборе полей есть поле crypt
   // и поле crypt установлено в 1
-  // и поле не пустое (пустые данные ненужно шифровать)
+  // и поле не пустое (пустые данные не нужно шифровать)
   if(fixedParameters.recordFieldCryptedList.contains(name))
     if(fieldList.contains("crypt"))
       if(fieldList["crypt"]=="1")
@@ -435,7 +435,7 @@ QString Record::getText() const
      globalParameters.getCryptKey().length()==0)
     return "";
 
-  // Если шифровать ненужно
+  // Если шифровать не нужно
   if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
     return QString(text); // Текст просто преобразуется из QByteArray
   else if(fieldList.value("crypt")=="1") // Если нужно шифровать
@@ -495,7 +495,7 @@ void Record::setText(QString iText)
   if(liteFlag==true)
     criticalError("Cant set text for lite record object"+getIdAndNameAsString());
 
-  // Если шифровать ненужно
+  // Если шифровать не нужно
   if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
     text=iText.toUtf8(); // Текст просто запоминается в виде QByteArray
   else if(fieldList.value("crypt")=="1") // Если нужно шифровать
@@ -511,7 +511,7 @@ void Record::saveTextDirect(QString iText)
 {
   QString fileName=getFullTextFileName();
 
-  // Если шифровать ненужно
+  // Если шифровать не нужно
   if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
   {
     // Текст сохраняется в файл
@@ -746,7 +746,7 @@ void Record::pushFatAttributes()
     criticalError("Record::pushFatAttributes() : Try save text for crypt record while password not setted.");
 
   // Заполняются имена директории и полей
-  // Директория при проверке создается если ее небыло
+  // Директория при проверке создается если ее не было
   QString dirName;
   QString fileName;
   checkAndFillFileDir(dirName, fileName);
