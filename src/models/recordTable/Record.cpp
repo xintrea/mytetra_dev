@@ -488,7 +488,7 @@ QString Record::getTextDirect()
 
 
 // Установка текста записи как свойства объекта
-// Принимает незашифрованные данные, сохраняет их в памяти, при записи шифрует если запись зашифрована
+// Принимает незашифрованные данные, сохраняет их в памяти, при записи шифрует если запись шифрованная
 void Record::setText(QString iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
@@ -546,8 +546,6 @@ void Record::saveTextDirect(QString iText)
 void Record::saveText()
 {
   QString fileName=getFullTextFileName();
-
-  // В файл сохраняются зашифрованные данные
   QFile wfile(fileName);
 
   if(!wfile.open(QIODevice::WriteOnly))

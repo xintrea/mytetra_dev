@@ -24,8 +24,11 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["createRecord"]         =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName");
   actionStructure["createCryptRecord"]    =(QStringList() << "recordId" << "recordName" << "branchId" << "branchName");
 
-  actionStructure["editRecord"]           =(QStringList() << "recordId" << "recordName" );
+  actionStructure["editRecord"]           =(QStringList() << "recordId" << "recordName" ); // Редактирование полей записи
   actionStructure["editCryptRecord"]      =(QStringList() << "recordId" << "recordName" );
+
+  actionStructure["editRecordText"]       =(QStringList() << "recordId" << "recordName" ); // Редактирование текста записи
+  actionStructure["editCryptRecordText"]  =(QStringList() << "recordId" << "recordName" );
 
   actionStructure["moveRecordUp"]         =(QStringList() << "recordId" << "recordName" );
   actionStructure["moveRecordDown"]       =(QStringList() << "recordId" << "recordName" );
@@ -267,6 +270,24 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
                                                            arg( iData["recordId"]);
   }
 
+
+  else if( iData["a"] == "editRecordText")
+    line=tr("Edit text of note \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                   arg( iData["recordId"]);
+
+  else if( iData["a"] == "editCryptRecordText")
+  {
+    // Если пароль не введен, зашифрованные данные не расшифровываются и не показываются
+    if(globalParameters.getCryptKey().length()==0)
+      iData["recordName"]="***";
+    else
+      iData["recordName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["recordName"]);
+
+    line=tr("Edit text of crypt note \"%1\" with ID %2").arg( iData["recordName"] ).
+                                                         arg( iData["recordId"]);
+  }
+
+
   else if( iData["a"] == "moveRecordUp")
     line=tr("Move up note \"%1\" with ID %2").arg( iData["recordName"] ).
                                               arg( iData["recordId"]);
@@ -326,7 +347,7 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
 
 
 // Добавление действия в лог
-// iName - наименоание действия
+// iName - наименование действия
 // iData - атрибуты действия (в них НЕ входят v, t, a, эти атрибуты генерируется в теле этого метода на лету)
 void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
 {

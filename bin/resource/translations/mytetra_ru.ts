@@ -42,12 +42,12 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>ActionLogger</name>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="223"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="226"/>
         <source>Program started</source>
         <translation>Запуск программы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="226"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="229"/>
         <source>Program stop</source>
         <translation>Завершение работы программы</translation>
     </message>
@@ -108,92 +108,102 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation type="vanished">Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="229"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="232"/>
         <source>Create note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
         <translation>Создана запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="248"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="251"/>
         <source>Create crypt note &quot;%1&quot; with ID %2 in tree item &quot;%3&quot; with ID %4</source>
         <translation>Создана зашифрованная запись &quot;%1&quot; с ID %2 в ветке &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="255"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="258"/>
         <source>Edit fields of note &quot;%1&quot; with ID %2</source>
         <translation>Отредактированы поля записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="266"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="269"/>
         <source>Edit fields of crypt note &quot;%1&quot; with ID %2</source>
         <translation>Отредактированы поля зашифрованной записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="271"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="275"/>
+        <source>Edit text of note &quot;%1&quot; with ID %2</source>
+        <translation>Отредактирован текст записи &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="286"/>
+        <source>Edit text of crypt note &quot;%1&quot; with ID %2</source>
+        <translation>Отредактирован текст зашифрованной записи &quot;%1&quot; с ID %2</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="292"/>
         <source>Move up note &quot;%1&quot; with ID %2</source>
         <translation>Перемещение записи вверх. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="275"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="296"/>
         <source>Move down note &quot;%1&quot; with ID %2</source>
         <translation>Перемещение записи вниз. Запись: &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="279"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="300"/>
         <source>Delete note &quot;%1&quot; with ID %2</source>
         <translation>Удаление записи &quot;%1&quot; с ID %2</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="283"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="304"/>
         <source>Copy note &quot;%1&quot; with ID %2 to clipboard</source>
         <translation>Копирование записи &quot;%1&quot; с ID %2 в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="287"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="308"/>
         <source>Cut note &quot;%1&quot; with ID %2 to clipboard</source>
         <translation>Запись &quot;%1&quot; с ID %2 вырезана в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="291"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="312"/>
         <source>Paste note &quot;%1&quot; with ID %2 from clipboard</source>
         <translation>Вставка записи &quot;%1&quot; с ID %2 из буфера обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="295"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="316"/>
         <source>Start drag note &quot;%1&quot; with ID %2 from tree item &quot;%3&quot; with ID %4</source>
         <translation>Начало перетаскивания записи &quot;%1&quot; с ID %2 из ветки &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="301"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="322"/>
         <source>Drop note &quot;%1&quot; with ID %2 to tree item &quot;%3&quot; with ID %4</source>
         <translation>Завершение перетаскивания записи &quot;%1&quot; с ID %2 в ветку &quot;%3&quot; с ID %4</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="307"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="328"/>
         <source>Start synchronization</source>
         <translation>Запуск синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="310"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="331"/>
         <source>Stop synchronization</source>
         <translation>Завершение синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="313"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="334"/>
         <source>Synchronization process error detected. Error code: %1</source>
         <translation>Обнаружена ошибка процесса синхронизации. Код ошибки:  %1</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="316"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="337"/>
         <source>Synchronization error</source>
         <translation>Ошибка синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="319"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="340"/>
         <source>Critical error: %1</source>
         <translation>Критическая ошибка: %1</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ActionLogger.cpp" line="322"/>
+        <location filename="../../../src/libraries/ActionLogger.cpp" line="343"/>
         <source>Unavailable action %1</source>
         <translation>Неизвестное действие %1</translation>
     </message>
@@ -2588,7 +2598,7 @@ MyTetra перечитает дерево для продолжения рабо
         <translation>Невозможно переименовать файл %1 на диске: файл не найден</translation>
     </message>
     <message>
-        <location filename="../../../src/models/recordTable/Record.cpp" line="903"/>
+        <location filename="../../../src/models/recordTable/Record.cpp" line="901"/>
         <source>The database is not consistent.
 The directory %1 is not found.
 MyTetra will try to create a blank entry to fix it.</source>
@@ -2597,13 +2607,13 @@ MyTetra will try to create a blank entry to fix it.</source>
 Чтобы исправить ошибку, MyTetra создаст пустую запись.</translation>
     </message>
     <message>
-        <location filename="../../../src/models/recordTable/Record.cpp" line="909"/>
-        <location filename="../../../src/models/recordTable/Record.cpp" line="928"/>
+        <location filename="../../../src/models/recordTable/Record.cpp" line="907"/>
+        <location filename="../../../src/models/recordTable/Record.cpp" line="926"/>
         <source>Warning!</source>
         <translation>Внимание!</translation>
     </message>
     <message>
-        <location filename="../../../src/models/recordTable/Record.cpp" line="922"/>
+        <location filename="../../../src/models/recordTable/Record.cpp" line="920"/>
         <source>The database is not consistent.
 The file %1 is not found.
 MyTetra will try to create a blank entry to fix it.</source>

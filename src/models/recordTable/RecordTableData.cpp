@@ -147,55 +147,71 @@ void RecordTableData::editorLoadCallback(QObject *editor,
 void RecordTableData::editorSaveCallback(QObject *editor,
                                          QString saveText)
 {
- // qDebug() << "RecordTableScreen::editor_load_callback() : Dir" << dir << "File" << file;
+    // qDebug() << "RecordTableScreen::editor_load_callback() : Dir" << dir << "File" << file;
 
- // Ссылка на объект редактора
- Editor *currEditor=qobject_cast<Editor *>(editor);
+    // Ссылка на объект редактора
+    Editor *currEditor=qobject_cast<Editor *>(editor);
 
- // Нужно ли шифровать записываемый текст
- bool workWithCrypt=false;
- if(currEditor->getMiscField("crypt")=="1")
-  {
-   // Если не установлено ключа шифрации
-   if(globalParameters.getCryptKey().length()==0)
-    return;
+    // Нужно ли шифровать записываемый текст
+    bool workWithCrypt=false;
+    if(currEditor->getMiscField("crypt")=="1")
+    {
+        // Если не установлено ключа шифрации
+        if(globalParameters.getCryptKey().length()==0)
+            return;
 
-   workWithCrypt=true;
-  }
+        workWithCrypt=true;
+    }
 
- QString fileName=currEditor->getWorkDirectory()+"/"+currEditor->getFileName();
+    QString fileName=currEditor->getWorkDirectory()+"/"+currEditor->getFileName();
 
- // Если шифровать не нужно
- if(workWithCrypt==false)
-  {
-   // Текст сохраняется в файл
-   QFile wfile(fileName);
+    // Если шифровать не нужно
+    if(workWithCrypt==false)
+    {
+        // Текст сохраняется в файл
+        QFile wfile(fileName);
 
-   if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-    criticalError("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
+        if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
+            criticalError("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
 
-   QTextStream out(&wfile);
-   out.setCodec("UTF-8");
-   out << saveText;
-  }
- else
-  {
-   // Текст шифруется
-   QByteArray encryptData=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), saveText);
+        QTextStream out(&wfile);
+        out.setCodec("UTF-8");
+        out << saveText;
+    }
+    else
+    {
+        // Текст шифруется
+        QByteArray encryptData=CryptService::encryptStringToByteArray(globalParameters.getCryptKey(), saveText);
 
-   // В файл сохраняются зашифрованные данные
-   QFile wfile(fileName);
+        // В файл сохраняются зашифрованные данные
+        QFile wfile(fileName);
 
-   if(!wfile.open(QIODevice::WriteOnly))
-    criticalError("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
+        if(!wfile.open(QIODevice::WriteOnly))
+            criticalError("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
 
-   wfile.write(encryptData);
-  }
+        wfile.write(encryptData);
+    }
 
 
- // Вызывается сохранение картинок
- // В данной реализации картинки сохраняются незашифрованными
- currEditor->saveTextareaImages(Editor::SAVE_IMAGES_REMOVE_UNUSED);
+    // Вызывается сохранение картинок
+    // В данной реализации картинки сохраняются незашифрованными
+    currEditor->saveTextareaImages(Editor::SAVE_IMAGES_REMOVE_UNUSED);
+
+
+    // Запись в лог о редактировании текста записи
+    QMap<QString, QString> data;
+    data["recordId"]=currEditor->getMiscField("id");
+    if(workWithCrypt==false)
+    {
+        data["recordName"]=currEditor->getMiscField("title");
+        actionLogger.addAction("editRecordText", data);
+    }
+    else
+    {
+        data["recordName"]=CryptService::encryptString(globalParameters.getCryptKey(), currEditor->getMiscField("title"));
+        actionLogger.addAction("editCryptRecordText", data);
+    }
+
 }
 
 
@@ -458,7 +474,7 @@ void RecordTableData::editRecordFields(int pos,
     setField(i.key(), i.value(), pos);
   }
 
-  // Запись в лог о редактировании записи
+  // Запись в лог о редактировании полей записи
   QMap<QString, QString> data;
   data["recordId"]=getField("id", pos);
   if(getField("crypt", pos)!="1")
