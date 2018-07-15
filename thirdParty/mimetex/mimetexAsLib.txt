@@ -1,0 +1,5 @@
+Replace in mimetex.cpp:
+
+Define main() function to mimetexMain()
+
+Called main() function to mimetexMain()

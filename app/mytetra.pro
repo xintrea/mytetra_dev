@@ -17,6 +17,11 @@ WINDOWS_CONSOLE_ENABLE=1
 PROFILING_ENABLE=0
 
 
+# Add mimetex static library
+INCLUDEPATH += $${_PRO_FILE_PWD_}/../thirdParty/mimetex
+LIBS += -L$${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/lib -lmimetex
+
+
 ##################
 # Configure logic
 ##################
