@@ -17627,7 +17627,7 @@ end_of_job:
   #if !defined(_USRDLL)
     if ( errorstatus == 0 )		/*user doesn't want errors signalled*/
       exitstatus = 0;			/* so reset error status */
-    exit ( exitstatus );
+    // exit ( exitstatus );
   #endif
 } /* --- end-of-function main() --- */
 

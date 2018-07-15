@@ -7,7 +7,8 @@ message(Touch mimeTeX qmake)
 QMAKE_CFLAGS += -DAA
 QMAKE_CXXFLAGS += -DAA
 
-SOURCES=mimetex.c
+SOURCES=mimetex.c \
+        gifsave.c \
 
 HEADERS=mimetex.h \
         texfonts.h

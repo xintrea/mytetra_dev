@@ -36,6 +36,15 @@
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
+// Подключение библиотеки mimetex
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "../../thirdParty/mimetex/mimetexExport.h"
+#ifdef __cplusplus
+}
+#endif
+
 
 using namespace std;
 
@@ -765,6 +774,18 @@ void parseConsoleOption(QtSingleApplication &app)
 }
 
 
+void testMimetexLib()
+{
+    qDebug() << "testMimetexLib...";
+
+    char expression[]="A_one^2+B_two^2";
+    char gifFileName[]="/tmp/equation.gif";
+    CreateGifFromEq ( expression, gifFileName );
+
+    qDebug() << "Generate GIF file with equation to " << gifFileName;
+}
+
+
 int main(int argc, char ** argv)
 {
  printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
@@ -937,6 +958,8 @@ int main(int argc, char ** argv)
  // Окно сплеш-скрина скрывается
  if(mytetraConfig.getShowSplashScreen())
    splash.finish(&win);
+
+ testMimetexLib();
 
  return app.exec();
 }

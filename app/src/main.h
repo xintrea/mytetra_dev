@@ -31,6 +31,8 @@ using namespace std;
 // © Степанов С. М. и товарищи 2010 - 2018
 // ----------------------------------------------------------
 
+#define APPLICATION_NAME "mytetra"
+
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
