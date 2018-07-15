@@ -31,12 +31,10 @@ using namespace std;
 // © Степанов С. М. и товарищи 2010 - 2018
 // ----------------------------------------------------------
 
-#define APPLICATION_NAME "mytetra"
-
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION    2
+#define APPLICATION_RELEASE_MICROVERSION    3
 
 
 // Поддерживаемая версия формата базы (хранилища)
