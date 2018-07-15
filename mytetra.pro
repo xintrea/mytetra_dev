@@ -2,7 +2,7 @@ TEMPLATE = subdirs
  
 SUBDIRS = mimetex app
 
-app.file = app/mytetra.pro
+app.file = app/app.pro
 app.depends = mimetex
 
 mimetex.file = thirdParty/mimetex/mimetex.pro

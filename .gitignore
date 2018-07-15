@@ -5,7 +5,7 @@
 Makefile
 qdevelop-settings.db
 qrc_mytetra.cpp
-mytetra.pro.user*
+*.pro.user
 
 /app/bin/*
 !/app/bin/resource
