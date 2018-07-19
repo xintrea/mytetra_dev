@@ -36,14 +36,7 @@
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
-// Подключение библиотеки mimetex
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include "../../thirdParty/mimetex/mimetexExport.h"
-#ifdef __cplusplus
-}
-#endif
+#include "../../thirdParty/mimetex/mimetexExport.h" // Библиотека mimetex для генерации картинок формул
 
 
 using namespace std;
@@ -774,6 +767,7 @@ void parseConsoleOption(QtSingleApplication &app)
 }
 
 
+/*
 void testMimetexLib()
 {
     qDebug() << "testMimetexLib...";
@@ -784,6 +778,7 @@ void testMimetexLib()
 
     qDebug() << "Generate GIF file with equation to " << gifFileName;
 }
+*/
 
 
 int main(int argc, char ** argv)
@@ -958,8 +953,6 @@ int main(int argc, char ** argv)
  // Окно сплеш-скрина скрывается
  if(mytetraConfig.getShowSplashScreen())
    splash.finish(&win);
-
- testMimetexLib();
 
  return app.exec();
 }

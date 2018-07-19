@@ -110,5 +110,6 @@
         <file>resource/pic/edit_text_only.svg</file>
         <file>resource/pic/countryFlags/Russia.png</file>
         <file>resource/pic/countryFlags/United-Kingdom.png</file>
+        <file>resource/pic/edit_math_expression.svg</file>
     </qresource>
 </RCC>

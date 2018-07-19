@@ -11,6 +11,10 @@
 #include "EditorFontSizeComboBox.h"
 #include "EditorFontFamilyComboBox.h"
 
+
+// Виджет для отрисовки кнопок форматирования текста
+// Является базовым для EditorToolBarAssistant
+
 class EditorToolBar : public QWidget
 {
   Q_OBJECT
@@ -72,6 +76,7 @@ public:
   QToolButton   tableProperties;
 
   QToolButton   insertImageFromFile;
+  QToolButton   mathExpression;
   QToolButton   expandEditArea;
   QToolButton   expandToolsLines;
   QToolButton   save;

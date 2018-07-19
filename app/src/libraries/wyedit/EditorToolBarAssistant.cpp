@@ -24,6 +24,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
   initDisableToolList(iDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
 
+
   // Выясняется перечень кнопок в первой строке на панели инструментов
   QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
 
@@ -40,6 +41,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
     toolsListInLine1.append("separator");
     toolsListInLine1.append("find_in_base");
   }
+
 
   // Устанавливается перечень кнопок на панели инструментов
   initToolsLine1(toolsListInLine1); // Первая строка

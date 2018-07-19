@@ -275,6 +275,11 @@ void EditorToolBar::setupButtons(void)
   insertImageFromFile.setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
   insertImageFromFile.setObjectName("editor_tb_insert_image_from_file");
 
+  mathExpression.setParent(this);
+  mathExpression.setStatusTip(tr("Insert math expression / edit math expression"));
+  mathExpression.setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
+  mathExpression.setObjectName("editor_tb_math_expression");
+
   expandEditArea.setParent(this);
   expandEditArea.setStatusTip(tr("Expand edit area"));
   expandEditArea.setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
