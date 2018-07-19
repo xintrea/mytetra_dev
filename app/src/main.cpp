@@ -36,8 +36,6 @@
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
-#include "../../thirdParty/mimetex/mimetexExport.h" // Библиотека mimetex для генерации картинок формул
-
 
 using namespace std;
 
@@ -765,20 +763,6 @@ void parseConsoleOption(QtSingleApplication &app)
   }
 
 }
-
-
-/*
-void testMimetexLib()
-{
-    qDebug() << "testMimetexLib...";
-
-    char expression[]="A_one^2+B_two^2";
-    char gifFileName[]="/tmp/equation.gif";
-    CreateGifFromEq ( expression, gifFileName );
-
-    qDebug() << "Generate GIF file with equation to " << gifFileName;
-}
-*/
 
 
 int main(int argc, char ** argv)

@@ -18,14 +18,21 @@ public:
   QString mathExpressionOnSelect(void);
   QString mathExpressionOnCursor(void);
 
-  void editMathExpression(void);
-
 signals:
 
 public slots:
 
   void onMathExpressionClicked(void);
   void onContextMenuEditMathExpression(void);
+
+protected:
+
+  void addMathExpression(void);
+  void editMathExpression(void);
+
+  QString getMathExpressionFromUser(QString iMathExpressionText="");
+  void insertMathExpressionToTextArea(QString iMathExpressionText);
+
 };
 
 #endif // MATHEXPRESSIONFORMATTER_H

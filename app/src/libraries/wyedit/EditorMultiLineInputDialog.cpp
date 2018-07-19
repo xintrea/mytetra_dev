@@ -42,8 +42,9 @@ void EditorMultiLineInputDialog::setupUi()
 
   // Устанавливается размер окна, основанный на размере виджета, из которого
   // этот виджет был вызван
-  if(this->parent()->isWidgetType())
-    updateSize();
+  if(this->parent()!=0)
+    if(this->parent()->isWidgetType())
+        updateSize();
 }
 
 
