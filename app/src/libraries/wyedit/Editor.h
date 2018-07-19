@@ -22,6 +22,7 @@
 #include "formatters/ListFormatter.h"
 #include "formatters/TableFormatter.h"
 #include "formatters/ImageFormatter.h"
+#include "formatters/MathExpressionFormatter.h"
 #include "formatters/ReferenceFormatter.h"
 
 // Fix ugly Qt QSS bug
@@ -61,6 +62,7 @@ class Editor : public QWidget
  friend class ListFormatter;
  friend class TableFormatter;
  friend class ImageFormatter;
+ friend class MathExpressionFormatter;
  friend class ReferenceFormatter;
 
 public:
@@ -215,12 +217,13 @@ private:
  EditorTextArea *textArea=NULL;
 
  // Форматировщики текста
- TypefaceFormatter  *typefaceFormatter=NULL;
- PlacementFormatter *placementFormatter=NULL;
- ListFormatter      *listFormatter=NULL;
- TableFormatter     *tableFormatter=NULL;
- ImageFormatter     *imageFormatter=NULL;
- ReferenceFormatter *referenceFormatter=NULL;
+ TypefaceFormatter       *typefaceFormatter=NULL;
+ PlacementFormatter      *placementFormatter=NULL;
+ ListFormatter           *listFormatter=NULL;
+ TableFormatter          *tableFormatter=NULL;
+ ImageFormatter          *imageFormatter=NULL;
+ MathExpressionFormatter *mathExpressionFormatter=NULL;
+ ReferenceFormatter      *referenceFormatter=NULL;
 
  bool isInit;
 

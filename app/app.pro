@@ -230,7 +230,8 @@ HEADERS = src/main.h \
     src/libraries/PeriodicCheckBase.h \
     src/libraries/PeriodicSyncro.h \
     src/libraries/wyedit/EditorFontSizeComboBox.h \
-    src/libraries/wyedit/EditorFontFamilyComboBox.h
+    src/libraries/wyedit/EditorFontFamilyComboBox.h \
+    src/libraries/wyedit/formatters/MathExpressionFormatter.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -351,7 +352,8 @@ SOURCES = src/main.cpp \
     src/libraries/PeriodicCheckBase.cpp \
     src/libraries/PeriodicSyncro.cpp \
     src/libraries/wyedit/EditorFontSizeComboBox.cpp \
-    src/libraries/wyedit/EditorFontFamilyComboBox.cpp
+    src/libraries/wyedit/EditorFontFamilyComboBox.cpp \
+    src/libraries/wyedit/formatters/MathExpressionFormatter.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

@@ -69,6 +69,7 @@ Editor::~Editor(void)
   delete listFormatter;
   delete tableFormatter;
   delete imageFormatter;
+  delete mathExpressionFormatter;
 }
 
 
@@ -234,6 +235,11 @@ void Editor::setupFormatters(void)
   imageFormatter=new ImageFormatter();
   imageFormatter->setEditor(this);
   imageFormatter->setTextArea(textArea);
+
+  // Редактирование формул в тексте
+  mathExpressionFormatter=new MathExpressionFormatter();
+  mathExpressionFormatter->setEditor(this);
+  mathExpressionFormatter->setTextArea(textArea);
 
   // Форматирование ссылки
   referenceFormatter=new ReferenceFormatter();
@@ -410,6 +416,9 @@ void Editor::setupSignals(void)
   // Прочие кнопки
   connect( &(editorToolBarAssistant->insertImageFromFile), SIGNAL(clicked()),
            imageFormatter,                                 SLOT  (onInsertImageFromFileClicked()),
+          Qt::DirectConnection);
+  connect( &(editorToolBarAssistant->mathExpression), SIGNAL(clicked()),
+           mathExpressionFormatter,                   SLOT  (onMathExpressionClicked()),
           Qt::DirectConnection);
   connect( &(editorToolBarAssistant->expandEditArea), SIGNAL(clicked()),
            this,                                      SLOT  (onExpandEditAreaClicked()),
