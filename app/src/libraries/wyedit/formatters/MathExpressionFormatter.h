@@ -35,8 +35,11 @@ protected:
 
   QString getMathExpressionByImageName(QString resourceImageName);
 
-  const QString imageDescriptionPrefix="mytetraMathExpression:";
+  void createGifFromMathExpression(QString iMathExpression, QString iFileName);
 
+  // Префикс в строке описания в запоминаемом PNG-файле (поле Description),
+  // после которого идет TeX-код математического выражения
+  const QString imageDescriptionPrefix="mytetraMathExpression:";
 };
 
 #endif // MATHEXPRESSIONFORMATTER_H

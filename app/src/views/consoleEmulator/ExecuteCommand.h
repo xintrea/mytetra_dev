@@ -17,8 +17,11 @@ public:
  ExecuteCommand(QObject *parent=0);
  virtual ~ExecuteCommand();
 
+ static QString getOsFamily();
+
  void setCommand(QString cmd);
  void run(bool visible=true);
+ int runSimple();
 
  void setWindowTitle(QString title);
  void setMessageText(QString text);

@@ -18,15 +18,9 @@ ExecuteCommand::ExecuteCommand(QObject *parent) : QObject(parent)
  command="";
  console=NULL;
 
- // Определяется, какую командную оболочку надо использовать
+ QString os=getOsFamily();
 
- // Вначале определяется вид операционной системы
- QString os="unix";
- #if defined(Q_WS_WIN) || defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_MSDOS) || defined(Q_OS_CYGWIN)
-  os="windows";
- #endif
-
- // Определение командной оболочки
+ // Определение командной оболочки, которую надо использовать
  shell="";
  if(os=="unix")
   {
@@ -66,6 +60,18 @@ ExecuteCommand::~ExecuteCommand()
 }
 
 
+QString ExecuteCommand::getOsFamily()
+{
+    QString os="unix";
+
+    #if defined(Q_WS_WIN) || defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_MSDOS) || defined(Q_OS_CYGWIN)
+     os="windows";
+    #endif
+
+    return os;
+}
+
+
 void ExecuteCommand::setCommand(QString cmd)
 {
  command=cmd;
@@ -102,6 +108,24 @@ void ExecuteCommand::closeProcess(void)
  process->kill();
  process->terminate();
  process->close();
+}
+
+
+// Простой запуск консольных команд на исполнение с ожиданием завершения, возвращет код возврата выполняемой команды
+int ExecuteCommand::runSimple()
+{
+ // Если командный интерпретатор не установлен
+ if(shell.length()==0)
+  criticalError("ExecuteCommand::run() : Not detect available shell");
+
+ // Выясняется полная команда, которая будет запущена в QProcess
+ QString commandLine=shell+" \""+command+"\"";
+
+ // Создается процесс
+ QProcess simpleProcess;
+
+ // Запускается команда на исполнение
+ return simpleProcess.execute(commandLine);
 }
 
 

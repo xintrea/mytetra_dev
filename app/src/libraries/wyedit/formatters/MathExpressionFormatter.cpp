@@ -19,6 +19,7 @@
 
 #include "main.h"
 #include "libraries/DiskHelper.h"
+#include "views/consoleEmulator/ExecuteCommand.h"
 
 
 MathExpressionFormatter::MathExpressionFormatter()
@@ -183,31 +184,52 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
 }
 
 
+void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName)
+{
+    QString mimetexBinaryName="mimetex";
+    QString chDirCommand;
+    QString mimetexPath=QCoreApplication::applicationDirPath(); // mimetex должен лежать там же где и mytetra
+    ExecuteCommand exCommand;
+
+
+    if(exCommand.getOsFamily()=="unix") {
+        mimetexBinaryName="./"+mimetexBinaryName;
+        chDirCommand="cd "+mimetexPath+" ; ";
+    }
+
+    if(exCommand.getOsFamily()=="windows") {
+        mimetexBinaryName+=".exe";
+        chDirCommand="chdir /D "+mimetexPath+" & ";
+    }
+
+    // QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+QChar::fromLatin1(34)+iMathExpression+QChar::fromLatin1(34);
+    QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+" "+QChar::fromLatin1(34)+iMathExpression+QChar::fromLatin1(34);
+
+    qDebug() << "Command for create math expression picture: " << command;
+
+    exCommand.setCommand(command);
+    exCommand.runSimple();
+}
+
+
 void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpressionText)
 {
     QString tempFileName=QDir::tempPath()+"/"+getUniqueId()+".gif";
 
-    const unsigned int expressionSize=8192;
-    const unsigned int gifFileNameSize=2048;
-    char expression[expressionSize];
-    char gifFileName[gifFileNameSize];
-    strncpy(expression, iMathExpressionText.toUtf8().constData(), expressionSize-1);
-    strncpy(gifFileName, tempFileName.toUtf8().constData(), gifFileNameSize-1);
+    qDebug() << "Formula code: " << iMathExpressionText;
+    qDebug() << "Formula temporary file name: " << tempFileName;
 
-    qDebug() << "Formule code: " << expression;
-    qDebug() << "Formula temporary file name: " << gifFileName;
-
-    // CreateGifFromEq ( expression, gifFileName );
+    createGifFromMathExpression( iMathExpressionText, tempFileName );
 
     bool isSuccess=false;
 
     // Если картинка сформировалась (подумать, возможно надо вставлсять картинку в текст через форматтер ImageFormatter)
-    if ( QFile::exists(gifFileName) ) {
+    if ( QFile::exists(tempFileName) ) {
         // Временная картинка загружается из файла в память
-        QImage image = QImageReader(gifFileName).read();
+        QImage image = QImageReader(tempFileName).read();
 
         // И сразу удаляется в корзину
-        DiskHelper::removeFileToTrash( gifFileName );
+        DiskHelper::removeFileToTrash( tempFileName );
 
         // Если картинка была нормально загружена из файла
         if( !image.isNull() ) {
