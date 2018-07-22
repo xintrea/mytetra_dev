@@ -161,41 +161,58 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
 {
     QString tempFileName=QDir::tempPath()+"/"+getUniqueId()+".gif";
 
-    qDebug() << "Temporary file name: " << tempFileName;
-    qDebug() << "Temporary file name in C style: " << tempFileName.toUtf8().constData();
+    const unsigned int expressionSize=8192;
+    const unsigned int gifFileNameSize=2048;
+    char expression[expressionSize];
+    char gifFileName[gifFileNameSize];
+    strncpy(expression, iMathExpressionText.toUtf8().constData(), expressionSize-1);
+    strncpy(gifFileName, tempFileName.toUtf8().constData(), gifFileNameSize-1);
 
-    // char *expression=(char*) iMathExpressionText.toUtf8().constData();
-    // char *gifFileName=(char*) tempFileName.toUtf8().constData();
-
-    char expression0[]="A+B=C";
-    char gifFileName0[]="/tmp/1532019893791fmu4qjo.gif";
-
-    char *expression=expression0;
-    char *gifFileName=gifFileName0;
+    qDebug() << "Formule code: " << expression;
+    qDebug() << "Formula temporary file name: " << gifFileName;
 
     CreateGifFromEq ( expression, gifFileName );
 
-    // Временная картинка загружается из файла
-    QImage image = QImageReader(gifFileName).read();
+    bool isSuccess=false;
 
-    // И сразу удаляется в корзину
-    DiskHelper::removeFileToTrash( gifFileName );
+    // Если картинка сформировалась (подумать, возможно надо вставлсять картинку в текст через форматтер ImageFormatter)
+    if ( QFile::exists(gifFileName) ) {
+        // Временная картинка загружается из файла
+        QImage image = QImageReader(gifFileName).read();
 
-    // Внутреннее имя картинки
-    QString imageName=getUniqueImageName();
+        // И сразу удаляется в корзину
+        DiskHelper::removeFileToTrash( gifFileName );
 
-    // Картинка добавляется в хранилище документа
-    textArea->document()->addResource(QTextDocument::ImageResource, QUrl(imageName), image );
+        // Если картинка была нормально загружена из файла
+        if( !image.isNull() ) {
+            // Внутреннее имя картинки
+            QString imageName=getUniqueImageName();
 
-    // Создается описание форматированной картинки
-    // QTextImageFormat imageFormat;
-    // imageFormat.setName(link.toString());
+            // Картинка добавляется в хранилище документа под своим внутренним именем
+            textArea->document()->addResource(QTextDocument::ImageResource, QUrl(imageName), image );
 
-    // Картинка вставляется в текст
-    QTextCursor cursor=textArea->textCursor();
-    cursor.insertImage(imageName);
+            // Создается описание форматированной картинки
+            // QTextImageFormat imageFormat;
+            // imageFormat.setName(link.toString());
 
-    // Ставится пометка что текст записи был изменен
-    textArea->document()->setModified(true);
+            // Картинка вставляется в текст
+            QTextCursor cursor=textArea->textCursor();
+            cursor.insertImage(imageName);
+
+            // Ставится пометка что текст записи был изменен
+            textArea->document()->setModified(true);
+
+            isSuccess=true;
+        }
+    }
+
+    if(!isSuccess) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("Error while parse TeX syntax"));
+        msgBox.setInformativeText("Can't generate math expression picture");
+        msgBox.setStandardButtons(QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        msgBox.exec();
+    }
 }
 

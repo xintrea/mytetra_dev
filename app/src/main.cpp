@@ -563,7 +563,7 @@ QString getUniqueId(void)
 // Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
 QString getUniqueImageName(void)
 {
-  return "image"+QString::number(rand())+".png";
+    return "image"+getUniqueId()+".png"; // "image"+QString::number(rand())+".png";
 }
 
 
