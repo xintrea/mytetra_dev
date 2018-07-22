@@ -415,8 +415,11 @@ defineReplace(copyToDir) {
     return($$LINK)
 }
 
-message(Output pwd is: $${OUT_PWD})
+win32 {
+    MIMETEX_BINARY=mimetex.exe
+}
+!win32 {
+    MIMETEX_BINARY=mimetex
+}
 
-# Todo: for Windows binary is mimetex.exe
-# QMAKE_POST_LINK += $$copyToBuilddir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex)
-QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex, $${OUT_PWD}/bin)
+QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex, $${OUT_PWD}/bin/$${MIMETEX_BINARY})
