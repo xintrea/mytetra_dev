@@ -29,7 +29,7 @@ MathExpressionFormatter::MathExpressionFormatter()
 }
 
 
-// Содержимое формулы, которая выделена (если выделена единственная картинка формулы, требуется доработка)
+// Исходный код формулы, которая выделена (если выделена единственная картинка формулы, требуется доработка)
 QString MathExpressionFormatter::mathExpressionOnSelect(void)
 {
     // Блок, в пределах которого находится курсор
@@ -61,7 +61,9 @@ QString MathExpressionFormatter::mathExpressionOnSelect(void)
                     {
                         QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
 
-                        return QString();
+                        if(imageFormat.isValid()) {
+                            return getMathExpressionByImageName(imageFormat.name());
+                        }
                     }
                 }
         }
@@ -79,8 +81,26 @@ QString MathExpressionFormatter::mathExpressionOnCursor(void)
     {
         QTextImageFormat imageFormat = textArea->textCursor().charFormat().toImageFormat();
 
-        if(imageFormat.isValid())
-            return QString();
+        if(imageFormat.isValid()) {
+            return getMathExpressionByImageName(imageFormat.name());
+        }
+    }
+
+    return QString();
+}
+
+
+// Получение исходного кода математического выражения по имени картинки в ресурсах документа
+QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceImageName)
+{
+    QImage image=textArea->document()->resource(QTextDocument::ImageResource, QUrl(resourceImageName)).value<QImage>();
+
+    if( !image.isNull() ) {
+        QString text=image.text("Description");
+
+        if(text.startsWith( imageDescriptionPrefix )) {
+            return text.right( text.size() - imageDescriptionPrefix.size()).trimmed();
+        }
     }
 
     return QString();
@@ -91,49 +111,53 @@ QString MathExpressionFormatter::mathExpressionOnCursor(void)
 void MathExpressionFormatter::onMathExpressionClicked(void)
 {
 
-    // Если выделена картинка, добавить проверку на то что эта картинка является формулой
-    if(editor->cursorPositionDetector->isImageSelect() ||
-            editor->cursorPositionDetector->isCursorOnImage())
-    {
-        qDebug() << "Math expression selected";
+    // Если выделена картинка формулы
+    if(editor->cursorPositionDetector->isImageSelect() && mathExpressionOnSelect().size()>0) {
+        qDebug() << "Math expression on select: " << mathExpressionOnSelect();
 
-        editMathExpression();
-    }
-    else
-    {
-        // Иначе математическое выражение не выделено, и срабатывает режим добавления
-        addMathExpression();
+        editMathExpression( mathExpressionOnSelect() );
+        return;
     }
 
+    // Если курсор стоит на картинке с формулой
+    if(editor->cursorPositionDetector->isCursorOnImage() && mathExpressionOnCursor().size()>0) {
+        qDebug() << "Math expression on cursor: " << mathExpressionOnSelect();
+
+        editMathExpression( mathExpressionOnCursor() );
+        return;
+    }
+
+    // Иначе математическое выражение не выделено, и срабатывает режим добавления
+    addMathExpression();
 }
 
 
 // Вызов окна настройки свойств изображения
 void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
-    // Если выделено математическое выражение, добавить проверку на то что картинка является формулой
-    if(editor->cursorPositionDetector->isImageSelect() ||
-            editor->cursorPositionDetector->isCursorOnImage())
-    {
-        qDebug() << "Math expression selected";
+    // Если выделена картинка формулы
+    // Свойства меняются только если картинка выделена, если курсор стоит на картинке с формулой, то этого недостаточно
+    if(editor->cursorPositionDetector->isImageSelect() && mathExpressionOnSelect().size()>0) {
+        qDebug() << "Math expression on select: " << mathExpressionOnSelect();
 
-        editMathExpression();
+        editMathExpression( mathExpressionOnSelect() );
     }
 }
 
 
 void MathExpressionFormatter::addMathExpression(void)
 {
+    // Открывается окно запроса математического выражения
     QString mathExpressionText=getMathExpressionFromUser();
 
     insertMathExpressionToTextArea(mathExpressionText);
 }
 
 
-void MathExpressionFormatter::editMathExpression(void)
+void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 {
-
-
+    qDebug() << "Edit math expression: " << mathExpressionOnSelect();
+    getMathExpressionFromUser( iMathExpressionText );
 }
 
 
@@ -177,7 +201,7 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
 
     // Если картинка сформировалась (подумать, возможно надо вставлсять картинку в текст через форматтер ImageFormatter)
     if ( QFile::exists(gifFileName) ) {
-        // Временная картинка загружается из файла
+        // Временная картинка загружается из файла в память
         QImage image = QImageReader(gifFileName).read();
 
         // И сразу удаляется в корзину
@@ -185,6 +209,9 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
 
         // Если картинка была нормально загружена из файла
         if( !image.isNull() ) {
+            // Картинка в памяти запоминает исходный код формулы
+            image.setText("Description", imageDescriptionPrefix+iMathExpressionText);
+
             // Внутреннее имя картинки
             QString imageName=getUniqueImageName();
 

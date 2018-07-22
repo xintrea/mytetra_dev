@@ -28,10 +28,14 @@ public slots:
 protected:
 
   void addMathExpression(void);
-  void editMathExpression(void);
+  void editMathExpression(QString iMathExpressionText);
 
   QString getMathExpressionFromUser(QString iMathExpressionText="");
   void insertMathExpressionToTextArea(QString iMathExpressionText);
+
+  QString getMathExpressionByImageName(QString resourceImageName);
+
+  const QString imageDescriptionPrefix="mytetraMathExpression:";
 
 };
 
