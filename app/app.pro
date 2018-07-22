@@ -17,11 +17,6 @@ WINDOWS_CONSOLE_ENABLE=1
 PROFILING_ENABLE=0
 
 
-# Add mimetex static library
-INCLUDEPATH += $${_PRO_FILE_PWD_}/../thirdParty/mimetex
-LIBS += -L$${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/lib -lmimetex
-
-
 ##################
 # Configure logic
 ##################
@@ -403,3 +398,25 @@ OTHER_FILES += \
 
 # win icon
 win32:RC_FILE = desktop/win.rc
+
+
+###################
+# Post linking copy
+###################
+defineReplace(copyToDir) {
+    files = $$1
+    DIR = $$2
+    LINK =
+
+    for(FILE, files) {
+        LINK += $$QMAKE_COPY $$shell_path($$FILE) $$shell_path($$DIR) $$escape_expand(\\n\\t)
+        # LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DIR) $$escape_expand(\\n\\t)
+    }
+    return($$LINK)
+}
+
+message(Output pwd is: $${OUT_PWD})
+
+# Todo: for Windows binary is mimetex.exe
+# QMAKE_POST_LINK += $$copyToBuilddir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex)
+QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex, $${OUT_PWD}/bin)

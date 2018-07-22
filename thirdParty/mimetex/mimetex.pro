@@ -1,5 +1,4 @@
-TEMPLATE=lib
-CONFIG+=staticlib
+TEMPLATE=app
 QT-=gui
 
 message(Touch mimeTeX qmake)
@@ -15,5 +14,5 @@ HEADERS=mimetex.h \
 
         
 OBJECTS_DIR = $${_PRO_FILE_PWD_}/build/obj
-DESTDIR = $${_PRO_FILE_PWD_}/build/lib
+DESTDIR = $${_PRO_FILE_PWD_}/build/bin
 

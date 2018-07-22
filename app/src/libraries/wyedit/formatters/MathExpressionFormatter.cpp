@@ -20,8 +20,6 @@
 #include "main.h"
 #include "libraries/DiskHelper.h"
 
-#include "../../thirdParty/mimetex/mimetexExport.h" // Библиотека mimetex для генерации картинок формул
-
 
 MathExpressionFormatter::MathExpressionFormatter()
 {
@@ -40,7 +38,7 @@ QString MathExpressionFormatter::mathExpressionOnSelect(void)
     // Если есть выделение
     if(textArea->textCursor().hasSelection())
     {
-        // Перебиратся фрагметы блока
+        // Перебираются фрагметы блока
         for(it = currentBlock.begin(); !(it.atEnd()); ++it)
         {
             fragment = it.fragment();
@@ -157,7 +155,11 @@ void MathExpressionFormatter::addMathExpression(void)
 void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 {
     qDebug() << "Edit math expression: " << mathExpressionOnSelect();
-    getMathExpressionFromUser( iMathExpressionText );
+
+    // Открывается окно запроса математического выражения
+    QString mathExpressionText=getMathExpressionFromUser( iMathExpressionText );
+
+    insertMathExpressionToTextArea(mathExpressionText);
 }
 
 
@@ -195,7 +197,7 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
     qDebug() << "Formule code: " << expression;
     qDebug() << "Formula temporary file name: " << gifFileName;
 
-    CreateGifFromEq ( expression, gifFileName );
+    // CreateGifFromEq ( expression, gifFileName );
 
     bool isSuccess=false;
 

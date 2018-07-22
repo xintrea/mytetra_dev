@@ -16666,7 +16666,7 @@ STATIC logdata mimelog[]
 
 
 /* --- entry point --- */
-int	mimetexMain ( int argc, char *argv[]
+int	main ( int argc, char *argv[]
 	  #ifdef DUMPENVP
 	    , char *envp[]
 	  #endif
@@ -17627,7 +17627,7 @@ end_of_job:
   #if !defined(_USRDLL)
     if ( errorstatus == 0 )		/*user doesn't want errors signalled*/
       exitstatus = 0;			/* so reset error status */
-    // exit ( exitstatus );
+    exit ( exitstatus );
   #endif
 } /* --- end-of-function main() --- */
 
@@ -17663,7 +17663,7 @@ int	CreateGifFromEq ( char *expression, char *gifFileName )
 /* -------------------------------------------------------------------------
 Allocations and Declarations
 -------------------------------------------------------------------------- */
-int	mimetexMain();			/* main() akways returns an int */
+int	main();			/* main() akways returns an int */
 /* --- set constants --- */
 int	argc = 4;		/* count of args supplied to main() */
 char	*argv[5] =		/* command line args to run with -e option */
@@ -17675,7 +17675,7 @@ argv[3] = expression;		/* and now  -e gifFileName expression */
 /* -------------------------------------------------------------------------
 Run mimeTeX in command-line mode with -e (export) option, and then return
 -------------------------------------------------------------------------- */
-return	mimetexMain ( argc, argv
+return	main ( argc, argv
 	  #ifdef DUMPENVP
 	    , NULL
 	  #endif

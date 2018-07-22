@@ -1,5 +1,0 @@
-Replace in mimetex.cpp:
-
-Defines main() function to mimetexMain()
-All call main() function to mimetexMain()
-Comment "exit ( exitstatus );" at end of function main();
