@@ -13,6 +13,7 @@ qrc_mytetra.cpp
 !/app/bin/mytetra.qrc
 !/app/bin/icons.qrc
 
+/thirdParty/mimetex/build/bin/*
 
 # Ignore compiled Object files
 *.slo
