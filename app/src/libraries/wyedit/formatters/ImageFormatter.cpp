@@ -312,7 +312,7 @@ void ImageFormatter::onDownloadImages(const QString html)
           qDebug() << "Find " << imageName << "\n"; // имя файла
 
           // Если имя файла не является "внутренним", значит картинка еще не добавлена
-          if(!imageName.contains(QRegExp("^image\\d+.png$")))
+          if(!imageName.contains(QRegExp("^image\\d{10}[a-z0-9]+.png$")))
           {
             if(msgBox.text().length()==0)
             {
