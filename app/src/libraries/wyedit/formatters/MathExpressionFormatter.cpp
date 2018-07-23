@@ -28,7 +28,7 @@ MathExpressionFormatter::MathExpressionFormatter()
 }
 
 
-// Исходный код формулы, которая выделена (если выделена единственная картинка формулы, требуется доработка)
+// Исходный код формулы, которая выделена (если выделена единственная картинка формулы)
 QString MathExpressionFormatter::mathExpressionOnSelect(void)
 {
     // Блок, в пределах которого находится курсор
@@ -149,7 +149,9 @@ void MathExpressionFormatter::addMathExpression(void)
     // Открывается окно запроса математического выражения
     QString mathExpressionText=getMathExpressionFromUser();
 
-    insertMathExpressionToTextArea(mathExpressionText);
+    if(mathExpressionText.size()>0) {
+        insertMathExpressionToTextArea(mathExpressionText);
+    }
 }
 
 
@@ -160,7 +162,9 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
     // Открывается окно запроса математического выражения
     QString mathExpressionText=getMathExpressionFromUser( iMathExpressionText );
 
-    insertMathExpressionToTextArea(mathExpressionText);
+    if(mathExpressionText.size()>0) {
+        insertMathExpressionToTextArea(mathExpressionText);
+    }
 }
 
 
