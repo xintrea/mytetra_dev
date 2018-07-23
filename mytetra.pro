@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
  
-SUBDIRS = mimetex app
+SUBDIRS = app mimetex
 
 app.file = app/app.pro
 app.depends = mimetex
