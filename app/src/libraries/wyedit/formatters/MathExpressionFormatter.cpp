@@ -186,11 +186,24 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
 
 void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName)
 {
+    // Исходник в формате TeX записывается во временный файл
+    // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
+    // работала передача текста, без побочных шелл-эффектов, которые могут возникнуть
+    // при передаче математического варажения в командной строке
+    QString mathExpressionFileName=QDir::tempPath()+"/"+getUniqueId()+".txt";
+    QFile mathExpressionFile(mathExpressionFileName);
+    if(!mathExpressionFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        criticalError("Can not create temporary file for TeX source: "+mathExpressionFileName);
+        return;
+    }
+    mathExpressionFile.write(iMathExpression.toUtf8());
+    mathExpressionFile.close();
+
+    // Запуск консольной команды для генерации картинки с формулой
     QString mimetexBinaryName="mimetex";
     QString chDirCommand;
     QString mimetexPath=QCoreApplication::applicationDirPath(); // mimetex должен лежать там же где и mytetra
     ExecuteCommand exCommand;
-
 
     if(exCommand.getOsFamily()=="unix") {
         mimetexBinaryName="./"+mimetexBinaryName;
@@ -202,13 +215,15 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
         chDirCommand="chdir /D "+mimetexPath+" & ";
     }
 
-    // QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+QChar::fromLatin1(34)+iMathExpression+QChar::fromLatin1(34);
-    QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+" "+QChar::fromLatin1(34)+iMathExpression+QChar::fromLatin1(34);
+    QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+" -f "+mathExpressionFileName;
 
     qDebug() << "Command for create math expression picture: " << command;
 
     exCommand.setCommand(command);
     exCommand.runSimple();
+
+    // Файл с TeX исходником удаляется в корзину
+    DiskHelper::removeFileToTrash( mathExpressionFileName );
 }
 
 
