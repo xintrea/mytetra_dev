@@ -175,16 +175,32 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
 
     dialog.setText(iMathExpressionText);
     dialog.setWindowTitle(tr("Edit TeX math expression"));
+    int result=dialog.exec();
 
     // Если не нажато OK
-    if(dialog.exec()!=QDialog::Accepted)
+    if(result!=QDialog::Accepted)
         return QString();
+
+    // Если нажато OK, исходное выражение было непустым, и пользователь обнулил выражение
+    if(result==QDialog::Accepted &&
+       iMathExpressionText.size()>0 &&
+       dialog.getText().trimmed().size()==0) {
+        // Нельзя превращать картинку в картинку с пустой формулой
+        QMessageBox msgBox;
+        msgBox.setText(tr("Error while input TeX source"));
+        msgBox.setInformativeText("You can not replace a mathematical expression with an empty mathematical expression.\nMaybe you just need to delete this mathematical expression as a picture?");
+        msgBox.setStandardButtons(QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        msgBox.exec();
+
+        return iMathExpressionText;
+    }
 
     // Если ничего небыло изменено в TeX коде
     if(!dialog.isModified())
         return QString();
 
-    return dialog.getText();
+    return dialog.getText().trimmed();
 }
 
 
