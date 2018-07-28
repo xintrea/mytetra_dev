@@ -15,6 +15,9 @@ qrc_mytetra.cpp
 
 /thirdParty/mimetex/build/bin/*
 
+build-*-Debug/*
+build-*-Release/*
+
 # Ignore compiled Object files
 *.slo
 *.lo

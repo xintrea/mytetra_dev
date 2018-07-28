@@ -97,8 +97,9 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
     if( !image.isNull() ) {
         QString text=image.text("Description");
 
-        if(text.startsWith( imageDescriptionPrefix )) {
-            return text.right( text.size() - imageDescriptionPrefix.size()).trimmed();
+        if(text.startsWith( mathExpDescriptionPrefix+":" )) {
+            // Учитывается длина префикса, длина номера версии, два двоеточия и символ "v"
+            return text.right( text.size() - mathExpDescriptionPrefix.size() - (mathExpVersionNumberLen+3));
         }
     }
 
@@ -171,7 +172,7 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 // Запрос математического выражения от пользователя
 QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressionText)
 {
-    EditorMultiLineInputDialog dialog;
+    EditorMultiLineInputDialog dialog(textArea);
 
     dialog.setText(iMathExpressionText);
     dialog.setWindowTitle(tr("Edit TeX math expression"));
@@ -269,7 +270,9 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
         // Если картинка была нормально загружена из файла
         if( !image.isNull() ) {
             // Картинка в памяти запоминает исходный код формулы
-            image.setText("Description", imageDescriptionPrefix+iMathExpressionText);
+            image.setText("Description", mathExpDescriptionPrefix + ":" +
+                                         "v" + QString::number(mathExpVersion).rightJustified(mathExpVersionNumberLen, '0') + ":" +
+                                         iMathExpressionText);
 
             // Внутреннее имя картинки
             QString imageName=getUniqueImageName();
