@@ -29,42 +29,14 @@ ImageFormatter::ImageFormatter()
 // Формат картинки, которая выделена (если выделена единственная картинка)
 QTextImageFormat ImageFormatter::imageFormatOnSelect(void)
 {
-  // Блок, в пределах которого находится курсор
-  QTextBlock currentBlock = textArea->textCursor().block();
-  QTextBlock::iterator it;
-  QTextFragment fragment;
-
-  // Если есть выделение
-  if(textArea->textCursor().hasSelection())
-  {
-    // Перебиратся фрагметы блока
-    for(it = currentBlock.begin(); !(it.atEnd()); ++it)
-    {
-      fragment = it.fragment();
-
-      // Если фрагмент содержит изображение
-      if(fragment.isValid())
-        if(fragment.charFormat().isImageFormat ())
-        {
-          int fragmentStart=fragment.position();
-          int fragmentEnd=fragmentStart+fragment.length();
-          int selectionStart=textArea->textCursor().selectionStart();
-          int selectionEnd=textArea->textCursor().selectionEnd();
-
-          // Если начало и конец фрагмента совпадает с координатами выделения
-          // Проверяется и случай, когда блок выделен в обратную сторону
-          if( (fragmentStart==selectionStart && fragmentEnd==selectionEnd) ||
-              (fragmentStart==selectionEnd && fragmentEnd==selectionStart) )
-          {
-            QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
-
-            return imageFormat;
-          }
-        }
+    // Если выбрано изображение
+    if(editor->cursorPositionDetector->isImageSelect()) {
+        QTextFragment fragment=textArea->textCursor().block().begin().fragment();
+        QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
+        return imageFormat;
     }
-  }
 
-  return QTextImageFormat();
+    return QTextImageFormat();
 }
 
 
