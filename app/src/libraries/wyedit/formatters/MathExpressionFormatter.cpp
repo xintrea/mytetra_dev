@@ -110,7 +110,7 @@ void MathExpressionFormatter::onMathExpressionClicked(void)
 }
 
 
-// Вызов окна настройки свойств изображения
+// Вызов окна редактирования формулы
 void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
     // Если выделена картинка формулы

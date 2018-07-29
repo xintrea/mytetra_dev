@@ -36,30 +36,41 @@ void EditorContextMenu::setup_actions(void)
 
  actionEditImageProperties=new QAction(tr("Edit image properties"),this);
 
+ actionEditMathExpression=new QAction(tr("Edit math expression"),this);
+
  actionGotoReference=new QAction(tr("Go to URL or reference"),this);
 }
 
 
 // Показывать или нет пункт редактирования свойств изображения
-void EditorContextMenu::setImageProperties(bool isImageSelect)
+void EditorContextMenu::setImageProperties(bool flag)
 {
- qDebug() << "In EditorContextMenu::set_edit_image_properties() " << isImageSelect;
+    qDebug() << "In EditorContextMenu::setImageProperties() " << flag;
 
- actionEditImageProperties->setVisible(isImageSelect);
+    actionEditImageProperties->setVisible(flag);
+}
+
+
+// Показывать или нет пункт редактирования математического выражения
+void EditorContextMenu::setEditMathExpression(bool flag)
+{
+    qDebug() << "In EditorContextMenu::setEditMathExpression() " << flag;
+
+    actionEditMathExpression->setVisible(flag);
 }
 
 
 // Показывать или нет пункт перехода по ссылке
-void EditorContextMenu::setGotoReference(bool isReference)
+void EditorContextMenu::setGotoReference(bool flag)
 {
-  actionGotoReference->setVisible(isReference);
+  actionGotoReference->setVisible(flag);
 }
 
 
 // Показывать или нет пункт "Вставить только текст"
-void EditorContextMenu::setPasteAsPlainText(bool isPasteAsPlainText)
+void EditorContextMenu::setPasteAsPlainText(bool flag)
 {
-  actionPasteAsPlainText->setVisible(isPasteAsPlainText);
+  actionPasteAsPlainText->setVisible(flag);
 }
 
 
@@ -76,6 +87,7 @@ void EditorContextMenu::setup_signals(void)
  connect(actionSelectAll,SIGNAL(triggered()),this,SIGNAL(selectAll()));
 
  connect(actionEditImageProperties,SIGNAL(triggered()),this,SIGNAL(contextMenuEditImageProperties()));
+ connect(actionEditMathExpression, SIGNAL(triggered()),this,SIGNAL(contextMenuEditMathExpression()));
  connect(actionGotoReference,      SIGNAL(triggered()),this,SIGNAL(contextMenuGotoReference()));
 }
 
@@ -96,6 +108,7 @@ void EditorContextMenu::setup_menu(void)
 
  this->addAction(actionSelectAll);
  this->addAction(actionEditImageProperties);
+ this->addAction(actionEditMathExpression);
  this->addAction(actionGotoReference);
 }
 

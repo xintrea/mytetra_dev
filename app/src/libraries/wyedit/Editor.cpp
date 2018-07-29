@@ -519,8 +519,11 @@ void Editor::setupSignals(void)
   connect(editorContextMenu, SIGNAL(contextMenuEditImageProperties()),
           imageFormatter,    SLOT  (onContextMenuEditImageProperties()),
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(contextMenuGotoReference()),
-          referenceFormatter,    SLOT(onContextMenuGotoReference()),
+  connect(editorContextMenu,       SIGNAL(contextMenuEditMathExpression()),
+          mathExpressionFormatter, SLOT  (onContextMenuEditMathExpression()),
+          Qt::DirectConnection);
+  connect(editorContextMenu,  SIGNAL(contextMenuGotoReference()),
+          referenceFormatter, SLOT  (onContextMenuGotoReference()),
           Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
@@ -1248,14 +1251,24 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
 {
     qDebug() << "In Editor on_customContextMenuRequested";
 
-    // Если выбрана картинка
-    // Или нет выделения, но курсор находится на позиции картинки
-    if(cursorPositionDetector->isImageSelect() ||
-            cursorPositionDetector->isCursorOnImage()) {
-        editorContextMenu->setImageProperties( true );
+
+    // Сначала скрываются пункты редактирования формулы и картинки
+    editorContextMenu->setEditMathExpression( false );
+    editorContextMenu->setImageProperties( false );
+
+    // Если выбрана формула или курсор находится на позиции формулы
+    if(cursorPositionDetector->isMathExpressionSelect() ||
+       cursorPositionDetector->isCursorOnMathExpression()) {
+        editorContextMenu->setEditMathExpression( true );
     } else {
-        editorContextMenu->setImageProperties( false );
+
+        // Если выбрана картинка или курсор находится на позиции картинки
+        if(cursorPositionDetector->isImageSelect() ||
+           cursorPositionDetector->isCursorOnImage()) {
+            editorContextMenu->setImageProperties( true );
+        }
     }
+
 
     // Если курсор находится на ссылке (URL)
     if(cursorPositionDetector->isCursorOnReference()) {

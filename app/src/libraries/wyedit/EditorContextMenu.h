@@ -11,9 +11,10 @@ class EditorContextMenu : public QMenu
   EditorContextMenu(QWidget *parent=0);
   ~EditorContextMenu(void);
 
- void setImageProperties(bool isImageSelect); // Активирование добавочного пункта меню "Свойства картинки")
- void setGotoReference(bool isReference); // Активирование добавочного пункта меню "Перейти по ссылке")
- void setPasteAsPlainText(bool isPasteAsPlainText);
+ void setImageProperties(bool flag); // Активирование добавочного пункта меню "Свойства картинки")
+ void setEditMathExpression(bool flag); // Активирование добавочного пункта меню "Редактирование формулы")
+ void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
+ void setPasteAsPlainText(bool flag);
 
  signals:
   void undo(void);
@@ -24,6 +25,7 @@ class EditorContextMenu : public QMenu
   void pasteAsPlainText(void);
   void selectAll(void);
   void contextMenuEditImageProperties(void);
+  void contextMenuEditMathExpression(void);
   void contextMenuGotoReference(void);
 
  private:
@@ -35,6 +37,7 @@ class EditorContextMenu : public QMenu
   QAction *actionPasteAsPlainText;
   QAction *actionSelectAll;
   QAction *actionEditImageProperties;
+  QAction *actionEditMathExpression;
   QAction *actionGotoReference;
 
   void setup_actions(void);
