@@ -1073,22 +1073,22 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="vanished">Сохранить (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1201"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1213"/>
         <source>Edit HTML source</source>
         <translation>Редактирование исходного HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1230"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1242"/>
         <source>Search result</source>
         <translation>Результат поиска</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1231"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1243"/>
         <source>String &apos;&lt;b&gt;</source>
         <translation>Строка &apos;&lt;b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1231"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1243"/>
         <source>&lt;/b&gt;&apos; not found</source>
         <translation>&lt;/b&gt;&apos; не найдена</translation>
     </message>
@@ -1304,6 +1304,11 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="39"/>
+        <source>Edit math expression</source>
+        <translation>Редактировать формулу</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="41"/>
         <source>Go to URL or reference</source>
         <translation>Перейти по URL или по ссылке</translation>
     </message>
@@ -1382,14 +1387,17 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorMultiLineInputDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="40"/>
         <source>OK</source>
-        <translation>ОК</translation>
+        <translation type="vanished">ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="41"/>
         <source>Cancel</source>
-        <translation>Отмена</translation>
+        <translation type="vanished">Отмена</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorMultiLineInputDialog.cpp" line="47"/>
+        <source>Ctrl+Enter</source>
+        <translation>Ctrl+Enter</translation>
     </message>
 </context>
 <context>
@@ -1682,41 +1690,46 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="279"/>
+        <source>Insert math expression / edit math expression</source>
+        <translation>Вставить формулу / редактировать формулу</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="284"/>
         <source>Expand edit area</source>
         <translation>Распахнуть область редактирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="284"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="289"/>
         <source>Expand tools</source>
         <translation>Развернуть панель инструментов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="289"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="294"/>
         <source>Save (Ctrl+S)</source>
         <translation>Сохранить (Ctrl+S)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="290"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="295"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="297"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="302"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="303"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="308"/>
         <source>Find in base</source>
         <translation>Найти в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="310"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="315"/>
         <source>Show text in detached window</source>
         <translation>Показать текст в открепляемом окне</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="318"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="323"/>
         <source>Show attach files</source>
         <translation>Показать прикрепленные файлы</translation>
     </message>
@@ -1983,62 +1996,62 @@ Try to search for entire database.</source>
 <context>
     <name>FixedParameters</name>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="100"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="53"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="101"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="54"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="102"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="55"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="103"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="56"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="104"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="57"/>
         <source>Tags</source>
         <translation>Метки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="105"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="58"/>
         <source>Create time</source>
         <translation>Время создания</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="106"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="59"/>
         <source>Directory name</source>
         <translation>Имя директории</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="107"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="60"/>
         <source>File name</source>
         <translation>Имя файла</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="108"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="61"/>
         <source>Is crypt</source>
         <translation>Есть шифрование</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="109"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="62"/>
         <source>Has attachs</source>
         <translation>Прикреп. файлы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="110"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="63"/>
         <source>Attachs count</source>
         <translation>Кол-во прикреп. файлов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="111"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="64"/>
         <source>Block</source>
         <translation>Заблокировано</translation>
     </message>
@@ -2156,32 +2169,32 @@ in current directory  &quot;%1&quot;.</source>
 <context>
     <name>ImageFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="118"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="96"/>
         <source>Real image size </source>
         <translation>Истинный размер изображения </translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="122"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="100"/>
         <source> pixels</source>
         <translation> точек</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="227"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="205"/>
         <source>Insert image</source>
         <translation>Вставка изображения</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="319"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="303"/>
         <source>Images download initiating...</source>
         <translation>Инициализация загрузки изображений...</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="376"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="360"/>
         <source>Download images</source>
         <translation>Скачивание картинок</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="395"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="379"/>
         <source>Probably error in a process of images download.</source>
         <translation>Возникла ошибка в процессе скачивания изображений.</translation>
     </message>
@@ -2418,6 +2431,24 @@ Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="897"/>
         <source>Mi&amp;nimize window</source>
         <translation>Свернуть окно</translation>
+    </message>
+</context>
+<context>
+    <name>MathExpressionFormatter</name>
+    <message>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="155"/>
+        <source>Edit TeX math expression</source>
+        <translation>Редактор формулы в формате TeX</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="168"/>
+        <source>Error while input TeX source</source>
+        <translation>Ошибка при вводе TeX-кода</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="277"/>
+        <source>Error while parse TeX syntax</source>
+        <translation>Ошибка при разборе TeX-кода</translation>
     </message>
 </context>
 <context>

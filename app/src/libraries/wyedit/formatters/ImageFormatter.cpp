@@ -58,119 +58,125 @@ QTextImageFormat ImageFormatter::imageFormatOnCursor(void)
 
 void ImageFormatter::editImageProperties(void)
 {
-  // Данные обрабатываемой картинки
-  QTextImageFormat imageFormat;
+    // Для картинки с формулой свойства изображения редактироваться не должны
+    if(editor->cursorPositionDetector->isMathExpressionSelect() ||
+            editor->cursorPositionDetector->isCursorOnMathExpression()) {
+        return;
+    }
 
-  // Если выбрано изображение
-  if(editor->cursorPositionDetector->isImageSelect())
-    imageFormat=imageFormatOnSelect();
-
-  // Если изображение не выбрано, но курсор находится в позиции изображения
-  if(editor->cursorPositionDetector->isCursorOnImage())
-    imageFormat=imageFormatOnCursor();
-
-
-  // Выясняется имя картинки в ресурсах документа
-  QString imageName=imageFormat.name();
-
-  // По имени из ресурсов вытягивается кратинка
-  QUrl urlName(imageName);
-  QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, urlName);
-  QImage image=imageData.value<QImage>();
-
-  // Выяснятся реальные размеры картики
-  int realImageWidth=image.width();
-  int realImageHeight=image.height();
-
-  qDebug() << "Real image width " << realImageWidth << " height " << realImageHeight;
-  qDebug() << "Format image width " << imageFormat.width() << " height " << imageFormat.height();
-
-  // Создается и запускается диалог запроса размеров картинки
-  EditorImageProperties dialog;
-  dialog.set_info(tr("Real image size ") +
-                  QString::number(realImageWidth) +
-                  " x " +
-                  QString::number(realImageHeight) +
-                  tr(" pixels"));
-  dialog.set_real_width(realImageWidth);
-  dialog.set_real_height(realImageHeight);
-
-  // Если в форматировании картинки не задан размер картинки
-  if(imageFormat.width()==0 && imageFormat.height()==0)
-  {
-    // В окне настройки стартовый размер задается как размер картинки
-    dialog.set_width(realImageWidth);
-    dialog.set_height(realImageHeight);
-  }
-  else
-  {
-    // В окне настройки стартовый размер задается согласно форматированию
-    dialog.set_width(imageFormat.width());
-    dialog.set_height(imageFormat.height());
-  }
-
-  dialog.update_percent();
-
-
-  // Запуск диалога на выполнение
-  if(dialog.exec()!=QDialog::Accepted)
-    return;
-
-  imageFormat.setWidth(dialog.get_width());
-  imageFormat.setHeight(dialog.get_height());
-
-  // Если в новом формате картинки нет никаких ошибок
-  if(imageFormat.isValid())
-  {
+    // Данные обрабатываемой картинки
+    QTextImageFormat imageFormat;
 
     // Если выбрано изображение
     if(editor->cursorPositionDetector->isImageSelect())
-    {
-      QTextFragment fragment;
-
-      // Блок, в пределах которого находится курсор
-      QTextBlock currentBlock = textArea->textCursor().block();
-      QTextBlock::iterator it;
-
-      // Перебиратся фрагметы блока
-      // Так как известно, что картинка выделена, поиск фрагмента будет успешным
-      for(it = currentBlock.begin(); !(it.atEnd()); ++it)
-      {
-        fragment = it.fragment();
-
-        // Если фрагмент содержит изображение
-        if(fragment.isValid() &&
-           fragment.charFormat().isImageFormat())
-          break; // Переменная fragment содержит только картинку
-      }
-
-
-      QTextCursor helper = textArea->textCursor();
-
-      helper.setPosition(fragment.position());
-      helper.setPosition(fragment.position() + fragment.length(),
-                         QTextCursor::KeepAnchor);
-      helper.setCharFormat(imageFormat);
-    }
-
+        imageFormat=imageFormatOnSelect();
 
     // Если изображение не выбрано, но курсор находится в позиции изображения
     if(editor->cursorPositionDetector->isCursorOnImage())
+        imageFormat=imageFormatOnCursor();
+
+
+    // Выясняется имя картинки в ресурсах документа
+    QString imageName=imageFormat.name();
+
+    // По имени из ресурсов вытягивается кратинка
+    QUrl urlName(imageName);
+    QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, urlName);
+    QImage image=imageData.value<QImage>();
+
+    // Выяснятся реальные размеры картики
+    int realImageWidth=image.width();
+    int realImageHeight=image.height();
+
+    qDebug() << "Real image width " << realImageWidth << " height " << realImageHeight;
+    qDebug() << "Format image width " << imageFormat.width() << " height " << imageFormat.height();
+
+    // Создается и запускается диалог запроса размеров картинки
+    EditorImageProperties dialog;
+    dialog.set_info(tr("Real image size ") +
+                    QString::number(realImageWidth) +
+                    " x " +
+                    QString::number(realImageHeight) +
+                    tr(" pixels"));
+    dialog.set_real_width(realImageWidth);
+    dialog.set_real_height(realImageHeight);
+
+    // Если в форматировании картинки не задан размер картинки
+    if(imageFormat.width()==0 && imageFormat.height()==0)
     {
-      int cursorPosition=textArea->textCursor().position();
-
-      QTextCursor helper=textArea->textCursor();
-
-      helper.setPosition(cursorPosition);
-
-      if(textArea->textCursor().atBlockStart())
-        helper.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
-      else
-        helper.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
-
-      helper.setCharFormat(imageFormat);
+        // В окне настройки стартовый размер задается как размер картинки
+        dialog.set_width(realImageWidth);
+        dialog.set_height(realImageHeight);
     }
-  }
+    else
+    {
+        // В окне настройки стартовый размер задается согласно форматированию
+        dialog.set_width(imageFormat.width());
+        dialog.set_height(imageFormat.height());
+    }
+
+    dialog.update_percent();
+
+
+    // Запуск диалога на выполнение
+    if(dialog.exec()!=QDialog::Accepted)
+        return;
+
+    imageFormat.setWidth(dialog.get_width());
+    imageFormat.setHeight(dialog.get_height());
+
+    // Если в новом формате картинки нет никаких ошибок
+    if(imageFormat.isValid())
+    {
+
+        // Если выбрано изображение
+        if(editor->cursorPositionDetector->isImageSelect())
+        {
+            QTextFragment fragment;
+
+            // Блок, в пределах которого находится курсор
+            QTextBlock currentBlock = textArea->textCursor().block();
+            QTextBlock::iterator it;
+
+            // Перебиратся фрагметы блока
+            // Так как известно, что картинка выделена, поиск фрагмента будет успешным
+            for(it = currentBlock.begin(); !(it.atEnd()); ++it)
+            {
+                fragment = it.fragment();
+
+                // Если фрагмент содержит изображение
+                if(fragment.isValid() &&
+                        fragment.charFormat().isImageFormat())
+                    break; // Переменная fragment содержит только картинку
+            }
+
+
+            QTextCursor helper = textArea->textCursor();
+
+            helper.setPosition(fragment.position());
+            helper.setPosition(fragment.position() + fragment.length(),
+                               QTextCursor::KeepAnchor);
+            helper.setCharFormat(imageFormat);
+        }
+
+
+        // Если изображение не выбрано, но курсор находится в позиции изображения
+        if(editor->cursorPositionDetector->isCursorOnImage())
+        {
+            int cursorPosition=textArea->textCursor().position();
+
+            QTextCursor helper=textArea->textCursor();
+
+            helper.setPosition(cursorPosition);
+
+            if(textArea->textCursor().atBlockStart())
+                helper.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+            else
+                helper.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor);
+
+            helper.setCharFormat(imageFormat);
+        }
+    }
 
 }
 
