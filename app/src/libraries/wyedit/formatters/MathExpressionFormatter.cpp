@@ -35,14 +35,12 @@ MathExpressionFormatter::MathExpressionFormatter()
 // Исходный код формулы, которая выделена (если выделена единственная картинка формулы)
 QString MathExpressionFormatter::mathExpressionOnSelect(void)
 {
-    // Если выбрано изображение
-    if(editor->cursorPositionDetector->isImageSelect()) {
+    // Если выбрано математическое выражение
+    if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         QTextFragment fragment=textArea->textCursor().block().begin().fragment();
         QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
 
-        if(imageFormat.isValid()) {
-            return getMathExpressionByImageName(imageFormat.name());
-        }
+        return getMathExpressionByImageName(imageFormat.name());
     }
 
     return QString();
@@ -52,14 +50,10 @@ QString MathExpressionFormatter::mathExpressionOnSelect(void)
 // Сождержимое формулы (картинки формулы) на которой находится курсор
 QString MathExpressionFormatter::mathExpressionOnCursor(void)
 {
-    // Проверка срабатывает только если нет выделения
-    if(textArea->textCursor().hasSelection()==false)
-    {
+    if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
         QTextImageFormat imageFormat = textArea->textCursor().charFormat().toImageFormat();
 
-        if(imageFormat.isValid()) {
-            return getMathExpressionByImageName(imageFormat.name());
-        }
+        return getMathExpressionByImageName(imageFormat.name());
     }
 
     return QString();

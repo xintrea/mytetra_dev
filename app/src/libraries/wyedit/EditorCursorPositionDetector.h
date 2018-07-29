@@ -16,6 +16,10 @@ public:
 
   bool isCursorOnImage(void);
   bool isImageSelect(void);
+
+  bool isCursorOnMathExpression(void);
+  bool isMathExpressionSelect(void);
+
   bool isCursorOnSpaceLine(void);
   bool isCursorOnEmptyLine(void);
   bool isBlockSelect(void);
@@ -29,6 +33,7 @@ private:
   EditorTextArea *textArea;
 
   bool isCursorOnReferenceSmart(QString &resultHref);
+  bool isMathExpressionSmartDetect(void);
 
 
 };

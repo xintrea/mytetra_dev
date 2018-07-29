@@ -7,6 +7,11 @@
 #include "EditorCursorPositionDetector.h"
 #include "EditorTextArea.h"
 
+#include "libraries/FixedParameters.h"
+
+
+extern FixedParameters fixedParameters;
+
 
 EditorCursorPositionDetector::EditorCursorPositionDetector()
 {
@@ -77,6 +82,48 @@ bool EditorCursorPositionDetector::isImageSelect(void)
   }
 
   return is_image_select_flag;
+}
+
+
+// Проверка, находится ли курсор на позиции, где находится математическое выражение (формула)
+bool EditorCursorPositionDetector::isCursorOnMathExpression(void)
+{
+    // Если курсор не выделил картинку
+    if(!isCursorOnImage()) {
+        return false;
+    }
+
+    return isMathExpressionSmartDetect();
+}
+
+
+// Проверка, выделено ли математическое выражение (формула)
+bool EditorCursorPositionDetector::isMathExpressionSelect(void)
+{
+    // Если картинка не выделена
+    if(!isImageSelect()) {
+        return false;
+    }
+
+    return isMathExpressionSmartDetect();
+}
+
+
+bool EditorCursorPositionDetector::isMathExpressionSmartDetect(void)
+{
+    QString resourceName = textArea->textCursor().charFormat().toImageFormat().name();
+
+    QImage image=textArea->document()->resource(QTextDocument::ImageResource, QUrl(resourceName)).value<QImage>();
+
+    if( !image.isNull() ) {
+        QString text=image.text("Description");
+
+        if(text.startsWith( fixedParameters.mathExpDescriptionPrefix+":" )) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
