@@ -82,23 +82,30 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
 void MathExpressionFormatter::onMathExpressionClicked(void)
 {
 
-    // Если выделена картинка формулы
-    if(editor->cursorPositionDetector->isImageSelect() && mathExpressionOnSelect().size()>0) {
+    // Если выделена картинка математического выражения
+    if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << mathExpressionOnSelect();
 
         editMathExpression( mathExpressionOnSelect() );
         return;
     }
 
-    // Если курсор стоит на картинке с формулой
-    if(editor->cursorPositionDetector->isCursorOnImage() && mathExpressionOnCursor().size()>0) {
+    // Если курсор стоит на картинке с математическим выражением
+    if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
         qDebug() << "Math expression on cursor: " << mathExpressionOnSelect();
 
         editMathExpression( mathExpressionOnCursor() );
         return;
     }
 
-    // Иначе математическое выражение не выделено, и срабатывает режим добавления
+    // Код выше картинку-формулу не обнаружил
+    // Если идет работа с обычной картинкой
+    if( editor->cursorPositionDetector->isImageSelect() ||
+        editor->cursorPositionDetector->isCursorOnImage() ) {
+        return; // При обычной картинке кнопка редактирования формулы срабатывать не должна
+    }
+
+    // Математическое выражение не выделено, и срабатывает режим добавления
     addMathExpression();
 }
 
