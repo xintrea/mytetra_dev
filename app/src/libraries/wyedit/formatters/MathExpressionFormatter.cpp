@@ -19,7 +19,11 @@
 
 #include "main.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/FixedParameters.h"
 #include "views/consoleEmulator/ExecuteCommand.h"
+
+
+extern FixedParameters fixedParameters;
 
 
 MathExpressionFormatter::MathExpressionFormatter()
@@ -31,40 +35,13 @@ MathExpressionFormatter::MathExpressionFormatter()
 // Исходный код формулы, которая выделена (если выделена единственная картинка формулы)
 QString MathExpressionFormatter::mathExpressionOnSelect(void)
 {
-    // Блок, в пределах которого находится курсор
-    QTextBlock currentBlock = textArea->textCursor().block();
-    QTextBlock::iterator it;
-    QTextFragment fragment;
+    // Если выбрано изображение
+    if(editor->cursorPositionDetector->isImageSelect()) {
+        QTextFragment fragment=textArea->textCursor().block().begin().fragment();
+        QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
 
-    // Если есть выделение
-    if(textArea->textCursor().hasSelection())
-    {
-        // Перебираются фрагметы блока
-        for(it = currentBlock.begin(); !(it.atEnd()); ++it)
-        {
-            fragment = it.fragment();
-
-            // Если фрагмент содержит изображение
-            if(fragment.isValid())
-                if(fragment.charFormat().isImageFormat ())
-                {
-                    int fragmentStart=fragment.position();
-                    int fragmentEnd=fragmentStart+fragment.length();
-                    int selectionStart=textArea->textCursor().selectionStart();
-                    int selectionEnd=textArea->textCursor().selectionEnd();
-
-                    // Если начало и конец фрагмента совпадает с координатами выделения
-                    // Проверяется и случай, когда блок выделен в обратную сторону
-                    if( (fragmentStart==selectionStart && fragmentEnd==selectionEnd) ||
-                            (fragmentStart==selectionEnd && fragmentEnd==selectionStart) )
-                    {
-                        QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
-
-                        if(imageFormat.isValid()) {
-                            return getMathExpressionByImageName(imageFormat.name());
-                        }
-                    }
-                }
+        if(imageFormat.isValid()) {
+            return getMathExpressionByImageName(imageFormat.name());
         }
     }
 
@@ -97,9 +74,9 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
     if( !image.isNull() ) {
         QString text=image.text("Description");
 
-        if(text.startsWith( mathExpDescriptionPrefix+":" )) {
+        if(text.startsWith( fixedParameters.mathExpDescriptionPrefix+":" )) {
             // Учитывается длина префикса, длина номера версии, два двоеточия и символ "v"
-            return text.right( text.size() - mathExpDescriptionPrefix.size() - (mathExpVersionNumberLen+3));
+            return text.right( text.size() - fixedParameters.mathExpHeaderLen);
         }
     }
 
@@ -270,8 +247,8 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
         // Если картинка была нормально загружена из файла
         if( !image.isNull() ) {
             // Картинка в памяти запоминает исходный код формулы
-            image.setText("Description", mathExpDescriptionPrefix + ":" +
-                                         "v" + QString::number(mathExpVersion).rightJustified(mathExpVersionNumberLen, '0') + ":" +
+            image.setText("Description", fixedParameters.mathExpDescriptionPrefix + ":" +
+                                         "v" + QString::number(fixedParameters.mathExpVersion).rightJustified(fixedParameters.mathExpVersionNumberLen, '0') + ":" +
                                          iMathExpressionText);
 
             // Внутреннее имя картинки

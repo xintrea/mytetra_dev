@@ -9,53 +9,6 @@ FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent);
 
-  // Для записей
-  recordFieldAvailableList=(QStringList() << "id" \
-                                          << "name" \
-                                          << "author" \
-                                          << "url" \
-                                          << "tags" \
-                                          << "ctime" \
-                                          << "dir" \
-                                          << "file" \
-                                          << "crypt" \
-                                          << "block" \
-                                                            \
-                                          << "hasAttach" \
-                                          << "attachCount");
-
-  recordNaturalFieldAvailableList=(QStringList() << "id" \
-                                                 << "name" \
-                                                 << "author" \
-                                                 << "url" \
-                                                 << "tags" \
-                                                 << "ctime" \
-                                                 << "dir" \
-                                                 << "file" \
-                                                 << "crypt" \
-                                                 << "block");
-
-  recordCalculableFieldAvailableList=(QStringList() << "hasAttach" \
-                                                    << "attachCount");
-
-  recordFieldCryptedList=(QStringList() << "name" \
-                                        << "author" \
-                                        << "url" \
-                                        << "tags");
-
-  // Для веток
-  itemFieldAvailableList=(QStringList() << "id" \
-                                        << "name" \
-                                        << "ctime" \
-                                        << "crypt" \
-                                        << "icon");
-
-  itemFieldCryptedList=(QStringList() << "name" \
-                                      << "icon");
-
-
-  // Директория относительно XML-файла, в которой хранятся директории с иконками
-  iconsRelatedDirectory="icons";
 }
 
 
