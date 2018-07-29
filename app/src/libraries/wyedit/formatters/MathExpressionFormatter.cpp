@@ -113,9 +113,8 @@ void MathExpressionFormatter::onMathExpressionClicked(void)
 // Вызов окна редактирования формулы
 void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
-    // Если выделена картинка формулы
-    // Свойства меняются только если картинка выделена, если курсор стоит на картинке с формулой, то этого недостаточно
-    if(editor->cursorPositionDetector->isImageSelect() && mathExpressionOnSelect().size()>0) {
+    // Формула меняется только если формула выделена
+    if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << mathExpressionOnSelect();
 
         editMathExpression( mathExpressionOnSelect() );

@@ -238,6 +238,12 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
 // Вызов окна настройки свойств изображения
 void ImageFormatter::onContextMenuEditImageProperties()
 {
+  // Для картинки с формулой свойства изображения редактироваться не должны
+  if(editor->cursorPositionDetector->isMathExpressionSelect() ||
+     editor->cursorPositionDetector->isCursorOnMathExpression()) {
+    return;
+  }
+
   // Если выделена картинка
   if(editor->cursorPositionDetector->isImageSelect() ||
      editor->cursorPositionDetector->isCursorOnImage())
