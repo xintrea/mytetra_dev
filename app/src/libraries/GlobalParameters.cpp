@@ -16,6 +16,7 @@
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
+#include "libraries/FixedParameters.h"
 
 
 GlobalParameters::GlobalParameters(QObject *pobj)
@@ -360,7 +361,7 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
        // Иначе номер версии больше 3
        if(conf->contains("programm"))
         {
-         if(conf->value("programm").toString()=="mytetra") return true;
+         if(conf->value("programm").toString()==FixedParameters::appTextId) return true;
          else return false;
         }
        else return false;
@@ -416,13 +417,13 @@ QString GlobalParameters::getApplicationName(void)
  QString appName="";
 
  if(getTargetOs()=="any")
-  appName="mytetra";
+  appName=FixedParameters::appTextId;
 
  if(getTargetOs()=="meego")
-  appName="ru.webhamster.mytetra";
+  appName="ru.webhamster."+FixedParameters::appTextId;
 
  if(getTargetOs()=="android")
-   appName="ru.webhamster.mytetra";
+   appName="ru.webhamster."+FixedParameters::appTextId;
 
  // qDebug() << "In getApplicationName() return \"" << appName << "\"";
 

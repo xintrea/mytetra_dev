@@ -20,6 +20,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/TreeItem.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
@@ -488,7 +489,7 @@ void RecordTableController::paste(void)
   const QMimeData *mimeData=QApplication::clipboard()->mimeData();
   if(mimeData==NULL)
     return;
-  if( ! (mimeData->hasFormat("mytetra/records")) )
+  if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
     return;
 
   // Создается ссылка на буфер обмена

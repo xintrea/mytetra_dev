@@ -10,7 +10,6 @@
 #include "models/appConfig/AppConfig.h"
 
 extern GlobalParameters globalParameters;
-extern FixedParameters fixedParameters;
 extern AppConfig mytetraConfig;
 
 
@@ -121,7 +120,7 @@ QString TreeItem::getField(QString name)
 
 
  // Если имя поля допустимо
- if(fixedParameters.itemFieldAvailableList.contains(name))
+ if(FixedParameters::itemFieldAvailableList.contains(name))
   {
    // Если поле с таким именем существует
    if(fieldsTable.contains(name))
@@ -132,7 +131,7 @@ QString TreeItem::getField(QString name)
      // и поле является зашифрованным
      if(fieldsTable.contains("crypt"))
       if(fieldsTable["crypt"]=="1")
-       if(fixedParameters.itemFieldCryptedList.contains(name))
+       if(FixedParameters::itemFieldCryptedList.contains(name))
         {
          if(globalParameters.getCryptKey().length()>0 &&
             value!="")
@@ -167,7 +166,7 @@ QMap<QString, QString> TreeItem::getAllFields()
   foreach(QString name, names)
   {
     // В результат добаляются только параметры с разрешенным именем
-    if(fixedParameters.itemFieldAvailableList.contains(name))
+    if(FixedParameters::itemFieldAvailableList.contains(name))
       result[name]=getField(name);
   }
 
@@ -189,20 +188,20 @@ QMap<QString, QString> TreeItem::getAllFieldsDirect()
 void TreeItem::setField(QString name, QString value)
 {
   // Если имя поля допустимо
-  if(fixedParameters.itemFieldAvailableList.contains(name))
+  if(FixedParameters::itemFieldAvailableList.contains(name))
   {
     // Если это иконка
     if(name=="icon")
     {
       if(value.length()>0)
-        icon=QIcon(mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/"+value); // Изображение иконки кешируется
+        icon=QIcon(mytetraConfig.get_tetradir()+"/"+FixedParameters::iconsRelatedDirectory+"/"+value); // Изображение иконки кешируется
       else
         icon=QIcon(); // Изображение иконки обнуляется
     }
 
     // Если поле нужно шифровать
     if(fieldsTable["crypt"]=="1")
-      if(fixedParameters.itemFieldCryptedList.contains(name))
+      if(FixedParameters::itemFieldCryptedList.contains(name))
       {
         // Если установлен пароль
         if(globalParameters.getCryptKey().length()>0)
@@ -229,7 +228,7 @@ void TreeItem::setField(QString name, QString value)
 void TreeItem::setAllFieldDirect(const QMap<QString, QString> nameAndValue)
 {
   foreach(QString name, nameAndValue.keys())
-    if( !fixedParameters.itemFieldAvailableList.contains(name) )
+    if( !FixedParameters::itemFieldAvailableList.contains(name) )
       criticalError("TreeItem::setFieldDirect() : Set unavailable field \""+ name +"\" to tree item");
 
   // Устанавливаются значения полей
@@ -238,7 +237,7 @@ void TreeItem::setAllFieldDirect(const QMap<QString, QString> nameAndValue)
   // Если есть иконка и нет шифрования, изображение иконки кешируется
   if(nameAndValue.value("icon").length()>0 &&
      nameAndValue.value("crypt")!="1")
-    icon=QIcon(mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/"+nameAndValue.value("icon"));
+    icon=QIcon(mytetraConfig.get_tetradir()+"/"+FixedParameters::iconsRelatedDirectory+"/"+nameAndValue.value("icon"));
 
   if(nameAndValue.value("icon").length()==0)
     icon=QIcon();
@@ -268,7 +267,7 @@ QIcon TreeItem::getIcon()
 
         // Если иконка была задана
         if(iconFileName.length()>0)
-          icon=QIcon(mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory+"/"+iconFileName);
+          icon=QIcon(mytetraConfig.get_tetradir()+"/"+FixedParameters::iconsRelatedDirectory+"/"+iconFileName);
       }
 
       return icon;
@@ -553,7 +552,7 @@ void TreeItem::switchToEncrypt(void)
   fieldsTable["crypt"]="1";
 
   // Шифруются поля ветки, подлежащие шифрованию
-  foreach(QString fieldName, fixedParameters.itemFieldCryptedList)
+  foreach(QString fieldName, FixedParameters::itemFieldCryptedList)
     fieldsTable[fieldName]=CryptService::encryptString(globalParameters.getCryptKey(), fieldsTable[fieldName]);
 
   // Шифрация конечных записей для этой ветки
@@ -580,7 +579,7 @@ void TreeItem::switchToDecrypt(void)
   fieldsTable["crypt"]="0";
 
   // Расшифровка полей ветки, подлежащих шифрованию
-  foreach(QString fieldName, fixedParameters.itemFieldCryptedList)
+  foreach(QString fieldName, FixedParameters::itemFieldCryptedList)
     fieldsTable[fieldName]=CryptService::decryptString(globalParameters.getCryptKey(), fieldsTable[fieldName]);
 
   // Дешифрация конечных записей для этой ветки

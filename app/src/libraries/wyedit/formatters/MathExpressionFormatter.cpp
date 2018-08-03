@@ -23,9 +23,6 @@
 #include "views/consoleEmulator/ExecuteCommand.h"
 
 
-extern FixedParameters fixedParameters;
-
-
 MathExpressionFormatter::MathExpressionFormatter()
 {
 
@@ -68,9 +65,9 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
     if( !image.isNull() ) {
         QString text=image.text("Description");
 
-        if(text.startsWith( fixedParameters.mathExpDescriptionPrefix+":" )) {
+        if(text.startsWith( FixedParameters::appTextId+":"+FixedParameters::mathExpDescriptionType+":" )) {
             // Учитывается длина префикса, длина номера версии, два двоеточия и символ "v"
-            return text.right( text.size() - fixedParameters.mathExpHeaderLen);
+            return text.right( text.size() - FixedParameters::mathExpHeaderLen);
         }
     }
 
@@ -247,8 +244,9 @@ void MathExpressionFormatter::insertMathExpressionToTextArea(QString iMathExpres
         // Если картинка была нормально загружена из файла
         if( !image.isNull() ) {
             // Картинка в памяти запоминает исходный код формулы
-            image.setText("Description", fixedParameters.mathExpDescriptionPrefix + ":" +
-                                         "v" + QString::number(fixedParameters.mathExpVersion).rightJustified(fixedParameters.mathExpVersionNumberLen, '0') + ":" +
+            image.setText("Description", FixedParameters::appTextId + ":" +
+                                         FixedParameters::mathExpDescriptionType + ":" +
+                                         "v" + QString::number(FixedParameters::mathExpVersion).rightJustified(FixedParameters::mathExpVersionNumberLen, '0') + ":" +
                                          iMathExpressionText);
 
             // Внутреннее имя картинки

@@ -8,6 +8,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/tree/KnowTreeView.h"
 #include "models/tree/KnowTreeModel.h"
+#include "libraries/FixedParameters.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
@@ -164,7 +165,7 @@ void ReferenceFormatter::onClickedGotoReference(QString href)
 
 bool ReferenceFormatter::isHrefInternal(QString href)
 {
-    if(href.contains(QRegExp("^mytetra:\\/\\/note\\/\\w+$")))
+    if(href.contains(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/\\w+$")))
         return true;
     else
         return false;
@@ -176,7 +177,7 @@ QString ReferenceFormatter::getIdFromInternalHref(QString href)
     if(!isHrefInternal(href))
         return "";
 
-    href.replace(QRegExp("^mytetra:\\/\\/note\\/"), "");
+    href.replace(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/"), "");
 
     return href;
 }

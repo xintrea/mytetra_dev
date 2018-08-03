@@ -13,6 +13,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "controllers/recordTable/RecordTableController.h"
 
 
@@ -366,7 +367,7 @@ void RecordTableScreen::toolsWidgatsUpdate()
   {
    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
    if(mimeData!=NULL)
-    if(mimeData->hasFormat("mytetra/records"))
+    if(mimeData->hasFormat(FixedParameters::appTextId+"/records"))
      actionPaste->setEnabled(true);
   }
 
@@ -475,7 +476,7 @@ void RecordTableScreen::onBackClick(void)
 // Копирование в буфер обмена ссылки на запись
 void RecordTableScreen::onCopyRecordReference()
 {
-  QString reference="mytetra://note/"+getFirstSelectionId();
+  QString reference=FixedParameters::appTextId+"://note/"+getFirstSelectionId();
 
   QClipboard *clipboard = QApplication::clipboard();
   clipboard->setText(reference);

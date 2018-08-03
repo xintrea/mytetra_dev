@@ -6,11 +6,8 @@
 
 #include "EditorCursorPositionDetector.h"
 #include "EditorTextArea.h"
-
 #include "libraries/FixedParameters.h"
 
-
-extern FixedParameters fixedParameters;
 
 
 EditorCursorPositionDetector::EditorCursorPositionDetector()
@@ -118,7 +115,7 @@ bool EditorCursorPositionDetector::isMathExpressionSmartDetect(void)
     if( !image.isNull() ) {
         QString text=image.text("Description");
 
-        if(text.startsWith( fixedParameters.mathExpDescriptionPrefix+":" )) {
+        if(text.startsWith( FixedParameters::appTextId+":"+FixedParameters::mathExpDescriptionType+":" )) {
             return true;
         }
     }

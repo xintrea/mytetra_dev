@@ -3,11 +3,9 @@
 #include "main.h"
 #include "models/recordTable/RecordTableData.h"
 #include "libraries/GlobalParameters.h"
-#include "libraries/FixedParameters.h"
 #include "models/appConfig/AppConfig.h"
 
 extern GlobalParameters globalParameters;
-extern FixedParameters fixedParameters;
 extern AppConfig mytetraConfig;
 
 

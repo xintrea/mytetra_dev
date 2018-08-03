@@ -17,37 +17,36 @@ public:
   virtual ~FixedParameters();
 
   // Поля для записей
-  const QStringList recordFieldAvailableList=       {"id", "name", "author", "url", "tags", "ctime", "dir", "file", "crypt", "block", "hasAttach", "attachCount"};
-  const QStringList recordNaturalFieldAvailableList={"id", "name", "author", "url", "tags", "ctime", "dir", "file", "crypt", "block"};
-  const QStringList recordCalculableFieldAvailableList={"hasAttach", "attachCount"};
-  const QStringList recordFieldCryptedList={"name", "author", "url", "tags"};
+  static const QStringList recordFieldAvailableList;
+  static const QStringList recordNaturalFieldAvailableList;
+  static const QStringList recordCalculableFieldAvailableList;
+  static const QStringList recordFieldCryptedList;
 
   // Поля для веток
-  const QStringList itemFieldAvailableList={"id", "name", "ctime", "crypt", "icon"};
-  const QStringList itemFieldCryptedList={"name", "icon"};
+  static const QStringList itemFieldAvailableList;
+  static const QStringList itemFieldCryptedList;
 
   // Директория относительно XML-файла, в которой хранятся директории с иконками
-  const QString iconsRelatedDirectory="icons";
+  static const QString iconsRelatedDirectory;
 
+  // Текстовый идентификатор приложения
+  static const QString appTextId;
 
   // Описание заголовка математического выражения в поле Description PNG-файла
-  // Математическое выражение состоит из префикса и номера версии, выглядит следующим образом:
-  // "mytetraMathExpression:v0001:математическое выражение в формате TeX"
-  const QString mathExpDescriptionPrefix="mytetraMathExpression";
-  const int mathExpVersion=1; // Текущая максимальная версия формата хранения формулы
-  const int mathExpVersionNumberLen=4; // Сколько символов занимает номер версии (только цифры)
-  const int mathExpHeaderLen=28; // Сколько символов занимает весь заголовок (префикс, номер версии, оба двоеточия)
+  // Математическое выражение состоит из текстового идентификатора приложения, типа хранимого значения
+  // и номера версии формата хранимого значения, выглядит следующим образом:
+  // "mytetra:mathExpression:v0001:математическое выражение в формате TeX"
+  static const QString mathExpDescriptionType;
+  static const int mathExpVersion; // Текущая максимальная версия формата хранения формулы
+  static const int mathExpVersionNumberLen; // Сколько символов занимает номер версии (только цифры)
+  static const int mathExpHeaderLen; // Сколько символов занимает весь заголовок (префикс, номер версии, три двоеточия)
 
 
-  bool isRecordFieldAvailable(QString name) const;
-  bool isRecordFieldNatural(QString name) const;
-  bool isRecordFieldCalculable(QString name) const;
+  static bool isRecordFieldAvailable(QString name);
+  static bool isRecordFieldNatural(QString name);
+  static bool isRecordFieldCalculable(QString name);
 
-  QMap<QString, QString> recordFieldDescription(QStringList list) const;
-
-signals:
-
-public slots:
+  static QMap<QString, QString> recordFieldDescription(QStringList list);
 
 };
 

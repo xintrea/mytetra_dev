@@ -29,7 +29,7 @@
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
-extern FixedParameters fixedParameters;
+
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
 {
@@ -291,7 +291,7 @@ void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
     bool isBranch=false;
     const QMimeData *mimeData=QApplication::clipboard()->mimeData();
      if(mimeData!=NULL)
-      if(mimeData->hasFormat("mytetra/branch"))
+      if(mimeData->hasFormat(FixedParameters::appTextId+"/branch"))
         isBranch=true;
 
      if( isBranch )
@@ -1066,7 +1066,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
  if(mimeData==NULL)
   return;
- if( ! (mimeData->hasFormat("mytetra/branch")) )
+ if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/branch")) )
   return;
 
  // Получение списка индексов QModelIndex выделенных элементов
@@ -1210,7 +1210,7 @@ void TreeScreen::decryptBranchItem(void)
 // Установка иконки для ветки
 void TreeScreen::setIcon(void)
 {
-  QString startDirectory=mytetraConfig.get_tetradir()+"/"+fixedParameters.iconsRelatedDirectory;
+  QString startDirectory=mytetraConfig.get_tetradir()+"/"+FixedParameters::iconsRelatedDirectory;
   qDebug() << "Set start directory for select icon: " << startDirectory;
 
   // Создается окно выбора файла иконки

@@ -4,6 +4,7 @@
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/TrashMonitoring.h"
+#include "libraries/FixedParameters.h"
 
 extern AppConfig mytetraConfig;
 extern TrashMonitoring trashMonitoring;
@@ -123,7 +124,7 @@ QString DiskHelper::createTempDirectory(void)
   QDir dir;
   QString systemTempDirName=dir.tempPath();
 
-  QString temp_dir_name="mytetra"+getUniqueId();
+  QString temp_dir_name=FixedParameters::appTextId+getUniqueId();
 
   // Создается директория
   dir.setPath(systemTempDirName);

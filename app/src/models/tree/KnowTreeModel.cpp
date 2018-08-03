@@ -23,7 +23,6 @@
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
-extern FixedParameters fixedParameters;
 
 
 // Конструктор модели дерева, состоящего из Item элементов
@@ -322,11 +321,11 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 
   // Если это ветка
   if(element.nodeName()=="node")
-    cryptFieldNames=fixedParameters.itemFieldCryptedList;
+    cryptFieldNames=FixedParameters::itemFieldCryptedList;
 
   // Если это запись
   if(element.nodeName()=="record")
-    cryptFieldNames=fixedParameters.recordFieldCryptedList;
+    cryptFieldNames=FixedParameters::recordFieldCryptedList;
 
   // Расшифровка атрибутов
   foreach(QString cryptFieldName, cryptFieldNames)
@@ -793,7 +792,7 @@ void KnowTreeModel::addNewBranch(TreeItem *parent, QMap<QString, QString> branch
       continue;
 
     // Добавляются только поля, разрешенные для ветки. Вспомогательные поля отбрасываются
-    if(!fixedParameters.itemFieldAvailableList.contains(fieldName))
+    if(!FixedParameters::itemFieldAvailableList.contains(fieldName))
       continue;
 
     QString value=branchFields.value(fieldName);

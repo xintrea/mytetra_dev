@@ -13,7 +13,6 @@
 #include "libraries/DiskHelper.h"
 
 extern AppConfig mytetraConfig;
-extern FixedParameters fixedParameters;
 extern GlobalParameters globalParameters;
 
 
@@ -82,7 +81,7 @@ QDomElement Record::exportDataToDom(QDomDocument *doc) const
   QDomElement elem=doc->createElement("record");
 
   // Перебираются допустимые имена полей, доступных для сохранения
-  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList;
+  QStringList availableFieldList=FixedParameters::recordNaturalFieldAvailableList;
   int availableFieldListSize=availableFieldList.size();
   for(int j=0; j<availableFieldListSize; ++j)
   {
@@ -106,7 +105,7 @@ void Record::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const
   xmlWriter->writeStartElement("record");
 
   // Перебираются допустимые имена полей, доступных для сохранения
-  QStringList availableFieldList=fixedParameters.recordNaturalFieldAvailableList;
+  QStringList availableFieldList=FixedParameters::recordNaturalFieldAvailableList;
   int availableFieldListSize=availableFieldList.size();
   for(int j=0; j<availableFieldListSize; ++j)
   {
@@ -191,15 +190,15 @@ QString Record::getIdAndNameAsString() const
 QString Record::getField(QString name) const
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldAvailable(name)==false)
+  if(FixedParameters::isRecordFieldAvailable(name)==false)
     criticalError("RecordTableData::getField() : get unavailable field "+name);
 
   // Для настоящего поля
-  if(fixedParameters.isRecordFieldNatural(name))
+  if(FixedParameters::isRecordFieldNatural(name))
     return getNaturalField(name);
 
   // Для вычислимого поля
-  if(fixedParameters.isRecordFieldCalculable(name))
+  if(FixedParameters::isRecordFieldCalculable(name))
     return getCalculableField(name);
 
   return "";
@@ -214,7 +213,7 @@ QString Record::getNaturalField(QString name) const
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
-  if(fixedParameters.recordFieldCryptedList.contains(name))
+  if(FixedParameters::recordFieldCryptedList.contains(name))
     if(fieldList.contains("crypt"))
       if(fieldList["crypt"]=="1")
         if(globalParameters.getCryptKey().length()==0)
@@ -232,7 +231,7 @@ QString Record::getNaturalField(QString name) const
     // и в наборе полей есть поле crypt
     // и поле crypt установлено в 1
     // и запрашиваемое поле не пустое (пустые данные невозможно расшифровать)
-    if(fixedParameters.recordFieldCryptedList.contains(name))
+    if(FixedParameters::recordFieldCryptedList.contains(name))
       if(fieldList.contains("crypt"))
         if(fieldList["crypt"]=="1")
           if(fieldList[name].length()>0)
@@ -278,7 +277,7 @@ QString Record::getCalculableField(QString name) const
 void Record::setField(QString name, QString value)
 {
   // Если имя поля недопустимо (установить значение можно только для натурального поля)
-  if(fixedParameters.isRecordFieldNatural(name)==false)
+  if(FixedParameters::isRecordFieldNatural(name)==false)
     criticalError("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
 
   bool isCrypt=false;
@@ -287,7 +286,7 @@ void Record::setField(QString name, QString value)
   // и в наборе полей есть поле crypt
   // и поле crypt установлено в 1
   // и поле не пустое (пустые данные не нужно шифровать)
-  if(fixedParameters.recordFieldCryptedList.contains(name))
+  if(FixedParameters::recordFieldCryptedList.contains(name))
     if(fieldList.contains("crypt"))
       if(fieldList["crypt"]=="1")
         if(value.length()>0)
@@ -319,7 +318,7 @@ bool Record::isNaturalFieldExists(QString name) const
 QString Record::getNaturalFieldSource(QString name) const
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldNatural(name)==false)
+  if(FixedParameters::isRecordFieldNatural(name)==false)
     criticalError("RecordTableData::getNaturalFieldSource() : get unavailable field "+name);
 
   // Если поле с таким названием есть
@@ -333,7 +332,7 @@ QString Record::getNaturalFieldSource(QString name) const
 void Record::setNaturalFieldSource(QString name, QString value)
 {
   // Если имя поля недопустимо
-  if(fixedParameters.isRecordFieldNatural(name)==false)
+  if(FixedParameters::isRecordFieldNatural(name)==false)
     criticalError("In RecordTableData::setNaturalFieldSource() unavailable field name "+name+" try set to "+value);
 
   // Устанавливается значение поля
@@ -347,7 +346,7 @@ void Record::setNaturalFieldSource(QString name, QString value)
 QMap<QString, QString> Record::getNaturalFieldList() const
 {
   // Список имен инфополей
-  QStringList fieldNames=fixedParameters.recordNaturalFieldAvailableList;
+  QStringList fieldNames=FixedParameters::recordNaturalFieldAvailableList;
 
   QMap<QString, QString> resultFieldList;
 
@@ -376,11 +375,11 @@ QMap<QString, QString> Record::getNaturalFieldList() const
         // Присутствует шифрование
 
         // Если поле не подлежит шифрованию (не все поля в зашифрованной ветке шифруются. Например, не шифруется ID записи)
-        if(fixedParameters.recordFieldCryptedList.contains(currName)==false)
+        if(FixedParameters::recordFieldCryptedList.contains(currName)==false)
           result=fieldList[currName]; // Напрямую значение поля
         else
           if(globalParameters.getCryptKey().length()>0 &&
-             fixedParameters.recordFieldCryptedList.contains(currName))
+             FixedParameters::recordFieldCryptedList.contains(currName))
             result=CryptService::decryptString(globalParameters.getCryptKey(), fieldList[currName]); // Расшифровывается значение поля
       }
 
@@ -590,7 +589,7 @@ void Record::switchToEncryptFields(void)
   // В момент, когда поле переустанавливается, оно получит зашифрованное значение так как у записи установлен флаг шифрования
 
   // Выбираются поля, разрешенные для шифрования
-  foreach(QString fieldName, fixedParameters.recordFieldCryptedList)
+  foreach(QString fieldName, FixedParameters::recordFieldCryptedList)
   {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое
@@ -610,7 +609,7 @@ void Record::switchToDecryptFields(void)
     return;
 
   // Выбираются поля, разрешенные для шифрования
-  foreach(QString fieldName, fixedParameters.recordFieldCryptedList)
+  foreach(QString fieldName, FixedParameters::recordFieldCryptedList)
   {
     // Если в полях записей присутствует очередное разрешенное имя поля
     // И это поле непустое
@@ -781,7 +780,7 @@ void Record::replaceInternalReferenceByTranslateTable(QString recordFileName, QM
 
 
   // Подготавливается регулярное выражение
-  QRegExp rx("href=\"mytetra:\\/\\/note/(.*)\"");
+  QRegExp rx("href=\""+FixedParameters::appTextId+":\\/\\/note/(.*)\"");
   rx.setMinimal(true); // Регулярка делается ленивой (ленивые квантификаторы в строке регвыра в Qt не поддерживаются)
 
   // Заполняется список идентификаторов, встречающихся во внутренних ссылках
@@ -799,8 +798,8 @@ void Record::replaceInternalReferenceByTranslateTable(QString recordFileName, QM
   foreach(QString currentId, internalIdList)
     if(idRecordTranslate.contains(currentId)) // Если идентификатор надо заменить
     {
-      lines.replace("href=\"mytetra://note/"+currentId+"\"",
-                    "href=\"mytetra://note/"+idRecordTranslate[currentId]+"\"");
+      lines.replace("href=\""+FixedParameters::appTextId+"://note/"+currentId+"\"",
+                    "href=\""+FixedParameters::appTextId+"://note/"+idRecordTranslate[currentId]+"\"");
       isIdReplace=true;
     }
 

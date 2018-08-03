@@ -12,15 +12,14 @@
 #include "controllers/recordTable/RecordTableController.h"
 
 extern AppConfig mytetraConfig;
-extern FixedParameters fixedParameters;
 
 
 AppConfigPage_RecordTable::AppConfigPage_RecordTable(QWidget *parent) : ConfigPage(parent)
 {
   qDebug() << "Create record table config page";
 
-  QStringList allFieldNames=fixedParameters.recordFieldAvailableList;
-  QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( allFieldNames );
+  QStringList allFieldNames=FixedParameters::recordFieldAvailableList;
+  QMap<QString, QString> descriptionFields=FixedParameters::recordFieldDescription( allFieldNames );
   QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
   // Создаются чекбоксы для каждого поля, хранимого в записи

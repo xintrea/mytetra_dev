@@ -10,6 +10,7 @@
 #include "models/recordTable/Record.h"
 #include "models/attachTable/AttachTableData.h"
 #include "ClipboardRecords.h"
+#include "libraries/FixedParameters.h"
 
 
 ClipboardRecords::ClipboardRecords(void) : QMimeData()
@@ -31,7 +32,7 @@ void ClipboardRecords::init(void)
     records.table.clear();
   
   clipbRecordsFormat.clear();
-  clipbRecordsFormat << "mytetra/records";
+  clipbRecordsFormat << FixedParameters::appTextId+"/records";
 }
 
 

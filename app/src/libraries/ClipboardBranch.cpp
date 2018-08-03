@@ -8,6 +8,7 @@
 
 #include "main.h"
 #include "ClipboardBranch.h"
+#include "libraries/FixedParameters.h"
 
 ClipboardBranch::ClipboardBranch(void) : QMimeData()
 {
@@ -27,7 +28,7 @@ void ClipboardBranch::init(void)
  branchData.record.clear();
 
  clipboardBranchFormat.clear();
- clipboardBranchFormat << "mytetra/branch";
+ clipboardBranchFormat << FixedParameters::appTextId+"/branch";
 }
 
 

@@ -9,7 +9,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/FixedParameters.h"
 
-extern FixedParameters fixedParameters;
+
 extern AppConfig mytetraConfig;
 
 
@@ -175,7 +175,7 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
   // Если происходит редактирование
   if(role==Qt::EditRole)
   {
-    // QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+    // QStringList showFields=FixedParameters::recordFieldAvailableList(); // TODO: Заменить на показываемые поля
     QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
     // Если длина списка показываемых столбцов меньше или равна номеру запрашиваемого столбца
@@ -220,10 +220,10 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
 // Получение заголовков столбцов и строк
 QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
- // QStringList showFields=fixedParameters.recordFieldAvailableList(); // TODO: Заменить на показываемые поля
+ // QStringList showFields=FixedParameters::recordFieldAvailableList(); // TODO: Заменить на показываемые поля
  QStringList showFields=mytetraConfig.getRecordTableShowFields();
 
- QMap<QString, QString> descriptionFields=fixedParameters.recordFieldDescription( showFields );
+ QMap<QString, QString> descriptionFields=FixedParameters::recordFieldDescription( showFields );
 
  // Если ни один столбец не показывается (чего, впринципе не может быть)
  if(showFields.size()==0)

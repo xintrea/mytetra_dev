@@ -8,6 +8,7 @@
 #include "TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
@@ -115,7 +116,7 @@ template <class X> bool KnowTreeView::isDragableData(X *event)
  const QMimeData *mimeData=event->mimeData();
  if(mimeData==NULL)
   return false;
- if( ! (mimeData->hasFormat("mytetra/records")) )
+ if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
   return false;
 
  QObject *sourceObject=qobject_cast<QObject *>( event->source() );
