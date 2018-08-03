@@ -35,7 +35,7 @@ public slots:
 
   void onDownloadImages(const QString html);
 
-  void onDoubleClickOnImage();
+  void onDoubleClickOnImage(void);
 
 };
 

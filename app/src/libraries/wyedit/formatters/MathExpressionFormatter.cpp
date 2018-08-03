@@ -119,7 +119,7 @@ void MathExpressionFormatter::onContextMenuEditMathExpression()
 
 
 // Двойной клик по картинке с формулой
-void MathExpressionFormatter::onDoubleClickOnImage()
+void MathExpressionFormatter::onDoubleClickOnImage(void)
 {
     if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
         qDebug() << "Math expression on double click: " << this->mathExpressionOnCursor();

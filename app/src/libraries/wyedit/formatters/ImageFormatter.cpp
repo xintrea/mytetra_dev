@@ -261,7 +261,7 @@ void ImageFormatter::onContextMenuEditImageProperties()
 }
 
 
-void ImageFormatter::onDoubleClickOnImage()
+void ImageFormatter::onDoubleClickOnImage(void)
 {
     onContextMenuEditImageProperties();
 }
