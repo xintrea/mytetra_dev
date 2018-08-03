@@ -217,16 +217,27 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 
 void EditorTextArea::mousePressEvent(QMouseEvent *event)
 {
-  if( QApplication::keyboardModifiers() & Qt::ControlModifier )
-  {
-    QString href = anchorAt(event->pos());
-    if(!href.isEmpty())
-      emit clickedOnReference(href);
-  }
-  else
-    qApp->restoreOverrideCursor();
+    // Если клик происходит вместе с клавишей-модификатором Ctrl
+    if( event->type()==QEvent::MouseButtonPress && (QApplication::keyboardModifiers() & Qt::ControlModifier) ) {
+        QString href = this->anchorAt(event->pos());
+        if(!href.isEmpty())
+            emit clickedOnReference(href);
+    } else {
+        qApp->restoreOverrideCursor();
+    }
 
-  QTextEdit::mousePressEvent(event);
+    QTextEdit::mousePressEvent(event);
+}
+
+
+void EditorTextArea::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    // Если происходит двойной клик по картинке
+    if(this->currentCharFormat().isImageFormat()) {
+        emit doubleClickOnImage();
+    }
+
+    QTextEdit::mouseDoubleClickEvent(event);
 }
 
 

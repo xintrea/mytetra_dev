@@ -25,6 +25,8 @@ public slots:
   void onMathExpressionClicked(void);
   void onContextMenuEditMathExpression(void);
 
+  void onDoubleClickOnImage();
+
 protected:
 
   void addMathExpression(void);

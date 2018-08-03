@@ -261,6 +261,12 @@ void ImageFormatter::onContextMenuEditImageProperties()
 }
 
 
+void ImageFormatter::onDoubleClickOnImage()
+{
+    onContextMenuEditImageProperties();
+}
+
+
 void ImageFormatter::onDownloadImages(const QString html)
 {
   // Создается временный документ на основе HTML (именно документ, так как у QTextDocumentFragment нет методов перебора блоков текста)

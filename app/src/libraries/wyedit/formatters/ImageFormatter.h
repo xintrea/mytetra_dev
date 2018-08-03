@@ -34,6 +34,9 @@ public slots:
   void onContextMenuEditImageProperties(void);
 
   void onDownloadImages(const QString html);
+
+  void onDoubleClickOnImage();
+
 };
 
 #endif // IMAGEFORMATTER_H

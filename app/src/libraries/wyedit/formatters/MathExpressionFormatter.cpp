@@ -112,9 +112,18 @@ void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
     // Формула меняется только если формула выделена
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
-        qDebug() << "Math expression on select: " << mathExpressionOnSelect();
+        qDebug() << "Math expression on select: " << this->mathExpressionOnSelect();
+        editMathExpression( this->mathExpressionOnSelect() );
+    }
+}
 
-        editMathExpression( mathExpressionOnSelect() );
+
+// Двойной клик по картинке с формулой
+void MathExpressionFormatter::onDoubleClickOnImage()
+{
+    if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
+        qDebug() << "Math expression on double click: " << this->mathExpressionOnCursor();
+        editMathExpression( this->mathExpressionOnCursor() );
     }
 }
 

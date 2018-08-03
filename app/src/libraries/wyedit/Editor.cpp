@@ -476,6 +476,16 @@ void Editor::setupSignals(void)
           referenceFormatter, SLOT  (onClickedGotoReference(QString)),
           Qt::DirectConnection);
 
+  // Двойной клик по картинке, для ImageFormatter
+  connect(textArea,       SIGNAL(doubleClickOnImage()),
+          imageFormatter, SLOT  (onDoubleClickOnImage()),
+          Qt::DirectConnection);
+
+  // Двойной клик по картинке, для MathExpressionFormatter
+  connect(textArea,                SIGNAL(doubleClickOnImage()),
+          mathExpressionFormatter, SLOT  (onDoubleClickOnImage()),
+          Qt::DirectConnection);
+
   // Глобальное нажатие клавиш
   connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalPressKey(int)),
           textArea,                              SLOT  (onGlobalPressKey(int)),

@@ -43,6 +43,8 @@ class EditorTextArea : public QTextEdit
 
   void downloadImages(const QString href);
 
+  void doubleClickOnImage();
+
  public slots:
   void show_indetedge(bool i);
   void set_indentedge_pos(int i);
@@ -84,6 +86,7 @@ private:
   // Нужны для обработки кликов по ссылкам в тексте записи
   void mouseMoveEvent(QMouseEvent *event);
   void mousePressEvent(QMouseEvent *event);
+  void mouseDoubleClickEvent(QMouseEvent *event);
 
   void switchReferenceClickMode(bool flag);
 };
