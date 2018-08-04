@@ -108,7 +108,7 @@ void TypefaceFormatter::smartFormat(int formatType)
             if(cursor.charFormat().fontWeight() != QFont::Bold)
                 format.setFontWeight(QFont::Bold);
             else
-                format.setFontWeight(0);
+                format.setFontWeight(QFont::Normal); // Remove Bold
         }
 
         if(formatType==Italic)
