@@ -128,6 +128,7 @@ void MathExpressionFormatter::onDoubleClickOnImage(void)
 }
 
 
+// Добавление новой формулы
 void MathExpressionFormatter::addMathExpression(void)
 {
     // Открывается окно запроса математического выражения
@@ -139,6 +140,7 @@ void MathExpressionFormatter::addMathExpression(void)
 }
 
 
+// Редактирование существующей формулы
 void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 {
     qDebug() << "Edit math expression: " << mathExpressionOnSelect();
@@ -147,6 +149,10 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
     QString mathExpressionText=getMathExpressionFromUser( iMathExpressionText );
 
     if(mathExpressionText.size()>0) {
+        // Удаляется предыдущая картинка формулы
+        // Если было выделение картинки - удалится выделение, иначе удалится картинка как символ (так работает deleteChar)
+        textArea->textCursor().deleteChar();
+
         insertMathExpressionToTextArea(mathExpressionText);
     }
 }
