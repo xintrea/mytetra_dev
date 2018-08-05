@@ -55,7 +55,6 @@ bool EditorCursorPositionDetector::isImageSelect(void)
 QTextImageFormat EditorCursorPositionDetector::getImageSelectFormat(void)
 {
   // Происходит анализ, выделена ли картинка
-  // bool isImageSelectFlag=false;
 
   // Блок, в пределах которого находится курсор
   QTextBlock currentBlock = textArea->textCursor().block();
