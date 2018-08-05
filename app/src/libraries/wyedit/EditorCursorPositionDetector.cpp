@@ -41,8 +41,21 @@ bool EditorCursorPositionDetector::isCursorOnImage(void)
 // Метод, определяющий, выбрана ли только одна картинка
 bool EditorCursorPositionDetector::isImageSelect(void)
 {
+    QTextImageFormat format=getImageSelectFormat();
+
+    if( format.isImageFormat() && format.isValid() && format.name().size()>0 ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+// Метод, получающий информацию о выбранной выделением одной картинке
+QTextImageFormat EditorCursorPositionDetector::getImageSelectFormat(void)
+{
   // Происходит анализ, выделена ли картинка
-  bool is_image_select_flag=false;
+  // bool isImageSelectFlag=false;
 
   // Блок, в пределах которого находится курсор
   QTextBlock currentBlock = textArea->textCursor().block();
@@ -71,26 +84,45 @@ bool EditorCursorPositionDetector::isImageSelect(void)
           if( (fragmentStart==selectionStart && fragmentEnd==selectionEnd) ||
               (fragmentStart==selectionEnd && fragmentEnd==selectionStart) )
           {
-            is_image_select_flag=true;
-            break;
+            return fragment.charFormat().toImageFormat();
           }
         }
     }
   }
 
-  return is_image_select_flag;
+  return QTextImageFormat();
+}
+
+
+// Где находится картинка относительно курсора (-1 - слева, 0 - курсор не на картинке, 1 - справа)
+int EditorCursorPositionDetector::whereImageAtCursor(void)
+{
+    if(isCursorOnImage()==false) {
+        return 0;
+    }
+
+    // Qt считает, что курсор находится на картинке, если курсор находится справа от нее: K|
+    // Но если картинка стоит первым символом на строке, и курсор тоже в начале строки: |K
+    // то charFormat() для такой позиции курсора будет тоже выдаваться как валидный QTextImageFormat
+    if(textArea->textCursor().atBlockStart()==true) {
+        return 1;
+    }
+
+    return -1;
 }
 
 
 // Проверка, находится ли курсор на позиции, где находится математическое выражение (формула)
 bool EditorCursorPositionDetector::isCursorOnMathExpression(void)
 {
-    // Если курсор не выделил картинку
+    // Если курсор не находится возле картинки
     if(!isCursorOnImage()) {
         return false;
     }
 
-    return isMathExpressionSmartDetect();
+    QString resourceName = textArea->textCursor().charFormat().toImageFormat().name();
+
+    return isMathExpressionSmartDetect(resourceName);
 }
 
 
@@ -102,14 +134,14 @@ bool EditorCursorPositionDetector::isMathExpressionSelect(void)
         return false;
     }
 
-    return isMathExpressionSmartDetect();
+    QString resourceName = getImageSelectFormat().name();
+
+    return isMathExpressionSmartDetect(resourceName);
 }
 
 
-bool EditorCursorPositionDetector::isMathExpressionSmartDetect(void)
+bool EditorCursorPositionDetector::isMathExpressionSmartDetect(QString &resourceName)
 {
-    QString resourceName = textArea->textCursor().charFormat().toImageFormat().name();
-
     QImage image=textArea->document()->resource(QTextDocument::ImageResource, QUrl(resourceName)).value<QImage>();
 
     if( !image.isNull() ) {

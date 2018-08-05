@@ -34,10 +34,10 @@ QString MathExpressionFormatter::mathExpressionOnSelect(void)
 {
     // Если выбрано математическое выражение
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
-        QTextFragment fragment=textArea->textCursor().block().begin().fragment();
-        QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
-
-        return getMathExpressionByImageName(imageFormat.name());
+        QTextImageFormat imageFormat=editor->cursorPositionDetector->getImageSelectFormat();
+        if(imageFormat.name().size()>0) {
+            return getMathExpressionByImageName(imageFormat.name());
+        }
     }
 
     return QString();
@@ -151,7 +151,13 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
     if(mathExpressionText.size()>0) {
         // Удаляется предыдущая картинка формулы
         // Если было выделение картинки - удалится выделение, иначе удалится картинка как символ (так работает deleteChar)
-        textArea->textCursor().deleteChar();
+        int whereImageAtCursor=editor->cursorPositionDetector->whereImageAtCursor();
+        if(whereImageAtCursor==-1) {
+            textArea->textCursor().deletePreviousChar();
+        }
+        if(whereImageAtCursor==1) {
+            textArea->textCursor().deleteChar();
+        }
 
         insertMathExpressionToTextArea(mathExpressionText);
     }
