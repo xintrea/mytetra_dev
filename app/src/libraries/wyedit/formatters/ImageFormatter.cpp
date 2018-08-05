@@ -31,9 +31,7 @@ QTextImageFormat ImageFormatter::imageFormatOnSelect(void)
 {
     // Если выбрано изображение
     if(editor->cursorPositionDetector->isImageSelect()) {
-        QTextFragment fragment=textArea->textCursor().block().begin().fragment();
-        QTextImageFormat imageFormat=fragment.charFormat().toImageFormat();
-        return imageFormat;
+        return editor->cursorPositionDetector->getImageSelectFormat();
     }
 
     return QTextImageFormat();
@@ -68,13 +66,13 @@ void ImageFormatter::editImageProperties(void)
     QTextImageFormat imageFormat;
 
     // Если выбрано изображение
-    if(editor->cursorPositionDetector->isImageSelect())
+    if(editor->cursorPositionDetector->isImageSelect()) {
         imageFormat=imageFormatOnSelect();
-
-    // Если изображение не выбрано, но курсор находится в позиции изображения
-    if(editor->cursorPositionDetector->isCursorOnImage())
+    }
+    else if(editor->cursorPositionDetector->isCursorOnImage()) {
+        // Если изображение не выбрано, но курсор находится в позиции изображения
         imageFormat=imageFormatOnCursor();
-
+    }
 
     // Выясняется имя картинки в ресурсах документа
     QString imageName=imageFormat.name();
@@ -144,19 +142,30 @@ void ImageFormatter::editImageProperties(void)
             {
                 fragment = it.fragment();
 
-                // Если фрагмент содержит изображение
+                // Если фрагмент содержит изображение, для которого редактировались свойства
                 if(fragment.isValid() &&
-                        fragment.charFormat().isImageFormat())
-                    break; // Переменная fragment содержит только картинку
+                        fragment.charFormat().isImageFormat() &&
+                        fragment.charFormat().toImageFormat().name()==imageName) {
+
+                    int fragmentStart=fragment.position();
+                    int fragmentEnd=fragmentStart+fragment.length();
+                    int selectionStart=textArea->textCursor().selectionStart();
+                    int selectionEnd=textArea->textCursor().selectionEnd();
+
+                    // Если начало и конец фрагмента совпадает с координатами выделения
+                    // Проверяется и случай, когда выделение было в обратную сторону
+                    if( (fragmentStart==selectionStart && fragmentEnd==selectionEnd) ||
+                            (fragmentStart==selectionEnd && fragmentEnd==selectionStart) ) {
+                        break; // Переменная fragment содержит только картинку, для которой редактируются свойства
+                    }
+                }
             }
 
+            QTextCursor helpCursor = textArea->textCursor();
 
-            QTextCursor helper = textArea->textCursor();
-
-            helper.setPosition(fragment.position());
-            helper.setPosition(fragment.position() + fragment.length(),
-                               QTextCursor::KeepAnchor);
-            helper.setCharFormat(imageFormat);
+            helpCursor.setPosition(fragment.position());
+            helpCursor.setPosition(fragment.position() + fragment.length(), QTextCursor::KeepAnchor);
+            helpCursor.setCharFormat(imageFormat);
         }
 
 

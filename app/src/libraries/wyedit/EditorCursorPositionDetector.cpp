@@ -71,7 +71,7 @@ QTextImageFormat EditorCursorPositionDetector::getImageSelectFormat(void)
       fragment = it.fragment();
 
       // Если фрагмент содержит изображение
-      if(fragment.isValid())
+      if(fragment.isValid()) {
         if(fragment.charFormat().isImageFormat ())
         {
           int fragmentStart=fragment.position();
@@ -87,6 +87,7 @@ QTextImageFormat EditorCursorPositionDetector::getImageSelectFormat(void)
             return fragment.charFormat().toImageFormat();
           }
         }
+      }
     }
   }
 
