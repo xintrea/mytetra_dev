@@ -67,6 +67,7 @@ void EditorToolBar::setupButtons(void)
   bold.setCheckable(true);
   bold.setShortcut(QKeySequence(QKeySequence::Bold));
   bold.setStatusTip(tr("Bold (Ctrl+B)"));
+  bold.setToolTip(tr("Bold (Ctrl+B)"));
   bold.setIcon(QIcon(":/resource/pic/edit_bold.svg"));
   bold.setObjectName("editor_tb_bold");
 
@@ -75,6 +76,7 @@ void EditorToolBar::setupButtons(void)
   italic.setCheckable(true);
   italic.setShortcut(QKeySequence(QKeySequence::Italic));
   italic.setStatusTip(tr("Italic (Ctrl+I)"));
+  italic.setToolTip(tr("Italic (Ctrl+I)"));
   italic.setIcon(QIcon(":/resource/pic/edit_italic.svg"));
   italic.setObjectName("editor_tb_italic");
 
@@ -83,6 +85,7 @@ void EditorToolBar::setupButtons(void)
   underline.setCheckable(true);
   underline.setShortcut(QKeySequence(QKeySequence::Underline));
   underline.setStatusTip(tr("Underline (Ctrl+U)"));
+  underline.setToolTip(tr("Underline (Ctrl+U)"));
   underline.setIcon(QIcon(":/resource/pic/edit_underline.svg"));
   underline.setObjectName("editor_tb_underline");
 
@@ -90,6 +93,7 @@ void EditorToolBar::setupButtons(void)
   monospace.setParent(this);
   monospace.setShortcut(QKeySequence(tr("Ctrl+T")));
   monospace.setStatusTip(tr("Monospace (Ctrl+T)"));
+  monospace.setToolTip(tr("Monospace (Ctrl+T)"));
   monospace.setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
   monospace.setObjectName("editor_tb_monospace");
 
@@ -97,6 +101,7 @@ void EditorToolBar::setupButtons(void)
   code.setParent(this);
   code.setShortcut(QKeySequence(tr("Ctrl+M")));
   code.setStatusTip(tr("Code (Ctrl+M). Select a whole paragraphs to format text as code."));
+  code.setToolTip(tr("Code (Ctrl+M)"));
   code.setIcon(QIcon(":/resource/pic/edit_code.svg"));
   code.setObjectName("editor_tb_code");
 
@@ -104,12 +109,14 @@ void EditorToolBar::setupButtons(void)
   clear.setParent(this);
   clear.setShortcut(QKeySequence(tr("Ctrl+K")));
   clear.setStatusTip(tr("Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case."));
+  clear.setToolTip(tr("Reset format (Ctrl+K)"));
   clear.setIcon(QIcon(":/resource/pic/edit_clear.svg"));
   clear.setObjectName("editor_tb_clear");
 
   // Кнопка TextOnly - преобразование выделенного фрагмента в чистый текст
   textOnly.setParent(this);
   textOnly.setStatusTip(tr("Reset selected text to text only"));
+  textOnly.setToolTip(tr("Reset selected text to text only"));
   textOnly.setIcon(QIcon(":/resource/pic/edit_text_only.svg"));
   textOnly.setObjectName("editor_tb_text_only");
 
@@ -117,18 +124,21 @@ void EditorToolBar::setupButtons(void)
   fixBreakSymbol.setParent(this);
   // fixBreakSymbol.setShortcut(QKeySequence(tr("Ctrl+K")));
   fixBreakSymbol.setStatusTip(tr("Replace soft carriage return to standard carriage return.")); // Замена символов мягкого перевода строк на обычный
+  fixBreakSymbol.setToolTip(tr("Replace soft carriage return to standard carriage return."));
   fixBreakSymbol.setIcon(QIcon(":/resource/pic/edit_fixBreakSymbol.svg"));
   fixBreakSymbol.setObjectName("editor_tb_fix_break_symbol");
 
   // Кнопка нумерованного списка
   numericList.setParent(this);
   numericList.setStatusTip(tr("Numeric list"));
+  numericList.setToolTip(tr("Numeric list"));
   numericList.setIcon(QIcon(":/resource/pic/edit_listnumeric.svg"));
   numericList.setObjectName("editor_tb_numericlist");
 
   // Кнопка списка с точками
   dotList.setParent(this);
   dotList.setStatusTip(tr("Marked list"));
+  dotList.setToolTip(tr("Marked list"));
   dotList.setIcon(QIcon(":/resource/pic/edit_listdot.svg"));
   dotList.setObjectName("editor_tb_dotlist");
 
@@ -136,12 +146,14 @@ void EditorToolBar::setupButtons(void)
   // Кнопка увеличения отступа
   indentPlus.setParent(this);
   indentPlus.setStatusTip(tr("Increase indent"));
+  indentPlus.setToolTip(tr("Increase indent"));
   indentPlus.setIcon(QIcon(":/resource/pic/edit_indentplus.svg"));
   indentPlus.setObjectName("editor_tb_indentplus");
 
   // Кнопка уменьшения отступа
   indentMinus.setParent(this);
   indentMinus.setStatusTip(tr("Decrease indent"));
+  indentMinus.setToolTip(tr("Decrease indent"));
   indentMinus.setIcon(QIcon(":/resource/pic/edit_indentminus.svg"));
   indentMinus.setObjectName("editor_tb_indentminus");
 
@@ -151,6 +163,7 @@ void EditorToolBar::setupButtons(void)
   alignLeft.setCheckable(true);
   alignLeft.setShortcut(QKeySequence(tr("Ctrl+L")));
   alignLeft.setStatusTip(tr("Align left (Ctrl+L)"));
+  alignLeft.setToolTip(tr("Align left (Ctrl+L)"));
   alignLeft.setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
   alignLeft.setObjectName("editor_tb_alignleft");
 
@@ -159,6 +172,7 @@ void EditorToolBar::setupButtons(void)
   alignCenter.setCheckable(true);
   alignCenter.setShortcut(QKeySequence(tr("Ctrl+E")));
   alignCenter.setStatusTip(tr("Align center (Ctrl+E)"));
+  alignCenter.setToolTip(tr("Align center (Ctrl+E)"));
   alignCenter.setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
   alignCenter.setObjectName("editor_tb_aligncenter");
 
@@ -167,6 +181,7 @@ void EditorToolBar::setupButtons(void)
   alignRight.setCheckable(true);
   alignRight.setShortcut(QKeySequence(tr("Ctrl+R")));
   alignRight.setStatusTip(tr("Align right (Ctrl+R)"));
+  alignRight.setToolTip(tr("Align right (Ctrl+R)"));
   alignRight.setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
   alignRight.setObjectName("editor_tb_alignright");
 
@@ -175,6 +190,7 @@ void EditorToolBar::setupButtons(void)
   alignWidth.setCheckable(true);
   alignWidth.setShortcut(QKeySequence(tr("Ctrl+J")));
   alignWidth.setStatusTip(tr("Align width (Ctrl+J)"));
+  alignWidth.setToolTip(tr("Align width (Ctrl+J)"));
   alignWidth.setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
   alignWidth.setObjectName("editor_tb_alignwidth");
 
@@ -182,17 +198,20 @@ void EditorToolBar::setupButtons(void)
   // Выбор шрифта
   fontSelect.setParent(this);
   fontSelect.setObjectName("editor_tb_fontselect");
+  fontSelect.setToolTip(tr("Font select"));
 
 
   // Выбор размера шрифта
   fontSize.setParent(this);
   fontSize.setObjectName("editor_tb_fontsize");
+  fontSize.setToolTip(tr("Font size"));
 
 
   // Кнопка выбора цвета шрифта
   // fontColor.setShortcut(QKeySequence(tr("Ctrl+F")));
   fontColor.setParent(this);
   fontColor.setStatusTip(tr("Text color"));
+  fontColor.setToolTip(tr("Text color"));
   fontColor.setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
   fontColor.setObjectName("editor_tb_fontcolor");
 
@@ -201,24 +220,28 @@ void EditorToolBar::setupButtons(void)
   findText.setParent(this);
   findText.setShortcut(QKeySequence(tr("Ctrl+F")));
   findText.setStatusTip(tr("Find text (Ctrl+F)"));
+  findText.setToolTip(tr("Find text (Ctrl+F)"));
   findText.setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
   findText.setObjectName("editor_tb_findtext");
 
   // Кнопка вызова виджета конфигурирования редактора
   settings.setParent(this);
   settings.setStatusTip(tr("Editor settings"));
+  settings.setToolTip(tr("Editor settings"));
   settings.setIcon(QIcon(":/resource/pic/edit_settings.svg"));
   settings.setObjectName("editor_tb_settings");
 
   // Кнопка редактирования ссылки (URL)
   reference.setParent(this);
   reference.setStatusTip(tr("Edit reference (URL)"));
+  reference.setToolTip(tr("Edit reference (URL)"));
   reference.setIcon(QIcon(":/resource/pic/edit_reference.svg"));
   reference.setObjectName("editor_tb_reference");
 
   // Кнопка просмотра HTML кода
   showHtml.setParent(this);
   showHtml.setStatusTip(tr("Edit HTML code"));
+  showHtml.setToolTip(tr("Edit HTML code"));
   showHtml.setIcon(QIcon(":/resource/pic/edit_showhtml.svg"));
   showHtml.setObjectName("editor_tb_showhtml");
 
@@ -226,72 +249,86 @@ void EditorToolBar::setupButtons(void)
   showFormatting.setParent(this);
   showFormatting.setCheckable(true);
   showFormatting.setStatusTip(tr("Show special chars"));
+  showFormatting.setToolTip(tr("Show special chars"));
   showFormatting.setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
   showFormatting.setObjectName("editor_tb_showformatting");
 
   // Кнопка добавления новой таблицы
   createTable.setParent(this);
   createTable.setStatusTip(tr("Create a new table"));
+  createTable.setToolTip(tr("Create a new table"));
   createTable.setIcon(QIcon(":/resource/pic/edit_createtable.svg"));
   createTable.setObjectName("editor_tb_createtable");
 
   tableRemoveRow.setParent(this);
   tableRemoveRow.setStatusTip(tr("Remove row(s)"));
+  tableRemoveRow.setToolTip(tr("Remove row(s)"));
   tableRemoveRow.setIcon(QIcon(":/resource/pic/edit_table_remove_row.svg"));
   tableRemoveRow.setObjectName("editor_tb_table_remove_row");
 
   tableRemoveCol.setParent(this);
   tableRemoveCol.setStatusTip(tr("Remove column(s)"));
+  tableRemoveCol.setToolTip(tr("Remove column(s)"));
   tableRemoveCol.setIcon(QIcon(":/resource/pic/edit_table_remove_col.svg"));
   tableRemoveCol.setObjectName("editor_tb_table_remove_col");
 
   tableAddRow.setParent(this);
   tableAddRow.setStatusTip(tr("Add row(s)"));
+  tableAddRow.setToolTip(tr("Add row(s)"));
   tableAddRow.setIcon(QIcon(":/resource/pic/edit_table_add_row.svg"));
   tableAddRow.setObjectName("editor_tb_table_add_row");
 
   tableAddCol.setParent(this);
   tableAddCol.setStatusTip(tr("Add column(s)"));
+  tableAddCol.setToolTip(tr("Add column(s)"));
   tableAddCol.setIcon(QIcon(":/resource/pic/edit_table_add_col.svg"));
   tableAddCol.setObjectName("editor_tb_table_add_col");
 
   tableMergeCells.setParent(this);
   tableMergeCells.setStatusTip(tr("Merge cells"));
+  tableMergeCells.setToolTip(tr("Merge cells"));
   tableMergeCells.setIcon(QIcon(":/resource/pic/edit_table_merge_cells.svg"));
   tableMergeCells.setObjectName("editor_tb_table_merge_cells");
 
   tableSplitCell.setParent(this);
   tableSplitCell.setStatusTip(tr("Split cell"));
+  tableSplitCell.setToolTip(tr("Split cell"));
   tableSplitCell.setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
   tableSplitCell.setObjectName("editor_tb_table_split_cell");
 
   tableProperties.setParent(this);
   tableProperties.setStatusTip(tr("Table properties"));
+  tableProperties.setToolTip(tr("Table properties"));
   tableProperties.setIcon(QIcon(":/resource/pic/edit_table_properties.svg"));
   tableProperties.setObjectName("editor_tb_table_properties");
 
   insertImageFromFile.setParent(this);
   insertImageFromFile.setStatusTip(tr("Insert image from file / edit image properties of selected image"));
+  insertImageFromFile.setToolTip(tr("Insert/edit image"));
   insertImageFromFile.setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
   insertImageFromFile.setObjectName("editor_tb_insert_image_from_file");
 
   mathExpression.setParent(this);
   mathExpression.setStatusTip(tr("Insert math expression / edit math expression"));
+  mathExpression.setToolTip(tr("Insert/edit math expression"));
   mathExpression.setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
   mathExpression.setObjectName("editor_tb_math_expression");
 
   expandEditArea.setParent(this);
   expandEditArea.setStatusTip(tr("Expand edit area"));
+  expandEditArea.setToolTip(tr("Expand edit area"));
   expandEditArea.setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
   expandEditArea.setObjectName("editor_tb_expand_edit_area");
 
   expandToolsLines.setParent(this);
   expandToolsLines.setStatusTip(tr("Expand tools"));
+  expandToolsLines.setToolTip(tr("Expand tools"));
   expandToolsLines.setIcon(QIcon(":/resource/pic/edit_expand_tools_lines.svg"));
   expandToolsLines.setObjectName("editor_tb_expand_tools_lines");
 
   save.setParent(this);
   save.setStatusTip(tr("Save (Ctrl+S)"));
+  save.setToolTip(tr("Save (Ctrl+S)"));
   save.setShortcut(QKeySequence(tr("Ctrl+S")));
   save.setIcon(QIcon(":/resource/pic/edit_save.svg"));
   save.setObjectName("editor_tb_save");
@@ -299,7 +336,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка "назад", используется в мобильном интерфейсе
   back.setParent(this);
-  back.setStatusTip(tr("Back"));
+  back.setStatusTip(tr("Back"));  
   back.setIcon(QIcon(":/resource/pic/mobile_back.svg"));
   back.setObjectName("editor_tb_back");
 
@@ -313,6 +350,7 @@ void EditorToolBar::setupButtons(void)
   // Кнопка "показать текст" для просмотра текста в отдельном окне
   showText.setParent(this);
   showText.setStatusTip(tr("Show text in detached window"));
+  showText.setToolTip(tr("Show text in detached window"));
   showText.setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
   showText.setObjectName("editor_tb_show_text");
 
@@ -321,6 +359,7 @@ void EditorToolBar::setupButtons(void)
   iconAttachExists = QIcon(":/resource/pic/attach_exists.svg");
   toAttach.setParent(this);
   toAttach.setStatusTip(tr("Show attach files"));
+  toAttach.setToolTip(tr("Show attach files"));
   toAttach.setIcon(iconAttachNotExists);
   toAttach.setObjectName("editor_tb_attach");
 
