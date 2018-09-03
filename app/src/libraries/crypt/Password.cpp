@@ -390,7 +390,7 @@ void Password::resetPassword(void)
   QAbstractButton *resetButton=messageBox.addButton(tr("Remove password"), QMessageBox::AcceptRole);
   messageBox.exec();
 
-  // Если пользователь подтвердил
+  // Если пользователь подтвердил удаление пароля
   if(messageBox.clickedButton() == resetButton)
   {
     dataBaseConfig.set_crypt_mode(0);
