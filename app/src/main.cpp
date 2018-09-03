@@ -834,6 +834,15 @@ int main(int argc, char ** argv)
  langTranslator.load(langFileName);
  app.installTranslator(&langTranslator);
 
+ //Загрузка переводов стандартных диалогов и кнопок
+ QTranslator qtTranslator;
+ if(qtTranslator.load("qt_" + QLocale().name().split('_').first(),
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+ {
+     if(!app.installTranslator(&qtTranslator))
+         qDebug() << QObject::tr("Can't install QT translations");
+ }
+
  // Создание объекта главного окна
  MainWindow win;
 
