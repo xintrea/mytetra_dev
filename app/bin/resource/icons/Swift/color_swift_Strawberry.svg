@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Strawberry</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Kitchen_sliced" sketch:type="MSLayerGroup" transform="translate(-240.000000, 0.000000)"/>
+        <g id="Kitchen" sketch:type="MSLayerGroup" transform="translate(-223.000000, -1.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Strawberry" transform="translate(236.000000, 7.000000)" sketch:type="MSShapeGroup">
+                <path d="M12.7458211,12.822716 L9.36617207,6.71801033 C9.36617207,6.71801033 12.0613644,1.8377716 15.0536638,3.87720974 C18.0459631,5.91664787 16.6922319,8.38197443 16.6922319,8.38197443 L21.8569224,0.0618459843 L21.395752,8.38197409 C21.395752,8.38197409 26.2975954,1.47621536 28.0606595,4.09711276 C29.8237236,6.71801015 23.3806095,12.8635419 23.3806095,12.8635419" id="Path-1426" stroke-linecap="round" fill="#5ECC66"/>
+                <path d="M17.5589165,14.0906797 C10.0128899,12.0652512 2.45750366,14.6213249 0.927784699,20.9281722 C-2.17627022,33.7258175 11.7185757,50.4450981 18.4675674,50.578831 C25.2165591,50.7125638 38.7966446,28.4118615 35.011417,19.4348912 C33.0915992,14.8818896 25.3250365,12.1168499 17.5589165,14.0906797 Z" id="Path-1417" stroke-linecap="round" fill="#E65F58"/>
+                <path d="M16,20 L18,20" id="Line-216"/>
+                <path d="M19,23 L21,23" id="Line-209"/>
+                <path d="M21,20 L23,20" id="Line-210"/>
+                <path d="M23,24 L25,24" id="Line-211"/>
+                <path d="M29,20 L31,20" id="Line-212"/>
+                <path d="M25,21 L27,21" id="Line-213"/>
+                <path d="M27,24 L29,24" id="Line-214"/>
+                <path d="M20,26 L22,26" id="Line-215"/>
+            </g>
+        </g>
+    </g>
+</svg>

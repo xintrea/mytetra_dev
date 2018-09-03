@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="48" height="48" id="svg4289" sodipodi:version="0.32" inkscape:version="0.44" version="1.0" sodipodi:docbase="/home/lapo/Icone/cvs/gnome-icon-theme/scalable/actions" sodipodi:docname="list-remove.svg" inkscape:export-filename="/home/andreas/project/gnome-icon-theme/22x22/actions/list-add.png" inkscape:export-xdpi="90" inkscape:export-ydpi="90" inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs id="defs4291">
+    <linearGradient inkscape:collect="always" id="linearGradient4622">
+      <stop style="stop-color:#b4b5b3;stop-opacity:1" offset="0" id="stop4624"/>
+      <stop style="stop-color:#d8d9d7;stop-opacity:1" offset="1" id="stop4626"/>
+    </linearGradient>
+    <linearGradient inkscape:collect="always" xlink:href="#linearGradient4622" id="linearGradient4320" gradientUnits="userSpaceOnUse" gradientTransform="matrix(2.810197,0,0,2.747234,1.562312,1.675085)" x1="8.6790628" y1="6.7354665" x2="8.7223368" y2="10.858153"/>
+  </defs>
+  <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
+    <path style="opacity:1;fill:url(#linearGradient4320);fill-opacity:1;stroke:#555753;stroke-width:1.00000048;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 8.4999995,21.548779 L 8.4999995,26.514266 L 39.499998,26.469995 L 39.499998,21.548779 L 8.4999995,21.548779 z " id="path4314" sodipodi:nodetypes="ccccc"/>
+    <path style="opacity:0.2;fill:white;fill-opacity:1;stroke:none;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1" d="M 9,22.072045 L 38.906989,22.072045 L 38.906989,24.048454 L 9,24.048454 L 9,22.072045 z " id="path4316" sodipodi:nodetypes="ccccc"/>
+    <path style="opacity:0.4;fill:none;fill-opacity:1;stroke:white;stroke-width:1.00000024;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="M 9.5000012,22.518518 L 9.5000012,25.561981 L 38.500003,25.520661 L 38.500003,22.518518 L 9.5000012,22.518518 z " id="path5202" sodipodi:nodetypes="ccccc"/>
+  </g>
+</svg>

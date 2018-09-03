@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Creamdrink</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Kitchen_sliced" sketch:type="MSLayerGroup"/>
+        <g id="Kitchen" sketch:type="MSLayerGroup" transform="translate(17.000000, -1.000000)" stroke="#314E55" stroke-width="2" stroke-linejoin="round">
+            <g id="Creamdrink" transform="translate(0.000000, 4.000000)" sketch:type="MSShapeGroup">
+                <path d="M4.72222222,16.1597222 C4.72222222,16.1597222 2.27560764,13.4700522 2.96354167,11.6540799 C3.6514757,9.83810748 7.64192692,9.78428809 8.30078125,7.93576389 C8.95963558,6.08723969 5.00564251,4.71527799 6.65321181,3.06423611 C8.3007811,1.41319423 12.1471353,0.202256786 14.3463542,0.202256944 C16.5455731,0.202257103 21.0299468,1.05859386 21.0299479,3.06814236 C21.029949,5.07769087 17.8710935,6.1814234 19.2178819,7.05859375 C20.5646704,7.9357641 25.7005216,8.68098927 24.4648438,10.1675347 C23.2291659,11.6540802 22.2903646,15.7018229 22.2903646,15.7018229" id="Path-1410" stroke-linecap="round" fill="#E4AD40"/>
+                <path d="M2,15 L25,15 L26.2481599,36.2187179 C26.6633897,43.2776251 21.2739944,49 14.1918691,49 L12.8081309,49 C5.73439551,49 0.337011147,43.2708105 0.751840123,36.2187179 L2,15 Z" id="Rectangle-682" stroke-linecap="round" fill="#EAEAEA"/>
+                <path d="M13,48 L13,54.0827627" id="Line" stroke-linecap="square"/>
+                <path d="M8,55 L18,55" id="Line" stroke-linecap="square"/>
+                <path d="M7.48096891,25.7544503 C6.05777741,30.8587929 7.63731939,32.6174392 11.198345,31.9270114 C14.7593706,31.2365836 10.5430637,16.1131083 10.5430637,16.1131083 L6.46006519,16.1131083 C6.46006519,16.1131083 8.9041604,20.6501077 7.48096891,25.7544503 Z" id="Path-1411" stroke-linecap="round" fill="#E4AD40"/>
+            </g>
+        </g>
+    </g>
+</svg>

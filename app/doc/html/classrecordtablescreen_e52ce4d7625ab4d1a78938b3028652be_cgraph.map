@@ -1,0 +1,9 @@
+base referer
+rect $classrecordtablescreen.html#e3e3b5770bfdb550262ff4dab723599a 318,102 531,126
+rect $classaddnewrecord.html#b17a7bac9ffb0b9474e0c5a50eecd958 332,198 516,222
+rect $classrecordtablescreen.html#edf8ac561d0f33acf6af0fe63fbc8a91 579,6 886,30
+rect $classrecordtablemodel.html#e3a0df4eed2846f73e7858e27ce3fdb6 611,54 854,78
+rect $classrecordtabledata.html#15f519acd76fc58f882e5a5d78105c61 602,102 863,126
+rect $classrecordtablemodel.html#e19a2f856cd1dda4f1955af3544ce482 634,150 831,174
+rect $classinfofieldenter.html#9ce895ba08dedfe227c839c56c2cb3b7 643,198 822,222
+rect $classeditor.html#70e34d0e46bb865b58303fe86e6bfea6 655,246 810,270

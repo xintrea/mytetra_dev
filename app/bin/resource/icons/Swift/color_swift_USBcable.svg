@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>USBcable</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Tech_sliced" sketch:type="MSLayerGroup" transform="translate(-240.000000, -120.000000)"/>
+        <g id="Tech" sketch:type="MSLayerGroup" transform="translate(-238.000000, -113.000000)" stroke="#314E55" stroke-width="2">
+            <g id="USBcable" transform="translate(241.000000, 123.000000)" sketch:type="MSShapeGroup">
+                <rect id="Rectangle-523" fill="#81A4E3" x="12" y="19" width="18" height="18"/>
+                <rect id="Rectangle-523" fill="#81A4E3" transform="translate(46.000000, 5.000000) rotate(-180.000000) translate(-46.000000, -5.000000) " x="42" y="1" width="8" height="8"/>
+                <rect id="Rectangle-524" fill="#EAEAEA" x="0" y="20" width="9" height="6"/>
+                <rect id="Rectangle-525" fill="#EAEAEA" x="0" y="30" width="9" height="6"/>
+                <path d="M5,23 L4,23" id="Line" stroke-linecap="square"/>
+                <path d="M5,33 L4,33" id="Line" stroke-linecap="square"/>
+                <path d="M46,28 C50.418278,28 54,24.6421356 54,20.5 C54,16.3578644 50.418278,13 46,13" id="Oval-533"/>
+                <path d="M26,13 C28.209139,13 30,11.209139 30,9 C30,6.790861 28.209139,5 26,5" id="Oval-533" transform="translate(28.000000, 9.000000) rotate(-180.000000) translate(-28.000000, -9.000000) "/>
+                <path d="M30.5,28 L45,28" id="Line" stroke-linecap="square"/>
+                <path d="M31,13 L45,13" id="Line" stroke-linecap="square"/>
+                <path d="M31,5 L41,5" id="Line" stroke-linecap="square"/>
+                <rect id="Rectangle-527" fill="#EAEAEA" x="50" y="3" width="4" height="4"/>
+            </g>
+        </g>
+    </g>
+</svg>

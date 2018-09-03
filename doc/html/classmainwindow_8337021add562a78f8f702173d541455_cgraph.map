@@ -1,7 +1,0 @@
-base referer
-rect $classappconfig.html#5b1150362b24baa90af6fed0df881289 321,30 535,54
-rect $classmainwindow.html#1ea5fc01161f568df189d539468a31b5 313,78 543,102
-rect $classTreeItem.html#30f59edac140c6fa48b5f09315e15a65 652,6 772,30
-rect $classknowtreemodel.html#6e9e460ebb16f09d1015fcc69ea943e9 593,54 831,78
-rect $classTreeModel.html#4944fbea068c3d4bc7b25f4a7087b5f0 636,102 788,126
-rect $classtreescreen.html#c492316dfc6b272f474b267761962368 595,150 829,174

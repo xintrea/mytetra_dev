@@ -1,0 +1,44 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd" [
+<!ATTLIST svg xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" width="128pt" height="128pt" id="svg1" sodipodi:version="0.27" sodipodi:docname="/mnt/windows/themes/Work/Blue-Sphere/button_cancel.svg" sodipodi:docbase="/mnt/windows/themes/Work/Blue-Sphere/">
+  <defs id="defs22">
+    <linearGradient id="linearGradient601">
+      <stop offset="0.000000" style="stop-color:#ffffff;stop-opacity:1;" id="stop603"/>
+      <stop offset="1.000000" style="stop-color:#000000;stop-opacity:1;" id="stop602"/>
+    </linearGradient>
+    <linearGradient id="linearGradient168">
+      <stop offset="0.000000" style="stop-color:#cdffff;stop-opacity:1;" id="stop169"/>
+      <stop offset="1.000000" style="stop-color:#0c5d7d;stop-opacity:0.905882;" id="stop170"/>
+    </linearGradient>
+    <linearGradient id="linearGradient90">
+      <stop offset="0.000000" style="stop-color:#cdffff;stop-opacity:1;" id="stop91"/>
+      <stop offset="1.000000" style="stop-color:#006b97;stop-opacity:0.905882;" id="stop92"/>
+    </linearGradient>
+    <linearGradient id="linearGradient67">
+      <stop offset="0.000000" style="stop-color:#d7ffff;stop-opacity:0.898039;" id="stop70"/>
+      <stop offset="1.000000" style="stop-color:#2ea6b9;stop-opacity:0.952941;" id="stop69"/>
+    </linearGradient>
+    <linearGradient id="linearGradient57">
+      <stop offset="0.000000" style="stop-color:#ffffff;stop-opacity:1;" id="stop59"/>
+      <stop offset="1.000000" style="stop-color:#797979;stop-opacity:1;" id="stop58"/>
+    </linearGradient>
+    <defs id="defs4">
+      <radialGradient id="1" cx="869.603027" cy="1973.579956" r="2106.649902" fx="869.603027" fy="1973.579956" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient67"/>
+    </defs>
+    <defs id="defs11">
+      <linearGradient id="2" x1="255.848007" y1="119.147003" x2="375.686005" y2="34.100899" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient601"/>
+    </defs>
+    <defs id="defs16">
+      <linearGradient id="3" x1="275.053009" y1="109.384003" x2="356.480988" y2="30.864300" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient57"/>
+    </defs>
+    <radialGradient cx="3.03981e-14" cy="1.05578e-10" r="0.773346" fx="3.03981e-14" fy="1.05578e-10" xlink:href="#linearGradient168" id="radialGradient88" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.945877,0,0,1.05722,0.264368,0.249996)" spreadMethod="pad"/>
+    <linearGradient x1="2.69643" y1="1.14655" x2="3.85147" y2="0.623116" xlink:href="#linearGradient67" id="linearGradient89" gradientUnits="objectBoundingBox" gradientTransform="translate(-2.65767,-0.201241)" spreadMethod="pad"/>
+  </defs>
+  <g id="g1213" transform="translate(-3.53311,-1.51419)">
+    <path style="font-size:12;fill:#ff0000;fill-opacity:0.99;stroke:#cd0000;stroke-width:2.15943;stroke-opacity:0.99;" id="path2325" d="M 62.5183 70.676 C 66.6661 73.8177 75.8903 85.4223 82.1278 92.4282 C 88.034 99.5862 91.2126 103.934 98.4211 113.485 L 96.2144 114.927 C 90.3693 107.13 85.8722 100.727 80.212 94.1064 C 75.9701 89.3468 72.4538 86.181 68.0148 80.8586 L 60.6447 72.4199 L 62.5183 70.676 z " transform="matrix(2.61979,0,0,2.61979,-126.179,-162.19)" sodipodi:nodetypes="cccccccc"/>
+    <path style="font-size:12;fill:#fe0000;fill-opacity:0.99;stroke:#cd0000;stroke-width:3.06807;stroke-opacity:0.99;" id="path2326" d="M 111.059 75.6485 C 102.406 79.0365 96.7979 82.7968 92.4992 85.7984 C 75.6104 98.9073 59.5649 113.745 45.2746 129.727 L 41.6946 127.243 C 55.9372 108.272 72.6717 95.1336 89.225 82.4041 C 94.773 78.5579 101.769 74.0373 110.771 71.2531 L 111.059 75.6485 z " transform="matrix(1.752,0,0,1.94064,-47.3001,-110.777)" sodipodi:nodetypes="ccccccc"/>
+  </g>
+</svg>

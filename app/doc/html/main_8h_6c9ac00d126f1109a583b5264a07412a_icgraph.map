@@ -1,0 +1,5 @@
+base referer
+rect $classfindscreen.html#21d3d00b4559ddbafc3cf6332a422a16 108,6 311,30
+rect $classinfofieldenter.html#108d06e5be71bc7208f6b867d0c487d2 120,54 299,78
+rect $classfindscreen.html#642becd9c3569e1e9aacfdb96d693dcf 382,6 552,30
+rect $classinfofieldenter.html#4a1d31e749d90f7d36ea594e383e05bc 362,54 572,78

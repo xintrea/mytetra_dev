@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Apple</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Kitchen_sliced" sketch:type="MSLayerGroup" transform="translate(-720.000000, 0.000000)"/>
+        <g id="Kitchen" sketch:type="MSLayerGroup" transform="translate(-703.000000, -1.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Apple" transform="translate(710.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <path d="M23.5,56.554677 C21.2629795,58.1155941 18.7101808,59 16,59 C7.163444,59 0,44.5979797 0,33 C0,21.4020203 7.163444,17 16,17 C18.7101808,17 21.2629795,17.8844059 23.5,19.445323 C25.7370205,17.8844059 28.2898192,17 31,17 C39.836556,17 47,21.4020203 47,33 C47,44.5979797 39.836556,59 31,59 C28.2898192,59 25.7370205,58.1155941 23.5,56.554677 Z" id="Oval-645" fill="#E65F58"/>
+                <path d="M4,31 C4,36.8477692 5.82111609,43.4083916 8.75959204,48.476377" id="Oval-646"/>
+                <path d="M23.4471372,18.7036864 C23.4471372,18.7036864 21.5503992,13.0364621 29.3612627,6.87093732" id="Path-1435"/>
+                <path d="M26,6.16197925 C26,6.16197925 40.6953057,-4.19446603 39.6711399,7.76617755 C38.9496811,16.1916803 26,6.16197925 26,6.16197925 Z" id="Path-1399" fill="#5ECC66" transform="translate(32.861145, 6.567925) rotate(162.000000) translate(-32.861145, -6.567925) "/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Coinstack</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Marketing_sliced" sketch:type="MSLayerGroup" transform="translate(-240.000000, -120.000000)"/>
+        <g id="Marketing" sketch:type="MSLayerGroup" transform="translate(-232.000000, -120.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" fill="#E4AD40" stroke-linejoin="round">
+            <g id="Coinstack" transform="translate(239.000000, 137.000000)" sketch:type="MSShapeGroup">
+                <circle id="Oval-1438" cx="12" cy="25" r="12"/>
+                <circle id="Oval-1439" cx="12" cy="25" r="9"/>
+                <rect id="Rectangle-1598" x="27" y="25" width="24" height="7" rx="8"/>
+                <rect id="Rectangle-1598" x="27" y="20" width="24" height="7" rx="8"/>
+                <rect id="Rectangle-1600" x="27" y="15" width="24" height="7" rx="8"/>
+                <rect id="Rectangle-1600" x="27" y="5" width="24" height="7" rx="8"/>
+                <rect id="Rectangle-1599" x="27" y="10" width="24" height="7" rx="8"/>
+                <rect id="Rectangle-1599" x="27" y="0" width="24" height="7" rx="8"/>
+            </g>
+        </g>
+    </g>
+</svg>

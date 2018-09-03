@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Vimeo</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Brands_sliced" sketch:type="MSLayerGroup" transform="translate(-240.000000, 0.000000)"/>
+        <g id="Brands" sketch:type="MSLayerGroup" transform="translate(-236.000000, 4.000000)" stroke="#314E55" stroke-width="2" fill="#73C9C9" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Vimeo" transform="translate(242.000000, 7.000000)" sketch:type="MSShapeGroup">
+                <path d="M0.955912068,11.07468 C0.955912068,11.07468 8.20228228,3.52373425 12.5563399,1.55977376 C12.5563399,1.55977376 19.8027101,-2.92553565 21.5054812,9.22862859 C21.5054812,9.22862859 23.4468801,24.7211684 26.4147381,25.8228442 C26.4147381,25.8228442 29.2255096,27.2008323 34.1767362,14.7322438 C34.1767362,14.7322438 35.7595938,8.7164982 27.6426519,11.037759 C27.6426519,11.037759 30.1368518,-0.173132561 40.9062794,0.101988649 C40.9062794,0.101988649 51.9143348,0.377109858 46.1321079,15.4408893 C46.1321079,15.4408893 34.53168,38.721384 21.9815376,40.2994602 C21.9815376,40.2994602 16.9319819,41.2617889 13.1511106,25.7454291 C13.1511106,25.7454291 11.3476123,18.0992033 8.63756813,12.6884862 C8.63756813,12.6884862 7.17222568,9.5025588 3.21388246,13.749668 L0.955912068,11.07468 L0.955912068,11.07468 Z"/>
+            </g>
+        </g>
+    </g>
+</svg>

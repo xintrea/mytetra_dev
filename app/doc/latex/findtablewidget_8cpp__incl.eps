@@ -1,0 +1,1546 @@
+%!PS-Adobe-2.0
+%%Creator: dot version 2.8 (Wed Dec 20 14:50:18 UTC 2006)
+%%For: (xi) serg
+%%Title: G
+%%Pages: (atend)
+%%BoundingBox: 36 36 550 618
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+	dup 1 exch div /InvScaleFactor exch def
+	dup scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw aligned label in bounding box aligned to current point
+/alignedtext {			% width adj text
+	/text exch def
+	/adj exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			text stringwidth pop adj mul 0 rmoveto
+		} if
+		[] 0 setdash
+		text show
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+%%Page: 1 1
+%%PageBoundingBox: 36 36 550 618
+%%PageOrientation: Portrait
+gsave
+36 36 514 582 boxprim clip newpath
+36 36 translate
+0 0 1 beginpage
+1.0000 set_scale
+4 4 translate 0 rotate
+0.000 0.000 1.000 graphcolor
+0.000 0.000 1.000 graphcolor
+newpath -6 -6 moveto
+-6 580 lineto
+512 580 lineto
+512 -6 lineto
+closepath
+fill
+0.000 0.000 1.000 graphcolor
+newpath -6 -6 moveto
+-6 580 lineto
+512 580 lineto
+512 -6 lineto
+closepath
+stroke
+0.000 0.000 0.000 graphcolor
+10.00 /FreeSans.ttf set_font
+% Node1
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+newpath 1 206 moveto
+118 206 lineto
+118 225 lineto
+1 225 lineto
+closepath
+fill
+0.000 0.000 0.000 nodecolor
+newpath 1 206 moveto
+118 206 lineto
+118 225 lineto
+1 225 lineto
+closepath
+stroke
+gsave 10 dict begin
+8 212 moveto
+(findtablewidget.cpp)
+[3.6 2.88 6.48 6.48 3.84 6.24 6.48 2.88 6.24 8.16 2.88 6.48 6.48 6.24 3.84 3.12 5.52 6.48 6.48]
+xshow
+end grestore
+end grestore
+% Node2
+[ /Rect [ 182 261 234 279 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($main_8h.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+filled
+0.000 0.000 1.000 nodecolor
+newpath 182 260 moveto
+234 260 lineto
+234 279 lineto
+182 279 lineto
+closepath
+fill
+0.000 0.000 0.000 nodecolor
+newpath 182 260 moveto
+234 260 lineto
+234 279 lineto
+182 279 lineto
+closepath
+stroke
+gsave 10 dict begin
+190 266 moveto
+(main.h)
+[9.84 6.24 2.88 6.48 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node2
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 83 225 moveto
+102 232 130 243 154 252 curveto
+160 254 166 256 172 258 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 171 261 moveto
+182 261 lineto
+173 255 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 171 261 moveto
+182 261 lineto
+173 255 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node7
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 435 497 moveto
+495 497 lineto
+495 516 lineto
+435 516 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 435 497 moveto
+495 497 lineto
+495 516 lineto
+435 516 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+443 503 moveto
+(QWidget)
+[7.92 9.84 2.88 6.48 6.48 6.24 3.84]
+xshow
+end grestore
+end grestore
+% Node1->Node7
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 61 225 moveto
+68 258 96 367 154 434 curveto
+204 490 226 501 298 522 curveto
+341 534 391 527 425 519 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 426 522 moveto
+435 516 lineto
+424 516 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 426 522 moveto
+435 516 lineto
+424 516 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node17
+[ /Rect [ 156 407 260 425 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($findtablewidget_8h.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+filled
+0.000 0.000 1.000 nodecolor
+newpath 156 406 moveto
+261 406 lineto
+261 425 lineto
+156 425 lineto
+closepath
+fill
+0.000 0.000 0.000 nodecolor
+newpath 156 406 moveto
+261 406 lineto
+261 425 lineto
+156 425 lineto
+closepath
+stroke
+gsave 10 dict begin
+163 412 moveto
+(findtablewidget.h)
+[3.6 2.88 6.48 6.48 3.84 6.24 6.48 2.88 6.24 8.16 2.88 6.48 6.48 6.24 3.84 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node17
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 66 225 moveto
+88 256 164 356 194 398 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 191 400 moveto
+200 406 lineto
+197 396 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 191 400 moveto
+200 406 lineto
+197 396 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node18
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 179 224 moveto
+238 224 lineto
+238 243 lineto
+179 243 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 179 224 moveto
+238 224 lineto
+238 243 lineto
+179 243 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+186 230 moveto
+(QRegion)
+[7.92 6.48 6.24 6.48 2.88 6.24 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node18
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 118 223 moveto
+135 225 153 227 169 229 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 169 232 moveto
+179 230 lineto
+169 226 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 169 232 moveto
+179 230 lineto
+169 226 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node19
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 160 188 moveto
+257 188 lineto
+257 207 lineto
+160 207 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 160 188 moveto
+257 188 lineto
+257 207 lineto
+160 207 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+167 194 moveto
+(QtGui/qlayout.h)
+[7.92 3.84 7.92 6.48 2.88 3.36 6.48 2.88 6.24 6 6.24 6.48 3.84 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node19
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 118 209 moveto
+128 208 140 207 150 205 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 150 208 moveto
+160 204 lineto
+150 202 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 150 208 moveto
+160 204 lineto
+150 202 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node20
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 158 152 moveto
+258 152 lineto
+258 171 lineto
+158 171 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 158 152 moveto
+258 152 lineto
+258 171 lineto
+158 171 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+166 158 moveto
+(QtCore/qstring.h)
+[7.92 3.84 6.96 6.24 3.84 6.24 3.36 6.48 5.28 3.84 4.08 2.88 6.48 6.48 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node20
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 85 206 moveto
+104 198 131 188 154 180 curveto
+159 178 164 176 169 175 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 171 178 moveto
+179 171 lineto
+168 171 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 171 178 moveto
+179 171 lineto
+168 171 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node21
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 159 116 moveto
+258 116 lineto
+258 135 lineto
+159 135 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 159 116 moveto
+258 116 lineto
+258 135 lineto
+159 135 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+166 122 moveto
+(QtGui/qwidget.h)
+[7.92 3.84 7.92 6.48 2.88 3.36 6.48 8.16 2.88 6.48 6.48 6.24 3.84 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node21
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 70 206 moveto
+87 191 121 161 154 144 curveto
+158 142 162 141 165 139 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 167 142 moveto
+175 135 lineto
+164 135 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 167 142 moveto
+175 135 lineto
+164 135 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node22
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 155 80 moveto
+262 80 lineto
+262 99 lineto
+155 99 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 155 80 moveto
+262 80 lineto
+262 99 lineto
+155 99 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+162 86 moveto
+(QtCore/qvariant.h)
+[7.92 3.84 6.96 6.24 3.84 6.24 3.36 6.48 6 6.24 4.08 2.88 6.24 6.48 3.84 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node1->Node22
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 65 206 moveto
+79 184 113 135 154 108 curveto
+157 106 160 104 163 103 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 164 106 moveto
+172 99 lineto
+161 100 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 164 106 moveto
+172 99 lineto
+161 100 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node3
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 318 297 moveto
+369 297 lineto
+369 316 lineto
+318 316 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 318 297 moveto
+369 297 lineto
+369 316 lineto
+318 316 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+325 303 moveto
+(stdio.h)
+[5.28 3.84 6.48 2.88 6 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node3
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 277 moveto
+255 283 285 291 308 297 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 307 300 moveto
+318 300 lineto
+309 294 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 307 300 moveto
+318 300 lineto
+309 294 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node4
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 425 205 moveto
+506 205 lineto
+506 224 lineto
+425 224 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 425 205 moveto
+506 205 lineto
+506 224 lineto
+425 224 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+432 211 moveto
+(QApplication)
+[7.92 6.96 6.48 6.48 2.88 2.88 5.52 6.24 3.84 2.88 6.24 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node4
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 270 moveto
+270 269 335 265 388 251 curveto
+407 245 425 236 440 229 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 442 232 moveto
+449 224 lineto
+439 226 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 442 232 moveto
+449 224 lineto
+439 226 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node5
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 429 131 moveto
+502 131 lineto
+502 150 lineto
+429 150 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 429 131 moveto
+502 131 lineto
+502 150 lineto
+429 150 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+436 137 moveto
+(QClipboard)
+[7.92 6.96 2.88 2.88 6.48 6.48 6.24 6.24 3.84 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node5
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 265 moveto
+244 263 254 259 262 252 curveto
+290 228 270 201 298 179 curveto
+333 152 382 143 419 141 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 419 144 moveto
+429 140 lineto
+419 138 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 419 144 moveto
+429 140 lineto
+419 138 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node6
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 315 441 moveto
+372 441 lineto
+372 460 lineto
+315 460 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 315 441 moveto
+372 441 lineto
+372 460 lineto
+315 460 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+322 447 moveto
+(QObject)
+[7.92 7.92 6.48 2.88 6.24 5.52 3.84]
+xshow
+end grestore
+end grestore
+% Node2->Node6
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 211 279 moveto
+219 306 247 388 298 433 curveto
+300 435 303 437 306 438 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 305 441 moveto
+315 443 lineto
+308 435 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 305 441 moveto
+315 443 lineto
+308 435 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node2->Node7
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 212 279 moveto
+228 318 290 462 298 469 curveto
+317 485 382 496 425 502 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 425 505 moveto
+435 503 lineto
+425 499 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 425 505 moveto
+435 503 lineto
+425 499 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node8
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 437 85 moveto
+494 85 lineto
+494 104 lineto
+437 104 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 437 85 moveto
+494 85 lineto
+494 104 lineto
+437 104 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+444 91 moveto
+(QDialog)
+[7.92 7.68 2.88 6.24 2.88 6.24 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node8
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 267 moveto
+244 264 255 260 262 252 curveto
+308 202 247 148 298 105 curveto
+334 75 389 78 427 85 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 427 88 moveto
+437 87 lineto
+428 82 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 427 88 moveto
+437 87 lineto
+428 82 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node9
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 313 405 moveto
+374 405 lineto
+374 424 lineto
+313 424 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 313 405 moveto
+374 405 lineto
+374 424 lineto
+313 424 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+320 411 moveto
+(QtGlobal)
+[7.92 3.84 7.92 2.88 6.24 6.48 6.24 2.88]
+xshow
+end grestore
+end grestore
+% Node2->Node9
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 212 279 moveto
+223 302 255 363 298 397 curveto
+300 398 302 400 304 401 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 303 404 moveto
+313 406 lineto
+306 398 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 303 404 moveto
+313 406 lineto
+306 398 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node10
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 306 369 moveto
+381 369 lineto
+381 388 lineto
+306 388 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 306 369 moveto
+381 369 lineto
+381 388 lineto
+306 388 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+313 375 moveto
+(QDomNode)
+[7.92 7.68 6.24 9.84 7.44 6.24 6.48 6.24]
+xshow
+end grestore
+end grestore
+% Node2->Node10
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 215 279 moveto
+229 297 262 337 298 361 curveto
+300 362 302 364 305 365 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 303 368 moveto
+314 369 lineto
+306 362 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 303 368 moveto
+314 369 lineto
+306 362 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node11
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 430 43 moveto
+500 43 lineto
+500 62 lineto
+430 62 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 430 43 moveto
+500 43 lineto
+500 62 lineto
+430 62 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+438 49 moveto
+(QTreeView)
+[7.92 4.8 3.84 6.24 6.24 6.72 2.88 6.24 8.16]
+xshow
+end grestore
+end grestore
+% Node2->Node11
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 267 moveto
+244 264 255 260 262 252 curveto
+316 191 240 129 298 75 curveto
+330 45 382 42 420 46 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 420 49 moveto
+430 47 lineto
+420 43 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 420 49 moveto
+430 47 lineto
+420 43 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node12
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 433 6 moveto
+498 6 lineto
+498 25 lineto
+433 25 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 433 6 moveto
+498 6 lineto
+498 25 lineto
+433 25 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+440 12 moveto
+(QTextEdit)
+[7.92 4.56 6 6 3.84 6.48 6.48 2.88 3.84]
+xshow
+end grestore
+end grestore
+% Node2->Node12
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 267 moveto
+244 265 255 260 262 252 curveto
+325 179 230 105 298 39 curveto
+331 8 385 6 423 9 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 423 12 moveto
+433 10 lineto
+423 6 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 423 12 moveto
+433 10 lineto
+423 6 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node13
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 302 333 moveto
+384 333 lineto
+384 352 lineto
+302 352 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 302 333 moveto
+384 333 lineto
+384 352 lineto
+302 352 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+310 339 moveto
+(QPushButton)
+[7.92 5.76 6.48 5.28 6.48 6.96 6.48 3.84 3.84 6.24 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node13
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 222 279 moveto
+239 290 270 310 298 325 curveto
+301 327 304 328 307 329 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 306 333 moveto
+317 333 lineto
+309 326 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 306 333 moveto
+317 333 lineto
+309 326 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node14
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 301 223 moveto
+386 223 lineto
+386 242 lineto
+301 242 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 301 223 moveto
+386 223 lineto
+386 242 lineto
+301 242 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+308 229 moveto
+(QVBoxLayout)
+[7.92 6.96 6.96 6 6 5.52 6.24 6 6.24 6.48 3.84]
+xshow
+end grestore
+end grestore
+% Node2->Node14
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 263 moveto
+252 258 278 250 300 245 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 301 248 moveto
+310 242 lineto
+299 242 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 301 248 moveto
+310 242 lineto
+299 242 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node15
+gsave 10 dict begin
+filled
+0.000 0.000 0.749 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 306 187 moveto
+381 187 lineto
+381 206 lineto
+306 206 lineto
+closepath
+fill
+0.000 0.000 0.749 nodecolor
+newpath 306 187 moveto
+381 187 lineto
+381 206 lineto
+306 206 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+313 193 moveto
+(QSizePolicy)
+[7.92 6.48 2.88 5.28 6.24 5.76 6.24 2.88 2.88 5.52 6]
+xshow
+end grestore
+end grestore
+% Node2->Node15
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 234 264 moveto
+243 261 254 257 262 252 curveto
+282 239 279 227 298 215 curveto
+300 214 303 212 306 211 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 308 214 moveto
+315 206 lineto
+305 208 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 308 214 moveto
+315 206 lineto
+305 208 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16
+[ /Rect [ 299 114 387 132 ]
+  /Border [ 0 0 0 ]
+  /Action << /Subtype /URI /URI ($mainwindow_8h.html) >>
+  /Subtype /Link
+/ANN pdfmark
+gsave 10 dict begin
+filled
+0.000 1.000 1.000 nodecolor
+0.000 0.000 1.000 nodecolor
+newpath 299 113 moveto
+388 113 lineto
+388 132 lineto
+299 132 lineto
+closepath
+fill
+0.000 1.000 1.000 nodecolor
+newpath 299 113 moveto
+388 113 lineto
+388 132 lineto
+299 132 lineto
+closepath
+stroke
+gsave 10 dict begin
+0.000 0.000 0.000 nodecolor
+306 119 moveto
+(mainwindow.h)
+[9.84 6.24 2.88 6.48 8.16 2.88 6.48 6.48 6.24 7.2 3.12 6.48]
+xshow
+end grestore
+end grestore
+% Node2->Node16
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 227 260 moveto
+239 256 253 252 262 243 curveto
+296 209 270 178 297 140 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 300 142 moveto
+303 132 lineto
+294 138 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 300 142 moveto
+303 132 lineto
+294 138 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node2
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 333 132 moveto
+323 138 308 144 298 155 curveto
+266 192 298 225 262 261 curveto
+257 266 251 269 244 271 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 243 268 moveto
+234 274 lineto
+245 274 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 243 268 moveto
+234 274 lineto
+245 274 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node4
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 355 132 moveto
+376 147 418 179 444 199 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 442 202 moveto
+452 205 lineto
+446 196 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 442 202 moveto
+452 205 lineto
+446 196 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node5
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 388 130 moveto
+398 132 409 133 419 135 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 419 138 moveto
+429 136 lineto
+419 132 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 419 138 moveto
+429 136 lineto
+419 132 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node7
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 353 132 moveto
+364 143 380 160 388 179 curveto
+441 287 459 433 463 487 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 460 487 moveto
+464 497 lineto
+466 487 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 460 487 moveto
+464 497 lineto
+466 487 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node8
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 387 113 moveto
+400 110 414 107 427 104 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 428 107 moveto
+437 101 lineto
+426 101 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 428 107 moveto
+437 101 lineto
+426 101 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node11
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 360 113 moveto
+381 102 416 81 440 67 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 442 70 moveto
+449 62 lineto
+439 64 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 442 70 moveto
+449 62 lineto
+439 64 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node16->Node12
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 350 113 moveto
+364 95 393 58 424 35 curveto
+426 33 429 31 432 30 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 434 33 moveto
+441 25 lineto
+431 27 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 434 33 moveto
+441 25 lineto
+431 27 lineto
+closepath
+stroke
+end grestore
+end grestore
+% Node17->Node7
+gsave 10 dict begin
+solid
+0.667 0.776 0.439 edgecolor
+newpath 214 425 moveto
+227 444 259 485 298 502 curveto
+339 518 390 517 425 513 curveto
+stroke
+gsave 10 dict begin
+solid
+1 setlinewidth
+0.667 0.776 0.439 edgecolor
+newpath 425 516 moveto
+435 512 lineto
+425 510 lineto
+closepath
+fill
+0.667 0.776 0.439 edgecolor
+newpath 425 516 moveto
+435 512 lineto
+425 510 lineto
+closepath
+stroke
+end grestore
+end grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+end
+restore
+%%EOF

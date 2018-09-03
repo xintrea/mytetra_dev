@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Teabag</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Kitchen_sliced" sketch:type="MSLayerGroup" transform="translate(-600.000000, 0.000000)"/>
+        <g id="Kitchen" sketch:type="MSLayerGroup" transform="translate(-583.000000, -1.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Teabag" transform="translate(592.000000, 4.000000)" sketch:type="MSShapeGroup">
+                <path d="M0,27.0688255 L2,20 L26,20 L28,27.0986931 L28,53 L0,53 L0,27.0688255 Z" id="Rectangle-691" fill="#73C9C9"/>
+                <circle id="Oval-643" cx="14" cy="26" r="2"/>
+                <path d="M14.0471605,25.944589 C14.0471605,25.944589 11.294379,8.71463322 18.5385462,4.24030886 C25.7827135,-0.234015492 31.6769428,-0.0934011726 34.9242486,3.53153944 C38.1715543,7.15648005 37.5624188,8.69592774 37.5624188,8.69592774" id="Path-1433"/>
+                <path d="M33,9 L43,9 L44,23 L32,23 L33,9 Z" id="Rectangle-692" fill="#5ECC66"/>
+                <circle id="Oval-644" fill="#E4AD40" cx="14" cy="40" r="7"/>
+            </g>
+        </g>
+    </g>
+</svg>

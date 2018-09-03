@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mytetradoc>
+<root>
+ <format version="1" subversion="1" />
+ <content>
+  <node id="1300000000aaaaaaaaa1" name="Rename me" >
+   <recordtable>
+    <record dir="1300000000aaaaaaaaa2" url="" tags="MyTetra, Qt" author="" ctime="20081210124656" id="1300000000aaaaaaaaa3" name="Welcome to MyTetra!" file="text.html" />
+   </recordtable>
+  </node>
+ </content>
+</root>

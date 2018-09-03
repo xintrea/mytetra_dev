@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="16px" height="16px" id="svg2385" sodipodi:version="0.32" inkscape:version="0.91 r13725" sodipodi:docname="arrowLeft_white.svg" inkscape:output_extension="org.inkscape.output.svg.inkscape" version="1.1">
+  <defs id="defs2387">
+    <inkscape:perspective sodipodi:type="inkscape:persp3d" inkscape:vp_x="0 : 8 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="16 : 8 : 1" inkscape:persp3d-origin="8 : 5.3333333 : 1" id="perspective2393"/>
+  </defs>
+  <g id="layer1" inkscape:label="Layer 1" inkscape:groupmode="layer">
+    <path style="fill:#101010;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" d="m 2,8 4.2346954,4.214287 0,-2.4858144 7.5369346,0 0,-3.4569443 -7.5369346,0 0,-2.4858133 z" id="path2385" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccccc"/>
+  </g>
+</svg>

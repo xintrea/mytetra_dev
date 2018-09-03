@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" width="60px" height="60px" viewBox="0 0 60 60" version="1.1">
+  <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+  <title>Tie</title>
+  <desc>Created with Sketch.</desc>
+  <g id="colored" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Care_sliced" sketch:type="MSLayerGroup" transform="translate(-120.000000, 0.000000)"/>
+        <g id="Care" sketch:type="MSLayerGroup" transform="translate(-117.000000, -4.000000)" stroke="#314E55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <g id="Tie" transform="translate(140.000000, 7.000000)" sketch:type="MSShapeGroup">
+                <path d="M6.00032973,10 C4.34329338,10 3,8.6513555 3,6.99967027 L3,3.00032973 C3,1.34329338 4.3486445,0 6.00032973,0 L9.99967027,0 C11.6567066,0 13,1.3486445 13,3.00032973 L13,6.99967027 C13,8.65670662 11.6513555,10 9.99967027,10 L6.00032973,10 L6.00032973,10 Z" id="Rectangle-1282" fill="#73C9C9"/>
+                <path d="M4.44590035,12.4852814 L11.4459003,12.4852814 L15.4852814,47.9432316 L7.98528137,54.6653809 L0.485281374,47.9432316 L4.44590035,12.4852814 Z" id="Rectangle-1283" fill="#73C9C9"/>
+                <path d="M1.5102154,30.0022228 L14.996666,35 L15.6718178,41 L0.81892848,36.0022228 L1.5102154,30.0022228 Z" id="Rectangle-1284" fill="#81A4E3"/>
+                <path d="M2.56226707,20.6193572 L13.7728739,24.9089075 L14.5628376,30.9527312 L1.935812,26.5053149 L2.56226707,20.6193572 Z" id="Rectangle-1285" fill="#81A4E3"/>
+            </g>
+        </g>
+    </g>
+</svg>

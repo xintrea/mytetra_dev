@@ -1,0 +1,13 @@
+/* CSS style for any desktop OS */
+/* Set your Qt CSS style in this file */
+
+QToolBar, QToolButton, QPushButton
+{ 
+  icon-size: 16px; /* maximum icon size */ 
+}
+
+/*
+QToolButton {
+  padding: 0;
+}
+*/

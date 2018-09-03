@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd" [
+<!ATTLIST svg xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" width="128pt" height="128pt" viewBox="0 0 507.946 507.946" id="svg49" sodipodi:version="0.27" sodipodi:docname="/mnt/windows/Themes/Work/Blue-Sphere/edit_remove_nobg.svg" sodipodi:docbase="/mnt/windows/Themes/Work/Blue-Sphere/">
+  <defs id="defs62">
+    <radialGradient id="radialGradient93" cx="218.9404" cy="219.7715" r="150.7063" fx="218.9404" fy="219.7715" gradientUnits="userSpaceOnUse" style="stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;">
+      <stop offset="0.000000" style="stop-color:#25a6ca;stop-opacity:1;" id="stop94"/>
+      <stop offset="1.000000" style="stop-color:#2ea6b9;stop-opacity:0.843137;" id="stop95"/>
+    </radialGradient>
+    <radialGradient id="aigrd1" cx="218.9404" cy="219.7715" r="150.7063" fx="218.9404" fy="219.7715" gradientUnits="userSpaceOnUse" style="stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;">
+      <stop offset="0" style="stop-color:#73ffff;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;" id="stop53"/>
+      <stop offset="0.2809" style="stop-color:#2EA6B9;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;" id="stop54"/>
+      <stop offset="1" style="stop-color:#006b8b;stroke:#000000;stroke-opacity:0.986014;stroke-width:0.981612;" id="stop55"/>
+    </radialGradient>
+    <linearGradient xlink:href="#aigrd1" id="linearGradient91" x1="-0.295723" y1="-0.264591" x2="0.622574" y2="0.365762" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.996114,0,0,1.0039,0.496124,0.492186)" spreadMethod="pad"/>
+    <radialGradient xlink:href="#aigrd1" id="radialGradient92" cx="3.5379e-26" cy="5.17369e-25" fx="3.5379e-26" fy="5.17369e-25" r="0.684542" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.885815,-0.868759,0.560472,0.579223,0.360487,0.578932)" spreadMethod="pad"/>
+    <radialGradient xlink:href="#aigrd1" id="radialGradient1594" cx="1.37157e-25" cy="4.82783e-26" fx="1.37157e-25" fy="4.82783e-26" r="0.766358" gradientUnits="objectBoundingBox" gradientTransform="matrix(0.920679,-0.0285824,0.0336168,1.08511,0.373436,0.384854)" spreadMethod="pad"/>
+  </defs>
+  <path style="font-size:12;opacity:0.7;fill:url(#radialGradient92);stroke:#1c6772;stroke-width:2.38642;stroke-opacity:0.988235;" d="M 299.346 232.856 C 301.778 230.437 299.157 222.924 294.343 218.052 C 289.143 212.784 281.386 210.842 278.832 214.449 L 202.982 289.07 C 197.752 292.856 201.741 302.074 205.58 305.545 C 209.925 309.536 218.291 313.11 222.188 309.238 C 222.188 309.238 295.712 236.396 299.346 232.856 z " id="path44" transform="matrix(2.28178,2.02101,-2.22283,2.07461,267.515,-787.942)" sodipodi:nodetypes="czcczcc"/>
+</svg>

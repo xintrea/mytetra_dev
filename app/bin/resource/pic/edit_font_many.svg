@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16px"
+   height="16px"
+   id="svg2385"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="edit_font_many.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs2387">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 8 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="16 : 8 : 1"
+       inkscape:persp3d-origin="8 : 5.3333333 : 1"
+       id="perspective2393" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="14.874614"
+     inkscape:cx="8.0674365"
+     inkscape:cy="9.0758661"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     gridtolerance="4"
+     guidetolerance="3"
+     inkscape:window-width="1024"
+     inkscape:window-height="718"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:snap-bbox="true"
+     inkscape:object-paths="true"
+     inkscape:object-nodes="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:bbox-paths="true"
+     objecttolerance="2"
+     inkscape:bbox-nodes="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3169"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata2390">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="opacity:0;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1"
+       d="M 0,0 L 16,0 L 16,16 L 0,16 L 0,0 z"
+       id="rect3254" />
+    <path
+       style="font-size:4px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"
+       d="M 14.352539,4.9326172 L 16,16 L 13.053711,16 L 12.910156,14.010742 L 11.87793,14.010742 L 11.707031,16 L 8.7265625,16 L 10.189453,4.9326172 L 14.352539,4.9326172 M 12.828125,12.048828 C 12.682288,10.795578 12.536455,9.2483791 12.390625,7.4072266 C 12.098955,9.5218164 11.916664,11.069015 11.84375,12.048828 L 12.828125,12.048828"
+       id="text3183" />
+    <path
+       style="font-size:4px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial;-inkscape-font-specification:Arial"
+       d="M 5.7148438,6.8222656 L 2.4404297,6.8222656 L 2.0507812,7.7246094 C 1.9231751,8.0253921 1.859373,8.2737642 1.859375,8.4697266 C 1.859373,8.7294929 1.9641906,8.920899 2.1738281,9.0439453 C 2.2968726,9.1168623 2.5999322,9.1715498 3.0830078,9.2080078 L 3.0830078,9.4609375 L 0,9.4609375 L 0,9.2080078 C 0.33268185,9.1578779 0.60611908,9.0211593 0.8203125,8.7978516 C 1.0345041,8.5699879 1.2988267,8.1028659 1.6132812,7.3964844 L 4.9287109,0 L 5.0585938,0 L 8.4013672,7.6015625 C 8.7203688,8.3216157 8.9824128,8.7750658 9.1875,8.9619141 C 9.3424385,9.1031905 9.5611882,9.1852216 9.84375,9.2080078 L 9.84375,9.4609375 L 5.359375,9.4609375 L 5.359375,9.2080078 L 5.5439453,9.2080078 C 5.9039653,9.2080081 6.1568948,9.1578779 6.3027344,9.0576172 C 6.4029883,8.984701 6.4531184,8.8798834 6.453125,8.7431641 C 6.4531184,8.6611336 6.4394466,8.5768238 6.4121094,8.4902344 C 6.4029883,8.4492198 6.334629,8.2783215 6.2070312,7.9775391 L 5.7148438,6.8222656 M 5.4824219,6.3164062 L 4.1015625,3.1240234 L 2.6796875,6.3164062 L 5.4824219,6.3164062"
+       id="text3187" />
+  </g>
+</svg>
