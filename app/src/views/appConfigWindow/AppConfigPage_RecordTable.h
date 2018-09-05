@@ -13,7 +13,7 @@ class AppConfigPage_RecordTable : public ConfigPage
  Q_OBJECT
 
 public:
-  AppConfigPage_RecordTable(QWidget *parent = 0);
+  AppConfigPage_RecordTable(QWidget *parent = nullptr);
   int applyChanges(void);
 
 signals:

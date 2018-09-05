@@ -9,7 +9,7 @@ class MtStyledItemDelegate : public QStyledItemDelegate
 {
  Q_OBJECT
 public:
- explicit MtStyledItemDelegate(QObject *parent = 0);
+ explicit MtStyledItemDelegate(QObject *parent = nullptr);
 
  QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 

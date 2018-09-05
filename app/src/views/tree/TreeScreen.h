@@ -22,7 +22,7 @@ class TreeScreen : public QWidget
  Q_OBJECT
 
 public:
- TreeScreen(QWidget *parent=0);
+ TreeScreen(QWidget *parent=nullptr);
  virtual ~TreeScreen();
 
  QMap<QString, QAction *> actionList;

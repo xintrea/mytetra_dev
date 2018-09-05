@@ -16,7 +16,7 @@ class EditorFindDialog : public QDialog
  Q_OBJECT
 
 public:
- EditorFindDialog(QWidget *parent=0);
+ EditorFindDialog(QWidget *parent=nullptr);
  
 signals:
  void find_text(const QString &text, QTextDocument::FindFlags flags);

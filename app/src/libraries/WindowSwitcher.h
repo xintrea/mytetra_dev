@@ -12,7 +12,7 @@ class WindowSwitcher : public QObject
  Q_OBJECT
 
 public:
- explicit WindowSwitcher(QObject *parent = 0);
+ explicit WindowSwitcher(QObject *parent = nullptr);
 
  void enableSwitch(void);
  void disableSwitch(void);

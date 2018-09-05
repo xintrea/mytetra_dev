@@ -16,7 +16,7 @@ class RecordTableController : public QObject
 {
   Q_OBJECT
 public:
-  RecordTableController(QObject *parent = 0);
+  RecordTableController(QObject *parent = nullptr);
   virtual ~RecordTableController();
 
   void init(void);

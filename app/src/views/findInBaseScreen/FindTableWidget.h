@@ -14,7 +14,7 @@ class FindTableWidget : public QWidget
 
 public:
 
-  FindTableWidget(QWidget *parent=0);
+  FindTableWidget(QWidget *parent=nullptr);
   virtual ~FindTableWidget(void);
 
   void clearAll(void);

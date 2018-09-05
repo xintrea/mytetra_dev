@@ -11,7 +11,7 @@ class EditorShowText : public QDialog
 {
   Q_OBJECT
 public:
-  explicit EditorShowText(QWidget *parent = 0);
+  explicit EditorShowText(QWidget *parent = nullptr);
   virtual ~EditorShowText();
 
   void setHtml(QString text);

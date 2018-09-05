@@ -16,7 +16,7 @@ class ActionLogScreen : public QDialog
 {
   Q_OBJECT
 public:
-  ActionLogScreen(QWidget *parent = 0);
+  ActionLogScreen(QWidget *parent = nullptr);
   virtual ~ActionLogScreen();
 
   // Действия, используемые как на тулбаре, так и в контекстном меню

@@ -19,7 +19,7 @@ class EnterPassword : public QDialog
  Q_OBJECT
 
 public:
- EnterPassword(int imode, QWidget *parent=0);
+ EnterPassword(int imode, QWidget *parent=nullptr);
 
  QString getPassword(void);
 

@@ -17,7 +17,7 @@ class ReduceMessageBox : public QDialog
   Q_OBJECT
 
 public:
-  ReduceMessageBox(QWidget *parent = 0);
+  ReduceMessageBox(QWidget *parent = nullptr);
 
   void setText(QString iText);
   void setDetailedText(QString iDetailedText);

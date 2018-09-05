@@ -17,7 +17,7 @@ class AppConfigPage_Crypt : public ConfigPage
  Q_OBJECT
 
 public:
-  AppConfigPage_Crypt(QWidget *parent = 0);
+  AppConfigPage_Crypt(QWidget *parent = nullptr);
   virtual ~AppConfigPage_Crypt();
 
   int applyChanges(void);

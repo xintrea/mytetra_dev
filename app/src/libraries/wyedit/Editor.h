@@ -66,25 +66,25 @@ class Editor : public QWidget
  friend class ReferenceFormatter;
 
 public:
- Editor(QWidget *parent=0);
+ Editor(QWidget *parent=nullptr);
  ~Editor(void);
 
  // Объект, хранящий настройки редактора
- EditorConfig  *editorConfig=NULL;
+ EditorConfig  *editorConfig=nullptr;
 
  // Ассистент панели кнопок
- EditorToolBarAssistant *editorToolBarAssistant=NULL; // todo: Переименовать в toolBarAssistant?
+ EditorToolBarAssistant *editorToolBarAssistant=nullptr; // todo: Переименовать в toolBarAssistant?
 
  // Ассистент виджета горизонтальной линейки отступов
- EditorIndentSliderAssistant  *indentSliderAssistant=NULL;
+ EditorIndentSliderAssistant  *indentSliderAssistant=nullptr;
 
  // Вертикальная группировалка линеек кнопок и области редактирования
- QVBoxLayout   *buttonsAndEditLayout=NULL;
+ QVBoxLayout   *buttonsAndEditLayout=nullptr;
 
  // Контекстное меню редактора
- EditorContextMenu *editorContextMenu=NULL;
+ EditorContextMenu *editorContextMenu=nullptr;
 
- EditorCursorPositionDetector *cursorPositionDetector=NULL;
+ EditorCursorPositionDetector *cursorPositionDetector=nullptr;
 
  const char *getVersion(void);
 
@@ -214,16 +214,16 @@ private slots:
 private:
 
  // Область редактирования текста
- EditorTextArea *textArea=NULL;
+ EditorTextArea *textArea=nullptr;
 
  // Форматировщики текста
- TypefaceFormatter       *typefaceFormatter=NULL;
- PlacementFormatter      *placementFormatter=NULL;
- ListFormatter           *listFormatter=NULL;
- TableFormatter          *tableFormatter=NULL;
- ImageFormatter          *imageFormatter=NULL;
- MathExpressionFormatter *mathExpressionFormatter=NULL;
- ReferenceFormatter      *referenceFormatter=NULL;
+ TypefaceFormatter       *typefaceFormatter=nullptr;
+ PlacementFormatter      *placementFormatter=nullptr;
+ ListFormatter           *listFormatter=nullptr;
+ TableFormatter          *tableFormatter=nullptr;
+ ImageFormatter          *imageFormatter=nullptr;
+ MathExpressionFormatter *mathExpressionFormatter=nullptr;
+ ReferenceFormatter      *referenceFormatter=nullptr;
 
  bool isInit;
 
@@ -258,14 +258,14 @@ private:
  bool expandEditAreaFlag; // Распахнуто ли на максимум окно редактора
 
  // Указатели на переопределенные функции записи и чтения редактируемого текста
- void (*saveCallbackFunc)(QObject *editor, QString saveString)=NULL;
- void (*loadCallbackFunc)(QObject *editor, QString &loadString)=NULL;
+ void (*saveCallbackFunc)(QObject *editor, QString saveString)=nullptr;
+ void (*loadCallbackFunc)(QObject *editor, QString &loadString)=nullptr;
 
  // Указатель на функцию переключения на предыдущее окно (для мобильного интерфейса)
- void (*backCallbackFunc)(void)=NULL;
+ void (*backCallbackFunc)(void)=nullptr;
 
  // Указатель на функцию открытия присоединенных файлов
- void (*attachCallbackFunc)(void)=NULL;
+ void (*attachCallbackFunc)(void)=nullptr;
 
  // Поля для хранения произвольных данных
  // Обычно используются для запоминания нестандартного набора данных

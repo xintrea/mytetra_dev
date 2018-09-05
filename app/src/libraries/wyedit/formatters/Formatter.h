@@ -22,7 +22,7 @@ class Formatter : public QObject
   Q_OBJECT
 
 public:
-  explicit Formatter(QObject *parent = 0);
+  explicit Formatter(QObject *parent = nullptr);
   virtual ~Formatter();
 
   void setEditor(Editor *iEditor);

@@ -15,7 +15,7 @@ class GlobalParameters : public QObject
     Q_OBJECT
 
 public:
-    GlobalParameters(QObject *pobj=0);
+    GlobalParameters(QObject *pobj=nullptr);
     virtual ~GlobalParameters();
 
     void setMainProgramFile(QString file);

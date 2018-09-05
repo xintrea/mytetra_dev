@@ -7,7 +7,7 @@
 class RecordTableProxyModel : public QSortFilterProxyModel
 {
 public:
-  RecordTableProxyModel(QObject *pobj=0);
+  RecordTableProxyModel(QObject *pobj=nullptr);
   ~RecordTableProxyModel();
 
 };

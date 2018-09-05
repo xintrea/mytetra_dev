@@ -17,7 +17,7 @@ class AttachTableView : public QTableView
   Q_OBJECT
 
 public:
-  AttachTableView(QWidget *parent=0);
+  AttachTableView(QWidget *parent=nullptr);
   virtual ~AttachTableView();
 
   void init(void);

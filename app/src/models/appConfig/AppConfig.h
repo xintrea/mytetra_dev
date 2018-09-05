@@ -14,7 +14,7 @@ class AppConfig : public QObject
     Q_OBJECT
 
 public:
-    AppConfig(QObject *pobj=0);
+    AppConfig(QObject *pobj=nullptr);
     ~AppConfig();
 
     void init(void);

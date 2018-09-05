@@ -13,7 +13,7 @@ class EditorMultiLineInputDialog : public QDialog
  Q_OBJECT
 
 public:
- EditorMultiLineInputDialog(QWidget *parent=0);
+ EditorMultiLineInputDialog(QWidget *parent=nullptr);
  virtual ~EditorMultiLineInputDialog();
 
  void setText(QString text);

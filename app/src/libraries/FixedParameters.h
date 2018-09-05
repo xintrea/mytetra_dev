@@ -13,7 +13,7 @@ class FixedParameters : public QObject
   Q_OBJECT
 
 public:
-  FixedParameters(QObject *parent=0);
+  FixedParameters(QObject *parent=nullptr);
   virtual ~FixedParameters();
 
   // Поля для записей

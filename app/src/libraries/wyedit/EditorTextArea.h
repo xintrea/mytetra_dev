@@ -15,7 +15,7 @@ class EditorTextArea : public QTextEdit
 
  public:
 
-  EditorTextArea(QWidget *parent=0);
+  EditorTextArea(QWidget *parent=nullptr);
   ~EditorTextArea(void);
 
   // Константы, используемые для определения формата данных в буфере обмена
