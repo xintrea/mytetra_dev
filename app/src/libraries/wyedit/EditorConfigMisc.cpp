@@ -52,7 +52,8 @@ void EditorConfigMisc::setupUi(void)
 
 void EditorConfigMisc::setupSignals(void)
 {
-  connect(editWyEditConfigFile, SIGNAL(clicked()), this, SLOT(onClickedEditWyEditConfigFile()));
+  connect(editWyEditConfigFile, &QPushButton::clicked,
+          this,                 &EditorConfigMisc::onClickedEditWyEditConfigFile);
 }
 
 

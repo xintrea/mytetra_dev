@@ -65,14 +65,14 @@ void EditorTablePropertiesForm::setupUi()
 
 void EditorTablePropertiesForm::setupSignals()
 {
-  connect(&buttonBackgroundColor, SIGNAL(clicked()), this, SLOT(onClickedButtonBackgroundColor()) );
+  connect(&buttonBackgroundColor, &QToolButton::clicked, this, &EditorTablePropertiesForm::onClickedButtonBackgroundColor);
 
-  connect(&buttonAlignLeft,   SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignLeft()) );
-  connect(&buttonAlignCenter, SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignCenter()) );
-  connect(&buttonAlignRight,  SIGNAL(toggled(bool)), this, SLOT(onToggleButtonAlignRight()) );
+  connect(&buttonAlignLeft,   &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignLeft);
+  connect(&buttonAlignCenter, &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignCenter);
+  connect(&buttonAlignRight,  &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignRight);
 
-  connect(&buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-  connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+  connect(&buttonBox, &QDialogButtonBox::accepted, this, &EditorTablePropertiesForm::accept);
+  connect(&buttonBox, &QDialogButtonBox::rejected, this, &EditorTablePropertiesForm::reject);
 }
 
 

@@ -118,12 +118,16 @@ void EditorConfigFont::setup_ui(void)
 
 void EditorConfigFont::setup_signals(void)
 {
- connect(monospaceFontsizeapply,SIGNAL(stateChanged(int)),this,SLOT(on_monospace_applysize_state_changed(int)));
+ connect(monospaceFontsizeapply, &QCheckBox::stateChanged,
+         this,                   &EditorConfigFont::on_monospace_applysize_state_changed);
 
- connect(codeFontsizeapply,SIGNAL(stateChanged(int)),this,SLOT(on_code_applysize_state_changed(int)));
- connect(codeIndentsizeapply,SIGNAL(stateChanged(int)),this,SLOT(on_code_applyindent_state_changed(int)));
+ connect(codeFontsizeapply, &QCheckBox::stateChanged,
+         this,              &EditorConfigFont::on_code_applysize_state_changed);
+ connect(codeIndentsizeapply, &QCheckBox::stateChanged,
+         this,                &EditorConfigFont::on_code_applyindent_state_changed);
 
- connect(codeSelectColorButton, SIGNAL(clicked()), this, SLOT(on_code_select_color_button_click()));
+ connect(codeSelectColorButton, &QToolButton::clicked,
+         this,                  &EditorConfigFont::on_code_select_color_button_click);
 }
 
 

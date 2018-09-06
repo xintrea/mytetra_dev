@@ -19,7 +19,8 @@ EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontCombo
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     this->setValidator(validator);
 
-    connect( this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
+    connect(this, static_cast<void(EditorFontFamilyComboBox::*)(int)>(&EditorFontFamilyComboBox::currentIndexChanged),
+            this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
 }
 
 

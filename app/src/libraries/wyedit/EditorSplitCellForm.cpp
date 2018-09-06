@@ -47,8 +47,8 @@ EditorSplitCellForm::EditorSplitCellForm(int fixHorisontalSplit, int fixVertical
  buttonBox=new QDialogButtonBox(Qt::Horizontal);
  buttonBox->addButton(tr("OK"),QDialogButtonBox::AcceptRole);
  buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
- connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
- connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
+ connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorSplitCellForm::accept);
+ connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorSplitCellForm::reject);
 
 
  // Сборка формы в зависимости от того, как можно разделять

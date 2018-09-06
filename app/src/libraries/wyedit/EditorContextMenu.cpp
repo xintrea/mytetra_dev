@@ -76,19 +76,19 @@ void EditorContextMenu::setPasteAsPlainText(bool flag)
 
 void EditorContextMenu::setup_signals(void)
 {
- connect(actionUndo,SIGNAL(triggered()),this,SIGNAL(undo()));
- connect(actionRedo,SIGNAL(triggered()),this,SIGNAL(redo()));
+ connect(actionUndo, &QAction::triggered, this, &EditorContextMenu::undo);
+ connect(actionRedo, &QAction::triggered, this, &EditorContextMenu::redo);
 
- connect(actionCut,SIGNAL(triggered()),this,SIGNAL(cut()));
- connect(actionCopy,SIGNAL(triggered()),this,SIGNAL(copy()));
- connect(actionPaste,SIGNAL(triggered()),this,SIGNAL(paste()));
- connect(actionPasteAsPlainText,SIGNAL(triggered()),this,SIGNAL(pasteAsPlainText()));
+ connect(actionCut,             &QAction::triggered, this, &EditorContextMenu::cut);
+ connect(actionCopy,            &QAction::triggered, this, &EditorContextMenu::copy);
+ connect(actionPaste,           &QAction::triggered, this, &EditorContextMenu::paste);
+ connect(actionPasteAsPlainText,&QAction::triggered, this, &EditorContextMenu::pasteAsPlainText);
 
- connect(actionSelectAll,SIGNAL(triggered()),this,SIGNAL(selectAll()));
+ connect(actionSelectAll,       &QAction::triggered, this, &EditorContextMenu::selectAll);
 
- connect(actionEditImageProperties,SIGNAL(triggered()),this,SIGNAL(contextMenuEditImageProperties()));
- connect(actionEditMathExpression, SIGNAL(triggered()),this,SIGNAL(contextMenuEditMathExpression()));
- connect(actionGotoReference,      SIGNAL(triggered()),this,SIGNAL(contextMenuGotoReference()));
+ connect(actionEditImageProperties,&QAction::triggered, this, &EditorContextMenu::contextMenuEditImageProperties);
+ connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::contextMenuEditMathExpression);
+ connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::contextMenuGotoReference);
 }
 
 
