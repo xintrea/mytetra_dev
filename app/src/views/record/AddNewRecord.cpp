@@ -73,8 +73,8 @@ void AddNewRecord::setupUI(void)
 
 void AddNewRecord::setupSignals(void)
 {
-  connect(&buttonBox, SIGNAL(accepted()), this, SLOT(okClick(void)));
-  connect(&buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+  connect(&buttonBox, &QDialogButtonBox::accepted, this, &AddNewRecord::okClick);
+  connect(&buttonBox, &QDialogButtonBox::rejected, this, &AddNewRecord::reject);
 }
 
 

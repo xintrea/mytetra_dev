@@ -60,27 +60,27 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     button_print->setText(tr("&Print..."));
     button_print->setShortcut(Qt::CTRL + Qt::Key_P);
     button_print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_print, SIGNAL(clicked()), this, SLOT(print()));
+    connect(button_print, &QToolButton::clicked, this, &PrintPreview::print);
     
     QToolButton *button_page_setup=new QToolButton(this);
     button_page_setup->setText(tr("Page Setup..."));
     button_page_setup->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_page_setup, SIGNAL(clicked()), this, SLOT(pageSetup()));
+    connect(button_page_setup, &QToolButton::clicked, this, &PrintPreview::pageSetup);
     
     QToolButton *button_zoom_in=new QToolButton(this);
     button_zoom_in->setText(tr("Zoom In"));
     button_zoom_in->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_zoom_in, SIGNAL(clicked()), view, SLOT(zoomIn()));
+    connect(button_zoom_in, &QToolButton::clicked, view, &PreviewView::zoomIn);
 
     QToolButton *button_zoom_out=new QToolButton(this);
     button_zoom_out->setText(tr("Zoom Out"));
     button_zoom_out->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_zoom_out, SIGNAL(clicked()), view, SLOT(zoomOut()));
+    connect(button_zoom_out, &QToolButton::clicked, view, &PreviewView::zoomOut);
     
     QToolButton *button_close=new QToolButton(this);
     button_close->setText(tr("&Close"));
     button_close->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_close, SIGNAL(clicked()), this, SLOT(close()));
+    connect(button_close, &QToolButton::clicked, this, &PrintPreview::close);
 
     
     // Панель инструментов
