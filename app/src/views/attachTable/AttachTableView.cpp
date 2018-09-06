@@ -43,16 +43,16 @@ void AttachTableView::init(void)
 void AttachTableView::setupSignals(void)
 {
   // Сигнал чтобы показать контекстное меню по правому клику на списке записей
-  connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
-          this,SLOT(onCustomContextMenuRequested(const QPoint &)));
+  connect(this, &AttachTableView::customContextMenuRequested,
+          this, &AttachTableView::onCustomContextMenuRequested);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
-  connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
-          this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+  connect(this, &AttachTableView::tapAndHoldGestureFinished,
+          this, &AttachTableView::onCustomContextMenuRequested);
 
   // Сигнал чтобы открыть на просмотр/редактирование файл по двойному клику
-  connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
-          controller, SLOT(onOpenAttach(void)));
+  connect(this,       &AttachTableView::doubleClicked,
+          controller, &AttachTableController::onOpenAttach);
 }
 
 

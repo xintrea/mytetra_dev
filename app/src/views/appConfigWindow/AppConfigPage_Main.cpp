@@ -136,13 +136,13 @@ AppConfigPage_Main::~AppConfigPage_Main(void)
 
 void AppConfigPage_Main::setupSignals(void)
 {
-  connect(tetradirButton,SIGNAL(clicked()),this,SLOT(onClickedTetradirSelectDialog()));
-  connect(trashdirButton,SIGNAL(clicked()),this,SLOT(onClickedTrashdirSelectDialog()));
+  connect(tetradirButton, &QToolButton::clicked, this, &AppConfigPage_Main::onClickedTetradirSelectDialog);
+  connect(trashdirButton, &QToolButton::clicked, this, &AppConfigPage_Main::onClickedTrashdirSelectDialog);
 
-  connect(disableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onDisableCustomDateTimeFormatToggle(bool) ) );
-  connect(enableCustomDateTimeFormat, SIGNAL( toggled(bool) ), this, SLOT( onEnableCustomDateTimeFormatToggle(bool) ) );
+  connect(disableCustomDateTimeFormat, &QRadioButton::toggled, this, &AppConfigPage_Main::onDisableCustomDateTimeFormatToggle);
+  connect(enableCustomDateTimeFormat,  &QRadioButton::toggled, this, &AppConfigPage_Main::onEnableCustomDateTimeFormatToggle);
 
-  connect(dateTimeFormatHelpButton, SIGNAL( clicked() ), this, SLOT( onDateTimeFormatHelpButton() ) );
+  connect(dateTimeFormatHelpButton, &QToolButton::clicked, this, &AppConfigPage_Main::onDateTimeFormatHelpButton);
 }
 
 

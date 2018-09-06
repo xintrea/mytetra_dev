@@ -73,7 +73,7 @@ void AppConfigPage_Misc::setupUi(void)
 
 void AppConfigPage_Misc::setupSignals(void)
 {
-  connect(editMyTetraConfigFile,SIGNAL(clicked()),this,SLOT(onClickedEditMyTetraConfigFile()));
+  connect(editMyTetraConfigFile, &QPushButton::clicked, this, &AppConfigPage_Misc::onClickedEditMyTetraConfigFile);
 }
 
 

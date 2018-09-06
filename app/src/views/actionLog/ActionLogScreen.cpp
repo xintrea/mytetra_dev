@@ -49,7 +49,7 @@ void ActionLogScreen::setupUI(void)
 
 void ActionLogScreen::setupSignals(void)
 {
-  connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()) );
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
 }
 
 
@@ -59,7 +59,7 @@ void ActionLogScreen::setupActions(void)
   actionCopy->setStatusTip(tr("Copy selected rows"));
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
   actionCopy->setShortcut(QKeySequence("Ctrl+C"));
-  connect(actionCopy, SIGNAL(triggered()), actionLogController, SLOT(onCopyClicked()));
+  connect(actionCopy, &QAction::triggered, actionLogController, &ActionLogController::onCopyClicked);
 }
 
 

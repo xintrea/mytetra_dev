@@ -37,8 +37,8 @@ void AppConfigPage_Attach::setupUi(void)
 
 void AppConfigPage_Attach::setupSignals(void)
 {
-  connect( &enableRecordWithAttachHighlight, SIGNAL( toggled(bool) ), this, SLOT( onEnableRecordWithAttachHighlight(bool) ) );
-  connect( &buttonHighlightColor, SIGNAL(clicked()), this, SLOT(onClickedHighlightColor()) );
+  connect( &enableRecordWithAttachHighlight, &QCheckBox::toggled, this, &AppConfigPage_Attach::onEnableRecordWithAttachHighlight);
+  connect( &buttonHighlightColor, &QToolButton::clicked, this, &AppConfigPage_Attach::onClickedHighlightColor);
 }
 
 

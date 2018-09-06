@@ -56,8 +56,8 @@ void ActionLogView::init()
 void ActionLogView::setupSignals(void)
 {
   // Сигнал чтобы показать контекстное меню по правому клику на списке записей
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint &)),
-          this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+  connect(this, &ActionLogView::customContextMenuRequested,
+          this, &ActionLogView::onCustomContextMenuRequested);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
   connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),

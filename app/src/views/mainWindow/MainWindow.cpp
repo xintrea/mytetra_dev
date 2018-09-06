@@ -125,17 +125,17 @@ void MainWindow::setupUI(void)
 
 void MainWindow::setupSignals(void)
 {
-  connect(editorScreen,SIGNAL(send_expand_edit_area(bool)), this, SLOT(onExpandEditArea(bool)));
+  connect(editorScreen, &MetaEditor::send_expand_edit_area, this, &MainWindow::onExpandEditArea);
 
   // Сигнал, генерирующийся при выходе из оконных систем X11 и Windows
-  connect(qApp, SIGNAL(commitDataRequest(QSessionManager&)), this, SLOT(commitData(QSessionManager&)));
+  connect(qApp, &QApplication::commitDataRequest, this, &MainWindow::commitData);
 
-  connect(qApp, SIGNAL( focusChanged(QWidget *, QWidget *) ), this, SLOT( onFocusChanged(QWidget *, QWidget *) ));
+  connect(qApp, &QApplication::focusChanged, this, &MainWindow::onFocusChanged);
 
   // Связывание сигналов кнопки поиска по базе с действием по открытию виджета поиска по базе
-  connect(treeScreen->actionList["findInBase"], SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
-  connect(recordTableScreen->actionFindInBase, SIGNAL(triggered()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
-  connect(editorScreen, SIGNAL(wyeditFindInBaseClicked()), globalParameters.getWindowSwitcher(), SLOT(findInBaseClick()));
+  connect(treeScreen->actionList["findInBase"], &QAction::triggered, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
+  connect(recordTableScreen->actionFindInBase, &QAction::triggered, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
+  connect(editorScreen, &MetaEditor::wyeditFindInBaseClicked, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
 }
 
 
@@ -426,33 +426,33 @@ void MainWindow::initFileMenu(void)
 
   a = new QAction(tr("&Print..."), this);
   a->setShortcut(QKeySequence::Print);
-  connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
+  connect(a, &QAction::triggered, this, &MainWindow::filePrint);
   menu->addAction(a);
 
   a = new QAction(tr("Print Preview..."), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(filePrintPreview()));
+  connect(a, &QAction::triggered, this, &MainWindow::filePrintPreview);
   menu->addAction(a);
 
   a = new QAction(tr("&Export PDF..."), this);
   a->setShortcut(Qt::CTRL + Qt::Key_D);
-  connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
+  connect(a, &QAction::triggered, this, &MainWindow::filePrintPdf);
   menu->addAction(a);
 
   menu->addSeparator();
 
   a = new QAction(tr("Export tree item"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(fileExportBranch()));
+  connect(a, &QAction::triggered, this, &MainWindow::fileExportBranch);
   menu->addAction(a);
 
   a = new QAction(tr("Import tree item"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(fileImportBranch()));
+  connect(a, &QAction::triggered, this, &MainWindow::fileImportBranch);
   menu->addAction(a);
 
   menu->addSeparator();
 
   a = new QAction(tr("&Quit"), this);
   a->setShortcut(Qt::CTRL + Qt::Key_Q);
-  connect(a, SIGNAL(triggered()), this, SLOT(applicationExit()));
+  connect(a, &QAction::triggered, this, &MainWindow::applicationExit);
   menu->addAction(a);
 }
 
@@ -467,11 +467,11 @@ void MainWindow::initToolsMenu(void)
   QAction *a;
 
   a = new QAction(tr("Find in ba&se"), this); // Так как есть this, указатель не будет потерян основным окном
-  connect(a, SIGNAL(triggered()), this, SLOT(toolsFind()));
+  connect(a, &QAction::triggered, this, &MainWindow::toolsFind);
   menu->addAction(a);
 
   a = new QAction(tr("Action &log"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(onActionLogClicked()));
+  connect(a, &QAction::triggered, this, &MainWindow::onActionLogClicked);
   menu->addAction(a);
 
 
@@ -481,7 +481,7 @@ void MainWindow::initToolsMenu(void)
   if(mytetraConfig.getInterfaceMode()=="desktop")
   {
     a = new QAction(tr("&Preferences"), this);
-    connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
+    connect(a, &QAction::triggered, this, &MainWindow::toolsPreferences);
     menu->addAction(a);
   }
   else
@@ -530,15 +530,15 @@ void MainWindow::initHelpMenu(void)
   QAction *a;
 
   a = new QAction(tr("About MyTetra"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(onClickHelpAboutMyTetra()));
+  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
   menu->addAction(a);
 
   a = new QAction(tr("About Qt"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(onClickHelpAboutQt()));
+  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
   menu->addAction(a);
 
   a = new QAction(tr("Technical info"), this);
-  connect(a, SIGNAL(triggered()), this, SLOT(onClickHelpTechnicalInfo()));
+  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
   menu->addAction(a);
 }
 
@@ -872,7 +872,7 @@ void MainWindow::synchronization(bool visible)
   ExecuteCommand exCommand;
 
   // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-  connect(&exCommand, SIGNAL(finishWork()), recordTableScreen, SLOT(onExecuteCommandFinishWork()));
+  connect(&exCommand, &ExecuteCommand::finishWork, recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
 
   exCommand.setWindowTitle(tr("MyTetra synchronization"));
   exCommand.setMessageText(tr("Synchronization in progress, please wait..."));
@@ -889,16 +889,16 @@ void MainWindow::synchronization(bool visible)
 void MainWindow::setupIconActions(void)
 {
   actionTrayRestore = new QAction(tr("&Restore window"), this);
-  connect(actionTrayRestore, SIGNAL(triggered()), this, SLOT(showWindow()));
+  connect(actionTrayRestore, &QAction::triggered, this, &MainWindow::showWindow);
 
   actionTrayMaximize = new QAction(tr("Ma&ximize window"), this);
-  connect(actionTrayMaximize, SIGNAL(triggered()), this, SLOT(showMaximized()));
+  connect(actionTrayMaximize, &QAction::triggered, this, &MainWindow::showMaximized);
 
   actionTrayMinimize = new QAction(tr("Mi&nimize window"), this);
-  connect(actionTrayMinimize, SIGNAL(triggered()), this, SLOT(hide()));
+  connect(actionTrayMinimize, &QAction::triggered, this, &MainWindow::hide);
 
   actionTrayQuit = new QAction(tr("&Quit"), this);
-  connect(actionTrayQuit, SIGNAL(triggered()), this, SLOT(applicationExit()));
+  connect(actionTrayQuit, &QAction::triggered, this, &MainWindow::applicationExit);
 }
 
 
@@ -926,8 +926,8 @@ void MainWindow::createTrayIcon(void)
 
 void MainWindow::setIcon(void)
 {
-  connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-          this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+  connect(trayIcon, &QSystemTrayIcon::activated,
+          this,     &MainWindow::iconActivated);
 
   QIcon icon = QIcon(":/resource/pic/logo.svg");
   trayIcon->setIcon(icon);
