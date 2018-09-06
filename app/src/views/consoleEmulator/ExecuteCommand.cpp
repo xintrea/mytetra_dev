@@ -158,8 +158,9 @@ void ExecuteCommand::run(bool visible)
  // Создается процесс 
  process=new QProcess();
 
- connect(console, SIGNAL(cancelConsole()), this, SLOT(manualCloseProcess()));
- connect(process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(errorHanler(QProcess::ProcessError)));
+ connect(console, &ConsoleEmulator::cancelConsole, this, &ExecuteCommand::manualCloseProcess);
+ connect(process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+         this,    &ExecuteCommand::errorHanler);
 
 
  // Объединение вывода стандартного канала и канала ошибок

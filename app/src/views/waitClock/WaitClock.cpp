@@ -21,7 +21,7 @@ WaitClock::WaitClock(QWidget *parent) : QWidget(parent)
 
  setLayout(centralLayout);
 
- connect(&timer, SIGNAL(timeout()), this, SLOT(iconUpdate()));
+ connect(&timer, &QTimer::timeout, this, &WaitClock::iconUpdate);
 
  iconUpdate();
 
