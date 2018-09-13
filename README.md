@@ -1,13 +1,24 @@
-mytetra_dev
-===========
+MyTetra - smart manager for information collecting
+==================================================
+
+MyTetra is open source and cross platform personal manager for information accumulation. 
+It is powerful program for data memorization and structuring notes.
+
+
+Repository mytetra_dev
+======================
 
 ENG: Central source repository for MyTetra development.<br/> 
-* ["Read me" on english](https://github.com/xintrea/mytetra_dev/blob/experimental/README_ENG.md)
-* [MyTetra official english page](http://webhamster.ru/site/page/index/articles/projectcode/138)
+* [ReadMe (eng)](https://github.com/xintrea/mytetra_dev/blob/experimental/README_ENG.md)
+* [MyTetra official english page](https://webhamster.ru/site/page/index/articles/projectcode/138)
+* [MyTetra Share (eng)](https://webhamster.ru/site/page/index/articles/projectcode/460)
+* [MyTetra Web Client (eng)](https://webhamster.ru/site/page/index/articles/projectcode/236)
 
 RUS: Основной репозитарий исходников для разработки MyTetra.<br/>
 * [Описание проекта](https://github.com/xintrea/mytetra_dev/blob/experimental/README.md)
-* [Официальная русскоязычная страница MyTetra](http://webhamster.ru/site/page/index/articles/projectcode/105)
+* [Официальная русскоязычная страница MyTetra](https://webhamster.ru/site/page/index/articles/projectcode/105)
+* [MyTetra Share (rus)](https://webhamster.ru/site/page/index/articles/projectcode/235)
+* [MyTetra Web Client (rus)](https://webhamster.ru/site/page/index/articles/projectcode/236)
 
 
 Материалы о MyTetra
