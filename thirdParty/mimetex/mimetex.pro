@@ -3,8 +3,8 @@ QT-=gui
 
 message(Touch mimeTeX qmake)
 
-QMAKE_CFLAGS += -DAA
-QMAKE_CXXFLAGS += -DAA
+QMAKE_CFLAGS += -DAA -D_GNU_SOURCE
+QMAKE_CXXFLAGS += -DAA -D_GNU_SOURCE
 
 SOURCES=mimetex.c \
         gifsave.c \

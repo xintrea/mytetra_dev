@@ -6,11 +6,11 @@ TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="debug"
+BUILD_TYPE="release"
 
 # Enable console for Windows
-# 0 - disable, 1 - enable
-WINDOWS_CONSOLE_ENABLE=1
+# 0 - disable, 1 - enable (this is for compile mytetra.exe and rename to mytetra_debug.exe)
+WINDOWS_CONSOLE_ENABLE=0
 
 # Profiling enable
 # 0 - disable, 1 - enable
@@ -422,4 +422,4 @@ win32 {
     MIMETEX_BINARY=mimetex
 }
 
-QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/mimetex, $${OUT_PWD}/bin/$${MIMETEX_BINARY})
+QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/$${MIMETEX_BINARY}, $${OUT_PWD}/bin/$${MIMETEX_BINARY})
