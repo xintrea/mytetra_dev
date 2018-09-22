@@ -228,63 +228,63 @@ void FindScreen::assemblyWhereFindLine(void)
 void FindScreen::setupSignals(void)
 {
   // При каждом изменении текста в строке запроса
-  connect(findText, SIGNAL(textChanged(const QString&)),
-          this, SLOT(enableFindButton(const QString&)));
+  connect(findText, &QLineEdit::textChanged,
+          this,     &FindScreen::enableFindButton);
 
   // При каждом изменении текста извне может вырабатыватся этот сигнал
   // Он вырабатывается в слоте setFindText()
-  connect(this, SIGNAL(textChangedFromAnother(const QString&)),
-          this, SLOT(enableFindButton(const QString&)));
+  connect(this, &FindScreen::textChangedFromAnother,
+          this, &FindScreen::enableFindButton);
 
 
   // При нажатии Enter в строке запроса
-  connect(findText, SIGNAL(returnPressed()),
-          this, SLOT(findClicked()));
+  connect(findText, &QLineEdit::returnPressed,
+          this,     &FindScreen::findClicked);
 
   // При нажатии кнопки Find
-  connect(findStartButton,SIGNAL(clicked()),
-          this,SLOT(findClicked()));
+  connect(findStartButton, &QPushButton::clicked,
+          this,            &FindScreen::findClicked);
 
   // При нажатии кнопки разворачивания/сворачивания инструментов поиска
-  connect(toolsExpand,SIGNAL(clicked()),
-          this,SLOT(toolsExpandClicked()));
+  connect(toolsExpand, &QToolButton::clicked,
+          this,        &FindScreen::toolsExpandClicked);
 
   // После установки текста извне, вырабатывается этот сигнал
-  connect(this, SIGNAL(findClickedAfterAnotherTextChanged()),
-          this, SLOT(findClicked()));
+  connect(this, &FindScreen::findClickedAfterAnotherTextChanged,
+          this, &FindScreen::findClicked);
 
 
   // При нажатии кнопки закрытия
-  connect(closeButton,SIGNAL(clicked()),
-          this,SLOT(widgetHide()));
+  connect(closeButton, &QToolButton::clicked,
+          this,        &FindScreen::widgetHide);
 
   // Сигналы для запоминания состояния интерфейса
-  connect(wordRegard,SIGNAL(currentIndexChanged(int)),
-          this,SLOT(changedWordRegard(int)));
+  connect(wordRegard, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+          this,       &FindScreen::changedWordRegard);
 
-  connect(howExtract,SIGNAL(currentIndexChanged(int)),
-          this,SLOT(changedHowExtract(int)));
+  connect(howExtract, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+          this,       &FindScreen::changedHowExtract);
 
-  connect(treeSearchArea,SIGNAL(currentIndexChanged(int)),
-          this,SLOT(changedTreeSearchArea(int)));
+  connect(treeSearchArea, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+          this,           &FindScreen::changedTreeSearchArea);
 
-  connect(findInName,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInName(int)));
+  connect(findInName, &QCheckBox::stateChanged,
+          this,       &FindScreen::changedFindInName);
 
-  connect(findInAuthor,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInAuthor(int)));
+  connect(findInAuthor, &QCheckBox::stateChanged,
+          this,         &FindScreen::changedFindInAuthor);
 
-  connect(findInUrl,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInUrl(int)));
+  connect(findInUrl, &QCheckBox::stateChanged,
+          this,      &FindScreen::changedFindInUrl);
 
-  connect(findInTags,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInTags(int)));
+  connect(findInTags, &QCheckBox::stateChanged,
+          this,       &FindScreen::changedFindInTags);
 
-  connect(findInText,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInText(int)));
+  connect(findInText, &QCheckBox::stateChanged,
+          this,       &FindScreen::changedFindInText);
 
-  connect(findInNameItem,SIGNAL(stateChanged(int)),
-          this,SLOT(changedFindInNameItem(int)));
+  connect(findInNameItem, &QCheckBox::stateChanged,
+          this,           &FindScreen::changedFindInNameItem);
 }
 
 

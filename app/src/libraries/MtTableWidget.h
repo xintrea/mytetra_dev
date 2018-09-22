@@ -13,7 +13,7 @@ class MtTableWidget : public QTableWidget
 {
     Q_OBJECT
 public:
-    MtTableWidget(QWidget *parent = 0);
+    MtTableWidget(QWidget *parent = nullptr);
     virtual ~MtTableWidget();
 
 private:

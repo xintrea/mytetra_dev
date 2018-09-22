@@ -16,7 +16,7 @@ class AttachTableScreen : public QWidget
 {
   Q_OBJECT
 public:
-  AttachTableScreen(QWidget *parent = 0);
+  AttachTableScreen(QWidget *parent = nullptr);
   virtual ~AttachTableScreen();
 
   void clear(void);

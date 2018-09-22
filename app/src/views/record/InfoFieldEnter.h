@@ -18,7 +18,7 @@ class InfoFieldEnter : public QWidget
   Q_OBJECT
 
 public:
-  InfoFieldEnter(QWidget *parent=0);
+  InfoFieldEnter(QWidget *parent=nullptr);
   ~InfoFieldEnter();
 
   void setFocusToStart(void);

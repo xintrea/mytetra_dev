@@ -103,17 +103,17 @@ void AttachTableScreen::setupUI(void)
 void AttachTableScreen::setupSignals(void)
 {
   // Связывание действий
-  connect(actionAddAttach, SIGNAL(triggered()), attachTableController, SLOT(onAddAttach()));
-  connect(actionAddAttachFromUrl, SIGNAL(triggered()), attachTableController, SLOT(onAddAttachFromUrl()));
-  connect(actionAddLink, SIGNAL(triggered()), attachTableController, SLOT(onAddLink()));
-  connect(actionEditFileName, SIGNAL(triggered()), attachTableController, SLOT(onEditFileName()));
-  connect(actionDeleteAttach, SIGNAL(triggered()), attachTableController, SLOT(onDeleteAttach()));
-  connect(actionOpenAttach, SIGNAL(triggered()), attachTableController, SLOT(onOpenAttach()));
-  connect(actionSaveAsAttach, SIGNAL(triggered()), attachTableController, SLOT(onSaveAsAttach()));
+  connect(actionAddAttach,        &QAction::triggered, attachTableController, &AttachTableController::onAddAttach);
+  connect(actionAddAttachFromUrl, &QAction::triggered, attachTableController, &AttachTableController::onAddAttachFromUrl);
+  connect(actionAddLink,          &QAction::triggered, attachTableController, &AttachTableController::onAddLink);
+  connect(actionEditFileName,     &QAction::triggered, attachTableController, &AttachTableController::onEditFileName);
+  connect(actionDeleteAttach,     &QAction::triggered, attachTableController, &AttachTableController::onDeleteAttach);
+  connect(actionOpenAttach,       &QAction::triggered, attachTableController, &AttachTableController::onOpenAttach);
+  connect(actionSaveAsAttach,     &QAction::triggered, attachTableController, &AttachTableController::onSaveAsAttach);
 
-  connect(actionShowAttachInfo, SIGNAL(triggered()), attachTableController, SLOT(onShowAttachInfo()));
+  connect(actionShowAttachInfo,   &QAction::triggered, attachTableController, &AttachTableController::onShowAttachInfo);
 
-  connect(actionSwitchToEditor, SIGNAL(triggered()), attachTableController, SLOT(onSwitchToEditor()));
+  connect(actionSwitchToEditor,   &QAction::triggered, attachTableController, &AttachTableController::onSwitchToEditor);
 }
 
 

@@ -8,7 +8,7 @@ class EditorContextMenu : public QMenu
  Q_OBJECT
 
  public:
-  EditorContextMenu(QWidget *parent=0);
+  EditorContextMenu(QWidget *parent=nullptr);
   ~EditorContextMenu(void);
 
  void setImageProperties(bool flag); // Активирование добавочного пункта меню "Свойства картинки")

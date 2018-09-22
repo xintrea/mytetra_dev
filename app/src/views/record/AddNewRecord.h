@@ -20,9 +20,9 @@ Q_OBJECT
 public:
 
  #if QT_VERSION < 0x050000
-  AddNewRecord( QWidget * parent = 0, Qt::WFlags f = 0 );
+  AddNewRecord( QWidget * parent = nullptr, Qt::WFlags f = 0 );
  #else
-  AddNewRecord( QWidget * parent = 0, Qt::WindowFlags f = 0 );
+  AddNewRecord( QWidget * parent = nullptr, Qt::WindowFlags f = 0 );
  #endif
 
  ~AddNewRecord();

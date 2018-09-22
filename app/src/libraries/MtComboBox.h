@@ -15,7 +15,7 @@ class MtComboBox : public QComboBox
     Q_OBJECT
 
 public:
-    MtComboBox(QWidget *parent=0);
+    MtComboBox(QWidget *parent=nullptr);
     virtual ~MtComboBox();
 
 private:

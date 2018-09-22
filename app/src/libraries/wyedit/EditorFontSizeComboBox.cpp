@@ -30,7 +30,8 @@ EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(par
     this->setValidator(fontsizeValidator);
 
 
-    connect( this, SIGNAL(currentIndexChanged(int)), this, SLOT(onCurrentIndexChanged(int)));
+    connect(this, static_cast<void(EditorFontSizeComboBox::*)(int)>(&EditorFontSizeComboBox::currentIndexChanged),
+            this, &EditorFontSizeComboBox::onCurrentIndexChanged);
 }
 
 

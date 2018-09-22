@@ -28,7 +28,7 @@ class FindScreen : public QWidget
  Q_OBJECT
 
 public:
- FindScreen(QWidget *parent=0);
+ FindScreen(QWidget *parent=nullptr);
  virtual ~FindScreen(void);
 
 public slots:

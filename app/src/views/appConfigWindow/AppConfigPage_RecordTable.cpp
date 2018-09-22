@@ -83,8 +83,8 @@ void AppConfigPage_RecordTable::setupSignals(void)
   while (i.hasNext())
   {
     i.next();
-    connect(i.value(), SIGNAL(toggled(bool)),
-            this, SLOT(onFieldToggle(bool)));
+    connect(i.value(), &QCheckBox::toggled,
+            this,      &AppConfigPage_RecordTable::onFieldToggle);
   }
 
 
@@ -92,8 +92,8 @@ void AppConfigPage_RecordTable::setupSignals(void)
   RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");
 
   // При изменении настроек отображения таблицы конечных записей должен вызываться соответствующий слот контроллера (чтобы перечиталась ширина столбцов)
-  connect(this, SIGNAL(recordTableConfigChange()),
-          recordTableController, SLOT(onRecordTableConfigChange()));
+  connect(this,                  &AppConfigPage_RecordTable::recordTableConfigChange,
+          recordTableController, &RecordTableController::onRecordTableConfigChange);
 }
 
 

@@ -112,57 +112,57 @@ void RecordTableView::init(void)
 void RecordTableView::setupSignals(void)
 {
  // Сигнал чтобы показать контекстное меню по правому клику на списке записей
- connect(this,SIGNAL(customContextMenuRequested(const QPoint &)),
-         this,SLOT(onCustomContextMenuRequested(const QPoint &)));
+ connect(this, &RecordTableView::customContextMenuRequested,
+         this, &RecordTableView::onCustomContextMenuRequested);
 
  // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
- connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
-         this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+ connect(this, &RecordTableView::tapAndHoldGestureFinished,
+         this, &RecordTableView::onCustomContextMenuRequested);
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
- connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
-         this, SLOT(editFieldContext(void)));
+ connect(this, &RecordTableView::doubleClicked,
+         this, &RecordTableView::editFieldContext);
 
  // Перемещение курсора по строкам таблицы
  if(mytetraConfig.getInterfaceMode()=="desktop")
-   connect(this, SIGNAL(listSelectionChanged ( const QItemSelection &, const QItemSelection &) ),
-           this, SLOT(onSelectionChanged ( const QItemSelection &, const QItemSelection &) ));
+   connect(this, &RecordTableView::listSelectionChanged,
+           this, &RecordTableView::onSelectionChanged);
 
  // Нажатие на запись (вызывается сразу как только нажалась кнопка, до отпускания)
- connect(this, SIGNAL( pressed(const QModelIndex &) ),
-         this, SLOT( onPressToRecord(const QModelIndex &) ));
+ connect(this, &RecordTableView::pressed,
+         this, &RecordTableView::onPressToRecord);
 
  // Клик по записи (вызывается после отпускания кнопки)
- connect(this, SIGNAL( clicked(const QModelIndex &) ),
-         this, SLOT( onClickToRecord(const QModelIndex &) ));
+ connect(this, &RecordTableView::clicked,
+         this, &RecordTableView::onClickToRecord);
 
 
  RecordTableScreen *parentPointer=qobject_cast<RecordTableScreen *>(parent());
 
  // Сигналы для обновления панели инструментов при изменении в selectionModel()
- connect(this->selectionModel(), SIGNAL(currentChanged (const QModelIndex&, const QModelIndex&)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(this->selectionModel(), SIGNAL(selectionChanged (const QItemSelection&, const QItemSelection&)),
-         parentPointer, SLOT(toolsUpdate(void)));
+ connect(this->selectionModel(), &QItemSelectionModel::currentChanged,
+         parentPointer,          &RecordTableScreen::toolsUpdate);
+ connect(this->selectionModel(), &QItemSelectionModel::selectionChanged,
+         parentPointer,          &RecordTableScreen::toolsUpdate);
 
  // Сигналы для обновления панели инструментов
- connect(this, SIGNAL(activated(const QModelIndex &)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(this, SIGNAL(clicked(const QModelIndex &)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(this, SIGNAL(doubleClicked(const QModelIndex &)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(this, SIGNAL(entered(const QModelIndex &)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(this, SIGNAL(pressed(const QModelIndex &)),
-         parentPointer, SLOT(toolsUpdate(void)));
- connect(QApplication::clipboard(),SIGNAL(dataChanged()),
-         parentPointer, SLOT(toolsUpdate(void)));
+ connect(this,          &RecordTableView::activated,
+         parentPointer, &RecordTableScreen::toolsUpdate);
+ connect(this,          &RecordTableView::clicked,
+         parentPointer, &RecordTableScreen::toolsUpdate);
+ connect(this,          &RecordTableView::doubleClicked,
+         parentPointer, &RecordTableScreen::toolsUpdate);
+ connect(this,          &RecordTableView::entered,
+         parentPointer, &RecordTableScreen::toolsUpdate);
+ connect(this,          &RecordTableView::pressed,
+         parentPointer, &RecordTableScreen::toolsUpdate);
+ connect(QApplication::clipboard(), &QClipboard::dataChanged,
+         parentPointer,             &RecordTableScreen::toolsUpdate);
 
- connect(this->horizontalHeader(), SIGNAL( sectionMoved( int, int, int ) ),
-         this, SLOT( onSectionMoved( int, int, int ) ) );
- connect(this->horizontalHeader(), SIGNAL( sectionResized( int, int, int ) ),
-         this, SLOT( onSectionResized( int, int, int ) ) );
+ connect(this->horizontalHeader(), &QHeaderView::sectionMoved,
+         this,                     &RecordTableView::onSectionMoved);
+ connect(this->horizontalHeader(), &QHeaderView::sectionResized,
+         this,                     &RecordTableView::onSectionResized);
 }
 
 

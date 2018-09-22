@@ -24,7 +24,7 @@ class RecordTableModel : public QAbstractTableModel
     friend class RecordTableController;
 
 public:
-    RecordTableModel(QObject *pobj=0);
+    RecordTableModel(QObject *pobj=nullptr);
     ~RecordTableModel();
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;

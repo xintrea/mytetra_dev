@@ -11,7 +11,7 @@ class EditorConfig : public QWidget
     Q_OBJECT
 
 public:
-    EditorConfig(QString config_file_name, QWidget *parent=0);
+    EditorConfig(QString config_file_name, QWidget *parent=nullptr);
     ~EditorConfig();
 
     void sync(void);

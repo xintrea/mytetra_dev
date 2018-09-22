@@ -92,15 +92,15 @@ void EnterPassword::setupUI(void)
 
 void EnterPassword::setupSignals(void)
 {
- connect(okButton, SIGNAL(clicked()), this, SLOT(okClick(void)));
- connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+ connect(okButton,     &QPushButton::clicked, this, &EnterPassword::okClick);
+ connect(cancelButton, &QPushButton::clicked, this, &EnterPassword::reject);
 
  // Поддержка работы таймера
- connect(&timer, SIGNAL(timeout()), this, SLOT(cancelCountUpdate(void)));
+ connect(&timer, &QTimer::timeout, this, &EnterPassword::cancelCountUpdate);
 
  // Обработка набора пароля пользователем
- connect(passwordEdit1, SIGNAL(textChanged(const QString&)),
-         this, SLOT(passwordTyped()));
+ connect(passwordEdit1, &QLineEdit::textChanged,
+         this,          &EnterPassword::passwordTyped);
 }
 
 

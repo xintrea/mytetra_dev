@@ -72,14 +72,14 @@ void Downloader::setupUI()
 
 void Downloader::setupSignals()
 {
-  connect(&webManager, SIGNAL (finished(QNetworkReply*)),
-          this,        SLOT   (onFileDownloadFinished(QNetworkReply*)) );
+  connect(&webManager, &QNetworkAccessManager::finished,
+          this,        &Downloader::onFileDownloadFinished);
 
-  connect(&webManager, SIGNAL (sslErrors(QNetworkReply *, const QList<QSslError> &)),
-        this, SLOT (onSslErrors(QNetworkReply *, const QList<QSslError> &)) );
+  connect(&webManager, &QNetworkAccessManager::sslErrors,
+        this,          &Downloader::onSslErrors);
 
-  connect(cancelButton, SIGNAL (clicked()),
-          this,         SLOT (onCancelClicked()));
+  connect(cancelButton, &QPushButton::clicked,
+          this,         &Downloader::onCancelClicked);
 }
 
 
@@ -256,11 +256,11 @@ QString Downloader::getErrorLog()
 
 void Downloader::reconnectSignalsNetworkReply(QNetworkReply *networkReply)
 {
-  disconnect( networkReply, SIGNAL(downloadProgress(qint64, qint64)), 0, 0 );
-  connect(    networkReply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64, qint64)) );
+  disconnect(networkReply, &QNetworkReply::downloadProgress, 0, 0);
+  connect(   networkReply, &QNetworkReply::downloadProgress, this, &Downloader::onDownloadProgress);
 
-  disconnect( this, SIGNAL(cancelDownload()), 0, 0 );
-  connect(    this, SIGNAL(cancelDownload()), networkReply, SLOT(abort()) );
+  disconnect(this, &Downloader::cancelDownload, 0, 0 );
+  connect(   this, &Downloader::cancelDownload, networkReply, &QNetworkReply::abort);
 }
 
 

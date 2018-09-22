@@ -15,7 +15,7 @@ class EditorImageProperties : public QDialog
  Q_OBJECT
 
 public:
- EditorImageProperties(QWidget *parent=0);
+ EditorImageProperties(QWidget *parent=nullptr);
  virtual ~EditorImageProperties();
 
  void set_info(QString infoText);

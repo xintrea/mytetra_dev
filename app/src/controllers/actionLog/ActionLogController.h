@@ -18,7 +18,7 @@ class ActionLogController : public QObject
 
 public:
 
-  ActionLogController(QObject *parent = 0);
+  ActionLogController(QObject *parent = nullptr);
   virtual ~ActionLogController();
 
   ActionLogView *getView(void);

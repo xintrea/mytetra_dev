@@ -10,8 +10,8 @@ class EditorAbsTableCell;
 class EditorAbsTable : public QObject
 {
 public:
- EditorAbsTable(int x, int y, QObject *parent=0);
- EditorAbsTable(int x, int y, QString tableText, QObject *parent=0);
+ EditorAbsTable(int x, int y, QObject *parent=nullptr);
+ EditorAbsTable(int x, int y, QString tableText, QObject *parent=nullptr);
  ~EditorAbsTable(void);
 
  void set_table(int x, int y, QString tableText);

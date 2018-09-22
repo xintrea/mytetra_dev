@@ -9,7 +9,7 @@ class ConfigPage : public QWidget
  Q_OBJECT
 
 public:
-  ConfigPage(QWidget *parent = 0);
+  ConfigPage(QWidget *parent = nullptr);
   virtual ~ConfigPage();
 
   virtual int applyChanges(void);

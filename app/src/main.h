@@ -108,7 +108,7 @@ template <class X> inline X *find_object(QString objectName)
  // findObj=qFindChild<X *>(pMainWindow, objectName);
  findObj=pMainWindow->findChild<X *>(objectName);
 
- if(findObj==NULL)
+ if(!findObj)
   {
    // Если объекта с указанным именем не найдено
    // print_object_tree();

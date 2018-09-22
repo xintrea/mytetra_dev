@@ -17,7 +17,7 @@ class RecordTablePrint : public QDialog
  Q_OBJECT
 
 public:
- RecordTablePrint(QWidget *parent=0);
+ RecordTablePrint(QWidget *parent=nullptr);
  virtual ~RecordTablePrint();
 
  void setModel(RecordTableProxyModel *iModel);

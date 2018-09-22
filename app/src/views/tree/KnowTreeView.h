@@ -15,7 +15,7 @@ class KnowTreeView : public QTreeView
  Q_OBJECT
 
 public:
- explicit KnowTreeView(QWidget *parent = 0);
+ explicit KnowTreeView(QWidget *parent = nullptr);
  virtual ~KnowTreeView();
 
 signals:

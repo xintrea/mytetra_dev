@@ -15,7 +15,7 @@
 class TreeItem
 {
  public:
-    TreeItem(const QMap<QString, QString> &data, TreeItem *parent = 0);
+    TreeItem(const QMap<QString, QString> &data, TreeItem *parent = nullptr);
     ~TreeItem();
 
     // Возвращение ссылки на потомка, который хранится в списке childItems

@@ -21,7 +21,7 @@ class EditorToolBar : public QWidget
 
 public:
 
-  explicit EditorToolBar(QWidget *parent = 0);
+  explicit EditorToolBar(QWidget *parent = nullptr);
   virtual ~EditorToolBar();
 
   // Область, содержащая линейки с кнопками форматирования

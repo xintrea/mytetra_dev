@@ -16,7 +16,7 @@ class AppConfigUpdater : public QObject
     Q_OBJECT
 
 public:
-    AppConfigUpdater(QObject *pobj=0);
+    AppConfigUpdater(QObject *pobj=nullptr);
     virtual ~AppConfigUpdater();
 
     void set_config_file(QString fileName);

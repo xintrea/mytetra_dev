@@ -14,7 +14,7 @@ class ExecuteCommand : public QObject
  Q_OBJECT
 
 public:
- ExecuteCommand(QObject *parent=0);
+ ExecuteCommand(QObject *parent=nullptr);
  virtual ~ExecuteCommand();
 
  static QString getOsFamily();

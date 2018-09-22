@@ -251,249 +251,249 @@ void Editor::setupFormatters(void)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect( &(editorToolBarAssistant->bold), SIGNAL(clicked()),
-           typefaceFormatter,               SLOT  (onBoldClicked()),
-           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->italic), SIGNAL(clicked()),
-           typefaceFormatter,                 SLOT  (onItalicClicked()),
+  connect(&editorToolBarAssistant->bold, &QToolButton::clicked,
+          typefaceFormatter,             &TypefaceFormatter::onBoldClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->underline), SIGNAL(clicked()),
-           typefaceFormatter,                    SLOT  (onUnderlineClicked()),
+  connect(&editorToolBarAssistant->italic, &QToolButton::clicked,
+          typefaceFormatter,               &TypefaceFormatter::onItalicClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->monospace), SIGNAL(clicked()),
-           typefaceFormatter,                    SLOT  (onMonospaceClicked()),
+  connect(&editorToolBarAssistant->underline, &QToolButton::clicked,
+          typefaceFormatter,                  &TypefaceFormatter::onUnderlineClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant)->code, SIGNAL(clicked()),
-           typefaceFormatter,               SLOT  (onCodeClicked()),
+  connect(&editorToolBarAssistant->monospace, &QToolButton::clicked,
+          typefaceFormatter,                  &TypefaceFormatter::onMonospaceClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->clear), SIGNAL(clicked()),
-           typefaceFormatter,                SLOT  (onClearClicked()),
+  connect(&editorToolBarAssistant->code, &QToolButton::clicked,
+          typefaceFormatter,             &TypefaceFormatter::onCodeClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->textOnly), SIGNAL(clicked()),
-           typefaceFormatter,                SLOT  (onTextOnlyClicked()),
+  connect(&editorToolBarAssistant->clear, &QToolButton::clicked,
+          typefaceFormatter,              &TypefaceFormatter::onClearClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->fixBreakSymbol), SIGNAL(clicked()),
-           typefaceFormatter,                SLOT  (onFixBreakSymbolClicked()),
+  connect(&editorToolBarAssistant->textOnly, &QToolButton::clicked,
+          typefaceFormatter,                 &TypefaceFormatter::onTextOnlyClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->fixBreakSymbol, &QToolButton::clicked,
+          typefaceFormatter,                       &TypefaceFormatter::onFixBreakSymbolClicked,
           Qt::DirectConnection);
 
-  connect( &(editorToolBarAssistant->fontSelect), SIGNAL(currentFontChanged(const QFont &)),
-           typefaceFormatter,                     SLOT  (onFontselectChanged(const QFont &)),
+  connect(&editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
+          typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->fontSize), SIGNAL(currentIndexChanged(int)),
-           typefaceFormatter,                   SLOT  (onFontsizeChanged(int)),
+  connect(&editorToolBarAssistant->fontSize, static_cast<void(EditorFontSizeComboBox::*)(int)>(&EditorFontSizeComboBox::currentIndexChanged),
+          typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->fontColor), SIGNAL(clicked()),
-           typefaceFormatter,                    SLOT  (onFontcolorClicked()),
+  connect(&editorToolBarAssistant->fontColor, &QToolButton::clicked,
+          typefaceFormatter,                  &TypefaceFormatter::onFontcolorClicked,
           Qt::DirectConnection);
 
 
   // Обратка для typefaceFormatter todo: подумать, а надо ли
-  connect(typefaceFormatter,      SIGNAL(updateOutlineButtonHiglight()),
-          editorToolBarAssistant, SLOT  (onUpdateOutlineButtonHiglight()),
+  connect(typefaceFormatter,      &TypefaceFormatter::updateOutlineButtonHiglight,
+          editorToolBarAssistant, &EditorToolBarAssistant::onUpdateOutlineButtonHiglight,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontselectOnDisplay(QString)),
-          editorToolBarAssistant, SLOT  (onChangeFontselectOnDisplay(QString)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontselectOnDisplay,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontselectOnDisplay,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontsizeOnDisplay(int)),
-          editorToolBarAssistant, SLOT  (onChangeFontsizeOnDisplay(int)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontsizeOnDisplay,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontsizeOnDisplay,
           Qt::DirectConnection);
-  connect(typefaceFormatter, SIGNAL(changeFontFamily(QString)),
-          textArea,          SLOT  (onChangeFontFamily(QString)),
+  connect(typefaceFormatter, &TypefaceFormatter::changeFontFamily,
+          textArea,          &EditorTextArea::onChangeFontFamily,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontFamily(QString)),
-          editorToolBarAssistant, SLOT  (onChangeFontFamily(QString)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontFamily,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontFamily,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontPointSize(int)),
-          textArea,               SLOT  (onChangeFontPointSize(int)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontPointSize,
+          textArea,               &EditorTextArea::onChangeFontPointSize,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontPointSize(int)),
-          editorToolBarAssistant, SLOT  (onChangeFontPointSize(int)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontPointSize,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontPointSize,
           Qt::DirectConnection);
-  connect(typefaceFormatter, SIGNAL(changeFontcolor(QColor)),
-          textArea,          SLOT  (onChangeFontcolor(QColor)),
+  connect(typefaceFormatter, &TypefaceFormatter::changeFontcolor,
+          textArea,          &EditorTextArea::onChangeFontcolor,
           Qt::DirectConnection);
-  connect(typefaceFormatter,      SIGNAL(changeFontcolor(QColor)),
-          editorToolBarAssistant, SLOT  (onChangeFontcolor(QColor)),
-          Qt::DirectConnection);
-
-
-  connect(this,                   SIGNAL(changeFontselectOnDisplay(QString)),
-          editorToolBarAssistant, SLOT  (onChangeFontselectOnDisplay(QString)),
-          Qt::DirectConnection);
-  connect(this,                   SIGNAL(changeFontsizeOnDisplay(int)),
-          editorToolBarAssistant, SLOT  (onChangeFontsizeOnDisplay(int)),
+  connect(typefaceFormatter,      &TypefaceFormatter::changeFontcolor,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontcolor,
           Qt::DirectConnection);
 
 
-  connect( &(editorToolBarAssistant->indentPlus), SIGNAL(clicked()),
-           placementFormatter,                    SLOT  (onIndentplusClicked()),
+  connect(this,                   &Editor::changeFontselectOnDisplay,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontselectOnDisplay,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->indentMinus), SIGNAL(clicked()),
-           placementFormatter,                     SLOT  (onIndentminusClicked()),
-          Qt::DirectConnection);
-
-
-  connect(placementFormatter,    SIGNAL(updateIndentsliderToActualFormat()),
-          indentSliderAssistant, SLOT  (updateToActualFormat()),
-          Qt::DirectConnection);
-  connect(this,                  SIGNAL(updateIndentsliderToActualFormat()),
-          indentSliderAssistant, SLOT  (updateToActualFormat()),
-          Qt::DirectConnection);
-
-  connect( &(editorToolBarAssistant->alignLeft), SIGNAL(clicked()),
-           placementFormatter,                   SLOT  (onAlignleftClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->alignCenter), SIGNAL(clicked()),
-           placementFormatter,                     SLOT  (onAligncenterClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->alignRight), SIGNAL(clicked()),
-           placementFormatter,                    SLOT  (onAlignrightClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->alignWidth), SIGNAL(clicked()),
-           placementFormatter,                    SLOT  (onAlignwidthClicked()),
+  connect(this,                   &Editor::changeFontsizeOnDisplay,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontsizeOnDisplay,
           Qt::DirectConnection);
 
 
-  connect( &(editorToolBarAssistant->numericList), SIGNAL(clicked()),
-           listFormatter,                          SLOT  (onNumericlistClicked()),
+  connect(&editorToolBarAssistant->indentPlus, &QToolButton::clicked,
+          placementFormatter,                  &PlacementFormatter::onIndentplusClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->dotList), SIGNAL(clicked()),
-           listFormatter,                      SLOT  (onDotlistClicked()),
+  connect(&editorToolBarAssistant->indentMinus, &QToolButton::clicked,
+          placementFormatter,                   &PlacementFormatter::onIndentminusClicked,
+          Qt::DirectConnection);
+
+
+  connect(placementFormatter,    &PlacementFormatter::updateIndentsliderToActualFormat,
+          indentSliderAssistant, &EditorIndentSliderAssistant::updateToActualFormat,
+          Qt::DirectConnection);
+  connect(this,                  &Editor::updateIndentsliderToActualFormat,
+          indentSliderAssistant, &EditorIndentSliderAssistant::updateToActualFormat,
+          Qt::DirectConnection);
+
+  connect(&editorToolBarAssistant->alignLeft, &QToolButton::clicked,
+          placementFormatter,                 &PlacementFormatter::onAlignleftClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->alignCenter, &QToolButton::clicked,
+          placementFormatter,                   &PlacementFormatter::onAligncenterClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->alignRight, &QToolButton::clicked,
+          placementFormatter,                  &PlacementFormatter::onAlignrightClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->alignWidth, &QToolButton::clicked,
+          placementFormatter,                  &PlacementFormatter::onAlignwidthClicked,
+          Qt::DirectConnection);
+
+
+  connect(&editorToolBarAssistant->numericList, &QToolButton::clicked,
+          listFormatter,                        &ListFormatter::onNumericlistClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->dotList, &QToolButton::clicked,
+          listFormatter,                    &ListFormatter::onDotlistClicked,
           Qt::DirectConnection);
 
 
   // Кнопки работы с таблицами
-  connect( &(editorToolBarAssistant->createTable), SIGNAL(clicked()),
-           tableFormatter,                         SLOT  (onCreatetableClicked()),
+  connect(&editorToolBarAssistant->createTable, &QToolButton::clicked,
+          tableFormatter,                       &TableFormatter::onCreatetableClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableRemoveRow), SIGNAL(clicked()),
-           tableFormatter,                            SLOT  (onTableRemoveRowClicked()),
+  connect(&editorToolBarAssistant->tableRemoveRow, &QToolButton::clicked,
+          tableFormatter,                          &TableFormatter::onTableRemoveRowClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableRemoveCol), SIGNAL(clicked()),
-           tableFormatter,                            SLOT  (onTableRemoveColClicked()),
+  connect(&editorToolBarAssistant->tableRemoveCol, &QToolButton::clicked,
+          tableFormatter,                          &TableFormatter::onTableRemoveColClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableAddRow), SIGNAL(clicked()),
-           tableFormatter,                         SLOT  (onTableAddRowClicked()),
+  connect(&editorToolBarAssistant->tableAddRow, &QToolButton::clicked,
+          tableFormatter,                       &TableFormatter::onTableAddRowClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableAddCol), SIGNAL(clicked()),
-           tableFormatter,                         SLOT  (onTableAddColClicked()),
+  connect(&editorToolBarAssistant->tableAddCol, &QToolButton::clicked,
+          tableFormatter,                       &TableFormatter::onTableAddColClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableMergeCells), SIGNAL(clicked()),
-           tableFormatter,                             SLOT  (onTableMergeCellsClicked()),
+  connect(&editorToolBarAssistant->tableMergeCells, &QToolButton::clicked,
+          tableFormatter,                           &TableFormatter::onTableMergeCellsClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableSplitCell), SIGNAL(clicked()),
-           tableFormatter,                            SLOT  (onTableSplitCellClicked()),
+  connect(&editorToolBarAssistant->tableSplitCell, &QToolButton::clicked,
+          tableFormatter,                          &TableFormatter::onTableSplitCellClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->tableProperties), SIGNAL(clicked()),
-           tableFormatter,                             SLOT  (onTablePropertiesClicked()),
-          Qt::DirectConnection);
-
-  connect( &(editorToolBarAssistant->reference), SIGNAL(clicked()),
-           referenceFormatter,                   SLOT  (onReferenceClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->showHtml), SIGNAL(clicked()),
-           this,                                SLOT  (onShowhtmlClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->findText), SIGNAL(clicked()),
-           this,                               SLOT  (onFindtextClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->settings), SIGNAL(clicked()),
-           this,                                SLOT  (onSettingsClicked()),
-          Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->showFormatting), SIGNAL(toggled(bool)),
-           this,                                      SLOT  (onShowformattingClicked(bool)),
+  connect(&editorToolBarAssistant->tableProperties, &QToolButton::clicked,
+          tableFormatter,                           &TableFormatter::onTablePropertiesClicked,
           Qt::DirectConnection);
 
-
-  connect(this,                   SIGNAL(updateAlignButtonHiglight(bool)),
-          editorToolBarAssistant, SLOT  (onUpdateAlignButtonHiglight(bool)),
+  connect(&editorToolBarAssistant->reference, &QToolButton::clicked,
+          referenceFormatter,                 &ReferenceFormatter::onReferenceClicked,
           Qt::DirectConnection);
-  connect(placementFormatter,     SIGNAL(updateAlignButtonHiglight(bool)),
-          editorToolBarAssistant, SLOT  (onUpdateAlignButtonHiglight(bool)),
+  connect(&editorToolBarAssistant->showHtml, &QToolButton::clicked,
+          this,                              &Editor::onShowhtmlClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->findText, &QToolButton::clicked,
+          this,                              &Editor::onFindtextClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->settings, &QToolButton::clicked,
+          this,                              &Editor::onSettingsClicked,
+          Qt::DirectConnection);
+  connect(&editorToolBarAssistant->showFormatting, &QToolButton::toggled,
+          this,                                    &Editor::onShowformattingClicked,
+          Qt::DirectConnection);
+
+
+  connect(this,                   &Editor::updateAlignButtonHiglight,
+          editorToolBarAssistant, &EditorToolBarAssistant::onUpdateAlignButtonHiglight,
+          Qt::DirectConnection);
+  connect(placementFormatter,     &PlacementFormatter::updateAlignButtonHiglight,
+          editorToolBarAssistant, &EditorToolBarAssistant::onUpdateAlignButtonHiglight,
           Qt::DirectConnection);
 
 
   // Прочие кнопки
-  connect( &(editorToolBarAssistant->insertImageFromFile), SIGNAL(clicked()),
-           imageFormatter,                                 SLOT  (onInsertImageFromFileClicked()),
+  connect(&editorToolBarAssistant->insertImageFromFile, &QToolButton::clicked,
+          imageFormatter,                               &ImageFormatter::onInsertImageFromFileClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->mathExpression), SIGNAL(clicked()),
-           mathExpressionFormatter,                   SLOT  (onMathExpressionClicked()),
+  connect(&editorToolBarAssistant->mathExpression, &QToolButton::clicked,
+          mathExpressionFormatter,                 &MathExpressionFormatter::onMathExpressionClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->expandEditArea), SIGNAL(clicked()),
-           this,                                      SLOT  (onExpandEditAreaClicked()),
+  connect(&editorToolBarAssistant->expandEditArea, &QToolButton::clicked,
+          this,                                    &Editor::onExpandEditAreaClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->save), SIGNAL(clicked()),
-           this,                            SLOT  (onSaveClicked()),
+  connect(&editorToolBarAssistant->save, &QToolButton::clicked,
+          this,                          &Editor::onSaveClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->back), SIGNAL(clicked()),
-           this,                            SLOT  (onBackClicked()),
+  connect(&editorToolBarAssistant->back, &QToolButton::clicked,
+          this,                          &Editor::onBackClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->findInBase), SIGNAL(clicked()),
-           this,                                  SLOT  (onFindInBaseClicked()),
+  connect(&editorToolBarAssistant->findInBase, &QToolButton::clicked,
+          this,                                &Editor::onFindInBaseClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->showText), SIGNAL(clicked()),
-           this,                                SLOT  (onShowTextClicked()),
+  connect(&editorToolBarAssistant->showText, &QToolButton::clicked,
+          this,                              &Editor::onShowTextClicked,
           Qt::DirectConnection);
-  connect( &(editorToolBarAssistant->toAttach), SIGNAL(clicked()),
-           this,                                SLOT  (onToAttachClicked()),
+  connect(&editorToolBarAssistant->toAttach, &QToolButton::clicked,
+          this,                              &Editor::onToAttachClicked,
           Qt::DirectConnection);
 
   // Область редактирования текста
-  connect(textArea, SIGNAL(cursorPositionChanged()),
-          this,     SLOT  (onCursorPositionChanged()),
+  connect(textArea, &EditorTextArea::cursorPositionChanged,
+          this,     &Editor::onCursorPositionChanged,
           Qt::DirectConnection);
-  connect(textArea, SIGNAL(selectionChanged()),
-          this,     SLOT  (onSelectionChanged()),
+  connect(textArea, &EditorTextArea::selectionChanged,
+          this,     &Editor::onSelectionChanged,
           Qt::DirectConnection);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по правому клику в редакторе
-  connect(textArea, SIGNAL(customContextMenuRequested(const QPoint &)),
-          this,     SLOT  (onCustomContextMenuRequested(const QPoint &)),
+  connect(textArea, &EditorTextArea::customContextMenuRequested,
+          this,     &Editor::onCustomContextMenuRequested,
           Qt::DirectConnection);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
-  connect(textArea, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
-          this,     SLOT  (onCustomContextMenuRequested(const QPoint &)),
+  connect(textArea, &EditorTextArea::tapAndHoldGestureFinished,
+          this,     &Editor::onCustomContextMenuRequested,
           Qt::DirectConnection);
 
-  connect(textArea,           SIGNAL(textChanged()),
-          referenceFormatter, SLOT  (onTextChanged()),
+  connect(textArea,           &EditorTextArea::textChanged,
+          referenceFormatter, &ReferenceFormatter::onTextChanged,
           Qt::DirectConnection);
 
   // Вызов загрузки картинок
-  connect(textArea,       SIGNAL(downloadImages(const QString)),
-          imageFormatter, SLOT  (onDownloadImages(const QString)),
+  connect(textArea,       &EditorTextArea::downloadImages,
+          imageFormatter, &ImageFormatter::onDownloadImages,
           Qt::DirectConnection);
 
   // Вставка загруженных картинок в текст
-  connect(imageFormatter, SIGNAL(downloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
-          textArea,       SLOT  (onDownloadImagesSuccessfull(const QString, const QMap<QString, QByteArray>, const QMap<QString, QString>)),
+  connect(imageFormatter, &ImageFormatter::downloadImagesSuccessfull,
+          textArea,       &EditorTextArea::onDownloadImagesSuccessfull,
           Qt::DirectConnection);
 
   // Клик по ссылке при зажатой клавише Ctrl
-  connect(textArea,           SIGNAL(clickedOnReference(QString)),
-          referenceFormatter, SLOT  (onClickedGotoReference(QString)),
+  connect(textArea,           &EditorTextArea::clickedOnReference,
+          referenceFormatter, &ReferenceFormatter::onClickedGotoReference,
           Qt::DirectConnection);
 
   // Двойной клик по картинке, для ImageFormatter
-  connect(textArea,       SIGNAL(doubleClickOnImage()),
-          imageFormatter, SLOT  (onDoubleClickOnImage()),
+  connect(textArea,       &EditorTextArea::doubleClickOnImage,
+          imageFormatter, &ImageFormatter::onDoubleClickOnImage,
           Qt::DirectConnection);
 
   // Двойной клик по картинке, для MathExpressionFormatter
-  connect(textArea,                SIGNAL(doubleClickOnImage()),
-          mathExpressionFormatter, SLOT  (onDoubleClickOnImage()),
+  connect(textArea,                &EditorTextArea::doubleClickOnImage,
+          mathExpressionFormatter, &MathExpressionFormatter::onDoubleClickOnImage,
           Qt::DirectConnection);
 
   // Глобальное нажатие клавиш
-  connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalPressKey(int)),
-          textArea,                              SLOT  (onGlobalPressKey(int)),
+  connect(find_object<MainWindow>("mainwindow"), &MainWindow::globalPressKey,
+          textArea,                              &EditorTextArea::onGlobalPressKey,
           Qt::DirectConnection);
 
   // Глобальное отжатие клавиш
-  connect(find_object<MainWindow>("mainwindow"), SIGNAL(globalReleaseKey(int)),
-          textArea,                              SLOT  (onGlobalReleaseKey(int)),
+  connect(find_object<MainWindow>("mainwindow"), &MainWindow::globalReleaseKey,
+          textArea,                              &EditorTextArea::onGlobalReleaseKey,
           Qt::DirectConnection);
 
   // connect(textArea->document(), SIGNAL(contentsChange(int, int, int)),
@@ -505,48 +505,48 @@ void Editor::setupSignals(void)
 
 
   // Сигналы контекстного меню
-  connect(editorContextMenu, SIGNAL(undo()),
-          this,              SLOT  (onUndo()),
+  connect(editorContextMenu, &EditorContextMenu::undo,
+          this,              &Editor::onUndo,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(redo()),
-          this,              SLOT  (onRedo()),
+  connect(editorContextMenu, &EditorContextMenu::redo,
+          this,              &Editor::onRedo,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(cut()),
-          this,              SLOT  (onCut()),
+  connect(editorContextMenu, &EditorContextMenu::cut,
+          this,              &Editor::onCut,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(copy()),
-          this,              SLOT  (onCopy()),
+  connect(editorContextMenu, &EditorContextMenu::copy,
+          this,              &Editor::onCopy,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(paste()),
-          this,              SLOT  (onPaste()),
+  connect(editorContextMenu, &EditorContextMenu::paste,
+          this,              &Editor::onPaste,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(pasteAsPlainText()),
-          this,              SLOT  (onPasteAsPlainText()),
+  connect(editorContextMenu, &EditorContextMenu::pasteAsPlainText,
+          this,              &Editor::onPasteAsPlainText,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(selectAll()),
-          this,              SLOT  (onSelectAll()),
+  connect(editorContextMenu, &EditorContextMenu::selectAll,
+          this,              &Editor::onSelectAll,
           Qt::DirectConnection);
-  connect(editorContextMenu, SIGNAL(contextMenuEditImageProperties()),
-          imageFormatter,    SLOT  (onContextMenuEditImageProperties()),
+  connect(editorContextMenu, &EditorContextMenu::contextMenuEditImageProperties,
+          imageFormatter,    &ImageFormatter::onContextMenuEditImageProperties,
           Qt::DirectConnection);
-  connect(editorContextMenu,       SIGNAL(contextMenuEditMathExpression()),
-          mathExpressionFormatter, SLOT  (onContextMenuEditMathExpression()),
+  connect(editorContextMenu,       &EditorContextMenu::contextMenuEditMathExpression,
+          mathExpressionFormatter, &MathExpressionFormatter::onContextMenuEditMathExpression,
           Qt::DirectConnection);
-  connect(editorContextMenu,  SIGNAL(contextMenuGotoReference()),
-          referenceFormatter, SLOT  (onContextMenuGotoReference()),
+  connect(editorContextMenu,  &EditorContextMenu::contextMenuGotoReference,
+          referenceFormatter, &ReferenceFormatter::onContextMenuGotoReference,
           Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
-  connect(findDialog, SIGNAL(find_text(const QString &, QTextDocument::FindFlags)),
-          this,       SLOT  (onFindtextSignalDetect(const QString &, QTextDocument::FindFlags)),
+  connect(findDialog, &EditorFindDialog::find_text,
+          this,       &Editor::onFindtextSignalDetect,
           Qt::DirectConnection);
 
-  connect(textArea,              SIGNAL(updateIndentlineGeometry()),
-          indentSliderAssistant, SLOT  (onUpdateGeometry()),
+  connect(textArea,              &EditorTextArea::updateIndentlineGeometry,
+          indentSliderAssistant, &EditorIndentSliderAssistant::onUpdateGeometry,
           Qt::DirectConnection);
 
-  connect(this,                  SIGNAL(updateIndentSliderGeometry()),
-          indentSliderAssistant, SLOT  (onUpdateGeometry()),
+  connect(this,                  &Editor::updateIndentSliderGeometry,
+          indentSliderAssistant, &EditorIndentSliderAssistant::onUpdateGeometry,
           Qt::DirectConnection);
 }
 

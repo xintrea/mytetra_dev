@@ -35,8 +35,10 @@ EditorAddTableForm::EditorAddTableForm()
  buttonBox=new QDialogButtonBox(Qt::Horizontal);
  buttonBox->addButton(tr("OK"),QDialogButtonBox::AcceptRole);
  buttonBox->addButton(tr("Cancel"),QDialogButtonBox::RejectRole);
- connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
- connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
+ connect(buttonBox, &QDialogButtonBox::accepted,
+         this,      &EditorAddTableForm::accept);
+ connect(buttonBox, &QDialogButtonBox::rejected,
+         this,      &EditorAddTableForm::reject);
 
 
  QGridLayout *gridLayout=new QGridLayout();

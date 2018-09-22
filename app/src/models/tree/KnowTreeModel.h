@@ -21,7 +21,7 @@ class KnowTreeModel : public TreeModel
     Q_OBJECT
 
 public:
-    KnowTreeModel(QObject *parent = 0); // KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent = 0);
+    KnowTreeModel(QObject *parent = nullptr); // KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent = 0);
     ~KnowTreeModel();
 
     void initFromXML(QString fileName);

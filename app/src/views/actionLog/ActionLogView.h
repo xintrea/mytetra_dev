@@ -17,7 +17,7 @@ class ActionLogView : public QTableView
   Q_OBJECT
 
 public:
-  ActionLogView(QWidget *parent=0);
+  ActionLogView(QWidget *parent=nullptr);
   virtual ~ActionLogView();
 
   void init();

@@ -13,7 +13,7 @@ class OverTextToolButton : public QToolButton
   Q_OBJECT
 
 public:
-  OverTextToolButton(QWidget *parent = 0);
+  OverTextToolButton(QWidget *parent = nullptr);
 
   void setOverText(QString iText);
 

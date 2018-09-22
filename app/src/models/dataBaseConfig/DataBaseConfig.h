@@ -15,7 +15,7 @@ class DataBaseConfig : public QObject
     Q_OBJECT
 
 public:
-    DataBaseConfig(QObject *pobj=0);
+    DataBaseConfig(QObject *pobj=nullptr);
     ~DataBaseConfig();
 
     void init(void);

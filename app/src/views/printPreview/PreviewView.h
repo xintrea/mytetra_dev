@@ -12,7 +12,7 @@ class PreviewView : public QAbstractScrollArea
 public:
     PreviewView(QTextDocument *document);
 
-    inline void updateLayout() { resizeEvent(0); viewport()->update(); }
+    inline void updateLayout() { resizeEvent(nullptr); viewport()->update(); }
 
 public slots:
     void zoomIn();

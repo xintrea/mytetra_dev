@@ -14,7 +14,7 @@ class WaitClock : public QWidget
  Q_OBJECT
 
 public:
- WaitClock(QWidget *parent=0);
+ WaitClock(QWidget *parent=nullptr);
  ~WaitClock();
 
 private slots:

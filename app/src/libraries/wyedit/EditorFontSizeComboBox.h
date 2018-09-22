@@ -15,7 +15,7 @@ class EditorFontSizeComboBox : public MtComboBox
     Q_OBJECT
 
 public:
-    EditorFontSizeComboBox(QWidget *parent=0);
+    EditorFontSizeComboBox(QWidget *parent=nullptr);
     virtual ~EditorFontSizeComboBox();
 
     void setIsProgrammChanged(bool flag);

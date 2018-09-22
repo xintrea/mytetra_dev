@@ -15,7 +15,7 @@ class ActionLogger : public QObject
 
 public:
 
-  ActionLogger(QObject *pobj=0);
+  ActionLogger(QObject *pobj=nullptr);
   ~ActionLogger();
 
   const int maximumLinesCount=1000;

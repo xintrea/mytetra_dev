@@ -71,17 +71,23 @@ void IconSelectDialog::setupUI()
 void IconSelectDialog::setupSignals()
 {
   // Выбор раздела
-  connect( &sectionComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(onSectionCurrentIndexChanged(const QString &)));
+  connect(&sectionComboBox, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+          this,             &IconSelectDialog::onSectionCurrentIndexChanged);
 
   // Выбор иконки
-  connect( &iconList, SIGNAL(itemSelectionChanged()), this, SLOT(onIconItemSelectionChanged()));
+  connect(&iconList, &QListWidget::itemSelectionChanged,
+          this,      &IconSelectDialog::onIconItemSelectionChanged);
 
   // Двойной клик
-  connect( &iconList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(accept()));
+  connect(&iconList, &QListWidget::itemDoubleClicked,
+          this,      &IconSelectDialog::accept);
 
-  connect( &buttonRemoveIcon, SIGNAL(clicked()), this, SLOT(onRemoveIconClick()) );
-  connect( &buttonOk, SIGNAL(clicked()), this, SLOT(onOkClick(void)) );
-  connect( &buttonCancel, SIGNAL(clicked()), this, SLOT(onCancelClick()) );
+  connect(&buttonRemoveIcon, &QPushButton::clicked,
+          this,              &IconSelectDialog::onRemoveIconClick);
+  connect(&buttonOk, &QPushButton::clicked,
+          this,      &IconSelectDialog::onOkClick);
+  connect(&buttonCancel, &QPushButton::clicked,
+          this,          &IconSelectDialog::onCancelClick);
 }
 
 

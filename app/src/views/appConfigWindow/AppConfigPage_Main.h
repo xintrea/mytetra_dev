@@ -18,7 +18,7 @@ class AppConfigPage_Main : public ConfigPage
  Q_OBJECT
 
 public:
-  AppConfigPage_Main(QWidget *parent = 0);
+  AppConfigPage_Main(QWidget *parent = nullptr);
   ~AppConfigPage_Main(void);
 
   void setupUi(void);

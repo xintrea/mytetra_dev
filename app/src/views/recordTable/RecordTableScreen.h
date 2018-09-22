@@ -21,7 +21,7 @@ class RecordTableScreen : public QWidget
  Q_OBJECT
 
 public:
- RecordTableScreen(QWidget *parent=0);
+ RecordTableScreen(QWidget *parent=nullptr);
  virtual ~RecordTableScreen();
 
  int     getFirstSelectionPos(void);

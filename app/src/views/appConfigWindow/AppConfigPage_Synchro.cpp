@@ -112,8 +112,8 @@ void AppConfigPage_Synchro::assembly(void)
 
 void AppConfigPage_Synchro::setupSignals(void)
 {
-  connect( &enablePeriodicCheckBase, SIGNAL( toggled(bool) ), this, SLOT( onEnablePeriodicCheckBase(bool) ) );
-  connect( &synchroOnPeriodic, SIGNAL( toggled(bool) ), this, SLOT( onEnablePeriodicSyncro(bool) ) );
+  connect( &enablePeriodicCheckBase, &QCheckBox::toggled, this, &AppConfigPage_Synchro::onEnablePeriodicCheckBase);
+  connect( &synchroOnPeriodic,       &QCheckBox::toggled, this, &AppConfigPage_Synchro::onEnablePeriodicSyncro);
 }
 
 

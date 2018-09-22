@@ -429,7 +429,7 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 
     QWidget *tool=qobject_cast<QWidget *>(this->findChild<QObject *>(name));
 
-    if(tool!=NULL)
+    if(tool)
     {
       // Если данный инструмент не содержится в списке заблокированных
       if(!disableToolList.contains(toolName))
@@ -439,13 +439,13 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
         line.addWidget(tool); // Инструмент добавляется на панель инструментов
 
         QToolButton *tb=qobject_cast<QToolButton*>(tool);
-        if(tb!=0)
+        if(tb)
           tb->setAutoRaise(false);
       }
       else
       {
         QToolButton *tb=qobject_cast<QToolButton*>(tool);
-        if(tb!=0)
+        if(tb)
           tb->setEnabled(false);
       }
     }

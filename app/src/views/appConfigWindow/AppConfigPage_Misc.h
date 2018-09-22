@@ -14,7 +14,7 @@ class AppConfigPage_Misc : public ConfigPage
  Q_OBJECT
 
 public:
-  AppConfigPage_Misc(QWidget *parent = 0);
+  AppConfigPage_Misc(QWidget *parent = nullptr);
   virtual ~AppConfigPage_Misc(void);
 
   int applyChanges(void);

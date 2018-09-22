@@ -59,105 +59,105 @@ void TreeScreen::setupActions(void)
  ac=new QAction(tr("Expand all sub items"), this);
  ac->setStatusTip(tr("Expand all sub items"));
  ac->setIcon(QIcon(":/resource/pic/expand_all_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(expandAllSubbranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::expandAllSubbranch);
  actionList["expandAllSubbranch"]=ac;
 
  // Сворачивание всех подветок
  ac = new QAction(tr("Collapse all sub items"), this);
  ac->setStatusTip(tr("Collapse all sub items"));
  ac->setIcon(QIcon(":/resource/pic/collapse_all_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(collapseAllSubbranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::collapseAllSubbranch);
  actionList["collapseAllSubbranch"]=ac;
 
  // Перемещение ветки вверх
  ac = new QAction(tr("Move item up"), this);
  ac->setStatusTip(tr("Move item up"));
  ac->setIcon(QIcon(":/resource/pic/move_up.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(moveUpBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::moveUpBranch);
  actionList["moveUpBranch"]=ac;
 
  // Перемещение ветки вниз
  ac = new QAction(tr("Move item down"), this);
  ac->setStatusTip(tr("Move item down"));
  ac->setIcon(QIcon(":/resource/pic/move_dn.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(moveDnBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::moveDnBranch);
  actionList["moveDnBranch"]=ac;
 
  // Вставка новой подветки
  ac = new QAction(tr("Insert a new sub item"), this);
  ac->setStatusTip(tr("Insert a new sub item into selected"));
  ac->setIcon(QIcon(":/resource/pic/add_subbranch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(insSubbranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::insSubbranch);
  actionList["insSubbranch"]=ac;
 
  // Вставка новой ветки
  ac = new QAction(tr("Insert a new sibling item"), this);
  ac->setStatusTip(tr("Insert a new sibling item after selected"));
  ac->setIcon(QIcon(":/resource/pic/add_branch.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(insBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::insBranch);
  actionList["insBranch"]=ac;
 
  // Редактирование ветки
  ac = new QAction(tr("Edit item name"), this);
  ac->setStatusTip(tr("Edit name of selected item"));
  ac->setIcon(QIcon(":/resource/pic/note_edit.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(editBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::editBranch);
  actionList["editBranch"]=ac;
 
  // Удаление ветки
  ac = new QAction(tr("Delete item"), this);
  ac->setStatusTip(tr("Delete selected item and all sub items"));
  ac->setIcon(QIcon(":/resource/pic/note_delete.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
+  connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
  actionList["delBranch"]=ac;
 
  // Удаление ветки с сохранением копии в буфер обмена
  ac = new QAction(tr("Cut item"), this);
  ac->setStatusTip(tr("Cut item including sub items"));
  ac->setIcon(QIcon(":/resource/pic/branch_cut.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(cutBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::cutBranch);
  actionList["cutBranch"]=ac;
 
  // Копирование ветки в буфер обмена
  ac = new QAction(tr("Copy item"), this);
  ac->setStatusTip(tr("Copy item including sub items"));
  ac->setIcon(QIcon(":/resource/pic/branch_copy.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(copyBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::copyBranch);
  actionList["copyBranch"]=ac;
 
  // Вставка ветки из буфера обмена
  ac = new QAction(tr("Paste item"), this);
  ac->setStatusTip(tr("Paste sibling item after selected"));
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(pasteBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::pasteBranch);
  actionList["pasteBranch"]=ac;
 
  // Вставка ветки из буфера обмена в виде подветки
  ac = new QAction(tr("Paste as sub item"), this);
  ac->setStatusTip(tr("Paste item as sub item for selected"));
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(pasteSubbranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::pasteSubbranch);
  actionList["pasteSubbranch"]=ac;
 
  // Шифрование ветки
  ac = new QAction(tr("Encrypt item"), this);
  ac->setStatusTip(tr("Encrypt item and all subitem"));
  // actionEncryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(encryptBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::encryptBranch);
  actionList["encryptBranch"]=ac;
 
  // Расшифровка ветки (снятие пароля)
  ac = new QAction(tr("Decrypt item"), this);
  ac->setStatusTip(tr("Decrypt item and all subitem"));
  // actionDecryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(decryptBranch()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::decryptBranch);
  actionList["decryptBranch"]=ac;
 
  // Добавление иконки к ветке
  ac = new QAction(tr("Set icon"), this);
  ac->setStatusTip(tr("Set item icon"));
  ac->setIcon(QIcon(":/resource/pic/set_icon.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(setIcon()));
+ connect(ac, &QAction::triggered, this, &TreeScreen::setIcon);
  actionList["setIcon"]=ac;
 
  // Открытие поиска по базе (связывание клика происходит в MainWindows)
@@ -343,21 +343,21 @@ void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
 void TreeScreen::setupSignals(void)
 {
  // Соединение сигнал-слот чтобы показать контекстное меню по правому клику на ветке
- connect(knowTreeView, SIGNAL(customContextMenuRequested(const QPoint &)),
-         this,SLOT(onCustomContextMenuRequested(const QPoint &)));
+ connect(knowTreeView, &KnowTreeView::customContextMenuRequested,
+         this,         &TreeScreen::onCustomContextMenuRequested);
 
  // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
- connect(knowTreeView, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
-         this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+ connect(knowTreeView, &KnowTreeView::tapAndHoldGestureFinished,
+         this,         &TreeScreen::onCustomContextMenuRequested);
 
  // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре
  if(mytetraConfig.getInterfaceMode()=="desktop")
-   connect(knowTreeView->selectionModel(), SIGNAL(currentRowChanged (const QModelIndex&, const QModelIndex&)),
-           this, SLOT(onKnowtreeClicked(const QModelIndex&)));
+   connect(knowTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
+           this,                           &TreeScreen::onKnowtreeClicked);
  
  if(mytetraConfig.getInterfaceMode()=="mobile")
-   connect(knowTreeView, SIGNAL(clicked(const QModelIndex &)),
-           this, SLOT(onKnowtreeClicked(const QModelIndex &)));
+   connect(knowTreeView, &KnowTreeView::clicked,
+           this,         &TreeScreen::onKnowtreeClicked);
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  // connect(knowTreeView, SIGNAL(doubleClicked(const QModelIndex &)),

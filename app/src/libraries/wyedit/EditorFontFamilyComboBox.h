@@ -9,7 +9,7 @@ class EditorFontFamilyComboBox : public QFontComboBox
     Q_OBJECT
 
 public:
-    EditorFontFamilyComboBox(QWidget *parent=0);
+    EditorFontFamilyComboBox(QWidget *parent=nullptr);
     virtual ~EditorFontFamilyComboBox();
 
     void setIsProgrammChanged(bool flag);

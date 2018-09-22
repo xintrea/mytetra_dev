@@ -66,8 +66,8 @@ void EditorMultiLineInputDialog::setupUi()
 
 void EditorMultiLineInputDialog::setupSignals()
 {
-  connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
-  connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
+  connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorMultiLineInputDialog::accept);
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorMultiLineInputDialog::reject);
 }
 
 

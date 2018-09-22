@@ -65,15 +65,18 @@ void EditorImageProperties::setup_ui()
 
 
 void EditorImageProperties::setup_signals()
-{
- connect(percentSizeSpin, SIGNAL(valueChanged(int) ), this, SLOT(on_changed_percent(int)) );
- connect(widthSpin, SIGNAL(valueChanged(int) ), this, SLOT(on_changed_width(int)) );
- connect(heightSpin, SIGNAL(valueChanged(int) ), this, SLOT(on_changed_height(int)) );
+{    
+ connect(percentSizeSpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+         this,            &EditorImageProperties::on_changed_percent);
+ connect(widthSpin,       static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+         this,            &EditorImageProperties::on_changed_width);
+ connect(heightSpin,      static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+         this,            &EditorImageProperties::on_changed_height);
 
- connect(resetSizeButton, SIGNAL(pressed() ), this, SLOT(on_click_reset_size()) );
+ connect(resetSizeButton, &QPushButton::pressed, this, &EditorImageProperties::on_click_reset_size);
 
- connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
- connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
+ connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorImageProperties::accept);
+ connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorImageProperties::reject);
 }
 
 

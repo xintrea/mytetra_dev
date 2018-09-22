@@ -10,7 +10,7 @@ class IndentSlider : public QWidget
  Q_OBJECT
 
  public:
-  IndentSlider(int width, int height, QWidget *parent=0);
+  IndentSlider(int width, int height, QWidget *parent=nullptr);
 
   // Управление размерами виджета
   void set_widget_geometry(int width, int height);

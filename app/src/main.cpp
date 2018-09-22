@@ -940,8 +940,8 @@ int main(int argc, char ** argv)
  // Окно программы может быть снова открыто из трея
  QApplication::setQuitOnLastWindowClosed(false);
 
- app.connect(&app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
- app.connect(&app, SIGNAL( messageReceived(QString) ), &win, SLOT( messageHandler(QString) ) );
+ app.connect(&app, &QtSingleApplication::lastWindowClosed, &app, &QtSingleApplication::quit);
+ app.connect(&app, &QtSingleApplication::messageReceived,  &win, &MainWindow::messageHandler);
 
  // Окно сплеш-скрина скрывается
  if(mytetraConfig.getShowSplashScreen())

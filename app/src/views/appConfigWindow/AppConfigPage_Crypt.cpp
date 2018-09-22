@@ -166,15 +166,15 @@ void AppConfigPage_Crypt::updateUi(void)
 void AppConfigPage_Crypt::setupSignals(void)
 {
  // При нажатии кнопки работы с паролем
- connect(passRetrieveButton,SIGNAL(clicked()),
-         this,SLOT(onPassRetrieveButtonClicked()));
+ connect(passRetrieveButton, &QPushButton::clicked,
+         this, &AppConfigPage_Crypt::onPassRetrieveButtonClicked);
 
  // При клике на галку разрешения автозакрытия пароля
- connect(autoClosePasswordEnable, SIGNAL(toggled(bool)),
-         this, SLOT(onAutoClosePasswordEnableToggle(bool)));
+ connect(autoClosePasswordEnable, &QCheckBox::toggled,
+         this, &AppConfigPage_Crypt::onAutoClosePasswordEnableToggle);
 
- connect(passwordSaveEnable, SIGNAL(toggled(bool)),
-         this, SLOT(onPasswordSaveEnableToggle(bool)));
+ connect(passwordSaveEnable, &QCheckBox::toggled,
+         this, &AppConfigPage_Crypt::onPasswordSaveEnableToggle);
 }
 
 

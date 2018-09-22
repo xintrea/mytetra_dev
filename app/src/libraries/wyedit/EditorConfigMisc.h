@@ -18,7 +18,7 @@ class EditorConfigMisc : public ConfigPage
  Q_OBJECT
 
 public:
-  EditorConfigMisc(QWidget *parent = 0);
+  EditorConfigMisc(QWidget *parent = nullptr);
   
   int applyChanges(void);
     

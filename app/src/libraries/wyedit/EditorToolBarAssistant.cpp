@@ -73,7 +73,7 @@ EditorToolBarAssistant::~EditorToolBarAssistant()
 
 void EditorToolBarAssistant::setupSignals()
 {
-  connect( &expandToolsLines, SIGNAL(clicked()), this, SLOT(onExpandToolsLinesClicked()));
+  connect(&expandToolsLines, &QToolButton::clicked, this, &EditorToolBarAssistant::onExpandToolsLinesClicked);
 }
 
 

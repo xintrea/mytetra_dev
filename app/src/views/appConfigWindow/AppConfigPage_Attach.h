@@ -15,7 +15,7 @@ class AppConfigPage_Attach : public ConfigPage
  Q_OBJECT
 
 public:
-  AppConfigPage_Attach(QWidget *parent = 0);
+  AppConfigPage_Attach(QWidget *parent = nullptr);
 
   void setupUi(void);
   void setupSignals(void);

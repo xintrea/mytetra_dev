@@ -9,7 +9,7 @@ class EditorConfigDialog : public QWidget
  Q_OBJECT
 
 public:
- EditorConfigDialog(QWidget *parent=0);
+ EditorConfigDialog(QWidget *parent=nullptr);
     
 private:
  ConfigDialog *configDialog;

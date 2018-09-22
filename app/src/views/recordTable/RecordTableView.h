@@ -22,7 +22,7 @@ class RecordTableView : public QTableView
  Q_OBJECT
 
 public:
- RecordTableView(QWidget *parent=0);
+ RecordTableView(QWidget *parent=nullptr);
  virtual ~RecordTableView();
 
  void setController(RecordTableController *pController);

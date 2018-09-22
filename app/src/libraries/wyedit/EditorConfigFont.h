@@ -21,7 +21,7 @@ class EditorConfigFont : public ConfigPage
  Q_OBJECT
 
 public:
-  EditorConfigFont(QWidget *parent = 0);
+  EditorConfigFont(QWidget *parent = nullptr);
   
   void setup_ui(void);
   void setup_signals(void);

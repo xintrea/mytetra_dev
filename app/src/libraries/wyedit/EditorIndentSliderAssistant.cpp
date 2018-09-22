@@ -33,14 +33,14 @@ EditorIndentSliderAssistant::~EditorIndentSliderAssistant()
 void EditorIndentSliderAssistant::setupSignals()
 {
   // Линейка отступов
-  connect(indentSlider,SIGNAL(change_textindent_pos(int)), this,SLOT(onChangeTextindentPos(int)));
-  connect(indentSlider,SIGNAL(change_leftindent_pos(int)), this,SLOT(onChangeLeftindentPos(int)));
-  connect(indentSlider,SIGNAL(change_rightindent_pos(int)),this,SLOT(onChangeRightindentPos(int)));
-  connect(indentSlider,SIGNAL(mouse_release()),            this,SLOT(onMouseRelease()));
+  connect(indentSlider, &IndentSlider::change_textindent_pos,  this, &EditorIndentSliderAssistant::onChangeTextindentPos);
+  connect(indentSlider, &IndentSlider::change_leftindent_pos,  this, &EditorIndentSliderAssistant::onChangeLeftindentPos);
+  connect(indentSlider, &IndentSlider::change_rightindent_pos, this, &EditorIndentSliderAssistant::onChangeRightindentPos);
+  connect(indentSlider, &IndentSlider::mouse_release,          this, &EditorIndentSliderAssistant::onMouseRelease);
 
-  connect(this,SIGNAL(send_set_textindent_pos(int)), indentSlider,SLOT(set_textindent_pos(int)));
-  connect(this,SIGNAL(send_set_leftindent_pos(int)), indentSlider,SLOT(set_leftindent_pos(int)));
-  connect(this,SIGNAL(send_set_rightindent_pos(int)),indentSlider,SLOT(set_rightindent_pos(int)));
+  connect(this, &EditorIndentSliderAssistant::send_set_textindent_pos, indentSlider,&IndentSlider::set_textindent_pos);
+  connect(this, &EditorIndentSliderAssistant::send_set_leftindent_pos, indentSlider,&IndentSlider::set_leftindent_pos);
+  connect(this, &EditorIndentSliderAssistant::send_set_rightindent_pos,indentSlider,&IndentSlider::set_rightindent_pos);
 }
 
 

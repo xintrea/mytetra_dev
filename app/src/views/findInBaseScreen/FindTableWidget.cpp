@@ -84,7 +84,7 @@ void FindTableWidget::setupModels(void)
 
 void FindTableWidget::setupSignals(void)
 {
-  connect(findTableView, SIGNAL( activated(const QModelIndex &) ), this, SLOT( selectCell(const QModelIndex &) ));
+  connect(findTableView, &QTableView::activated, this, &FindTableWidget::selectCell);
 }
 
 

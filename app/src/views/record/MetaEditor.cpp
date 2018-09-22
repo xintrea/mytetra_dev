@@ -57,8 +57,8 @@ MetaEditor::~MetaEditor(void)
 
 void MetaEditor::setupSignals(void)
 {
-  connect(this, SIGNAL(setFindTextSignal(QString)),
-          globalParameters.getFindScreen(), SLOT(setFindText(QString)) );
+  connect(this,                             &MetaEditor::setFindTextSignal,
+          globalParameters.getFindScreen(), &FindScreen::setFindText);
 
 }
 
@@ -346,8 +346,8 @@ void MetaEditor::setTags(QString tags)
 
    // Клик по метке будет вызывать сигнал, слот будет принимать Url метки,
    // то есть в данном случае строку с номером метки
-   connect(tempLabel, SIGNAL(linkActivated (const QString &)),
-           this, SLOT(onClickToTag(const QString &)));
+   connect(tempLabel, &QLabel::linkActivated,
+           this,      &MetaEditor::onClickToTag);
 
    // Метка запоминается в список меток
    recordTagsLabels << tempLabel;
