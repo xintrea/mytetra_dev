@@ -9,8 +9,10 @@
 #include "ConsoleEmulator.h"
 #include "main.h"
 #include "libraries/ActionLogger.h"
+#include "libraries/GlobalParameters.h"
 
 extern ActionLogger actionLogger;
+extern GlobalParameters globalParameters;
 
 
 ExecuteCommand::ExecuteCommand(QObject *parent) : QObject(parent)
@@ -41,16 +43,8 @@ ExecuteCommand::ExecuteCommand(QObject *parent) : QObject(parent)
  }
 
 
- // Выясняется кодировка локали
- QTextCodec *localeCodec = QTextCodec::codecForLocale();
- QString localeCodepage=localeCodec->name(); // Возможные варианты "windows-1251" для Windows
-
- // Для Windows с русской кодировкой исправляется кодировка локали, так как в консли локаль CP866
- if(localeCodepage=="windows-1251")
-   localeCodepage="CP866";
-
  // Определяется кодек для вывода текста терминального потока
- outputCodec = QTextCodec::codecForName(localeCodepage.toLocal8Bit());
+ outputCodec = QTextCodec::codecForName(globalParameters.getConsoleCodepage().toLatin1());
 }
 
 

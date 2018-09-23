@@ -10,7 +10,7 @@ BUILD_TYPE="release"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable (this is for compile mytetra.exe and rename to mytetra_debug.exe)
-WINDOWS_CONSOLE_ENABLE=0
+WINDOWS_CONSOLE_ENABLE=1
 
 # Profiling enable
 # 0 - disable, 1 - enable

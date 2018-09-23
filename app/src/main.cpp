@@ -788,8 +788,10 @@ int main(int argc, char ** argv)
 
  // Запоминается имя файла запущенного бинарника
  // Файл запущенной программы (нулевой аргумент функции main)
- QString mainProgramFile=QString::fromLatin1( argv[0] ); // todo: Этот код наверно некорректно работает с путями в UTF8
- qDebug() << "Set main program file to " << mainProgramFile;
+ // Метод fromLocal8Bit корректно работает для 8-ми битных кодировок локали (Win) и для UTF-8 (Lin)
+ // даже если в имени файла встречаются национальные символы
+ // а кодек еще не установлен
+ QString mainProgramFile=QString::fromLocal8Bit( argv[0] ); // Данные запоминаются в сыром виде и никак не интерпретируются до использования
  globalParameters.setMainProgramFile(mainProgramFile);
 
  // Перехват отладочных сообщений
@@ -801,22 +803,17 @@ int main(int argc, char ** argv)
  // Обработка консольных опций
  parseConsoleOption(app);
 
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+
  // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
  if( qApp->devicePixelRatio() > 1.0 )
   qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
- #endif
 
- #if QT_VERSION < 0x050000
-  // Установка кодека текстов
-  QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
- #endif
 
  // Инициализация глобальных параметров,
- // внутри происходит установка рабочей директории
+ // внутри происходит установка рабочей директории, настройка кодеков для локали и консоли
  globalParameters.init();
 
- // Инициализация основных конфигурирующих программу переменных
+  // Инициализация основных конфигурирующих программу переменных
  mytetraConfig.init();
 
  // Инициализация переменных, отвечающих за хранилище данных

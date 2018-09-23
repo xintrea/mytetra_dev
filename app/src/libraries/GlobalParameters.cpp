@@ -56,7 +56,12 @@ void GlobalParameters::init(void)
  pointStatusBar=NULL;
  windowSwitcher=NULL;
 
- initCodepage();
+ initCodepage(); // устанавливаются кодеки локали и кодеки консоли
+
+ // После установки кодеков можно показать имя бинарника, и оно должно отобразиться правильно
+ // даже если пути есть каталог с национальными символами
+ qDebug() << "Set main program file to " << mainProgramFile;
+
  initWorkDirectory(); // Инициализация рабочей директории
 }
 
@@ -68,7 +73,7 @@ QString GlobalParameters::getInitSystemCodepage()
 #endif
 
 #ifdef Q_OS_LINUX
-    return "UTF-8");
+    return "UTF-8";
 #endif
 
     return "";
@@ -82,7 +87,7 @@ QString GlobalParameters::getInitConsoleCodepage()
 #endif
 
 #ifdef Q_OS_LINUX
-    return "UTF-8");
+    return "UTF-8";
 #endif
 
     return "";
@@ -311,6 +316,7 @@ bool GlobalParameters::findWorkDirectory(void)
  // Директория, где была выполнена команда запуска
  QFileInfo mainProgramFileInfo(mainProgramFile);
  QString fullCurrentPath=mainProgramFileInfo.absolutePath();
+
  qDebug() << "Check full current path " << fullCurrentPath;
 
  if(isMytetraIniConfig(fullCurrentPath+"/conf.ini")==true)
