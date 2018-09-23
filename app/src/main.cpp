@@ -205,20 +205,33 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action)
 
 void smartPrintDebugMessage(QString msg)
 {
- if(globalParameters.getTargetOs()=="any" ||
-    globalParameters.getTargetOs()=="meego")
-  {
-   QTime currTime = QTime::currentTime();
-   QString timeText=currTime.toString("hh:mm:ss");
-   msg=timeText+" "+msg;
+    if(globalParameters.getTargetOs()=="any" ||
+       globalParameters.getTargetOs()=="meego")
+    {
+        QTime currTime = QTime::currentTime();
+        QString timeText=currTime.toString("hh:mm:ss");
+        msg=timeText+" "+msg;
 
-   unsigned int messageLen=msg.toLocal8Bit().size();
-   // printf("Len of line: %d\n", messageLen);
+        // unsigned int messageLen=msg.toLocal8Bit().size();
+        // fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
 
-   fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
-  }
- 
- // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется
+        // Установка кодека для нормальной работы консоли
+        if(globalParameters.getConsoleCodepage()!=globalParameters.getSystemCodepage() &&
+           globalParameters.getConsoleCodepage().size()>0) {
+            QTextCodec::setCodecForLocale(QTextCodec::codecForName( globalParameters.getConsoleCodepage().toLatin1() ));
+        }
+
+        cout << msg.toLocal8Bit().data();
+
+        // Установка кодека для дальнейшей нормальной работы файловых инструкций
+        if(globalParameters.getConsoleCodepage()!=globalParameters.getSystemCodepage() &&
+           globalParameters.getSystemCodepage().size()>0) {
+            QTextCodec::setCodecForLocale(QTextCodec::codecForName( globalParameters.getSystemCodepage().toLatin1() ));
+        }
+
+    }
+
+    // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется
 }
 
 

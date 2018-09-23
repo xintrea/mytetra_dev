@@ -18,6 +18,10 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
 
+#ifdef Q_OS_WIN32
+#include "windows.h"
+#endif
+
 
 GlobalParameters::GlobalParameters(QObject *pobj)
 {
@@ -52,7 +56,66 @@ void GlobalParameters::init(void)
  pointStatusBar=NULL;
  windowSwitcher=NULL;
 
+ initCodepage();
  initWorkDirectory(); // Инициализация рабочей директории
+}
+
+
+QString GlobalParameters::getInitSystemCodepage()
+{
+#ifdef Q_OS_WIN32
+    return "CP "+QString::number( GetACP() );
+#endif
+
+#ifdef Q_OS_LINUX
+    return "UTF-8");
+#endif
+
+    return "";
+}
+
+
+QString GlobalParameters::getInitConsoleCodepage()
+{
+#ifdef Q_OS_WIN32
+    return "CP "+QString::number( GetOEMCP() );
+#endif
+
+#ifdef Q_OS_LINUX
+    return "UTF-8");
+#endif
+
+    return "";
+}
+
+
+void GlobalParameters::initCodepage(void)
+{
+    mSystemCodepage=getInitSystemCodepage();
+    qDebug() << "System code page: " << mSystemCodepage;
+
+    mConsoleCodepage=getInitConsoleCodepage();
+    qDebug() << "Console code page: " << mConsoleCodepage;
+
+    // Системная кодировка (кодировка локали) устанавливается как основная
+    if(mSystemCodepage.size()>0) {
+        QTextCodec::setCodecForLocale(QTextCodec::codecForName(mSystemCodepage.toLatin1()));
+    }
+}
+
+
+// Системная кодировка, она же кодировка локали
+// В этой кодировке происходит работа с именами файлов и директорий
+QString GlobalParameters::getSystemCodepage()
+{
+    return mSystemCodepage;
+}
+
+
+// Кодировка консоли
+QString GlobalParameters::getConsoleCodepage()
+{
+    return mConsoleCodepage;
 }
 
 
