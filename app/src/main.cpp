@@ -1,4 +1,10 @@
+
+// Баг в Qt, Q_OS_ANDROID not defined for MOC. Его исправили, но он снова есть
+// Поэтому приходится работать через TARGET_OS
+#if TARGET_OS!=ANDROID_OS
 #include <sys/timeb.h>
+#endif
+
 
 #include <QTranslator>
 #include <QToolButton>
@@ -582,13 +588,24 @@ QString getUniqueImageName(void)
 
 int getMilliCount(void)
 {
-  // Something like GetTickCount but portable
-  // It rolls over every ~ 12.1 days (0x100000/24/60/60)
-  // Use getMilliSpan to correct for rollover
-  timeb tb;
-  ftime( &tb );
-  int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
-  return nCount;
+#if TARGET_OS!=ANDROID_OS
+    // Something like GetTickCount but portable
+    // It rolls over every ~ 12.1 days (0x100000/24/60/60)
+    // Use getMilliSpan to correct for rollover
+    timeb tb;
+    ftime( &tb );
+    int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+    return nCount;
+#else
+    long   ms; // Milliseconds
+    struct timespec spec;
+
+    clock_gettime(CLOCK_REALTIME, &spec);
+
+    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+
+    return (int)ms;
+#endif
 }
 
 
