@@ -32,11 +32,11 @@ equals(PROFILING_ENABLE, 1) {
   QMAKE_LFLAGS_DEBUG += -pg
 }
 
-# Enable C++11
+# Enable C++14
 greaterThan(QT_MAJOR_VERSION, 4) {
-  CONFIG += c++11
+  CONFIG += c++14
 } else {
-  QMAKE_CXXFLAGS += -std=c++11
+  QMAKE_CXXFLAGS += -std=c++14
 }
 
 # Create define variable in C++ code

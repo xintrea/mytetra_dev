@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QColor>
+#include <QtGlobal>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -279,7 +280,7 @@ void Editor::setupSignals(void)
   connect(&editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
           typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged,
           Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fontSize, static_cast<void(EditorFontSizeComboBox::*)(int)>(&EditorFontSizeComboBox::currentIndexChanged),
+  connect(&editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
           typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged,
           Qt::DirectConnection);
   connect(&editorToolBarAssistant->fontColor, &QToolButton::clicked,

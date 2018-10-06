@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <QtGlobal>
 
 #include "ExecuteCommand.h"
 #include "ConsoleEmulator.h"
@@ -153,7 +154,7 @@ void ExecuteCommand::run(bool visible)
  process=new QProcess();
 
  connect(console, &ConsoleEmulator::cancelConsole, this, &ExecuteCommand::manualCloseProcess);
- connect(process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+ connect(process, qOverload<QProcess::ProcessError>(&QProcess::error),
          this,    &ExecuteCommand::errorHanler);
 
 
