@@ -13,6 +13,7 @@
 #include <QTextDocument>
 #include <QLineEdit>
 #include <QByteArray>
+#include <QtGlobal>
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -259,13 +260,13 @@ void FindScreen::setupSignals(void)
           this,        &FindScreen::widgetHide);
 
   // Сигналы для запоминания состояния интерфейса
-  connect(wordRegard, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+  connect(wordRegard, qOverload<int>(&MtComboBox::currentIndexChanged),
           this,       &FindScreen::changedWordRegard);
 
-  connect(howExtract, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+  connect(howExtract, qOverload<int>(&MtComboBox::currentIndexChanged),
           this,       &FindScreen::changedHowExtract);
 
-  connect(treeSearchArea, static_cast<void(MtComboBox::*)(int)>(&MtComboBox::currentIndexChanged),
+  connect(treeSearchArea, qOverload<int>(&MtComboBox::currentIndexChanged),
           this,           &FindScreen::changedTreeSearchArea);
 
   connect(findInName, &QCheckBox::stateChanged,

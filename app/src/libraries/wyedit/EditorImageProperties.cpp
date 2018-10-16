@@ -1,6 +1,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QtGlobal>
 
 #include "EditorImageProperties.h"
 
@@ -66,11 +67,11 @@ void EditorImageProperties::setup_ui()
 
 void EditorImageProperties::setup_signals()
 {    
- connect(percentSizeSpin, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+ connect(percentSizeSpin, qOverload<int>(&QSpinBox::valueChanged),
          this,            &EditorImageProperties::on_changed_percent);
- connect(widthSpin,       static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+ connect(widthSpin,       qOverload<int>(&QSpinBox::valueChanged),
          this,            &EditorImageProperties::on_changed_width);
- connect(heightSpin,      static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+ connect(heightSpin,      qOverload<int>(&QSpinBox::valueChanged),
          this,            &EditorImageProperties::on_changed_height);
 
  connect(resetSizeButton, &QPushButton::pressed, this, &EditorImageProperties::on_click_reset_size);

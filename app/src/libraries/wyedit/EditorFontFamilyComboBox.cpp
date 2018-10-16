@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QtGlobal>
 
 #include "EditorFontFamilyComboBox.h"
 
@@ -19,7 +20,7 @@ EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontCombo
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     this->setValidator(validator);
 
-    connect(this, static_cast<void(EditorFontFamilyComboBox::*)(int)>(&EditorFontFamilyComboBox::currentIndexChanged),
+    connect(this, qOverload<int>(&EditorFontFamilyComboBox::currentIndexChanged),
             this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
 }
 

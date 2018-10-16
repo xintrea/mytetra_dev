@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QSize>
 #include <QTimer>
+#include <QtGlobal>
 
 #include "main.h"
 #include "IconSelectDialog.h"
@@ -71,7 +72,7 @@ void IconSelectDialog::setupUI()
 void IconSelectDialog::setupSignals()
 {
   // Выбор раздела
-  connect(&sectionComboBox, static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+  connect(&sectionComboBox, qOverload<const QString &>(&QComboBox::currentIndexChanged),
           this,             &IconSelectDialog::onSectionCurrentIndexChanged);
 
   // Выбор иконки
