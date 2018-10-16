@@ -88,21 +88,21 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка Monospace
   monospace.setParent(this);
-  monospace.setShortcut(QKeySequence(tr("Ctrl+T")));
+  monospace.setShortcut(QKeySequence("Ctrl+T"));
   monospace.setStatusTip(tr("Monospace (Ctrl+T)"));
   monospace.setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
   monospace.setObjectName("editor_tb_monospace");
 
   // Кнопка Code
   code.setParent(this);
-  code.setShortcut(QKeySequence(tr("Ctrl+M")));
+  code.setShortcut(QKeySequence("Ctrl+M"));
   code.setStatusTip(tr("Code (Ctrl+M). Select a whole paragraphs to format text as code."));
   code.setIcon(QIcon(":/resource/pic/edit_code.svg"));
   code.setObjectName("editor_tb_code");
 
   // Кнопка Clear
   clear.setParent(this);
-  clear.setShortcut(QKeySequence(tr("Ctrl+K")));
+  clear.setShortcut(QKeySequence("Ctrl+K"));
   clear.setStatusTip(tr("Reset format (Ctrl+K). When selected whole paragraph both text and paragraph format is reset to default or just text format in other case."));
   clear.setIcon(QIcon(":/resource/pic/edit_clear.svg"));
   clear.setObjectName("editor_tb_clear");
@@ -115,7 +115,6 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка замены символов мягкого переноса (тег <br/> заменяется на разрыв параграфа </p><p>)
   fixBreakSymbol.setParent(this);
-  // fixBreakSymbol.setShortcut(QKeySequence(tr("Ctrl+K")));
   fixBreakSymbol.setStatusTip(tr("Replace soft carriage return to standard carriage return.")); // Замена символов мягкого перевода строк на обычный
   fixBreakSymbol.setIcon(QIcon(":/resource/pic/edit_fixBreakSymbol.svg"));
   fixBreakSymbol.setObjectName("editor_tb_fix_break_symbol");
@@ -149,7 +148,7 @@ void EditorToolBar::setupButtons(void)
   // Кнопка выравнивания по левому краю
   alignLeft.setParent(this);
   alignLeft.setCheckable(true);
-  alignLeft.setShortcut(QKeySequence(tr("Ctrl+L")));
+  alignLeft.setShortcut(QKeySequence("Ctrl+L"));
   alignLeft.setStatusTip(tr("Align left (Ctrl+L)"));
   alignLeft.setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
   alignLeft.setObjectName("editor_tb_alignleft");
@@ -157,7 +156,7 @@ void EditorToolBar::setupButtons(void)
   // Кнопка выравнивания по центру
   alignCenter.setParent(this);
   alignCenter.setCheckable(true);
-  alignCenter.setShortcut(QKeySequence(tr("Ctrl+E")));
+  alignCenter.setShortcut(QKeySequence("Ctrl+E"));
   alignCenter.setStatusTip(tr("Align center (Ctrl+E)"));
   alignCenter.setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
   alignCenter.setObjectName("editor_tb_aligncenter");
@@ -165,7 +164,7 @@ void EditorToolBar::setupButtons(void)
   // Кнопка выравнивания по правому краю
   alignRight.setParent(this);
   alignRight.setCheckable(true);
-  alignRight.setShortcut(QKeySequence(tr("Ctrl+R")));
+  alignRight.setShortcut(QKeySequence("Ctrl+R"));
   alignRight.setStatusTip(tr("Align right (Ctrl+R)"));
   alignRight.setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
   alignRight.setObjectName("editor_tb_alignright");
@@ -173,7 +172,7 @@ void EditorToolBar::setupButtons(void)
   // Кнопка выравнивания по ширине
   alignWidth.setParent(this);
   alignWidth.setCheckable(true);
-  alignWidth.setShortcut(QKeySequence(tr("Ctrl+J")));
+  alignWidth.setShortcut(QKeySequence("Ctrl+J"));
   alignWidth.setStatusTip(tr("Align width (Ctrl+J)"));
   alignWidth.setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
   alignWidth.setObjectName("editor_tb_alignwidth");
@@ -190,7 +189,6 @@ void EditorToolBar::setupButtons(void)
 
 
   // Кнопка выбора цвета шрифта
-  // fontColor.setShortcut(QKeySequence(tr("Ctrl+F")));
   fontColor.setParent(this);
   fontColor.setStatusTip(tr("Text color"));
   fontColor.setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
@@ -199,7 +197,7 @@ void EditorToolBar::setupButtons(void)
 
   // Кнопка вызова виджета поиска текста
   findText.setParent(this);
-  findText.setShortcut(QKeySequence(tr("Ctrl+F")));
+  findText.setShortcut(QKeySequence("Ctrl+F"));
   findText.setStatusTip(tr("Find text (Ctrl+F)"));
   findText.setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
   findText.setObjectName("editor_tb_findtext");
@@ -292,7 +290,7 @@ void EditorToolBar::setupButtons(void)
 
   save.setParent(this);
   save.setStatusTip(tr("Save (Ctrl+S)"));
-  save.setShortcut(QKeySequence(tr("Ctrl+S")));
+  save.setShortcut(QKeySequence("Ctrl+S"));
   save.setIcon(QIcon(":/resource/pic/edit_save.svg"));
   save.setObjectName("editor_tb_save");
 
