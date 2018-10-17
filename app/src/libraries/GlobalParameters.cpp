@@ -63,6 +63,8 @@ void GlobalParameters::init(void)
  qDebug() << "Set main program file to " << mainProgramFile;
 
  initWorkDirectory(); // Инициализация рабочей директории
+
+ initKeyboardShortcutFile(); // Дополнительно создается, если не существует, файл настроки клавиатурных сокращений
 }
 
 
@@ -441,6 +443,18 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
   }
  else
   return false; // Нет указанного файла
+}
+
+
+void GlobalParameters::initKeyboardShortcutFile(void)
+{
+    QString shortcutFileNameSource=":/resource/standartconfig/any/shortcut.ini";
+    QString shortcutFileNameDestination=workDirectory+"/shortcut.ini";
+
+    if(!QFile(shortcutFileNameDestination).exists()) {
+        QFile::copy(shortcutFileNameSource, shortcutFileNameDestination);
+        QFile::setPermissions(shortcutFileNameDestination, QFile::ReadUser | QFile::WriteUser);
+    }
 }
 
 

@@ -75,6 +75,8 @@ private:
     void createPortableProgramFiles(void);
     void createFirstProgramFiles(QString dirName);
 
+    void initKeyboardShortcutFile();
+
     TreeScreen *pointTreeScreen;
     RecordTableScreen *pointRecordTableScreen;
     FindScreen *pointFindScreen;
