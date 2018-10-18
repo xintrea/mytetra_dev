@@ -140,6 +140,8 @@ private:
  void initToolsMenu(void);
  void initPreferencesMenu(QMenu *menu);
  void initHelpMenu(void);
+
+ void initShortcuts(void);
  
  void initRecordTableActions(void);
 

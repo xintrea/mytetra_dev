@@ -127,7 +127,7 @@ template <class X> inline X *find_object(QString objectName)
   }
  else
   {
-   // ОБъект был найден, и нужно преобразовать указатель на него
+   // Объект был найден, и нужно преобразовать указатель на него
    // к указателю c заданным в шаблоне типом
    X *obj=qobject_cast<X *>(findObj);
 

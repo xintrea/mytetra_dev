@@ -75,6 +75,10 @@ void ShortcutManager::initDefaultKeyTable()
 
     defaultKeyTable.insert("misc-findInBase",  QKeySequence("Ctrl+Shift+F"));
     defaultKeyTable.insert("misc-editConfirm", QKeySequence(Qt::CTRL + Qt::Key_Return));
+    defaultKeyTable.insert("misc-print",       QKeySequence("Ctrl+P"));
+    defaultKeyTable.insert("misc-exportPdf",   QKeySequence("Ctrl+D"));
+    defaultKeyTable.insert("misc-quit",        QKeySequence("Ctrl+Q"));
+
 }
 
 
@@ -124,7 +128,11 @@ void ShortcutManager::initKeyTable()
         QString sectionName=fullActionName.section('-', 0, 0);
         QString shortActionName=fullActionName.section('-', 1, 1);
 
-        config.setValue(sectionName+"/"+shortActionName, defaultKeyTable.value(fullActionName).toString());
+        // Новое действие запоминается в конфиг
+        config.setValue( sectionName+"/"+shortActionName, defaultKeyTable.value(fullActionName).toString() );
+
+        // Запоминается в ассоциативный массив полное имя действия и комбинация клавиш
+        keyTable.insert( sectionName+"-"+shortActionName, defaultKeyTable.value(fullActionName) );
     }
 
     config.sync();

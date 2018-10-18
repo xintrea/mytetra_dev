@@ -21,14 +21,17 @@
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
 #include "views/actionLog/ActionLogScreen.h"
+#include "libraries/ShortcutManager.h"
 
 #include "libraries/wyedit/EditorTextArea.h"
+
 
 extern AppConfig mytetraConfig;
 extern TrashMonitoring trashMonitoring;
 extern GlobalParameters globalParameters;
 extern WalkHistory walkHistory;
 extern ActionLogger actionLogger;
+extern ShortcutManager shortcutManager;
 
 
 MainWindow::MainWindow() : QMainWindow()
@@ -53,6 +56,8 @@ MainWindow::MainWindow() : QMainWindow()
   initFileMenu();
   initToolsMenu();
   initHelpMenu();
+
+  initShortcuts();
 
   setupIconActions();
   createTrayIcon();
@@ -425,33 +430,36 @@ void MainWindow::initFileMenu(void)
   QAction *a;
 
   a = new QAction(tr("&Print..."), this);
-  a->setShortcut(QKeySequence::Print);
+  a->setObjectName("mainMenu_action_print");
   connect(a, &QAction::triggered, this, &MainWindow::filePrint);
   menu->addAction(a);
 
   a = new QAction(tr("Print Preview..."), this);
+  a->setObjectName("mainMenu_action_printPreview");
   connect(a, &QAction::triggered, this, &MainWindow::filePrintPreview);
   menu->addAction(a);
 
   a = new QAction(tr("&Export PDF..."), this);
-  a->setShortcut(Qt::CTRL + Qt::Key_D);
+  a->setObjectName("mainMenu_action_exportPdf");
   connect(a, &QAction::triggered, this, &MainWindow::filePrintPdf);
   menu->addAction(a);
 
   menu->addSeparator();
 
   a = new QAction(tr("Export tree item"), this);
+  a->setObjectName("mainMenu_action_exportTreeItem");
   connect(a, &QAction::triggered, this, &MainWindow::fileExportBranch);
   menu->addAction(a);
 
   a = new QAction(tr("Import tree item"), this);
+  a->setObjectName("mainMenu_action_importTreeItem");
   connect(a, &QAction::triggered, this, &MainWindow::fileImportBranch);
   menu->addAction(a);
 
   menu->addSeparator();
 
   a = new QAction(tr("&Quit"), this);
-  a->setShortcut(Qt::CTRL + Qt::Key_Q);
+  a->setObjectName("mainMenu_action_quit");
   connect(a, &QAction::triggered, this, &MainWindow::applicationExit);
   menu->addAction(a);
 }
@@ -540,6 +548,34 @@ void MainWindow::initHelpMenu(void)
   a = new QAction(tr("Technical info"), this);
   connect(a, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
   menu->addAction(a);
+}
+
+
+void MainWindow::initShortcuts(void)
+{
+    QString actionName, info;
+    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
+
+    QAction* actionPrint=find_object<QAction>("mainMenu_action_print");
+    actionName="misc-print";
+    info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionPrint->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionPrint->setStatusTip(info);
+    actionPrint->setToolTip(info);
+
+    QAction* actionExportPdf=find_object<QAction>("mainMenu_action_exportPdf");
+    actionName="misc-exportPdf";
+    info=tr("Export PDF")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionExportPdf->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionExportPdf->setStatusTip(info);
+    actionExportPdf->setToolTip(info);
+
+    QAction* actionQuit=find_object<QAction>("mainMenu_action_quit");
+    actionName="misc-quit";
+    info=tr("Quit")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionQuit->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionQuit->setStatusTip(info);
+    actionQuit->setToolTip(info);
 }
 
 
