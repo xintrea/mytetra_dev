@@ -60,6 +60,7 @@ void ActionLogView::setupSignals(void)
           this, &ActionLogView::onCustomContextMenuRequested);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
+  // (пока долгое нажатие не обрабатывается и сигнал не эмитируется)
   connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
           this, SLOT(onCustomContextMenuRequested(const QPoint &)));
 }
@@ -107,7 +108,7 @@ void ActionLogView::assemblyContextMenu()
 }
 
 
-// Открытие контекстного меню в таблице конечных записей
+// Открытие контекстного меню в таблице записей лога
 void ActionLogView::onCustomContextMenuRequested(const QPoint &pos)
 {
   qDebug() << "In ActionLogView::on_customContextMenuRequested";
