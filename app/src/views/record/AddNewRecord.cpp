@@ -15,9 +15,13 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/wyedit/Editor.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/ShortcutManager.h"
+
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern ShortcutManager shortcutManager;
+
 
 // Окно добавления новой записи
 
@@ -28,6 +32,7 @@ AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(paren
 #endif
 {
   setupUI();
+  setupShortcuts();
   setupSignals();
   assembly();
 
@@ -68,6 +73,14 @@ void AddNewRecord::setupUI(void)
   QPushButton *CancelButton=buttonBox.button(QDialogButtonBox::Cancel); // Выясняется указатель на кнопку Cancel
   CancelButton->setAutoDefault(false);
   CancelButton->setDefault(false);
+}
+
+
+void AddNewRecord::setupShortcuts(void)
+{
+    QPushButton *OkButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+    OkButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
+    OkButton->setToolTip( shortcutManager.getKeySequenceHumanReadable("misc-editConfirm") ); // ToolTip зависит от шортката
 }
 
 
