@@ -77,7 +77,6 @@
         <file>resource/standartconfig/any/conf.ini</file>
         <file>resource/standartconfig/any/editorconf.ini</file>
         <file>resource/standartconfig/any/stylesheet.css</file>
-        <file>resource/standartconfig/any/shortcut.ini</file>
         <file>resource/standartconfig/meego/conf.ini</file>
         <file>resource/standartconfig/meego/editorconf.ini</file>
         <file>resource/standartconfig/meego/stylesheet.css</file>

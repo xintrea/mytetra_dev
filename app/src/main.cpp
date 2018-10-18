@@ -38,6 +38,7 @@
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/TraceLogger.h"
+#include "libraries/ShortcutManager.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
@@ -65,6 +66,9 @@ WalkHistory walkHistory;
 
 // Логгер действий с данными
 ActionLogger actionLogger;
+
+// Менеджер горячих клавиш
+ShortcutManager shortcutManager;
 
 PeriodicCheckBase periodicCheckBase;
 PeriodicSyncro periodicSyncro;
@@ -835,6 +839,9 @@ int main(int argc, char ** argv)
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
+
+ // Инициализация менеджера горячих клавиш
+ shortcutManager.init();
 
  // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутствуют)
  iconsCollectionCheck();

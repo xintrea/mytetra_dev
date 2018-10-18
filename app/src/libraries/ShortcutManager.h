@@ -3,6 +3,7 @@
 
 #include <QKeySequence>
 #include <QMap>
+#include <QSettings>
 
 class ShortcutManager
 {
@@ -16,9 +17,14 @@ public:
 protected:
 
     void initDefaultKeyTable();
+    void checkConfigFile();
+    void saveConfig(QMap<QString, QKeySequence> table);
 
     QMap<QString, QKeySequence> keyTable;
     QMap<QString, QKeySequence> defaultKeyTable;
+
+    QString configFileName;
+
 
 };
 
