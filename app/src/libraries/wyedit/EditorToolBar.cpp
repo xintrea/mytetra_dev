@@ -312,27 +312,27 @@ void EditorToolBar::setupShortcuts(void)
     monospace.setToolTip(info);
 
     actionName="editor-code";
-    info=tr("Code")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode)+" "+tr("Select a whole paragraphs to format text as code.");
+    info=tr("Code")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     code.setShortcut(shortcutManager.getKeySequence(actionName));
-    code.setStatusTip(info);
+    code.setStatusTip(info+" "+tr("- Select a whole paragraphs to format text as code."));
     code.setToolTip(info);
 
     actionName="editor-clear";
-    info=tr("Reset format")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode)+" "+tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case.");
+    info=tr("Clear format")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     clear.setShortcut(shortcutManager.getKeySequence(actionName));
-    clear.setStatusTip(info);
+    clear.setStatusTip(info+" "+tr("- When selected whole paragraph both text and paragraph format is reset to default or just text format in other case."));
     clear.setToolTip(info);
 
     actionName="editor-textOnly";
-    info=tr("Reset selected text to text only")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Text only")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     textOnly.setShortcut(shortcutManager.getKeySequence(actionName));
     textOnly.setStatusTip(info);
     textOnly.setToolTip(info);
 
     actionName="editor-fixBreakSymbol";
-    info=tr("Replace soft carriage return to standard carriage return")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Return type replace")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     fixBreakSymbol.setShortcut(shortcutManager.getKeySequence(actionName));
-    fixBreakSymbol.setStatusTip(info);
+    fixBreakSymbol.setStatusTip(info+" "+tr("- Replace soft carriage return to standard carriage return"));
     fixBreakSymbol.setToolTip(info);
 
     actionName="editor-numericList";
@@ -427,23 +427,45 @@ void EditorToolBar::setupShortcuts(void)
     createTable.setStatusTip(info);
     createTable.setToolTip(info);
 
+
     // Действия над таблицей пока не имеют горячих клавиш
-    tableRemoveRow.setStatusTip(tr("Remove row(s)"));
-    tableRemoveCol.setStatusTip(tr("Remove column(s)"));
-    tableAddRow.setStatusTip(tr("Add row(s)"));
-    tableAddCol.setStatusTip(tr("Add column(s)"));
-    tableMergeCells.setStatusTip(tr("Merge cells"));
-    tableSplitCell.setStatusTip(tr("Split cell"));
-    tableProperties.setStatusTip(tr("Table properties"));
+    info=tr("Remove row(s)");
+    tableRemoveRow.setStatusTip(info);
+    tableRemoveRow.setToolTip(info);
+
+    info=tr("Remove column(s)");
+    tableRemoveCol.setStatusTip(info);
+    tableRemoveCol.setToolTip(info);
+
+    info=tr("Add row(s)");
+    tableAddRow.setStatusTip(info);
+    tableAddRow.setToolTip(info);
+
+    info=tr("Add column(s)");
+    tableAddCol.setStatusTip(info);
+    tableAddCol.setToolTip(info);
+
+    info=tr("Merge cells");
+    tableMergeCells.setStatusTip(info);
+    tableMergeCells.setToolTip(info);
+
+    info=tr("Split cell");
+    tableSplitCell.setStatusTip(info);
+    tableSplitCell.setToolTip(info);
+
+    info=tr("Table properties");
+    tableProperties.setStatusTip(info);
+    tableProperties.setToolTip(info);
+
 
     actionName="editor-insertImageFromFile";
-    info=tr("Insert image from file / edit image properties of selected image")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Insert/edit image")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     insertImageFromFile.setShortcut(shortcutManager.getKeySequence(actionName));
-    insertImageFromFile.setStatusTip(info);
+    insertImageFromFile.setStatusTip(info+" "+tr("- Insert image from file or edit image properties of selected image"));
     insertImageFromFile.setToolTip(info);
 
     actionName="editor-mathExpression";
-    info=tr("Insert math expression / edit math expression")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Insert/edit math expression")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     mathExpression.setShortcut(shortcutManager.getKeySequence(actionName));
     mathExpression.setStatusTip(info);
     mathExpression.setToolTip(info);
@@ -467,13 +489,13 @@ void EditorToolBar::setupShortcuts(void)
     save.setToolTip(info);
 
     actionName="editor-showText";
-    info=tr("Show text in detached window")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Show detached window")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     showText.setShortcut(shortcutManager.getKeySequence(actionName));
     showText.setStatusTip(info);
     showText.setToolTip(info);
 
     actionName="editor-toAttach";
-    info=tr("Show attach files")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Attach files")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     toAttach.setShortcut(shortcutManager.getKeySequence(actionName));
     toAttach.setStatusTip(info);
     toAttach.setToolTip(info);

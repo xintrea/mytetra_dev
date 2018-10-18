@@ -5,6 +5,10 @@
 #include "ActionLogScreen.h"
 #include "ActionLogView.h"
 #include "controllers/actionLog/ActionLogController.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
@@ -20,6 +24,7 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
 
   setupActions();
   setupUI();
+  setupShortcuts();
   setupSignals();
   assembly();
 
@@ -47,19 +52,30 @@ void ActionLogScreen::setupUI(void)
 }
 
 
-void ActionLogScreen::setupSignals(void)
-{
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
-}
-
-
 void ActionLogScreen::setupActions(void)
 {
   actionCopy = new QAction(tr("Copy selected rows"), this);
-  actionCopy->setStatusTip(tr("Copy selected rows"));
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
   actionCopy->setShortcut(QKeySequence("Ctrl+C"));
   connect(actionCopy, &QAction::triggered, actionLogController, &ActionLogController::onCopyClicked);
+}
+
+
+void ActionLogScreen::setupShortcuts(void)
+{
+    QString actionName, info;
+    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
+
+    actionName="actionLog-copy";
+    info=tr("Copy selected rows")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionCopy->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionCopy->setToolTip(info);
+}
+
+
+void ActionLogScreen::setupSignals(void)
+{
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
 }
 
 

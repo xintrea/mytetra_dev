@@ -38,6 +38,7 @@ protected:
   void setupUI(void);
   void setupSignals(void);
   void setupActions(void);
+  void setupShortcuts(void);
   void assembly(void);
 
 };

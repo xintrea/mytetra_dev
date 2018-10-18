@@ -9,7 +9,7 @@
 extern GlobalParameters globalParameters;
 
 
-const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "misc"};
+const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "actionLog", "misc"};
 
 
 ShortcutManager::ShortcutManager()
@@ -71,7 +71,9 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-showText",            QKeySequence("Ctrl+Shift+W"));
     defaultKeyTable.insert("editor-toAttach",            QKeySequence("Ctrl+Shift+A"));
 
-    defaultKeyTable.insert("misc-findInBase", QKeySequence("Ctrl+Shift+F"));
+    defaultKeyTable.insert("actionLog-copy", QKeySequence("Ctrl+C"));
+
+    defaultKeyTable.insert("misc-findInBase",  QKeySequence("Ctrl+Shift+F"));
     defaultKeyTable.insert("misc-editConfirm", QKeySequence(Qt::CTRL + Qt::Key_Return));
 }
 
@@ -91,6 +93,9 @@ void ShortcutManager::initKeyTable()
 
     keyTable.clear();
 
+    // Запоминается список стандартных клавиатурных сокращений, чтобы добавить те, которых нет в config-файле
+    QStringList defaultActionNames=defaultKeyTable.keys();
+
     // Перебираются имена секций
     foreach(QString sectionName, availableSection) {
         config.beginGroup(sectionName); // Выбирается секция
@@ -99,12 +104,30 @@ void ShortcutManager::initKeyTable()
 
         // Перебираются короткие имена действий (в секции ini-файла они хранятся без префикса "имяСекции-")
         foreach (QString shortcutName, shortcuts) {
-            // Запоминается в ассоциативный массив полное имя действия и комбинация клавиш
-            keyTable.insert(sectionName+"-"+shortcutName, QKeySequence( config.value(shortcutName).toString() ));
+            // Если имя действия допустимо, т.е. оно есть в defaultKeyTable
+            // Условие нужно чтобы в конфиг не попадали устаревшие действия
+            if(defaultActionNames.contains(sectionName+"-"+shortcutName)) {
+                // Запоминается в ассоциативный массив полное имя действия и комбинация клавиш
+                keyTable.insert(sectionName+"-"+shortcutName, QKeySequence( config.value(shortcutName).toString() ));
+
+                // Дейтвие удаляется из списка стандартных клавиатурных сокращений
+                defaultActionNames.removeOne(sectionName+"-"+shortcutName);
+            }
         }
 
         config.endGroup(); // Закрывается текущая секция
     }
+
+    // Добавляются стандартные клавиатурные сокращения, которых еще небыло в файле конфига
+    // Срабатывает если в defaultKeyTable при очередном обновлении программы было что-то добавлено
+    foreach(QString fullActionName, defaultActionNames) {
+        QString sectionName=fullActionName.section('-', 0, 0);
+        QString shortActionName=fullActionName.section('-', 1, 1);
+
+        config.setValue(sectionName+"/"+shortActionName, defaultKeyTable.value(fullActionName).toString());
+    }
+
+    config.sync();
 }
 
 
