@@ -10,8 +10,9 @@ class ShortcutManager
 public:
     ShortcutManager();
 
-    void init();
+    static const QStringList availableSection;
 
+    void init();
     QKeySequence getKeySequence(QString actionName);
 
 protected:

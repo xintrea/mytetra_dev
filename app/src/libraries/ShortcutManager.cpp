@@ -9,6 +9,9 @@
 extern GlobalParameters globalParameters;
 
 
+const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "misc"};
+
+
 ShortcutManager::ShortcutManager()
 {
 
@@ -57,9 +60,9 @@ void ShortcutManager::saveConfig(QMap<QString, QKeySequence> table)
         qDebug() << fullActionName << " = " << shortcutKeys.toString();
 
         // Имя раздела
-        QString sectionName=fullActionName.section('-', 0, 0); // Возможные значения "note", "tree", "editor", "misc"
-        if(sectionName=="") {
-            criticalError("Not found shortcut section name for action "+fullActionName+" and keys "+shortcutKeys.toString());
+        QString sectionName=fullActionName.section('-', 0, 0);
+        if(!availableSection.contains(sectionName)) {
+            criticalError("Not found available shortcut section name for action "+fullActionName+" and keys "+shortcutKeys.toString());
             return;
         }
 
