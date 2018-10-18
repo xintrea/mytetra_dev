@@ -117,6 +117,7 @@ protected:
   QStringList disableToolList;
 
   void setupButtons(void);
+  void setupShortcuts(void);
   void assemblyButtons(void);
 
   void insertButtonToToolsLine(QString toolName, QToolBar &line);

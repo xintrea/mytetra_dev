@@ -5,6 +5,10 @@
 #include <QPushButton>
 
 #include "EditorMultiLineInputDialog.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 EditorMultiLineInputDialog::EditorMultiLineInputDialog(QWidget *parent) : QDialog(parent)
@@ -12,6 +16,7 @@ EditorMultiLineInputDialog::EditorMultiLineInputDialog(QWidget *parent) : QDialo
   sizeCoefficient=1.0;
 
   setupUi();
+  setupShortcuts();
   setupSignals();
   assembly();
 }
@@ -43,8 +48,6 @@ void EditorMultiLineInputDialog::setupUi()
 
   // На кнопку OK назначается комбинация клавиш Ctrl+Enter и она устанавливается как кнопка по умолчанию
   QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
-  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
-  OkButton->setToolTip(tr("Ctrl+Enter"));
   OkButton->setAutoDefault(true);
   OkButton->setDefault(true);
 
@@ -61,6 +64,14 @@ void EditorMultiLineInputDialog::setupUi()
   if(this->parent()!=0)
     if(this->parent()->isWidgetType())
         updateSize();
+}
+
+
+void EditorMultiLineInputDialog::setupShortcuts(void)
+{
+    QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+    OkButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
+    OkButton->setToolTip(shortcutManager.getKeySequenceHumanReadable("misc-editConfirm")); // ToolTip зависит от шортката
 }
 
 

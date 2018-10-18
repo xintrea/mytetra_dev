@@ -30,6 +30,7 @@ private:
  QDialogButtonBox *buttonBox;
 
  void setupUi(void);
+ void setupShortcuts(void);
  void setupSignals(void);
  void assembly(void);
 
