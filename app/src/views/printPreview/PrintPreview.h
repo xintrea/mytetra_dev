@@ -5,6 +5,7 @@
 #include <QPrinter>
 #include <QVBoxLayout>
 #include <QDialog>
+#include <QToolButton>
 
 class PreviewView;
 class QTextDocument;
@@ -21,11 +22,20 @@ private slots:
     void pageSetup();
 
 private:
-    void setup();
+    void setupPrintDoc();
+    void setupUI();
+    void setupSignals();
+    void assembly();
 
     QTextDocument *doc;
     PreviewView *view;
     QPrinter printer;
+
+    QToolButton *buttonPrint;
+    QToolButton *buttonPageSetup;
+    QToolButton *buttonZoomIn;
+    QToolButton *buttonZoomOut;
+    QToolButton *buttonClose;
     
     QVBoxLayout *centralLayout;
 };

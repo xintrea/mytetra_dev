@@ -52,7 +52,6 @@ RecordTableScreen::~RecordTableScreen()
 void RecordTableScreen::setupActions(void)
 {
  // Добавление записи
- // a->setShortcut(tr("Ctrl+X"));
  actionAddNewToEnd = new QAction(tr("Add note"), this);
  actionAddNewToEnd->setStatusTip(tr("Add a new note"));
  actionAddNewToEnd->setIcon(QIcon(":/resource/pic/note_add.svg"));

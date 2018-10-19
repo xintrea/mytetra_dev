@@ -55,7 +55,6 @@ void TreeScreen::setupActions(void)
  QAction *ac;
 
  // Разворачивание всех подветок
- // a->setShortcut(tr("Ctrl+X"));
  ac=new QAction(tr("Expand all sub items"), this);
  ac->setStatusTip(tr("Expand all sub items"));
  ac->setIcon(QIcon(":/resource/pic/expand_all_subbranch.svg"));
