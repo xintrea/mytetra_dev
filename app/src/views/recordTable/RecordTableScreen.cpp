@@ -15,10 +15,12 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "libraries/ShortcutManager.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern ShortcutManager shortcutManager;
 
 
 // Виджет, который отображает список записей в ветке
@@ -121,14 +123,10 @@ void RecordTableScreen::setupActions(void)
 
  // Перемещение по истории посещаемых записей назад
  actionWalkHistoryPrevious=new QAction(tr("Previous viewing note"), this);
- actionWalkHistoryPrevious->setShortcut(tr("Ctrl+<"));
- actionWalkHistoryPrevious->setStatusTip(tr("Previous note has been viewing"));
  actionWalkHistoryPrevious->setIcon(QIcon(":/resource/pic/walk_history_previous.svg"));
 
  // Перемещение по истории посещаемых записей вперед
  actionWalkHistoryNext=new QAction(tr("Next viewing note"), this);
- actionWalkHistoryNext->setShortcut(tr("Ctrl+>"));
- actionWalkHistoryNext->setStatusTip(tr("Next note has been viewing"));
  actionWalkHistoryNext->setIcon(QIcon(":/resource/pic/walk_history_next.svg"));
 
  // Кнопка Назад (Back) в мобильном интерфейсе
@@ -211,7 +209,20 @@ void RecordTableScreen::setupUI(void)
 
 void RecordTableScreen::setupShortcuts(void)
 {
+    QString actionName, info;
+    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
+    actionName="note-previousNote";
+    info=tr("Previous note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionWalkHistoryPrevious->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionWalkHistoryPrevious->setStatusTip(info+" - Previous note has been viewing");
+    actionWalkHistoryPrevious->setToolTip(info);
+
+    actionName="note-nextNote";
+    info=tr("Next note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionWalkHistoryNext->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionWalkHistoryNext->setStatusTip(info+" - Next note has been viewing");
+    actionWalkHistoryNext->setToolTip(info);
 }
 
 

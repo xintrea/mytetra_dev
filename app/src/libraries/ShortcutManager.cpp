@@ -35,6 +35,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.clear();
 
     defaultKeyTable.insert("note-add", QKeySequence("Ctrl+Alt+N"));
+    defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
+    defaultKeyTable.insert("note-nextNote", QKeySequence("Ctrl+Alt+Right"));
 
     defaultKeyTable.insert("tree-add", QKeySequence("Ctrl+Shift+N"));
 
