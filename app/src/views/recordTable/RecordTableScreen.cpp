@@ -55,7 +55,6 @@ void RecordTableScreen::setupActions(void)
 {
  // Добавление записи
  actionAddNewToEnd = new QAction(tr("Add note"), this);
- actionAddNewToEnd->setStatusTip(tr("Add a new note"));
  actionAddNewToEnd->setIcon(QIcon(":/resource/pic/note_add.svg"));
 
  // Добавление записи до
@@ -211,6 +210,15 @@ void RecordTableScreen::setupShortcuts(void)
 {
     QString actionName, info;
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
+
+    // Добавление записи
+    actionName="note-add";
+    info=tr("Add a new note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionAddNewToEnd->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionAddNewToEnd->setStatusTip(info);
+    actionAddNewToEnd->setToolTip(info);
+
+
 
     actionName="note-previousNote";
     info=tr("Previous note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
