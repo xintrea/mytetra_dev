@@ -141,7 +141,7 @@ private:
  void initPreferencesMenu(QMenu *menu);
  void initHelpMenu(void);
 
- void initShortcuts(void);
+ void setupShortcuts(void);
  
  void initRecordTableActions(void);
 

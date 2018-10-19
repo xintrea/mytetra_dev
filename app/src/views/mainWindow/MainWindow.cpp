@@ -57,7 +57,7 @@ MainWindow::MainWindow() : QMainWindow()
   initToolsMenu();
   initHelpMenu();
 
-  initShortcuts();
+  setupShortcuts();
 
   setupIconActions();
   createTrayIcon();
@@ -551,7 +551,7 @@ void MainWindow::initHelpMenu(void)
 }
 
 
-void MainWindow::initShortcuts(void)
+void MainWindow::setupShortcuts(void)
 {
     QString actionName, info;
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;

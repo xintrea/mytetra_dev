@@ -14,6 +14,10 @@
 
 #include "PreviewView.h"
 #include "PrintPreview.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 static inline int inchesToPixels(float inches, QPaintDevice *device)
@@ -42,6 +46,7 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
 
     setupPrintDoc();
     setupUI();
+    setupShortcuts();
     setupSignals();
     assembly();
 }
@@ -97,6 +102,19 @@ void PrintPreview::setupUI()
     buttonClose=new QToolButton(this);
     buttonClose->setText(tr("&Close"));
     buttonClose->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+}
+
+
+void PrintPreview::setupShortcuts()
+{
+    QString actionName, info;
+    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
+
+    actionName="misc-print";
+    info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    buttonPrint->setShortcut(shortcutManager.getKeySequence(actionName));
+    buttonPrint->setStatusTip(info);
+    buttonPrint->setToolTip(info);
 }
 
 

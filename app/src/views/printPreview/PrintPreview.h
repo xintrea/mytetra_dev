@@ -24,6 +24,7 @@ private slots:
 private:
     void setupPrintDoc();
     void setupUI();
+    void setupShortcuts();
     void setupSignals();
     void assembly();
 
