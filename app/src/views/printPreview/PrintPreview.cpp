@@ -83,8 +83,7 @@ void PrintPreview::setupUI()
 {
     // Кнопки на панели инструментов
     buttonPrint=new QToolButton(this);
-    buttonPrint->setText(tr("&Print..."));
-    buttonPrint->setShortcut(Qt::CTRL + Qt::Key_P);
+    buttonPrint->setText(tr("Print..."));
     buttonPrint->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     buttonPageSetup=new QToolButton(this);
@@ -100,7 +99,7 @@ void PrintPreview::setupUI()
     buttonZoomOut->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     buttonClose=new QToolButton(this);
-    buttonClose->setText(tr("&Close"));
+    buttonClose->setText(tr("Close"));
     buttonClose->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 }
 
