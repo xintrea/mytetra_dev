@@ -61,7 +61,7 @@ QString xmlNodeToString(QDomNode xmlData);
 
 void printObjectTree(void);
 bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
-void insertActionAsButton(QToolBar *tools_line, QAction *action);
+void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible=true);
 void myMessageOutput(QtMsgType type, const char *msg);
 QString getUniqueId(void);
 QString getUniqueImageName(void);

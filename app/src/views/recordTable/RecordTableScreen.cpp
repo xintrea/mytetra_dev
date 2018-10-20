@@ -54,16 +54,14 @@ RecordTableScreen::~RecordTableScreen()
 void RecordTableScreen::setupActions(void)
 {
  // Добавление записи
- actionAddNewToEnd = new QAction(tr("Add note"), this);
+ actionAddNewToEnd = new QAction(this);
  actionAddNewToEnd->setIcon(QIcon(":/resource/pic/note_add.svg"));
 
  // Добавление записи до
- actionAddNewBefore = new QAction(tr("Add note before"), this);
- actionAddNewBefore->setStatusTip(tr("Add a note before selected"));
+ actionAddNewBefore = new QAction(this);
 
  // Добавление записи после
- actionAddNewAfter = new QAction(tr("Add note after"), this);
- actionAddNewAfter->setStatusTip(tr("Add a note after selected"));
+ actionAddNewAfter = new QAction(this);
 
  // Редактирование записи
  actionEditField = new QAction(tr("Edit properties (name, author, tags...)"), this);
@@ -174,6 +172,9 @@ void RecordTableScreen::setupUI(void)
  }
 
  insertActionAsButton(toolsLine, actionAddNewToEnd);
+ insertActionAsButton(toolsLine, actionAddNewBefore, false); // Действие без видимой кнопки
+ insertActionAsButton(toolsLine, actionAddNewAfter, false); // Действие без видимой кнопки
+
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
    insertActionAsButton(toolsLine, actionEditField);
@@ -212,12 +213,28 @@ void RecordTableScreen::setupShortcuts(void)
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
     // Добавление записи
-    actionName="note-add";
+    actionName="note-addNewToEnd";
     info=tr("Add a new note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionAddNewToEnd->setShortcut(shortcutManager.getKeySequence(actionName));
     actionAddNewToEnd->setStatusTip(info);
     actionAddNewToEnd->setToolTip(info);
+    actionAddNewToEnd->setText(info);
 
+    // Добавление записи до
+    actionName="note-addNewBefore";
+    info=tr("Add a note before")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionAddNewBefore->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionAddNewBefore->setStatusTip(info+tr(" - Add a note before current selected note"));
+    actionAddNewBefore->setToolTip(info);
+    actionAddNewBefore->setText(info);
+
+    // Добавление записи после
+    actionName="note-addNewAfter";
+    info=tr("Add a note after")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionAddNewAfter->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionAddNewAfter->setStatusTip(info+tr(" - Add a note after current selected note"));
+    actionAddNewAfter->setToolTip(info);
+    actionAddNewAfter->setText(info);
 
 
     actionName="note-previousNote";
@@ -350,12 +367,12 @@ void RecordTableScreen::disableAllActions(void)
 
 void RecordTableScreen::toolsUpdate(void)
 {
-  toolsWidgatsUpdate();
+  toolsWidgetsUpdate();
   editorModesUpdate();
 }
 
 
-void RecordTableScreen::toolsWidgatsUpdate()
+void RecordTableScreen::toolsWidgetsUpdate()
 {
  // qDebug() << "recordtablescreen::tools_update()";
 
@@ -383,8 +400,8 @@ void RecordTableScreen::toolsWidgatsUpdate()
  // Добавлять "до" можно только тогда, когда выбрана только одна строка
  // и не включена сортировка
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
-    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
-    recordTableController->getView()->isSortingEnabled()==false )
+         (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+         recordTableController->getView()->isSortingEnabled()==false )
    actionAddNewBefore->setEnabled(true);
 
  // Добавление записи после

@@ -94,7 +94,7 @@ private:
  
  void disableAllActions(void);
 
- void toolsWidgatsUpdate();
+ void toolsWidgetsUpdate();
  void editorModesUpdate();
 
 };

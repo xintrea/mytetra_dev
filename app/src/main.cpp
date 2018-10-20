@@ -206,10 +206,20 @@ bool compareQStringListLen(const QStringList &list1, const QStringList &list2)
 }
 
 
-void insertActionAsButton(QToolBar *tools_line, QAction *action)
+void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible)
 {
-  tools_line->addAction(action);
-  qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
+    // Действие добавляется в виде кнопки
+    tools_line->addAction(action);
+
+    // Выясняется кнопка, которая была создана и обрабатвает данное действие
+    QToolButton* currentButton=qobject_cast<QToolButton*>(tools_line->widgetForAction(action));
+
+    if(!isVisible) {
+        currentButton->setFixedHeight(0);
+        currentButton->setFixedWidth(0);
+    }
+
+    currentButton->setAutoRaise(false); // Установка видимых границ кнопки
 }
 
 
