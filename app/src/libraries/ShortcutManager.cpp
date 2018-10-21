@@ -35,9 +35,10 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.clear();
 
     defaultKeyTable.insert("note-addNewToEnd",  QKeySequence("Ctrl+Alt+N"));
-    defaultKeyTable.insert("note-addNewBefore", QKeySequence("Ctrl+Alt+B"));
+    defaultKeyTable.insert("note-addNewBefore", QKeySequence("Ctrl+Alt+J"));
     defaultKeyTable.insert("note-addNewAfter",  QKeySequence("Ctrl+Alt+M"));
     defaultKeyTable.insert("note-editField",    QKeySequence("Ctrl+Alt+E"));
+    defaultKeyTable.insert("note-block",        QKeySequence("Ctrl+Alt+B"));
 
     defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
     defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));

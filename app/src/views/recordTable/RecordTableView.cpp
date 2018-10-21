@@ -18,10 +18,12 @@
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/WindowSwitcher.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "libraries/ShortcutManager.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern ShortcutManager shortcutManager;
 
 
 // Виджет, отображащий список записей в ветке
@@ -279,10 +281,11 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
     parentPointer->actionBlock->setText(tr("Block/Unblock note"));
   else
   {
+    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
     if(selectItem.data(RECORD_BLOCK_ROLE).toString()=="1") // Все время забываю, что у объекта QModelIndex есть метод data()
-      parentPointer->actionBlock->setText(tr("Unblock note"));
+      parentPointer->actionBlock->setText(tr("Unblock note")+" "+shortcutManager.getKeySequenceHumanReadable("note-block", mode));
     else
-      parentPointer->actionBlock->setText(tr("Block note"));
+      parentPointer->actionBlock->setText(tr("Block note")+" "+shortcutManager.getKeySequenceHumanReadable("note-block", mode));
   }
 
   // Устанавливается надпись для режима выбора записей

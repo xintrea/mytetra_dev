@@ -68,8 +68,7 @@ void RecordTableScreen::setupActions(void)
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
 
  // Блокировка записи
- actionBlock = new QAction(tr("Block/Unblock note"), this);
- actionBlock->setStatusTip(tr("Block or unblock change note"));
+ actionBlock = new QAction(this);
  actionBlock->setIcon(QIcon(":/resource/pic/note_block.svg"));
 
  // Удаление записи
@@ -177,6 +176,7 @@ void RecordTableScreen::setupUI(void)
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
    insertActionAsButton(toolsLine, actionEditField);
+   insertActionAsButton(toolsLine, actionBlock, false);
    insertActionAsButton(toolsLine, actionDelete);
  }
 
@@ -243,6 +243,13 @@ void RecordTableScreen::setupShortcuts(void)
     actionEditField->setToolTip(info);
     actionEditField->setText(info);
 
+    // Блокировка/разблокировка записи
+    actionName="note-block";
+    info=tr("Block/Unblock note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionBlock->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionBlock->setStatusTip(info+tr(" - Block or unblock current selected note"));
+    actionBlock->setToolTip(info);
+    actionBlock->setText(info);
 
     // Переход на предыдущую запись в истории
     actionName="note-previousNote";
