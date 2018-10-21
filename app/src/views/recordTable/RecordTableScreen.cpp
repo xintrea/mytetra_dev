@@ -76,8 +76,7 @@ void RecordTableScreen::setupActions(void)
  actionDelete->setIcon(QIcon(":/resource/pic/note_delete.svg"));
 
  // Удаление записи с копированием в буфер обмена
- actionCut = new QAction(tr("&Cut note(s)"), this);
- actionCut->setStatusTip(tr("Cut notes(s) to clipboard"));
+ actionCut = new QAction(this);
  actionCut->setIcon(QIcon(":/resource/pic/cb_cut.svg"));
 
  // Копирование записи (записей) в буфер обмена
@@ -257,6 +256,14 @@ void RecordTableScreen::setupShortcuts(void)
     actionDelete->setStatusTip(info);
     actionDelete->setToolTip(info);
     actionDelete->setText(info);
+
+    // Удаление записи с копированием в буфер обмена
+    actionName="note-cut";
+    info=tr("Cut notes(s) to clipboard")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionCut->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionCut->setStatusTip(info);
+    actionCut->setToolTip(info);
+    actionCut->setText(info);
 
 
     // Переход на предыдущую запись в истории

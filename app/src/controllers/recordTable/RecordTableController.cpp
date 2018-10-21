@@ -54,7 +54,18 @@ RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 
 RecordTableController::~RecordTableController()
 {
+    // Уничтожение объекта будет происходить при выходе из программы
 
+    // В окружении рабочего стола LXDE есть проблема: если при выходе из MyTetra в буфере обмена
+    // будет лежать слепок(ки) записей, то произойдет перезапуск DE.
+    // Непонятно как это работает, но проблема есть.
+    // Чтобы ее избежать, надо очищать буфер обмена от данных со слепком записи, если таковые в буфере лежат
+
+    // Проверяется, содержит ли буфер обмена данные записи
+    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+    if(mimeData!=NULL && (mimeData->hasFormat(FixedParameters::appTextId+"/records")) ) {
+        QApplication::clipboard()->setText(""); // В буфер обмена помещается пустой текст
+    }
 }
 
 
