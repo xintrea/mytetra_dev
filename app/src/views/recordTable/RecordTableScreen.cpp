@@ -84,8 +84,7 @@ void RecordTableScreen::setupActions(void)
  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
 
  // Вставка записи из буфера обмена
- actionPaste = new QAction(tr("&Paste note(s)"), this);
- actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
+ actionPaste = new QAction(this);
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
 
  // Настройка внешнего вида таблицы конечных записей
@@ -271,6 +270,15 @@ void RecordTableScreen::setupShortcuts(void)
     actionCopy->setStatusTip(info+tr(" - Copy note(s) to clipboard"));
     actionCopy->setToolTip(info);
     actionCopy->setText(info);
+
+    actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
+
+    actionName="note-paste";
+    info=tr("Paste note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionPaste->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionPaste->setStatusTip(info+tr(" - Paste note(s) from clipboard"));
+    actionPaste->setToolTip(info);
+    actionPaste->setText(info);
 
 
     // Переход на предыдущую запись в истории

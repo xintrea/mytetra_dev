@@ -42,6 +42,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-delete",       QKeySequence("Ctrl+Alt+R"));
     defaultKeyTable.insert("note-cut",          QKeySequence("Ctrl+Alt+T"));
     defaultKeyTable.insert("note-copy",         QKeySequence("Ctrl+Alt+C"));
+    defaultKeyTable.insert("note-paste",         QKeySequence("Ctrl+Alt+V"));
 
     defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
     defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));

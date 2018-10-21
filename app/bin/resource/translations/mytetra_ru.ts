@@ -2885,12 +2885,12 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="97"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="96"/>
         <source>&amp;Move Up</source>
         <translation>Переместить вверх</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="102"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="101"/>
         <source>&amp;Move Down</source>
         <translation>Переместить вниз</translation>
     </message>
@@ -2899,7 +2899,7 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Добавить запись</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="213"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="212"/>
         <source>Add a new note</source>
         <translation>Добавить новую запись</translation>
     </message>
@@ -2928,7 +2928,7 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Редактировать свойства записи (название, автор, текстовые метки...)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="245"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="244"/>
         <source>Block/Unblock note</source>
         <translation>Блокировать/Разблокировать запись</translation>
     </message>
@@ -2937,7 +2937,7 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Блокировать/Разблокировать возможность изменения записи</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="253"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="252"/>
         <source>Delete note(s)</source>
         <translation>Удалить</translation>
     </message>
@@ -2958,53 +2958,52 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Копировать запись (записи) в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="87"/>
         <source>&amp;Paste note(s)</source>
-        <translation>Вставить</translation>
+        <translation type="vanished">Вставить</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="88"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="274"/>
         <source>Paste note(s) from clipboard</source>
         <translation>Вставить запись (записи) из буфера обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="92"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="91"/>
         <source>&amp;View settings</source>
         <translation>Настройка внешнего вида</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="93"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="92"/>
         <source>Setup table view settins</source>
         <translation>Настройка таблицы записей</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="98"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="97"/>
         <source>Move note up</source>
         <translation>Передвинуть вверх</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="103"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="102"/>
         <source>Move note down</source>
         <translation>Передвинуть вниз</translation>
     </message>
     <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="106"/>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="107"/>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="108"/>
         <source>Find in base</source>
         <translation>Найти в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="112"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="111"/>
         <source>Synchronization</source>
         <translation>Синхронизация</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="113"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="112"/>
         <source>Run synchronization</source>
         <translation>Запуск синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="117"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="116"/>
         <source>Previous viewing note</source>
         <translation>Предыдущая запись</translation>
     </message>
@@ -3013,7 +3012,7 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Предыдущая запись, которая была просмотрена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="121"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="120"/>
         <source>Next viewing note</source>
         <translation>Следующая запись</translation>
     </message>
@@ -3022,118 +3021,128 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Следующая запись, которая была просмотрена</translation>
     </message>
     <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="124"/>
         <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="125"/>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="126"/>
         <source>Back to item tree</source>
         <translation>Назад к дереву данных</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="130"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="129"/>
         <source>Toggle sorting</source>
         <translation>Переключить возможность сортировки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="131"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="130"/>
         <source>Enable/disable sorting by column</source>
         <translation>Разрешить/запретить сортировку по столбцу</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="135"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="134"/>
         <source>Print table</source>
         <translation>Печать таблицы</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="136"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="135"/>
         <source>Print current notes table</source>
         <translation>Печать таблицы записей</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="140"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="139"/>
         <source>Copy note reference</source>
         <translation>Копировать ссылку на запись</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="141"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="140"/>
         <source>Copy note reference to clipboard</source>
         <translation>Копировать ссылку на запись в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="145"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="144"/>
         <source>Switch select/multiselect</source>
         <translation>Переключить выбор / множественный выбор</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="146"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="145"/>
         <source>Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)</source>
         <translation>Переключить режим выбора записи (Примечание: если включен множественный выбор, Drag-And-Drop записей отключается)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="221"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="220"/>
         <source>Add a note before</source>
         <translation>Добавить запись перед выбранной</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="223"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="222"/>
         <source> - Add a note before current selected note</source>
         <translation>- Добавить новую запись перед выбранной записью</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="229"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="228"/>
         <source>Add a note after</source>
         <translation>Добавить запись после выбранной</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="231"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="230"/>
         <source> - Add a note after current selected note</source>
         <translation>- Добавить новую запись после выбранной записи</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="237"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="236"/>
         <source>Edit properties</source>
         <translation>Редактировать свойства</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="239"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="238"/>
         <source> - Edit note properties (name, author, tags...)</source>
         <translation>Редактировать свойства записи (название, автор, текстовые метки...)</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="247"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="246"/>
         <source> - Block or unblock current selected note</source>
         <translation>- Блокировать/Разблокировать возможность изменения записи</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="261"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="260"/>
         <source>Cut notes(s)</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="263"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="262"/>
         <source>- Cut notes(s) to clipboard</source>
         <translation>- Вырезать запись/записи с копированием их в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="269"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="268"/>
         <source>Copy note(s)</source>
-        <translation>Копировать запись/записи</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="271"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="270"/>
         <source> - Copy note(s) to clipboard</source>
         <translation>- Копировать запись/записи в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="278"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="277"/>
+        <source>Paste note(s)</source>
+        <translation>Вставить</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="279"/>
+        <source> - Paste note(s) from clipboard</source>
+        <translation>- Вставить запись (записи) из буфера обмена</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="286"/>
         <source>Previous note</source>
         <translation>Предыдущая запись</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="285"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="293"/>
         <source>Next note</source>
         <translation>Следующая запись</translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="609"/>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="617"/>
         <source>&lt;b&gt;Path:&lt;/b&gt; </source>
         <translation>&lt;b&gt;Путь:&lt;/b&gt; </translation>
     </message>
