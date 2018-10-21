@@ -258,9 +258,9 @@ void RecordTableScreen::setupShortcuts(void)
 
     // Удаление записи с копированием в буфер обмена
     actionName="note-cut";
-    info=tr("Cut notes(s) to clipboard")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Cut notes(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionCut->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionCut->setStatusTip(info);
+    actionCut->setStatusTip(info+tr("- Cut notes(s) to clipboard"));
     actionCut->setToolTip(info);
     actionCut->setText(info);
 
