@@ -63,9 +63,8 @@ void RecordTableScreen::setupActions(void)
  // Добавление записи после
  actionAddNewAfter = new QAction(this);
 
- // Редактирование записи
- actionEditField = new QAction(tr("Edit properties (name, author, tags...)"), this);
- actionEditField->setStatusTip(tr("Edit note properties (name, author, tags...)"));
+ // Редактирование свойств записи
+ actionEditField = new QAction(this);
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
 
  // Блокировка записи
@@ -236,13 +235,23 @@ void RecordTableScreen::setupShortcuts(void)
     actionAddNewAfter->setToolTip(info);
     actionAddNewAfter->setText(info);
 
+    // Редактирование свойств записи
+    actionName="note-editField";
+    info=tr("Edit properties")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionEditField->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionEditField->setStatusTip(info+tr(" - Edit note properties (name, author, tags...)"));
+    actionEditField->setToolTip(info);
+    actionEditField->setText(info);
 
+
+    // Переход на предыдущую запись в истории
     actionName="note-previousNote";
     info=tr("Previous note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionWalkHistoryPrevious->setShortcut(shortcutManager.getKeySequence(actionName));
     actionWalkHistoryPrevious->setStatusTip(info+" - Previous note has been viewing");
     actionWalkHistoryPrevious->setToolTip(info);
 
+    // Переход на следующую запись в истории
     actionName="note-nextNote";
     info=tr("Next note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionWalkHistoryNext->setShortcut(shortcutManager.getKeySequence(actionName));

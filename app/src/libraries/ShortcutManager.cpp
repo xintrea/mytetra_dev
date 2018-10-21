@@ -37,6 +37,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-addNewToEnd",  QKeySequence("Ctrl+Alt+N"));
     defaultKeyTable.insert("note-addNewBefore", QKeySequence("Ctrl+Alt+B"));
     defaultKeyTable.insert("note-addNewAfter",  QKeySequence("Ctrl+Alt+M"));
+    defaultKeyTable.insert("note-editField",    QKeySequence("Ctrl+Alt+E"));
+
     defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
     defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));
 
@@ -62,7 +64,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-alignWidth",          QKeySequence("Ctrl+J"));
     defaultKeyTable.insert("editor-findText",            QKeySequence("Ctrl+F"));
     defaultKeyTable.insert("editor-fontColor",           QKeySequence("Ctrl+Alt+C"));
-    defaultKeyTable.insert("editor-settings",            QKeySequence("Ctrl+Alt+E"));
+    defaultKeyTable.insert("editor-settings",            QKeySequence("Ctrl+Alt+G"));
     defaultKeyTable.insert("editor-reference",           QKeySequence("Ctrl+Shift+U"));
     defaultKeyTable.insert("editor-showHtml",            QKeySequence("Ctrl+Shift+H"));
     defaultKeyTable.insert("editor-showFormatting",      QKeySequence("Ctrl+F10"));
