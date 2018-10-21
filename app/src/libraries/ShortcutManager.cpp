@@ -40,7 +40,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-editField",    QKeySequence("Ctrl+Alt+E"));
     defaultKeyTable.insert("note-block",        QKeySequence("Ctrl+Alt+B"));
     defaultKeyTable.insert("note-delete",       QKeySequence("Ctrl+Alt+R"));
-    defaultKeyTable.insert("note-cut",          QKeySequence("Ctrl+Alt+T")); // "Ctrl+Alt+X" использовать нельзя. Если нажать это сочетание, то при выходе из программы будет выключено DE
+    defaultKeyTable.insert("note-cut",          QKeySequence("Ctrl+Alt+T"));
+    defaultKeyTable.insert("note-copy",         QKeySequence("Ctrl+Alt+C"));
 
     defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
     defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));
