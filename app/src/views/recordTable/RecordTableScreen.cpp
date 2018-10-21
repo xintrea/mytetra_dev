@@ -72,8 +72,7 @@ void RecordTableScreen::setupActions(void)
  actionBlock->setIcon(QIcon(":/resource/pic/note_block.svg"));
 
  // Удаление записи
- actionDelete = new QAction(tr("Delete note(s)"), this);
- actionDelete->setStatusTip(tr("Delete note(s)"));
+ actionDelete = new QAction(this);
  actionDelete->setIcon(QIcon(":/resource/pic/note_delete.svg"));
 
  // Удаление записи с копированием в буфер обмена
@@ -250,6 +249,15 @@ void RecordTableScreen::setupShortcuts(void)
     actionBlock->setStatusTip(info+tr(" - Block or unblock current selected note"));
     actionBlock->setToolTip(info);
     actionBlock->setText(info);
+
+    // Удаление записи (записей)
+    actionName="note-delete";
+    info=tr("Delete note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionDelete->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionDelete->setStatusTip(info);
+    actionDelete->setToolTip(info);
+    actionDelete->setText(info);
+
 
     // Переход на предыдущую запись в истории
     actionName="note-previousNote";
