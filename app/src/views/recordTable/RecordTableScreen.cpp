@@ -202,110 +202,44 @@ void RecordTableScreen::setupUI(void)
 
 void RecordTableScreen::setupShortcuts(void)
 {
-    QString actionName, info;
-    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
-
     // Добавление записи
     shortcutManager.initAction("note-addNewToEnd", actionAddNewToEnd);
 
-    /*
-
     // Добавление записи до
-    actionName="note-addNewBefore";
-    info=tr("Add a note before")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionAddNewBefore->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionAddNewBefore->setStatusTip(info+tr(" - Add a note before current selected note"));
-    actionAddNewBefore->setToolTip(info);
-    actionAddNewBefore->setText(info);
+    shortcutManager.initAction("note-addNewBefore", actionAddNewBefore);
 
     // Добавление записи после
-    actionName="note-addNewAfter";
-    info=tr("Add a note after")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionAddNewAfter->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionAddNewAfter->setStatusTip(info+tr(" - Add a note after current selected note"));
-    actionAddNewAfter->setToolTip(info);
-    actionAddNewAfter->setText(info);
+    shortcutManager.initAction("note-addNewAfter", actionAddNewAfter);
 
     // Редактирование свойств записи
-    actionName="note-editField";
-    info=tr("Edit properties")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionEditField->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionEditField->setStatusTip(info+tr(" - Edit note properties (name, author, tags...)"));
-    actionEditField->setToolTip(info);
-    actionEditField->setText(info);
+    shortcutManager.initAction("note-editField", actionEditField);
 
     // Блокировка/разблокировка записи
-    actionName="note-block";
-    info=tr("Block/Unblock note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionBlock->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionBlock->setStatusTip(info+tr(" - Block or unblock current selected note"));
-    actionBlock->setToolTip(info);
-    actionBlock->setText(info);
+    shortcutManager.initAction("note-block", actionBlock);
 
     // Удаление записи (записей)
-    actionName="note-delete";
-    info=tr("Delete note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionDelete->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionDelete->setStatusTip(info);
-    actionDelete->setToolTip(info);
-    actionDelete->setText(info);
+    shortcutManager.initAction("note-delete", actionDelete);
 
     // Удаление записи с копированием в буфер обмена
-    actionName="note-cut";
-    info=tr("Cut notes(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionCut->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionCut->setStatusTip(info+tr("- Cut notes(s) to clipboard"));
-    actionCut->setToolTip(info);
-    actionCut->setText(info);
+    shortcutManager.initAction("note-cut", actionCut);
 
     // Копирование записи (записей)
-    actionName="note-copy";
-    info=tr("Copy note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionCopy->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionCopy->setStatusTip(info+tr(" - Copy note(s) to clipboard"));
-    actionCopy->setToolTip(info);
-    actionCopy->setText(info);
+    shortcutManager.initAction("note-copy", actionCopy);
 
     // Вставка записи (записей)
-    actionName="note-paste";
-    info=tr("Paste note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionPaste->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionPaste->setStatusTip(info+tr(" - Paste note(s) from clipboard"));
-    actionPaste->setToolTip(info);
-    actionPaste->setText(info);
+    shortcutManager.initAction("note-paste", actionPaste);
 
     // Перемещение записи вверх
-    actionName="note-moveUp";
-    info=tr("Move up")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionMoveUp->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionMoveUp->setStatusTip(info+tr(" - Move current note up"));
-    actionMoveUp->setToolTip(info);
-    actionMoveUp->setText(info);
+    shortcutManager.initAction("note-moveUp", actionMoveUp);
 
     // Перемещение записи вниз
-    actionName="note-moveDn";
-    info=tr("Move down")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionMoveDn->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionMoveDn->setStatusTip(info+tr(" - Move current note down"));
-    actionMoveDn->setToolTip(info);
-    actionMoveDn->setText(info);
-
+    shortcutManager.initAction("note-moveDn", actionMoveDn);
 
     // Переход на предыдущую запись в истории
-    actionName="note-previousNote";
-    info=tr("Previous note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionWalkHistoryPrevious->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionWalkHistoryPrevious->setStatusTip(info+" - Previous note has been viewing");
-    actionWalkHistoryPrevious->setToolTip(info);
+    shortcutManager.initAction("note-previousNote", actionWalkHistoryPrevious);
 
     // Переход на следующую запись в истории
-    actionName="note-nextNote";
-    info=tr("Next note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionWalkHistoryNext->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionWalkHistoryNext->setStatusTip(info+" - Next note has been viewing");
-    actionWalkHistoryNext->setToolTip(info);
-
-    */
+    shortcutManager.initAction("note-nextNote", actionWalkHistoryNext);
 }
 
 

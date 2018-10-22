@@ -34,25 +34,24 @@ void ShortcutManager::initDefaultKeyTable()
 {
     defaultKeyTable.clear();
 
-    defaultKeyTable.insert("note-addNewToEnd", data{ QKeySequence("Ctrl+Alt+N"), "Add a new note", "Add a new note to current list"} );
+    defaultKeyTable.insert("note-addNewToEnd",  data{ QKeySequence("Ctrl+Alt+N"), QObject::tr("Add a new note"), QObject::tr("") });
+
+    defaultKeyTable.insert("note-addNewBefore", data{ QKeySequence("Ctrl+Alt+J"), QObject::tr("Add a note before"), QObject::tr("Add a note before current selected note") });
+    defaultKeyTable.insert("note-addNewAfter",  data{ QKeySequence("Ctrl+Alt+M"), QObject::tr("Add a note after"), QObject::tr("Add a note after current selected note") });
+    defaultKeyTable.insert("note-editField",    data{ QKeySequence("Ctrl+Alt+E"), QObject::tr("Edit properties"), QObject::tr("Edit note properties (name, author, tags...)") });
+    defaultKeyTable.insert("note-block",        data{ QKeySequence("Ctrl+Alt+B"), QObject::tr("Block/Unblock note"), QObject::tr("Block or unblock current selected note") });
+    defaultKeyTable.insert("note-delete",       data{ QKeySequence("Ctrl+Alt+R"), QObject::tr("Delete note(s)"), QObject::tr("") });
+    defaultKeyTable.insert("note-cut",          data{ QKeySequence("Ctrl+Alt+X"), QObject::tr("Cut notes(s)"), QObject::tr("Cut notes(s) to clipboard") });
+    defaultKeyTable.insert("note-copy",         data{ QKeySequence("Ctrl+Alt+C"), QObject::tr("Copy note(s)"), QObject::tr("Copy note(s) to clipboard") });
+    defaultKeyTable.insert("note-paste",        data{ QKeySequence("Ctrl+Alt+V"), QObject::tr("Paste note(s)"), QObject::tr("Paste note(s) from clipboard") });
+    defaultKeyTable.insert("note-moveUp",       data{ QKeySequence("Ctrl+Alt+Up"), QObject::tr("Move up"), QObject::tr("Move up current note") });
+    defaultKeyTable.insert("note-moveDn",       data{ QKeySequence("Ctrl+Alt+Down"), QObject::tr("Move down"), QObject::tr("Move down current note") });
+    defaultKeyTable.insert("note-previousNote", data{ QKeySequence("Ctrl+Alt+Left"), QObject::tr("Previous note"), QObject::tr("Previous note has been viewing") });
+    defaultKeyTable.insert("note-nextNote",     data{ QKeySequence("Ctrl+Alt+Right"), QObject::tr("Next note"), QObject::tr("Next note has been viewing") });
+
+    defaultKeyTable.insert("tree-add",     data{ QKeySequence("Ctrl+Shift+N"), QObject::tr("Add a tree item"), QObject::tr("") });
 
     /*
-    defaultKeyTable.insert("note-addNewBefore", QKeySequence("Ctrl+Alt+J"));
-    defaultKeyTable.insert("note-addNewAfter",  QKeySequence("Ctrl+Alt+M"));
-    defaultKeyTable.insert("note-editField",    QKeySequence("Ctrl+Alt+E"));
-    defaultKeyTable.insert("note-block",        QKeySequence("Ctrl+Alt+B"));
-    defaultKeyTable.insert("note-delete",       QKeySequence("Ctrl+Alt+R"));
-    defaultKeyTable.insert("note-cut",          QKeySequence("Ctrl+Alt+T"));
-    defaultKeyTable.insert("note-copy",         QKeySequence("Ctrl+Alt+C"));
-    defaultKeyTable.insert("note-paste",        QKeySequence("Ctrl+Alt+V"));
-    defaultKeyTable.insert("note-moveUp",       QKeySequence("Ctrl+Alt+Up"));
-    defaultKeyTable.insert("note-moveDn",       QKeySequence("Ctrl+Alt+Down"));
-
-    defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
-    defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));
-
-    defaultKeyTable.insert("tree-add", QKeySequence("Ctrl+Shift+N"));
-
     defaultKeyTable.insert("editor-copy",                QKeySequence("Ctrl+C")); // Не задействовано в коде
     defaultKeyTable.insert("editor-paste",               QKeySequence("Ctrl+V")); // Не задействовано в коде
     defaultKeyTable.insert("editor-bold",                QKeySequence("Ctrl+B"));
@@ -241,7 +240,13 @@ QString ShortcutManager::getDescriptionWithShortcut(QString actionName)
 QString ShortcutManager::getFullDescription(QString actionName)
 {
     if(keyTable.contains(actionName)) {
-        return keyTable[actionName].description+" "+getKeySequenceAsText(actionName, stringRepresentation::brackets)+" - "+keyTable[actionName].explanation;
+        QString suffix;
+
+        if(keyTable[actionName].explanation.size()>0) {
+            suffix=" - "+keyTable[actionName].explanation;
+        }
+
+        return keyTable[actionName].description+" "+getKeySequenceAsText(actionName, stringRepresentation::brackets)+suffix;
     } else {
         return "";
     }
