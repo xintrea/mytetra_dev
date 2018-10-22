@@ -287,6 +287,7 @@ void EditorToolBar::setupShortcuts(void)
     QString actionName, info;
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
+    /*
     actionName="editor-bold";
     info=tr("Bold")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     bold.setShortcut(shortcutManager.getKeySequence(actionName));
@@ -499,6 +500,7 @@ void EditorToolBar::setupShortcuts(void)
     toAttach.setShortcut(shortcutManager.getKeySequence(actionName));
     toAttach.setStatusTip(info);
     toAttach.setToolTip(info);
+    */
 }
 
 

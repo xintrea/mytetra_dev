@@ -556,6 +556,7 @@ void MainWindow::setupShortcuts(void)
     QString actionName, info;
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
+    /*
     QAction* actionPrint=find_object<QAction>("mainMenu_action_print");
     actionName="misc-print";
     info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
@@ -576,6 +577,7 @@ void MainWindow::setupShortcuts(void)
     actionQuit->setShortcut(shortcutManager.getKeySequence(actionName));
     actionQuit->setStatusTip(info);
     actionQuit->setToolTip(info);
+    */
 }
 
 

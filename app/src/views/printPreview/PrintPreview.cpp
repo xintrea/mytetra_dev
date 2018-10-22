@@ -109,11 +109,13 @@ void PrintPreview::setupShortcuts()
     QString actionName, info;
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
+    /*
     actionName="misc-print";
     info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     buttonPrint->setShortcut(shortcutManager.getKeySequence(actionName));
     buttonPrint->setStatusTip(info);
     buttonPrint->setToolTip(info);
+    */
 }
 
 

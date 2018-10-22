@@ -66,7 +66,7 @@ void ActionLogScreen::setupShortcuts(void)
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
     actionName="actionLog-copy";
-    info=tr("Copy selected rows")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    info=tr("Copy selected rows")+" "+shortcutManager.getKeySequenceAsText(actionName, mode);
     actionCopy->setShortcut(shortcutManager.getKeySequence(actionName));
     actionCopy->setToolTip(info);
 }

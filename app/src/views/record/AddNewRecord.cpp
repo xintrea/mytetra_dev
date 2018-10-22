@@ -78,7 +78,7 @@ void AddNewRecord::setupShortcuts(void)
 {
     QPushButton *OkButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     OkButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
-    OkButton->setToolTip( shortcutManager.getKeySequenceHumanReadable("misc-editConfirm") ); // ToolTip зависит от шортката
+    OkButton->setToolTip( shortcutManager.getKeySequenceAsText("misc-editConfirm") ); // ToolTip зависит от шортката
 }
 
 

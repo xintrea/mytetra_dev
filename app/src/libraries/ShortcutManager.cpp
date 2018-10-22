@@ -34,7 +34,9 @@ void ShortcutManager::initDefaultKeyTable()
 {
     defaultKeyTable.clear();
 
-    defaultKeyTable.insert("note-addNewToEnd",  QKeySequence("Ctrl+Alt+N"));
+    defaultKeyTable.insert("note-addNewToEnd", data{ QKeySequence("Ctrl+Alt+N"), "Add a new note", "Add a new note to current list"} );
+
+    /*
     defaultKeyTable.insert("note-addNewBefore", QKeySequence("Ctrl+Alt+J"));
     defaultKeyTable.insert("note-addNewAfter",  QKeySequence("Ctrl+Alt+M"));
     defaultKeyTable.insert("note-editField",    QKeySequence("Ctrl+Alt+E"));
@@ -42,7 +44,9 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-delete",       QKeySequence("Ctrl+Alt+R"));
     defaultKeyTable.insert("note-cut",          QKeySequence("Ctrl+Alt+T"));
     defaultKeyTable.insert("note-copy",         QKeySequence("Ctrl+Alt+C"));
-    defaultKeyTable.insert("note-paste",         QKeySequence("Ctrl+Alt+V"));
+    defaultKeyTable.insert("note-paste",        QKeySequence("Ctrl+Alt+V"));
+    defaultKeyTable.insert("note-moveUp",       QKeySequence("Ctrl+Alt+Up"));
+    defaultKeyTable.insert("note-moveDn",       QKeySequence("Ctrl+Alt+Down"));
 
     defaultKeyTable.insert("note-previousNote", QKeySequence("Ctrl+Alt+Left"));
     defaultKeyTable.insert("note-nextNote",     QKeySequence("Ctrl+Alt+Right"));
@@ -89,6 +93,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("misc-print",       QKeySequence("Ctrl+P"));
     defaultKeyTable.insert("misc-exportPdf",   QKeySequence("Ctrl+D"));
     defaultKeyTable.insert("misc-quit",        QKeySequence("Ctrl+Q"));
+    */
 
 }
 
@@ -102,6 +107,7 @@ void ShortcutManager::checkConfigFile()
 }
 
 
+// Инициализация таблицы горячих клавиш из конфига
 void ShortcutManager::initKeyTable()
 {
     QSettings config(configFileName, QSettings::IniFormat);
@@ -122,11 +128,17 @@ void ShortcutManager::initKeyTable()
             // Если имя действия допустимо, т.е. оно есть в defaultKeyTable
             // Условие нужно чтобы в конфиг не попадали устаревшие действия
             if(defaultActionNames.contains(sectionName+"-"+shortcutName)) {
-                // Запоминается в ассоциативный массив полное имя действия и комбинация клавиш
-                keyTable.insert(sectionName+"-"+shortcutName, QKeySequence( config.value(shortcutName).toString() ));
+                QString actionName=sectionName+"-"+shortcutName;
+
+                // Запоминается в таблицу полное имя действия и данные о комбинации клавиш
+                keyTable.insert( actionName,
+                                 data{ QKeySequence( config.value(shortcutName).toString() ),
+                                       defaultKeyTable[actionName].description,
+                                       defaultKeyTable[actionName].explanation }
+                                );
 
                 // Дейтвие удаляется из списка стандартных клавиатурных сокращений
-                defaultActionNames.removeOne(sectionName+"-"+shortcutName);
+                defaultActionNames.removeOne(actionName);
             }
         }
 
@@ -140,10 +152,14 @@ void ShortcutManager::initKeyTable()
         QString shortActionName=fullActionName.section('-', 1, 1);
 
         // Новое действие запоминается в конфиг
-        config.setValue( sectionName+"/"+shortActionName, defaultKeyTable.value(fullActionName).toString() );
+        config.setValue( sectionName+"/"+shortActionName, defaultKeyTable[fullActionName].sequence.toString() );
 
-        // Запоминается в ассоциативный массив полное имя действия и комбинация клавиш
-        keyTable.insert( sectionName+"-"+shortActionName, defaultKeyTable.value(fullActionName) );
+        // Запоминается в таблицу полное имя действия и данные о комбинации клавиш
+        keyTable.insert( fullActionName,
+                         data{ defaultKeyTable[fullActionName].sequence,
+                               defaultKeyTable[fullActionName].description,
+                               defaultKeyTable[fullActionName].explanation }
+                       );
     }
 
     config.sync();
@@ -151,13 +167,13 @@ void ShortcutManager::initKeyTable()
 
 
 // Запись всех шорткатов в виде конфиг-файла
-void ShortcutManager::saveConfig(QMap<QString, QKeySequence> table)
+void ShortcutManager::saveConfig(QMap<QString, data> table)
 {
     QSettings config(configFileName, QSettings::IniFormat);
 
     foreach (QString fullActionName, table.keys()) // Перебираются наименования действий
     {
-        QKeySequence shortcutKeys=table.value(fullActionName); // Выясняются горячие клавиши для текущего действия
+        QKeySequence shortcutKeys=table[fullActionName].sequence; // Выясняются горячие клавиши для текущего действия
         qDebug() << fullActionName << " = " << shortcutKeys.toString();
 
         // Имя раздела
@@ -185,18 +201,58 @@ void ShortcutManager::saveConfig(QMap<QString, QKeySequence> table)
 QKeySequence ShortcutManager::getKeySequence(QString actionName)
 {
     if(keyTable.contains(actionName)) {
-        return keyTable.value(actionName);
+        return keyTable[actionName].sequence;
     } else {
         return QKeySequence();
     }
 }
 
 
-// Описание шортката в таком виде, который отображается в интерфейсе для пользователя
-QString ShortcutManager::getKeySequenceHumanReadable(QString actionName, stringRepresentation mode)
+QString ShortcutManager::getDescription(QString actionName)
 {
     if(keyTable.contains(actionName)) {
-        QString shortcut=keyTable.value(actionName).toString();
+        return keyTable[actionName].description;
+    } else {
+        return "";
+    }
+}
+
+
+QString ShortcutManager::getExplanation(QString actionName)
+{
+    if(keyTable.contains(actionName)) {
+        return keyTable[actionName].explanation;
+    } else {
+        return "";
+    }
+}
+
+
+QString ShortcutManager::getDescriptionWithShortcut(QString actionName)
+{
+    if(keyTable.contains(actionName)) {
+        return keyTable[actionName].description+" "+getKeySequenceAsText(actionName, stringRepresentation::brackets);
+    } else {
+        return "";
+    }
+}
+
+
+QString ShortcutManager::getFullDescription(QString actionName)
+{
+    if(keyTable.contains(actionName)) {
+        return keyTable[actionName].description+" "+getKeySequenceAsText(actionName, stringRepresentation::brackets)+" - "+keyTable[actionName].explanation;
+    } else {
+        return "";
+    }
+}
+
+
+// Описание шортката в таком виде, который отображается в интерфейсе для пользователя
+QString ShortcutManager::getKeySequenceAsText(QString actionName, stringRepresentation mode)
+{
+    if(keyTable.contains(actionName)) {
+        QString shortcut=keyTable[actionName].sequence.toString();
 
         if(shortcut.size()==0) {
             return "";
@@ -212,4 +268,19 @@ QString ShortcutManager::getKeySequenceHumanReadable(QString actionName, stringR
     }
 
     return "";
+}
+
+
+void ShortcutManager::initAction(QString actionName, QAction *action)
+{
+    if(keyTable.contains(actionName)) {
+        action->setShortcut(  getKeySequence(actionName) );
+        action->setStatusTip( getFullDescription(actionName) );
+        action->setToolTip(   getDescriptionWithShortcut(actionName) );
+        action->setText(      getDescriptionWithShortcut(actionName) );
+    } else {
+        criticalError("Not found available action name "+actionName);
+        return;
+    }
+
 }

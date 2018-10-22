@@ -283,9 +283,9 @@ void RecordTableView::onCustomContextMenuRequested(const QPoint &mousePos)
   {
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
     if(selectItem.data(RECORD_BLOCK_ROLE).toString()=="1") // Все время забываю, что у объекта QModelIndex есть метод data()
-      parentPointer->actionBlock->setText(tr("Unblock note")+" "+shortcutManager.getKeySequenceHumanReadable("note-block", mode));
+      parentPointer->actionBlock->setText(tr("Unblock note")+" "+shortcutManager.getKeySequenceAsText("note-block", mode));
     else
-      parentPointer->actionBlock->setText(tr("Block note")+" "+shortcutManager.getKeySequenceHumanReadable("note-block", mode));
+      parentPointer->actionBlock->setText(tr("Block note")+" "+shortcutManager.getKeySequenceAsText("note-block", mode));
   }
 
   // Устанавливается надпись для режима выбора записей

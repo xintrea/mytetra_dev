@@ -87,19 +87,17 @@ void RecordTableScreen::setupActions(void)
  actionPaste = new QAction(this);
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
 
- // Настройка внешнего вида таблицы конечных записей
- actionSettings = new QAction(tr("&View settings"), this);
+ // Настройка внешнего вида таблицы конечных записей (горячая кнопка не требуется)
+ actionSettings = new QAction(tr("View settings"), this);
  actionSettings->setStatusTip(tr("Setup table view settins"));
  actionSettings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
 
  // Перемещение записи вверх
- actionMoveUp = new QAction(tr("&Move Up"), this);
- actionMoveUp->setStatusTip(tr("Move note up"));
+ actionMoveUp = new QAction(this);
  actionMoveUp->setIcon(QIcon(":/resource/pic/move_up.svg"));
 
  // Перемещение записи вниз
- actionMoveDn=new QAction(tr("&Move Down"), this);
- actionMoveDn->setStatusTip(tr("Move note down"));
+ actionMoveDn=new QAction(this);
  actionMoveDn->setIcon(QIcon(":/resource/pic/move_dn.svg"));
 
  // Поиск по базе (клик связывается с действием в MainWindow)
@@ -125,7 +123,7 @@ void RecordTableScreen::setupActions(void)
  actionBack->setStatusTip(tr("Back to item tree"));
  actionBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
 
- // Действия по сортировке
+ // Действия по сортировке (горячая кнопка не требуется)
  actionSort = new QAction(tr("Toggle sorting"), this);
  actionSort->setStatusTip(tr("Enable/disable sorting by column"));
  actionSort->setIcon(QIcon(":/resource/pic/sort.svg"));
@@ -140,7 +138,7 @@ void RecordTableScreen::setupActions(void)
  actionCopyRecordReference->setStatusTip(tr("Copy note reference to clipboard"));
  actionCopyRecordReference->setIcon(QIcon(":/resource/pic/note_reference.svg"));
 
- // Кнопка переключения режима одинарного выбора и мультивыбора
+ // Кнопка переключения режима одинарного выбора и мультивыбора (горячая кнопка не требуется)
  actionSwitchSelectionMode = new QAction(tr("Switch select/multiselect"), this);
  actionSwitchSelectionMode->setStatusTip(tr("Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)"));
  actionSwitchSelectionMode->setIcon(QIcon(":/resource/pic/switch_note_selection_mode.svg"));
@@ -208,12 +206,9 @@ void RecordTableScreen::setupShortcuts(void)
     ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
 
     // Добавление записи
-    actionName="note-addNewToEnd";
-    info=tr("Add a new note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionAddNewToEnd->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionAddNewToEnd->setStatusTip(info);
-    actionAddNewToEnd->setToolTip(info);
-    actionAddNewToEnd->setText(info);
+    shortcutManager.initAction("note-addNewToEnd", actionAddNewToEnd);
+
+    /*
 
     // Добавление записи до
     actionName="note-addNewBefore";
@@ -263,7 +258,7 @@ void RecordTableScreen::setupShortcuts(void)
     actionCut->setToolTip(info);
     actionCut->setText(info);
 
-    // Копирование записи
+    // Копирование записи (записей)
     actionName="note-copy";
     info=tr("Copy note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionCopy->setShortcut(shortcutManager.getKeySequence(actionName));
@@ -271,14 +266,29 @@ void RecordTableScreen::setupShortcuts(void)
     actionCopy->setToolTip(info);
     actionCopy->setText(info);
 
-    actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
-
+    // Вставка записи (записей)
     actionName="note-paste";
     info=tr("Paste note(s)")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
     actionPaste->setShortcut(shortcutManager.getKeySequence(actionName));
     actionPaste->setStatusTip(info+tr(" - Paste note(s) from clipboard"));
     actionPaste->setToolTip(info);
     actionPaste->setText(info);
+
+    // Перемещение записи вверх
+    actionName="note-moveUp";
+    info=tr("Move up")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionMoveUp->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionMoveUp->setStatusTip(info+tr(" - Move current note up"));
+    actionMoveUp->setToolTip(info);
+    actionMoveUp->setText(info);
+
+    // Перемещение записи вниз
+    actionName="note-moveDn";
+    info=tr("Move down")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
+    actionMoveDn->setShortcut(shortcutManager.getKeySequence(actionName));
+    actionMoveDn->setStatusTip(info+tr(" - Move current note down"));
+    actionMoveDn->setToolTip(info);
+    actionMoveDn->setText(info);
 
 
     // Переход на предыдущую запись в истории
@@ -294,6 +304,8 @@ void RecordTableScreen::setupShortcuts(void)
     actionWalkHistoryNext->setShortcut(shortcutManager.getKeySequence(actionName));
     actionWalkHistoryNext->setStatusTip(info+" - Next note has been viewing");
     actionWalkHistoryNext->setToolTip(info);
+
+    */
 }
 
 
