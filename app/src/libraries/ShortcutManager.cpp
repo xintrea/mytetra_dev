@@ -49,43 +49,42 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-previousNote", data{ QKeySequence("Ctrl+Alt+Left"), QObject::tr("Previous note"), QObject::tr("Previous note has been viewing") });
     defaultKeyTable.insert("note-nextNote",     data{ QKeySequence("Ctrl+Alt+Right"), QObject::tr("Next note"), QObject::tr("Next note has been viewing") });
 
-    defaultKeyTable.insert("tree-add",     data{ QKeySequence("Ctrl+Shift+N"), QObject::tr("Add a tree item"), QObject::tr("") });
+    defaultKeyTable.insert("tree-add", data{ QKeySequence("Ctrl+Shift+N"), QObject::tr("Add a tree item"), QObject::tr("") });
 
-    defaultKeyTable.insert("editor-copy",     data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
-    defaultKeyTable.insert("editor-paste",    data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
-    defaultKeyTable.insert("editor-bold",    data{ QKeySequence("Ctrl+B"), QObject::tr("Bold"), QObject::tr("") });
-    defaultKeyTable.insert("editor-italic",    data{ QKeySequence("Ctrl+I"), QObject::tr("Italic"), QObject::tr("") });
-    defaultKeyTable.insert("editor-underline",    data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
-    defaultKeyTable.insert("editor-monospace",    data{ QKeySequence("Ctrl+T"), QObject::tr("Monospace"), QObject::tr("") });
-    defaultKeyTable.insert("editor-code",    data{ QKeySequence("Ctrl+M"), QObject::tr("Code"), QObject::tr("Select a whole paragraphs to format text as code") });
-    defaultKeyTable.insert("editor-clear",    data{ QKeySequence("Ctrl+K"), QObject::tr("Clear format"), QObject::tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
-    defaultKeyTable.insert("editor-textOnly",    data{ QKeySequence("Ctrl+Shift+K"), QObject::tr("Text only"), QObject::tr("") });
-    defaultKeyTable.insert("editor-fixBreakSymbol",    data{ QKeySequence("Ctrl+Shift+R"), QObject::tr("Return type replace"), QObject::tr("Replace soft carriage return to standard carriage return") });
-    defaultKeyTable.insert("editor-numericList",    data{ QKeySequence("F12"), QObject::tr("Numeric list"), QObject::tr("") });
-    defaultKeyTable.insert("editor-dotList",    data{ QKeySequence("Shift+F12"), QObject::tr("Marked list"), QObject::tr("") });
-    defaultKeyTable.insert("editor-indentPlus",    data{ QKeySequence("Ctrl+Alt+I"), QObject::tr("Increase indent"), QObject::tr("") });
-    defaultKeyTable.insert("editor-indentMinus",    data{ QKeySequence("Ctrl+Alt+U"), QObject::tr("Decrease indent"), QObject::tr("") });
-    defaultKeyTable.insert("editor-alignLeft",    data{ QKeySequence("Ctrl+L"), QObject::tr("Align left"), QObject::tr("") });
-    defaultKeyTable.insert("editor-alignCenter",    data{ QKeySequence("Ctrl+E"), QObject::tr("Align center"), QObject::tr("") });
-    defaultKeyTable.insert("editor-alignRight",    data{ QKeySequence("Ctrl+R"), QObject::tr("Align right"), QObject::tr("") });
-    defaultKeyTable.insert("editor-alignWidth",    data{ QKeySequence("Ctrl+J"), QObject::tr("Align width"), QObject::tr("") });
+    defaultKeyTable.insert("editor-copy",                data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-paste",               data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-bold",                data{ QKeySequence("Ctrl+B"), QObject::tr("Bold"), QObject::tr("") });
+    defaultKeyTable.insert("editor-italic",              data{ QKeySequence("Ctrl+I"), QObject::tr("Italic"), QObject::tr("") });
+    defaultKeyTable.insert("editor-underline",           data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
+    defaultKeyTable.insert("editor-monospace",           data{ QKeySequence("Ctrl+T"), QObject::tr("Monospace"), QObject::tr("") });
+    defaultKeyTable.insert("editor-code",                data{ QKeySequence("Ctrl+M"), QObject::tr("Code"), QObject::tr("Select a whole paragraphs to format text as code") });
+    defaultKeyTable.insert("editor-clear",               data{ QKeySequence("Ctrl+K"), QObject::tr("Clear format"), QObject::tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
+    defaultKeyTable.insert("editor-textOnly",            data{ QKeySequence("Ctrl+Shift+K"), QObject::tr("Text only"), QObject::tr("") });
+    defaultKeyTable.insert("editor-fixBreakSymbol",      data{ QKeySequence("Ctrl+Shift+R"), QObject::tr("Return type replace"), QObject::tr("Replace soft carriage return to standard carriage return") });
+    defaultKeyTable.insert("editor-numericList",         data{ QKeySequence("F12"), QObject::tr("Numeric list"), QObject::tr("") });
+    defaultKeyTable.insert("editor-dotList",             data{ QKeySequence("Shift+F12"), QObject::tr("Marked list"), QObject::tr("") });
+    defaultKeyTable.insert("editor-indentPlus",          data{ QKeySequence("Ctrl+Alt+I"), QObject::tr("Increase indent"), QObject::tr("") });
+    defaultKeyTable.insert("editor-indentMinus",         data{ QKeySequence("Ctrl+Alt+U"), QObject::tr("Decrease indent"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignLeft",           data{ QKeySequence("Ctrl+L"), QObject::tr("Align left"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignCenter",         data{ QKeySequence("Ctrl+E"), QObject::tr("Align center"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignRight",          data{ QKeySequence("Ctrl+R"), QObject::tr("Align right"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignWidth",          data{ QKeySequence("Ctrl+J"), QObject::tr("Align width"), QObject::tr("") });
+    defaultKeyTable.insert("editor-fontColor",           data{ QKeySequence("Ctrl+Alt+C"), QObject::tr("Text color"), QObject::tr("") });
+    defaultKeyTable.insert("editor-findText",            data{ QKeySequence("Ctrl+F"), QObject::tr("Find text"), QObject::tr("Find text in current note") });
+    defaultKeyTable.insert("editor-settings",            data{ QKeySequence("Ctrl+Alt+G"), QObject::tr("Editor settings"), QObject::tr("") });
+    defaultKeyTable.insert("editor-reference",           data{ QKeySequence("Ctrl+Shift+U"), QObject::tr("Edit reference URL"), QObject::tr("") });
+    defaultKeyTable.insert("editor-showHtml",            data{ QKeySequence("Ctrl+Shift+H"), QObject::tr("Edit HTML code"), QObject::tr("") });
+    defaultKeyTable.insert("editor-showFormatting",      data{ QKeySequence("Ctrl+F10"), QObject::tr("Show special chars"), QObject::tr("") });
+    defaultKeyTable.insert("editor-createTable",         data{ QKeySequence("Ctrl+F12"), QObject::tr("Create a new table"), QObject::tr("") });
+    defaultKeyTable.insert("editor-insertImageFromFile", data{ QKeySequence("Ctrl+Shift+I"), QObject::tr("Insert/edit image"), QObject::tr("Insert image from file or edit image properties of selected image") });
+    defaultKeyTable.insert("editor-mathExpression",      data{ QKeySequence("Ctrl+Shift+M"), QObject::tr("Insert/edit math expression"), QObject::tr("") });
+    defaultKeyTable.insert("editor-expandEditArea",      data{ QKeySequence("Ctrl+Shift+E"), QObject::tr("Expand edit area"), QObject::tr("") });
+    defaultKeyTable.insert("editor-expandToolsLines",    data{ QKeySequence("Ctrl+Shift+L"), QObject::tr("Expand tools"), QObject::tr("") });
+    defaultKeyTable.insert("editor-save",                data{ QKeySequence("Ctrl+S"), QObject::tr("Forse save note"), QObject::tr("") });
+    defaultKeyTable.insert("editor-showText",            data{ QKeySequence("Ctrl+Shift+W"), QObject::tr("Show detached window"), QObject::tr("") });
+    defaultKeyTable.insert("editor-toAttach",            data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Attach files"), QObject::tr("") });
 
     /*
-    defaultKeyTable.insert("editor-findText",            QKeySequence("Ctrl+F"));
-    defaultKeyTable.insert("editor-fontColor",           QKeySequence("Ctrl+Alt+C"));
-    defaultKeyTable.insert("editor-settings",            QKeySequence("Ctrl+Alt+G"));
-    defaultKeyTable.insert("editor-reference",           QKeySequence("Ctrl+Shift+U"));
-    defaultKeyTable.insert("editor-showHtml",            QKeySequence("Ctrl+Shift+H"));
-    defaultKeyTable.insert("editor-showFormatting",      QKeySequence("Ctrl+F10"));
-    defaultKeyTable.insert("editor-createTable",         QKeySequence("Ctrl+F12"));
-    defaultKeyTable.insert("editor-insertImageFromFile", QKeySequence("Ctrl+Shift+I"));
-    defaultKeyTable.insert("editor-mathExpression",      QKeySequence("Ctrl+Shift+M"));
-    defaultKeyTable.insert("editor-expandEditArea",      QKeySequence());
-    defaultKeyTable.insert("editor-expandToolsLines",    QKeySequence());
-    defaultKeyTable.insert("editor-save",                QKeySequence("Ctrl+S"));
-    defaultKeyTable.insert("editor-showText",            QKeySequence("Ctrl+Shift+W"));
-    defaultKeyTable.insert("editor-toAttach",            QKeySequence("Ctrl+Shift+A"));
-
     defaultKeyTable.insert("actionLog-copy", QKeySequence("Ctrl+C"));
 
     defaultKeyTable.insert("misc-findInBase",  QKeySequence("Ctrl+Shift+F"));

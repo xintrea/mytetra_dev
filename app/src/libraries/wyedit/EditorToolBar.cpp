@@ -315,125 +315,52 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-alignCenter", alignCenter);
     shortcutManager.initAction("editor-alignRight", alignCenter);
     shortcutManager.initAction("editor-alignWidth", alignWidth);
-
-    /*
-    actionName="editor-fontColor";
-    info=tr("Text color")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    fontColor.setShortcut(shortcutManager.getKeySequence(actionName));
-    fontColor.setStatusTip(info);
-    fontColor.setToolTip(info);
-
-    actionName="editor-findText";
-    info=tr("Find text")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    findText.setShortcut(shortcutManager.getKeySequence(actionName));
-    findText.setStatusTip(info);
-    findText.setToolTip(info);
-
-    actionName="editor-settings";
-    info=tr("Editor settings")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    settings.setShortcut(shortcutManager.getKeySequence(actionName));
-    settings.setStatusTip(info);
-    settings.setToolTip(info);
-
-    actionName="editor-reference";
-    info=tr("Edit reference URL")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    reference.setShortcut(shortcutManager.getKeySequence(actionName));
-    reference.setStatusTip(info);
-    reference.setToolTip(info);
-
-    actionName="editor-showHtml";
-    info=tr("Edit HTML code")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    showHtml.setShortcut(shortcutManager.getKeySequence(actionName));
-    showHtml.setStatusTip(info);
-    showHtml.setToolTip(info);
-
-    // Отображение символов форматирования
-    actionName="editor-showFormatting";
-    info=tr("Show special chars")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    showFormatting.setShortcut(shortcutManager.getKeySequence(actionName));
-    showFormatting.setStatusTip(info);
-    showFormatting.setToolTip(info);
-
-    // Добавление таблицы
-    actionName="editor-createTable";
-    info=tr("Create a new table")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    createTable.setShortcut(shortcutManager.getKeySequence(actionName));
-    createTable.setStatusTip(info);
-    createTable.setToolTip(info);
-
+    shortcutManager.initAction("editor-fontColor", fontColor);
+    shortcutManager.initAction("editor-findText", findText);
+    shortcutManager.initAction("editor-settings", settings);
+    shortcutManager.initAction("editor-reference", reference);
+    shortcutManager.initAction("editor-showHtml", showHtml);
+    shortcutManager.initAction("editor-showFormatting", showFormatting);
+    shortcutManager.initAction("editor-createTable", createTable);
 
     // Действия над таблицей пока не имеют горячих клавиш
+    QString info;
+
     info=tr("Remove row(s)");
-    tableRemoveRow.setStatusTip(info);
-    tableRemoveRow.setToolTip(info);
+    tableRemoveRow->setStatusTip(info);
+    tableRemoveRow->setToolTip(info);
 
     info=tr("Remove column(s)");
-    tableRemoveCol.setStatusTip(info);
-    tableRemoveCol.setToolTip(info);
+    tableRemoveCol->setStatusTip(info);
+    tableRemoveCol->setToolTip(info);
 
     info=tr("Add row(s)");
-    tableAddRow.setStatusTip(info);
-    tableAddRow.setToolTip(info);
+    tableAddRow->setStatusTip(info);
+    tableAddRow->setToolTip(info);
 
     info=tr("Add column(s)");
-    tableAddCol.setStatusTip(info);
-    tableAddCol.setToolTip(info);
+    tableAddCol->setStatusTip(info);
+    tableAddCol->setToolTip(info);
 
     info=tr("Merge cells");
-    tableMergeCells.setStatusTip(info);
-    tableMergeCells.setToolTip(info);
+    tableMergeCells->setStatusTip(info);
+    tableMergeCells->setToolTip(info);
 
     info=tr("Split cell");
-    tableSplitCell.setStatusTip(info);
-    tableSplitCell.setToolTip(info);
+    tableSplitCell->setStatusTip(info);
+    tableSplitCell->setToolTip(info);
 
     info=tr("Table properties");
-    tableProperties.setStatusTip(info);
-    tableProperties.setToolTip(info);
+    tableProperties->setStatusTip(info);
+    tableProperties->setToolTip(info);
 
-
-    actionName="editor-insertImageFromFile";
-    info=tr("Insert/edit image")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    insertImageFromFile.setShortcut(shortcutManager.getKeySequence(actionName));
-    insertImageFromFile.setStatusTip(info+" "+tr("- Insert image from file or edit image properties of selected image"));
-    insertImageFromFile.setToolTip(info);
-
-    actionName="editor-mathExpression";
-    info=tr("Insert/edit math expression")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    mathExpression.setShortcut(shortcutManager.getKeySequence(actionName));
-    mathExpression.setStatusTip(info);
-    mathExpression.setToolTip(info);
-
-    actionName="editor-expandEditArea";
-    info=tr("Expand edit area")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    expandEditArea.setShortcut(shortcutManager.getKeySequence(actionName));
-    expandEditArea.setStatusTip(info);
-    expandEditArea.setToolTip(info);
-
-    actionName="editor-expandToolsLines";
-    info=tr("Expand tools")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    expandToolsLines.setShortcut(shortcutManager.getKeySequence(actionName));
-    expandToolsLines.setStatusTip(info);
-    expandToolsLines.setToolTip(info);
-
-    actionName="editor-save";
-    info=tr("Forse save note")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    save.setShortcut(shortcutManager.getKeySequence(actionName));
-    save.setStatusTip(info);
-    save.setToolTip(info);
-
-    actionName="editor-showText";
-    info=tr("Show detached window")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    showText.setShortcut(shortcutManager.getKeySequence(actionName));
-    showText.setStatusTip(info);
-    showText.setToolTip(info);
-
-    actionName="editor-toAttach";
-    info=tr("Attach files")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    toAttach.setShortcut(shortcutManager.getKeySequence(actionName));
-    toAttach.setStatusTip(info);
-    toAttach.setToolTip(info);
-    */
+    shortcutManager.initAction("editor-insertImageFromFile", insertImageFromFile);
+    shortcutManager.initAction("editor-mathExpression", mathExpression);
+    shortcutManager.initAction("editor-expandEditArea", expandEditArea);
+    shortcutManager.initAction("editor-expandToolsLines", expandToolsLines);
+    shortcutManager.initAction("editor-save", save);
+    shortcutManager.initAction("editor-showText", showText);
+    shortcutManager.initAction("editor-toAttach", toAttach);
 }
 
 
