@@ -548,6 +548,7 @@ void MainWindow::setupShortcuts(void)
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
     shortcutManager.initAction("misc-quit", actionFileMenuQuit );
 
+    // Шорткат поиска по базе срабатывает с кнопки поиска, которая находится на виджете списка записей RecordTableScreen
     // shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
 }
 
