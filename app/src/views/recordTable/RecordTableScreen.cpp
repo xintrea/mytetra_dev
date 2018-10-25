@@ -100,15 +100,13 @@ void RecordTableScreen::setupActions(void)
  actionMoveDn=new QAction(this);
  actionMoveDn->setIcon(QIcon(":/resource/pic/move_dn.svg"));
 
- // Поиск по базе (клик связывается с действием в MainWindow)
- actionFindInBase=new QAction(tr("Find in base"), this);
- actionFindInBase->setStatusTip(tr("Find in base"));
- actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
-
  // Синхронизация
- actionSyncro=new QAction(tr("Synchronization"), this);
- actionSyncro->setStatusTip(tr("Run synchronization"));
+ actionSyncro=new QAction(this);
  actionSyncro->setIcon(QIcon(":/resource/pic/synchronization.svg"));
+
+ // Поиск по базе (клик связывается с действием в MainWindow)
+ actionFindInBase=new QAction(this);
+ actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
 
  // Перемещение по истории посещаемых записей назад
  actionWalkHistoryPrevious=new QAction(tr("Previous viewing note"), this);
@@ -235,11 +233,18 @@ void RecordTableScreen::setupShortcuts(void)
     // Перемещение записи вниз
     shortcutManager.initAction("note-moveDn", actionMoveDn);
 
+
+    // Синхронизация
+    shortcutManager.initAction("misc-syncro", actionSyncro);
+
     // Переход на предыдущую запись в истории
     shortcutManager.initAction("note-previousNote", actionWalkHistoryPrevious);
 
     // Переход на следующую запись в истории
     shortcutManager.initAction("note-nextNote", actionWalkHistoryNext);
+
+    // Поиск по базе
+    shortcutManager.initAction("misc-findInBase", actionFindInBase);
 }
 
 

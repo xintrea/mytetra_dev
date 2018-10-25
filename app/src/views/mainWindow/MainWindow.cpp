@@ -475,7 +475,7 @@ void MainWindow::initToolsMenu(void)
   QMenu *menu = new QMenu(tr("&Tools"), this);
   this->menuBar()->addMenu(menu);
 
-  actionToolsMenuFindInBase = new QAction(tr("Find in ba&se"), this); // Так как есть this, указатель не будет потерян основным окном
+  actionToolsMenuFindInBase = new QAction(shortcutManager.getDescriptionWithShortcut("misc-findInBase"), this); // Так как есть this, указатель не будет потерян основным окном
   menu->addAction(actionToolsMenuFindInBase);
 
   actionToolsMenuActionLog = new QAction(tr("Action &log"), this);
@@ -548,7 +548,7 @@ void MainWindow::setupShortcuts(void)
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
     shortcutManager.initAction("misc-quit", actionFileMenuQuit );
 
-    shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
+    // shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
 }
 
 
