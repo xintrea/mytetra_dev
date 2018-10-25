@@ -313,7 +313,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-indentMinus", indentMinus);
     shortcutManager.initAction("editor-alignLeft", alignLeft);
     shortcutManager.initAction("editor-alignCenter", alignCenter);
-    shortcutManager.initAction("editor-alignRight", alignCenter);
+    shortcutManager.initAction("editor-alignRight", alignRight);
     shortcutManager.initAction("editor-alignWidth", alignWidth);
     shortcutManager.initAction("editor-fontColor", fontColor);
     shortcutManager.initAction("editor-findText", findText);

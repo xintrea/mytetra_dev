@@ -251,40 +251,7 @@ void Editor::setupFormatters(void)
 
 void Editor::setupSignals(void)
 {
-  // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(editorToolBarAssistant->bold, &QAction::triggered,
-          typefaceFormatter,            &TypefaceFormatter::onBoldClicked);
-
-  connect(editorToolBarAssistant->italic, &QAction::triggered,
-          typefaceFormatter,               &TypefaceFormatter::onItalicClicked);
-
-  connect(editorToolBarAssistant->underline, &QAction::triggered,
-          typefaceFormatter,                  &TypefaceFormatter::onUnderlineClicked);
-
-  connect(editorToolBarAssistant->monospace, &QAction::triggered,
-          typefaceFormatter,                  &TypefaceFormatter::onMonospaceClicked);
-
-  connect(editorToolBarAssistant->code, &QAction::triggered,
-          typefaceFormatter,             &TypefaceFormatter::onCodeClicked);
-
-  connect(editorToolBarAssistant->clear, &QAction::triggered,
-          typefaceFormatter,              &TypefaceFormatter::onClearClicked);
-
-  connect(editorToolBarAssistant->textOnly, &QAction::triggered,
-          typefaceFormatter,                 &TypefaceFormatter::onTextOnlyClicked);
-
-  connect(editorToolBarAssistant->fixBreakSymbol, &QAction::triggered,
-          typefaceFormatter,                       &TypefaceFormatter::onFixBreakSymbolClicked);
-
-  connect(editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
-          typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged);
-
-  connect(editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
-          typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged);
-
-  connect(editorToolBarAssistant->fontColor, &QAction::triggered,
-          typefaceFormatter,                  &TypefaceFormatter::onFontcolorClicked);
-
+  setupToolsSignals();
 
   // Обратка для typefaceFormatter todo: подумать, а надо ли
   connect(typefaceFormatter,      &TypefaceFormatter::updateOutlineButtonHiglight,
@@ -324,84 +291,11 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
 
-  /*
-  connect(&editorToolBarAssistant->indentPlus, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onIndentplusClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->indentMinus, &QToolButton::clicked,
-          placementFormatter,                   &PlacementFormatter::onIndentminusClicked,
-          Qt::DirectConnection);
-
-
   connect(placementFormatter,    &PlacementFormatter::updateIndentsliderToActualFormat,
           indentSliderAssistant, &EditorIndentSliderAssistant::updateToActualFormat,
           Qt::DirectConnection);
   connect(this,                  &Editor::updateIndentsliderToActualFormat,
           indentSliderAssistant, &EditorIndentSliderAssistant::updateToActualFormat,
-          Qt::DirectConnection);
-
-  connect(&editorToolBarAssistant->alignLeft, &QToolButton::clicked,
-          placementFormatter,                 &PlacementFormatter::onAlignleftClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignCenter, &QToolButton::clicked,
-          placementFormatter,                   &PlacementFormatter::onAligncenterClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignRight, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onAlignrightClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignWidth, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onAlignwidthClicked,
-          Qt::DirectConnection);
-
-
-  connect(&editorToolBarAssistant->numericList, &QToolButton::clicked,
-          listFormatter,                        &ListFormatter::onNumericlistClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->dotList, &QToolButton::clicked,
-          listFormatter,                    &ListFormatter::onDotlistClicked,
-          Qt::DirectConnection);
-
-
-  // Кнопки работы с таблицами
-  connect(&editorToolBarAssistant->createTable, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onCreatetableClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableRemoveRow, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableRemoveRowClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableRemoveCol, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableRemoveColClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableAddRow, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onTableAddRowClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableAddCol, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onTableAddColClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableMergeCells, &QToolButton::clicked,
-          tableFormatter,                           &TableFormatter::onTableMergeCellsClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableSplitCell, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableSplitCellClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableProperties, &QToolButton::clicked,
-          tableFormatter,                           &TableFormatter::onTablePropertiesClicked,
-          Qt::DirectConnection);
-
-  connect(&editorToolBarAssistant->reference, &QToolButton::clicked,
-          referenceFormatter,                 &ReferenceFormatter::onReferenceClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showHtml, &QToolButton::clicked,
-          this,                              &Editor::onShowhtmlClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->findText, &QToolButton::clicked,
-          this,                              &Editor::onFindtextClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->settings, &QToolButton::clicked,
-          this,                              &Editor::onSettingsClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showFormatting, &QToolButton::toggled,
-          this,                                    &Editor::onShowformattingClicked,
           Qt::DirectConnection);
 
 
@@ -412,34 +306,6 @@ void Editor::setupSignals(void)
           editorToolBarAssistant, &EditorToolBarAssistant::onUpdateAlignButtonHiglight,
           Qt::DirectConnection);
 
-
-  // Прочие кнопки
-  connect(&editorToolBarAssistant->insertImageFromFile, &QToolButton::clicked,
-          imageFormatter,                               &ImageFormatter::onInsertImageFromFileClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->mathExpression, &QToolButton::clicked,
-          mathExpressionFormatter,                 &MathExpressionFormatter::onMathExpressionClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->expandEditArea, &QToolButton::clicked,
-          this,                                    &Editor::onExpandEditAreaClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->save, &QToolButton::clicked,
-          this,                          &Editor::onSaveClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->back, &QToolButton::clicked,
-          this,                          &Editor::onBackClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->findInBase, &QToolButton::clicked,
-          this,                                &Editor::onFindInBaseClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showText, &QToolButton::clicked,
-          this,                              &Editor::onShowTextClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->toAttach, &QToolButton::clicked,
-          this,                              &Editor::onToAttachClicked,
-          Qt::DirectConnection);
-
-  */
 
   // Область редактирования текста
   connect(textArea, &EditorTextArea::cursorPositionChanged,
@@ -550,6 +416,136 @@ void Editor::setupSignals(void)
   connect(this,                  &Editor::updateIndentSliderGeometry,
           indentSliderAssistant, &EditorIndentSliderAssistant::onUpdateGeometry,
           Qt::DirectConnection);
+}
+
+
+void Editor::setupToolsSignals(void)
+{
+    // Создание сигналов, генерируемых кнопками форматирования текста
+    connect(editorToolBarAssistant->bold, &QAction::triggered,
+            typefaceFormatter,            &TypefaceFormatter::onBoldClicked);
+
+    connect(editorToolBarAssistant->italic, &QAction::triggered,
+            typefaceFormatter,              &TypefaceFormatter::onItalicClicked);
+
+    connect(editorToolBarAssistant->underline, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onUnderlineClicked);
+
+    connect(editorToolBarAssistant->monospace, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
+
+    connect(editorToolBarAssistant->code, &QAction::triggered,
+            typefaceFormatter,            &TypefaceFormatter::onCodeClicked);
+
+    connect(editorToolBarAssistant->clear, &QAction::triggered,
+            typefaceFormatter,             &TypefaceFormatter::onClearClicked);
+
+    connect(editorToolBarAssistant->textOnly, &QAction::triggered,
+            typefaceFormatter,                &TypefaceFormatter::onTextOnlyClicked);
+
+    connect(editorToolBarAssistant->fixBreakSymbol, &QAction::triggered,
+            typefaceFormatter,                      &TypefaceFormatter::onFixBreakSymbolClicked);
+
+    connect(editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
+            typefaceFormatter,                  &TypefaceFormatter::onFontselectChanged);
+
+    connect(editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
+            typefaceFormatter,                &TypefaceFormatter::onFontsizeChanged);
+
+    connect(editorToolBarAssistant->fontColor, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onFontcolorClicked);
+
+    connect(editorToolBarAssistant->indentPlus, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onIndentplusClicked);
+
+    connect(editorToolBarAssistant->indentMinus, &QAction::triggered,
+            placementFormatter,                  &PlacementFormatter::onIndentminusClicked);
+
+    connect(editorToolBarAssistant->alignLeft, &QAction::triggered,
+            placementFormatter,                &PlacementFormatter::onAlignleftClicked);
+
+    connect(editorToolBarAssistant->alignCenter, &QAction::triggered,
+            placementFormatter,                  &PlacementFormatter::onAligncenterClicked);
+
+    connect(editorToolBarAssistant->alignRight, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onAlignrightClicked);
+
+    connect(editorToolBarAssistant->alignWidth, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onAlignwidthClicked);
+
+    connect(editorToolBarAssistant->numericList, &QAction::triggered,
+            listFormatter,                       &ListFormatter::onNumericlistClicked);
+
+    connect(editorToolBarAssistant->dotList, &QAction::triggered,
+            listFormatter,                   &ListFormatter::onDotlistClicked);
+
+
+    // Кнопки работы с таблицами
+    connect(editorToolBarAssistant->createTable, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onCreatetableClicked);
+
+    connect(editorToolBarAssistant->tableRemoveRow, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableRemoveRowClicked);
+
+    connect(editorToolBarAssistant->tableRemoveCol, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableRemoveColClicked);
+
+    connect(editorToolBarAssistant->tableAddRow, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onTableAddRowClicked);
+
+    connect(editorToolBarAssistant->tableAddCol, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onTableAddColClicked);
+
+    connect(editorToolBarAssistant->tableMergeCells, &QAction::triggered,
+            tableFormatter,                          &TableFormatter::onTableMergeCellsClicked);
+
+    connect(editorToolBarAssistant->tableSplitCell, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableSplitCellClicked);
+
+    connect(editorToolBarAssistant->tableProperties, &QAction::triggered,
+            tableFormatter,                          &TableFormatter::onTablePropertiesClicked);
+
+    connect(editorToolBarAssistant->reference, &QAction::triggered,
+            referenceFormatter,                &ReferenceFormatter::onReferenceClicked);
+
+    connect(editorToolBarAssistant->showHtml, &QAction::triggered,
+            this,                             &Editor::onShowhtmlClicked);
+
+    connect(editorToolBarAssistant->findText, &QAction::triggered,
+            this,                             &Editor::onFindtextClicked);
+
+    connect(editorToolBarAssistant->settings, &QAction::triggered,
+            this,                             &Editor::onSettingsClicked);
+
+    connect(editorToolBarAssistant->showFormatting, &QAction::toggled, // Это не клик а переключение
+            this,                                   &Editor::onShowformattingClicked);
+
+
+    // Прочие кнопки
+    connect(editorToolBarAssistant->insertImageFromFile, &QAction::triggered,
+            imageFormatter,                              &ImageFormatter::onInsertImageFromFileClicked);
+
+    connect(editorToolBarAssistant->mathExpression, &QAction::triggered,
+            mathExpressionFormatter,                &MathExpressionFormatter::onMathExpressionClicked);
+
+    connect(editorToolBarAssistant->expandEditArea, &QAction::triggered,
+            this,                                   &Editor::onExpandEditAreaClicked);
+
+    connect(editorToolBarAssistant->save, &QAction::triggered,
+            this,                         &Editor::onSaveClicked);
+
+    connect(editorToolBarAssistant->back, &QAction::triggered,
+            this,                         &Editor::onBackClicked);
+
+    connect(editorToolBarAssistant->findInBase, &QAction::triggered,
+            this,                               &Editor::onFindInBaseClicked);
+
+    connect(editorToolBarAssistant->showText, &QAction::triggered,
+            this,                             &Editor::onShowTextClicked);
+
+    connect(editorToolBarAssistant->toAttach, &QAction::triggered,
+            this,                             &Editor::onToAttachClicked);
+
 }
 
 

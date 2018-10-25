@@ -240,6 +240,7 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
+ void setupToolsSignals(void);
  void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
  void setupIndentSliderAssistant(void);
  void setupEditorTextArea(void);
