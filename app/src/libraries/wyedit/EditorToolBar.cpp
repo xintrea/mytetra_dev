@@ -55,7 +55,7 @@ void EditorToolBar::init()
 {
   isInit=true;
 
-  setupButtons();
+  setupToolBarTools();
   setupShortcuts();
   assemblyButtons();
 }
@@ -75,7 +75,7 @@ QAction* EditorToolBar::generateAction(QIcon icon)
 
 
 // Создание объектов для линейки форматирования текста
-void EditorToolBar::setupButtons(void)
+void EditorToolBar::setupToolBarTools(void)
 {
   // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
   // имена объектов должны начинаться на "editor_tb"

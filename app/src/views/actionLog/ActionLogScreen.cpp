@@ -62,13 +62,7 @@ void ActionLogScreen::setupActions(void)
 
 void ActionLogScreen::setupShortcuts(void)
 {
-    QString actionName, info;
-    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
-
-    actionName="actionLog-copy";
-    info=tr("Copy selected rows")+" "+shortcutManager.getKeySequenceAsText(actionName, mode);
-    actionCopy->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionCopy->setToolTip(info);
+    shortcutManager.initAction("actionLog-copy", actionCopy );
 }
 
 

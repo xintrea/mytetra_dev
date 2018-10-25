@@ -106,16 +106,8 @@ void PrintPreview::setupUI()
 
 void PrintPreview::setupShortcuts()
 {
-    QString actionName, info;
-    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
-
-    /*
-    actionName="misc-print";
-    info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    buttonPrint->setShortcut(shortcutManager.getKeySequence(actionName));
-    buttonPrint->setStatusTip(info);
-    buttonPrint->setToolTip(info);
-    */
+    buttonPrint->setShortcut( shortcutManager.getKeySequence("misc-print") ); // Устанавливается шорткат
+    buttonPrint->setToolTip( shortcutManager.getKeySequenceAsText("misc-print") ); // ToolTip зависит от шортката
 }
 
 

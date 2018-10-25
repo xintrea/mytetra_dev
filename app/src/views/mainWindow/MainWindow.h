@@ -158,6 +158,23 @@ private:
  void reloadSaveStage(void);
  void reloadLoadStage(void);
 
+
+ QAction *actionFileMenuPrint;
+ QAction *actionFileMenuPrintPreview;
+ QAction *actionFileMenuExportPdf;
+ QAction *actionFileMenuExportTreeItem;
+ QAction *actionFileMenuImportTreeItem;
+ QAction *actionFileMenuQuit;
+
+ QAction *actionToolsMenuFindInBase;
+ QAction *actionToolsMenuActionLog;
+ QAction *actionToolsMenuPreferences;
+
+ QAction *actionHelpMenuAboutMyTetra;
+ QAction *actionHelpMenuAboutQt;
+ QAction *actionHelpMenuTechnicalInfo;
+
+
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;
  QAction *actionTrayMinimize;

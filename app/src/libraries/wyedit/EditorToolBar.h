@@ -118,7 +118,7 @@ protected:
 
   QVector<QAction *> actions; // Делать массив объектов вместо указателей на объект нельзя, невозможно работать с QAction в контейнере QVector
 
-  void setupButtons(void);
+  void setupToolBarTools(void);
   void setupShortcuts(void);
   void assemblyButtons(void);
 

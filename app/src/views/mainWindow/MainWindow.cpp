@@ -50,12 +50,11 @@ MainWindow::MainWindow() : QMainWindow()
   installEventFilter(this);
 
   setupUI();
-  setupSignals();
-  assembly();
-
   initFileMenu();
   initToolsMenu();
   initHelpMenu();
+  setupSignals();
+  assembly();
 
   setupShortcuts();
 
@@ -136,6 +135,24 @@ void MainWindow::setupSignals(void)
   connect(qApp, &QApplication::commitDataRequest, this, &MainWindow::commitData);
 
   connect(qApp, &QApplication::focusChanged, this, &MainWindow::onFocusChanged);
+
+
+  // Сигналы пунктов меню
+  connect(actionFileMenuPrint, &QAction::triggered, this, &MainWindow::filePrint);
+  connect(actionFileMenuPrintPreview, &QAction::triggered, this, &MainWindow::filePrintPreview);
+  connect(actionFileMenuExportPdf, &QAction::triggered, this, &MainWindow::filePrintPdf);
+  connect(actionFileMenuExportTreeItem, &QAction::triggered, this, &MainWindow::fileExportBranch);
+  connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
+  connect(actionFileMenuQuit, &QAction::triggered, this, &MainWindow::applicationExit);
+
+  connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFind);
+  connect(actionToolsMenuActionLog, &QAction::triggered, this, &MainWindow::onActionLogClicked);
+  connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
+
+  connect(actionHelpMenuAboutMyTetra, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
+  connect(actionHelpMenuAboutQt, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
+  connect(actionHelpMenuTechnicalInfo, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
+
 
   // Связывание сигналов кнопки поиска по базе с действием по открытию виджета поиска по базе
   connect(treeScreen->actionList["findInBase"], &QAction::triggered, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
@@ -425,43 +442,29 @@ void MainWindow::initFileMenu(void)
 {
   // Создание меню
   QMenu *menu = new QMenu(tr("&File"), this);
-  menuBar()->addMenu(menu);
+  this->menuBar()->addMenu(menu);
 
-  QAction *a;
+  actionFileMenuPrint = new QAction(tr("&Print..."), this);
+  menu->addAction(actionFileMenuPrint);
 
-  a = new QAction(tr("&Print..."), this);
-  a->setObjectName("mainMenu_action_print");
-  connect(a, &QAction::triggered, this, &MainWindow::filePrint);
-  menu->addAction(a);
+  actionFileMenuPrintPreview = new QAction(tr("Print Preview..."), this);
+  menu->addAction(actionFileMenuPrintPreview);
 
-  a = new QAction(tr("Print Preview..."), this);
-  a->setObjectName("mainMenu_action_printPreview");
-  connect(a, &QAction::triggered, this, &MainWindow::filePrintPreview);
-  menu->addAction(a);
-
-  a = new QAction(tr("&Export PDF..."), this);
-  a->setObjectName("mainMenu_action_exportPdf");
-  connect(a, &QAction::triggered, this, &MainWindow::filePrintPdf);
-  menu->addAction(a);
+  actionFileMenuExportPdf = new QAction(tr("&Export PDF..."), this);
+  menu->addAction(actionFileMenuExportPdf);
 
   menu->addSeparator();
 
-  a = new QAction(tr("Export tree item"), this);
-  a->setObjectName("mainMenu_action_exportTreeItem");
-  connect(a, &QAction::triggered, this, &MainWindow::fileExportBranch);
-  menu->addAction(a);
+  actionFileMenuExportTreeItem = new QAction(tr("Export tree item"), this);
+  menu->addAction(actionFileMenuExportTreeItem);
 
-  a = new QAction(tr("Import tree item"), this);
-  a->setObjectName("mainMenu_action_importTreeItem");
-  connect(a, &QAction::triggered, this, &MainWindow::fileImportBranch);
-  menu->addAction(a);
+  actionFileMenuImportTreeItem = new QAction(tr("Import tree item"), this);
+  menu->addAction(actionFileMenuImportTreeItem);
 
   menu->addSeparator();
 
-  a = new QAction(tr("&Quit"), this);
-  a->setObjectName("mainMenu_action_quit");
-  connect(a, &QAction::triggered, this, &MainWindow::applicationExit);
-  menu->addAction(a);
+  actionFileMenuQuit = new QAction(tr("&Quit"), this);
+  menu->addAction(actionFileMenuQuit);
 }
 
 
@@ -470,27 +473,20 @@ void MainWindow::initToolsMenu(void)
 {
   // Создание меню
   QMenu *menu = new QMenu(tr("&Tools"), this);
-  menuBar()->addMenu(menu);
+  this->menuBar()->addMenu(menu);
 
-  QAction *a;
+  actionToolsMenuFindInBase = new QAction(tr("Find in ba&se"), this); // Так как есть this, указатель не будет потерян основным окном
+  menu->addAction(actionToolsMenuFindInBase);
 
-  a = new QAction(tr("Find in ba&se"), this); // Так как есть this, указатель не будет потерян основным окном
-  connect(a, &QAction::triggered, this, &MainWindow::toolsFind);
-  menu->addAction(a);
-
-  a = new QAction(tr("Action &log"), this);
-  connect(a, &QAction::triggered, this, &MainWindow::onActionLogClicked);
-  menu->addAction(a);
-
+  actionToolsMenuActionLog = new QAction(tr("Action &log"), this);
+  menu->addAction(actionToolsMenuActionLog);
 
   menu->addSeparator();
 
-
   if(mytetraConfig.getInterfaceMode()=="desktop")
   {
-    a = new QAction(tr("&Preferences"), this);
-    connect(a, &QAction::triggered, this, &MainWindow::toolsPreferences);
-    menu->addAction(a);
+    actionToolsMenuPreferences = new QAction(tr("&Preferences"), this);
+    menu->addAction(actionToolsMenuPreferences);
   }
   else
   {
@@ -501,7 +497,7 @@ void MainWindow::initToolsMenu(void)
 }
 
 
-// Заполнение подраздела меню Preferences
+// Заполнение подраздела меню Preferences (для мобильного интерфейса, не доработано)
 void MainWindow::initPreferencesMenu(QMenu *menu)
 {
   QAction *a;
@@ -533,51 +529,26 @@ void MainWindow::initHelpMenu(void)
 {
   // Создание меню
   QMenu *menu = new QMenu(tr("&Help"), this);
-  menuBar()->addMenu(menu);
+  this->menuBar()->addMenu(menu);
 
-  QAction *a;
+  actionHelpMenuAboutMyTetra = new QAction(tr("About MyTetra"), this);
+  menu->addAction(actionHelpMenuAboutMyTetra);
 
-  a = new QAction(tr("About MyTetra"), this);
-  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
-  menu->addAction(a);
+  actionHelpMenuAboutQt = new QAction(tr("About Qt"), this);
+  menu->addAction(actionHelpMenuAboutQt);
 
-  a = new QAction(tr("About Qt"), this);
-  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
-  menu->addAction(a);
-
-  a = new QAction(tr("Technical info"), this);
-  connect(a, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
-  menu->addAction(a);
+  actionHelpMenuTechnicalInfo = new QAction(tr("Technical info"), this);
+  menu->addAction(actionHelpMenuTechnicalInfo);
 }
 
 
 void MainWindow::setupShortcuts(void)
 {
-    QString actionName, info;
-    ShortcutManager::stringRepresentation mode=ShortcutManager::stringRepresentation::brackets;
+    shortcutManager.initAction("misc-print", actionFileMenuPrint );
+    shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
+    shortcutManager.initAction("misc-quit", actionFileMenuQuit );
 
-    /*
-    QAction* actionPrint=find_object<QAction>("mainMenu_action_print");
-    actionName="misc-print";
-    info=tr("Print")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionPrint->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionPrint->setStatusTip(info);
-    actionPrint->setToolTip(info);
-
-    QAction* actionExportPdf=find_object<QAction>("mainMenu_action_exportPdf");
-    actionName="misc-exportPdf";
-    info=tr("Export PDF")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionExportPdf->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionExportPdf->setStatusTip(info);
-    actionExportPdf->setToolTip(info);
-
-    QAction* actionQuit=find_object<QAction>("mainMenu_action_quit");
-    actionName="misc-quit";
-    info=tr("Quit")+" "+shortcutManager.getKeySequenceHumanReadable(actionName, mode);
-    actionQuit->setShortcut(shortcutManager.getKeySequence(actionName));
-    actionQuit->setStatusTip(info);
-    actionQuit->setToolTip(info);
-    */
+    shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
 }
 
 
