@@ -32,61 +32,61 @@ public:
   QToolBar    toolsLine2;
 
   // Кнопки форматирования текста
-  QToolButton   bold;
-  QToolButton   italic;
-  QToolButton   underline;
-  QToolButton   monospace;
-  QToolButton   code;
-  QToolButton   clear; // Очистка начертания текста
-  QToolButton   textOnly; // Полная очистка текста (оставить один текст)
-  QToolButton   fixBreakSymbol;
+  QAction *bold;
+  QAction *italic;
+  QAction *underline;
+  QAction *monospace;
+  QAction *code;
+  QAction *clear; // Очистка начертания текста
+  QAction *textOnly; // Полная очистка текста (оставить один текст)
+  QAction *fixBreakSymbol;
 
-  QToolButton   numericList;
-  QToolButton   dotList;
+  QAction *numericList;
+  QAction *dotList;
 
-  QToolButton   indentPlus;
-  QToolButton   indentMinus;
+  QAction *indentPlus;
+  QAction *indentMinus;
 
-  QToolButton   alignLeft;
-  QToolButton   alignCenter;
-  QToolButton   alignRight;
-  QToolButton   alignWidth;
+  QAction *alignLeft;
+  QAction *alignCenter;
+  QAction *alignRight;
+  QAction *alignWidth;
 
-  QToolButton   settings;
+  QAction *settings;
 
-  EditorFontFamilyComboBox fontSelect;
-  EditorFontSizeComboBox   fontSize;
-  QToolButton              fontColor;
+  EditorFontFamilyComboBox *fontSelect;
+  EditorFontSizeComboBox   *fontSize;
+  QAction                  *fontColor;
 
-  QToolButton   reference;
+  QAction *reference;
 
-  QToolButton   showHtml;
+  QAction *showHtml;
 
-  QToolButton   findText;
+  QAction *findText;
 
-  QToolButton   showFormatting;
+  QAction *showFormatting;
 
-  QToolButton   createTable;
-  QToolButton   tableRemoveRow;
-  QToolButton   tableRemoveCol;
-  QToolButton   tableAddRow;
-  QToolButton   tableAddCol;
-  QToolButton   tableMergeCells;
-  QToolButton   tableSplitCell;
-  QToolButton   tableProperties;
+  QAction *createTable;
+  QAction *tableRemoveRow;
+  QAction *tableRemoveCol;
+  QAction *tableAddRow;
+  QAction *tableAddCol;
+  QAction *tableMergeCells;
+  QAction *tableSplitCell;
+  QAction *tableProperties;
 
-  QToolButton   insertImageFromFile;
-  QToolButton   mathExpression;
-  QToolButton   expandEditArea;
-  QToolButton   expandToolsLines;
-  QToolButton   save;
+  QAction *insertImageFromFile;
+  QAction *mathExpression;
+  QAction *expandEditArea;
+  QAction *expandToolsLines;
+  QAction *save;
 
-  QToolButton   back;
-  QToolButton   findInBase;
+  QAction *back;
+  QAction *findInBase;
 
-  QToolButton   showText;
+  QAction *showText;
 
-  QToolButton   toAttach;
+  QAction *toAttach;
 
   QIcon         iconAttachExists; // Иконка, когда аттачи есть
   QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
@@ -116,6 +116,8 @@ protected:
   // Список инструментов, которые не нужно подгружать
   QStringList disableToolList;
 
+  QVector<QAction *> actions; // Делать массив объектов вместо указателей на объект нельзя, невозможно работать с QAction в контейнере QVector
+
   void setupButtons(void);
   void setupShortcuts(void);
   void assemblyButtons(void);
@@ -126,6 +128,8 @@ protected:
   void hideAllToolsElements(void);
 
   void updateToolsLines(void);
+
+  QAction* generateAction(QIcon icon=QIcon());
 
 };
 

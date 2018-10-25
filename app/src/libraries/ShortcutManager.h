@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QSettings>
 #include <QAction>
+#include <QToolButton>
 
 
 class ShortcutManager
@@ -35,6 +36,7 @@ public:
     QString getKeySequenceAsText(QString actionName, stringRepresentation mode=stringRepresentation::plain);
 
     void initAction(QString actionName, QAction *action);
+    void initToolButton(QString actionName, QToolButton *action);
 
 protected:
 

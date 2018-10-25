@@ -51,25 +51,26 @@ void ShortcutManager::initDefaultKeyTable()
 
     defaultKeyTable.insert("tree-add",     data{ QKeySequence("Ctrl+Shift+N"), QObject::tr("Add a tree item"), QObject::tr("") });
 
+    defaultKeyTable.insert("editor-copy",     data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-paste",    data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-bold",    data{ QKeySequence("Ctrl+B"), QObject::tr("Bold"), QObject::tr("") });
+    defaultKeyTable.insert("editor-italic",    data{ QKeySequence("Ctrl+I"), QObject::tr("Italic"), QObject::tr("") });
+    defaultKeyTable.insert("editor-underline",    data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
+    defaultKeyTable.insert("editor-monospace",    data{ QKeySequence("Ctrl+T"), QObject::tr("Monospace"), QObject::tr("") });
+    defaultKeyTable.insert("editor-code",    data{ QKeySequence("Ctrl+M"), QObject::tr("Code"), QObject::tr("Select a whole paragraphs to format text as code") });
+    defaultKeyTable.insert("editor-clear",    data{ QKeySequence("Ctrl+K"), QObject::tr("Clear format"), QObject::tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
+    defaultKeyTable.insert("editor-textOnly",    data{ QKeySequence("Ctrl+Shift+K"), QObject::tr("Text only"), QObject::tr("") });
+    defaultKeyTable.insert("editor-fixBreakSymbol",    data{ QKeySequence("Ctrl+Shift+R"), QObject::tr("Return type replace"), QObject::tr("Replace soft carriage return to standard carriage return") });
+    defaultKeyTable.insert("editor-numericList",    data{ QKeySequence("F12"), QObject::tr("Numeric list"), QObject::tr("") });
+    defaultKeyTable.insert("editor-dotList",    data{ QKeySequence("Shift+F12"), QObject::tr("Marked list"), QObject::tr("") });
+    defaultKeyTable.insert("editor-indentPlus",    data{ QKeySequence("Ctrl+Alt+I"), QObject::tr("Increase indent"), QObject::tr("") });
+    defaultKeyTable.insert("editor-indentMinus",    data{ QKeySequence("Ctrl+Alt+U"), QObject::tr("Decrease indent"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignLeft",    data{ QKeySequence("Ctrl+L"), QObject::tr("Align left"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignCenter",    data{ QKeySequence("Ctrl+E"), QObject::tr("Align center"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignRight",    data{ QKeySequence("Ctrl+R"), QObject::tr("Align right"), QObject::tr("") });
+    defaultKeyTable.insert("editor-alignWidth",    data{ QKeySequence("Ctrl+J"), QObject::tr("Align width"), QObject::tr("") });
+
     /*
-    defaultKeyTable.insert("editor-copy",                QKeySequence("Ctrl+C")); // Не задействовано в коде
-    defaultKeyTable.insert("editor-paste",               QKeySequence("Ctrl+V")); // Не задействовано в коде
-    defaultKeyTable.insert("editor-bold",                QKeySequence("Ctrl+B"));
-    defaultKeyTable.insert("editor-italic",              QKeySequence("Ctrl+I"));
-    defaultKeyTable.insert("editor-underline",           QKeySequence("Ctrl+U"));
-    defaultKeyTable.insert("editor-monospace",           QKeySequence("Ctrl+T"));
-    defaultKeyTable.insert("editor-code",                QKeySequence("Ctrl+M"));
-    defaultKeyTable.insert("editor-clear",               QKeySequence("Ctrl+K"));
-    defaultKeyTable.insert("editor-textOnly",            QKeySequence("Ctrl+Shift+K"));
-    defaultKeyTable.insert("editor-fixBreakSymbol",      QKeySequence("Ctrl+Shift+R"));
-    defaultKeyTable.insert("editor-numericList",         QKeySequence("F12"));
-    defaultKeyTable.insert("editor-dotList",             QKeySequence("Shift+F12"));
-    defaultKeyTable.insert("editor-indentPlus",          QKeySequence("Ctrl+Alt+I"));
-    defaultKeyTable.insert("editor-indentMinus",         QKeySequence("Ctrl+Alt+U"));
-    defaultKeyTable.insert("editor-alignLeft",           QKeySequence("Ctrl+L"));
-    defaultKeyTable.insert("editor-alignCenter",         QKeySequence("Ctrl+E"));
-    defaultKeyTable.insert("editor-alignRight",          QKeySequence("Ctrl+R"));
-    defaultKeyTable.insert("editor-alignWidth",          QKeySequence("Ctrl+J"));
     defaultKeyTable.insert("editor-findText",            QKeySequence("Ctrl+F"));
     defaultKeyTable.insert("editor-fontColor",           QKeySequence("Ctrl+Alt+C"));
     defaultKeyTable.insert("editor-settings",            QKeySequence("Ctrl+Alt+G"));
@@ -277,6 +278,21 @@ QString ShortcutManager::getKeySequenceAsText(QString actionName, stringRepresen
 
 
 void ShortcutManager::initAction(QString actionName, QAction *action)
+{
+    if(keyTable.contains(actionName)) {
+        action->setShortcut(  getKeySequence(actionName) );
+        action->setStatusTip( getFullDescription(actionName) );
+        action->setToolTip(   getDescriptionWithShortcut(actionName) );
+        action->setText(      getDescriptionWithShortcut(actionName) );
+    } else {
+        criticalError("Not found available action name "+actionName);
+        return;
+    }
+
+}
+
+
+void ShortcutManager::initToolButton(QString actionName, QToolButton *action)
 {
     if(keyTable.contains(actionName)) {
         action->setShortcut(  getKeySequence(actionName) );

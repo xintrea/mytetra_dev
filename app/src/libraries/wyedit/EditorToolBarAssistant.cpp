@@ -73,7 +73,7 @@ EditorToolBarAssistant::~EditorToolBarAssistant()
 
 void EditorToolBarAssistant::setupSignals()
 {
-  connect(&expandToolsLines, &QToolButton::clicked, this, &EditorToolBarAssistant::onExpandToolsLinesClicked);
+  connect(expandToolsLines, &QAction::triggered, this, &EditorToolBarAssistant::onExpandToolsLinesClicked);
 }
 
 
@@ -87,12 +87,12 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
     flagSetFontParametersEnabled=false;
 
-    fontSelect.setIsProgrammChanged(true);
+    fontSelect->setIsProgrammChanged(true);
     if(fontName.size()>0)
-        fontSelect.setCurrentIndex(fontSelect.findText(fontName));
+        fontSelect->setCurrentIndex(fontSelect->findText(fontName));
     else
-        fontSelect.setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
-    fontSelect.setIsProgrammChanged(false);
+        fontSelect->setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    fontSelect->setIsProgrammChanged(false);
 
     currentFontFamily=fontName;
 
@@ -117,9 +117,9 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
     flagSetFontParametersEnabled=false;
 
-    fontSize.setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
-    fontSize.setCurrentIndex(fontSize.findData(n));
-    fontSize.setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
+    fontSize->setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
+    fontSize->setCurrentIndex(fontSize->findData(n));
+    fontSize->setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
     currentFontSize=n;
 
     flagSetFontParametersEnabled=true;
@@ -149,8 +149,12 @@ void EditorToolBarAssistant::onChangeFontcolor(QColor color)
     // Если цвет правильный
     if(color.isValid())
     {
-        fontColor.setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменна
+        if(fontColor->associatedWidgets().size()>0) {
+            QToolButton* currentButton=qobject_cast<QToolButton*>(fontColor->associatedWidgets()[0]);
+            currentButton->setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
+        }
+
+        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменная
     }
 
 }
@@ -163,18 +167,18 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
     // TRACELOG
 
-    alignLeft.setChecked(false);
-    alignCenter.setChecked(false);
-    alignRight.setChecked(false);
-    alignWidth.setChecked(false);
+    alignLeft->setChecked(false);
+    alignCenter->setChecked(false);
+    alignRight->setChecked(false);
+    alignWidth->setChecked(false);
 
     if(activate==false)
         return;
 
-    if(textArea->alignment()==Qt::AlignLeft)         alignLeft.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignRight)   alignRight.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignJustify) alignWidth.setChecked(true);
+    if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignRight)   alignRight->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setChecked(true);
 }
 
 
@@ -183,13 +187,13 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
     // TRACELOG
 
-    bold.setChecked(false);
-    italic.setChecked(false);
-    underline.setChecked(false);
+    bold->setChecked(false);
+    italic->setChecked(false);
+    underline->setChecked(false);
 
-    if(textArea->fontWeight()==QFont::Bold) bold.setChecked(true);
-    if(textArea->fontItalic()==true)        italic.setChecked(true);
-    if(textArea->fontUnderline()==true)     underline.setChecked(true);
+    if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
+    if(textArea->fontItalic()==true)        italic->setChecked(true);
+    if(textArea->fontUnderline()==true)     underline->setChecked(true);
 }
 
 
@@ -197,22 +201,22 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 {
     if(button==BT_BOLD)
     {
-        if(active==false) bold.setChecked(false);
-        else              bold.setChecked(true);
+        if(active==false) bold->setChecked(false);
+        else              bold->setChecked(true);
         return;
     }
 
     if(button==BT_ITALIC)
     {
-        if(active==false) italic.setChecked(false);
-        else              italic.setChecked(true);
+        if(active==false) italic->setChecked(false);
+        else              italic->setChecked(true);
         return;
     }
 
     if(button==BT_UNDERLINE)
     {
-        if(active==false) underline.setChecked(false);
-        else              underline.setChecked(true);
+        if(active==false) underline->setChecked(false);
+        else              underline->setChecked(true);
         return;
     }
 }
@@ -314,5 +318,5 @@ bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
 
 int EditorToolBarAssistant::getFontSizeByNum(int n)
 {
-    return fontSize.itemData(n).toInt();
+    return fontSize->itemData(n).toInt();
 }

@@ -252,40 +252,38 @@ void Editor::setupFormatters(void)
 void Editor::setupSignals(void)
 {
   // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(&editorToolBarAssistant->bold, &QToolButton::clicked,
-          typefaceFormatter,             &TypefaceFormatter::onBoldClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->italic, &QToolButton::clicked,
-          typefaceFormatter,               &TypefaceFormatter::onItalicClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->underline, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onUnderlineClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->monospace, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onMonospaceClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->code, &QToolButton::clicked,
-          typefaceFormatter,             &TypefaceFormatter::onCodeClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->clear, &QToolButton::clicked,
-          typefaceFormatter,              &TypefaceFormatter::onClearClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->textOnly, &QToolButton::clicked,
-          typefaceFormatter,                 &TypefaceFormatter::onTextOnlyClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fixBreakSymbol, &QToolButton::clicked,
-          typefaceFormatter,                       &TypefaceFormatter::onFixBreakSymbolClicked,
-          Qt::DirectConnection);
+  connect(editorToolBarAssistant->bold, &QAction::triggered,
+          typefaceFormatter,            &TypefaceFormatter::onBoldClicked);
 
-  connect(&editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
-          typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
-          typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fontColor, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onFontcolorClicked,
-          Qt::DirectConnection);
+  connect(editorToolBarAssistant->italic, &QAction::triggered,
+          typefaceFormatter,               &TypefaceFormatter::onItalicClicked);
+
+  connect(editorToolBarAssistant->underline, &QAction::triggered,
+          typefaceFormatter,                  &TypefaceFormatter::onUnderlineClicked);
+
+  connect(editorToolBarAssistant->monospace, &QAction::triggered,
+          typefaceFormatter,                  &TypefaceFormatter::onMonospaceClicked);
+
+  connect(editorToolBarAssistant->code, &QAction::triggered,
+          typefaceFormatter,             &TypefaceFormatter::onCodeClicked);
+
+  connect(editorToolBarAssistant->clear, &QAction::triggered,
+          typefaceFormatter,              &TypefaceFormatter::onClearClicked);
+
+  connect(editorToolBarAssistant->textOnly, &QAction::triggered,
+          typefaceFormatter,                 &TypefaceFormatter::onTextOnlyClicked);
+
+  connect(editorToolBarAssistant->fixBreakSymbol, &QAction::triggered,
+          typefaceFormatter,                       &TypefaceFormatter::onFixBreakSymbolClicked);
+
+  connect(editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
+          typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged);
+
+  connect(editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
+          typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged);
+
+  connect(editorToolBarAssistant->fontColor, &QAction::triggered,
+          typefaceFormatter,                  &TypefaceFormatter::onFontcolorClicked);
 
 
   // Обратка для typefaceFormatter todo: подумать, а надо ли
@@ -326,6 +324,7 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
 
+  /*
   connect(&editorToolBarAssistant->indentPlus, &QToolButton::clicked,
           placementFormatter,                  &PlacementFormatter::onIndentplusClicked,
           Qt::DirectConnection);
@@ -439,6 +438,8 @@ void Editor::setupSignals(void)
   connect(&editorToolBarAssistant->toAttach, &QToolButton::clicked,
           this,                              &Editor::onToAttachClicked,
           Qt::DirectConnection);
+
+  */
 
   // Область редактирования текста
   connect(textArea, &EditorTextArea::cursorPositionChanged,
@@ -931,7 +932,7 @@ QString Editor::smartFontFamily(QString fontName)
         if(firstCommaPos>0)
             fontName=fontName.left(firstCommaPos);
     }
-    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect.findText(fontName)==-1)
+    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect->findText(fontName)==-1)
         fontName="Sans Serif";
 
     return fontName;
