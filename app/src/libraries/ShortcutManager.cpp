@@ -35,7 +35,6 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.clear();
 
     defaultKeyTable.insert("note-addNewToEnd",  data{ QKeySequence("Ctrl+Alt+N"), QObject::tr("Add a new note"), QObject::tr("") });
-
     defaultKeyTable.insert("note-addNewBefore", data{ QKeySequence("Ctrl+Alt+J"), QObject::tr("Add a note before"), QObject::tr("Add a note before current selected note") });
     defaultKeyTable.insert("note-addNewAfter",  data{ QKeySequence("Ctrl+Alt+M"), QObject::tr("Add a note after"), QObject::tr("Add a note after current selected note") });
     defaultKeyTable.insert("note-editField",    data{ QKeySequence("Ctrl+Alt+E"), QObject::tr("Edit properties"), QObject::tr("Edit note properties (name, author, tags...)") });
@@ -49,10 +48,24 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("note-previousNote", data{ QKeySequence("Ctrl+Alt+Left"), QObject::tr("Previous note"), QObject::tr("Previous note has been viewing") });
     defaultKeyTable.insert("note-nextNote",     data{ QKeySequence("Ctrl+Alt+Right"), QObject::tr("Next note"), QObject::tr("Next note has been viewing") });
 
-    defaultKeyTable.insert("tree-add", data{ QKeySequence("Ctrl+Shift+N"), QObject::tr("Add a tree item"), QObject::tr("") });
+    defaultKeyTable.insert("tree-expandAllSubbranch",   data{ QKeySequence("Ctrl+Shift+8"), QObject::tr("Expand all sub items"), QObject::tr("") });
+    defaultKeyTable.insert("tree-collapseAllSubbranch", data{ QKeySequence("Ctrl+Shift+9"), QObject::tr("Collapse all sub items"), QObject::tr("") });
+    defaultKeyTable.insert("tree-moveUpBranch",         data{ QKeySequence("Ctrl+Shift+PgUp"), QObject::tr("Move item up"), QObject::tr("") });
+    defaultKeyTable.insert("tree-moveDownBranch",       data{ QKeySequence("Ctrl+Shift+PgDown"), QObject::tr("Move item down"), QObject::tr("") });
+    defaultKeyTable.insert("tree-insSubbranch",         data{ QKeySequence("Ctrl+F7"), QObject::tr("Insert a new sub item"), QObject::tr("Insert a new sub item into selected") });
+    defaultKeyTable.insert("tree-insBranch",            data{ QKeySequence("F7"), QObject::tr("Insert a new sibling item"), QObject::tr("Insert a new sibling item after selected") });
+    defaultKeyTable.insert("tree-editBranch",           data{ QKeySequence("Shift+F6"), QObject::tr("Edit item name"), QObject::tr("Edit name of selected item") });
+    defaultKeyTable.insert("tree-delBranch",            data{ QKeySequence("F8"), QObject::tr("Delete item"), QObject::tr("Delete selected item and all sub items") });
+    defaultKeyTable.insert("tree-cutBranch",            data{ QKeySequence("Ctrl+F8"), QObject::tr("Cut item"), QObject::tr("Cut item including sub items") });
+    defaultKeyTable.insert("tree-copyBranch",           data{ QKeySequence("F3"), QObject::tr("Copy item"), QObject::tr("Copy item including sub items") });
+    defaultKeyTable.insert("tree-pasteBranch",          data{ QKeySequence("F5"), QObject::tr("Paste item"), QObject::tr("Paste sibling item after selected") });
+    defaultKeyTable.insert("tree-pasteSubbranch",       data{ QKeySequence("Ctrl+F5"), QObject::tr("Paste as sub item"), QObject::tr("Paste item as sub item for selected") });
+    defaultKeyTable.insert("tree-encryptBranch",        data{ QKeySequence(""), QObject::tr("Encrypt item"), QObject::tr("Encrypt item and all subitem") });
+    defaultKeyTable.insert("tree-decryptBranch",        data{ QKeySequence(""), QObject::tr("Decrypt item"), QObject::tr("Decrypt item and all subitem") });
+    defaultKeyTable.insert("tree-setIcon",              data{ QKeySequence("Ctrl+Shift+O"), QObject::tr("Set icon"), QObject::tr("Set item icon") });
 
-    defaultKeyTable.insert("editor-copy",                data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
-    defaultKeyTable.insert("editor-paste",               data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-copy",                data{ QKeySequence(""), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-paste",               data{ QKeySequence(""), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
     defaultKeyTable.insert("editor-bold",                data{ QKeySequence("Ctrl+B"), QObject::tr("Bold"), QObject::tr("") });
     defaultKeyTable.insert("editor-italic",              data{ QKeySequence("Ctrl+I"), QObject::tr("Italic"), QObject::tr("") });
     defaultKeyTable.insert("editor-underline",           data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
@@ -92,8 +105,6 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("misc-print",       data{ QKeySequence("Ctrl+P"), QObject::tr("Print"), QObject::tr("") });
     defaultKeyTable.insert("misc-exportPdf",   data{ QKeySequence("Ctrl+D"), QObject::tr("Export PDF"), QObject::tr("") });
     defaultKeyTable.insert("misc-quit",        data{ QKeySequence("Ctrl+Q"), QObject::tr("Quit"), QObject::tr("") });
-
-
 }
 
 

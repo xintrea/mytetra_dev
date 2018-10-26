@@ -846,19 +846,19 @@ QString KnowTreeModel::pasteNewSiblingBranch(const QModelIndex &index, Clipboard
 // Перемещение ветки вверх
 QModelIndex KnowTreeModel::moveUpBranch(const QModelIndex &index)
 {
-  return moveUpDnBranch(index,1);
+  return moveUpDownBranch(index,1);
 }
 
 
 // Перемещение ветки вниз
-QModelIndex KnowTreeModel::moveDnBranch(const QModelIndex &index)
+QModelIndex KnowTreeModel::moveDownBranch(const QModelIndex &index)
 {
-  return moveUpDnBranch(index,-1);
+  return moveUpDownBranch(index,-1);
 }
 
 
 // Перемещение ветки вверх или вниз
-QModelIndex KnowTreeModel::moveUpDnBranch(const QModelIndex &index,int direction)
+QModelIndex KnowTreeModel::moveUpDownBranch(const QModelIndex &index,int direction)
 {
   // Получение QModelIndex расположенного над или под элементом index
   QModelIndex swap_index=index.sibling(index.row()-direction,0);

@@ -43,7 +43,7 @@ public:
 
     // Перемещение ветки вверх и вниз
     QModelIndex moveUpBranch(const QModelIndex &index);
-    QModelIndex moveDnBranch(const QModelIndex &index);
+    QModelIndex moveDownBranch(const QModelIndex &index);
 
     // Получение индекса подчиненного элемента с указанным номером
     QModelIndex indexChildren(const QModelIndex &parent, int n) const;
@@ -118,7 +118,7 @@ private:
     void exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &element, QString exportDir);
     
     // Перемещение ветки вверх или вниз
-    QModelIndex moveUpDnBranch(const QModelIndex &index,int direction);
+    QModelIndex moveUpDownBranch(const QModelIndex &index,int direction);
 
     int getAllRecordCountRecurse(TreeItem *item,int mode);
 

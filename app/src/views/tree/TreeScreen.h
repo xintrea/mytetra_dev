@@ -62,7 +62,7 @@ private slots:
  void delOneBranch(QModelIndex index);
 
  void moveUpBranch(void);
- void moveDnBranch(void);
+ void moveDownBranch(void);
  void cutBranch(void);
  bool copyBranch(void);
  void pasteBranch(void);
@@ -91,9 +91,10 @@ private:
  void setupModels(void);
  void setupSignals(void);
  void setupActions(void);
+ void setupShortcuts(void);
  void assembly(void);
  
- void moveUpDnBranch(int direction);
+ void moveUpDownBranch(int direction);
  bool moveCheckEnable(void);
 
  void insBranchSmart(bool is_branch);

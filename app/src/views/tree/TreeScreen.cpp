@@ -26,9 +26,12 @@
 #include "libraries/DiskHelper.h"
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/IconSelectDialog.h"
+#include "libraries/ShortcutManager.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
+extern ShortcutManager shortcutManager;
 
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
@@ -37,6 +40,7 @@ TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
   lastKnowTreeSize=0;
 
   setupActions();
+  setupShortcuts();
   setupUI();
   setupModels();
   setupSignals();
@@ -55,106 +59,89 @@ void TreeScreen::setupActions(void)
  QAction *ac;
 
  // Разворачивание всех подветок
- ac=new QAction(tr("Expand all sub items"), this);
- ac->setStatusTip(tr("Expand all sub items"));
+ ac=new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/expand_all_subbranch.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::expandAllSubbranch);
  actionList["expandAllSubbranch"]=ac;
 
  // Сворачивание всех подветок
- ac = new QAction(tr("Collapse all sub items"), this);
- ac->setStatusTip(tr("Collapse all sub items"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/collapse_all_subbranch.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::collapseAllSubbranch);
  actionList["collapseAllSubbranch"]=ac;
 
  // Перемещение ветки вверх
- ac = new QAction(tr("Move item up"), this);
- ac->setStatusTip(tr("Move item up"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/move_up.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::moveUpBranch);
  actionList["moveUpBranch"]=ac;
 
  // Перемещение ветки вниз
- ac = new QAction(tr("Move item down"), this);
- ac->setStatusTip(tr("Move item down"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/move_dn.svg"));
- connect(ac, &QAction::triggered, this, &TreeScreen::moveDnBranch);
- actionList["moveDnBranch"]=ac;
+ connect(ac, &QAction::triggered, this, &TreeScreen::moveDownBranch);
+ actionList["moveDownBranch"]=ac;
 
  // Вставка новой подветки
- ac = new QAction(tr("Insert a new sub item"), this);
- ac->setStatusTip(tr("Insert a new sub item into selected"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/add_subbranch.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::insSubbranch);
  actionList["insSubbranch"]=ac;
 
  // Вставка новой ветки
- ac = new QAction(tr("Insert a new sibling item"), this);
- ac->setStatusTip(tr("Insert a new sibling item after selected"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/add_branch.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::insBranch);
  actionList["insBranch"]=ac;
 
  // Редактирование ветки
- ac = new QAction(tr("Edit item name"), this);
- ac->setStatusTip(tr("Edit name of selected item"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/note_edit.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::editBranch);
  actionList["editBranch"]=ac;
 
  // Удаление ветки
- ac = new QAction(tr("Delete item"), this);
- ac->setStatusTip(tr("Delete selected item and all sub items"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/note_delete.svg"));
-  connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
  actionList["delBranch"]=ac;
 
  // Удаление ветки с сохранением копии в буфер обмена
- ac = new QAction(tr("Cut item"), this);
- ac->setStatusTip(tr("Cut item including sub items"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/branch_cut.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::cutBranch);
  actionList["cutBranch"]=ac;
 
  // Копирование ветки в буфер обмена
- ac = new QAction(tr("Copy item"), this);
- ac->setStatusTip(tr("Copy item including sub items"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/branch_copy.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::copyBranch);
  actionList["copyBranch"]=ac;
 
  // Вставка ветки из буфера обмена
- ac = new QAction(tr("Paste item"), this);
- ac->setStatusTip(tr("Paste sibling item after selected"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::pasteBranch);
  actionList["pasteBranch"]=ac;
 
  // Вставка ветки из буфера обмена в виде подветки
- ac = new QAction(tr("Paste as sub item"), this);
- ac->setStatusTip(tr("Paste item as sub item for selected"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::pasteSubbranch);
  actionList["pasteSubbranch"]=ac;
 
- // Шифрование ветки
- ac = new QAction(tr("Encrypt item"), this);
- ac->setStatusTip(tr("Encrypt item and all subitem"));
- // actionEncryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
+ // Шифрование ветки (пока нет иконки)
+ ac = new QAction(this);
  connect(ac, &QAction::triggered, this, &TreeScreen::encryptBranch);
  actionList["encryptBranch"]=ac;
 
- // Расшифровка ветки (снятие пароля)
- ac = new QAction(tr("Decrypt item"), this);
- ac->setStatusTip(tr("Decrypt item and all subitem"));
- // actionDecryptBranch->setIcon(QIcon(":/resource/pic/branch_paste.svg"));
+ // Расшифровка ветки, т. е. снятие пароля (пока нет иконки)
+ ac = new QAction(this);
  connect(ac, &QAction::triggered, this, &TreeScreen::decryptBranch);
  actionList["decryptBranch"]=ac;
 
  // Добавление иконки к ветке
- ac = new QAction(tr("Set icon"), this);
- ac->setStatusTip(tr("Set item icon"));
+ ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/set_icon.svg"));
  connect(ac, &QAction::triggered, this, &TreeScreen::setIcon);
  actionList["setIcon"]=ac;
@@ -164,6 +151,26 @@ void TreeScreen::setupActions(void)
  ac->setStatusTip(tr("Find in base"));
  ac->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
  actionList["findInBase"]=ac;
+}
+
+
+void TreeScreen::setupShortcuts(void)
+{
+    shortcutManager.initAction("tree-expandAllSubbranch", actionList["expandAllSubbranch"] );
+    shortcutManager.initAction("tree-collapseAllSubbranch", actionList["collapseAllSubbranch"] );
+    shortcutManager.initAction("tree-moveUpBranch", actionList["moveUpBranch"] );
+    shortcutManager.initAction("tree-moveDownBranch", actionList["moveDownBranch"] );
+    shortcutManager.initAction("tree-insSubbranch", actionList["insSubbranch"] );
+    shortcutManager.initAction("tree-insBranch", actionList["insBranch"] );
+    shortcutManager.initAction("tree-editBranch", actionList["editBranch"] );
+    shortcutManager.initAction("tree-delBranch", actionList["delBranch"] );
+    shortcutManager.initAction("tree-cutBranch", actionList["cutBranch"] );
+    shortcutManager.initAction("tree-copyBranch", actionList["copyBranch"] );
+    shortcutManager.initAction("tree-pasteBranch", actionList["pasteBranch"] );
+    shortcutManager.initAction("tree-pasteSubbranch", actionList["pasteSubbranch"] );
+    shortcutManager.initAction("tree-encryptBranch", actionList["encryptBranch"] );
+    shortcutManager.initAction("tree-decryptBranch", actionList["decryptBranch"] );
+    shortcutManager.initAction("tree-setIcon", actionList["setIcon"] );
 }
 
 
@@ -193,7 +200,7 @@ void TreeScreen::setupUI(void)
  toolsLine->addSeparator();
 
  insertActionAsButton(toolsLine, actionList["moveUpBranch"]);
- insertActionAsButton(toolsLine, actionList["moveDnBranch"]);
+ insertActionAsButton(toolsLine, actionList["moveDownBranch"]);
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
@@ -261,7 +268,7 @@ void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
   menu.addAction(actionList["collapseAllSubbranch"]);
   menu.addSeparator();
   menu.addAction(actionList["moveUpBranch"]);
-  menu.addAction(actionList["moveDnBranch"]);
+  menu.addAction(actionList["moveDownBranch"]);
   menu.addSeparator();
   menu.addAction(actionList["cutBranch"]);
   menu.addAction(actionList["copyBranch"]);
@@ -424,17 +431,17 @@ void TreeScreen::expandOrCollapseRecurse(QModelIndex index, bool mode)
 
 void TreeScreen::moveUpBranch(void)
 {
- moveUpDnBranch(1);
+ moveUpDownBranch(1);
 }
 
 
-void TreeScreen::moveDnBranch(void)
+void TreeScreen::moveDownBranch(void)
 {
- moveUpDnBranch(-1);
+ moveUpDownBranch(-1);
 }
 
 
-void TreeScreen::moveUpDnBranch(int direction)
+void TreeScreen::moveUpDownBranch(int direction)
 {
  // Если ветку нельзя перемещать
  if(!moveCheckEnable()) return;
@@ -445,7 +452,7 @@ void TreeScreen::moveUpDnBranch(int direction)
  // Ветка перемещается
  QModelIndex index_after_move;
  if(direction==1) index_after_move=knowTreeModel->moveUpBranch(index);
- else             index_after_move=knowTreeModel->moveDnBranch(index);
+ else             index_after_move=knowTreeModel->moveDownBranch(index);
   
  // Установка курсора на позицию, куда была перенесена ветка
  if(index_after_move.isValid())
