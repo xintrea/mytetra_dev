@@ -103,7 +103,7 @@ void TreeScreen::setupActions(void)
  // Удаление ветки
  ac = new QAction(this);
  ac->setIcon(QIcon(":/resource/pic/note_delete.svg"));
- connect(ac, SIGNAL(triggered()), this, SLOT(delBranch()));
+ connect(ac, SIGNAL(triggered()), this, SLOT(delBranch())); // Разобраться с новым синтаксисом сигнал-слот для слота с параметром по-умолчанию
  actionList["delBranch"]=ac;
 
  // Удаление ветки с сохранением копии в буфер обмена
@@ -176,12 +176,8 @@ void TreeScreen::setupShortcuts(void)
 
 void TreeScreen::setupUI(void)
 {
+ // Наполнение панели инструментов
  toolsLine=new QToolBar(this);
-
- /*
- QSize tool_bar_icon_size(16,16);
- toolsLine->setIconSize(tool_bar_icon_size);
- */
 
  insertActionAsButton(toolsLine, actionList["insSubbranch"]);
  insertActionAsButton(toolsLine, actionList["insBranch"]);
@@ -207,6 +203,16 @@ void TreeScreen::setupUI(void)
    toolsLine->addSeparator();
    insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
  }
+
+ // Добавление скрытых действий, которые не видны на тулбаре, но видны на контекстном меню
+ insertActionAsButton(toolsLine, actionList["cutBranch"], false);
+ insertActionAsButton(toolsLine, actionList["copyBranch"], false);
+ insertActionAsButton(toolsLine, actionList["pasteBranch"], false);
+ insertActionAsButton(toolsLine, actionList["pasteSubbranch"], false);
+
+ insertActionAsButton(toolsLine, actionList["encryptBranch"], false);
+ insertActionAsButton(toolsLine, actionList["decryptBranch"], false);
+ insertActionAsButton(toolsLine, actionList["setIcon"], false);
 
 
  knowTreeView=new KnowTreeView(this);
@@ -1396,11 +1402,10 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 
  // Вначале все инструменты работы с веткой включаются
  QMapIterator<QString, QAction *> i(actionList);
- while (i.hasNext())
-  {
-   i.next();
-   i.value()->setEnabled(true);
-  }
+ while (i.hasNext()) {
+    i.next();
+    i.value()->setEnabled(true);
+ }
 
  // Проверяется, происходит ли клик по зашифрованной ветке
  if(item->getField("crypt")=="1")

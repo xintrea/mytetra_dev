@@ -1113,8 +1113,6 @@ void Editor::keyPressEvent(QKeyEvent *event)
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
     editorToolBarAssistant->updateToActualFormat();
 
-  qDebug() << "Event Editor: " << event->key();
-
   QWidget::keyPressEvent(event);
 }
 

@@ -25,8 +25,6 @@ public:
  TreeScreen(QWidget *parent=nullptr);
  virtual ~TreeScreen();
 
- QMap<QString, QAction *> actionList;
-
  KnowTreeModel *knowTreeModel;
 
  void saveKnowTree(void);
@@ -78,6 +76,9 @@ private slots:
  void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
+
+ QMap<QString, QAction *> actionList;
+
  QToolBar *toolsLine;
 
  KnowTreeView  *knowTreeView;
