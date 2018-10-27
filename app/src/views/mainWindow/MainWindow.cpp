@@ -1043,6 +1043,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
   if( event->key() == Qt::Key_Control )
     if(editorScreen!=NULL)
       emit globalPressKey(Qt::Key_Control);
+
+  qDebug() << "Event MainWindow: " << event->key();
+
+  QMainWindow::keyPressEvent(event);
 }
 
 
@@ -1053,6 +1057,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
   if( event->key() == Qt::Key_Control )
     if(editorScreen!=NULL)
       emit globalReleaseKey(Qt::Key_Control);
+
+  QMainWindow::keyReleaseEvent(event);
 }
 
 
