@@ -145,19 +145,13 @@ void MainWindow::setupSignals(void)
   connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
   connect(actionFileMenuQuit, &QAction::triggered, this, &MainWindow::applicationExit);
 
-  connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFind);
+  connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
   connect(actionToolsMenuActionLog, &QAction::triggered, this, &MainWindow::onActionLogClicked);
   connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
 
   connect(actionHelpMenuAboutMyTetra, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
   connect(actionHelpMenuAboutQt, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
   connect(actionHelpMenuTechnicalInfo, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
-
-
-  // Связывание сигналов кнопки поиска по базе с действием по открытию виджета поиска по базе
-  // connect(treeScreen->actionList["findInBase"], &QAction::triggered, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
-  connect(recordTableScreen->actionFindInBase, &QAction::triggered, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
-  connect(editorScreen, &MetaEditor::wyeditFindInBaseClicked, globalParameters.getWindowSwitcher(), &WindowSwitcher::findInBaseClick);
 }
 
 
@@ -475,7 +469,7 @@ void MainWindow::initToolsMenu(void)
   QMenu *menu = new QMenu(tr("&Tools"), this);
   this->menuBar()->addMenu(menu);
 
-  actionToolsMenuFindInBase = new QAction(shortcutManager.getDescriptionWithShortcut("misc-findInBase"), this); // Так как есть this, указатель не будет потерян основным окном
+  actionToolsMenuFindInBase = new QAction(this); // Так как есть this, указатель не будет потерян основным окном
   menu->addAction(actionToolsMenuFindInBase);
 
   actionToolsMenuActionLog = new QAction(tr("Action &log"), this);
@@ -503,7 +497,7 @@ void MainWindow::initPreferencesMenu(QMenu *menu)
   QAction *a;
 
   a = new QAction(tr("Main"), this);
-  // connect(a, SIGNAL(triggered()), this, SLOT(toolsFind()));
+  // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
   menu->addAction(a);
 
   a = new QAction(tr("Crypt"), this);
@@ -548,8 +542,7 @@ void MainWindow::setupShortcuts(void)
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
     shortcutManager.initAction("misc-quit", actionFileMenuQuit );
 
-    // Шорткат поиска по базе срабатывает с кнопки поиска, которая находится на виджете списка записей RecordTableScreen
-    // shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
+    shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
 }
 
 
@@ -683,15 +676,15 @@ void MainWindow::applicationFastExit(void)
 }
 
 
-void MainWindow::toolsFind(void)
+void MainWindow::toolsFindInBase(void)
 {
   // Определяется ссылка на виджет поиска
   FindScreen *findScreenRel=find_object<FindScreen>("findScreenDisp");
 
   if( !(findScreenRel->isVisible()) )
-    findScreenRel->show();
+    findScreenRel->widgetShow();
   else
-    findScreenRel->hide();
+    findScreenRel->widgetHide();
 }
 
 

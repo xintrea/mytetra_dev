@@ -102,6 +102,8 @@ public slots:
  void commitData(QSessionManager& manager);
  void messageHandler(QString message);
 
+ void toolsFindInBase(void);
+
 private slots:
 
  void showWindow();
@@ -116,7 +118,6 @@ private slots:
  void fileExportBranch(void);
  void fileImportBranch(void);
  
- void toolsFind(void);
  void toolsPreferences(void);
  void onActionLogClicked(void);
 

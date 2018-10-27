@@ -105,7 +105,7 @@ void RecordTableScreen::setupActions(void)
  actionSyncro->setIcon(QIcon(":/resource/pic/synchronization.svg"));
 
  // Поиск по базе (клик связывается с действием в MainWindow)
- actionFindInBase=new QAction(this);
+ actionFindInBase=new QAction(shortcutManager.getDescriptionWithShortcut("misc-findInBase"), this);
  actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
 
  // Перемещение по истории посещаемых записей назад
@@ -242,9 +242,6 @@ void RecordTableScreen::setupShortcuts(void)
 
     // Переход на следующую запись в истории
     shortcutManager.initAction("note-nextNote", actionWalkHistoryNext);
-
-    // Поиск по базе
-    shortcutManager.initAction("misc-findInBase", actionFindInBase);
 }
 
 
@@ -287,7 +284,7 @@ void RecordTableScreen::setupSignals(void)
     connect(actionMoveDn, &QAction::triggered, recordTableController, &RecordTableController::moveDn);
 
     // Поиск по базе (клик связывается с действием в MainWindow)
-    // todo: разобраться с коннектом, пока коннекта нет
+    connect(actionFindInBase, &QAction::triggered, find_object<MainWindow>("mainwindow"), &MainWindow::toolsFindInBase);
 
     // Синхронизация
     connect(actionSyncro, &QAction::triggered, this, &RecordTableScreen::onSyncroClick);

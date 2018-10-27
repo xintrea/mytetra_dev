@@ -144,31 +144,6 @@ void WindowSwitcher::switchFromRecordtableToTree(void)
 }
 
 
-// Закрытие окна FindInBase с переходом на окно, откуда оно было открыто
-void WindowSwitcher::closeFindInBase(void)
-{
- if(!enableSwitcher)
-   return;
-
-}
-
-
-// Слот, срабатывающий при нажатии на кнопку перехода к поиску по базе в любом виджете
-void WindowSwitcher::findInBaseClick(void)
-{
-  qDebug() << "Button find in base click";
-
-  // Определяется ссылка на виджет поиска
-  FindScreen *findScreen=find_object<FindScreen>("findScreenDisp");
-
-  // Если виджет не показан, он выводится на экран, и наоборот
-  if(findScreen->isVisible()==false)
-    findScreen->widgetShow();
-  else
-   findScreen->widgetHide();
-}
-
-
 void WindowSwitcher::restoreFocusWidget()
 {
   if(!enableSwitcher)

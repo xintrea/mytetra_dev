@@ -28,15 +28,7 @@ public:
  void switchFromRecordtableToFindInBase(void);
  void switchFromRecordtableToTree(void);
 
- void closeFindInBase(void);
-
  void restoreFocusWidget();
-
-signals:
-
-public slots:
-
- void findInBaseClick(void);
 
 private:
 
