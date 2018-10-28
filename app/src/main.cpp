@@ -1003,6 +1003,8 @@ int main(int argc, char ** argv)
  QApplication::setQuitOnLastWindowClosed(false);
 
  app.connect(&app, &QtSingleApplication::lastWindowClosed, &app, &QtSingleApplication::quit);
+
+ // Прием сообщений, испускаемых другим экземпляром MyTetra с помощью консольных команд "--control"
  app.connect(&app, &QtSingleApplication::messageReceived,  &win, &MainWindow::messageHandler);
 
  // Окно сплеш-скрина скрывается

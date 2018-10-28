@@ -60,8 +60,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("tree-copyBranch",           data{ QKeySequence("F3"), QObject::tr("Copy item"), QObject::tr("Copy item including sub items") });
     defaultKeyTable.insert("tree-pasteBranch",          data{ QKeySequence("F5"), QObject::tr("Paste item"), QObject::tr("Paste sibling item after selected") });
     defaultKeyTable.insert("tree-pasteSubbranch",       data{ QKeySequence("Ctrl+F5"), QObject::tr("Paste as sub item"), QObject::tr("Paste item as sub item for selected") });
-    defaultKeyTable.insert("tree-encryptBranch",        data{ QKeySequence(""), QObject::tr("Encrypt item"), QObject::tr("Encrypt item and all subitem") });
-    defaultKeyTable.insert("tree-decryptBranch",        data{ QKeySequence(""), QObject::tr("Decrypt item"), QObject::tr("Decrypt item and all subitem") });
+    defaultKeyTable.insert("tree-encryptBranch",        data{ QKeySequence("Ctrl+Shift+1"), QObject::tr("Encrypt item"), QObject::tr("Encrypt item and all subitem") });
+    defaultKeyTable.insert("tree-decryptBranch",        data{ QKeySequence("Ctrl+Shift+0"), QObject::tr("Decrypt item"), QObject::tr("Decrypt item and all subitem") });
     defaultKeyTable.insert("tree-setIcon",              data{ QKeySequence("Ctrl+Shift+O"), QObject::tr("Set icon"), QObject::tr("Set item icon") });
 
     defaultKeyTable.insert("editor-copy",                data{ QKeySequence(""), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде

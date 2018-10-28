@@ -252,7 +252,6 @@ void MainWindow::messageHandler(QString message)
   else if(message=="addNoteDialog")
   {
       // Нажимается кнопка добавления записи
-      // connect(this, &MainWindow::commandAddNewNote, recordTableScreen->actionAddNewToEnd, &QAction::trigger);
       recordTableScreen->actionAddNewToEnd->trigger();
   }
 
