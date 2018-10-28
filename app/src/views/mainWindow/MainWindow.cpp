@@ -252,7 +252,11 @@ void MainWindow::messageHandler(QString message)
   else if(message=="addNoteDialog")
   {
       // Нажимается кнопка добавления записи
-      recordTableScreen->actionAddNewToEnd->trigger();
+      if( recordTableScreen->actionAddNewToEnd->isEnabled() ) {
+          recordTableScreen->actionAddNewToEnd->trigger();
+      } else {
+          qDebug() << "Can not initial add new note dialog. Add new note action is disable now. Try again.";
+      }
   }
 
   else if(message.split(" ").at(0)=="openTreeItem")
