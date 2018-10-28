@@ -249,6 +249,13 @@ void MainWindow::messageHandler(QString message)
     setRecordtablePositionById( recordId );
   }
 
+  else if(message=="addNoteDialog")
+  {
+      // Нажимается кнопка добавления записи
+      // connect(this, &MainWindow::commandAddNewNote, recordTableScreen->actionAddNewToEnd, &QAction::trigger);
+      recordTableScreen->actionAddNewToEnd->trigger();
+  }
+
   else if(message.split(" ").at(0)=="openTreeItem")
   {
     QString branchId=message.split(" ").at(1);

@@ -724,6 +724,7 @@ void printHelp()
   printf("./mytetra --control --quit - Quit from MyTetra\n");
   printf("./mytetra --control --reload - Reload database\n");
   printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
+  printf("./mytetra --control --addNoteDialog - Show dialod for create new note in current tree item\n");
   printf("./mytetra --control --openTreeItem <treeItemId> - Jump to tree item with <treeItemId>\n");
   printf("\n");
 }
@@ -796,6 +797,11 @@ void parseConsoleOption(QtSingleApplication &app)
     {
       int openNoteIndex=app.arguments().indexOf("--openNote");
       app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
+      exit(0);
+    }
+    else if (app.arguments().contains("--addNoteDialog"))
+    {
+      app.sendMessage("addNoteDialog");
       exit(0);
     }
     else if (app.arguments().contains("--openBranch")) // Устаревшая опция
