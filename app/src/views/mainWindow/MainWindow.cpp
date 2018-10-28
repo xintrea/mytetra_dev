@@ -213,6 +213,16 @@ void MainWindow::messageHandler(QString message)
 {
   qDebug() << "MainWindow recieved message: "+message;
 
+  if(message=="show")
+  {
+      showWindow();
+  }
+
+  if(message=="hide")
+  {
+      hide();
+  }
+
   if(message=="quit")
   {
     applicationExit();

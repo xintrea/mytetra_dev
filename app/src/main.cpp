@@ -719,6 +719,8 @@ void printHelp()
   printf("\n");
   printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
   printf("For use control mode, run by standard way MyTetra for show GUI interface, and next use command:\n");
+  printf("./mytetra --control --show - Show and activate MyTetra window\n");
+  printf("./mytetra --control --hide - Hide MyTetra window\n");
   printf("./mytetra --control --quit - Quit from MyTetra\n");
   printf("./mytetra --control --reload - Reload database\n");
   printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
@@ -770,7 +772,17 @@ void parseConsoleOption(QtSingleApplication &app)
   // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
   if(app.arguments().contains("--control") && app.isRunning())
   {
-    if(app.arguments().contains("--quit"))
+    if(app.arguments().contains("--show"))
+    {
+      app.sendMessage("show");
+      exit(0);
+    }
+    else if (app.arguments().contains("--hide"))
+    {
+      app.sendMessage("hide");
+      exit(0);
+    }
+    else if (app.arguments().contains("--quit"))
     {
       app.sendMessage("quit");
       exit(0);
