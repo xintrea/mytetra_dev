@@ -1400,6 +1400,9 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
  // Получаем указатель на текущую выбранную ветку дерева
  TreeItem *item = knowTreeModel->getItem(index);
 
+ // Все инструменты по работе с записями выключаются
+ find_object<RecordTableScreen>("recordTableScreen")->disableAllActions();
+
  // Вначале все инструменты работы с веткой включаются
  QMapIterator<QString, QAction *> i(actionList);
  while (i.hasNext()) {

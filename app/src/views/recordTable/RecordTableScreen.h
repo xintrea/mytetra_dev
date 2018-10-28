@@ -32,6 +32,7 @@ public:
  void setTreePath(QString path);
  QString getTreePath(void);
 
+ void disableAllActions(void);
 
  // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
  QAction *actionAddNewToEnd;
@@ -91,8 +92,6 @@ private:
  void setupSignals(void);
  void setupActions(void);
  void assembly(void);
- 
- void disableAllActions(void);
 
  void toolsWidgetsUpdate();
  void editorModesUpdate();
