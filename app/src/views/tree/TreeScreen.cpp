@@ -362,7 +362,7 @@ void TreeScreen::setupSignals(void)
  connect(knowTreeView, &KnowTreeView::tapAndHoldGestureFinished,
          this,         &TreeScreen::onCustomContextMenuRequested);
 
- // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре
+ // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре (через selection-модель)
  if(mytetraConfig.getInterfaceMode()=="desktop")
    connect(knowTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
            this,                           &TreeScreen::onKnowtreeClicked);
@@ -370,6 +370,12 @@ void TreeScreen::setupSignals(void)
  if(mytetraConfig.getInterfaceMode()=="mobile")
    connect(knowTreeView, &KnowTreeView::clicked,
            this,         &TreeScreen::onKnowtreeClicked);
+
+ // Сигнал что ветка выбрана мышкой
+ // используется для возможности ввести пароль, если в базе одна корневая ветка, и она зашифрована
+ connect(knowTreeView, &KnowTreeView::pressed,
+         this,         &TreeScreen::checkIfOneRootCryptItem);
+
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  // connect(knowTreeView, SIGNAL(doubleClicked(const QModelIndex &)),
@@ -1389,7 +1395,25 @@ void TreeScreen::updateBranchOnScreen(const QModelIndex &index)
 }
 
 
-// Действия при клике на ветку дерева
+// Вспомогательный слот, позволяющий ввести пароль на ветку в случае,
+// если в базе только одна корневая ветка и она зашифрована
+void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
+{
+    // Если пароль доступа к зашифрованным данным не вводился в этой сессии
+    if(globalParameters.getCryptKey().length()==0) {
+
+        // Указатель на текущую выбранную ветку дерева
+        TreeItem *item = knowTreeModel->getItem(index);
+
+        // Проверяется, происходит ли клик по зашифрованной ветке
+        if(item->getField("crypt")=="1") {
+            onKnowtreeClicked(index); // Вызывается стандартный клик по ветке, он запустит процедуру ввода пароля
+        }
+    }
+}
+
+
+// Действия при клике на ветку дерева через selection-модель
 void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 {
  // QModelIndex index = nodetreeview->selectionModel()->currentIndex();

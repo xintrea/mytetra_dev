@@ -71,6 +71,7 @@ private slots:
 
  // Действия при клике на ветку дерева
  void onKnowtreeClicked(const QModelIndex &index);
+ void checkIfOneRootCryptItem(const QModelIndex &index);
 
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
