@@ -251,11 +251,24 @@ void MainWindow::messageHandler(QString message)
 
   else if(message=="addNoteDialog")
   {
+      // Определение, было ли окно MyTetra скрыто при обработке сообщения
+      bool isHidden=this->isHidden();
+
+      // Окно показыается, чтобы небыло некорректного выхода QtSingleApplication при свернутом окне после добавления записи
+      if(isHidden) {
+          this->showWindow();
+      }
+
       // Нажимается кнопка добавления записи
       if( recordTableScreen->actionAddNewToEnd->isEnabled() ) {
           recordTableScreen->actionAddNewToEnd->trigger();
       } else {
           qDebug() << "Can not initial add new note dialog. Add new note action is disable now. Try again.";
+      }
+
+      // Окно скрывается
+      if(isHidden) {
+          this->hide();
       }
   }
 
