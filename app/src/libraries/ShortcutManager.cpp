@@ -67,7 +67,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-selectAll",           data{ QKeySequence("Ctrl+A"), QObject::tr("Select all"), QObject::tr("") });
     defaultKeyTable.insert("editor-copy",                data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") });
     defaultKeyTable.insert("editor-paste",               data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") });
-    defaultKeyTable.insert("editor-pasteAsPlainText",    data{ QKeySequence("Ctrl+W"), QObject::tr("Paste as plain text"), QObject::tr("") });
+    defaultKeyTable.insert("editor-pasteAsPlainText",    data{ QKeySequence("Ctrl+W"), QObject::tr("Paste plain text"), QObject::tr("") });
     defaultKeyTable.insert("editor-cut",                 data{ QKeySequence("Ctrl+X"), QObject::tr("Cut"), QObject::tr("") });
     defaultKeyTable.insert("editor-undo",                data{ QKeySequence("Ctrl+Z"), QObject::tr("Undo"), QObject::tr("") });
     defaultKeyTable.insert("editor-redo",                data{ QKeySequence("Ctrl+Y"), QObject::tr("Redo"), QObject::tr("") });
@@ -102,7 +102,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-save",                data{ QKeySequence("Ctrl+S"), QObject::tr("Forse save note"), QObject::tr("") });
     defaultKeyTable.insert("editor-showText",            data{ QKeySequence("Ctrl+Shift+W"), QObject::tr("Show detached window"), QObject::tr("") });
     defaultKeyTable.insert("editor-toAttach",            data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Attach files"), QObject::tr("") });
-    defaultKeyTable.insert("editor-gotoReference",       data{ QKeySequence("Alt+Shift+U"), QObject::tr("Go to reference"), QObject::tr("") }); // Сочетание Alt+U перестает работать после того, как нажато на месте без URL-a
+    defaultKeyTable.insert("editor-gotoReference",       data{ QKeySequence("Alt+Shift+U"), QObject::tr("Go to URL or reference"), QObject::tr("") }); // Сочетание Alt+U перестает работать после того, как нажато на месте без URL-a
 
     defaultKeyTable.insert("actionLog-copy", data{ QKeySequence("Ctrl+C"), QObject::tr("Copy selected rows"), QObject::tr("") });
 

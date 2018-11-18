@@ -28,17 +28,17 @@ EditorContextMenu::~EditorContextMenu(void)
 
 void EditorContextMenu::setupActions(void)
 {
- actionUndo=new QAction(tr("Undo"),this);
- actionRedo=new QAction(tr("Redo"),this);
- actionCut=new QAction(tr("Cut"),this);
- actionCopy=new QAction(tr("Copy"),this);
- actionPaste=new QAction(tr("Paste"),this);
- actionPasteAsPlainText=new QAction(tr("Paste plain text"),this);
- actionSelectAll=new QAction(tr("Select All"),this);
+ actionUndo=new QAction(this);
+ actionRedo=new QAction(this);
+ actionCut=new QAction(this);
+ actionCopy=new QAction(this);
+ actionPaste=new QAction(this);
+ actionPasteAsPlainText=new QAction(this);
+ actionSelectAll=new QAction(this);
 
- actionEditImageProperties=new QAction(tr("Edit image properties"),this);
- actionEditMathExpression=new QAction(tr("Edit math expression"),this);
- actionGotoReference=new QAction(tr("Go to URL or reference"),this);
+ actionEditImageProperties=new QAction(this);
+ actionEditMathExpression=new QAction(this);
+ actionGotoReference=new QAction(this);
 }
 
 
