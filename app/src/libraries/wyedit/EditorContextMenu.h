@@ -11,6 +11,10 @@ class EditorContextMenu : public QMenu
   EditorContextMenu(QWidget *parent=nullptr);
   ~EditorContextMenu(void);
 
+ void update(void);
+
+ QList<QAction *> getActionsList(void);
+
  void setImageProperties(bool flag); // Активирование добавочного пункта меню "Свойства картинки")
  void setEditMathExpression(bool flag); // Активирование добавочного пункта меню "Редактирование формулы")
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
@@ -36,13 +40,29 @@ class EditorContextMenu : public QMenu
   QAction *actionPaste;
   QAction *actionPasteAsPlainText;
   QAction *actionSelectAll;
+
   QAction *actionEditImageProperties;
   QAction *actionEditMathExpression;
   QAction *actionGotoReference;
 
-  void setup_actions(void);
-  void setup_signals(void);
-  void setup_menu(void);
+  void setupActions(void);
+  void setupShortcuts(void);
+  void setupSignals(void);
+  void setupMenu(void);
+
+protected slots:
+
+  void onActionUndo(void);
+  void onActionRedo(void);
+  void onActionCut(void);
+  void onActionCopy(void);
+  void onActionPaste(void);
+  void onActionPasteAsPlainText(void);
+  void onActionSelectAll(void);
+  void onActionContextMenuEditImageProperties(void);
+  void onActionContextMenuEditMathExpression(void);
+  void onActionContextMenuGotoReference(void);
+
 };
 
 #endif // _EDITORCONTEXTMENU_H_

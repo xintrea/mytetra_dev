@@ -1,14 +1,22 @@
 #include <QAction>
 #include <QDebug>
+#include <QtGui>
 
 #include "EditorContextMenu.h"
+#include "Editor.h"
+#include "EditorCursorPositionDetector.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 EditorContextMenu::EditorContextMenu(QWidget *parent) : QMenu(parent)
 {
- setup_actions();
- setup_signals();
- setup_menu();
+ setupActions();
+ setupShortcuts();
+ setupSignals();
+ setupMenu();
 }
 
 
@@ -18,27 +26,94 @@ EditorContextMenu::~EditorContextMenu(void)
 }
 
 
-void EditorContextMenu::setup_actions(void)
+void EditorContextMenu::setupActions(void)
 {
  actionUndo=new QAction(tr("Undo"),this);
-
  actionRedo=new QAction(tr("Redo"),this);
-
  actionCut=new QAction(tr("Cut"),this);
-
  actionCopy=new QAction(tr("Copy"),this);
-
  actionPaste=new QAction(tr("Paste"),this);
-
  actionPasteAsPlainText=new QAction(tr("Paste plain text"),this);
-
  actionSelectAll=new QAction(tr("Select All"),this);
 
  actionEditImageProperties=new QAction(tr("Edit image properties"),this);
-
  actionEditMathExpression=new QAction(tr("Edit math expression"),this);
-
  actionGotoReference=new QAction(tr("Go to URL or reference"),this);
+}
+
+
+void EditorContextMenu::setupShortcuts(void)
+{
+    shortcutManager.initAction("editor-undo", actionUndo );
+    shortcutManager.initAction("editor-redo", actionRedo );
+    shortcutManager.initAction("editor-cut", actionCut );
+    shortcutManager.initAction("editor-copy", actionCopy );
+    shortcutManager.initAction("editor-paste", actionPaste );
+    shortcutManager.initAction("editor-pasteAsPlainText", actionPasteAsPlainText );
+    shortcutManager.initAction("editor-selectAll", actionSelectAll );
+
+    // Инит только для того, чтобы сгенерировалась надпись с шорткатом, так как рабочие действия есть на панели инстументов
+    shortcutManager.initAction("editor-insertImageFromFile", actionEditImageProperties );
+    shortcutManager.initAction("editor-mathExpression", actionEditMathExpression );
+
+    shortcutManager.initAction("editor-gotoReference", actionGotoReference );
+}
+
+
+void EditorContextMenu::update(void)
+{
+    // Сначала скрываются пункты редактирования формулы и картинки
+    setEditMathExpression( false );
+    setImageProperties( false );
+
+    // Если выбрана формула или курсор находится на позиции формулы
+    if(static_cast<Editor*>(this->parent())->cursorPositionDetector->isMathExpressionSelect() ||
+       static_cast<Editor*>(this->parent())->cursorPositionDetector->isCursorOnMathExpression()) {
+        setEditMathExpression( true );
+    } else {
+
+        // Если выбрана картинка или курсор находится на позиции картинки
+        if(static_cast<Editor*>(this->parent())->cursorPositionDetector->isImageSelect() ||
+           static_cast<Editor*>(this->parent())->cursorPositionDetector->isCursorOnImage()) {
+            setImageProperties( true );
+        }
+    }
+
+
+    // Если курсор находится на ссылке (URL)
+    if(static_cast<Editor*>(this->parent())->cursorPositionDetector->isCursorOnReference()) {
+        setGotoReference( true );
+    } else {
+        setGotoReference( false );
+    }
+
+    // Если в буфере обмена есть текст
+    if(QGuiApplication::clipboard()->text().size()>0) {
+        setPasteAsPlainText( true );
+    } else {
+        setPasteAsPlainText( false );
+    }
+}
+
+
+QList<QAction *> EditorContextMenu::getActionsList()
+{
+    QList<QAction *> list;
+
+    // Следующие действия уже есть на панели инструмнтов, они не должны добавляться на виджет редактора
+    // << actionEditImageProperties
+    // << actionEditMathExpression
+
+    list << actionUndo
+         << actionRedo
+         << actionCut
+         << actionCopy
+         << actionPaste
+         << actionPasteAsPlainText
+         << actionSelectAll
+         << actionGotoReference;
+
+    return list;
 }
 
 
@@ -48,6 +123,7 @@ void EditorContextMenu::setImageProperties(bool flag)
     qDebug() << "In EditorContextMenu::setImageProperties() " << flag;
 
     actionEditImageProperties->setVisible(flag);
+    actionEditImageProperties->setEnabled(flag);
 }
 
 
@@ -57,6 +133,8 @@ void EditorContextMenu::setEditMathExpression(bool flag)
     qDebug() << "In EditorContextMenu::setEditMathExpression() " << flag;
 
     actionEditMathExpression->setVisible(flag);
+    actionEditMathExpression->setEnabled(flag);
+
 }
 
 
@@ -64,6 +142,7 @@ void EditorContextMenu::setEditMathExpression(bool flag)
 void EditorContextMenu::setGotoReference(bool flag)
 {
   actionGotoReference->setVisible(flag);
+  actionGotoReference->setEnabled(flag);
 }
 
 
@@ -71,28 +150,27 @@ void EditorContextMenu::setGotoReference(bool flag)
 void EditorContextMenu::setPasteAsPlainText(bool flag)
 {
   actionPasteAsPlainText->setVisible(flag);
+  actionPasteAsPlainText->setEnabled(flag);
 }
 
 
-void EditorContextMenu::setup_signals(void)
+void EditorContextMenu::setupSignals(void)
 {
- connect(actionUndo, &QAction::triggered, this, &EditorContextMenu::undo);
- connect(actionRedo, &QAction::triggered, this, &EditorContextMenu::redo);
+ connect(actionUndo,            &QAction::triggered, this, &EditorContextMenu::onActionUndo);
+ connect(actionRedo,            &QAction::triggered, this, &EditorContextMenu::onActionRedo);
+ connect(actionCut,             &QAction::triggered, this, &EditorContextMenu::onActionCut);
+ connect(actionCopy,            &QAction::triggered, this, &EditorContextMenu::onActionCopy);
+ connect(actionPaste,           &QAction::triggered, this, &EditorContextMenu::onActionPaste);
+ connect(actionPasteAsPlainText,&QAction::triggered, this, &EditorContextMenu::onActionPasteAsPlainText);
+ connect(actionSelectAll,       &QAction::triggered, this, &EditorContextMenu::onActionSelectAll);
 
- connect(actionCut,             &QAction::triggered, this, &EditorContextMenu::cut);
- connect(actionCopy,            &QAction::triggered, this, &EditorContextMenu::copy);
- connect(actionPaste,           &QAction::triggered, this, &EditorContextMenu::paste);
- connect(actionPasteAsPlainText,&QAction::triggered, this, &EditorContextMenu::pasteAsPlainText);
-
- connect(actionSelectAll,       &QAction::triggered, this, &EditorContextMenu::selectAll);
-
- connect(actionEditImageProperties,&QAction::triggered, this, &EditorContextMenu::contextMenuEditImageProperties);
- connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::contextMenuEditMathExpression);
- connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::contextMenuGotoReference);
+ connect(actionEditImageProperties,&QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditImageProperties);
+ connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditMathExpression);
+ connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::onActionContextMenuGotoReference);
 }
 
 
-void EditorContextMenu::setup_menu(void)
+void EditorContextMenu::setupMenu(void)
 {
  this->addAction(actionUndo);
  this->addAction(actionRedo);
@@ -109,6 +187,87 @@ void EditorContextMenu::setup_menu(void)
  this->addAction(actionSelectAll);
  this->addAction(actionEditImageProperties);
  this->addAction(actionEditMathExpression);
- this->addAction(actionGotoReference);
+    this->addAction(actionGotoReference);
+}
+
+
+void EditorContextMenu::onActionUndo()
+{
+    update();
+    if(actionUndo->isEnabled()) {
+        emit undo();
+    }
+}
+
+void EditorContextMenu::onActionRedo()
+{
+    update();
+    if(actionRedo->isEnabled()) {
+        emit redo();
+    }
+}
+
+void EditorContextMenu::onActionCut()
+{
+    update();
+    if(actionCut->isEnabled()) {
+        emit cut();
+    }
+}
+
+void EditorContextMenu::onActionCopy()
+{
+    update();
+    if(actionCopy->isEnabled()) {
+        emit copy();
+    }
+}
+
+void EditorContextMenu::onActionPaste()
+{
+    update();
+    if(actionPaste->isEnabled()) {
+        emit paste();
+    }
+}
+
+void EditorContextMenu::onActionPasteAsPlainText()
+{
+    update();
+    if(actionPasteAsPlainText->isEnabled()) {
+        emit pasteAsPlainText();
+    }
+}
+
+void EditorContextMenu::onActionSelectAll()
+{
+    update();
+    if(actionSelectAll->isEnabled()) {
+        emit selectAll();
+    }
+}
+
+void EditorContextMenu::onActionContextMenuEditImageProperties()
+{
+    update();
+    if(actionEditImageProperties->isEnabled()) {
+        emit contextMenuEditImageProperties();
+    }
+}
+
+void EditorContextMenu::onActionContextMenuEditMathExpression()
+{
+    update();
+    if(actionEditMathExpression->isEnabled()) {
+        emit contextMenuEditMathExpression();
+    }
+}
+
+void EditorContextMenu::onActionContextMenuGotoReference()
+{
+    update();
+    if(actionGotoReference->isEnabled()) {
+        emit contextMenuGotoReference();
+    }
 }
 

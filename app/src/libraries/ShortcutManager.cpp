@@ -64,8 +64,14 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("tree-decryptBranch",        data{ QKeySequence("Ctrl+Shift+0"), QObject::tr("Decrypt item"), QObject::tr("Decrypt item and all subitem") });
     defaultKeyTable.insert("tree-setIcon",              data{ QKeySequence("Ctrl+Shift+O"), QObject::tr("Set icon"), QObject::tr("Set item icon") });
 
-    defaultKeyTable.insert("editor-copy",                data{ QKeySequence(""), QObject::tr("Copy"), QObject::tr("") }); // Не задействовано в коде
-    defaultKeyTable.insert("editor-paste",               data{ QKeySequence(""), QObject::tr("Paste"), QObject::tr("") }); // Не задействовано в коде
+    defaultKeyTable.insert("editor-selectAll",           data{ QKeySequence("Ctrl+A"), QObject::tr("Select all"), QObject::tr("") });
+    defaultKeyTable.insert("editor-copy",                data{ QKeySequence("Ctrl+C"), QObject::tr("Copy"), QObject::tr("") });
+    defaultKeyTable.insert("editor-paste",               data{ QKeySequence("Ctrl+V"), QObject::tr("Paste"), QObject::tr("") });
+    defaultKeyTable.insert("editor-pasteAsPlainText",    data{ QKeySequence("Ctrl+W"), QObject::tr("Paste as plain text"), QObject::tr("") });
+    defaultKeyTable.insert("editor-cut",                 data{ QKeySequence("Ctrl+X"), QObject::tr("Cut"), QObject::tr("") });
+    defaultKeyTable.insert("editor-undo",                data{ QKeySequence("Ctrl+Z"), QObject::tr("Undo"), QObject::tr("") });
+    defaultKeyTable.insert("editor-redo",                data{ QKeySequence("Ctrl+Y"), QObject::tr("Redo"), QObject::tr("") });
+
     defaultKeyTable.insert("editor-bold",                data{ QKeySequence("Ctrl+B"), QObject::tr("Bold"), QObject::tr("") });
     defaultKeyTable.insert("editor-italic",              data{ QKeySequence("Ctrl+I"), QObject::tr("Italic"), QObject::tr("") });
     defaultKeyTable.insert("editor-underline",           data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
@@ -96,6 +102,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-save",                data{ QKeySequence("Ctrl+S"), QObject::tr("Forse save note"), QObject::tr("") });
     defaultKeyTable.insert("editor-showText",            data{ QKeySequence("Ctrl+Shift+W"), QObject::tr("Show detached window"), QObject::tr("") });
     defaultKeyTable.insert("editor-toAttach",            data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Attach files"), QObject::tr("") });
+    defaultKeyTable.insert("editor-gotoReference",       data{ QKeySequence("Alt+U"), QObject::tr("Go to reference"), QObject::tr("") });
 
     defaultKeyTable.insert("actionLog-copy", data{ QKeySequence("Ctrl+C"), QObject::tr("Copy selected rows"), QObject::tr("") });
 

@@ -65,6 +65,8 @@ class Editor : public QWidget
  friend class MathExpressionFormatter;
  friend class ReferenceFormatter;
 
+ friend class EditorContextMenu;
+
 public:
  Editor(QWidget *parent=nullptr);
  ~Editor(void);

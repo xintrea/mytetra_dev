@@ -372,6 +372,8 @@ void Editor::setupSignals(void)
   //         this, SLOT  (onModificationChanged(bool)));
 
 
+  this->addActions(editorContextMenu->getActionsList());
+
   // Сигналы контекстного меню
   connect(editorContextMenu, &EditorContextMenu::undo,
           this,              &Editor::onUndo,
@@ -1263,39 +1265,8 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
 {
     qDebug() << "In Editor on_customContextMenuRequested";
 
-
-    // Сначала скрываются пункты редактирования формулы и картинки
-    editorContextMenu->setEditMathExpression( false );
-    editorContextMenu->setImageProperties( false );
-
-    // Если выбрана формула или курсор находится на позиции формулы
-    if(cursorPositionDetector->isMathExpressionSelect() ||
-       cursorPositionDetector->isCursorOnMathExpression()) {
-        editorContextMenu->setEditMathExpression( true );
-    } else {
-
-        // Если выбрана картинка или курсор находится на позиции картинки
-        if(cursorPositionDetector->isImageSelect() ||
-           cursorPositionDetector->isCursorOnImage()) {
-            editorContextMenu->setImageProperties( true );
-        }
-    }
-
-
-    // Если курсор находится на ссылке (URL)
-    if(cursorPositionDetector->isCursorOnReference()) {
-        editorContextMenu->setGotoReference( true );
-    } else {
-        editorContextMenu->setGotoReference( false );
-    }
-
-    // Если в буфере обмена есть текст
-    if(QGuiApplication::clipboard()->text().size()>0) {
-        editorContextMenu->setPasteAsPlainText( true );
-    } else {
-        editorContextMenu->setPasteAsPlainText( false );
-    }
-
+    // В контекстном меню выставляются допустимые пункты
+    editorContextMenu->update();
 
     // Контекстное меню запускается
     editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
