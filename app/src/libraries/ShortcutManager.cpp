@@ -106,13 +106,21 @@ void ShortcutManager::initDefaultKeyTable()
 
     defaultKeyTable.insert("actionLog-copy", data{ QKeySequence("Ctrl+C"), QObject::tr("Copy selected rows"), QObject::tr("") });
 
-    defaultKeyTable.insert("attach-switchToEditor",  data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Return to editor"), QObject::tr("") });
+    defaultKeyTable.insert("attach-addAttach",        data{ QKeySequence("Ctrl+N"), QObject::tr("Attach file"), QObject::tr("") });
+    defaultKeyTable.insert("attach-addAttachFromUrl", data{ QKeySequence("Ctrl+U"), QObject::tr("Attach file from URL"), QObject::tr("") });
+    defaultKeyTable.insert("attach-addLink",          data{ QKeySequence("Ctrl+L"), QObject::tr("Add link"), QObject::tr("Add link without file copying") });
+    defaultKeyTable.insert("attach-editFileName",     data{ QKeySequence("Ctrl+E"), QObject::tr("Edit file name"), QObject::tr("") });
+    defaultKeyTable.insert("attach-deleteAttach",     data{ QKeySequence("Ctrl+D"), QObject::tr("Delete file"), QObject::tr("") });
+    defaultKeyTable.insert("attach-openAttach",       data{ QKeySequence("Ctrl+O"), QObject::tr("Preview file"), QObject::tr("") });
+    defaultKeyTable.insert("attach-saveAsAttach",     data{ QKeySequence("Ctrl+S"), QObject::tr("Save as..."), QObject::tr("") });
+    defaultKeyTable.insert("attach-showAttachInfo",   data{ QKeySequence("Ctrl+I"), QObject::tr("Attach info"), QObject::tr("") });
+    defaultKeyTable.insert("attach-switchToEditor",   data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Return to editor"), QObject::tr("") });
 
     defaultKeyTable.insert("misc-findInBase",  data{ QKeySequence("Ctrl+Shift+F"), QObject::tr("Find in base"), QObject::tr("") });
     defaultKeyTable.insert("misc-syncro",      data{ QKeySequence("F9"), QObject::tr("Synchronization"), QObject::tr("Run synchronization") });
     defaultKeyTable.insert("misc-editConfirm", data{ QKeySequence(Qt::CTRL + Qt::Key_Return), QObject::tr("Ok"), QObject::tr("") });
     defaultKeyTable.insert("misc-print",       data{ QKeySequence("Ctrl+P"), QObject::tr("Print"), QObject::tr("") });
-    defaultKeyTable.insert("misc-exportPdf",   data{ QKeySequence("Ctrl+D"), QObject::tr("Export PDF"), QObject::tr("") });
+    defaultKeyTable.insert("misc-exportPdf",   data{ QKeySequence("Ctrl+Shift+D"), QObject::tr("Export PDF"), QObject::tr("") });
     defaultKeyTable.insert("misc-quit",        data{ QKeySequence("Ctrl+Q"), QObject::tr("Quit"), QObject::tr("") });
 }
 

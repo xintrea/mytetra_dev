@@ -38,55 +38,54 @@ AttachTableScreen::~AttachTableScreen()
 void AttachTableScreen::setupActions(void)
 {
   // Добавление локального файла
-  actionAddAttach = new QAction(tr("Attach file"), this);
-  actionAddAttach->setStatusTip(tr("Attach file"));
+  actionAddAttach = new QAction(this);
   actionAddAttach->setIcon(QIcon(":/resource/pic/attach_add.svg"));
 
   // Добавление локального файла
-  actionAddAttachFromUrl = new QAction(tr("Attach file from URL"), this);
-  actionAddAttachFromUrl->setStatusTip(tr("Attach file from URL"));
+  actionAddAttachFromUrl = new QAction(this);
   actionAddAttachFromUrl->setIcon(QIcon(":/resource/pic/attach_add_from_url.svg"));
 
   // Добавление линка на локальный файл
-  actionAddLink = new QAction(tr("Add link"), this);
-  actionAddLink->setStatusTip(tr("Add link without file copying"));
+  actionAddLink = new QAction(this);
   actionAddLink->setIcon(QIcon(":/resource/pic/attach_add_link.svg"));
 
   // Редактирование информации о файле (имени файла)
-  actionEditFileName = new QAction(tr("Edit file name"), this);
-  actionEditFileName->setStatusTip(tr("Edit file name"));
+  actionEditFileName = new QAction(this);
   actionEditFileName->setIcon(QIcon(":/resource/pic/attach_edit.svg"));
 
   // Удаление файла
-  actionDeleteAttach = new QAction(tr("Delete file"), this);
-  actionDeleteAttach->setStatusTip(tr("Delete file"));
+  actionDeleteAttach = new QAction(this);
   actionDeleteAttach->setIcon(QIcon(":/resource/pic/attach_delete.svg"));
 
   // Просмотр файла
-  actionOpenAttach = new QAction(tr("Preview file"), this);
-  actionOpenAttach->setStatusTip(tr("Preview file"));
+  actionOpenAttach = new QAction(this);
   actionOpenAttach->setIcon(QIcon(":/resource/pic/attach_preview.svg"));
 
   // Сохранить как... файл
-  actionSaveAsAttach = new QAction(tr("Save as..."), this);
-  actionSaveAsAttach->setStatusTip(tr("Save as..."));
+  actionSaveAsAttach = new QAction(this);
   actionSaveAsAttach->setIcon(QIcon(":/resource/pic/attach_save_as.svg"));
 
   // Информация об аттаче
-  actionShowAttachInfo = new QAction(tr("Attach info"), this);
-  actionShowAttachInfo->setStatusTip(tr("Attach info"));
+  actionShowAttachInfo = new QAction(this);
   actionShowAttachInfo->setIcon(QIcon(":/resource/pic/attach_info.svg"));
 
   // Переключение на редактор
-  actionSwitchToEditor = new QAction(tr("Return to editor"), this);
-  actionSwitchToEditor->setStatusTip(tr("Return to editor"));
+  actionSwitchToEditor = new QAction(this);
   actionSwitchToEditor->setIcon(QIcon(":/resource/pic/attach_switch_to_editor.svg"));
 }
 
 
 void AttachTableScreen::setupShortcuts(void)
 {
-    shortcutManager.initAction("attach-switchToEditor", actionSwitchToEditor );
+    shortcutManager.initAction("attach-addAttach",        actionAddAttach );
+    shortcutManager.initAction("attach-addAttachFromUrl", actionAddAttachFromUrl );
+    shortcutManager.initAction("attach-addLink",          actionAddLink );
+    shortcutManager.initAction("attach-editFileName",     actionEditFileName );
+    shortcutManager.initAction("attach-deleteAttach",     actionDeleteAttach );
+    shortcutManager.initAction("attach-openAttach",       actionOpenAttach );
+    shortcutManager.initAction("attach-saveAsAttach",     actionSaveAsAttach );
+    shortcutManager.initAction("attach-showAttachInfo",   actionShowAttachInfo );
+    shortcutManager.initAction("attach-switchToEditor",   actionSwitchToEditor );
 }
 
 
