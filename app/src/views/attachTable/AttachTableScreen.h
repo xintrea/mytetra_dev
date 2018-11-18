@@ -39,6 +39,7 @@ public slots:
 protected:
 
   void setupActions(void);
+  void setupShortcuts(void);
   void setupUI(void);
   void setupSignals(void);
   void assembly(void);

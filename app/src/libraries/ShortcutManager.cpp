@@ -9,7 +9,7 @@
 extern GlobalParameters globalParameters;
 
 
-const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "actionLog", "misc"};
+const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "actionLog", "attach", "misc"};
 
 
 ShortcutManager::ShortcutManager()
@@ -102,9 +102,11 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-save",                data{ QKeySequence("Ctrl+S"), QObject::tr("Forse save note"), QObject::tr("") });
     defaultKeyTable.insert("editor-showText",            data{ QKeySequence("Ctrl+Shift+W"), QObject::tr("Show detached window"), QObject::tr("") });
     defaultKeyTable.insert("editor-toAttach",            data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Attach files"), QObject::tr("") });
-    defaultKeyTable.insert("editor-gotoReference",       data{ QKeySequence("Alt+U"), QObject::tr("Go to reference"), QObject::tr("") });
+    defaultKeyTable.insert("editor-gotoReference",       data{ QKeySequence("Alt+Shift+U"), QObject::tr("Go to reference"), QObject::tr("") }); // Сочетание Alt+U перестает работать после того, как нажато на месте без URL-a
 
     defaultKeyTable.insert("actionLog-copy", data{ QKeySequence("Ctrl+C"), QObject::tr("Copy selected rows"), QObject::tr("") });
+
+    defaultKeyTable.insert("attach-switchToEditor",  data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Return to editor"), QObject::tr("") });
 
     defaultKeyTable.insert("misc-findInBase",  data{ QKeySequence("Ctrl+Shift+F"), QObject::tr("Find in base"), QObject::tr("") });
     defaultKeyTable.insert("misc-syncro",      data{ QKeySequence("F9"), QObject::tr("Synchronization"), QObject::tr("Run synchronization") });

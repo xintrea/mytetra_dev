@@ -3,6 +3,10 @@
 #include "AttachTableScreen.h"
 #include "AttachTableView.h"
 #include "controllers/attachTable/AttachTableController.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
@@ -12,6 +16,7 @@ AttachTableScreen::AttachTableScreen(QWidget *parent) : QWidget(parent)
 
   // Создаются действия. Они используются как в данном классе (на кнопках), так и в контекстном меню в AttachTableView
   setupActions();
+  setupShortcuts();
 
   // Инициализируется контроллер списка файлов
   attachTableController=new AttachTableController(this, parent);
@@ -76,6 +81,12 @@ void AttachTableScreen::setupActions(void)
   actionSwitchToEditor = new QAction(tr("Return to editor"), this);
   actionSwitchToEditor->setStatusTip(tr("Return to editor"));
   actionSwitchToEditor->setIcon(QIcon(":/resource/pic/attach_switch_to_editor.svg"));
+}
+
+
+void AttachTableScreen::setupShortcuts(void)
+{
+    shortcutManager.initAction("attach-switchToEditor", actionSwitchToEditor );
 }
 
 
