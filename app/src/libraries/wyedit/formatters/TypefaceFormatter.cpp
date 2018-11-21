@@ -173,6 +173,10 @@ void TypefaceFormatter::onCodeClicked(void)
     if(!textArea->textCursor().hasSelection())
         return;
 
+    // Обработка мягкого переноса в выделенном тексте
+    // Учитываются мягкие переносы до выделенного текста (1-й символ до выделения) и в выделенных абзацах
+    workingSoftCarryInSelection();
+    
     bool enableIndent;
 
     // Проверяется, выбран ли четко блок (блоки) текста,
@@ -1163,3 +1167,61 @@ void TypefaceFormatter::onFontcolorClicked()
         emit changeFontcolor( selectedColor );
     }
 }
+
+// Обработка мягкого переноса
+// Учитываются мягкие переносы до выделенного текста (1-й символ до выделения) и в выделенных абзацах
+void TypefaceFormatter::workingSoftCarryInSelection()
+{
+    // Если нет выделения, то возврат
+    if(!textArea->textCursor().hasSelection())
+        return;
+
+    // Запоминаем первоначальное выделение текста
+    int selectionStart = textArea->textCursor().selectionStart();
+    int selectionEnd   = textArea->textCursor().selectionEnd();
+
+    // Выбираем 1 символ слева от начала выделения текста
+    QTextCursor textCursor = textArea->textCursor();
+    textCursor.movePosition(QTextCursor::StartOfLine);
+    textCursor.setPosition(selectionStart-1, QTextCursor::MoveAnchor);
+    textCursor.setPosition(selectionStart, QTextCursor::KeepAnchor);
+
+    // Определяем, является ли этот 1-й симол слева от выделения текста мягким переносом
+    if(textCursor.anchor() != 0 && textCursor.position() != 0) // Пропускаем начало документо
+    {
+        QString html = textCursor.selection().toHtml();
+        QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>");
+        regExp.setMinimal(true);
+        if(html.indexOf(regExp) != -1)
+        {
+            // Если это мягкий перенос - заменяем его на абзац
+            textArea->setTextCursor(textCursor);
+            textArea->textCursor().removeSelectedText();
+            textArea->textCursor().insertText("\n");
+        }
+    }
+
+    // Расширяем выделение на 1 символ вправо, чтобы захватить мягкий перенос в конце выделения, если он есть
+    textCursor.setPosition(selectionStart, QTextCursor::MoveAnchor);
+    textCursor.setPosition(selectionEnd+1, QTextCursor::KeepAnchor);
+    textArea->setTextCursor(textCursor);
+
+    // Ищем мягкий перенос в расширенном вправо выделении
+    QString htmlCode = textArea->textCursor().selection().toHtml();
+    QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>");
+    regExp.setMinimal(true);
+    if(htmlCode.indexOf(regExp) != -1)
+    {
+        // Заменяем проблемный код в html
+        htmlCode = textArea->textCursor().selection().toHtml();
+        htmlCode.replace(regExp, "</p><p><br/>");
+        textArea->textCursor().removeSelectedText();
+        textArea->textCursor().insertHtml(htmlCode);
+    }
+
+    // Восстанавливаем выделение курсора
+    textCursor.setPosition(selectionStart, QTextCursor::MoveAnchor);
+    textCursor.setPosition(selectionEnd, QTextCursor::KeepAnchor);
+    textArea->setTextCursor(textCursor);
+}
+
