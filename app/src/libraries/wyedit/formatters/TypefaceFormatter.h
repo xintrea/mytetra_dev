@@ -43,6 +43,7 @@ public slots:
     void onFontselectChanged(const QFont &font);
     void onFontsizeChanged(int n);
     void onFontcolorClicked();
+
     // Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
     void onInsertHorizontalLineClicked();
 
@@ -64,6 +65,9 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
+
+    // Обработка мягкого переноса
+    void workingSoftCarryInSelection();
 
 };
 
