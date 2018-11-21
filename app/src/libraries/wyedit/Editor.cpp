@@ -527,6 +527,9 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->insertImageFromFile, &QAction::triggered,
             imageFormatter,                              &ImageFormatter::onInsertImageFromFileClicked);
 
+    connect(editorToolBarAssistant->insertHorizontalLine, &QAction::triggered,
+            typefaceFormatter,                            &TypefaceFormatter::onInsertHorizontalLineClicked);
+
     connect(editorToolBarAssistant->mathExpression, &QAction::triggered,
             mathExpressionFormatter,                &MathExpressionFormatter::onMathExpressionClicked);
 

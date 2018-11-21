@@ -249,6 +249,10 @@ void EditorToolBar::setupToolBarTools(void)
   insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
   insertImageFromFile->setObjectName("editor_tb_insert_image_from_file");
 
+  insertHorizontalLine=new QAction(this);
+  insertHorizontalLine->setIcon(QIcon(":/resource/pic/edit_insert_horizontal_line.svg"));
+  insertHorizontalLine->setObjectName("editor_tb_insert_horizontal_line");
+
   mathExpression=new QAction(this);
   mathExpression->setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
   mathExpression->setObjectName("editor_tb_math_expression");
@@ -355,6 +359,7 @@ void EditorToolBar::setupShortcuts(void)
     tableProperties->setToolTip(info);
 
     shortcutManager.initAction("editor-insertImageFromFile", insertImageFromFile);
+    shortcutManager.initAction("editor-insertHorizontalLine", insertHorizontalLine);
     shortcutManager.initAction("editor-mathExpression", mathExpression);
     shortcutManager.initAction("editor-expandEditArea", expandEditArea);
     shortcutManager.initAction("editor-expandToolsLines", expandToolsLines);
