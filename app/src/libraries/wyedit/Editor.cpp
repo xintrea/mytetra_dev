@@ -200,6 +200,8 @@ void Editor::setupEditorTextArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+  // Устанавка размера табуляции для клавиши Tab
+  textArea->setTabStopDistance( QFontMetricsF(textArea->font()).width('A') * editorConfig->get_tab_size() );
 }
 
 
@@ -1278,6 +1280,8 @@ void Editor::onSettingsClicked(void)
   // Создается окно настроек, после выхода из этой функции окно удалится
   EditorConfigDialog dialog;
   dialog.show();
+  // Устанавка размера табуляции для клавиши Tab
+  textArea->setTabStopDistance( QFontMetricsF(textArea->font()).width('A') * editorConfig->get_tab_size() );
 }
 
 
