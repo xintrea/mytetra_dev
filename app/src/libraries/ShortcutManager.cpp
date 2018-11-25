@@ -118,7 +118,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("attach-switchToEditor",   data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Return to editor"), QObject::tr("") });
 
     defaultKeyTable.insert("misc-focusTree", data{ QKeySequence("Alt+1"), QObject::tr("Set focus to items tree"), QObject::tr("") });
-    defaultKeyTable.insert("misc-focusNoteTable", data{ QKeySequence("Alt+1"), QObject::tr("Set focus to notes table"), QObject::tr("") });
+    defaultKeyTable.insert("misc-focusNoteTable", data{ QKeySequence("Alt+2"), QObject::tr("Set focus to notes table"), QObject::tr("") });
     defaultKeyTable.insert("misc-focusEditor", data{ QKeySequence("F4"), QObject::tr("Set focus to editor"), QObject::tr("") });
     defaultKeyTable.insert("misc-findInBase",  data{ QKeySequence("Ctrl+Shift+F"), QObject::tr("Find in base"), QObject::tr("") });
     defaultKeyTable.insert("misc-syncro",      data{ QKeySequence("F9"), QObject::tr("Synchronization"), QObject::tr("Run synchronization") });
