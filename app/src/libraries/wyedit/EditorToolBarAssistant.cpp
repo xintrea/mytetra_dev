@@ -190,10 +190,12 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
     bold->setChecked(false);
     italic->setChecked(false);
     underline->setChecked(false);
+    strikeout->setChecked(false);
 
     if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
     if(textArea->fontItalic()==true)        italic->setChecked(true);
     if(textArea->fontUnderline()==true)     underline->setChecked(true);
+    if(textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
 }
 
 
@@ -217,6 +219,13 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
     {
         if(active==false) underline->setChecked(false);
         else              underline->setChecked(true);
+        return;
+    }
+
+    if(button==BT_STRIKEOUT)
+    {
+        if(active==false) strikeout->setChecked(false);
+        else              strikeout->setChecked(true);
         return;
     }
 }

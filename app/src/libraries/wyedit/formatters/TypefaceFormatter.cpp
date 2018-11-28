@@ -47,6 +47,14 @@ void TypefaceFormatter::onUnderlineClicked(void)
     smartFormat(Underline);
 }
 
+// Форматирование Strike
+void TypefaceFormatter::onStrikeOutClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(StrikeOut);
+}
+
 
 void TypefaceFormatter::smartFormat(int formatType)
 {
@@ -75,6 +83,16 @@ void TypefaceFormatter::smartFormat(int formatType)
                 textArea->setFontUnderline(true);
             else
                 textArea->setFontUnderline(false);
+        }
+
+        if(formatType==StrikeOut)
+        {
+            QTextCharFormat format;
+            if(!textArea->textCursor().charFormat().fontStrikeOut())
+                format.setFontStrikeOut(true);
+            else
+                format.setFontStrikeOut(false);
+            textArea->textCursor().mergeCharFormat(format);
         }
 
     }
@@ -125,6 +143,14 @@ void TypefaceFormatter::smartFormat(int formatType)
                 format.setFontUnderline(true);
             else
                 format.setFontUnderline(false);
+        }
+
+        if(formatType==StrikeOut)
+        {
+            if(!cursor.charFormat().fontStrikeOut())
+                format.setFontStrikeOut(true);
+            else
+                format.setFontStrikeOut(false);
         }
 
         cursor.mergeCharFormat(format);
