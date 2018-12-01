@@ -126,7 +126,11 @@ private slots:
  void onClickHelpAboutMyTetra(void);
  void onClickHelpAboutQt(void);
  void onClickHelpTechnicalInfo(void);
- 
+
+ void onClickFocusTree(void);
+ void onClickFocusNoteTable(void);
+ void onClickFocusEditor(void);
+
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
  void onFocusChanged(QWidget *, QWidget *);
@@ -141,6 +145,7 @@ private:
  void initToolsMenu(void);
  void initPreferencesMenu(QMenu *menu);
  void initHelpMenu(void);
+ void initHiddenActions(void);
 
  void setupShortcuts(void);
  
@@ -175,11 +180,14 @@ private:
  QAction *actionHelpMenuAboutQt;
  QAction *actionHelpMenuTechnicalInfo;
 
-
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;
  QAction *actionTrayMinimize;
  QAction *actionTrayQuit;
+
+ QAction *actionFocusTree;
+ QAction *actionFocusNoteTable;
+ QAction *actionFocusEditor;
 
  QSystemTrayIcon *trayIcon;
  QMenu           *trayIconMenu;

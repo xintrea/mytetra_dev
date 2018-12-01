@@ -1000,3 +1000,8 @@ void RecordTableController::onSwitchSelectionMode()
   view->switchSelectionMode();
 }
 
+
+void RecordTableController::setFocusToBaseWidget()
+{
+    view->setFocus();
+}

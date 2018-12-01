@@ -57,6 +57,8 @@ public:
 
   void switchMetaEditorToEditorOrAttach(QModelIndex index);
 
+  void setFocusToBaseWidget();
+
 signals:
 
 public slots:

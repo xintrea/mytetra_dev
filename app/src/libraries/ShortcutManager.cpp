@@ -53,12 +53,12 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("tree-moveUpBranch",         data{ QKeySequence("Ctrl+Shift+PgUp"), QObject::tr("Move item up"), QObject::tr("") });
     defaultKeyTable.insert("tree-moveDownBranch",       data{ QKeySequence("Ctrl+Shift+PgDown"), QObject::tr("Move item down"), QObject::tr("") });
     defaultKeyTable.insert("tree-insSubbranch",         data{ QKeySequence("Ctrl+F7"), QObject::tr("Insert a new sub item"), QObject::tr("Insert a new sub item into selected") });
-    defaultKeyTable.insert("tree-insBranch",            data{ QKeySequence("F7"), QObject::tr("Insert a new sibling item"), QObject::tr("Insert a new sibling item after selected") });
+    defaultKeyTable.insert("tree-insBranch",            data{ QKeySequence("Ctrl+Shift+F7"), QObject::tr("Insert a new sibling item"), QObject::tr("Insert a new sibling item after selected") });
     defaultKeyTable.insert("tree-editBranch",           data{ QKeySequence("Shift+F6"), QObject::tr("Edit item name"), QObject::tr("Edit name of selected item") });
-    defaultKeyTable.insert("tree-delBranch",            data{ QKeySequence("F8"), QObject::tr("Delete item"), QObject::tr("Delete selected item and all sub items") });
+    defaultKeyTable.insert("tree-delBranch",            data{ QKeySequence("Ctrl+Shift+F8"), QObject::tr("Delete item"), QObject::tr("Delete selected item and all sub items") });
     defaultKeyTable.insert("tree-cutBranch",            data{ QKeySequence("Ctrl+F8"), QObject::tr("Cut item"), QObject::tr("Cut item including sub items") });
-    defaultKeyTable.insert("tree-copyBranch",           data{ QKeySequence("F3"), QObject::tr("Copy item"), QObject::tr("Copy item including sub items") });
-    defaultKeyTable.insert("tree-pasteBranch",          data{ QKeySequence("F5"), QObject::tr("Paste item"), QObject::tr("Paste sibling item after selected") });
+    defaultKeyTable.insert("tree-copyBranch",           data{ QKeySequence("Ctrl+Shift+F3"), QObject::tr("Copy item"), QObject::tr("Copy item including sub items") });
+    defaultKeyTable.insert("tree-pasteBranch",          data{ QKeySequence("Ctrl+Shift+F5"), QObject::tr("Paste item"), QObject::tr("Paste sibling item after selected") });
     defaultKeyTable.insert("tree-pasteSubbranch",       data{ QKeySequence("Ctrl+F5"), QObject::tr("Paste as sub item"), QObject::tr("Paste item as sub item for selected") });
     defaultKeyTable.insert("tree-encryptBranch",        data{ QKeySequence("Ctrl+Shift+1"), QObject::tr("Encrypt item"), QObject::tr("Encrypt item and all subitem") });
     defaultKeyTable.insert("tree-decryptBranch",        data{ QKeySequence("Ctrl+Shift+0"), QObject::tr("Decrypt item"), QObject::tr("Decrypt item and all subitem") });
@@ -117,8 +117,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("attach-showAttachInfo",   data{ QKeySequence("Ctrl+I"), QObject::tr("Attach info"), QObject::tr("") });
     defaultKeyTable.insert("attach-switchToEditor",   data{ QKeySequence("Ctrl+Shift+A"), QObject::tr("Return to editor"), QObject::tr("") });
 
-    defaultKeyTable.insert("misc-focusTree", data{ QKeySequence("Alt+1"), QObject::tr("Set focus to items tree"), QObject::tr("") });
-    defaultKeyTable.insert("misc-focusNoteTable", data{ QKeySequence("Alt+2"), QObject::tr("Set focus to notes table"), QObject::tr("") });
+    defaultKeyTable.insert("misc-focusTree", data{ QKeySequence("F7"), QObject::tr("Set focus to items tree"), QObject::tr("") });
+    defaultKeyTable.insert("misc-focusNoteTable", data{ QKeySequence("F6"), QObject::tr("Set focus to notes table"), QObject::tr("") });
     defaultKeyTable.insert("misc-focusEditor", data{ QKeySequence("F4"), QObject::tr("Set focus to editor"), QObject::tr("") });
     defaultKeyTable.insert("misc-findInBase",  data{ QKeySequence("Ctrl+Shift+F"), QObject::tr("Find in base"), QObject::tr("") });
     defaultKeyTable.insert("misc-syncro",      data{ QKeySequence("F9"), QObject::tr("Synchronization"), QObject::tr("Run synchronization") });

@@ -1656,3 +1656,10 @@ void TreeScreen::updateLastKnowTreeData(QFileInfo fileInfo, bool fileInfoValid)
   lastKnowTreeModifyDateTime=fileInfo.lastModified();
   lastKnowTreeSize=fileInfo.size();
 }
+
+
+// Установка фокуса на базовый виджет (на список веток дерева)
+void TreeScreen::setFocusToBaseWidget()
+{
+    knowTreeView->setFocus();
+}

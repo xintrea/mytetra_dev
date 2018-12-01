@@ -34,6 +34,8 @@ public:
 
  void disableAllActions(void);
 
+ void setFocusToBaseWidget();
+
  // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
  QAction *actionAddNewToEnd;
  QAction *actionAddNewBefore;

@@ -45,6 +45,8 @@ public:
 
  void setReadOnly(bool state);
 
+ void setFocusToBaseWidget();
+
 private:
  void setupLabels(void);
  void setupUI(void);
