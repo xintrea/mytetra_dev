@@ -572,3 +572,8 @@ QString RecordTableScreen::getTreePath(void)
 }
 
 
+// Установка фокуса на базовый виджет (на список веток дерева)
+void RecordTableScreen::setFocusToBaseWidget()
+{
+    recordTableController->setFocusToBaseWidget();
+}

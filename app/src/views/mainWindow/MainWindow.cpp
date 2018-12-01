@@ -53,6 +53,7 @@ MainWindow::MainWindow() : QMainWindow()
   initFileMenu();
   initToolsMenu();
   initHelpMenu();
+  initHiddenActions();
   setupSignals();
   assembly();
 
@@ -152,6 +153,10 @@ void MainWindow::setupSignals(void)
   connect(actionHelpMenuAboutMyTetra, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
   connect(actionHelpMenuAboutQt, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
   connect(actionHelpMenuTechnicalInfo, &QAction::triggered, this, &MainWindow::onClickHelpTechnicalInfo);
+
+  connect(actionFocusTree, &QAction::triggered, this, &MainWindow::onClickFocusTree);
+  connect(actionFocusNoteTable, &QAction::triggered, this, &MainWindow::onClickFocusNoteTable);
+  connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
 }
 
 
@@ -569,6 +574,22 @@ void MainWindow::initHelpMenu(void)
 }
 
 
+// Создание скрытых действий для работы прочих шорткатов уровня приложения
+void MainWindow::initHiddenActions(void)
+{
+    // Действия добавляются в сам виджет
+    // Для таких действий нет визуального представления, но горячие клавиши для них работают
+    actionFocusTree = new QAction(this);
+    this->addAction(actionFocusTree);
+
+    actionFocusNoteTable = new QAction(this);
+    this->addAction(actionFocusNoteTable);
+
+    actionFocusEditor = new QAction(this);
+    this->addAction(actionFocusEditor);
+}
+
+
 void MainWindow::setupShortcuts(void)
 {
     shortcutManager.initAction("misc-print", actionFileMenuPrint );
@@ -576,6 +597,10 @@ void MainWindow::setupShortcuts(void)
     shortcutManager.initAction("misc-quit", actionFileMenuQuit );
 
     shortcutManager.initAction("misc-findInBase", actionToolsMenuFindInBase );
+
+    shortcutManager.initAction("misc-focusTree", actionFocusTree );
+    shortcutManager.initAction("misc-focusNoteTable", actionFocusNoteTable );
+    shortcutManager.initAction("misc-focusEditor", actionFocusEditor );
 }
 
 
@@ -827,6 +852,24 @@ void MainWindow::onClickHelpTechnicalInfo(void)
   msgBox->setText(tr("<b>Technical info</b>"));
   msgBox->setInformativeText(info);
   msgBox->exec();
+}
+
+
+void MainWindow::onClickFocusTree(void)
+{
+    treeScreen->setFocusToBaseWidget();
+}
+
+
+void MainWindow::onClickFocusNoteTable(void)
+{
+    recordTableScreen->setFocusToBaseWidget();
+}
+
+
+void MainWindow::onClickFocusEditor(void)
+{
+    editorScreen->setFocusToBaseWidget();
 }
 
 
@@ -1179,5 +1222,4 @@ void MainWindow::onFocusChanged(QWidget *widgetFrom, QWidget *widgetTo)
 
   return; // Временно ничего не делает
 }
-
 

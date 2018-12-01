@@ -417,3 +417,9 @@ void MetaEditor::setReadOnly(bool state)
   // Слой прикрепленных файлов
   attachTableScreen->setReadOnly(state);
 }
+
+
+void MetaEditor::setFocusToBaseWidget()
+{
+    textArea->setFocus();
+}

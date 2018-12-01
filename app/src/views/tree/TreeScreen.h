@@ -46,6 +46,8 @@ public:
  
  void updateBranchOnScreen(const QModelIndex &index);
 
+ void setFocusToBaseWidget(void);
+
 private slots:
 
  void expandAllSubbranch(void);
