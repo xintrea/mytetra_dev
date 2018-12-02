@@ -227,7 +227,11 @@ HEADERS = src/main.h \
     src/libraries/wyedit/EditorFontSizeComboBox.h \
     src/libraries/wyedit/EditorFontFamilyComboBox.h \
     src/libraries/wyedit/formatters/MathExpressionFormatter.h \
-    src/libraries/ShortcutManager.h
+    src/libraries/ShortcutManager.h \
+    src/views/shortcutSettings/ShortcutSettingsScreen.h \
+    src/views/shortcutSettings/ShortcutSettingsView.h \
+    src/controllers/shortcutSettings/ShortcutSettingsController.h \
+    src/models/shortcutSettings/ShortcutSettingsModel.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -350,7 +354,11 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/EditorFontSizeComboBox.cpp \
     src/libraries/wyedit/EditorFontFamilyComboBox.cpp \
     src/libraries/wyedit/formatters/MathExpressionFormatter.cpp \
-    src/libraries/ShortcutManager.cpp
+    src/libraries/ShortcutManager.cpp \
+    src/views/shortcutSettings/ShortcutSettingsScreen.cpp \
+    src/views/shortcutSettings/ShortcutSettingsView.cpp \
+    src/controllers/shortcutSettings/ShortcutSettingsController.cpp \
+    src/models/shortcutSettings/ShortcutSettingsModel.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
