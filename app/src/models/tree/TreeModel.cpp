@@ -36,7 +36,9 @@ int TreeModel::columnCount(const QModelIndex &itemIndex) const
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     // Если индекс невалиден, возвращается несуществующий элемент
-    if(!index.isValid())return QVariant();
+    if(!index.isValid()) {
+        return QVariant();
+    }
 
     // Если запрашивается окраска текста элемента
     if(role==Qt::ForegroundRole)
