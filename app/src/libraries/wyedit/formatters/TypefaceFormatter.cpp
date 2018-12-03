@@ -53,6 +53,18 @@ void TypefaceFormatter::smartFormat(int formatType)
     // Если выделение есть
     if(textArea->textCursor().hasSelection())
     {
+        // Переназначение позиций выделения, иначе снятие форматирования не срабатывает
+        // в случае выделения справа-налево (снизу-вверх)
+        QTextCursor cursor = textArea->textCursor();
+        const int anchor = cursor.anchor();
+        const int position = cursor.position();
+        if (anchor > position)
+        {
+            cursor.setPosition(position, QTextCursor::MoveAnchor);
+            cursor.setPosition(anchor, QTextCursor::KeepAnchor);
+            textArea->setTextCursor(cursor);
+        }
+
         if(formatType==Bold)
         {
             if(textArea->fontWeight() != QFont::Bold)
