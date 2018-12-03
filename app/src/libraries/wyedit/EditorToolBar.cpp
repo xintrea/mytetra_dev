@@ -98,6 +98,18 @@ void EditorToolBar::setupToolBarTools(void)
   underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
   underline->setObjectName("editor_tb_underline");
 
+  // Кнопка SuperScript
+  superscript=new QAction(this);
+  superscript->setCheckable(true);
+  superscript->setIcon(QIcon(":/resource/pic/edit_sup.svg"));
+  superscript->setObjectName("editor_tb_sup");
+
+  // Кнопка SubScript
+  subscript=new QAction(this);
+  subscript->setCheckable(true);
+  subscript->setIcon(QIcon(":/resource/pic/edit_sub.svg"));
+  subscript->setObjectName("editor_tb_sub");
+
   // Кнопка Monospace
   monospace=new QAction(this);
   monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
@@ -302,6 +314,8 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-bold", bold );
     shortcutManager.initAction("editor-italic", italic);
     shortcutManager.initAction("editor-underline", underline);
+    shortcutManager.initAction("editor-superscript", superscript);
+    shortcutManager.initAction("editor-subscript", subscript);
     shortcutManager.initAction("editor-monospace", monospace);
     shortcutManager.initAction("editor-code", code);
     shortcutManager.initAction("editor-clear", clear);

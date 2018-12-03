@@ -433,6 +433,12 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->underline, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onUnderlineClicked);
 
+    connect(editorToolBarAssistant->superscript, &QAction::triggered,
+            typefaceFormatter,                   &TypefaceFormatter::onSuperScriptClicked);
+
+    connect(editorToolBarAssistant->subscript, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onSubScriptClicked);
+
     connect(editorToolBarAssistant->monospace, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
 

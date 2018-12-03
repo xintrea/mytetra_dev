@@ -8,6 +8,7 @@
 // Класс форматирования для начертания текста
 
 class QDomNode;
+class QTextCharFormat;
 
 class TypefaceFormatter : public Formatter
 {
@@ -16,7 +17,7 @@ class TypefaceFormatter : public Formatter
 public:
     TypefaceFormatter();
 
-    enum EasyFormatType {Bold, Italic, Underline};
+    enum EasyFormatType {Bold, Italic, Underline, SuperScript, SubScript};
 
 signals:
 
@@ -34,6 +35,8 @@ public slots:
     void onBoldClicked(void);
     void onItalicClicked(void);
     void onUnderlineClicked(void);
+    void onSuperScriptClicked(void);
+    void onSubScriptClicked(void);
     void onMonospaceClicked(void);
     void onCodeClicked(void);
     void onClearClicked(void);
