@@ -20,6 +20,9 @@ class EditorContextMenu : public QMenu
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
  void setPasteAsPlainText(bool flag);
 
+ inline QAction *getActionUndo() const {return actionUndo;}
+ inline QAction *getActionRedo() const {return actionRedo;}
+
  signals:
   void undo(void);
   void redo(void);

@@ -32,6 +32,8 @@ public:
   QToolBar    toolsLine2;
 
   // Кнопки форматирования текста
+  QAction *undo;
+  QAction *redo;
   QAction *bold;
   QAction *italic;
   QAction *underline;

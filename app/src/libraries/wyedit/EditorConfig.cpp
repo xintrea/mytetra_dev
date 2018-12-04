@@ -369,6 +369,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_11;
     parameterFunctions << get_parameter_table_12;
     parameterFunctions << get_parameter_table_13;
+    parameterFunctions << get_parameter_table_14;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -637,6 +638,24 @@ QStringList EditorConfig::get_parameter_table_13(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 13
+    table << get_parameter_table_13(false);
+
+    // В параметр tools_line_1 добавляется "separator,undo,redo,separator"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -745,6 +764,18 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                 else
                     result=result+",math_expression";
             }
+
+    if(versionFrom==13 && versionTo==14)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("undo") && !result.contains("redo"))
+            {
+                if(result.contains("clear"))
+                    result.replace("clear", "clear,separator,undo,redo,separator");
+                else
+                    result=result+",separator,undo,redo,separator";
+            }
+        }
 
     return result;
 }

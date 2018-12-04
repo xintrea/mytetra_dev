@@ -80,6 +80,18 @@ void EditorToolBar::setupToolBarTools(void)
   // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
   // имена объектов должны начинаться на "editor_tb"
 
+  // Кнопка Undo
+  undo=new QAction(this);
+  undo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
+  undo->setObjectName("editor_tb_undo");
+  undo->setEnabled(false); // undo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+
+  // Кнопка Redo
+  redo=new QAction(this);
+  redo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
+  redo->setObjectName("editor_tb_redo");
+  redo->setEnabled(false); // redo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+
   // Кнопка Bold
   bold=new QAction(this);
   bold->setCheckable(true);
@@ -299,6 +311,8 @@ void EditorToolBar::setupToolBarTools(void)
 
 void EditorToolBar::setupShortcuts(void)
 {
+    shortcutManager.initAction("editor-undo", undo );
+    shortcutManager.initAction("editor-redo", redo );
     shortcutManager.initAction("editor-bold", bold );
     shortcutManager.initAction("editor-italic", italic);
     shortcutManager.initAction("editor-underline", underline);

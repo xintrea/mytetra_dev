@@ -29,7 +29,12 @@ EditorContextMenu::~EditorContextMenu(void)
 void EditorContextMenu::setupActions(void)
 {
  actionUndo=new QAction(this);
+ actionUndo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
+ actionUndo->setEnabled(false); // undo недоступно при создании actionUndo еще не было ни одного действия с текстом
  actionRedo=new QAction(this);
+ actionRedo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
+ actionRedo->setEnabled(false); // redo недоступно при создании actionRedo еще не было ни одного действия с текстом
+
  actionCut=new QAction(this);
  actionCopy=new QAction(this);
  actionPaste=new QAction(this);
