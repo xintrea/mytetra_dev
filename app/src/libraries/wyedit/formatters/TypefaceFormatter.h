@@ -8,6 +8,7 @@
 // Класс форматирования для начертания текста
 
 class QDomNode;
+class QTextCharFormat;
 
 class TypefaceFormatter : public Formatter
 {
@@ -44,6 +45,9 @@ public slots:
     void onFontsizeChanged(int n);
     void onFontcolorClicked();
 
+    void onLowerCase(); // "Строчные"
+    void onUpperCase(); // "ПРОПИСНЫЕ"
+
 private:
 
     void smartFormat(int formatType);
@@ -62,6 +66,7 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
 };
 

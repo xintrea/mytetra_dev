@@ -19,6 +19,8 @@ class EditorContextMenu : public QMenu
  void setEditMathExpression(bool flag); // Активирование добавочного пункта меню "Редактирование формулы")
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
  void setPasteAsPlainText(bool flag);
+ void setFormatToLowerCase(bool flag); // Активирование добавочного пункта меню "Строчные"
+ void setFormatToUpperCase(bool flag); // Активирование добавочного пункта меню "ПРОПИСНЫЕ"
 
  signals:
   void undo(void);
@@ -32,6 +34,9 @@ class EditorContextMenu : public QMenu
   void contextMenuEditMathExpression(void);
   void contextMenuGotoReference(void);
 
+  void lowercase(void);
+  void uppercase(void);
+
  private:
   QAction *actionUndo;
   QAction *actionRedo;
@@ -40,6 +45,8 @@ class EditorContextMenu : public QMenu
   QAction *actionPaste;
   QAction *actionPasteAsPlainText;
   QAction *actionSelectAll;
+  QAction *actionLowercase; // строчный
+  QAction *actionUppercase; // ПРОПИСНЫЕ
 
   QAction *actionEditImageProperties;
   QAction *actionEditMathExpression;
@@ -62,6 +69,9 @@ protected slots:
   void onActionContextMenuEditImageProperties(void);
   void onActionContextMenuEditMathExpression(void);
   void onActionContextMenuGotoReference(void);
+
+  void onActionLowercase();
+  void onActionUppercase();
 
 };
 

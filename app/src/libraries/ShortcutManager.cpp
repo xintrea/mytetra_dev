@@ -77,6 +77,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-underline",           data{ QKeySequence("Ctrl+U"), QObject::tr("Underline"), QObject::tr("") });
     defaultKeyTable.insert("editor-monospace",           data{ QKeySequence("Ctrl+T"), QObject::tr("Monospace"), QObject::tr("") });
     defaultKeyTable.insert("editor-code",                data{ QKeySequence("Ctrl+M"), QObject::tr("Code"), QObject::tr("Select a whole paragraphs to format text as code") });
+    defaultKeyTable.insert("editor-lowercase",           data{ QKeySequence(""), QObject::tr("Lowercase"), QObject::tr("") });
+    defaultKeyTable.insert("editor-uppercase",           data{ QKeySequence(""), QObject::tr("Uppercase"), QObject::tr("") });
     defaultKeyTable.insert("editor-clear",               data{ QKeySequence("Ctrl+K"), QObject::tr("Clear format"), QObject::tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
     defaultKeyTable.insert("editor-textOnly",            data{ QKeySequence("Ctrl+Shift+K"), QObject::tr("Text only"), QObject::tr("") });
     defaultKeyTable.insert("editor-fixBreakSymbol",      data{ QKeySequence("Ctrl+Shift+R"), QObject::tr("Return type replace"), QObject::tr("Replace soft carriage return to standard carriage return") });
