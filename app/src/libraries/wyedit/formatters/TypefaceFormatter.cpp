@@ -1158,8 +1158,26 @@ void TypefaceFormatter::onFontcolorClicked()
     if(selectedColor.isValid())
     {
         // Меняется цвет кнопки
-        // editor->editorToolBar->fontColor->setPalette(QPalette(selectedColor));
-        // editor->currentFontColor=selectedColor.name(); // Запоминается текущий цвет (подумать, доделать)
         emit changeFontcolor( selectedColor );
+    }
+}
+
+
+// Слот, срабатыващий при нажатии на кнопку выбора цвета фона текста
+void TypefaceFormatter::onBackgroundcolorClicked()
+{
+    // TRACELOG
+
+    // Текущий цвет фона возле курсора
+    QColor currentColor=textArea->textBackgroundColor();
+
+    // Диалог запроса цвета
+    QColor selectedColor=QColorDialog::getColor(currentColor, editor);
+
+    // Если цвет выбран, и он правильный
+    if(selectedColor.isValid())
+    {
+        // Меняется цвет кнопки
+        emit changeBackgroundcolor( selectedColor );
     }
 }

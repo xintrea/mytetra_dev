@@ -182,8 +182,14 @@ void EditorToolBar::setupToolBarTools(void)
 
   // Кнопка выбора цвета шрифта
   fontColor=new QAction(this);
-  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
+//  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
   fontColor->setObjectName("editor_tb_fontcolor");
+
+
+  // Кнопка выбора цвета фона текста
+  backgroundColor=new QAction(this);
+//  backgroundColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
+  backgroundColor->setObjectName("editor_tb_backgroundcolor");
 
 
   // Кнопка вызова виджета поиска текста
@@ -316,6 +322,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-alignRight", alignRight);
     shortcutManager.initAction("editor-alignWidth", alignWidth);
     shortcutManager.initAction("editor-fontColor", fontColor);
+    shortcutManager.initAction("editor-backgroundColor", backgroundColor);
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
     shortcutManager.initAction("editor-reference", reference);
