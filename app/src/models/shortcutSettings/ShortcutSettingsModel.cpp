@@ -11,6 +11,7 @@ ShortcutSettingsModel::~ShortcutSettingsModel()
 }
 
 
+// Получение данных из модели
 QVariant ShortcutSettingsModel::data(const QModelIndex &index, int role) const
 {
     // Если индекс невалиден, возвращается несуществующий элемент
@@ -48,6 +49,9 @@ QVariant ShortcutSettingsModel::data(const QModelIndex &index, int role) const
     {
      return QVariant( QString("Shortcut") ); // Запрашивается строка имени с количеством элементов
     }
+
+    // Все прочие случаи
+    return QVariant();
 }
 
 
@@ -70,18 +74,6 @@ QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientat
     }
 
     return "";
-}
-
-
-QModelIndex ShortcutSettingsModel::index(int row, int column, const QModelIndex &parent) const
-{
-
-}
-
-
-QModelIndex ShortcutSettingsModel::parent(const QModelIndex &index) const
-{
-
 }
 
 
