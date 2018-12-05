@@ -4,7 +4,7 @@
 #include <QTreeView>
 
 
-class ShortcutSettingsView : QTreeView
+class ShortcutSettingsView : public QTreeView
 {
     Q_OBJECT
 public:

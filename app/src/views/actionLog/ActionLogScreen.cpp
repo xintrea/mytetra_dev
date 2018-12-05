@@ -40,7 +40,7 @@ ActionLogScreen::~ActionLogScreen()
 
 void ActionLogScreen::setupUI(void)
 {
-  // Экранная таблица с отображение лога действий
+  // Экранная таблица с отображением лога действий
   actionLogView=actionLogController->getView();
 
   // Создание тулбара

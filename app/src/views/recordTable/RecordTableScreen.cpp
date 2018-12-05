@@ -28,14 +28,12 @@ extern ShortcutManager shortcutManager;
 
 RecordTableScreen::RecordTableScreen(QWidget *parent) : QWidget(parent)
 {
+  setupActions();
+
   // Инициализируется контроллер списка записей
   recordTableController=new RecordTableController(this);
   recordTableController->setObjectName("recordTableController");
-
-  setupActions();
-
   recordTableController->init();
-
 
   setupUI();
   setupShortcuts();

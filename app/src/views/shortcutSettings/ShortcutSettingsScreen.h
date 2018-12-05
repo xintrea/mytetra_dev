@@ -3,6 +3,11 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QAction>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include "controllers/shortcutSettings/ShortcutSettingsController.h"
 
 class ShortcutSettingsScreen : public QDialog
 {
@@ -11,6 +16,26 @@ public:
     ShortcutSettingsScreen(QWidget *parent = nullptr);
     ~ShortcutSettingsScreen();
 
+protected:
+
+    ShortcutSettingsController *shortcutSettingsController;
+
+    QAction *grabShortcut;
+    QAction *resetShortcutToDefault;
+    QAction *resetAllShortcutsToDefault;
+
+    QPushButton *buttonGrabShortcut;
+    QPushButton *buttonResetShortcutToDefault;
+    QPushButton *buttonResetAllShortcutsToDefault;
+
+    QDialogButtonBox *dialogButtonBox;
+
+    QVBoxLayout *screenLayout;
+
+    void setupUI(void);
+    void setupSignals(void);
+    void setupActions(void);
+    void assembly(void);
 
 };
 
