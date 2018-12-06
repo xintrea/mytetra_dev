@@ -38,6 +38,9 @@ public:
     void initAction(QString actionName, QAction *action);
     void initToolButton(QString actionName, QToolButton *action);
 
+    // Получение списка коротких имен действий в секции
+    QStringList getActionsNameList(QString sectionName);
+
 protected:
 
     void initDefaultKeyTable();

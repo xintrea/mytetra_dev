@@ -229,6 +229,29 @@ void ShortcutManager::saveConfig(QMap<QString, data> table)
 }
 
 
+// Список коротких имен действий в разделе
+QStringList ShortcutManager::getActionsNameList(QString sectionName)
+{
+    if(!availableSection.contains(sectionName)) {
+        return QStringList();
+    }
+
+    QStringList list;
+
+    foreach (QString fullActionName, keyTable.keys()) // Перебираются наименования действий
+    {
+        QString currentSectionName=fullActionName.section('-', 0, 0);
+        QString currentShortActionName=fullActionName.section('-', 1, 1);
+
+        if(currentSectionName==sectionName) {
+            list << currentShortActionName;
+        }
+    }
+
+    return list;
+}
+
+
 QKeySequence ShortcutManager::getKeySequence(QString actionName)
 {
     if(keyTable.contains(actionName)) {
@@ -336,3 +359,4 @@ void ShortcutManager::initToolButton(QString actionName, QToolButton *action)
     }
 
 }
+
