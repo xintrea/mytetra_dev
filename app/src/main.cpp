@@ -354,6 +354,7 @@ int getScreenSizeY(void)
 }
 
 
+// Редактирование произвольного конфиг-файла (конфиг программы, конфиг редактора)
 void editConfigFile( QString fileName, float sizeCoefficient )
 {
   // Окно диалога для редактирования файла конфига
