@@ -25,6 +25,7 @@ void ShortcutSettingsController::init()
     model->setObjectName("shortcutSettingsModel");
 
     view->setModel(model);
+    view->expandAll();
 }
 
 
