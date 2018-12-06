@@ -7,6 +7,10 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
 #include "controllers/shortcutSettings/ShortcutSettingsController.h"
 
 class ShortcutSettingsScreen : public QDialog
@@ -24,7 +28,17 @@ protected:
     QPushButton *buttonResetShortcutToDefault;
     QPushButton *buttonResetAllShortcutsToDefault;
 
-    QDialogButtonBox *dialogButtonBox;
+    QDialogButtonBox *dialogButtonBox; // Кнопки Ok и Cancel
+
+    QGroupBox *shortcutBox;
+    QLabel *commandLabel;
+    QLabel *commandValueLabel;
+    QLabel *desctiptionLabel;
+    QLabel *desctiptionValueLabel;
+    QLabel *shortcutLabel;
+    QLineEdit *shortcutValueLine;
+    QHBoxLayout *shortcutLineLayout; // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
+    QGridLayout *shortcutLayout; // Слой внутри объединяющего прямоугольника настройки шортката
 
     QVBoxLayout *screenLayout;
 
