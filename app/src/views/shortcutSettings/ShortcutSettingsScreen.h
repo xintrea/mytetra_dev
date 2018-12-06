@@ -20,10 +20,6 @@ protected:
 
     ShortcutSettingsController *shortcutSettingsController;
 
-    QAction *grabShortcut;
-    QAction *resetShortcutToDefault;
-    QAction *resetAllShortcutsToDefault;
-
     QPushButton *buttonGrabShortcut;
     QPushButton *buttonResetShortcutToDefault;
     QPushButton *buttonResetAllShortcutsToDefault;
@@ -34,7 +30,6 @@ protected:
 
     void setupUI(void);
     void setupSignals(void);
-    void setupActions(void);
     void assembly(void);
 
 };

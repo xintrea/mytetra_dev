@@ -26,6 +26,9 @@ void ShortcutSettingsController::init()
 
     view->setModel(model);
     view->expandAll();
+    view->resizeColumnToContents(0);
+    view->resizeColumnToContents(1);
+    view->resizeColumnToContents(2);
 }
 
 
@@ -38,4 +41,22 @@ void ShortcutSettingsController::applyChanges()
 ShortcutSettingsView *ShortcutSettingsController::getView()
 {
     return view;
+}
+
+
+void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString sequenceText)
+{
+
+}
+
+
+void ShortcutSettingsController::resetShortcutToDefault(QString shortcutFullName)
+{
+
+}
+
+
+void ShortcutSettingsController::resetAllShortcutsToDefault()
+{
+
 }

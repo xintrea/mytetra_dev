@@ -3,8 +3,6 @@
 
 ShortcutSettingsScreen::ShortcutSettingsScreen(QWidget *parent) : QDialog(parent)
 {
-    setupActions();
-
     // Инициализируется контроллер списка записей
     shortcutSettingsController=new ShortcutSettingsController(this);
     shortcutSettingsController->setObjectName("shortcutSettingsController");
@@ -22,25 +20,12 @@ ShortcutSettingsScreen::~ShortcutSettingsScreen()
 }
 
 
-void ShortcutSettingsScreen::setupActions()
-{
-    grabShortcut = new QAction(tr("Grab shortcut"), this);
-    grabShortcut->setStatusTip(tr("Grab shortcut now"));
-    // grabShortcut->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
-
-    resetShortcutToDefault = new QAction(tr("Reset shortcut to default"), this);
-    resetShortcutToDefault->setStatusTip(tr("Reset shortcut to default"));
-
-    resetAllShortcutsToDefault = new QAction(tr("Reset all shortcuts to default"), this);
-    resetAllShortcutsToDefault->setStatusTip(tr("Reset all shortcuts to default"));
-}
-
-
 void ShortcutSettingsScreen::setupUI()
 {
-    buttonGrabShortcut=new QPushButton();
-    buttonResetShortcutToDefault=new QPushButton();
-    buttonResetAllShortcutsToDefault=new QPushButton();
+    // Создание различных кнопок
+    buttonGrabShortcut=new QPushButton(tr("Grab shortcut"));
+    buttonResetShortcutToDefault=new QPushButton(tr("Reset shortcut to default"));
+    buttonResetAllShortcutsToDefault=new QPushButton("Reset all shortcuts to default");
 
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
