@@ -6,6 +6,7 @@
 #include "main.h"
 #include "AppConfigPage_Keyboard.h"
 #include "models/appConfig/AppConfig.h"
+#include "views/shortcutSettings/ShortcutSettingsScreen.h"
 #include "libraries/GlobalParameters.h"
 
 extern AppConfig mytetraConfig;
@@ -66,10 +67,10 @@ void AppConfigPage_Keyboard::assembly(void)
 
 void AppConfigPage_Keyboard::onClickedEditShortcutConfigFile(void)
 {
-  // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
-//  mytetraConfig.sync();
+    ShortcutSettingsScreen shortcutSettingsScreen;
+    shortcutSettingsScreen.setWindowTitle(tr("Keyboard shortcut config"));
 
-//  editConfigFile( globalParameters.getWorkDirectory()+"/conf.ini", 0.8 );
+    shortcutSettingsScreen.exec();
 }
 
 
