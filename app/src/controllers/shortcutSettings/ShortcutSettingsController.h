@@ -17,6 +17,12 @@ public:
 
     ShortcutSettingsView* getView();
 
+public slots:
+
+    void setShortcut(QString shortcutFullName, QString sequenceText);
+    void resetShortcutToDefault(QString shortcutFullName);
+    void resetAllShortcutsToDefault();
+
 protected:
 
     ShortcutSettingsView *view;

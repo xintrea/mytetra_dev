@@ -52,8 +52,6 @@ protected:
     QMap<QString, data> defaultKeyTable;
 
     QString configFileName;
-
-
 };
 
 #endif // SHORTCUTMANAGER_H

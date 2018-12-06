@@ -32,7 +32,7 @@ void ActionLogView::init()
   this->horizontalHeader()->setHighlightSections(false); // Заголовки не должны выглядеть нажатыми
   this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // Отключается горизонтальная прокрутка
 
-  // Установка ширины и высоты окна
+  // Установка ширины и высоты виджета
   int dialogWidth=int( 0.8 * (float)(find_object<MainWindow>("mainwindow")->width()) );
   int dialogHeight=int( 0.8 * (float)(find_object<MainWindow>("mainwindow")->height()) );
   setMinimumWidth( dialogWidth );

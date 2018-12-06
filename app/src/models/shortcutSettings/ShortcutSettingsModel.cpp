@@ -39,6 +39,7 @@ ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemMod
 
 }
 
+
 ShortcutSettingsModel::~ShortcutSettingsModel()
 {
     this->clear();
@@ -117,12 +118,6 @@ QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientat
 }
 
 
-//int ShortcutSettingsModel::rowCount(const QModelIndex &itemIndex) const
-//{
-//    return 10;
-//}
-
-
 int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
 {
     Q_UNUSED(itemIndex);
@@ -131,13 +126,15 @@ int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
 }
 
 
-//Qt::ItemFlags ShortcutSettingsModel::flags(const QModelIndex &index) const
-//{
-//    if (!index.isValid())
-//      return Qt::ItemIsEnabled;
+Qt::ItemFlags ShortcutSettingsModel::flags(const QModelIndex &index) const
+{
+    // Для разделов
+    if (!index.isValid())
+      return Qt::ItemIsEnabled;
 
-//    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-//}
+    // Для строк с шорткатами
+    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
 
 
 //bool ShortcutSettingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
