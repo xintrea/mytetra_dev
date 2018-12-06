@@ -7,15 +7,36 @@ extern ShortcutManager shortcutManager;
 ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemModel(parent)
 {
     // Создание разделов
+    int i=0;
     foreach(QString sectionName, shortcutManager.availableSection) {
         QStandardItem *sectionItem=new QStandardItem(sectionName);
         this->appendRow(sectionItem);
+
+        // Индекс только что созданного раздела шорткатов
+        QModelIndex sectionIndex=this->index(i, 0); // Индекс элемента раздела
+
+        // Создание строк с шорткатами
+        this->insertRows(0, shortcutManager.getActionsNameList(sectionName).size(), sectionIndex);
+        this->insertColumns(0, this->columnCount(), sectionIndex);
+
+        // Заполнение строк с шорткатами
+        int j=0;
+        foreach(QString actionName, shortcutManager.getActionsNameList(sectionName) ) {
+            QModelIndex index=this->index(j, 0, sectionIndex);
+
+            this->setData(index, actionName);
+
+            ++j;
+        }
+
+        ++i;
     }
+
 }
 
 ShortcutSettingsModel::~ShortcutSettingsModel()
 {
-
+    this->clear();
 }
 
 
@@ -63,26 +84,32 @@ ShortcutSettingsModel::~ShortcutSettingsModel()
 //}
 
 
-//// Получение заголовка столбца
-//QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientation, int role) const
-//{
-//    Q_UNUSED(orientation);
-//    Q_UNUSED(role);
+// Получение заголовка столбца
+QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    Q_UNUSED(orientation);
 
-//    if(section==0) {
-//        return tr("Command");
-//    }
+    if(role!=Qt::DisplayRole) {
+        return QVariant();
+    }
 
-//    if(section==1) {
-//        return tr("Name");
-//    }
+    if(orientation==Qt::Horizontal) {
 
-//    if(section==2) {
-//        return tr("Shortcut");
-//    }
+        if(section==0) {
+            return tr("Command");
+        }
 
-//    return "";
-//}
+        if(section==1) {
+            return tr("Name");
+        }
+
+        if(section==2) {
+            return tr("Shortcut");
+        }
+    }
+
+    return QVariant();
+}
 
 
 //int ShortcutSettingsModel::rowCount(const QModelIndex &itemIndex) const
@@ -91,10 +118,12 @@ ShortcutSettingsModel::~ShortcutSettingsModel()
 //}
 
 
-//int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
-//{
-//    return 3;
-//}
+int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
+{
+    Q_UNUSED(itemIndex);
+
+    return 3;
+}
 
 
 //Qt::ItemFlags ShortcutSettingsModel::flags(const QModelIndex &index) const

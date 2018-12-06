@@ -11,12 +11,17 @@ public:
     ShortcutSettingsModel(QObject *parent = nullptr);
     ~ShortcutSettingsModel();
 
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+
+    int columnCount(const QModelIndex &itemIndex = QModelIndex()) const;
+
+
 //    QVariant data(const QModelIndex &index, int role) const;
 //    QVariant headerData(int section, Qt::Orientation orientation,
 //                        int role = Qt::DisplayRole) const;
 
 //    int rowCount(const QModelIndex &itemIndex = QModelIndex()) const;
-//    int columnCount(const QModelIndex &itemIndex = QModelIndex()) const;
 
 
 //    Qt::ItemFlags flags(const QModelIndex &index) const;
