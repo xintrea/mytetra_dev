@@ -23,8 +23,13 @@ ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemMod
         int j=0;
         foreach(QString actionName, shortcutManager.getActionsNameList(sectionName) ) {
             QModelIndex index=this->index(j, 0, sectionIndex);
-
             this->setData(index, actionName);
+
+            index=this->index(j, 1, sectionIndex);
+            this->setData(index, shortcutManager.getDescription(sectionName+"-"+actionName));
+
+            index=this->index(j, 2, sectionIndex);
+            this->setData(index, shortcutManager.getKeySequenceAsText(sectionName+"-"+actionName));
 
             ++j;
         }
