@@ -231,7 +231,8 @@ HEADERS = src/main.h \
     src/views/shortcutSettings/ShortcutSettingsScreen.h \
     src/views/shortcutSettings/ShortcutSettingsView.h \
     src/controllers/shortcutSettings/ShortcutSettingsController.h \
-    src/models/shortcutSettings/ShortcutSettingsModel.h
+    src/models/shortcutSettings/ShortcutSettingsModel.h \
+    src/views/appConfigWindow/AppConfigPage_Keyboard.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -358,7 +359,8 @@ SOURCES = src/main.cpp \
     src/views/shortcutSettings/ShortcutSettingsScreen.cpp \
     src/views/shortcutSettings/ShortcutSettingsView.cpp \
     src/controllers/shortcutSettings/ShortcutSettingsController.cpp \
-    src/models/shortcutSettings/ShortcutSettingsModel.cpp
+    src/models/shortcutSettings/ShortcutSettingsModel.cpp \
+    src/views/appConfigWindow/AppConfigPage_Keyboard.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
