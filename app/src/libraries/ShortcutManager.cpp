@@ -88,8 +88,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-alignCenter",         data{ QKeySequence("Ctrl+E"), QObject::tr("Align center"), QObject::tr("") });
     defaultKeyTable.insert("editor-alignRight",          data{ QKeySequence("Ctrl+R"), QObject::tr("Align right"), QObject::tr("") });
     defaultKeyTable.insert("editor-alignWidth",          data{ QKeySequence("Ctrl+J"), QObject::tr("Align width"), QObject::tr("") });
-    defaultKeyTable.insert("editor-fontColor",           data{ QKeySequence("Ctrl+Alt+C"), QObject::tr("Text color"), QObject::tr("") });
-    defaultKeyTable.insert("editor-backgroundColor",     data{ QKeySequence("Ctrl+Shift+C"), QObject::tr("Background color"), QObject::tr("") });
+    defaultKeyTable.insert("editor-fontColor",           data{ QKeySequence("Alt+C"), QObject::tr("Text color"), QObject::tr("") });
+    defaultKeyTable.insert("editor-backgroundColor",     data{ QKeySequence("Alt+B"), QObject::tr("Background color"), QObject::tr("") });
     defaultKeyTable.insert("editor-findText",            data{ QKeySequence("Ctrl+F"), QObject::tr("Find text"), QObject::tr("Find text in current note") });
     defaultKeyTable.insert("editor-settings",            data{ QKeySequence("Ctrl+Alt+G"), QObject::tr("Editor settings"), QObject::tr("") });
     defaultKeyTable.insert("editor-reference",           data{ QKeySequence("Ctrl+Shift+U"), QObject::tr("Edit reference URL"), QObject::tr("") });
