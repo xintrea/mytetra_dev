@@ -15,7 +15,7 @@ ShortcutSettingsController::~ShortcutSettingsController()
 
 void ShortcutSettingsController::init()
 {
-
+    view->setModel(model);
 }
 
 

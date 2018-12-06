@@ -11,6 +11,7 @@
 #include "AppConfigPage_Synchro.h"
 #include "AppConfigPage_RecordTable.h"
 #include "AppConfigPage_Attach.h"
+#include "AppConfigPage_Keyboard.h"
 #include "models/appConfig/AppConfig.h"
 
 extern AppConfig mytetraConfig;
@@ -33,6 +34,7 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
  pageSynchro    =configDialog->addWidget(new AppConfigPage_Synchro(this),     tr("Synchro"));
  pageRecordTable=configDialog->addWidget(new AppConfigPage_RecordTable(this), tr("Note area"));
  pageAttach     =configDialog->addWidget(new AppConfigPage_Attach(this),      tr("Attaches"));
+ pageKeyboard   =configDialog->addWidget(new AppConfigPage_Keyboard(this),    tr("Keyboard"));
  pageMisc       =configDialog->addWidget(new AppConfigPage_Misc(this),        tr("Misc"));
 
  configDialog->updateListWidth();
@@ -46,19 +48,21 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName) : QWidget()
 
 
 // Переход на нужную страницу настроек (переход совершается кодом извне)
+// Данный метод нужен для возможности вызова конкретного окна настроек из любого места программы
 void AppConfigDialog::changePage(QString name)
 {
 
- QListWidgetItem *item=NULL;
+ QListWidgetItem *item=nullptr;
 
  if(name=="pageMain") item=pageMain;
  if(name=="pageCrypt") item=pageCrypt;
  if(name=="pageSynchro") item=pageSynchro;
  if(name=="pageRecordTable") item=pageRecordTable;
  if(name=="pageAttach") item=pageAttach;
+ if(name=="pageKeyboard") item=pageKeyboard;
  if(name=="pageMisc") item=pageMisc;
 
- if(item!=NULL)
+ if(item!=nullptr)
    configDialog->externalChangePage(item);
  else
    qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
