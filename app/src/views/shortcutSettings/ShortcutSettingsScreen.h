@@ -11,6 +11,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QKeySequenceEdit>
 #include "controllers/shortcutSettings/ShortcutSettingsController.h"
 
 class ShortcutSettingsScreen : public QDialog
@@ -24,6 +25,8 @@ protected slots:
 
     void onShortcutSelect(const QModelIndex &index);
     void onShortcutKeysChange(const QString &text);
+    void onGrabShortcutClick();
+    void onGrabShortcutEditingFinished();
 
 protected:
 
@@ -46,6 +49,9 @@ protected:
     QGridLayout *shortcutLayout; // Слой внутри объединяющего прямоугольника настройки шортката
 
     QVBoxLayout *screenLayout;
+
+    QKeySequenceEdit keySequenceEdit;
+
 
     // Данные о текущем выбранном шорткате
     // Раздел, команда, описание, клавиши
