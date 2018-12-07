@@ -52,8 +52,17 @@ void ShortcutSettingsScreen::setupSignals()
     connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
             this, &ShortcutSettingsScreen::onShortcutSelect);
 
+    // Изменение поля клавиатурной комбинации шортката
     connect(shortcutValueLineEdit, &QLineEdit::textChanged,
             this, &ShortcutSettingsScreen::onShortcutKeysChange);
+
+    // Вызов диалога захвата клавиатурной комбинации
+    connect(buttonGrabShortcut, &QPushButton::clicked,
+            this, &ShortcutSettingsScreen::onGrabShortcutClick);
+
+    // Завершение захвата клавиатурной комбинации
+    connect(&keySequenceEdit, &QKeySequenceEdit::editingFinished,
+            this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
@@ -117,5 +126,21 @@ void ShortcutSettingsScreen::onShortcutKeysChange(const QString &text)
     shortcutData.keys=text;
 
     shortcutSettingsController->setShortcut( shortcutData.section+"-"+shortcutData.command, shortcutData.keys);
+}
+
+
+void ShortcutSettingsScreen::onGrabShortcutClick()
+{
+    keySequenceEdit.setAttribute( Qt::WA_ShowModal );
+    keySequenceEdit.clear();
+    keySequenceEdit.show();
+}
+
+
+void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
+{
+    shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
+
+    keySequenceEdit.hide();
 }
 
