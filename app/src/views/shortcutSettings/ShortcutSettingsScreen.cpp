@@ -48,8 +48,12 @@ void ShortcutSettingsScreen::setupUI()
 
 void ShortcutSettingsScreen::setupSignals()
 {
+    // Обработка клика по строке (ячейке) с шорткатом
     connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
             this, &ShortcutSettingsScreen::onShortcutSelect);
+
+    connect(shortcutValueLineEdit, &QLineEdit::textChanged,
+            this, &ShortcutSettingsScreen::onShortcutKeysChange);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
@@ -104,5 +108,14 @@ void ShortcutSettingsScreen::onShortcutSelect(const QModelIndex &index)
     commandValueLabel->setText( shortcutData.command ); // Команда
     desctiptionValueLabel->setText( shortcutData.description ); // Описание
     shortcutValueLineEdit->setText( shortcutData.keys ); // Клавиатурная комбинация
+}
+
+
+// Обработчик изменения текста клавиатурной комбинации
+void ShortcutSettingsScreen::onShortcutKeysChange(const QString &text)
+{
+    shortcutData.keys=text;
+
+    shortcutSettingsController->setShortcut( shortcutData.section+"-"+shortcutData.command, shortcutData.keys);
 }
 
