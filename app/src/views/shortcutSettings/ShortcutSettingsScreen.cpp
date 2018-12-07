@@ -25,7 +25,9 @@ void ShortcutSettingsScreen::setupUI()
     // Создание различных кнопок
     buttonGrabShortcut=new QPushButton(tr("Grab shortcut"), this);
     buttonResetShortcutToDefault=new QPushButton(tr("Reset shortcut to default"), this);
+
     buttonResetAllShortcutsToDefault=new QPushButton(tr("Reset all shortcuts to default"), this);
+    buttonResetAllShortcutsToDefault->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
 
     shortcutBox=new QGroupBox(this);
     shortcutBox->setTitle(tr("Shortcut settings"));
@@ -60,13 +62,13 @@ void ShortcutSettingsScreen::setupSignals()
 void ShortcutSettingsScreen::assembly()
 {
     // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
-    shortcutLineLayout=new QHBoxLayout(this);
+    shortcutLineLayout=new QHBoxLayout();
     shortcutLineLayout->addWidget(shortcutValueLine);
     shortcutLineLayout->addWidget(buttonGrabShortcut);
     shortcutLineLayout->addWidget(buttonResetShortcutToDefault);
 
     // Слой внутри объединяющего прямоугольника настройки шортката
-    shortcutLayout=new QGridLayout(this);
+    shortcutLayout=new QGridLayout();
     shortcutLayout->addWidget(commandLabel, 0, 0);
     shortcutLayout->addWidget(commandValueLabel, 0, 1);
     shortcutLayout->addWidget(desctiptionLabel, 1, 0);
@@ -76,7 +78,7 @@ void ShortcutSettingsScreen::assembly()
 
     shortcutBox->setLayout(shortcutLayout);
 
-    screenLayout=new QVBoxLayout(this);
+    screenLayout=new QVBoxLayout();
     screenLayout->addWidget(shortcutSettingsController->getView());
     screenLayout->addWidget(shortcutBox);
     screenLayout->addWidget(buttonResetAllShortcutsToDefault);

@@ -438,3 +438,6 @@ win32 {
 QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/$${MIMETEX_BINARY}, $${OUT_PWD}/bin/$${MIMETEX_BINARY})
 }
 
+FORMS += \
+    src/samples/buttonwidth.ui
+
