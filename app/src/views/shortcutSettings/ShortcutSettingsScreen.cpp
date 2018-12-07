@@ -98,10 +98,11 @@ void ShortcutSettingsScreen::onShortcutSelect(const QModelIndex &index)
         return;
     }
 
-    QStringList shortcutData=shortcutSettingsController->getShortcutData(index);
+    shortcutData=shortcutSettingsController->getShortcutData(index);
 
-    commandValueLabel->setText( shortcutData[1] );
-    desctiptionValueLabel->setText( shortcutData[2] );
-    shortcutValueLineEdit->setText( shortcutData[3] );
+    // Меняются надписи
+    commandValueLabel->setText( shortcutData.command ); // Команда
+    desctiptionValueLabel->setText( shortcutData.description ); // Описание
+    shortcutValueLineEdit->setText( shortcutData.keys ); // Клавиатурная комбинация
 }
 

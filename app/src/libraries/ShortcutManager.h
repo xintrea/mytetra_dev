@@ -18,7 +18,7 @@ public:
         brackets=1
     };
 
-    struct data {
+    struct Data {
         QKeySequence sequence;
         QString description; // Описание (короткая строка)
         QString explanation; // Пояснение (длинная строка)
@@ -46,10 +46,10 @@ protected:
     void initDefaultKeyTable();
     void initKeyTable();
     void checkConfigFile();
-    void saveConfig(QMap<QString, data> table);
+    void saveConfig(QMap<QString, Data> table);
 
-    QMap<QString, data> keyTable;
-    QMap<QString, data> defaultKeyTable;
+    QMap<QString, Data> keyTable;
+    QMap<QString, Data> defaultKeyTable;
 
     QString configFileName;
 };

@@ -44,20 +44,16 @@ ShortcutSettingsView *ShortcutSettingsController::getView()
 }
 
 
-QStringList ShortcutSettingsController::getShortcutData(const QModelIndex &index)
+ShortcutSettingsController::ShortcutData ShortcutSettingsController::getShortcutData(const QModelIndex &index)
 {
-    QString shortcutSectionName=model->data( index.parent() ).toString();
+    ShortcutData shortcutData;
 
-    QString shortcutName       =model->data( index.siblingAtColumn(0) ) .toString();
-    QString shortcutDescription=model->data( index.siblingAtColumn(1) ) .toString();
-    QString shortcutKeys       =model->data( index.siblingAtColumn(2) ) .toString();
+    shortcutData.section    =model->data( index.parent() ).toString();
+    shortcutData.command    =model->data( index.siblingAtColumn(0) ) .toString();
+    shortcutData.description=model->data( index.siblingAtColumn(1) ) .toString();
+    shortcutData.keys       =model->data( index.siblingAtColumn(2) ) .toString();
 
-    QStringList result={ shortcutSectionName,
-                         shortcutName,
-                         shortcutDescription,
-                         shortcutKeys };
-
-    return result;
+    return shortcutData;
 }
 
 
