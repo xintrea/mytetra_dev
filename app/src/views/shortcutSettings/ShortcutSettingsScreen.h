@@ -20,6 +20,10 @@ public:
     ShortcutSettingsScreen(QWidget *parent = nullptr);
     ~ShortcutSettingsScreen();
 
+protected slots:
+
+    void onShortcutSelect(const QModelIndex &index);
+
 protected:
 
     ShortcutSettingsController *shortcutSettingsController;
@@ -36,7 +40,7 @@ protected:
     QLabel *desctiptionLabel;
     QLabel *desctiptionValueLabel;
     QLabel *shortcutLabel;
-    QLineEdit *shortcutValueLine;
+    QLineEdit *shortcutValueLineEdit;
     QHBoxLayout *shortcutLineLayout; // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
     QGridLayout *shortcutLayout; // Слой внутри объединяющего прямоугольника настройки шортката
 
