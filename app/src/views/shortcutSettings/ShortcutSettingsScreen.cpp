@@ -39,7 +39,7 @@ void ShortcutSettingsScreen::setupUI()
     desctiptionValueLabel=new QLabel(this);
 
     shortcutLabel=new QLabel(tr("Key binding:"), this);
-    shortcutValueLine=new QLineEdit(this);
+    shortcutValueLineEdit=new QLineEdit(this);
 
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -48,6 +48,9 @@ void ShortcutSettingsScreen::setupUI()
 
 void ShortcutSettingsScreen::setupSignals()
 {
+    connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
+            this, &ShortcutSettingsScreen::onShortcutSelect);
+
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
             shortcutSettingsController, &ShortcutSettingsController::applyChanges); // Применение изменений
@@ -63,7 +66,7 @@ void ShortcutSettingsScreen::assembly()
 {
     // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
     shortcutLineLayout=new QHBoxLayout();
-    shortcutLineLayout->addWidget(shortcutValueLine);
+    shortcutLineLayout->addWidget(shortcutValueLineEdit);
     shortcutLineLayout->addWidget(buttonGrabShortcut);
     shortcutLineLayout->addWidget(buttonResetShortcutToDefault);
 
@@ -86,3 +89,19 @@ void ShortcutSettingsScreen::assembly()
 
     setLayout(screenLayout);
 }
+
+
+void ShortcutSettingsScreen::onShortcutSelect(const QModelIndex &index)
+{
+    // Если выбран раздел
+    if(index.parent().isValid()==false) {
+        return;
+    }
+
+    QStringList shortcutData=shortcutSettingsController->getShortcutData(index);
+
+    commandValueLabel->setText( shortcutData[1] );
+    desctiptionValueLabel->setText( shortcutData[2] );
+    shortcutValueLineEdit->setText( shortcutData[3] );
+}
+

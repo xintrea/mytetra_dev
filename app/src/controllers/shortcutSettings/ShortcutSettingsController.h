@@ -17,6 +17,8 @@ public:
 
     ShortcutSettingsView* getView();
 
+    QStringList getShortcutData(const QModelIndex &index);
+
 public slots:
 
     void setShortcut(QString shortcutFullName, QString sequenceText);

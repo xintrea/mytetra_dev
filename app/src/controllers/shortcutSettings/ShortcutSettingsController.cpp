@@ -44,6 +44,23 @@ ShortcutSettingsView *ShortcutSettingsController::getView()
 }
 
 
+QStringList ShortcutSettingsController::getShortcutData(const QModelIndex &index)
+{
+    QString shortcutSectionName=model->data( index.parent() ).toString();
+
+    QString shortcutName       =model->data( index.siblingAtColumn(0) ) .toString();
+    QString shortcutDescription=model->data( index.siblingAtColumn(1) ) .toString();
+    QString shortcutKeys       =model->data( index.siblingAtColumn(2) ) .toString();
+
+    QStringList result={ shortcutSectionName,
+                         shortcutName,
+                         shortcutDescription,
+                         shortcutKeys };
+
+    return result;
+}
+
+
 void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString sequenceText)
 {
 
