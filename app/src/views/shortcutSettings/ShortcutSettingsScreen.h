@@ -23,6 +23,7 @@ public:
 protected slots:
 
     void onShortcutSelect(const QModelIndex &index);
+    void onShortcutKeysChange(const QString &text);
 
 protected:
 
