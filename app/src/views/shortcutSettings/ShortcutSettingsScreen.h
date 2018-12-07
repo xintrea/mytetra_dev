@@ -46,6 +46,10 @@ protected:
 
     QVBoxLayout *screenLayout;
 
+    // Данные о текущем выбранном шорткате
+    // Раздел, команда, описание, клавиши
+    ShortcutSettingsController::ShortcutData shortcutData;
+
     void setupUI(void);
     void setupSignals(void);
     void assembly(void);

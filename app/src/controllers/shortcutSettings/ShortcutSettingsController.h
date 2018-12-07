@@ -9,6 +9,14 @@ class ShortcutSettingsController : public QObject
 {
     Q_OBJECT
 public:
+
+    struct ShortcutData {
+        QString section;
+        QString command;
+        QString description;
+        QString keys;
+    };
+
     ShortcutSettingsController(QObject *parent = nullptr);
     ~ShortcutSettingsController();
 
@@ -17,7 +25,7 @@ public:
 
     ShortcutSettingsView* getView();
 
-    QStringList getShortcutData(const QModelIndex &index);
+    ShortcutData getShortcutData(const QModelIndex &index);
 
 public slots:
 
