@@ -43,6 +43,11 @@ void ShortcutSettingsScreen::setupUI()
     shortcutLabel=new QLabel(tr("Key binding:"), this);
     shortcutValueLineEdit=new QLineEdit(this);
 
+    // Если установить для длинной записи setWordWrap(true), неточно работает размер QBoxLayout (заголовок налазит на таблицу)
+    // Поэтому запись разбита на две строки
+    noteLabelLine1=new QLabel(tr("<b>Warning:</b> In some WM and DE shortcut grabbing works incorrectly."), this);
+    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in key binding field."), this);
+
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 }
@@ -91,7 +96,8 @@ void ShortcutSettingsScreen::assembly()
     shortcutLayout->addWidget(desctiptionValueLabel, 1, 1);
     shortcutLayout->addWidget(shortcutLabel, 2, 0);
     shortcutLayout->addLayout(shortcutLineLayout, 2, 1);
-
+    shortcutLayout->addWidget(noteLabelLine1, 3, 0, 1, 2);
+    shortcutLayout->addWidget(noteLabelLine2, 4, 0, 1, 2);
     shortcutBox->setLayout(shortcutLayout);
 
     screenLayout=new QVBoxLayout();
