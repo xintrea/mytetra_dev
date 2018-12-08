@@ -11,10 +11,25 @@ ShortcutSettingsView::ShortcutSettingsView(QWidget *parent) : QTreeView(parent)
     this->setMinimumWidth( dialogWidth );
     this->setMinimumHeight( dialogHeight );
     this->resize( this->size() ); // Обновление размеров виджета
+
+    connect(this, &ShortcutSettingsView::currentChanged, // Исправить на сигнал (это слот)
+            this, &ShortcutSettingsView::onCurrentChanged);
 }
 
 
 ShortcutSettingsView::~ShortcutSettingsView()
 {
 
+}
+
+
+void ShortcutSettingsView::onCurrentChanged(const QModelIndex &index, const QModelIndex &prevIndex)
+{
+    Q_UNUSED(prevIndex);
+
+    qDebug() << "Replace cursor position to 0 row";
+
+    // this->selectionModel()->select( index.siblingAtRow(0), QItemSelectionModel::Clear );
+
+    this->setCurrentIndex( index.siblingAtRow(0) );
 }

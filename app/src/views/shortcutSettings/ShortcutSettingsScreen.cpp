@@ -58,8 +58,6 @@ void ShortcutSettingsScreen::setupUI()
 void ShortcutSettingsScreen::setupSignals()
 {
     // Обработка клика по строке (ячейке) с шорткатом
-    // connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
-    //         this, &ShortcutSettingsScreen::onShortcutSelect);
     connect(shortcutSettingsController->getView()->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &ShortcutSettingsScreen::onShortcutSelect);
 
