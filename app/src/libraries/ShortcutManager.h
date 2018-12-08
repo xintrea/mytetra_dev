@@ -27,7 +27,10 @@ public:
     static const QStringList availableSection;
 
     void init();
+    void save();
+
     QKeySequence getKeySequence(QString actionName);
+    void setKeySequence(QString actionName, QString keySequence);
     QString getDescription(QString actionName);
     QString getExplanation(QString actionName);
 

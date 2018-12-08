@@ -53,8 +53,7 @@ protected:
 
     QVBoxLayout *screenLayout;
 
-    // QKeySequenceEdit keySequenceEdit;
-    HotKeyGrabber keySequenceEdit;
+    QKeySequenceEdit keySequenceEdit; // HotKeyGrabber keySequenceEdit;
 
 
     // Данные о текущем выбранном шорткате

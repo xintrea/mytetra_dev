@@ -30,6 +30,12 @@ void ShortcutManager::init()
 }
 
 
+void ShortcutManager::save()
+{
+    saveConfig(keyTable);
+}
+
+
 void ShortcutManager::initDefaultKeyTable()
 {
     defaultKeyTable.clear();
@@ -258,6 +264,24 @@ QKeySequence ShortcutManager::getKeySequence(QString actionName)
         return keyTable[actionName].sequence;
     } else {
         return QKeySequence();
+    }
+}
+
+
+// Установка клавиатурной последовательности в памяти, без записи на диск
+void ShortcutManager::setKeySequence(QString actionName, QString keySequence)
+{
+    if(keyTable.contains(actionName)) {
+        // Текущая запись в keyTable
+        Data data=keyTable.value(actionName);
+
+        // Изменяется поле в записи на новое значение
+        data.sequence=QKeySequence(keySequence);
+
+        // Запоминается измененная запись
+        keyTable[actionName]=data;
+    } else {
+        criticalError("Incorrect action name for set key sequence: "+actionName);
     }
 }
 
