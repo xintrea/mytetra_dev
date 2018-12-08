@@ -1,4 +1,6 @@
 #include "ShortcutSettingsScreen.h"
+#include "main.h"
+#include "views/mainWindow/MainWindow.h"
 
 
 ShortcutSettingsScreen::ShortcutSettingsScreen(QWidget *parent) : QDialog(parent)
@@ -61,8 +63,8 @@ void ShortcutSettingsScreen::setupSignals()
             this, &ShortcutSettingsScreen::onGrabShortcutClick);
 
     // Завершение захвата клавиатурной комбинации
-    connect(&keySequenceEdit, &QKeySequenceEdit::editingFinished,
-            this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
+    // connect(&keySequenceEdit, &QKeySequenceEdit::editingFinished,
+    //         this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
@@ -134,12 +136,17 @@ void ShortcutSettingsScreen::onGrabShortcutClick()
     keySequenceEdit.setAttribute( Qt::WA_ShowModal );
     keySequenceEdit.clear();
     keySequenceEdit.show();
+
+    // Виджет захвата клавиш устанавливается по центру текущего виджета
+    keySequenceEdit.move(this->x() + this->width()/2 - keySequenceEdit.width()/2,
+                         this->y() + this->height()/2 - keySequenceEdit.height()/2);
 }
 
 
 void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
 {
-    shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
+    // Значение из виджета keySequenceEdit устанавливается в поле ввода клавиатурной комбинации
+    // shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
 
     keySequenceEdit.hide();
 }

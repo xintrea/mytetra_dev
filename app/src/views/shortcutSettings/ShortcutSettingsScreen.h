@@ -12,7 +12,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QKeySequenceEdit>
+
 #include "controllers/shortcutSettings/ShortcutSettingsController.h"
+#include "HotKeyGrabber.h"
+
 
 class ShortcutSettingsScreen : public QDialog
 {
@@ -50,7 +53,8 @@ protected:
 
     QVBoxLayout *screenLayout;
 
-    QKeySequenceEdit keySequenceEdit;
+    // QKeySequenceEdit keySequenceEdit;
+    HotKeyGrabber keySequenceEdit;
 
 
     // Данные о текущем выбранном шорткате
