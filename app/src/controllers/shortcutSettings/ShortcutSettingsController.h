@@ -35,8 +35,6 @@ protected:
     ShortcutSettingsView *view;
     ShortcutSettingsModel *model;
 
-    QModelIndex findShortcut(const QString &shortcutFullName);
-
 };
 
 #endif // SHORTCUTSETTINGSCONTROLLER_H

@@ -4,12 +4,20 @@
 #include <QObject>
 #include <QStandardItemModel>
 
+#include "libraries/ShortcutManager.h"
+
+// Модель таблицы с настройками горячих клавиш
+
 
 class ShortcutSettingsModel : public QStandardItemModel
 {
 public:
     ShortcutSettingsModel(QObject *parent = nullptr);
     ~ShortcutSettingsModel();
+
+    QModelIndex findShortcut(const QString &shortcutFullName);
+
+    void save();
 
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
@@ -18,10 +26,12 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-//    QVariant data(const QModelIndex &index, int role) const;
+protected:
 
-//    bool setData(const QModelIndex &index, const QVariant &value,
-//                 int role = Qt::EditRole);
+    void updateShortcutManager();
+
+    // Все настройки производятся над копией ShortcutManager, чтобы их можно было отменить
+    ShortcutManager copyShortcutManager;
 
 };
 

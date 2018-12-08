@@ -63,14 +63,12 @@ void ShortcutSettingsScreen::setupSignals()
             this, &ShortcutSettingsScreen::onGrabShortcutClick);
 
     // Завершение захвата клавиатурной комбинации
-    // connect(&keySequenceEdit, &QKeySequenceEdit::editingFinished,
-    //         this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
+     connect(&keySequenceEdit, &HotKeyGrabber::editingFinished,
+             this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
             shortcutSettingsController, &ShortcutSettingsController::applyChanges); // Применение изменений
-    connect(dialogButtonBox, &QDialogButtonBox::accepted,
-            this, &ShortcutSettingsScreen::close); // Закрытие текущего окна
 
     // Обработка кнопки Cancel
     connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &ShortcutSettingsScreen::close);
@@ -146,7 +144,7 @@ void ShortcutSettingsScreen::onGrabShortcutClick()
 void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
 {
     // Значение из виджета keySequenceEdit устанавливается в поле ввода клавиатурной комбинации
-    // shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
+    shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
 
     keySequenceEdit.hide();
 }

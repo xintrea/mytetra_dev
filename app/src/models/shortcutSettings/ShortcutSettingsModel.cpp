@@ -1,14 +1,16 @@
 #include "ShortcutSettingsModel.h"
-#include "libraries/ShortcutManager.h"
+
 
 extern ShortcutManager shortcutManager;
 
 
 ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemModel(parent)
 {
+    copyShortcutManager=shortcutManager;
+
     // Создание разделов
     int i=0;
-    foreach(QString sectionName, shortcutManager.availableSection) {
+    foreach(QString sectionName, copyShortcutManager.availableSection) {
         QStandardItem *sectionItem=new QStandardItem(sectionName);
         this->appendRow(sectionItem);
 
@@ -16,20 +18,20 @@ ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemMod
         QModelIndex sectionIndex=this->index(i, 0); // Индекс элемента раздела
 
         // Создание строк с шорткатами
-        this->insertRows(0, shortcutManager.getActionsNameList(sectionName).size(), sectionIndex);
+        this->insertRows(0, copyShortcutManager.getActionsNameList(sectionName).size(), sectionIndex);
         this->insertColumns(0, this->columnCount(), sectionIndex);
 
         // Заполнение строк с шорткатами
         int j=0;
-        foreach(QString actionName, shortcutManager.getActionsNameList(sectionName) ) {
+        foreach(QString actionName, copyShortcutManager.getActionsNameList(sectionName) ) {
             QModelIndex index=this->index(j, 0, sectionIndex);
             this->setData(index, actionName);
 
             index=this->index(j, 1, sectionIndex);
-            this->setData(index, shortcutManager.getDescription(sectionName+"-"+actionName));
+            this->setData(index, copyShortcutManager.getDescription(sectionName+"-"+actionName));
 
             index=this->index(j, 2, sectionIndex);
-            this->setData(index, shortcutManager.getKeySequenceAsText(sectionName+"-"+actionName));
+            this->setData(index, copyShortcutManager.getKeySequenceAsText(sectionName+"-"+actionName));
 
             ++j;
         }
@@ -46,48 +48,73 @@ ShortcutSettingsModel::~ShortcutSettingsModel()
 }
 
 
-//// Получение данных из модели
-//QVariant ShortcutSettingsModel::data(const QModelIndex &index, int role) const
-//{
-//    // Если индекс невалиден, возвращается несуществующий элемент
-//    if(!index.isValid()) {
-//        return QVariant();
-//    }
+// Индекс первой ячейки с записью о шорткате
+QModelIndex ShortcutSettingsModel::findShortcut(const QString &shortcutFullName)
+{
+    QStringList chunk=shortcutFullName.split("-");
+    QString shortcutSection=chunk[0];
+    QString shortcutCommand=chunk[1];
 
-//    // Если запрашивается окраска текста элемента
-//    // if(role==Qt::ForegroundRole)
-//    // {
-//    //     TreeItem *item = getItem(index);
+    // Поиск секции
+    for(int i=0; i<this->rowCount( QModelIndex() ); ++i ) {
+        QModelIndex sectionIndex=this->index(i, 0);
 
-//    //     if(item->recordtableGetRowCount()>0)
-//    //         return QColor(Qt::black);// Если узел содержит таблицу конечных записей
-//    //     else
-//    //         return QColor(Qt::darkGray); // Ветка без таблицы конечных записей
-//    // }
+        // Если секция найдена
+        if( this->data( sectionIndex ).toString()==shortcutSection) {
 
+            // Поиск команды
+            for(int j=0; j<this->rowCount( sectionIndex ); ++j ) {
+                QModelIndex commandIndex=this->index(j, 0, sectionIndex);
 
-//    // Окраска заднего фона
-//    if(role==Qt::BackgroundRole)
-//    {
-//        // Сделать выделенный фон для групп из шорткатов
-//        // if(index==cursorOverIndex)
-//        //   return QColor(Qt::gray);
+                // Если команда найдена
+                if(this->data( commandIndex ).toString()==shortcutCommand) {
+                    return commandIndex;
+                }
+            }
+        }
+    }
 
-//        if(index.row()%2==1) {
-//            return QColor(Qt::gray);
-//        }
-//    }
+    return QModelIndex(); // Возвращается пустой индекс
+}
 
 
-//    // Если запрашивается содержимое текста элемента
-//    if(role==Qt::DisplayRole || role== Qt::EditRole)
-//    {
-//     return QVariant( QString("Shortcut") ); // Запрашивается строка имени с количеством элементов
-//    }
+void ShortcutSettingsModel::save()
+{
+    this->updateShortcutManager();
+    copyShortcutManager.save();
+}
 
-//    // Все прочие случаи
-//    return QVariant();
-//}
+
+// Обновление значений из таблицы в copyShortcutManager
+void ShortcutSettingsModel::updateShortcutManager()
+{
+    // Перебор секций
+    for(int i=0; i<this->rowCount( QModelIndex() ); ++i ) {
+        QModelIndex sectionIndex=this->index(i, 0);
+
+        // Имя секции
+        QString sectionName=this->data( sectionIndex ).toString();
+
+        // Перебор команд
+        for(int j=0; j<this->rowCount( sectionIndex ); ++j ) {
+
+            // Имя команды
+            QModelIndex commandIndex=this->index(j, 0, sectionIndex);
+            QString commandName=this->data( commandIndex ).toString();
+
+            // Сочетание клавиш
+            QModelIndex keysIndex=this->index(j, 2, sectionIndex);
+            QString keysName=this->data( keysIndex ).toString();
+
+            QString fullCommandName=sectionName+"-"+commandName;
+
+            // Если сочетание клавиш у данной команды имеет другое значение
+            if(copyShortcutManager.getKeySequence(fullCommandName).toString()!=keysName) {
+                copyShortcutManager.setKeySequence(fullCommandName, keysName); // Устанавливается новое сочетание клавиш
+            }
+        }
+    }
+}
 
 
 // Получение заголовка столбца
@@ -135,10 +162,4 @@ Qt::ItemFlags ShortcutSettingsModel::flags(const QModelIndex &index) const
     // Для строк с шорткатами
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
-
-
-//bool ShortcutSettingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
-//{
-
-//}
 
