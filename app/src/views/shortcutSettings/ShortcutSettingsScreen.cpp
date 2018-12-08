@@ -1,3 +1,5 @@
+#include <QItemSelectionModel>
+
 #include "ShortcutSettingsScreen.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -43,7 +45,7 @@ void ShortcutSettingsScreen::setupUI()
     shortcutLabel=new QLabel(tr("Key binding:"), this);
     shortcutValueLineEdit=new QLineEdit(this);
 
-    // Если установить для длинной записи setWordWrap(true), неточно работает размер QBoxLayout (заголовок налазит на таблицу)
+    // Если установить для длинной записи setWordWrap(true), неточно работает размер QGroupBox (заголовок налазит на таблицу)
     // Поэтому запись разбита на две строки
     noteLabelLine1=new QLabel(tr("<b>Warning:</b> In some WM and DE shortcut grabbing works incorrectly."), this);
     noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in key binding field."), this);
@@ -56,7 +58,9 @@ void ShortcutSettingsScreen::setupUI()
 void ShortcutSettingsScreen::setupSignals()
 {
     // Обработка клика по строке (ячейке) с шорткатом
-    connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
+    // connect(shortcutSettingsController->getView(), &ShortcutSettingsView::clicked,
+    //         this, &ShortcutSettingsScreen::onShortcutSelect);
+    connect(shortcutSettingsController->getView()->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &ShortcutSettingsScreen::onShortcutSelect);
 
     // Изменение поля клавиатурной комбинации шортката
@@ -112,12 +116,13 @@ void ShortcutSettingsScreen::assembly()
 
 void ShortcutSettingsScreen::onShortcutSelect(const QModelIndex &index)
 {
-    // Если выбран раздел
-    if(index.parent().isValid()==false) {
-        return;
+    // Если выбрана строка с шорткатом
+    if(index.parent().isValid()) {
+        shortcutData=shortcutSettingsController->getShortcutData(index);
+    } else {
+        // Иначе выбран раздел
+        shortcutData=shortcutSettingsController->getEmptyShortcutData();
     }
-
-    shortcutData=shortcutSettingsController->getShortcutData(index);
 
     // Меняются надписи
     commandValueLabel->setText( shortcutData.command ); // Команда

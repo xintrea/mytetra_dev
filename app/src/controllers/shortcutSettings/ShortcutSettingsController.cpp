@@ -66,6 +66,19 @@ ShortcutSettingsController::ShortcutData ShortcutSettingsController::getShortcut
 }
 
 
+ShortcutSettingsController::ShortcutData ShortcutSettingsController::getEmptyShortcutData()
+{
+    ShortcutData shortcutData;
+
+    shortcutData.section    ="";
+    shortcutData.command    ="";
+    shortcutData.description="";
+    shortcutData.keys       ="";
+
+    return shortcutData;
+}
+
+
 void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString sequenceText)
 {
     QModelIndex index=model->findShortcut( shortcutFullName );

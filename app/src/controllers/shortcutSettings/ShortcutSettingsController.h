@@ -26,6 +26,8 @@ public:
     ShortcutSettingsView* getView();
 
     ShortcutData getShortcutData(const QModelIndex &index);
+    ShortcutData getEmptyShortcutData();
+
     void setShortcut(QString shortcutFullName, QString sequenceText);
     void resetShortcutToDefault(QString shortcutFullName);
     void resetAllShortcutsToDefault();
