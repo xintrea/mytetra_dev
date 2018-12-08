@@ -1,4 +1,5 @@
 #include <QKeyEvent>
+#include <QDebug>
 
 #include "HotKeyGrabber.h"
 
@@ -12,6 +13,9 @@ HotKeyGrabber::HotKeyGrabber(QWidget* pParent):QLineEdit(pParent)
 void HotKeyGrabber::keyPressEvent( QKeyEvent * event )
 {
     int keyInt = event->key();
+
+    qDebug() << "Key code: " << keyInt;
+
     Qt::Key key = static_cast<Qt::Key>(keyInt);
 
     // Если клавиша неизвестна (экзотические клавиатуры)
