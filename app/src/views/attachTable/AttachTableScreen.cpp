@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "main.h"
 
 #include "AttachTableScreen.h"
@@ -77,6 +79,8 @@ void AttachTableScreen::setupActions(void)
 
 void AttachTableScreen::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("attach-addAttach",        actionAddAttach );
     shortcutManager.initAction("attach-addAttachFromUrl", actionAddAttachFromUrl );
     shortcutManager.initAction("attach-addLink",          actionAddLink );
@@ -124,6 +128,9 @@ void AttachTableScreen::setupSignals(void)
   connect(actionShowAttachInfo,   &QAction::triggered, attachTableController, &AttachTableController::onShowAttachInfo);
 
   connect(actionSwitchToEditor,   &QAction::triggered, attachTableController, &AttachTableController::onSwitchToEditor);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &AttachTableScreen::setupShortcuts);
 }
 
 

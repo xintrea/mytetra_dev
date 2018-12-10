@@ -32,14 +32,13 @@ public:
 
   void setReadOnly(bool state);
 
-signals:
-
 public slots:
+
+  void setupShortcuts(void);
 
 protected:
 
   void setupActions(void);
-  void setupShortcuts(void);
   void setupUI(void);
   void setupSignals(void);
   void assembly(void);
