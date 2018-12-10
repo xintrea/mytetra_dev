@@ -13,10 +13,10 @@ extern ShortcutManager shortcutManager;
 
 EditorContextMenu::EditorContextMenu(QWidget *parent) : QMenu(parent)
 {
- setupActions();
- setupShortcuts();
- setupSignals();
- setupMenu();
+    setupActions();
+    setupShortcuts();
+    setupSignals();
+    setupMenu();
 }
 
 
@@ -44,6 +44,8 @@ void EditorContextMenu::setupActions(void)
 
 void EditorContextMenu::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("editor-undo", actionUndo );
     shortcutManager.initAction("editor-redo", actionRedo );
     shortcutManager.initAction("editor-cut", actionCut );
@@ -156,37 +158,40 @@ void EditorContextMenu::setPasteAsPlainText(bool flag)
 
 void EditorContextMenu::setupSignals(void)
 {
- connect(actionUndo,            &QAction::triggered, this, &EditorContextMenu::onActionUndo);
- connect(actionRedo,            &QAction::triggered, this, &EditorContextMenu::onActionRedo);
- connect(actionCut,             &QAction::triggered, this, &EditorContextMenu::onActionCut);
- connect(actionCopy,            &QAction::triggered, this, &EditorContextMenu::onActionCopy);
- connect(actionPaste,           &QAction::triggered, this, &EditorContextMenu::onActionPaste);
- connect(actionPasteAsPlainText,&QAction::triggered, this, &EditorContextMenu::onActionPasteAsPlainText);
- connect(actionSelectAll,       &QAction::triggered, this, &EditorContextMenu::onActionSelectAll);
+    connect(actionUndo,            &QAction::triggered, this, &EditorContextMenu::onActionUndo);
+    connect(actionRedo,            &QAction::triggered, this, &EditorContextMenu::onActionRedo);
+    connect(actionCut,             &QAction::triggered, this, &EditorContextMenu::onActionCut);
+    connect(actionCopy,            &QAction::triggered, this, &EditorContextMenu::onActionCopy);
+    connect(actionPaste,           &QAction::triggered, this, &EditorContextMenu::onActionPaste);
+    connect(actionPasteAsPlainText,&QAction::triggered, this, &EditorContextMenu::onActionPasteAsPlainText);
+    connect(actionSelectAll,       &QAction::triggered, this, &EditorContextMenu::onActionSelectAll);
 
- connect(actionEditImageProperties,&QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditImageProperties);
- connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditMathExpression);
- connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::onActionContextMenuGotoReference);
+    connect(actionEditImageProperties,&QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditImageProperties);
+    connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditMathExpression);
+    connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::onActionContextMenuGotoReference);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &EditorContextMenu::setupShortcuts);
 }
 
 
 void EditorContextMenu::setupMenu(void)
 {
- this->addAction(actionUndo);
- this->addAction(actionRedo);
+    this->addAction(actionUndo);
+    this->addAction(actionRedo);
 
- this->addSeparator();
+    this->addSeparator();
 
- this->addAction(actionCut);
- this->addAction(actionCopy);
- this->addAction(actionPaste);
- this->addAction(actionPasteAsPlainText);
+    this->addAction(actionCut);
+    this->addAction(actionCopy);
+    this->addAction(actionPaste);
+    this->addAction(actionPasteAsPlainText);
 
- this->addSeparator();
+    this->addSeparator();
 
- this->addAction(actionSelectAll);
- this->addAction(actionEditImageProperties);
- this->addAction(actionEditMathExpression);
+    this->addAction(actionSelectAll);
+    this->addAction(actionEditImageProperties);
+    this->addAction(actionEditMathExpression);
     this->addAction(actionGotoReference);
 }
 

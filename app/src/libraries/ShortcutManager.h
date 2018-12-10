@@ -1,6 +1,7 @@
 #ifndef SHORTCUTMANAGER_H
 #define SHORTCUTMANAGER_H
 
+#include <QObject>
 #include <QKeySequence>
 #include <QMap>
 #include <QSettings>
@@ -8,10 +9,15 @@
 #include <QToolButton>
 
 
-class ShortcutManager
+class ShortcutManager : public QObject
 {
+    Q_OBJECT
+
 public:
-    ShortcutManager();
+    ShortcutManager(QObject *parent=nullptr);
+    virtual ~ShortcutManager();
+
+    ShortcutManager &operator=(const ShortcutManager &obj);
 
     enum stringRepresentation {
         plain=0,
@@ -28,6 +34,7 @@ public:
 
     void init();
     void save();
+    void updateShortcutInApplication();
 
     QKeySequence getKeySequence(QString actionName);
     void setKeySequence(QString actionName, QString keySequence);
@@ -46,6 +53,10 @@ public:
 
     // Получение списка коротких имен действий в секции
     QStringList getActionsNameList(QString sectionName);
+
+signals:
+
+    void updateWidgetShortcut();
 
 protected:
 

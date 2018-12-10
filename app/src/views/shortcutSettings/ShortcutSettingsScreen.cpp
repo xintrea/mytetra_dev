@@ -1,4 +1,5 @@
 #include <QItemSelectionModel>
+#include <QCommonStyle>
 
 #include "ShortcutSettingsScreen.h"
 #include "main.h"
@@ -45,10 +46,9 @@ void ShortcutSettingsScreen::setupUI()
     shortcutLabel=new QLabel(tr("Hot keys:"), this);
     shortcutValueLineEdit=new QLineEdit(this);
 
-    // Если установить для длинной записи setWordWrap(true), неточно работает размер QGroupBox (заголовок налазит на таблицу)
-    // Поэтому запись разбита на две строки
-    noteLabelLine1=new QLabel(tr("<b>Warning:</b> In some WM and DE shortcut grabbing works incorrectly."), this);
-    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in hot keys field."), this);
+    buttonInfo=new QToolButton(this);
+    QCommonStyle styleHelp;
+    buttonInfo->setIcon( styleHelp.standardIcon(QStyle::SP_MessageBoxQuestion) );
 
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -73,6 +73,10 @@ void ShortcutSettingsScreen::setupSignals()
     connect(&hotKeyGrabber, &HotKeyGrabber::editingFinished,
             this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
 
+    // Вызов формы с информацией о формате ввода горячих клавиш
+    connect(buttonInfo, &QPushButton::clicked,
+            this, &ShortcutSettingsScreen::onInfoClick);
+
     // Вызов установки стандартной клавиатурной комбинации (кнопка Reset shortcut to default)
     connect(buttonResetShortcutToDefault, &QPushButton::clicked,
             this, &ShortcutSettingsScreen::onResetShortcutToDefaultClick);
@@ -96,6 +100,7 @@ void ShortcutSettingsScreen::assembly()
     // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
     shortcutLineLayout=new QHBoxLayout();
     shortcutLineLayout->addWidget(shortcutValueLineEdit);
+    shortcutLineLayout->addWidget(buttonInfo);
     shortcutLineLayout->addWidget(buttonGrabShortcut);
     shortcutLineLayout->addWidget(buttonResetShortcutToDefault);
 
@@ -107,8 +112,6 @@ void ShortcutSettingsScreen::assembly()
     shortcutLayout->addWidget(desctiptionValueLabel, 1, 1);
     shortcutLayout->addWidget(shortcutLabel, 2, 0);
     shortcutLayout->addLayout(shortcutLineLayout, 2, 1);
-    shortcutLayout->addWidget(noteLabelLine1, 3, 0, 1, 2);
-    shortcutLayout->addWidget(noteLabelLine2, 4, 0, 1, 2);
     shortcutBox->setLayout(shortcutLayout);
 
     screenLayout=new QVBoxLayout();
@@ -195,3 +198,25 @@ void ShortcutSettingsScreen::onResetAllShortcutsToDefaultClick()
     }
 }
 
+
+void ShortcutSettingsScreen::onInfoClick()
+{
+    QString text;
+    text+=tr("In some WM and DE shortcut grabbing works incorrectly. ");
+    text+=tr("In this case, manually write the keyboard shortcut in hot keys field.<br/>");
+    text+="<br/>";
+    text+=tr("For example:<br/>");
+    text+="<br/>";
+    text+="Ctrl+A<br/>";
+    text+="Alt+B<br/>";
+    text+="Ctrl+Alt+C<br/>";
+    text+="Ctrl+Shift+D<br/>";
+    text+="F5<br/>";
+    text+="<br/>";
+    text+=tr("<b>Warning:</b> Some keys sequences are bindings as global hot keys in your OS. ");
+    text+=tr("Do not use these shortcuts in MyTetra.");
+
+    QMessageBox msgBox;
+    msgBox.setText(text);
+    msgBox.exec();
+}

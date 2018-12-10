@@ -1,5 +1,5 @@
-#ifndef _EDITORCONTEXTMENU_H_
-#define _EDITORCONTEXTMENU_H_
+#ifndef EDITORCONTEXTMENU_H
+#define EDITORCONTEXTMENU_H
 
 #include <QMenu>
 
@@ -7,7 +7,7 @@ class EditorContextMenu : public QMenu
 {
  Q_OBJECT
 
- public:
+public:
   EditorContextMenu(QWidget *parent=nullptr);
   ~EditorContextMenu(void);
 
@@ -20,7 +20,7 @@ class EditorContextMenu : public QMenu
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
  void setPasteAsPlainText(bool flag);
 
- signals:
+signals:
   void undo(void);
   void redo(void);
   void cut(void);
@@ -32,7 +32,11 @@ class EditorContextMenu : public QMenu
   void contextMenuEditMathExpression(void);
   void contextMenuGotoReference(void);
 
- private:
+protected slots:
+
+  void setupShortcuts(void);
+
+private:
   QAction *actionUndo;
   QAction *actionRedo;
   QAction *actionCut;
@@ -46,7 +50,6 @@ class EditorContextMenu : public QMenu
   QAction *actionGotoReference;
 
   void setupActions(void);
-  void setupShortcuts(void);
   void setupSignals(void);
   void setupMenu(void);
 
@@ -65,4 +68,4 @@ protected slots:
 
 };
 
-#endif // _EDITORCONTEXTMENU_H_
+#endif // EDITORCONTEXTMENU_H

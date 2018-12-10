@@ -61,7 +61,7 @@ void EditorMultiLineInputDialog::setupUi()
 
   // Устанавливается размер окна, основанный на размере виджета, из которого
   // этот виджет был вызван
-  if(this->parent()!=0)
+  if(this->parent()!=nullptr)
     if(this->parent()->isWidgetType())
         updateSize();
 }
@@ -69,6 +69,8 @@ void EditorMultiLineInputDialog::setupUi()
 
 void EditorMultiLineInputDialog::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
     okButton->setToolTip(shortcutManager.getKeySequenceAsText("misc-editConfirm")); // ToolTip зависит от шортката
@@ -77,8 +79,11 @@ void EditorMultiLineInputDialog::setupShortcuts(void)
 
 void EditorMultiLineInputDialog::setupSignals()
 {
-  connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorMultiLineInputDialog::accept);
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorMultiLineInputDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorMultiLineInputDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorMultiLineInputDialog::reject);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &EditorMultiLineInputDialog::setupShortcuts);
 }
 
 

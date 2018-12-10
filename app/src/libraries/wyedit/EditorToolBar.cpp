@@ -57,6 +57,7 @@ void EditorToolBar::init()
 
   setupToolBarTools();
   setupShortcuts();
+  setupSignals();
   assemblyButtons();
 }
 
@@ -71,6 +72,14 @@ QAction* EditorToolBar::generateAction(QIcon icon)
     actions[currentIndex]->setIcon(icon);
 
     return actions[currentIndex];
+}
+
+
+
+void EditorToolBar::setupSignals()
+{
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &EditorToolBar::setupShortcuts);
 }
 
 
@@ -299,6 +308,8 @@ void EditorToolBar::setupToolBarTools(void)
 
 void EditorToolBar::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("editor-bold", bold );
     shortcutManager.initAction("editor-italic", italic);
     shortcutManager.initAction("editor-underline", underline);
