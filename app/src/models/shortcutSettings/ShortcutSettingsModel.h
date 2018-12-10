@@ -11,6 +11,8 @@
 
 class ShortcutSettingsModel : public QStandardItemModel
 {
+    Q_OBJECT
+
 public:
 
     enum updateMode {

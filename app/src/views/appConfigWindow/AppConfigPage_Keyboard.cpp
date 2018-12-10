@@ -68,7 +68,7 @@ void AppConfigPage_Keyboard::assembly(void)
 void AppConfigPage_Keyboard::onClickedEditShortcutConfigFile(void)
 {
     ShortcutSettingsScreen shortcutSettingsScreen;
-    shortcutSettingsScreen.setWindowTitle(tr("Keyboard shortcut config"));
+    shortcutSettingsScreen.setWindowTitle(tr("Keyboard config"));
 
     shortcutSettingsScreen.exec();
 }

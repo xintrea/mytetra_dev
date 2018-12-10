@@ -869,9 +869,6 @@ int main(int argc, char ** argv)
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
 
- // Инициализация менеджера горячих клавиш
- shortcutManager.init();
-
  // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутствуют)
  iconsCollectionCheck();
 
@@ -903,8 +900,12 @@ int main(int argc, char ** argv)
                       QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
  {
      if(!app.installTranslator(&qtTranslator))
-         qDebug() << QObject::tr("Can't install QT translations");
+         qDebug() << "Can't install QT translations";
  }
+
+ // Инициализация менеджера горячих клавиш должна происходить после инициализации переводов,
+ // чтобы были переведены все действия по горячим клавишам
+ shortcutManager.init();
 
  // Создание объекта главного окна
  MainWindow win;
