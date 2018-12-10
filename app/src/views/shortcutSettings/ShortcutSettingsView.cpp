@@ -11,9 +11,6 @@ ShortcutSettingsView::ShortcutSettingsView(QWidget *parent) : QTreeView(parent)
     this->setMinimumWidth( dialogWidth );
     this->setMinimumHeight( dialogHeight );
     this->resize( this->size() ); // Обновление размеров виджета
-
-    connect(this, &ShortcutSettingsView::currentChanged, // Исправить на сигнал (это слот)
-            this, &ShortcutSettingsView::onCurrentChanged);
 }
 
 
@@ -23,13 +20,21 @@ ShortcutSettingsView::~ShortcutSettingsView()
 }
 
 
+// Инит должен вызываться после установки модели,
+// так как this->selectionModel() не определен если не установлена модель
+void ShortcutSettingsView::init()
+{
+    connect(this->selectionModel(), &QItemSelectionModel::currentRowChanged,
+            this, &ShortcutSettingsView::onCurrentChanged);
+}
+
+
 void ShortcutSettingsView::onCurrentChanged(const QModelIndex &index, const QModelIndex &prevIndex)
 {
     Q_UNUSED(prevIndex);
 
-    qDebug() << "Replace cursor position to 0 row";
-
-    // this->selectionModel()->select( index.siblingAtRow(0), QItemSelectionModel::Clear );
-
-    this->setCurrentIndex( index.siblingAtRow(0) );
+    // Курсор должен всегда перемещаться по левым ячейкам, так как если пользователь кликнет
+    // на не самую левую ячейку, то курсор сможет перемещаться только в пределах группы
+    // а нужно чтобы перемещение было возможно по всему дереву
+    this->setCurrentIndex( index.siblingAtColumn(0) );
 }

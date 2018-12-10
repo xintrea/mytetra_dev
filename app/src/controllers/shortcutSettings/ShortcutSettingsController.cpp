@@ -28,6 +28,7 @@ void ShortcutSettingsController::init()
     model->setObjectName("shortcutSettingsModel");
 
     view->setModel(model);
+    view->init();
     view->expandAll();
     view->resizeColumnToContents(0);
     view->resizeColumnToContents(1);
