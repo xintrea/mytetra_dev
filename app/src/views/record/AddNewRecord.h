@@ -30,6 +30,10 @@ public:
  QString getField(QString name);
  QString getImagesDirectory(void);
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
 
  void okClick(void);
@@ -47,7 +51,6 @@ private:
  QString imagesDirName;
 
  void setupUI(void);
- void setupShortcuts(void);
  void setupSignals(void);
  void assembly(void);
 

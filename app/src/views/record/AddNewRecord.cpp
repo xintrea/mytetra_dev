@@ -76,6 +76,8 @@ void AddNewRecord::setupUI(void)
 
 void AddNewRecord::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     // На кнопку OK назначается комбинация клавиш Ctrl+Enter
     QPushButton *okButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
@@ -87,6 +89,9 @@ void AddNewRecord::setupSignals(void)
 {
   connect(&buttonBox, &QDialogButtonBox::accepted, this, &AddNewRecord::okClick);
   connect(&buttonBox, &QDialogButtonBox::rejected, this, &AddNewRecord::reject);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &AddNewRecord::setupShortcuts);
 }
 
 
