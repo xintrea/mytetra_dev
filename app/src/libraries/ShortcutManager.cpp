@@ -12,9 +12,28 @@ extern GlobalParameters globalParameters;
 const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "actionLog", "attach", "misc"};
 
 
-ShortcutManager::ShortcutManager()
+ShortcutManager::ShortcutManager(QObject *parent) : QObject(parent)
 {
 
+}
+
+
+ShortcutManager::~ShortcutManager()
+{
+
+}
+
+
+ShortcutManager &ShortcutManager::operator=(const ShortcutManager &obj)
+{
+    if(this!=&obj) {
+        keyTable=obj.keyTable;
+        defaultKeyTable=obj.defaultKeyTable;
+
+        configFileName=obj.configFileName;
+    }
+
+    return *this;
 }
 
 
@@ -33,6 +52,13 @@ void ShortcutManager::init()
 void ShortcutManager::save()
 {
     saveConfig(keyTable);
+}
+
+
+void ShortcutManager::updateShortcutInApplication()
+{
+    qDebug() << "Update shortcut in application";
+    emit updateWidgetShortcut();
 }
 
 

@@ -30,6 +30,7 @@ protected slots:
     void onShortcutKeysChange(const QString &text);
     void onGrabShortcutClick();
     void onGrabShortcutEditingFinished();
+    void onInfoClick();
     void onResetShortcutToDefaultClick();
     void onResetAllShortcutsToDefaultClick();
 
@@ -51,8 +52,7 @@ protected:
     QLabel *shortcutLabel;
     QLineEdit *shortcutValueLineEdit;
     QHBoxLayout *shortcutLineLayout; // Слой с полем сочетания клавиш, кнопками Grab и Reset to default
-    QLabel *noteLabelLine1;
-    QLabel *noteLabelLine2;
+    QToolButton *buttonInfo;
     QGridLayout *shortcutLayout; // Слой внутри объединяющего прямоугольника настройки шортката
 
     QVBoxLayout *screenLayout;

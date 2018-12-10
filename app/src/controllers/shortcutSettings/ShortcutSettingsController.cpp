@@ -34,10 +34,14 @@ void ShortcutSettingsController::init()
 
 void ShortcutSettingsController::applyChanges()
 {
+    // Сохранение изменений на диск
     model->save();
 
     // Переинициализация менеджера горячих клавиш
     shortcutManager.init();
+
+    // Переинициализация всех шорткатов в программе
+    shortcutManager.updateShortcutInApplication();
 
     // Закрытие окна настроек горячих клавиш
     static_cast<QWidget *>( parent() )->close();
