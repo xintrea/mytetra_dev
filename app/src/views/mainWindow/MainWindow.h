@@ -104,6 +104,8 @@ public slots:
 
  void toolsFindInBase(void);
 
+ void setupShortcuts(void);
+
 private slots:
 
  void showWindow();
@@ -147,8 +149,6 @@ private:
  void initHelpMenu(void);
  void initHiddenActions(void);
 
- void setupShortcuts(void);
- 
  void initRecordTableActions(void);
 
  void setupIconActions(void);
