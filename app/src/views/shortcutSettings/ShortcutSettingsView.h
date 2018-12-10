@@ -11,7 +11,8 @@ public:
     ShortcutSettingsView(QWidget *parent=nullptr);
     ~ShortcutSettingsView();
 
-//    void init();
+    void init();
+
 //    void setController(ShortcutSettingsController *pController);
 
 protected slots:
