@@ -22,6 +22,10 @@ public:
   // Действия, используемые как на тулбаре, так и в контекстном меню
   QAction *actionCopy;
 
+public slots:
+
+  void setupShortcuts(void);
+
 protected:
 
   // Указатель на контроллер 
@@ -38,7 +42,6 @@ protected:
   void setupUI(void);
   void setupSignals(void);
   void setupActions(void);
-  void setupShortcuts(void);
   void assembly(void);
 
 };

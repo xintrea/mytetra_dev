@@ -237,7 +237,7 @@ void ShortcutManager::saveConfig(QMap<QString, Data> table)
     foreach (QString fullActionName, table.keys()) // Перебираются наименования действий
     {
         QKeySequence shortcutKeys=table[fullActionName].sequence; // Выясняются горячие клавиши для текущего действия
-        qDebug() << fullActionName << " = " << shortcutKeys.toString();
+        // qDebug() << fullActionName << " = " << shortcutKeys.toString();
 
         // Имя раздела
         QString sectionName=fullActionName.section('-', 0, 0);
@@ -253,7 +253,7 @@ void ShortcutManager::saveConfig(QMap<QString, Data> table)
             return;
         }
 
-        qDebug() << "Save section: "+sectionName+" action: "+shortActionName;
+        // qDebug() << "Save section: "+sectionName+" action: "+shortActionName;
         config.setValue(sectionName+"/"+shortActionName, shortcutKeys.toString());
     }
 
@@ -425,4 +425,3 @@ void ShortcutManager::initToolButton(QString actionName, QToolButton *action)
     }
 
 }
-

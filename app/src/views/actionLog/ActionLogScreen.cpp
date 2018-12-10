@@ -1,4 +1,5 @@
 #include <QDialogButtonBox>
+#include <QDebug>
 
 #include "main.h"
 
@@ -62,6 +63,8 @@ void ActionLogScreen::setupActions(void)
 
 void ActionLogScreen::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("actionLog-copy", actionCopy );
 }
 
@@ -69,6 +72,10 @@ void ActionLogScreen::setupShortcuts(void)
 void ActionLogScreen::setupSignals(void)
 {
   connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &ActionLogScreen::setupShortcuts);
+
 }
 
 

@@ -17,6 +17,9 @@ public:
     ShortcutManager(QObject *parent=nullptr);
     virtual ~ShortcutManager();
 
+    // Оператор копирования нужен из-за того, что в диалоге настройки шорткатов
+    // используется копия шорткат менеджера, чтобы настройки можно было отменить.
+    // А в QObject по-умолчнию оператор копирования отключен
     ShortcutManager &operator=(const ShortcutManager &obj);
 
     enum stringRepresentation {
