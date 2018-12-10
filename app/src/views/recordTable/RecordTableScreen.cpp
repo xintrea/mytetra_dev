@@ -198,6 +198,8 @@ void RecordTableScreen::setupUI(void)
 
 void RecordTableScreen::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     // Добавление записи
     shortcutManager.initAction("note-addNewToEnd", actionAddNewToEnd);
 
@@ -307,6 +309,9 @@ void RecordTableScreen::setupSignals(void)
 
     // Кнопка переключения режима одинарного выбора и мультивыбора
     connect(actionSwitchSelectionMode, &QAction::triggered, recordTableController, &RecordTableController::onSwitchSelectionMode);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &RecordTableScreen::setupShortcuts);
 }
 
 

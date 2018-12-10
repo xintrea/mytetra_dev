@@ -64,6 +64,8 @@ public slots:
 
  void onExecuteCommandFinishWork(void);
 
+  void setupShortcuts(void);
+
 private slots:
  
  void onSyncroClick(void);
@@ -90,7 +92,6 @@ private:
  QAction *actionWalkHistoryNext;
   
  void setupUI(void);
- void setupShortcuts(void);
  void setupSignals(void);
  void setupActions(void);
  void assembly(void);
