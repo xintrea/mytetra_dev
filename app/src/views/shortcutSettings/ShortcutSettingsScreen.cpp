@@ -77,6 +77,11 @@ void ShortcutSettingsScreen::setupSignals()
     connect(buttonResetShortcutToDefault, &QPushButton::clicked,
             this, &ShortcutSettingsScreen::onResetShortcutToDefaultClick);
 
+    // Вызов установки стандартных клавиатурных комбинаций для всех кнопок (кнопка Reset all shortcuts to default)
+    connect(buttonResetAllShortcutsToDefault, &QPushButton::clicked,
+            this, &ShortcutSettingsScreen::onResetAllShortcutsToDefaultClick);
+
+
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
             shortcutSettingsController, &ShortcutSettingsController::applyChanges); // Применение изменений
@@ -121,9 +126,11 @@ void ShortcutSettingsScreen::onShortcutSelect(const QModelIndex &index)
     // Если выбрана строка с шорткатом
     if(index.parent().isValid()) {
         shortcutData=shortcutSettingsController->getShortcutData(index);
+        shortcutValueLineEdit->setReadOnly(false);
     } else {
         // Иначе выбран раздел
         shortcutData=shortcutSettingsController->getEmptyShortcutData();
+        shortcutValueLineEdit->setReadOnly(true); // У раздела шртката нет, у пользователя не должно быть возможности что-то написать
     }
 
     // Меняются надписи
@@ -159,12 +166,24 @@ void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
     // Значение из виджета keySequenceEdit устанавливается в поле ввода клавиатурной комбинации
     shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
 
-    keySequenceEdit.hide();
+    this->keySequenceEdit.hide();
 }
 
 
 void ShortcutSettingsScreen::onResetShortcutToDefaultClick()
 {
     shortcutValueLineEdit->setText( shortcutData.defaultKeys );
+}
+
+
+void ShortcutSettingsScreen::onResetAllShortcutsToDefaultClick()
+{
+    // Сброс в модели всех клавиатурных комбинаций на стандартные
+    shortcutSettingsController->resetAllShortcutsToDefault();
+
+    // Обновление поля ввода шортката на стандартную комбинацию, которая теперь установлена в модели
+    QModelIndex index=shortcutSettingsController->getView()->selectionModel()->currentIndex();
+    shortcutData=shortcutSettingsController->getShortcutData(index);
+    shortcutValueLineEdit->setText( shortcutData.keys ); // Клавиатурная комбинация
 }
 

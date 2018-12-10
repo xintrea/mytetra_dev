@@ -84,12 +84,23 @@ QModelIndex ShortcutSettingsModel::findShortcut(const QString &shortcutFullName)
 void ShortcutSettingsModel::save()
 {
     this->updateShortcutManager();
-    copyShortcutManager.save();
+    this->copyShortcutManager.save();
 }
 
 
-// Обновление значений из таблицы в copyShortcutManager
 void ShortcutSettingsModel::updateShortcutManager()
+{
+    this->smartUpdate(updateMode::updateManager);
+}
+
+
+void ShortcutSettingsModel::resetAllShortcutsToDefault()
+{
+    this->smartUpdate(updateMode::resetToDefaultKeySequence);
+}
+
+
+void ShortcutSettingsModel::smartUpdate(updateMode mode)
 {
     // Перебор секций
     for(int i=0; i<this->rowCount( QModelIndex() ); ++i ) {
@@ -101,19 +112,37 @@ void ShortcutSettingsModel::updateShortcutManager()
         // Перебор команд
         for(int j=0; j<this->rowCount( sectionIndex ); ++j ) {
 
-            // Имя команды
+            // Короткое имя команды
             QModelIndex commandIndex=this->index(j, 0, sectionIndex);
             QString commandName=this->data( commandIndex ).toString();
+
+            // Полное имя команды
+            QString fullCommandName=sectionName+"-"+commandName;
 
             // Сочетание клавиш
             QModelIndex keysIndex=this->index(j, 2, sectionIndex);
             QString keysName=this->data( keysIndex ).toString();
 
-            QString fullCommandName=sectionName+"-"+commandName;
 
-            // Если сочетание клавиш у данной команды имеет другое значение
-            if(copyShortcutManager.getKeySequence(fullCommandName).toString()!=keysName) {
-                copyShortcutManager.setKeySequence(fullCommandName, keysName); // Устанавливается новое сочетание клавиш
+            // Обновление copyShortcutManager значениями из текущей модели дерева
+            if(mode==updateMode::updateManager) {
+                // Если сочетание клавиш у данной команды имеет другое значение
+                if(this->copyShortcutManager.getKeySequence(fullCommandName).toString()!=keysName) {
+                    this->copyShortcutManager.setKeySequence(fullCommandName, keysName); // Устанавливается новое сочетание клавиш
+                }
+            }
+
+            // Установка в copyShortcutManager и в модели дерева стандартных клавиатурных комбинаций
+            if(mode==updateMode::resetToDefaultKeySequence) {
+
+                QModelIndex defaultKeysIndex=this->index(j, 3, sectionIndex);
+                QString defaultKeysName=this->data( defaultKeysIndex ).toString();
+
+                // Если сочетание клавиш у данной команды не соответствует стандартному
+                if(keysName!=defaultKeysName) {
+                    this->setData( keysIndex, defaultKeysName); // Устанавливается в дереве
+                    this->copyShortcutManager.setKeySequence(fullCommandName, defaultKeysName); // Устанавливается в менеджере
+                }
             }
         }
     }

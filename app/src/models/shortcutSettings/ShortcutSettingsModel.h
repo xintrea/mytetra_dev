@@ -12,10 +12,17 @@
 class ShortcutSettingsModel : public QStandardItemModel
 {
 public:
+
+    enum updateMode {
+        updateManager=0,
+        resetToDefaultKeySequence=1
+    };
+
     ShortcutSettingsModel(QObject *parent = nullptr);
     ~ShortcutSettingsModel();
 
     QModelIndex findShortcut(const QString &shortcutFullName);
+    void resetAllShortcutsToDefault();
 
     void save();
 
@@ -29,6 +36,7 @@ public:
 protected:
 
     void updateShortcutManager();
+    void smartUpdate(updateMode mode);
 
     // Все настройки производятся над копией ShortcutManager, чтобы их можно было отменить
     ShortcutManager copyShortcutManager;
