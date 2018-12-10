@@ -156,6 +156,8 @@ void TreeScreen::setupActions(void)
 
 void TreeScreen::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("tree-expandAllSubbranch", actionList["expandAllSubbranch"] );
     shortcutManager.initAction("tree-collapseAllSubbranch", actionList["collapseAllSubbranch"] );
     shortcutManager.initAction("tree-moveUpBranch", actionList["moveUpBranch"] );
@@ -387,6 +389,8 @@ void TreeScreen::setupSignals(void)
  // connect(knowTreeView, SIGNAL(clicked(const QModelIndex &)),
  //         this, SLOT(on_knowTreeView_clicked(const QModelIndex &)));
 
+ // Обновление горячих клавиш, если они были изменены
+ connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &TreeScreen::setupShortcuts);
 }
 
 
