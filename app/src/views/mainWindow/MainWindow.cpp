@@ -157,6 +157,9 @@ void MainWindow::setupSignals(void)
   connect(actionFocusTree, &QAction::triggered, this, &MainWindow::onClickFocusTree);
   connect(actionFocusNoteTable, &QAction::triggered, this, &MainWindow::onClickFocusNoteTable);
   connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &MainWindow::setupShortcuts);
 }
 
 
@@ -592,6 +595,8 @@ void MainWindow::initHiddenActions(void)
 
 void MainWindow::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     shortcutManager.initAction("misc-print", actionFileMenuPrint );
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
     shortcutManager.initAction("misc-quit", actionFileMenuQuit );
