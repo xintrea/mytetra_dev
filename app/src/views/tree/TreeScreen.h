@@ -48,6 +48,10 @@ public:
 
  void setFocusToBaseWidget(void);
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
 
  void expandAllSubbranch(void);
@@ -95,7 +99,6 @@ private:
  void setupModels(void);
  void setupSignals(void);
  void setupActions(void);
- void setupShortcuts(void);
  void assembly(void);
  
  void moveUpDownBranch(int direction);
