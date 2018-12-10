@@ -42,13 +42,13 @@ void ShortcutSettingsScreen::setupUI()
     desctiptionLabel=new QLabel(tr("Description:"), this);
     desctiptionValueLabel=new QLabel(this);
 
-    shortcutLabel=new QLabel(tr("Keys:"), this);
+    shortcutLabel=new QLabel(tr("Hot keys:"), this);
     shortcutValueLineEdit=new QLineEdit(this);
 
     // Если установить для длинной записи setWordWrap(true), неточно работает размер QGroupBox (заголовок налазит на таблицу)
     // Поэтому запись разбита на две строки
     noteLabelLine1=new QLabel(tr("<b>Warning:</b> In some WM and DE shortcut grabbing works incorrectly."), this);
-    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in keys field."), this);
+    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in hot keys field."), this);
 
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -70,7 +70,7 @@ void ShortcutSettingsScreen::setupSignals()
             this, &ShortcutSettingsScreen::onGrabShortcutClick);
 
     // Завершение захвата клавиатурной комбинации
-    connect(&keySequenceEdit, &HotKeyGrabber::editingFinished,
+    connect(&hotKeyGrabber, &HotKeyGrabber::editingFinished,
             this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
 
     // Вызов установки стандартной клавиатурной комбинации (кнопка Reset shortcut to default)
@@ -151,22 +151,22 @@ void ShortcutSettingsScreen::onShortcutKeysChange(const QString &text)
 
 void ShortcutSettingsScreen::onGrabShortcutClick()
 {
-    keySequenceEdit.setAttribute( Qt::WA_ShowModal );
-    keySequenceEdit.clear();
-    keySequenceEdit.show();
+    hotKeyGrabber.setAttribute( Qt::WA_ShowModal );
+    hotKeyGrabber.clear();
+    hotKeyGrabber.show();
 
     // Виджет захвата клавиш устанавливается по центру текущего виджета
-    keySequenceEdit.move(this->x() + this->width()/2 - keySequenceEdit.width()/2,
-                         this->y() + this->height()/2 - keySequenceEdit.height()/2);
+    hotKeyGrabber.move(this->x() + this->width()/2 - hotKeyGrabber.width()/2,
+                       this->y() + this->height()/2 - hotKeyGrabber.height()/2);
 }
 
 
 void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
 {
     // Значение из виджета keySequenceEdit устанавливается в поле ввода клавиатурной комбинации
-    shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
+    shortcutValueLineEdit->setText( hotKeyGrabber.keySequence().toString() );
 
-    this->keySequenceEdit.hide();
+    this->hotKeyGrabber.hide();
 }
 
 

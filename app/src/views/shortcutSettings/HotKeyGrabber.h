@@ -2,11 +2,11 @@
 #define HOTKEYGRABBER_H
 
 #include <QKeySequenceEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
 
-// Модификация QKeySequenceEdit чтобы он захватывал одну комбинацию
-// Не используется, так как у него не срабатывает сигнал завершения ввода через 1 сек
 
-class HotKeyGrabber: public QKeySequenceEdit
+class HotKeyGrabber: public QWidget
 {
     Q_OBJECT
 
@@ -14,8 +14,23 @@ public:
     explicit HotKeyGrabber( QWidget* parent = nullptr);
     ~HotKeyGrabber();
 
+    void clear();
+    QKeySequence keySequence();
+
+signals:
+    void editingFinished(); // Повторение сигнала QKeySequenceEdit::editingFinished
+
 protected:
-    void keyPressEvent ( QKeyEvent * event );
+
+    QKeySequenceEdit *keySequenceEdit;
+    QPushButton *buttonCancel;
+
+    QHBoxLayout *layout;
+
+
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 };
 
 
