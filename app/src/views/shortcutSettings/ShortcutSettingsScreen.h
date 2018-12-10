@@ -31,6 +31,7 @@ protected slots:
     void onGrabShortcutClick();
     void onGrabShortcutEditingFinished();
     void onResetShortcutToDefaultClick();
+    void onResetAllShortcutsToDefaultClick();
 
 protected:
 

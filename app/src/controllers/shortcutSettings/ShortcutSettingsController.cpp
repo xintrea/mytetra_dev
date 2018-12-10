@@ -88,6 +88,6 @@ void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString s
 
 void ShortcutSettingsController::resetAllShortcutsToDefault()
 {
-
+    model->resetAllShortcutsToDefault();
 }
 
