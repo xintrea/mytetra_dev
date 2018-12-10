@@ -354,6 +354,22 @@ QString ShortcutManager::getKeySequenceAsText(QString actionName, stringRepresen
 }
 
 
+QKeySequence ShortcutManager::getDefaultKeySequence(QString actionName)
+{
+    if(defaultKeyTable.contains(actionName)) {
+        return defaultKeyTable[actionName].sequence;
+    }
+
+    return QKeySequence();
+}
+
+
+QString ShortcutManager::getDefaultKeySequenceAsText(QString actionName)
+{
+    return getDefaultKeySequence(actionName).toString();
+}
+
+
 void ShortcutManager::initAction(QString actionName, QAction *action)
 {
     if(keyTable.contains(actionName)) {

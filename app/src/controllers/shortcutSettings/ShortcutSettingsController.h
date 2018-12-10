@@ -15,6 +15,7 @@ public:
         QString command;
         QString description;
         QString keys;
+        QString defaultKeys;
     };
 
     ShortcutSettingsController(QObject *parent = nullptr);
@@ -29,7 +30,6 @@ public:
     ShortcutData getEmptyShortcutData();
 
     void setShortcut(QString shortcutFullName, QString sequenceText);
-    void resetShortcutToDefault(QString shortcutFullName);
     void resetAllShortcutsToDefault();
 
 protected:

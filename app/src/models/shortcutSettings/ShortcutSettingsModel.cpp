@@ -33,6 +33,9 @@ ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemMod
             index=this->index(j, 2, sectionIndex);
             this->setData(index, copyShortcutManager.getKeySequenceAsText(sectionName+"-"+actionName));
 
+            index=this->index(j, 3, sectionIndex);
+            this->setData(index, copyShortcutManager.getDefaultKeySequenceAsText(sectionName+"-"+actionName));
+
             ++j;
         }
 
@@ -139,6 +142,11 @@ QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientat
         if(section==2) {
             return tr("Shortcut");
         }
+
+        if(section==3) {
+            return tr("Default Shortcut"); // Скрытый столбец
+        }
+
     }
 
     return QVariant();
@@ -149,7 +157,7 @@ int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
 {
     Q_UNUSED(itemIndex);
 
-    return 3;
+    return 4;
 }
 
 

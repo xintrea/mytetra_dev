@@ -38,6 +38,9 @@ public:
     QString getFullDescription(QString actionName);
     QString getKeySequenceAsText(QString actionName, stringRepresentation mode=stringRepresentation::plain);
 
+    QKeySequence getDefaultKeySequence(QString actionName);
+    QString getDefaultKeySequenceAsText(QString actionName);
+
     void initAction(QString actionName, QAction *action);
     void initToolButton(QString actionName, QToolButton *action);
 
