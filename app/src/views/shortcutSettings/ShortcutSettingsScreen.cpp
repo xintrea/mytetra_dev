@@ -178,12 +178,20 @@ void ShortcutSettingsScreen::onResetShortcutToDefaultClick()
 
 void ShortcutSettingsScreen::onResetAllShortcutsToDefaultClick()
 {
-    // Сброс в модели всех клавиатурных комбинаций на стандартные
-    shortcutSettingsController->resetAllShortcutsToDefault();
+    QMessageBox msgBox;
+    msgBox.setText( tr("Are you sure to reset all keys shortcuts to default?") );
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
 
-    // Обновление поля ввода шортката на стандартную комбинацию, которая теперь установлена в модели
-    QModelIndex index=shortcutSettingsController->getView()->selectionModel()->currentIndex();
-    shortcutData=shortcutSettingsController->getShortcutData(index);
-    shortcutValueLineEdit->setText( shortcutData.keys ); // Клавиатурная комбинация
+    if(ret==QMessageBox::Ok) {
+        // Сброс в модели всех клавиатурных комбинаций на стандартные
+        shortcutSettingsController->resetAllShortcutsToDefault();
+
+        // Обновление поля ввода шортката на стандартную комбинацию, которая теперь установлена в модели
+        QModelIndex index=shortcutSettingsController->getView()->selectionModel()->currentIndex();
+        shortcutData=shortcutSettingsController->getShortcutData(index);
+        shortcutValueLineEdit->setText( shortcutData.keys ); // Клавиатурная комбинация
+    }
 }
 
