@@ -52,6 +52,8 @@ void RecordInfoFieldsEditor::setupUI(void)
 // Может вызваться повторно при изменении схемы горячих клавиш
 void RecordInfoFieldsEditor::setupShortcuts(void)
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     // На кнопку OK назначается комбинация клавиш Ctrl+Enter
     QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
@@ -63,6 +65,9 @@ void RecordInfoFieldsEditor::setupSignals(void)
 {
     connect(buttonBox, &QDialogButtonBox::accepted, this, &RecordInfoFieldsEditor::okClick);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &RecordInfoFieldsEditor::reject);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &RecordInfoFieldsEditor::setupShortcuts);
 }
 
 

@@ -30,6 +30,10 @@ public:
   void setReadOnly(bool state);
   bool isReadOnly();
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
 
   void okClick(void);
@@ -42,7 +46,6 @@ private:
   QDialogButtonBox *buttonBox;
 
   void setupUI(void);
-  void setupShortcuts(void);
   void setupSignals(void);
   void assembly(void);
 };
