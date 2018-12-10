@@ -28,11 +28,7 @@ void ShortcutSettingsController::init()
     model->setObjectName("shortcutSettingsModel");
 
     view->setModel(model);
-    view->init();
-    view->expandAll();
-    view->resizeColumnToContents(0);
-    view->resizeColumnToContents(1);
-    view->resizeColumnToContents(2);
+    view->init(); // Инит вида должен вызываться после установки модели
 }
 
 
@@ -62,6 +58,7 @@ ShortcutSettingsController::ShortcutData ShortcutSettingsController::getShortcut
     shortcutData.command    =model->data( index.siblingAtColumn(0) ) .toString();
     shortcutData.description=model->data( index.siblingAtColumn(1) ) .toString();
     shortcutData.keys       =model->data( index.siblingAtColumn(2) ) .toString();
+    shortcutData.defaultKeys=model->data( index.siblingAtColumn(3) ) .toString();
 
     return shortcutData;
 }
@@ -75,6 +72,7 @@ ShortcutSettingsController::ShortcutData ShortcutSettingsController::getEmptySho
     shortcutData.command    ="";
     shortcutData.description="";
     shortcutData.keys       ="";
+    shortcutData.defaultKeys="";
 
     return shortcutData;
 }
@@ -85,12 +83,6 @@ void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString s
     QModelIndex index=model->findShortcut( shortcutFullName );
 
     model->setData( index.siblingAtColumn(2), sequenceText );
-}
-
-
-void ShortcutSettingsController::resetShortcutToDefault(QString shortcutFullName)
-{
-
 }
 
 

@@ -20,12 +20,24 @@ ShortcutSettingsView::~ShortcutSettingsView()
 }
 
 
-// Инит должен вызываться после установки модели,
-// так как this->selectionModel() не определен если не установлена модель
 void ShortcutSettingsView::init()
 {
+    // Инит должен вызываться только после установки модели,
+    // так как this->selectionModel() не определен если не установлена модель
+    if( this->model()==nullptr ) {
+        criticalError("Please run ShortcutSettingsView::init() after setModel() calleng");
+        return;
+    }
+
+    // Реакция на перемещение курсора (засветки) по дереву
     connect(this->selectionModel(), &QItemSelectionModel::currentRowChanged,
             this, &ShortcutSettingsView::onCurrentChanged);
+
+    this->setColumnHidden(3, true); // Колонка с дефолтными шорткатами скрывается
+    this->expandAll();
+    this->resizeColumnToContents(0);
+    this->resizeColumnToContents(1);
+    this->resizeColumnToContents(2);
 }
 
 

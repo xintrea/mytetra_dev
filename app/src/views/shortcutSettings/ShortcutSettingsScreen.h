@@ -30,6 +30,7 @@ protected slots:
     void onShortcutKeysChange(const QString &text);
     void onGrabShortcutClick();
     void onGrabShortcutEditingFinished();
+    void onResetShortcutToDefaultClick();
 
 protected:
 

@@ -42,13 +42,13 @@ void ShortcutSettingsScreen::setupUI()
     desctiptionLabel=new QLabel(tr("Description:"), this);
     desctiptionValueLabel=new QLabel(this);
 
-    shortcutLabel=new QLabel(tr("Key binding:"), this);
+    shortcutLabel=new QLabel(tr("Keys:"), this);
     shortcutValueLineEdit=new QLineEdit(this);
 
     // Если установить для длинной записи setWordWrap(true), неточно работает размер QGroupBox (заголовок налазит на таблицу)
     // Поэтому запись разбита на две строки
     noteLabelLine1=new QLabel(tr("<b>Warning:</b> In some WM and DE shortcut grabbing works incorrectly."), this);
-    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in key binding field."), this);
+    noteLabelLine2=new QLabel(tr("In this case, manually write the keyboard shortcut in keys field."), this);
 
     // Создание набора диалоговых кнопок
     dialogButtonBox=new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
@@ -65,13 +65,17 @@ void ShortcutSettingsScreen::setupSignals()
     connect(shortcutValueLineEdit, &QLineEdit::textChanged,
             this, &ShortcutSettingsScreen::onShortcutKeysChange);
 
-    // Вызов диалога захвата клавиатурной комбинации
+    // Вызов диалога захвата клавиатурной комбинации (кнопка Grab Shortcut)
     connect(buttonGrabShortcut, &QPushButton::clicked,
             this, &ShortcutSettingsScreen::onGrabShortcutClick);
 
     // Завершение захвата клавиатурной комбинации
-     connect(&keySequenceEdit, &HotKeyGrabber::editingFinished,
-             this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
+    connect(&keySequenceEdit, &HotKeyGrabber::editingFinished,
+            this, &ShortcutSettingsScreen::onGrabShortcutEditingFinished);
+
+    // Вызов установки стандартной клавиатурной комбинации (кнопка Reset shortcut to default)
+    connect(buttonResetShortcutToDefault, &QPushButton::clicked,
+            this, &ShortcutSettingsScreen::onResetShortcutToDefaultClick);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
@@ -156,5 +160,11 @@ void ShortcutSettingsScreen::onGrabShortcutEditingFinished()
     shortcutValueLineEdit->setText( keySequenceEdit.keySequence().toString() );
 
     keySequenceEdit.hide();
+}
+
+
+void ShortcutSettingsScreen::onResetShortcutToDefaultClick()
+{
+    shortcutValueLineEdit->setText( shortcutData.defaultKeys );
 }
 
