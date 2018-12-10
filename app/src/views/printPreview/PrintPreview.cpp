@@ -106,6 +106,8 @@ void PrintPreview::setupUI()
 
 void PrintPreview::setupShortcuts()
 {
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
     buttonPrint->setShortcut( shortcutManager.getKeySequence("misc-print") ); // Устанавливается шорткат
     buttonPrint->setToolTip( shortcutManager.getKeySequenceAsText("misc-print") ); // ToolTip зависит от шортката
 }
@@ -118,6 +120,9 @@ void PrintPreview::setupSignals()
     connect(buttonZoomIn, &QToolButton::clicked, view, &PreviewView::zoomIn);
     connect(buttonZoomOut, &QToolButton::clicked, view, &PreviewView::zoomOut);
     connect(buttonClose, &QToolButton::clicked, this, &PrintPreview::close);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &PrintPreview::setupShortcuts);
 }
 
 

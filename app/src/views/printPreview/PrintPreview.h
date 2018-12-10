@@ -17,6 +17,10 @@ public:
     PrintPreview(const QTextDocument *document, QWidget *parent);
     virtual ~PrintPreview();
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
     void print();
     void pageSetup();
@@ -24,7 +28,6 @@ private slots:
 private:
     void setupPrintDoc();
     void setupUI();
-    void setupShortcuts();
     void setupSignals();
     void assembly();
 
