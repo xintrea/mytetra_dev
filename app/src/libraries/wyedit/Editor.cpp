@@ -200,8 +200,9 @@ void Editor::setupEditorTextArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+
   // Устанавка размера табуляции для клавиши Tab
-  textArea->setTabStopDistance( QFontMetricsF(textArea->font()).width('A') * editorConfig->get_tab_size() );
+  setTabSize();
 }
 
 
@@ -1280,8 +1281,9 @@ void Editor::onSettingsClicked(void)
   // Создается окно настроек, после выхода из этой функции окно удалится
   EditorConfigDialog dialog;
   dialog.show();
+
   // Устанавка размера табуляции для клавиши Tab
-  textArea->setTabStopDistance( QFontMetricsF(textArea->font()).width('A') * editorConfig->get_tab_size() );
+  setTabSize();
 }
 
 
@@ -1358,6 +1360,22 @@ void Editor::onShowTextClicked(void)
   showText->setDocument( cloneDocument );
 
   showText->show();
+}
+
+
+void Editor::setTabSize()
+{
+    // Устанавка размера табуляции для клавиши Tab
+    // Учитываем среднюю ширину глифов в шрифте
+    textArea->setTabStopDistance(
+                QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
+                editorConfig->get_tab_size()
+                );
+
+    // Альтернатива, не учитывающая среднюю ширину глифов в шрифте
+//    textArea->setTabStopDistance(
+//                textArea->fontMetrics().width(QLatin1Char('a')
+//                                              ) * editorConfig->get_tab_size() );
 }
 
 
