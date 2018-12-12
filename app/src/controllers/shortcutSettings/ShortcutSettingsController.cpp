@@ -59,10 +59,10 @@ ShortcutSettingsController::ShortcutData ShortcutSettingsController::getShortcut
     ShortcutData shortcutData;
 
     shortcutData.section    =model->data( index.parent() ).toString();
-    shortcutData.command    =model->data( index.siblingAtColumn(0) ) .toString();
-    shortcutData.description=model->data( index.siblingAtColumn(1) ) .toString();
-    shortcutData.keys       =model->data( index.siblingAtColumn(2) ) .toString();
-    shortcutData.defaultKeys=model->data( index.siblingAtColumn(3) ) .toString();
+    shortcutData.command    =model->data( index.sibling(index.row(), 0) ) .toString();
+    shortcutData.description=model->data( index.sibling(index.row(), 1) ) .toString();
+    shortcutData.keys       =model->data( index.sibling(index.row(), 2) ) .toString();
+    shortcutData.defaultKeys=model->data( index.sibling(index.row(), 3) ) .toString();
 
     return shortcutData;
 }
@@ -86,7 +86,7 @@ void ShortcutSettingsController::setShortcut(QString shortcutFullName, QString s
 {
     QModelIndex index=model->findShortcut( shortcutFullName );
 
-    model->setData( index.siblingAtColumn(2), sequenceText );
+    model->setData( index.sibling(index.row(), 2), sequenceText );
 }
 
 

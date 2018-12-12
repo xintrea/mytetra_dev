@@ -48,5 +48,5 @@ void ShortcutSettingsView::onCurrentChanged(const QModelIndex &index, const QMod
     // Курсор должен всегда перемещаться по левым ячейкам, так как если пользователь кликнет
     // на не самую левую ячейку, то курсор сможет перемещаться только в пределах группы
     // а нужно чтобы перемещение было возможно по всему дереву
-    this->setCurrentIndex( index.siblingAtColumn(0) );
+    this->setCurrentIndex( index.sibling(index.row(), 0) );
 }
