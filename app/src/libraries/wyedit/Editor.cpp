@@ -1154,6 +1154,8 @@ void Editor::onCut(void)
 
 void Editor::onCopy(void)
 {
+  qDebug() << "Editor::onCopy()" << sender()->objectName() << sender()->metaObject()->className();
+
   // Если выбрана только картинка или курсор стоит на позиции картинки
   if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
   {
