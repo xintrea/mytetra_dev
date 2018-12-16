@@ -1157,36 +1157,60 @@ void Editor::onCut(void)
 
 void Editor::onCopy(void)
 {
-  qDebug() << "Editor::onCopy()" << sender()->objectName() << sender()->metaObject()->className();
+    // qDebug() << "Editor::onCopy()" << sender()->objectName() << sender()->metaObject()->className();
+    // qDebug() << "Editor::onCopy() textArea has focus:" << textArea->hasFocus();
 
-  // Если выбрана только картинка или курсор стоит на позиции картинки
-  if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
-  {
-    QTextImageFormat imageFormat;
+    // Если текущий виджет не основной виджет редактирования текста
+    if(textArea->hasFocus()==false) {
 
-    if(cursorPositionDetector->isImageSelect())
-      imageFormat = imageFormatter->imageFormatOnSelect();
+        QWidget *focusWidget=qApp->focusWidget(); // Выясняется, какой виджет выбран
 
-    if(cursorPositionDetector->isCursorOnImage())
-      imageFormat = imageFormatter->imageFormatOnCursor();
+        // Если это надпись QLabel
+        // Для виджетов, существующих рядом с textArea в рамках виджета Editor,
+        // сочетание клавиш копирования не перекрывается самим виджетом.
+        // Поэтому нужно вручную заполнить буфер обмена.
+        // Это поведения стало необходимо после введения подсистемы горячих клавиш
+        if(QString(focusWidget->metaObject()->className())=="QLabel") {
+            QLabel *label=static_cast<QLabel *>(focusWidget);
 
-    // Из формата выясняется имя картинки
-    QString imageName=imageFormat.name();
+            if(label->selectedText().size()>0) {
+                QClipboard *clipboard=QApplication::clipboard();
+                clipboard->setText(label->selectedText());
+            }
+        }
 
-    // Из ресурсов вытягивается картинка
-    QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
-    QImage image=imageData.value<QImage>();
+        return; // Закончилась обработка что текущий виджет не основной виджет редактирования текста
+    }
 
-    // Создается ссылка на буфер обмена
-    QClipboard *clipboard=QApplication::clipboard();
 
-    // Копирование картинки в буфер обмена
-    clipboard->setImage(image);
-  }
-  else
-    textArea->copy(); // Обычное копирование
+    // Если выбрана только картинка или курсор стоит на позиции картинки
+    if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
+    {
+        QTextImageFormat imageFormat;
 
-  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
+        if(cursorPositionDetector->isImageSelect())
+            imageFormat = imageFormatter->imageFormatOnSelect();
+
+        if(cursorPositionDetector->isCursorOnImage())
+            imageFormat = imageFormatter->imageFormatOnCursor();
+
+        // Из формата выясняется имя картинки
+        QString imageName=imageFormat.name();
+
+        // Из ресурсов вытягивается картинка
+        QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
+        QImage image=imageData.value<QImage>();
+
+        // Создается ссылка на буфер обмена
+        QClipboard *clipboard=QApplication::clipboard();
+
+        // Копирование картинки в буфер обмена
+        clipboard->setImage(image);
+    }
+    else
+        textArea->copy(); // Обычное копирование
+
+    editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
