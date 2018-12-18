@@ -1229,7 +1229,8 @@ void TypefaceFormatter::onInsertHorizontalLineClicked()
 
 
 // Обработка мягкого переноса
-// Учитываются мягкие переносы до выделенного текста (1-й символ до выделения) и в выделенных абзацах
+// Учитываются мягкие переносы до выделенного текста (1-й символ до выделения),
+// после выделенного текста и в выделенных абзацах
 void TypefaceFormatter::workingSoftCarryInSelection()
 {
     // Если нет выделения, то возврат
@@ -1246,7 +1247,7 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     textCursor.setPosition(selectionStart-1, QTextCursor::MoveAnchor);
     textCursor.setPosition(selectionStart, QTextCursor::KeepAnchor);
 
-    // Определяем, является ли этот 1-й симол слева от выделения текста мягким переносом
+    // Определяем, является ли этот 1-й символ слева от выделения текста мягким переносом
     if(textCursor.anchor() != 0 && textCursor.position() != 0) // Пропускаем начало документо
     {
         QString html = textCursor.selection().toHtml();
@@ -1256,7 +1257,6 @@ void TypefaceFormatter::workingSoftCarryInSelection()
         {
             // Если это мягкий перенос - заменяем его на абзац
             textArea->setTextCursor(textCursor);
-            textArea->textCursor().removeSelectedText();
             textArea->textCursor().insertText("\n");
         }
     }
@@ -1266,16 +1266,25 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     textCursor.setPosition(selectionEnd+1, QTextCursor::KeepAnchor);
     textArea->setTextCursor(textCursor);
 
-    // Ищем мягкий перенос в расширенном вправо выделении
+    // Ищем мягкий перенос в качестве пустого абзаца в расширенном вправо выделении
     QString htmlCode = textArea->textCursor().selection().toHtml();
     QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>");
     regExp.setMinimal(true);
     if(htmlCode.indexOf(regExp) != -1)
     {
         // Заменяем проблемный код в html
-        htmlCode = textArea->textCursor().selection().toHtml();
         htmlCode.replace(regExp, "</p><p><br/>");
-        textArea->textCursor().removeSelectedText();
+        textArea->textCursor().insertHtml(htmlCode);
+    }
+
+    // Теперь обрабатываем смитуацию, когда на конце строки - мягкий перенос
+    htmlCode = textArea->textCursor().selection().toHtml();
+    regExp.setPattern("(<span\\s+style=\"\\s*((?:[^<]+);\">)(?:.+)\\s*)(?:(?:<br\\s*/\\s*>\\s*){1,}\\s*)(</span>)");
+    regExp.setMinimal(true);
+    if(htmlCode.indexOf(regExp) != -1)
+    {
+        // Удаляем в html код <br/>
+        htmlCode.replace(regExp, "\\1");
         textArea->textCursor().insertHtml(htmlCode);
     }
 
