@@ -62,6 +62,8 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
+    // Обработка мягкого переноса
+    void workingSoftCarryInSelection();
 
 };
 
