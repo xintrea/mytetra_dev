@@ -173,6 +173,8 @@ void TypefaceFormatter::onCodeClicked(void)
     if(!textArea->textCursor().hasSelection())
         return;
 
+    textArea->textCursor().beginEditBlock();
+
     // Обработка мягкого переноса в выделенном тексте
     // Учитываются мягкие переносы до выделенного текста (1-й символ до выделения) и в выделенных абзацах
     workingSoftCarryInSelection();
@@ -208,8 +210,6 @@ void TypefaceFormatter::onCodeClicked(void)
     else
         enableIndent=true; // Выбран четко блок (блоки) текста, нужно делать отступ
 
-
-    textArea->textCursor().beginEditBlock();
 
     // Вначале происходит преобразование фрагмента в чистый текст (onClearClicked() не подходит, так как съедается табуляция)
     onTextOnlyClicked();
@@ -1178,6 +1178,8 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     if(!textArea->textCursor().hasSelection())
         return;
 
+    int scrollBarPosition=editor->getScrollBarPosition();
+
     // Запоминаем первоначальное выделение текста
     int selectionStart = textArea->textCursor().selectionStart();
     int selectionEnd   = textArea->textCursor().selectionEnd();
@@ -1233,5 +1235,7 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     textCursor.setPosition(selectionStart, QTextCursor::MoveAnchor);
     textCursor.setPosition(selectionEnd, QTextCursor::KeepAnchor);
     textArea->setTextCursor(textCursor);
+
+    editor->setScrollBarPosition(scrollBarPosition);
 }
 
