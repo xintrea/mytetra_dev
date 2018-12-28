@@ -1214,6 +1214,7 @@ void Editor::onCopy(void)
 }
 
 
+// Обработка команды Paste контекстного меню
 void Editor::onPaste(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирования,
@@ -1227,6 +1228,7 @@ void Editor::onPaste(void)
 }
 
 
+// Обработка команды PasteAsPlainText контекстного меню
 void Editor::onPasteAsPlainText(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
