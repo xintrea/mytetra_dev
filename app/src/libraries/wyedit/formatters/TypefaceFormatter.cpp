@@ -315,7 +315,7 @@ void TypefaceFormatter::onClearClicked(void)
 
     // Если выбран НЕ четко блок, и есть форматирование списка
     if(editor->cursorPositionDetector->isBlockSelect()==false &&
-            textArea->textCursor().currentList()!=0)
+            textArea->textCursor().currentList()!=nullptr)
     {
         // Выделение части строки в списке нельзя очищать обычным способом, так как появится перенос строки
         clearSimple(); // Запускается упрощенная очистка
@@ -1178,6 +1178,53 @@ void TypefaceFormatter::onFontcolorClicked()
         // editor->currentFontColor=selectedColor.name(); // Запоминается текущий цвет (подумать, доделать)
         emit changeFontcolor( selectedColor );
     }
+}
+
+
+// Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
+// Если есть выделение в тексте, или курсор стоит на тексте, вставка не производится
+void TypefaceFormatter::onInsertHorizontalLineClicked()
+{
+    // Если есть выделение в тексте, то вставка не производится
+    if (textArea->textCursor().hasSelection())
+        return;
+
+    QTextCursor textCursor = textArea->textCursor();
+    textCursor = textArea->textCursor();
+
+    // Если курсор стоит на тексте, то вставка не производится
+    textCursor.select(QTextCursor::LineUnderCursor);
+    if(!textCursor.selectedText().isNull())
+        return;
+
+    int cursorPosition = textCursor.position();
+
+    // Выбираем 1 символ слева от позиции курсора
+    textCursor = textArea->textCursor();
+    textCursor.movePosition(QTextCursor::StartOfLine);
+    textCursor.setPosition(cursorPosition-1, QTextCursor::MoveAnchor);
+    textCursor.setPosition(cursorPosition, QTextCursor::KeepAnchor);
+
+    // Определяем, не является ли этот символ слева от курсора мягким переносом
+    QString html = textCursor.selection().toHtml();
+    QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*<br\\s*/\\s*>\\s*</span>");
+    regExp.setMinimal(true);
+    if(html.indexOf(regExp) != -1)
+    {
+        // Если это мягкий перенос - заменяем его на абзац
+        textArea->setTextCursor(textCursor);
+        textArea->textCursor().insertText("\n");
+    }
+
+    // Вставка горизонтальной линии в "пустой" абзац (заменяем его на <hr>)
+    textCursor.setPosition(cursorPosition, QTextCursor::MoveAnchor);
+    textCursor.setPosition(cursorPosition+1, QTextCursor::KeepAnchor);
+    textArea->setTextCursor(textCursor);
+    textArea->textCursor().removeSelectedText();
+    textArea->moveCursor(QTextCursor::Left);
+    textArea->insertHtml("<hr>");
+    textArea->moveCursor(QTextCursor::Down);
+    textArea->moveCursor(QTextCursor::StartOfLine);
 }
 
 

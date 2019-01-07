@@ -128,6 +128,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-showFormatting",      Data{ QKeySequence("Ctrl+F10"), tr("Show special chars"), tr("") });
     defaultKeyTable.insert("editor-createTable",         Data{ QKeySequence("Ctrl+F12"), tr("Create a new table"), tr("") });
     defaultKeyTable.insert("editor-insertImageFromFile", Data{ QKeySequence("Ctrl+Shift+I"), tr("Insert/edit image"), tr("Insert image from file or edit image properties of selected image") });
+    defaultKeyTable.insert("editor-insertHorizontalLine",Data{ QKeySequence("Ctrl+H"), tr("Insert horizontal line"), tr("Insert a horizontal line into the empty paragraph from cursor") });
     defaultKeyTable.insert("editor-mathExpression",      Data{ QKeySequence("Ctrl+Shift+M"), tr("Insert/edit math expression"), tr("") });
     defaultKeyTable.insert("editor-expandEditArea",      Data{ QKeySequence("Ctrl+Shift+E"), tr("Expand edit area"), tr("") });
     defaultKeyTable.insert("editor-expandToolsLines",    Data{ QKeySequence("Ctrl+Shift+L"), tr("Expand tools"), tr("") });
