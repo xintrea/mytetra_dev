@@ -391,6 +391,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_12;
     parameterFunctions << get_parameter_table_13;
     parameterFunctions << get_parameter_table_14;
+    parameterFunctions << get_parameter_table_15;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -658,6 +659,7 @@ QStringList EditorConfig::get_parameter_table_13(bool withEndSignature)
     return table;
 }
 
+
 QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
 {
     // Таблица параметров
@@ -676,14 +678,15 @@ QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
     return table;
 }
 
-QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
+
+QStringList EditorConfig::get_parameter_table_15(bool withEndSignature)
 {
     // Таблица параметров
     // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
     QStringList table;
 
-    // Старые параметры, аналогичные версии 13
-    table << get_parameter_table_13(false);
+    // Старые параметры, аналогичные версии 14
+    table << get_parameter_table_14(false);
 
     // Добавляются новые параметры
     // размер табуляции (клавиша Tab)
