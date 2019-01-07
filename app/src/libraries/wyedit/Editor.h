@@ -250,6 +250,9 @@ private:
  void setupFormatters(void);
  void assembly(void);
 
+ // Устанавка размера табуляции для клавиши Tab
+ void setTabSize();
+
  // Переопределение событий обработки клавиш
  // нужны для определения момента undo/redo
  virtual void keyPressEvent(QKeyEvent *event);

@@ -31,6 +31,11 @@ private:
   QLabel *indentStepFlexion;
   QSpinBox *indentStep;
 
+  // Размер табуляции для клавиши Tab
+  QLabel *tabStopDistanceLabel;
+  QLabel *tabStopDistanceFlexionLabel;
+  QSpinBox *tabStopDistanceSpinBox;
+
   QPushButton *editWyEditConfigFile;
   
   EditorConfig *conf;

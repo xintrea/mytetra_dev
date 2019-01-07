@@ -53,6 +53,10 @@ public:
     int get_indent_step(void);
     void set_indent_step(int i);
 
+    // Размер табуляции для клавиши Tab
+    int get_tab_size(void);
+    void set_tab_size(int i);
+
     QString get_finddialog_geometry(void);
     void set_finddialog_geometry(QString geometry);
 

@@ -263,6 +263,27 @@ void EditorConfig::set_indent_step(int i)
 }
 
 
+// -------------------------------------------
+// Настройки размера табуляции для клавиши Tab
+// -------------------------------------------
+
+int EditorConfig::get_tab_size(void)
+{
+    int n=get_parameter("tab_size").toInt();
+
+    if(n==0)
+        return 4;
+    else
+        return n;
+}
+
+
+void EditorConfig::set_tab_size(int i)
+{
+    conf->setValue("tab_size",i);
+}
+
+
 // -----------------------------
 // Координаты поискового диалога
 // -----------------------------
@@ -654,6 +675,26 @@ QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
 
     return table;
 }
+
+QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 13
+    table << get_parameter_table_13(false);
+
+    // Добавляются новые параметры
+    // размер табуляции (клавиша Tab)
+    table << "tab_size" << "int" << "4";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
 
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
