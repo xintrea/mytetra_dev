@@ -107,6 +107,12 @@ void EditorToolBar::setupToolBarTools(void)
   underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
   underline->setObjectName("editor_tb_underline");
 
+  // Кнопка StrikeOut
+  strikeout=new QAction(this);
+  strikeout->setCheckable(true);
+  strikeout->setIcon(QIcon(":/resource/pic/edit_strikeout.svg"));
+  strikeout->setObjectName("editor_tb_strikeout");
+
   // Кнопка Monospace
   monospace=new QAction(this);
   monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
@@ -317,6 +323,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-bold", bold );
     shortcutManager.initAction("editor-italic", italic);
     shortcutManager.initAction("editor-underline", underline);
+    shortcutManager.initAction("editor-strikeout", strikeout);
     shortcutManager.initAction("editor-monospace", monospace);
     shortcutManager.initAction("editor-code", code);
     shortcutManager.initAction("editor-clear", clear);

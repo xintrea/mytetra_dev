@@ -392,6 +392,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_13;
     parameterFunctions << get_parameter_table_14;
     parameterFunctions << get_parameter_table_15;
+    parameterFunctions << get_parameter_table_16;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -699,6 +700,25 @@ QStringList EditorConfig::get_parameter_table_15(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_16(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 15
+    table << get_parameter_table_15(false);
+
+    // В параметр tools_line_1 добавляется "strikeout"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -817,6 +837,18 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                     result.replace("insert_image_from_file", "insert_image_from_file,insert_horizontal_line");
                 else
                     result=result+",insert_horizontal_line";
+            }
+        }
+
+    if(versionFrom==15 && versionTo==16)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("strikeout"))
+            {
+                if(result.contains("underline"))
+                    result.replace("underline", "underline,strikeout");
+                else
+                    result=result+",strikeout";
             }
         }
 

@@ -107,6 +107,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-bold",                Data{ QKeySequence("Ctrl+B"), tr("Bold"), tr("") });
     defaultKeyTable.insert("editor-italic",              Data{ QKeySequence("Ctrl+I"), tr("Italic"), tr("") });
     defaultKeyTable.insert("editor-underline",           Data{ QKeySequence("Ctrl+U"), tr("Underline"), tr("") });
+    defaultKeyTable.insert("editor-strikeout",           Data{ QKeySequence("Ctrl+Shift+S"), tr("Strike out"), tr("") });
     defaultKeyTable.insert("editor-monospace",           Data{ QKeySequence("Ctrl+T"), tr("Monospace"), tr("") });
     defaultKeyTable.insert("editor-code",                Data{ QKeySequence("Ctrl+M"), tr("Code"), tr("Select a whole paragraphs to format text as code") });
     defaultKeyTable.insert("editor-clear",               Data{ QKeySequence("Ctrl+K"), tr("Clear format"), tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });

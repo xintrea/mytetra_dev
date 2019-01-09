@@ -436,6 +436,9 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->underline, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onUnderlineClicked);
 
+    connect(editorToolBarAssistant->strikeout, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onStrikeOutClicked);
+
     connect(editorToolBarAssistant->monospace, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
 
@@ -994,12 +997,14 @@ void Editor::onSelectionChanged(void)
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
+  bool startStrikeOut=cursor.charFormat().fontStrikeOut(); // Зачеркивание
 
   bool differentFontFlag=false;
   bool differentSizeFlag=false;
   bool differentBoldFlag=false;
   bool differentItalicFlag=false;
   bool differentUnderlineFlag=false;
+  bool differentStrikeOutFlag=false;
   bool differentAlignFlag=false;
 
   // Слишком большие выделения текста нельзя обрабатывать, так как выделение становится слишком медленным
@@ -1010,6 +1015,7 @@ void Editor::onSelectionChanged(void)
     differentBoldFlag=true;
     differentItalicFlag=true;
     differentUnderlineFlag=true;
+    differentStrikeOutFlag=true;
     differentAlignFlag=true;
   }
   else
@@ -1040,6 +1046,9 @@ void Editor::onSelectionChanged(void)
 
       if( differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline() )
         differentUnderlineFlag=true;
+
+      if( differentStrikeOutFlag==false && startStrikeOut!=cursor.charFormat().fontStrikeOut() )
+        differentStrikeOutFlag=true;
 
       if( differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment() )
         differentAlignFlag=true;
@@ -1090,6 +1099,13 @@ void Editor::onSelectionChanged(void)
   else
     if(startUnderline==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,true);
+
+  // Кнопка StrikeOut
+  if(differentStrikeOutFlag==true)
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,false);
+  else
+    if(startStrikeOut==true)
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,true);
 
   // Кнопки выравнивания
   if(differentAlignFlag==true)

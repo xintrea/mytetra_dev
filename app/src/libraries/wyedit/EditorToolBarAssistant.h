@@ -43,6 +43,7 @@ public:
     BT_BOLD,
     BT_ITALIC,
     BT_UNDERLINE,
+    BT_STRIKEOUT,
     BT_ALIGN_LEFT,
     BT_ALIGN_CENTER,
     BT_ALIGN_RIGHT,

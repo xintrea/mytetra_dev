@@ -35,6 +35,7 @@ public:
     QAction *bold;
     QAction *italic;
     QAction *underline;
+    QAction *strikeout; // Зачеркивание текста
     QAction *monospace;
     QAction *code;
     QAction *clear; // Очистка начертания текста
