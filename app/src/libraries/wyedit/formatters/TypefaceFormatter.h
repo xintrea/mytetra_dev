@@ -27,7 +27,8 @@ signals:
     void changeFontsizeOnDisplay(int n);
     void changeFontFamily(QString fontFamily);
     void changeFontPointSize(int n);
-    void changeFontcolor(QColor color);
+    void changeFontcolor(const QColor &color);
+    void changeBackgroundcolor(const QColor &color);
 
 public slots:
 
@@ -47,6 +48,7 @@ public slots:
     void onFontselectChanged(const QFont &font);
     void onFontsizeChanged(int n);
     void onFontcolorClicked();
+    void onBackgroundcolorClicked();
 
     // Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
     void onInsertHorizontalLineClicked();

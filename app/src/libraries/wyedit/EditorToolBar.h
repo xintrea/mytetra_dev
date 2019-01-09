@@ -63,6 +63,7 @@ public:
     EditorFontFamilyComboBox *fontSelect;
     EditorFontSizeComboBox   *fontSize;
     QAction                  *fontColor;
+    QAction                  *backgroundColor;
 
     QAction *reference;
 
@@ -136,6 +137,9 @@ protected:
     void updateToolsLines(void);
 
     QAction* generateAction(QIcon icon=QIcon());
+
+  // Размер иконок на панели инструментов редактора
+  QSize getIconSize() const {return toolsLine1.iconSize();}
 
 };
 

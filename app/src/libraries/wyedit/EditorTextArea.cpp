@@ -588,7 +588,7 @@ void EditorTextArea::onDownloadImagesSuccessfull(const QString html,
 }
 
 
-void EditorTextArea::onChangeFontcolor(QColor selectedColor)
+void EditorTextArea::onChangeFontcolor(const QColor &selectedColor)
 {
   // TRACELOG
 
@@ -604,6 +604,29 @@ void EditorTextArea::onChangeFontcolor(QColor selectedColor)
 
     QTextCharFormat format;
     format.setForeground(selectedColor);
+
+    cursor.mergeCharFormat(format);
+  }
+}
+
+
+// Изменение цвета фона текста
+void EditorTextArea::onChangeBackgroundColor(const QColor &selectedColor)
+{
+  // TRACELOG
+
+  // Если выделение есть
+  if(textCursor().hasSelection())
+    setTextBackgroundColor(selectedColor); // Меняется цвет фона
+  else
+  {
+    // Иначе надо выделить дополнительным курсором слово на
+    // котором стоит курсор
+    QTextCursor cursor=textCursor();
+    cursor.select(QTextCursor::WordUnderCursor);
+
+    QTextCharFormat format;
+    format.setBackground(selectedColor);
 
     cursor.mergeCharFormat(format);
   }

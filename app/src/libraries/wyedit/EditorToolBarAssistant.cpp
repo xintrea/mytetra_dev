@@ -50,7 +50,6 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
   currentFontFamily="";
   currentFontSize=0;
-  currentFontColor="#000000";
   flagSetFontParametersEnabled=true;
 
   // Инициализация панели инструментов
@@ -143,21 +142,49 @@ void EditorToolBarAssistant::onChangeFontPointSize(int n)
 }
 
 
-void EditorToolBarAssistant::onChangeFontcolor(QColor color)
+// Изменение цвета иконки выделения цвета шрифта
+void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
 {
     // TRACELOG
 
+    QPixmap pix(getIconSize());
     // Если цвет правильный
     if(color.isValid())
-    {
-        if(fontColor->associatedWidgets().size()>0) {
-            QToolButton* currentButton=qobject_cast<QToolButton*>(fontColor->associatedWidgets()[0]);
-            currentButton->setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-        }
+        pix.fill(color);
+    else
+        pix.fill(QApplication::palette().foreground().color());
+    fontColor->setIcon(pix);
+}
 
-        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменная
-    }
 
+// Изменение цвета иконки цвета шрифта, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconFontColor(const QTextCharFormat &format)
+{
+    QColor color = format.foreground().color();
+    onChangeFontcolor(color);
+}
+
+
+// Изменение цвета иконки выделения фона текста
+void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
+{
+    // TRACELOG
+
+    QPixmap pix(getIconSize());
+    // Если цвет правильный
+    if(color.isValid())
+        pix.fill(color);
+    else
+        pix.fill(QApplication::palette().background().color());
+    backgroundColor->setIcon(pix);
+}
+
+
+// Изменение цвета иконки выделения фона текста, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &format)
+{
+    QColor color = format.background().color();
+    onChangeBackgroundColor(color);
 }
 
 

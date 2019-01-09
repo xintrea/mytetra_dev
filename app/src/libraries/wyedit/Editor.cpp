@@ -284,6 +284,20 @@ void Editor::setupSignals(void)
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontcolor,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontcolor,
           Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconFontColor,
+          Qt::DirectConnection);
+
+  // Соединение сигналов и слотов обрабортки для цвета выделения текста
+  connect(typefaceFormatter, &TypefaceFormatter::changeBackgroundcolor,
+          textArea,          &EditorTextArea::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(typefaceFormatter,      &TypefaceFormatter::changeBackgroundcolor,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconBackgroundColor,
+          Qt::DirectConnection);
 
 
   connect(this,                   &Editor::changeFontselectOnDisplay,
@@ -491,6 +505,10 @@ void Editor::setupToolsSignals(void)
 
     connect(editorToolBarAssistant->fontColor, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onFontcolorClicked);
+
+    // Цвет фона текста
+    connect(editorToolBarAssistant->backgroundColor, &QAction::triggered,
+            typefaceFormatter,                       &TypefaceFormatter::onBackgroundcolorClicked);
 
     connect(editorToolBarAssistant->indentPlus, &QAction::triggered,
             placementFormatter,                 &PlacementFormatter::onIndentplusClicked);
