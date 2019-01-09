@@ -1,5 +1,5 @@
-#ifndef _EDITOR_H_
-#define _EDITOR_H_
+#ifndef MYTETRA_EDITOR
+#define MYTETRA_EDITOR
 
 #include <QBoxLayout>
 #include <QToolButton>
@@ -281,4 +281,4 @@ private:
  int dirFileEmptyReaction;
 };
 
-#endif /* _EDITOR_H_ */
+#endif /* MYTETRA_EDITOR */

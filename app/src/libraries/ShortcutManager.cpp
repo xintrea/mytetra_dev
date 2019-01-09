@@ -112,6 +112,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-subscript",           Data{ QKeySequence("Ctrl+Shift+B"), tr("Subscript"), tr("") });
     defaultKeyTable.insert("editor-monospace",           Data{ QKeySequence("Ctrl+T"), tr("Monospace"), tr("") });
     defaultKeyTable.insert("editor-code",                Data{ QKeySequence("Ctrl+M"), tr("Code"), tr("Select a whole paragraphs to format text as code") });
+    defaultKeyTable.insert("editor-lowercase",           Data{ QKeySequence(""), tr("Lowercase"), tr("") });
+    defaultKeyTable.insert("editor-uppercase",           Data{ QKeySequence(""), tr("Uppercase"), tr("") });
     defaultKeyTable.insert("editor-clear",               Data{ QKeySequence("Ctrl+K"), tr("Clear format"), tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
     defaultKeyTable.insert("editor-textOnly",            Data{ QKeySequence("Ctrl+Shift+K"), tr("Text only"), tr("") });
     defaultKeyTable.insert("editor-fixBreakSymbol",      Data{ QKeySequence("Ctrl+Shift+R"), tr("Return type replace"), tr("Replace soft carriage return to standard carriage return") });

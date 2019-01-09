@@ -408,6 +408,12 @@ void Editor::setupSignals(void)
   connect(editorContextMenu,  &EditorContextMenu::contextMenuGotoReference,
           referenceFormatter, &ReferenceFormatter::onContextMenuGotoReference,
           Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::lowercase,
+          typefaceFormatter, &TypefaceFormatter::onLowerCase,
+          Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::uppercase,
+          typefaceFormatter, &TypefaceFormatter::onUpperCase,
+          Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
   connect(findDialog, &EditorFindDialog::find_text,

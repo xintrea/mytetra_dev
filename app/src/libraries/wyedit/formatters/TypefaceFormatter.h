@@ -51,6 +51,9 @@ public slots:
     // Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
     void onInsertHorizontalLineClicked();
 
+    void onLowerCase(); // "Строчные"
+    void onUpperCase(); // "ПРОПИСНЫЕ"
+
 private:
 
     void mergeFormat(const QTextCharFormat &format);
@@ -70,6 +73,7 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
     // Обработка мягкого переноса
     void workingSoftCarryInSelection();

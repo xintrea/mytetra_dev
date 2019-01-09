@@ -1380,3 +1380,30 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     editor->setScrollBarPosition(scrollBarPosition);
 }
 
+
+void TypefaceFormatter::onLowerCase()
+{
+    QTextCharFormat format;
+    format.setFontCapitalization(QFont::AllLowercase);
+    mergeFormatOnWordOrSelection(format);
+}
+
+
+void TypefaceFormatter::onUpperCase()
+{
+    QTextCharFormat format;
+    format.setFontCapitalization(QFont::AllUppercase);
+    mergeFormatOnWordOrSelection(format);
+}
+
+
+void TypefaceFormatter::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+{
+    QTextCursor cursor = textArea->textCursor();
+    if (!cursor.hasSelection())
+        cursor.select(QTextCursor::WordUnderCursor);
+    cursor.mergeCharFormat(format);
+    textArea->mergeCurrentCharFormat(format);
+    // textArea->setFocus(Qt::TabFocusReason);
+}
+
