@@ -233,7 +233,8 @@ HEADERS = src/main.h \
     src/controllers/shortcutSettings/ShortcutSettingsController.h \
     src/models/shortcutSettings/ShortcutSettingsModel.h \
     src/views/appConfigWindow/AppConfigPage_Keyboard.h \
-    src/views/shortcutSettings/HotKeyGrabber.h
+    src/views/shortcutSettings/HotKeyGrabber.h \
+    src/libraries/wyedit/EditorConfigKeyboard.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -362,7 +363,8 @@ SOURCES = src/main.cpp \
     src/controllers/shortcutSettings/ShortcutSettingsController.cpp \
     src/models/shortcutSettings/ShortcutSettingsModel.cpp \
     src/views/appConfigWindow/AppConfigPage_Keyboard.cpp \
-    src/views/shortcutSettings/HotKeyGrabber.cpp
+    src/views/shortcutSettings/HotKeyGrabber.cpp \
+    src/libraries/wyedit/EditorConfigKeyboard.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
