@@ -378,12 +378,17 @@ void Editor::setupSignals(void)
   this->addActions(editorContextMenu->getActionsList());
 
   // Сигналы контекстного меню
+  connect(textArea->document(), &QTextDocument::undoAvailable,
+          editorContextMenu->getActionUndo(), &QAction::setEnabled);
+  connect(textArea->document(), &QTextDocument::redoAvailable,
+          editorContextMenu->getActionRedo(), &QAction::setEnabled);
   connect(editorContextMenu, &EditorContextMenu::undo,
           this,              &Editor::onUndo,
           Qt::DirectConnection);
   connect(editorContextMenu, &EditorContextMenu::redo,
           this,              &Editor::onRedo,
           Qt::DirectConnection);
+
   connect(editorContextMenu, &EditorContextMenu::cut,
           this,              &Editor::onCut,
           Qt::DirectConnection);
@@ -432,6 +437,18 @@ void Editor::setupSignals(void)
 
 void Editor::setupToolsSignals(void)
 {
+    // Создание сигналов, генерируемых кнопками Undo / Redo
+    connect(textArea->document(), &QTextDocument::undoAvailable,
+            editorToolBarAssistant->undo, &QAction::setEnabled);
+    connect(textArea->document(), &QTextDocument::redoAvailable,
+            editorToolBarAssistant->redo, &QAction::setEnabled);
+    connect(editorToolBarAssistant->undo, &QAction::triggered,
+            this,                         &Editor::onUndo,
+            Qt::DirectConnection);
+    connect(editorToolBarAssistant->redo, &QAction::triggered,
+            this,                         &Editor::onRedo,
+            Qt::DirectConnection);
+
     // Создание сигналов, генерируемых кнопками форматирования текста
     connect(editorToolBarAssistant->bold, &QAction::triggered,
             typefaceFormatter,            &TypefaceFormatter::onBoldClicked);

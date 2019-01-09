@@ -44,6 +44,9 @@ public:
     QAction *textOnly; // Полная очистка текста (оставить один текст)
     QAction *fixBreakSymbol;
 
+    QAction *undo;
+    QAction *redo;
+
     QAction *numericList;
     QAction *dotList;
 

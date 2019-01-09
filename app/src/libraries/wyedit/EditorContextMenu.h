@@ -22,6 +22,10 @@ public:
  void setFormatToLowerCase(bool flag); // Активирование добавочного пункта меню "Строчные"
  void setFormatToUpperCase(bool flag); // Активирование добавочного пункта меню "ПРОПИСНЫЕ"
 
+ // todo: разобраться, почему потребовалось иметь доступ к действиям Undo/Redo в этом месте
+ inline QAction *getActionUndo() const {return actionUndo;}
+ inline QAction *getActionRedo() const {return actionRedo;}
+
 signals:
   void undo(void);
   void redo(void);
