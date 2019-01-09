@@ -37,6 +37,8 @@ public:
     QAction *underline;
     QAction *strikeout; // Зачеркивание текста
     QAction *monospace;
+    QAction *superscript;
+    QAction *subscript;
     QAction *code;
     QAction *clear; // Очистка начертания текста
     QAction *textOnly; // Полная очистка текста (оставить один текст)

@@ -1,4 +1,5 @@
 #include <QColor>
+#include <QMessageBox>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -15,7 +16,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
                                                EditorTextArea *iTextArea,
                                                QStringList iDisableToolList) : EditorToolBar(parent)
 {
-  if(parent==NULL)
+  if(parent==nullptr)
     criticalError("Call "+QString(__FUNCTION__)+" with NULL of parent.");
 
   editor=qobject_cast<Editor *>(parent);
@@ -191,11 +192,20 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
     italic->setChecked(false);
     underline->setChecked(false);
     strikeout->setChecked(false);
+    superscript->setChecked(false);
+    subscript->setChecked(false);
 
     if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
     if(textArea->fontItalic()==true)        italic->setChecked(true);
     if(textArea->fontUnderline()==true)     underline->setChecked(true);
     if(textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
+
+    const QTextCharFormat charFormat = textArea->textCursor().charFormat();
+    if(charFormat.verticalAlignment() == QTextCharFormat::AlignSuperScript) {
+        superscript->setChecked(true);
+    } else if(charFormat.verticalAlignment() == QTextCharFormat::AlignSubScript) {
+        subscript->setChecked(true);
+    }
 }
 
 
@@ -226,6 +236,20 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
     {
         if(active==false) strikeout->setChecked(false);
         else              strikeout->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUPERSCRIPT)
+    {
+        if(active==false) superscript->setChecked(false);
+        else              superscript->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUBSCRIPT)
+    {
+        if(active==false) subscript->setChecked(false);
+        else              subscript->setChecked(true);
         return;
     }
 }

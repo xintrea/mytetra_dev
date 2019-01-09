@@ -47,12 +47,31 @@ void TypefaceFormatter::onUnderlineClicked(void)
     smartFormat(Underline);
 }
 
+
 // Форматирование Strike
 void TypefaceFormatter::onStrikeOutClicked(void)
 {
     // TRACELOG
 
     smartFormat(StrikeOut);
+}
+
+
+// Форматирование SuperScript
+void TypefaceFormatter::onSuperScriptClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(SuperScript);
+}
+
+
+// Форматирование SubScript
+void TypefaceFormatter::onSubScriptClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(SubScript);
 }
 
 
@@ -107,6 +126,25 @@ void TypefaceFormatter::smartFormat(int formatType)
             textArea->textCursor().mergeCharFormat(format);
         }
 
+        if(formatType==SuperScript)
+        {
+            QTextCharFormat format;
+            if(textArea->textCursor().charFormat().verticalAlignment() != QTextCharFormat::AlignSuperScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->textCursor().mergeCharFormat(format);
+        }
+
+        if(formatType==SubScript)
+        {
+            QTextCharFormat format;
+            if(textArea->textCursor().charFormat().verticalAlignment() != QTextCharFormat::AlignSubScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->textCursor().mergeCharFormat(format);
+        }
     }
     else
     {
@@ -163,6 +201,24 @@ void TypefaceFormatter::smartFormat(int formatType)
                 format.setFontStrikeOut(true);
             else
                 format.setFontStrikeOut(false);
+        }
+
+        if(formatType==SuperScript)
+        {
+            if(cursor.charFormat().verticalAlignment() != QTextCharFormat::AlignSuperScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->mergeCurrentCharFormat(format);
+        }
+
+        if(formatType==SubScript)
+        {
+            if(cursor.charFormat().verticalAlignment() != QTextCharFormat::AlignSubScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->mergeCurrentCharFormat(format);
         }
 
         cursor.mergeCharFormat(format);

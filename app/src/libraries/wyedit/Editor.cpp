@@ -439,6 +439,12 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->strikeout, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onStrikeOutClicked);
 
+    connect(editorToolBarAssistant->superscript, &QAction::triggered,
+            typefaceFormatter,                   &TypefaceFormatter::onSuperScriptClicked);
+
+    connect(editorToolBarAssistant->subscript, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onSubScriptClicked);
+
     connect(editorToolBarAssistant->monospace, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
 
@@ -813,7 +819,7 @@ void Editor::saveTextarea(void)
       qDebug() << "Cant remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
-    if(loadCallbackFunc==NULL)
+    if(loadCallbackFunc==nullptr)
     {
       // Сохранение текста записи в файл
       saveTextareaText();
@@ -866,7 +872,7 @@ bool Editor::loadTextarea()
   QString content;
 
   // Если происходит прямая работа с файлом текста
-  if(loadCallbackFunc==NULL)
+  if(loadCallbackFunc==nullptr)
   {
     // Создается объект файла с нужным именем
     QFile f(fileName);

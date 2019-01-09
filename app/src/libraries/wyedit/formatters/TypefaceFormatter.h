@@ -17,7 +17,7 @@ class TypefaceFormatter : public Formatter
 public:
     TypefaceFormatter();
 
-    enum EasyFormatType {Bold, Italic, Underline, StrikeOut};
+    enum EasyFormatType {Bold, Italic, Underline, StrikeOut, SuperScript, SubScript};
 
 signals:
 
@@ -36,6 +36,8 @@ public slots:
     void onItalicClicked(void);
     void onUnderlineClicked(void);
     void onStrikeOutClicked(void); // Зачеркивание текста
+    void onSuperScriptClicked(void);
+    void onSubScriptClicked(void);
     void onMonospaceClicked(void);
     void onCodeClicked(void);
     void onClearClicked(void);
