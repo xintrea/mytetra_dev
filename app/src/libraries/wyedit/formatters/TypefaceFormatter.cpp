@@ -1246,11 +1246,22 @@ void TypefaceFormatter::onFontcolorClicked()
 {
     // TRACELOG
 
-    // Текущий цвет возле курсора
-    QColor currentColor=textArea->textColor();
+    // Текущий цвет шрифта возле курсором
+    QColor currentColor = textArea->textColor();
+
+    // Формат символов под курсором
+    QTextCharFormat format = textArea->currentCharFormat();
+
+    // Есть ли цвет шрифта под курсором
+    bool hasForegroundColor = format.hasProperty(QTextFormat::ForegroundBrush);
+
+    // Если нет цвета шрифта, то за цвет берется цвет foreground редактора textArea (QTextEdit)
+    // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
+    if(!hasForegroundColor)
+        currentColor = textArea->palette().foreground().color();
 
     // Диалог запроса цвета
-    QColor selectedColor=QColorDialog::getColor(currentColor, editor);
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
@@ -1411,11 +1422,22 @@ void TypefaceFormatter::onBackgroundcolorClicked()
 {
     // TRACELOG
 
-    // Текущий цвет фона возле курсора
-    QColor currentColor=textArea->textBackgroundColor();
+    // Текущий цвет фона под курсором
+    QColor currentColor = textArea->textBackgroundColor();
+
+    // Формат символов под курсором
+    QTextCharFormat format = textArea->currentCharFormat();
+
+    // Есть ли цвет фона под курсором
+    bool hasBackgroundColor = format.hasProperty(QTextFormat::BackgroundBrush);
+
+    // Если нет цвета фона, то за цвет берется цвет background редактора textArea (QTextEdit)
+    // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+    if(!hasBackgroundColor)
+        currentColor = textArea->palette().background().color();
 
     // Диалог запроса цвета
-    QColor selectedColor=QColorDialog::getColor(currentColor, editor);
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())

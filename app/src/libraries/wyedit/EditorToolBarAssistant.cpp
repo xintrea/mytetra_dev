@@ -147,12 +147,24 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
 {
     // TRACELOG
 
+    // Формат символов под курсором
+    QTextCharFormat format = textArea->currentCharFormat();
+
+    // Есть ли цвет шрифта под курсором
+    bool hasForegroundColor = format.hasProperty(QTextFormat::ForegroundBrush);
+
+    // Размер иконки для кнопки на панеле инструментов
     QPixmap pix(getIconSize());
-    // Если цвет правильный
-    if(color.isValid())
+
+    // Если есть ли цвет текста под курсором и цвет правильный
+    if(hasForegroundColor && color.isValid())
         pix.fill(color);
     else
-        pix.fill(QApplication::palette().foreground().color());
+    {
+        // Если нет цвета шрифта, то за цвет берется цвет foreground редактора textArea (QTextEdit)
+        // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
+        pix.fill(textArea->palette().foreground().color());
+    }
     fontColor->setIcon(pix);
 }
 
@@ -170,12 +182,24 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
 {
     // TRACELOG
 
+    // Формат символов под курсором
+    QTextCharFormat format = textArea->currentCharFormat();
+
+    // Есть ли цвет фона под курсором
+    bool hasBackgroundColor = format.hasProperty(QTextFormat::BackgroundBrush);
+
+    // Размер иконки для кнопки на панеле инструментов
     QPixmap pix(getIconSize());
-    // Если цвет правильный
-    if(color.isValid())
+
+    // Если есть ли цвет фона под курсором и цвет правильный
+    if(hasBackgroundColor && color.isValid())
         pix.fill(color);
     else
-        pix.fill(QApplication::palette().background().color());
+    {
+        // Если нет цвета фона, то за цвет берется цвет background редактора textArea (QTextEdit)
+        // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+        pix.fill(textArea->palette().background().color());
+    }
     backgroundColor->setIcon(pix);
 }
 
