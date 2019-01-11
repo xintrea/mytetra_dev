@@ -72,6 +72,7 @@ public slots:
   void onChangeIconFontColor(const QTextCharFormat &format);
   void onChangeBackgroundColor(const QColor &color);
   void onChangeIconBackgroundColor(const QTextCharFormat &format);
+  void onCursorPositionChanged(); // Слот, вызываемый при изменение позиции курсора
 
 protected:
 

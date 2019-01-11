@@ -298,7 +298,9 @@ void Editor::setupSignals(void)
   connect(textArea,               &EditorTextArea::currentCharFormatChanged,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconBackgroundColor,
           Qt::DirectConnection);
-
+  connect(textArea,                 &EditorTextArea::cursorPositionChanged,
+          editorToolBarAssistant,   &EditorToolBarAssistant::onCursorPositionChanged,
+          Qt::DirectConnection);
 
   connect(this,                   &Editor::changeFontselectOnDisplay,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontselectOnDisplay,

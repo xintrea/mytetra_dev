@@ -264,6 +264,17 @@ void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &
 }
 
 
+// Слот, вызываемый при изменение позиции курсора
+void EditorToolBarAssistant::onCursorPositionChanged()
+{
+    // Изменение цвета иконки выделения фона текста при изменении позиции курсора
+    QColor color = textArea->currentCharFormat().background().color();
+
+    // Вызывается слот "Изменение цвета иконки выделения фона текста"
+    onChangeBackgroundColor(color);
+}
+
+
 // Слот обновления подсветки кнопок выравнивания текста
 // Если параметр activate=false, все кнопки будут выставлены в неактивные
 // Если параметр activate=true, будет подсвечена кнопка, соответсвующая текущему форматированию
