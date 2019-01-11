@@ -1,5 +1,7 @@
 #include <QColor>
 #include <QMessageBox>
+#include <QTextTable>
+#include <QTextTableFormat>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -148,20 +150,21 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
     // TRACELOG
 
     // Формат символов под курсором
-    QTextCharFormat format = textArea->currentCharFormat();
+    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
 
-    // Есть ли цвет шрифта под курсором
-    bool hasForegroundColor = format.hasProperty(QTextFormat::ForegroundBrush);
+    // Есть ли ForegroundBrush под курсором
+    bool hasForegroundBrush = textAreaFormat.hasProperty(QTextFormat::ForegroundBrush);
 
     // Размер иконки для кнопки на панеле инструментов
     QPixmap pix(getIconSize());
 
-    // Если есть ли цвет текста под курсором и цвет правильный
-    if(hasForegroundColor && color.isValid())
+    // Есть ли ForegroundBrush под курсором
+    if(hasForegroundBrush && color.isValid())
         pix.fill(color);
     else
     {
-        // Если нет цвета шрифта, то за цвет берется цвет foreground редактора textArea (QTextEdit)
+        // Если нет ForegroundBrush в тексте под курсором, то
+        // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
         // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
         pix.fill(textArea->palette().foreground().color());
     }
@@ -183,22 +186,71 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
     // TRACELOG
 
     // Формат символов под курсором
-    QTextCharFormat format = textArea->currentCharFormat();
+    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
 
-    // Есть ли цвет фона под курсором
-    bool hasBackgroundColor = format.hasProperty(QTextFormat::BackgroundBrush);
+    // Есть ли BackgroundBrush в тексте под курсором
+    bool hasTextBackgroundBrush = textAreaFormat.hasProperty(QTextFormat::BackgroundBrush);
 
     // Размер иконки для кнопки на панеле инструментов
     QPixmap pix(getIconSize());
 
-    // Если есть ли цвет фона под курсором и цвет правильный
-    if(hasBackgroundColor && color.isValid())
+    // Есть ли BackgroundBrush в тексте под курсором
+    if(hasTextBackgroundBrush && color.isValid())
+    {
+        // Если есть BackgroundBrush под курсором, то
+        // кнопку красим в цвет заливки текста
         pix.fill(color);
+    }
     else
     {
-        // Если нет цвета фона, то за цвет берется цвет background редактора textArea (QTextEdit)
-        // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-        pix.fill(textArea->palette().background().color());
+        // Проверка, есть ли таблица под курсором и/или подключены стили из stylesheet.css
+        QTextCursor txtCursor = textArea->textCursor();
+        QTextTable *textTable = txtCursor.currentTable();
+        if(textTable != nullptr)
+        {
+            // Если курсор находится в таблице
+            QTextTableFormat textTableFormat = textTable->format();
+            QTextTableCell tableCell = textTable->cellAt(txtCursor);
+            QTextCharFormat tableCellFormat = tableCell.format();
+            QColor tableColor = textTableFormat.background().color();
+            QColor charColor = tableCellFormat.background().color();
+
+            // Есть ли BackgroundBrush в таблице под курсором
+            bool hasTableBackgroundBrush = textTableFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+            // Есть ли BackgroundBrush в ячейке под курсором
+            bool hasCelBackgroundBrush = tableCellFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+            if(hasTableBackgroundBrush && hasCelBackgroundBrush && charColor.isValid())
+            {
+                // Если есть BackgroundBrush в таблице под курсором и
+                // есть BackgroundBrush в ячейке под курсором, то
+                // кнопку красим в цвет заливки ячейки
+                pix.fill(charColor);
+            }
+            else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
+            {
+                // Если есть BackgroundBrush в таблице под курсором но
+                // нет BackgroundBrush в ячейке под курсором, то
+                // кнопку красим в цвет заливки таблицы
+                pix.fill(tableColor);
+            }
+            else
+            {
+                // Если нет BackgroundBrush в таблице под курсором и
+                // нет BackgroundBrush в ячейке под курсором,
+                // то за цвет кнопки берется цвет background редактора textArea (QTextEdit)
+                // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+                pix.fill(textArea->palette().background().color());
+            }
+        }
+        else
+        {
+            // Если нет BackgroundBrush в тексте под курсором, то
+            // за цвет кнопки берется цвет background редактора textArea (QTextEdit)
+            // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+            pix.fill(textArea->palette().background().color());
+        }
     }
     backgroundColor->setIcon(pix);
 }
