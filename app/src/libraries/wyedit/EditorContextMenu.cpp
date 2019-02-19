@@ -29,7 +29,12 @@ EditorContextMenu::~EditorContextMenu(void)
 void EditorContextMenu::setupActions(void)
 {
  actionUndo=new QAction(this);
+ actionUndo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
+ actionUndo->setEnabled(false); // undo недоступно при создании actionUndo еще не было ни одного действия с текстом
  actionRedo=new QAction(this);
+ actionRedo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
+ actionRedo->setEnabled(false); // redo недоступно при создании actionRedo еще не было ни одного действия с текстом
+
  actionCut=new QAction(this);
  actionCopy=new QAction(this);
  actionPaste=new QAction(this);
@@ -39,6 +44,9 @@ void EditorContextMenu::setupActions(void)
  actionEditImageProperties=new QAction(this);
  actionEditMathExpression=new QAction(this);
  actionGotoReference=new QAction(this);
+
+ actionLowercase=new QAction(this);
+ actionUppercase=new QAction(this);
 }
 
 
@@ -59,6 +67,9 @@ void EditorContextMenu::setupShortcuts(void)
     shortcutManager.initAction("editor-mathExpression", actionEditMathExpression );
 
     shortcutManager.initAction("editor-gotoReference", actionGotoReference );
+
+    shortcutManager.initAction("editor-lowercase", actionLowercase );
+    shortcutManager.initAction("editor-uppercase", actionUppercase );
 }
 
 
@@ -68,16 +79,23 @@ void EditorContextMenu::update(void)
     setEditMathExpression( false );
     setImageProperties( false );
 
+    setFormatToLowerCase( true );
+    setFormatToUpperCase( true );
+
     // Если выбрана формула или курсор находится на позиции формулы
     if(static_cast<Editor*>(this->parent())->cursorPositionDetector->isMathExpressionSelect() ||
        static_cast<Editor*>(this->parent())->cursorPositionDetector->isCursorOnMathExpression()) {
         setEditMathExpression( true );
+        setFormatToLowerCase( false );
+        setFormatToUpperCase( false );
     } else {
 
         // Если выбрана картинка или курсор находится на позиции картинки
         if(static_cast<Editor*>(this->parent())->cursorPositionDetector->isImageSelect() ||
            static_cast<Editor*>(this->parent())->cursorPositionDetector->isCursorOnImage()) {
             setImageProperties( true );
+            setFormatToLowerCase( false );
+            setFormatToUpperCase( false );
         }
     }
 
@@ -102,7 +120,7 @@ QList<QAction *> EditorContextMenu::getActionsList()
 {
     QList<QAction *> list;
 
-    // Следующие действия уже есть на панели инструмнтов, они не должны добавляться на виджет редактора
+    // Следующие действия уже есть на панели инструментов, они не должны добавляться на виджет редактора
     // << actionEditImageProperties
     // << actionEditMathExpression
 
@@ -156,6 +174,22 @@ void EditorContextMenu::setPasteAsPlainText(bool flag)
 }
 
 
+// Показывать или нет пункт "Строчные"
+void EditorContextMenu::setFormatToLowerCase(bool flag)
+{
+  actionLowercase->setVisible(flag);
+  actionLowercase->setEnabled(flag);
+}
+
+
+// Показывать или нет пункт "ПРОПИСНЫЕ"
+void EditorContextMenu::setFormatToUpperCase(bool flag)
+{
+  actionUppercase->setVisible(flag);
+  actionUppercase->setEnabled(flag);
+}
+
+
 void EditorContextMenu::setupSignals(void)
 {
     connect(actionUndo,            &QAction::triggered, this, &EditorContextMenu::onActionUndo);
@@ -170,6 +204,9 @@ void EditorContextMenu::setupSignals(void)
     connect(actionEditMathExpression, &QAction::triggered, this, &EditorContextMenu::onActionContextMenuEditMathExpression);
     connect(actionGotoReference,      &QAction::triggered, this, &EditorContextMenu::onActionContextMenuGotoReference);
 
+    connect(actionLowercase, &QAction::triggered, this, &EditorContextMenu::onActionLowercase);
+    connect(actionUppercase, &QAction::triggered, this, &EditorContextMenu::onActionUppercase);
+
     // Обновление горячих клавиш, если они были изменены
     connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &EditorContextMenu::setupShortcuts);
 }
@@ -177,15 +214,20 @@ void EditorContextMenu::setupSignals(void)
 
 void EditorContextMenu::setupMenu(void)
 {
+    this->addAction(actionCut);
+    this->addAction(actionCopy);
+    this->addAction(actionPaste);
+    this->addAction(actionPasteAsPlainText);
+
+    this->addSeparator();
+
     this->addAction(actionUndo);
     this->addAction(actionRedo);
 
     this->addSeparator();
 
-    this->addAction(actionCut);
-    this->addAction(actionCopy);
-    this->addAction(actionPaste);
-    this->addAction(actionPasteAsPlainText);
+    this->addAction(actionLowercase);
+    this->addAction(actionUppercase);
 
     this->addSeparator();
 
@@ -273,6 +315,22 @@ void EditorContextMenu::onActionContextMenuGotoReference()
     update();
     if(actionGotoReference->isEnabled()) {
         emit contextMenuGotoReference();
+    }
+}
+
+void EditorContextMenu::onActionLowercase()
+{
+    update();
+    if(actionLowercase->isEnabled()) {
+        emit lowercase();
+    }
+}
+
+void EditorContextMenu::onActionUppercase()
+{
+    update();
+    if(actionUppercase->isEnabled()) {
+        emit uppercase();
     }
 }
 

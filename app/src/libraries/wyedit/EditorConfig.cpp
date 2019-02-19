@@ -263,6 +263,27 @@ void EditorConfig::set_indent_step(int i)
 }
 
 
+// -------------------------------------------
+// Настройки размера табуляции для клавиши Tab
+// -------------------------------------------
+
+int EditorConfig::get_tab_size(void)
+{
+    int n=get_parameter("tab_size").toInt();
+
+    if(n==0)
+        return 4;
+    else
+        return n;
+}
+
+
+void EditorConfig::set_tab_size(int i)
+{
+    conf->setValue("tab_size",i);
+}
+
+
 // -----------------------------
 // Координаты поискового диалога
 // -----------------------------
@@ -355,7 +376,7 @@ void EditorConfig::update_version_process(void)
 
     QList<QStringList (*)(bool)> parameterFunctions;
 
-    parameterFunctions << NULL; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
     parameterFunctions << get_parameter_table_1;
     parameterFunctions << get_parameter_table_2;
     parameterFunctions << get_parameter_table_3;
@@ -369,6 +390,12 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_11;
     parameterFunctions << get_parameter_table_12;
     parameterFunctions << get_parameter_table_13;
+    parameterFunctions << get_parameter_table_14;
+    parameterFunctions << get_parameter_table_15;
+    parameterFunctions << get_parameter_table_16;
+    parameterFunctions << get_parameter_table_17;
+    parameterFunctions << get_parameter_table_18;
+    parameterFunctions << get_parameter_table_19;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -637,6 +664,122 @@ QStringList EditorConfig::get_parameter_table_13(bool withEndSignature)
 }
 
 
+QStringList EditorConfig::get_parameter_table_14(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 13
+    table << get_parameter_table_13(false);
+
+    // В параметр tools_line_1 добавляется "insert_horizontal_line"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_15(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 14
+    table << get_parameter_table_14(false);
+
+    // Добавляются новые параметры
+    // размер табуляции (клавиша Tab)
+    table << "tab_size" << "int" << "4";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_16(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 15
+    table << get_parameter_table_15(false);
+
+    // В параметр tools_line_1 добавляется "strikeout"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_17(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 16
+    table << get_parameter_table_16(false);
+
+    // В параметр tools_line_1 добавляется "sup"
+    // В параметр tools_line_1 добавляется "sub"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_18(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 17
+    table << get_parameter_table_17(false);
+
+    // В параметр tools_line_1 добавляется "separator,undo,redo,separator"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_19(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 18
+    table << get_parameter_table_18(false);
+
+    // В параметр tools_line_2 добавляется "separator,fontcolor,backgroundcolor,separator"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -745,6 +888,74 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                 else
                     result=result+",math_expression";
             }
+
+    if(versionFrom==13 && versionTo==14)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("insert_horizontal_line"))
+            {
+                if(result.contains("insert_image_from_file"))
+                    result.replace("insert_image_from_file", "insert_image_from_file,insert_horizontal_line");
+                else
+                    result=result+",insert_horizontal_line";
+            }
+        }
+
+    if(versionFrom==15 && versionTo==16)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("strikeout"))
+            {
+                if(result.contains("underline"))
+                    result.replace("underline", "underline,strikeout");
+                else
+                    result=result+",strikeout";
+            }
+        }
+
+    if(versionFrom==16 && versionTo==17)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("sup") && !result.contains("sub"))
+            {
+                if(result.contains("underline"))
+                    result.replace("underline", "underline,sup,sub");
+                else
+                    result=result+",sup,sub";
+            }
+        }
+
+    if(versionFrom==17 && versionTo==18)
+        if(name=="tools_line_1")
+        {
+            if(!result.contains("undo") && !result.contains("redo"))
+            {
+                if(result.contains("clear"))
+                    result.replace("clear", "clear,separator,undo,redo,separator");
+                else
+                    result=result+",separator,undo,redo,separator";
+            }
+        }
+
+
+    if(versionFrom==18 && versionTo==19)
+        if(name=="tools_line_2")
+        {
+            if(!result.contains("fontcolor") && !result.contains("backgroundcolor"))
+            {
+                if(result.contains("fontsize"))
+                    result.replace("fontsize", "fontsize,separator,fontcolor,backgroundcolor,separator");
+                else
+                    result=result+",separator,fontcolor,backgroundcolor,separator";
+            }
+            else
+            {
+                if(result.contains("fontcolor"))
+                    result.replace("fontcolor", "fontcolor,backgroundcolor,separator");
+                else
+                    result=result+",backgroundcolor,separator";
+            }
+        }
 
     return result;
 }

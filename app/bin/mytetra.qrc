@@ -13,7 +13,11 @@
         <file>resource/pic/edit_alignleft.svg</file>
         <file>resource/pic/edit_alignright.svg</file>
         <file>resource/pic/edit_alignwidth.svg</file>
+        <file>resource/pic/edit_undo.svg</file>
+        <file>resource/pic/edit_redo.svg</file>
         <file>resource/pic/edit_bold.svg</file>
+        <file>resource/pic/edit_sub.svg</file>
+        <file>resource/pic/edit_sup.svg</file>
         <file>resource/pic/edit_clear.svg</file>
         <file>resource/pic/edit_code.svg</file>
         <file>resource/pic/edit_createtable.svg</file>
@@ -111,5 +115,7 @@
         <file>resource/pic/countryFlags/Russia.png</file>
         <file>resource/pic/countryFlags/United-Kingdom.png</file>
         <file>resource/pic/edit_math_expression.svg</file>
+        <file>resource/pic/edit_insert_horizontal_line.svg</file>
+        <file>resource/pic/edit_strikeout.svg</file>
     </qresource>
 </RCC>

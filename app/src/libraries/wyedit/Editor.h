@@ -1,5 +1,5 @@
-#ifndef _EDITOR_H_
-#define _EDITOR_H_
+#ifndef MYTETRA_EDITOR
+#define MYTETRA_EDITOR
 
 #include <QBoxLayout>
 #include <QToolButton>
@@ -250,6 +250,9 @@ private:
  void setupFormatters(void);
  void assembly(void);
 
+ // Устанавка размера табуляции для клавиши Tab
+ void setTabSize();
+
  // Переопределение событий обработки клавиш
  // нужны для определения момента undo/redo
  virtual void keyPressEvent(QKeyEvent *event);
@@ -278,4 +281,4 @@ private:
  int dirFileEmptyReaction;
 };
 
-#endif /* _EDITOR_H_ */
+#endif /* MYTETRA_EDITOR */

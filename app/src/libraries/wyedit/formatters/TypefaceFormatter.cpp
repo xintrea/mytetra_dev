@@ -48,11 +48,50 @@ void TypefaceFormatter::onUnderlineClicked(void)
 }
 
 
+// Форматирование Strike
+void TypefaceFormatter::onStrikeOutClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(StrikeOut);
+}
+
+
+// Форматирование SuperScript
+void TypefaceFormatter::onSuperScriptClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(SuperScript);
+}
+
+
+// Форматирование SubScript
+void TypefaceFormatter::onSubScriptClicked(void)
+{
+    // TRACELOG
+
+    smartFormat(SubScript);
+}
+
+
 void TypefaceFormatter::smartFormat(int formatType)
 {
     // Если выделение есть
     if(textArea->textCursor().hasSelection())
     {
+        // Переназначение позиций выделения, иначе снятие форматирования не срабатывает
+        // в случае выделения справа-налево (снизу-вверх)
+        QTextCursor cursor = textArea->textCursor();
+        const int anchor = cursor.anchor();
+        const int position = cursor.position();
+        if (anchor > position)
+        {
+            cursor.setPosition(position, QTextCursor::MoveAnchor);
+            cursor.setPosition(anchor, QTextCursor::KeepAnchor);
+            textArea->setTextCursor(cursor);
+        }
+
         if(formatType==Bold)
         {
             if(textArea->fontWeight() != QFont::Bold)
@@ -77,6 +116,35 @@ void TypefaceFormatter::smartFormat(int formatType)
                 textArea->setFontUnderline(false);
         }
 
+        if(formatType==StrikeOut)
+        {
+            QTextCharFormat format;
+            if(!textArea->textCursor().charFormat().fontStrikeOut())
+                format.setFontStrikeOut(true);
+            else
+                format.setFontStrikeOut(false);
+            textArea->textCursor().mergeCharFormat(format);
+        }
+
+        if(formatType==SuperScript)
+        {
+            QTextCharFormat format;
+            if(textArea->textCursor().charFormat().verticalAlignment() != QTextCharFormat::AlignSuperScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->textCursor().mergeCharFormat(format);
+        }
+
+        if(formatType==SubScript)
+        {
+            QTextCharFormat format;
+            if(textArea->textCursor().charFormat().verticalAlignment() != QTextCharFormat::AlignSubScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->textCursor().mergeCharFormat(format);
+        }
     }
     else
     {
@@ -125,6 +193,32 @@ void TypefaceFormatter::smartFormat(int formatType)
                 format.setFontUnderline(true);
             else
                 format.setFontUnderline(false);
+        }
+
+        if(formatType==StrikeOut)
+        {
+            if(!cursor.charFormat().fontStrikeOut())
+                format.setFontStrikeOut(true);
+            else
+                format.setFontStrikeOut(false);
+        }
+
+        if(formatType==SuperScript)
+        {
+            if(cursor.charFormat().verticalAlignment() != QTextCharFormat::AlignSuperScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSuperScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->mergeCurrentCharFormat(format);
+        }
+
+        if(formatType==SubScript)
+        {
+            if(cursor.charFormat().verticalAlignment() != QTextCharFormat::AlignSubScript)
+                format.setVerticalAlignment(QTextCharFormat::AlignSubScript);
+            else
+                format.setVerticalAlignment(QTextCharFormat::AlignNormal);
+            textArea->mergeCurrentCharFormat(format);
         }
 
         cursor.mergeCharFormat(format);
@@ -303,7 +397,7 @@ void TypefaceFormatter::onClearClicked(void)
 
     // Если выбран НЕ четко блок, и есть форматирование списка
     if(editor->cursorPositionDetector->isBlockSelect()==false &&
-            textArea->textCursor().currentList()!=0)
+            textArea->textCursor().currentList()!=nullptr)
     {
         // Выделение части строки в списке нельзя очищать обычным способом, так как появится перенос строки
         clearSimple(); // Запускается упрощенная очистка
@@ -1162,10 +1256,55 @@ void TypefaceFormatter::onFontcolorClicked()
     if(selectedColor.isValid())
     {
         // Меняется цвет кнопки
-        // editor->editorToolBar->fontColor->setPalette(QPalette(selectedColor));
-        // editor->currentFontColor=selectedColor.name(); // Запоминается текущий цвет (подумать, доделать)
         emit changeFontcolor( selectedColor );
     }
+}
+
+
+// Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
+// Если есть выделение в тексте, или курсор стоит на тексте, вставка не производится
+void TypefaceFormatter::onInsertHorizontalLineClicked()
+{
+    // Если есть выделение в тексте, то вставка не производится
+    if (textArea->textCursor().hasSelection())
+        return;
+
+    QTextCursor textCursor = textArea->textCursor();
+    textCursor = textArea->textCursor();
+
+    // Если курсор стоит на тексте, то вставка не производится
+    textCursor.select(QTextCursor::LineUnderCursor);
+    if(!textCursor.selectedText().isNull())
+        return;
+
+    int cursorPosition = textCursor.position();
+
+    // Выбираем 1 символ слева от позиции курсора
+    textCursor = textArea->textCursor();
+    textCursor.movePosition(QTextCursor::StartOfLine);
+    textCursor.setPosition(cursorPosition-1, QTextCursor::MoveAnchor);
+    textCursor.setPosition(cursorPosition, QTextCursor::KeepAnchor);
+
+    // Определяем, не является ли этот символ слева от курсора мягким переносом
+    QString html = textCursor.selection().toHtml();
+    QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*<br\\s*/\\s*>\\s*</span>");
+    regExp.setMinimal(true);
+    if(html.indexOf(regExp) != -1)
+    {
+        // Если это мягкий перенос - заменяем его на абзац
+        textArea->setTextCursor(textCursor);
+        textArea->textCursor().insertText("\n");
+    }
+
+    // Вставка горизонтальной линии в "пустой" абзац (заменяем его на <hr>)
+    textCursor.setPosition(cursorPosition, QTextCursor::MoveAnchor);
+    textCursor.setPosition(cursorPosition+1, QTextCursor::KeepAnchor);
+    textArea->setTextCursor(textCursor);
+    textArea->textCursor().removeSelectedText();
+    textArea->moveCursor(QTextCursor::Left);
+    textArea->insertHtml("<hr>");
+    textArea->moveCursor(QTextCursor::Down);
+    textArea->moveCursor(QTextCursor::StartOfLine);
 }
 
 
@@ -1239,3 +1378,49 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     editor->setScrollBarPosition(scrollBarPosition);
 }
 
+
+void TypefaceFormatter::onLowerCase()
+{
+    QTextCharFormat format;
+    format.setFontCapitalization(QFont::AllLowercase);
+    mergeFormatOnWordOrSelection(format);
+}
+
+
+void TypefaceFormatter::onUpperCase()
+{
+    QTextCharFormat format;
+    format.setFontCapitalization(QFont::AllUppercase);
+    mergeFormatOnWordOrSelection(format);
+}
+
+
+void TypefaceFormatter::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+{
+    QTextCursor cursor = textArea->textCursor();
+    if (!cursor.hasSelection())
+        cursor.select(QTextCursor::WordUnderCursor);
+    cursor.mergeCharFormat(format);
+    textArea->mergeCurrentCharFormat(format);
+    // textArea->setFocus(Qt::TabFocusReason);
+}
+
+
+// Слот, срабатыващий при нажатии на кнопку выбора цвета фона текста
+void TypefaceFormatter::onBackgroundcolorClicked()
+{
+    // TRACELOG
+
+    // Текущий цвет фона возле курсора
+    QColor currentColor=textArea->textBackgroundColor();
+
+    // Диалог запроса цвета
+    QColor selectedColor=QColorDialog::getColor(currentColor, editor);
+
+    // Если цвет выбран, и он правильный
+    if(selectedColor.isValid())
+    {
+        // Меняется цвет кнопки
+        emit changeBackgroundcolor( selectedColor );
+    }
+}

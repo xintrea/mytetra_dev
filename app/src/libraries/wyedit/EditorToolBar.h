@@ -35,11 +35,17 @@ public:
     QAction *bold;
     QAction *italic;
     QAction *underline;
+    QAction *strikeout; // Зачеркивание текста
     QAction *monospace;
+    QAction *superscript;
+    QAction *subscript;
     QAction *code;
     QAction *clear; // Очистка начертания текста
     QAction *textOnly; // Полная очистка текста (оставить один текст)
     QAction *fixBreakSymbol;
+
+    QAction *undo;
+    QAction *redo;
 
     QAction *numericList;
     QAction *dotList;
@@ -57,6 +63,7 @@ public:
     EditorFontFamilyComboBox *fontSelect;
     EditorFontSizeComboBox   *fontSize;
     QAction                  *fontColor;
+    QAction                  *backgroundColor;
 
     QAction *reference;
 
@@ -76,6 +83,7 @@ public:
     QAction *tableProperties;
 
     QAction *insertImageFromFile;
+    QAction *insertHorizontalLine;
     QAction *mathExpression;
     QAction *expandEditArea;
     QAction *expandToolsLines;
@@ -129,6 +137,9 @@ protected:
     void updateToolsLines(void);
 
     QAction* generateAction(QIcon icon=QIcon());
+
+  // Размер иконок на панели инструментов редактора
+  QSize getIconSize() const {return toolsLine1.iconSize();}
 
 };
 

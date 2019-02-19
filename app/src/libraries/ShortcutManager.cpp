@@ -107,8 +107,13 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-bold",                Data{ QKeySequence("Ctrl+B"), tr("Bold"), tr("") });
     defaultKeyTable.insert("editor-italic",              Data{ QKeySequence("Ctrl+I"), tr("Italic"), tr("") });
     defaultKeyTable.insert("editor-underline",           Data{ QKeySequence("Ctrl+U"), tr("Underline"), tr("") });
+    defaultKeyTable.insert("editor-strikeout",           Data{ QKeySequence("Ctrl+Shift+S"), tr("Strike out"), tr("") });
+    defaultKeyTable.insert("editor-superscript",         Data{ QKeySequence("Ctrl+Shift+P"), tr("Superscript"), tr("") });
+    defaultKeyTable.insert("editor-subscript",           Data{ QKeySequence("Ctrl+Shift+B"), tr("Subscript"), tr("") });
     defaultKeyTable.insert("editor-monospace",           Data{ QKeySequence("Ctrl+T"), tr("Monospace"), tr("") });
     defaultKeyTable.insert("editor-code",                Data{ QKeySequence("Ctrl+M"), tr("Code"), tr("Select a whole paragraphs to format text as code") });
+    defaultKeyTable.insert("editor-lowercase",           Data{ QKeySequence(""), tr("Lowercase"), tr("") });
+    defaultKeyTable.insert("editor-uppercase",           Data{ QKeySequence(""), tr("Uppercase"), tr("") });
     defaultKeyTable.insert("editor-clear",               Data{ QKeySequence("Ctrl+K"), tr("Clear format"), tr("When selected whole paragraph both text and paragraph format is reset to default or just text format in other case") });
     defaultKeyTable.insert("editor-textOnly",            Data{ QKeySequence("Ctrl+Shift+K"), tr("Text only"), tr("") });
     defaultKeyTable.insert("editor-fixBreakSymbol",      Data{ QKeySequence("Ctrl+Shift+R"), tr("Return type replace"), tr("Replace soft carriage return to standard carriage return") });
@@ -121,6 +126,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-alignRight",          Data{ QKeySequence("Ctrl+R"), tr("Align right"), tr("") });
     defaultKeyTable.insert("editor-alignWidth",          Data{ QKeySequence("Ctrl+J"), tr("Align width"), tr("") });
     defaultKeyTable.insert("editor-fontColor",           Data{ QKeySequence("Ctrl+Alt+C"), tr("Text color"), tr("") });
+    defaultKeyTable.insert("editor-backgroundColor",     Data{ QKeySequence("Alt+B"), tr("Background color"), tr("") });
     defaultKeyTable.insert("editor-findText",            Data{ QKeySequence("Ctrl+F"), tr("Find text"), tr("Find text in current note") });
     defaultKeyTable.insert("editor-settings",            Data{ QKeySequence("Ctrl+Alt+G"), tr("Editor settings"), tr("") });
     defaultKeyTable.insert("editor-reference",           Data{ QKeySequence("Ctrl+Shift+U"), tr("Edit reference URL"), tr("") });
@@ -128,6 +134,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-showFormatting",      Data{ QKeySequence("Ctrl+F10"), tr("Show special chars"), tr("") });
     defaultKeyTable.insert("editor-createTable",         Data{ QKeySequence("Ctrl+F12"), tr("Create a new table"), tr("") });
     defaultKeyTable.insert("editor-insertImageFromFile", Data{ QKeySequence("Ctrl+Shift+I"), tr("Insert/edit image"), tr("Insert image from file or edit image properties of selected image") });
+    defaultKeyTable.insert("editor-insertHorizontalLine",Data{ QKeySequence("Ctrl+H"), tr("Insert horizontal line"), tr("Insert a horizontal line into the empty paragraph from cursor") });
     defaultKeyTable.insert("editor-mathExpression",      Data{ QKeySequence("Ctrl+Shift+M"), tr("Insert/edit math expression"), tr("") });
     defaultKeyTable.insert("editor-expandEditArea",      Data{ QKeySequence("Ctrl+Shift+E"), tr("Expand edit area"), tr("") });
     defaultKeyTable.insert("editor-expandToolsLines",    Data{ QKeySequence("Ctrl+Shift+L"), tr("Expand tools"), tr("") });

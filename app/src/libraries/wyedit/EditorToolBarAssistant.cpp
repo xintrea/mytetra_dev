@@ -1,4 +1,5 @@
 #include <QColor>
+#include <QMessageBox>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -15,7 +16,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
                                                EditorTextArea *iTextArea,
                                                QStringList iDisableToolList) : EditorToolBar(parent)
 {
-  if(parent==NULL)
+  if(parent==nullptr)
     criticalError("Call "+QString(__FUNCTION__)+" with NULL of parent.");
 
   editor=qobject_cast<Editor *>(parent);
@@ -49,7 +50,6 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 
   currentFontFamily="";
   currentFontSize=0;
-  currentFontColor="#000000";
   flagSetFontParametersEnabled=true;
 
   // Инициализация панели инструментов
@@ -142,21 +142,49 @@ void EditorToolBarAssistant::onChangeFontPointSize(int n)
 }
 
 
-void EditorToolBarAssistant::onChangeFontcolor(QColor color)
+// Изменение цвета иконки выделения цвета шрифта
+void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
 {
     // TRACELOG
 
+    QPixmap pix(getIconSize());
     // Если цвет правильный
     if(color.isValid())
-    {
-        if(fontColor->associatedWidgets().size()>0) {
-            QToolButton* currentButton=qobject_cast<QToolButton*>(fontColor->associatedWidgets()[0]);
-            currentButton->setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-        }
+        pix.fill(color);
+    else
+        pix.fill(QApplication::palette().foreground().color());
+    fontColor->setIcon(pix);
+}
 
-        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменная
-    }
 
+// Изменение цвета иконки цвета шрифта, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconFontColor(const QTextCharFormat &format)
+{
+    QColor color = format.foreground().color();
+    onChangeFontcolor(color);
+}
+
+
+// Изменение цвета иконки выделения фона текста
+void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
+{
+    // TRACELOG
+
+    QPixmap pix(getIconSize());
+    // Если цвет правильный
+    if(color.isValid())
+        pix.fill(color);
+    else
+        pix.fill(QApplication::palette().background().color());
+    backgroundColor->setIcon(pix);
+}
+
+
+// Изменение цвета иконки выделения фона текста, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &format)
+{
+    QColor color = format.background().color();
+    onChangeBackgroundColor(color);
 }
 
 
@@ -190,10 +218,21 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
     bold->setChecked(false);
     italic->setChecked(false);
     underline->setChecked(false);
+    strikeout->setChecked(false);
+    superscript->setChecked(false);
+    subscript->setChecked(false);
 
     if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
     if(textArea->fontItalic()==true)        italic->setChecked(true);
     if(textArea->fontUnderline()==true)     underline->setChecked(true);
+    if(textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
+
+    const QTextCharFormat charFormat = textArea->textCursor().charFormat();
+    if(charFormat.verticalAlignment() == QTextCharFormat::AlignSuperScript) {
+        superscript->setChecked(true);
+    } else if(charFormat.verticalAlignment() == QTextCharFormat::AlignSubScript) {
+        subscript->setChecked(true);
+    }
 }
 
 
@@ -217,6 +256,27 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
     {
         if(active==false) underline->setChecked(false);
         else              underline->setChecked(true);
+        return;
+    }
+
+    if(button==BT_STRIKEOUT)
+    {
+        if(active==false) strikeout->setChecked(false);
+        else              strikeout->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUPERSCRIPT)
+    {
+        if(active==false) superscript->setChecked(false);
+        else              superscript->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUBSCRIPT)
+    {
+        if(active==false) subscript->setChecked(false);
+        else              subscript->setChecked(true);
         return;
     }
 }

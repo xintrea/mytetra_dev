@@ -200,6 +200,9 @@ void Editor::setupEditorTextArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+
+  // Устанавка размера табуляции для клавиши Tab
+  setTabSize();
 }
 
 
@@ -280,6 +283,20 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontcolor,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontcolor,
+          Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconFontColor,
+          Qt::DirectConnection);
+
+  // Соединение сигналов и слотов обрабортки для цвета выделения текста
+  connect(typefaceFormatter, &TypefaceFormatter::changeBackgroundcolor,
+          textArea,          &EditorTextArea::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(typefaceFormatter,      &TypefaceFormatter::changeBackgroundcolor,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconBackgroundColor,
           Qt::DirectConnection);
 
 
@@ -375,12 +392,17 @@ void Editor::setupSignals(void)
   this->addActions(editorContextMenu->getActionsList());
 
   // Сигналы контекстного меню
+  connect(textArea->document(), &QTextDocument::undoAvailable,
+          editorContextMenu->getActionUndo(), &QAction::setEnabled);
+  connect(textArea->document(), &QTextDocument::redoAvailable,
+          editorContextMenu->getActionRedo(), &QAction::setEnabled);
   connect(editorContextMenu, &EditorContextMenu::undo,
           this,              &Editor::onUndo,
           Qt::DirectConnection);
   connect(editorContextMenu, &EditorContextMenu::redo,
           this,              &Editor::onRedo,
           Qt::DirectConnection);
+
   connect(editorContextMenu, &EditorContextMenu::cut,
           this,              &Editor::onCut,
           Qt::DirectConnection);
@@ -405,6 +427,12 @@ void Editor::setupSignals(void)
   connect(editorContextMenu,  &EditorContextMenu::contextMenuGotoReference,
           referenceFormatter, &ReferenceFormatter::onContextMenuGotoReference,
           Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::lowercase,
+          typefaceFormatter, &TypefaceFormatter::onLowerCase,
+          Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::uppercase,
+          typefaceFormatter, &TypefaceFormatter::onUpperCase,
+          Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
   connect(findDialog, &EditorFindDialog::find_text,
@@ -423,6 +451,18 @@ void Editor::setupSignals(void)
 
 void Editor::setupToolsSignals(void)
 {
+    // Создание сигналов, генерируемых кнопками Undo / Redo
+    connect(textArea->document(), &QTextDocument::undoAvailable,
+            editorToolBarAssistant->undo, &QAction::setEnabled);
+    connect(textArea->document(), &QTextDocument::redoAvailable,
+            editorToolBarAssistant->redo, &QAction::setEnabled);
+    connect(editorToolBarAssistant->undo, &QAction::triggered,
+            this,                         &Editor::onUndo,
+            Qt::DirectConnection);
+    connect(editorToolBarAssistant->redo, &QAction::triggered,
+            this,                         &Editor::onRedo,
+            Qt::DirectConnection);
+
     // Создание сигналов, генерируемых кнопками форматирования текста
     connect(editorToolBarAssistant->bold, &QAction::triggered,
             typefaceFormatter,            &TypefaceFormatter::onBoldClicked);
@@ -432,6 +472,15 @@ void Editor::setupToolsSignals(void)
 
     connect(editorToolBarAssistant->underline, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onUnderlineClicked);
+
+    connect(editorToolBarAssistant->strikeout, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onStrikeOutClicked);
+
+    connect(editorToolBarAssistant->superscript, &QAction::triggered,
+            typefaceFormatter,                   &TypefaceFormatter::onSuperScriptClicked);
+
+    connect(editorToolBarAssistant->subscript, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onSubScriptClicked);
 
     connect(editorToolBarAssistant->monospace, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
@@ -456,6 +505,10 @@ void Editor::setupToolsSignals(void)
 
     connect(editorToolBarAssistant->fontColor, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onFontcolorClicked);
+
+    // Цвет фона текста
+    connect(editorToolBarAssistant->backgroundColor, &QAction::triggered,
+            typefaceFormatter,                       &TypefaceFormatter::onBackgroundcolorClicked);
 
     connect(editorToolBarAssistant->indentPlus, &QAction::triggered,
             placementFormatter,                 &PlacementFormatter::onIndentplusClicked);
@@ -526,6 +579,9 @@ void Editor::setupToolsSignals(void)
     // Прочие кнопки
     connect(editorToolBarAssistant->insertImageFromFile, &QAction::triggered,
             imageFormatter,                              &ImageFormatter::onInsertImageFromFileClicked);
+
+    connect(editorToolBarAssistant->insertHorizontalLine, &QAction::triggered,
+            typefaceFormatter,                            &TypefaceFormatter::onInsertHorizontalLineClicked);
 
     connect(editorToolBarAssistant->mathExpression, &QAction::triggered,
             mathExpressionFormatter,                &MathExpressionFormatter::onMathExpressionClicked);
@@ -804,7 +860,7 @@ void Editor::saveTextarea(void)
       qDebug() << "Cant remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
-    if(loadCallbackFunc==NULL)
+    if(loadCallbackFunc==nullptr)
     {
       // Сохранение текста записи в файл
       saveTextareaText();
@@ -857,7 +913,7 @@ bool Editor::loadTextarea()
   QString content;
 
   // Если происходит прямая работа с файлом текста
-  if(loadCallbackFunc==NULL)
+  if(loadCallbackFunc==nullptr)
   {
     // Создается объект файла с нужным именем
     QFile f(fileName);
@@ -988,12 +1044,14 @@ void Editor::onSelectionChanged(void)
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
+  bool startStrikeOut=cursor.charFormat().fontStrikeOut(); // Зачеркивание
 
   bool differentFontFlag=false;
   bool differentSizeFlag=false;
   bool differentBoldFlag=false;
   bool differentItalicFlag=false;
   bool differentUnderlineFlag=false;
+  bool differentStrikeOutFlag=false;
   bool differentAlignFlag=false;
 
   // Слишком большие выделения текста нельзя обрабатывать, так как выделение становится слишком медленным
@@ -1004,6 +1062,7 @@ void Editor::onSelectionChanged(void)
     differentBoldFlag=true;
     differentItalicFlag=true;
     differentUnderlineFlag=true;
+    differentStrikeOutFlag=true;
     differentAlignFlag=true;
   }
   else
@@ -1034,6 +1093,9 @@ void Editor::onSelectionChanged(void)
 
       if( differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline() )
         differentUnderlineFlag=true;
+
+      if( differentStrikeOutFlag==false && startStrikeOut!=cursor.charFormat().fontStrikeOut() )
+        differentStrikeOutFlag=true;
 
       if( differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment() )
         differentAlignFlag=true;
@@ -1084,6 +1146,13 @@ void Editor::onSelectionChanged(void)
   else
     if(startUnderline==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,true);
+
+  // Кнопка StrikeOut
+  if(differentStrikeOutFlag==true)
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,false);
+  else
+    if(startStrikeOut==true)
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,true);
 
   // Кнопки выравнивания
   if(differentAlignFlag==true)
@@ -1211,6 +1280,7 @@ void Editor::onCopy(void)
 }
 
 
+// Обработка команды Paste контекстного меню
 void Editor::onPaste(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирования,
@@ -1224,6 +1294,7 @@ void Editor::onPaste(void)
 }
 
 
+// Обработка команды PasteAsPlainText контекстного меню
 void Editor::onPasteAsPlainText(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
@@ -1304,6 +1375,9 @@ void Editor::onSettingsClicked(void)
   // Создается окно настроек, после выхода из этой функции окно удалится
   EditorConfigDialog dialog;
   dialog.show();
+
+  // Устанавка размера табуляции для клавиши Tab
+  setTabSize();
 }
 
 
@@ -1380,6 +1454,22 @@ void Editor::onShowTextClicked(void)
   showText->setDocument( cloneDocument );
 
   showText->show();
+}
+
+
+void Editor::setTabSize()
+{
+    // Устанавка размера табуляции для клавиши Tab
+    // Учитываем среднюю ширину глифов в шрифте
+    textArea->setTabStopDistance(
+                QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
+                editorConfig->get_tab_size()
+                );
+
+    // Альтернатива, не учитывающая среднюю ширину глифов в шрифте
+//    textArea->setTabStopDistance(
+//                textArea->fontMetrics().width(QLatin1Char('a')
+//                                              ) * editorConfig->get_tab_size() );
 }
 
 

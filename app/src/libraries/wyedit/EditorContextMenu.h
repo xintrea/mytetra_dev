@@ -19,6 +19,12 @@ public:
  void setEditMathExpression(bool flag); // Активирование добавочного пункта меню "Редактирование формулы")
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
  void setPasteAsPlainText(bool flag);
+ void setFormatToLowerCase(bool flag); // Активирование добавочного пункта меню "Строчные"
+ void setFormatToUpperCase(bool flag); // Активирование добавочного пункта меню "ПРОПИСНЫЕ"
+
+ // todo: разобраться, почему потребовалось иметь доступ к действиям Undo/Redo в этом месте
+ inline QAction *getActionUndo() const {return actionUndo;}
+ inline QAction *getActionRedo() const {return actionRedo;}
 
 signals:
   void undo(void);
@@ -31,12 +37,15 @@ signals:
   void contextMenuEditImageProperties(void);
   void contextMenuEditMathExpression(void);
   void contextMenuGotoReference(void);
+  void lowercase(void);
+  void uppercase(void);
 
 protected slots:
 
   void setupShortcuts(void);
 
 private:
+
   QAction *actionUndo;
   QAction *actionRedo;
   QAction *actionCut;
@@ -44,6 +53,8 @@ private:
   QAction *actionPaste;
   QAction *actionPasteAsPlainText;
   QAction *actionSelectAll;
+  QAction *actionLowercase; // строчный
+  QAction *actionUppercase; // ПРОПИСНЫЕ
 
   QAction *actionEditImageProperties;
   QAction *actionEditMathExpression;
@@ -65,6 +76,9 @@ protected slots:
   void onActionContextMenuEditImageProperties(void);
   void onActionContextMenuEditMathExpression(void);
   void onActionContextMenuGotoReference(void);
+
+  void onActionLowercase();
+  void onActionUppercase();
 
 };
 

@@ -11,6 +11,7 @@
 
 class Editor;
 class EditorTextArea;
+class QTextCharFormat;
 
 class EditorToolBarAssistant : public EditorToolBar
 {
@@ -43,6 +44,9 @@ public:
     BT_BOLD,
     BT_ITALIC,
     BT_UNDERLINE,
+    BT_STRIKEOUT,
+    BT_SUPERSCRIPT,
+    BT_SUBSCRIPT,
     BT_ALIGN_LEFT,
     BT_ALIGN_CENTER,
     BT_ALIGN_RIGHT,
@@ -64,7 +68,10 @@ public slots:
   void onChangeFontsizeOnDisplay(int n);
   void onChangeFontFamily(QString fontFamily);
   void onChangeFontPointSize(int n);
-  void onChangeFontcolor(QColor color);
+  void onChangeFontcolor(const QColor &color);
+  void onChangeIconFontColor(const QTextCharFormat &format);
+  void onChangeBackgroundColor(const QColor &color);
+  void onChangeIconBackgroundColor(const QTextCharFormat &format);
 
 protected:
 
@@ -75,7 +82,6 @@ protected:
 
   QString currentFontFamily;
   int     currentFontSize;
-  QString currentFontColor;
 
   bool flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
 

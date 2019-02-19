@@ -1,5 +1,5 @@
-#ifndef __EDITORCONFIG_H__
-#define __EDITORCONFIG_H__
+#ifndef EDITORCONFIG_H
+#define EDITORCONFIG_H
 
 #include <QObject>
 #include <QWidget>
@@ -53,6 +53,10 @@ public:
     int get_indent_step(void);
     void set_indent_step(int i);
 
+    // Размер табуляции для клавиши Tab
+    int get_tab_size(void);
+    void set_tab_size(int i);
+
     QString get_finddialog_geometry(void);
     void set_finddialog_geometry(QString geometry);
 
@@ -92,6 +96,12 @@ private:
     static QStringList get_parameter_table_11(bool withEndSignature=true);
     static QStringList get_parameter_table_12(bool withEndSignature=true);
     static QStringList get_parameter_table_13(bool withEndSignature=true);
+    static QStringList get_parameter_table_14(bool withEndSignature=true);
+    static QStringList get_parameter_table_15(bool withEndSignature=true);
+    static QStringList get_parameter_table_16(bool withEndSignature=true);
+    static QStringList get_parameter_table_17(bool withEndSignature=true);
+    static QStringList get_parameter_table_18(bool withEndSignature=true);
+    static QStringList get_parameter_table_19(bool withEndSignature=true);
 
     static QStringList remove_option(QStringList table, QString optionName);
 
@@ -116,4 +126,4 @@ private:
 
 };
 
-#endif // __EDITORCONFIG_H__
+#endif // EDITORCONFIG_H

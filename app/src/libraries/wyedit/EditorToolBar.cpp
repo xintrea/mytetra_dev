@@ -89,6 +89,18 @@ void EditorToolBar::setupToolBarTools(void)
   // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
   // имена объектов должны начинаться на "editor_tb"
 
+  // Кнопка Undo
+  undo=new QAction(this);
+  undo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
+  undo->setObjectName("editor_tb_undo");
+  undo->setEnabled(false); // undo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+
+  // Кнопка Redo
+  redo=new QAction(this);
+  redo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
+  redo->setObjectName("editor_tb_redo");
+  redo->setEnabled(false); // redo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+
   // Кнопка Bold
   bold=new QAction(this);
   bold->setCheckable(true);
@@ -106,6 +118,24 @@ void EditorToolBar::setupToolBarTools(void)
   underline->setCheckable(true);
   underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
   underline->setObjectName("editor_tb_underline");
+
+  // Кнопка StrikeOut
+  strikeout=new QAction(this);
+  strikeout->setCheckable(true);
+  strikeout->setIcon(QIcon(":/resource/pic/edit_strikeout.svg"));
+  strikeout->setObjectName("editor_tb_strikeout");
+
+  // Кнопка SuperScript
+  superscript=new QAction(this);
+  superscript->setCheckable(true);
+  superscript->setIcon(QIcon(":/resource/pic/edit_sup.svg"));
+  superscript->setObjectName("editor_tb_sup");
+
+  // Кнопка SubScript
+  subscript=new QAction(this);
+  subscript->setCheckable(true);
+  subscript->setIcon(QIcon(":/resource/pic/edit_sub.svg"));
+  subscript->setObjectName("editor_tb_sub");
 
   // Кнопка Monospace
   monospace=new QAction(this);
@@ -191,8 +221,14 @@ void EditorToolBar::setupToolBarTools(void)
 
   // Кнопка выбора цвета шрифта
   fontColor=new QAction(this);
-  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
+//  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
   fontColor->setObjectName("editor_tb_fontcolor");
+
+
+  // Кнопка выбора цвета фона текста
+  backgroundColor=new QAction(this);
+//  backgroundColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
+  backgroundColor->setObjectName("editor_tb_backgroundcolor");
 
 
   // Кнопка вызова виджета поиска текста
@@ -258,6 +294,10 @@ void EditorToolBar::setupToolBarTools(void)
   insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
   insertImageFromFile->setObjectName("editor_tb_insert_image_from_file");
 
+  insertHorizontalLine=new QAction(this);
+  insertHorizontalLine->setIcon(QIcon(":/resource/pic/edit_insert_horizontal_line.svg"));
+  insertHorizontalLine->setObjectName("editor_tb_insert_horizontal_line");
+
   mathExpression=new QAction(this);
   mathExpression->setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
   mathExpression->setObjectName("editor_tb_math_expression");
@@ -313,11 +353,16 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-bold", bold );
     shortcutManager.initAction("editor-italic", italic);
     shortcutManager.initAction("editor-underline", underline);
+    shortcutManager.initAction("editor-strikeout", strikeout);
+    shortcutManager.initAction("editor-superscript", superscript);
+    shortcutManager.initAction("editor-subscript", subscript);
     shortcutManager.initAction("editor-monospace", monospace);
     shortcutManager.initAction("editor-code", code);
     shortcutManager.initAction("editor-clear", clear);
     shortcutManager.initAction("editor-textOnly", textOnly);
     shortcutManager.initAction("editor-fixBreakSymbol", fixBreakSymbol);
+    shortcutManager.initAction("editor-undo", undo );
+    shortcutManager.initAction("editor-redo", redo );
     shortcutManager.initAction("editor-numericList", numericList);
     shortcutManager.initAction("editor-dotList", dotList);
     shortcutManager.initAction("editor-indentPlus", indentPlus);
@@ -327,6 +372,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-alignRight", alignRight);
     shortcutManager.initAction("editor-alignWidth", alignWidth);
     shortcutManager.initAction("editor-fontColor", fontColor);
+    shortcutManager.initAction("editor-backgroundColor", backgroundColor);
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
     shortcutManager.initAction("editor-reference", reference);
@@ -366,6 +412,7 @@ void EditorToolBar::setupShortcuts(void)
     tableProperties->setToolTip(info);
 
     shortcutManager.initAction("editor-insertImageFromFile", insertImageFromFile);
+    shortcutManager.initAction("editor-insertHorizontalLine", insertHorizontalLine);
     shortcutManager.initAction("editor-mathExpression", mathExpression);
     shortcutManager.initAction("editor-expandEditArea", expandEditArea);
     shortcutManager.initAction("editor-expandToolsLines", expandToolsLines);
