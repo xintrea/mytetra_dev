@@ -13,7 +13,7 @@
 #include "views/appConfigWindow/ConfigPage.h"
 
 class EditorConfig;
-class EditorToolbarScreen;
+class EditorToolbarSettingsScreen;
 
 class EditorConfigToolbars : public ConfigPage
 {
@@ -47,7 +47,7 @@ private:
   QSpinBox *indentStep;
 
   // Диалог настройки панелей инструментов
-  EditorToolbarScreen *toolbuttonsScreen;
+  EditorToolbarSettingsScreen *toolbuttonsScreen;
   
 };
 

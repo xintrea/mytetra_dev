@@ -137,6 +137,7 @@ protected:
     QList<QWidget *> getButtonWidgetList(void);
     void hideAllToolsElements(void);
 
+    void clearToolsLines(void);
     void updateToolsLines(void);
 
     QAction* generateAction(QIcon icon=QIcon());

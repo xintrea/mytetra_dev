@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-#include "views/editorToolbar/EditorToolbarUsedCommandsView.h"
-#include "models/editorToolbar/EditorToolbarUsedCommandsModel.h"
+#include "../../views/editorToolbarSettings/EditorToolbarUsedCommandsView.h"
+#include "../../models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h"
 #include "libraries/GlobalParameters.h"
 
 /***********************************************************************************************************************/

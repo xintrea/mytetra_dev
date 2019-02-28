@@ -1,5 +1,5 @@
-#ifndef EDITORTOOLBARSCREEN_H
-#define EDITORTOOLBARSCREEN_H
+#ifndef EDITORTOOLBARSETTINGSSCREEN_H
+#define EDITORTOOLBARSETTINGSSCREEN_H
 
 #include <QDialog>
 #include <QWidget>
@@ -20,13 +20,13 @@ class EditorToolbarAvailableCommandsController;
 class EditorToolbarUsedCommandsController;
 class EditorConfig;
 
-class EditorToolbarScreen : public QDialog
+class EditorToolbarSettingsScreen : public QDialog
 {
     Q_OBJECT
 
 public:
-    EditorToolbarScreen(QWidget *parent = nullptr);
-    ~EditorToolbarScreen();
+    EditorToolbarSettingsScreen(QWidget *parent = nullptr);
+    ~EditorToolbarSettingsScreen();
 
     // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
     // false - изменения можно делать на лету, перезагрузка MyTetra не нужна
@@ -122,4 +122,4 @@ private:
 
 };
 
-#endif // EDITORTOOLBARSCREEN_H
+#endif // EDITORTOOLBARSETTINGSSCREEN_H

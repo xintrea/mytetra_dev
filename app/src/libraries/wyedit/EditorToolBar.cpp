@@ -506,8 +506,17 @@ void EditorToolBar::assemblyButtons(void)
 }
 
 
+void EditorToolBar::clearToolsLines(void)
+{
+    toolsLine1.clear();
+    toolsLine2.clear();
+}
+
+
 void EditorToolBar::updateToolsLines(void)
 {
+  clearToolsLines();
+
   for(int i=0;i<toolsListInLine1.size();++i)
   {
     QString b=toolsListInLine1.at(i).trimmed();

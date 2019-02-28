@@ -6,7 +6,7 @@
 #include "../../main.h"
 
 #include "EditorConfigToolbars.h"
-#include "views/editorToolbar/EditorToolbarScreen.h"
+#include "mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h"
 
 
 EditorConfigToolbars::EditorConfigToolbars(QWidget *parent) : ConfigPage(parent)
@@ -66,7 +66,7 @@ void EditorConfigToolbars::assembly(void)
 // Запуск диалога распределения кнопок (команд) по панелям инструментов редактора
 void EditorConfigToolbars::onClickedEditToolButtonsConfigFile(void)
 {
-  toolbuttonsScreen = new EditorToolbarScreen(this);
+  toolbuttonsScreen = new EditorToolbarSettingsScreen(this);
   toolbuttonsScreen->exec();
 }
 

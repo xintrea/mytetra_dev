@@ -234,13 +234,13 @@ HEADERS = src/main.h \
     src/models/shortcutSettings/ShortcutSettingsModel.h \
     src/views/appConfigWindow/AppConfigPage_Keyboard.h \
     src/views/shortcutSettings/HotKeyGrabber.h \
-    src/views/editorToolbar/EditorToolbarScreen.h \
-    src/views/editorToolbar/EditorToolbarUsedCommandsView.h \
-    src/models/editorToolbar/EditorToolbarUsedCommandsModel.h \
-    src/controllers/editorToolbar/EditorToolbarUsedCommandsController.h \
-    src/views/editorToolbar/EditorToolbarAvailableCommandsView.h \
-    src/models/editorToolbar/EditorToolbarAvailableCommandsModel.h \
-    src/controllers/editorToolbar/EditorToolbarAvailableCommandsController.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarUsedCommandsView.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.h \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h \
     src/libraries/wyedit/EditorConfigToolbars.h
 
 lessThan(QT_MAJOR_VERSION,5) {
@@ -371,13 +371,13 @@ SOURCES = src/main.cpp \
     src/models/shortcutSettings/ShortcutSettingsModel.cpp \
     src/views/appConfigWindow/AppConfigPage_Keyboard.cpp \
     src/views/shortcutSettings/HotKeyGrabber.cpp \
-    src/views/editorToolbar/EditorToolbarScreen.cpp \
-    src/views/editorToolbar/EditorToolbarUsedCommandsView.cpp \
-    src/models/editorToolbar/EditorToolbarUsedCommandsModel.cpp \
-    src/controllers/editorToolbar/EditorToolbarUsedCommandsController.cpp \
-    src/views/editorToolbar/EditorToolbarAvailableCommandsView.cpp \
-    src/models/editorToolbar/EditorToolbarAvailableCommandsModel.cpp \
-    src/controllers/editorToolbar/EditorToolbarAvailableCommandsController.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarUsedCommandsView.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.cpp \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.cpp \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.cpp \
     src/libraries/wyedit/EditorConfigToolbars.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {

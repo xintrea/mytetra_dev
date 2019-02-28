@@ -3,8 +3,8 @@
 
 #include <QObject>
 
-#include "views/editorToolbar/EditorToolbarAvailableCommandsView.h"
-#include "models/editorToolbar/EditorToolbarAvailableCommandsModel.h"
+#include "../../views/editorToolbarSettings/EditorToolbarAvailableCommandsView.h"
+#include "../../models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h"
 
 /*********************************************************************************************************/
 /* Контроллер для представления и модели всех доступных команд для панелей инструментов редактора текста */

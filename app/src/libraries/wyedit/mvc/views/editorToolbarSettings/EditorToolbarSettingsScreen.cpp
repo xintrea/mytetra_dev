@@ -1,14 +1,14 @@
 #include <QMessageBox>
 #include <QCommonStyle>
 
-#include "EditorToolbarScreen.h"
-#include "controllers/editorToolbar/EditorToolbarAvailableCommandsController.h"
-#include "controllers/editorToolbar/EditorToolbarUsedCommandsController.h"
+#include "EditorToolbarSettingsScreen.h"
+#include "../../controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h"
+#include "../../controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h"
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/wyedit/EditorConfig.h"
 
-EditorToolbarScreen::EditorToolbarScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
+EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
 {
     this->setWindowTitle(tr("Toolbars settings"));
 
@@ -33,20 +33,20 @@ EditorToolbarScreen::EditorToolbarScreen(QWidget *parent) : QDialog(parent), nee
 }
 
 
-EditorToolbarScreen::~EditorToolbarScreen()
+EditorToolbarSettingsScreen::~EditorToolbarSettingsScreen()
 {
 
 }
 
 // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
-bool EditorToolbarScreen::isNeedRestart() const
+bool EditorToolbarSettingsScreen::isNeedRestart() const
 {
     // false - изменения можно делать на лету, перезагрузка MyTetra не нужна
     // true - для принятия изменений нужна перезагрузка MyTetra
     return needRestart;
 }
 
-void EditorToolbarScreen::setupUI()
+void EditorToolbarSettingsScreen::setupUI()
 {
     // Доступные команды панелей инструментов
     availableToolbarsCommandsLabel = new QLabel(tr("Available Toolbars Commands"), this);
@@ -101,39 +101,39 @@ void EditorToolbarScreen::setupUI()
 }
 
 
-void EditorToolbarScreen::setupSignals()
+void EditorToolbarSettingsScreen::setupSignals()
 {
     // Обработка переключения обрабатываемых панелей
     connect(selectToolbarsListWidget, &QListWidget::currentItemChanged,
-            this,                     &EditorToolbarScreen::onCheckViewToolbarWidget); // Переключение видимости виджетов со списком кнопок
+            this,                     &EditorToolbarSettingsScreen::onCheckViewToolbarWidget); // Переключение видимости виджетов со списком кнопок
 
     // Обработка кнопок перемещения команд
     connect(toUsedCommandsPushButton, &QPushButton::clicked, // Перемещение выбранной команды из списка всех достукпных команд в список команд выбранной панели
-            this,            &EditorToolbarScreen::onMoveAvailableCommandToUsedCommands);
+            this,            &EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands);
 
     connect(toAvailableCommandsPushButton, &QPushButton::clicked, // Перемещение выбранной команды из списка команд выбранной панели в список всех достукпных команд
-            this,           &EditorToolbarScreen::onMoveUsedCommandToAvailableCommands);
+            this,           &EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands);
 
     connect(usedCommandUpPushButton, &QPushButton::clicked, // Перемещение выбранной команды вверх в списке команд выбранной панели
-            this,         &EditorToolbarScreen::onMoveSelectedCommandUp);
+            this,         &EditorToolbarSettingsScreen::onMoveSelectedCommandUp);
 
     connect(usedCommandDownPushButton, &QPushButton::clicked, // Перемещение выбранной команды вниз в списке команд выбранной панели
-            this,           &EditorToolbarScreen::onMoveSelectedCommandDown);
+            this,           &EditorToolbarSettingsScreen::onMoveSelectedCommandDown);
 
     // Вызов формы с информацией о формате ввода горячих клавиш
     connect(infoPushButton, &QPushButton::clicked,
-            this,           &EditorToolbarScreen::onInfoClick);
+            this,           &EditorToolbarSettingsScreen::onInfoClick);
 
     // Обработка кнопки OK
     connect(dialogButtonBox, &QDialogButtonBox::accepted,
-            this,            &EditorToolbarScreen::applyChanges); // Применение изменений
+            this,            &EditorToolbarSettingsScreen::applyChanges); // Применение изменений
 
     // Обработка кнопки Cancel
-    connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &EditorToolbarScreen::close);
+    connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &EditorToolbarSettingsScreen::close);
 }
 
 
-void EditorToolbarScreen::assembly()
+void EditorToolbarSettingsScreen::assembly()
 {
     // Слой, объединяющий кнопки для перемещения выбранных кнопок панелей
     buttonsToMoveLayout = new QVBoxLayout();
@@ -175,7 +175,7 @@ void EditorToolbarScreen::assembly()
 }
 
 // Переключение виджетов с кнопками для конкретной панели инструментов редактора текста
-void EditorToolbarScreen::onCheckViewToolbarWidget()
+void EditorToolbarSettingsScreen::onCheckViewToolbarWidget()
 {
     usedCommandsToolbarStackedWidget->setCurrentIndex(selectToolbarsListWidget->currentRow());
 
@@ -187,7 +187,7 @@ void EditorToolbarScreen::onCheckViewToolbarWidget()
 }
 
 // Перемещение выбранной команды из модели всех доступных команд в модель команд рабочей панели
-void EditorToolbarScreen::onMoveAvailableCommandToUsedCommands()
+void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
 {
     // Получение индекса выбранной команды из списка всех доступных комманд
     QModelIndex selectedAvailableIndex = availableCommandsToolbarController->getSelectionModel()->currentIndex();
@@ -269,7 +269,7 @@ void EditorToolbarScreen::onMoveAvailableCommandToUsedCommands()
 }
 
 // Перемещение выбранной команды из модели команд рабочей панели в модель всех доступных команд
-void EditorToolbarScreen::onMoveUsedCommandToAvailableCommands()
+void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
 {
     // Определение контроллера для работы с моделью
     EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
@@ -325,7 +325,7 @@ void EditorToolbarScreen::onMoveUsedCommandToAvailableCommands()
 }
 
 // Перемещение выбранной команды вверх в моделе команд рабочей панели инструментов
-void EditorToolbarScreen::onMoveSelectedCommandUp()
+void EditorToolbarSettingsScreen::onMoveSelectedCommandUp()
 {
     // Определение контроллера для работы с моделью
     EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
@@ -335,7 +335,7 @@ void EditorToolbarScreen::onMoveSelectedCommandUp()
 }
 
 // Перемещение выбранной команды вниз в моделе команд рабочей панели инструментов
-void EditorToolbarScreen::onMoveSelectedCommandDown()
+void EditorToolbarSettingsScreen::onMoveSelectedCommandDown()
 {
     // Определение контроллера для работы с моделью
     EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
@@ -345,7 +345,7 @@ void EditorToolbarScreen::onMoveSelectedCommandDown()
 }
 
 // Отображение информации-подсказки
-void EditorToolbarScreen::onInfoClick()
+void EditorToolbarSettingsScreen::onInfoClick()
 {
     QString message = tr("<b>Information</b> for inserting the selected command (list of all available commands) in the list of working toolbars:");
     message += "<br/>";
@@ -368,7 +368,7 @@ void EditorToolbarScreen::onInfoClick()
 }
 
 // Сохранение результата распределения команд по панелям инструментов
-void EditorToolbarScreen::applyChanges()
+void EditorToolbarSettingsScreen::applyChanges()
 {
     // Измененные списки команд панелей инструментов
     QString availableCommandsList(availableCommandsToolbarController->getModel()->getCommandsList());
@@ -407,7 +407,7 @@ void EditorToolbarScreen::applyChanges()
 }
 
 // Контроллер для работы с моделью панели используемых команд, в зависимости от выбранной панели
-EditorToolbarUsedCommandsController *EditorToolbarScreen::getCurrentEditorToolbarUsedCommandsController()
+EditorToolbarUsedCommandsController *EditorToolbarSettingsScreen::getCurrentEditorToolbarUsedCommandsController()
 {
     return usedCommandsToolbarStackedWidget->currentIndex() == 0
             ? usedCommandsToolbar1Controller : usedCommandsToolbar2Controller;
