@@ -77,8 +77,8 @@ protected:
     // Используемые комманды на панели инструментов
     QLabel *usedCommandsToolbaLabel;
     QStackedWidget *usedCommandsToolbarStackedWidget;
-    EditorToolbarUsedCommandsController *usedCommandsToolba1Controller;
-    EditorToolbarUsedCommandsController *usedCommandsToolba2Controller;
+    EditorToolbarUsedCommandsController *usedCommandsToolbar1Controller;
+    EditorToolbarUsedCommandsController *usedCommandsToolbar2Controller;
 
     // Слой, объединяющий все слои
     QGridLayout *screenLayout;

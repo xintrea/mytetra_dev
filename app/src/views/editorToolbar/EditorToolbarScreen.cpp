@@ -22,8 +22,8 @@ EditorToolbarScreen::EditorToolbarScreen(QWidget *parent) : QDialog(parent), nee
     // Изначальные, в момент заргузки диалога списки команд
     // Используются для проверки на наличие изменений в расположении команд на понелях и нужде в перезагрузке
     loadedAvailableCommandsList = availableCommandsToolbarController->getModel()->getCommandsList();
-    loadedToolBar1CommandsList = usedCommandsToolba1Controller->getModel()->getCommandsList();
-    loadedToolBar2CommandsList = usedCommandsToolba2Controller->getModel()->getCommandsList();
+    loadedToolBar1CommandsList = usedCommandsToolbar1Controller->getModel()->getCommandsList();
+    loadedToolBar2CommandsList = usedCommandsToolbar2Controller->getModel()->getCommandsList();
 
     // Задание размеров диалога
     this->setMinimumHeight(
@@ -80,14 +80,14 @@ void EditorToolbarScreen::setupUI()
     availableCommandsToolbarController->init();
 
     // Контроллер списка кнопок Панели 1 Редактора Текста
-    usedCommandsToolba1Controller = new EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar::First, this);
-    usedCommandsToolba1Controller->setObjectName("editorToolbarUsedCommands1Controller");
-    usedCommandsToolba1Controller->init();
+    usedCommandsToolbar1Controller = new EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar::First, this);
+    usedCommandsToolbar1Controller->setObjectName("editorToolbarUsedCommands1Controller");
+    usedCommandsToolbar1Controller->init();
 
     // Контроллер списка кнопок Панели 2 Редактора Текста
-    usedCommandsToolba2Controller = new EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar::Second, this);
-    usedCommandsToolba2Controller->setObjectName("editorToolbarUsedCommands2Controller");
-    usedCommandsToolba2Controller->init();
+    usedCommandsToolbar2Controller = new EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar::Second, this);
+    usedCommandsToolbar2Controller->setObjectName("editorToolbarUsedCommands2Controller");
+    usedCommandsToolbar2Controller->init();
 
     // Создание информационной кнопки
     QCommonStyle styleHelp;
@@ -143,8 +143,8 @@ void EditorToolbarScreen::assembly()
 
     // Стэк виджетов для видов 2-х панелей инструментов
     usedCommandsToolbarStackedWidget = new QStackedWidget();
-    usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolba1Controller->getView());
-    usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolba2Controller->getView());
+    usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar1Controller->getView());
+    usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar2Controller->getView());
 
     // Слой, объединяющий кнопки для перемещения выбранных кнопок панелей и слой buttonsToMoveLayout
     usedToolBarsLayout = new QGridLayout();
@@ -199,7 +199,7 @@ void EditorToolbarScreen::onMoveAvailableCommandToUsedCommands()
 
     // Проверка, есть ли добавляемый элемент в моделях всех панелей (separator не проверяем, их может быть любое число)
     if (command != "separator") {
-        QModelIndex commandIndex1 = usedCommandsToolba1Controller->getModel()->findCommand(command);
+        QModelIndex commandIndex1 = usedCommandsToolbar1Controller->getModel()->findCommand(command);
         if (commandIndex1!=QModelIndex()) {
             // Нашли такую же команду в ToolBar 1
             QMessageBox *msbox = new QMessageBox(
@@ -211,7 +211,7 @@ void EditorToolbarScreen::onMoveAvailableCommandToUsedCommands()
             return;
         }
 
-        QModelIndex commandIndex2 = usedCommandsToolba2Controller->getModel()->findCommand(command);
+        QModelIndex commandIndex2 = usedCommandsToolbar2Controller->getModel()->findCommand(command);
         if (commandIndex2!=QModelIndex()) {
             // Нашли такую же команду в ToolBar 2
             QMessageBox msbox;
@@ -361,8 +361,8 @@ void EditorToolbarScreen::applyChanges()
 {
     // Измененные списки команд панелей инструментов
     QString availableCommandsList(availableCommandsToolbarController->getModel()->getCommandsList());
-    QString toolBar1CommandsList(usedCommandsToolba1Controller->getModel()->getCommandsList());
-    QString toolBar2CommandsList(usedCommandsToolba2Controller->getModel()->getCommandsList());
+    QString toolBar1CommandsList(usedCommandsToolbar1Controller->getModel()->getCommandsList());
+    QString toolBar2CommandsList(usedCommandsToolbar2Controller->getModel()->getCommandsList());
 
     // Проверка, были ли внесены изменения в расположение команд
     if (loadedAvailableCommandsList!=availableCommandsList ||
@@ -399,5 +399,5 @@ void EditorToolbarScreen::applyChanges()
 EditorToolbarUsedCommandsController *EditorToolbarScreen::getCurrentEditorToolbarUsedCommandsController()
 {
     return usedCommandsToolbarStackedWidget->currentIndex() == 0
-            ? usedCommandsToolba1Controller : usedCommandsToolba2Controller;
+            ? usedCommandsToolbar1Controller : usedCommandsToolbar2Controller;
 }
