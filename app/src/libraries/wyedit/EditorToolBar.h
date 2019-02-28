@@ -109,6 +109,9 @@ public:
 
     void switchAttachIconExists(bool isExists); // Переключение иконки аттачей в режим есть аттачи или нет аттачей
 
+    // Список названий всех контролов (команд) панелей инструментов
+    QStringList *getCommandNameList();
+
 public slots:
 
     void setupShortcuts(void);
@@ -138,8 +141,8 @@ protected:
 
     QAction* generateAction(QIcon icon=QIcon());
 
-  // Размер иконок на панели инструментов редактора
-  QSize getIconSize() const {return toolsLine1.iconSize();}
+    // Размер иконок на панели инструментов редактора
+    QSize getIconSize() const {return toolsLine1.iconSize();}
 
 };
 
