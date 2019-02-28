@@ -1262,8 +1262,8 @@ void TypefaceFormatter::onFontcolorClicked()
     if(!hasForegroundBrush)
         currentColor = textArea->palette().foreground().color();
 
-    // Диалог запроса цвета
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor);
+    // Диалог запроса цвета текста
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"));
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
@@ -1492,8 +1492,8 @@ void TypefaceFormatter::onBackgroundcolorClicked()
         }
     }
 
-    // Диалог запроса цвета
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor);
+    // Диалог запроса цвета фона
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"));
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
