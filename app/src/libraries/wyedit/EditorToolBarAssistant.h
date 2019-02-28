@@ -53,6 +53,9 @@ public:
     BT_ALIGN_WIDTH
    };
 
+  // Режим представления (мобильный или десктопный)
+  int getViewMode();
+
 signals:
 
   void updateIndentSliderGeometry(void);

@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QStringList>
 
 #include "main.h"
 #include "EditorToolBar.h"
@@ -213,7 +214,6 @@ void EditorToolBar::setupToolBarTools(void)
   fontSelect=new EditorFontFamilyComboBox(this);
   fontSelect->setObjectName("editor_tb_fontselect");
 
-
   // Выбор размера шрифта
   fontSize=new EditorFontSizeComboBox(this);
   fontSize->setObjectName("editor_tb_fontsize");
@@ -221,13 +221,11 @@ void EditorToolBar::setupToolBarTools(void)
 
   // Кнопка выбора цвета шрифта
   fontColor=new QAction(this);
-//  fontColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
   fontColor->setObjectName("editor_tb_fontcolor");
 
 
   // Кнопка выбора цвета фона текста
   backgroundColor=new QAction(this);
-//  backgroundColor->setIcon(QIcon(":/resource/pic/edit_fontcolor.svg"));
   backgroundColor->setObjectName("editor_tb_backgroundcolor");
 
 
@@ -421,6 +419,25 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-toAttach", toAttach);
 }
 
+// Список названий всех контролов (команд) панелей инструментов
+QStringList *EditorToolBar::getCommandNameList()
+{
+    QRegExp nameMask("editor_tb_.*");
+    QList<QWidget *> widgetList = this->findChildren<QWidget *>(nameMask);
+    QList<QAction *> actionList = this->findChildren<QAction *>(nameMask);
+
+    QStringList *buttonsNameList = new QStringList();
+
+    for (int i=0; i!=widgetList.size(); ++i) {
+        buttonsNameList->append(widgetList.at(i)->objectName().replace("editor_tb_", ""));
+    }
+    for (int i=0; i!=actionList.size(); ++i) {
+        buttonsNameList->append(actionList.at(i)->objectName().replace("editor_tb_", ""));
+    }
+    buttonsNameList->sort();
+
+    return buttonsNameList;
+}
 
 QList<QWidget *> EditorToolBar::getButtonWidgetList(void)
 {
