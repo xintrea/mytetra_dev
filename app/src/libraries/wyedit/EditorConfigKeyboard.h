@@ -13,7 +13,7 @@
 #include "views/appConfigWindow/ConfigPage.h"
 
 class EditorConfig;
-
+class EditorToolbarScreen;
 
 class EditorConfigKeyboard : public ConfigPage
 {
@@ -26,6 +26,8 @@ public:
   int applyChanges(void);
     
 private slots:
+
+  // Запуск диалога распределения кнопок (команд) по панелям инструментов редактора
   void onClickedEditToolButtonsConfigFile(void);
 
 protected:
@@ -43,6 +45,9 @@ private:
   QLabel *indentStepLabel;
   QLabel *indentStepFlexion;
   QSpinBox *indentStep;
+
+  // Диалог настройки панелей инструментов
+  EditorToolbarScreen *toolbuttonsScreen;
   
 };
 
