@@ -8,7 +8,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/wyedit/EditorConfig.h"
 
-EditorToolbarScreen::EditorToolbarScreen(QWidget *parent) : QDialog(parent), needRestert(false), changedCommands(false)
+EditorToolbarScreen::EditorToolbarScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
 {
     this->setWindowTitle(tr("Toolbars settings"));
 
@@ -39,11 +39,11 @@ EditorToolbarScreen::~EditorToolbarScreen()
 }
 
 // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
-bool EditorToolbarScreen::isNeedRestert() const
+bool EditorToolbarScreen::isNeedRestart() const
 {
     // false - изменения можно делать на лету, перезагрузка MyTetra не нужна
     // true - для принятия изменений нужна перезагрузка MyTetra
-    return needRestert;
+    return needRestart;
 }
 
 void EditorToolbarScreen::setupUI()
@@ -377,7 +377,7 @@ void EditorToolbarScreen::applyChanges()
             msbox.setStandardButtons(QMessageBox::Ok);
             msbox.exec();
 
-            needRestert = false; // изменения можно делать на лету, перезагрузка MyTetra не нужна
+            needRestart = false; // изменения можно делать на лету, перезагрузка MyTetra не нужна
         } else {
             // Редактор конфигурации
             EditorConfig *editorConfig = getCurrentEditorToolbarUsedCommandsController()->getModel()->getEditorConfig();
@@ -386,11 +386,11 @@ void EditorToolbarScreen::applyChanges()
             editorConfig->set_tools_line_2(toolBar2CommandsList);
             editorConfig->sync();
 
-            needRestert = true; // Нужна перезагрузка MyTetra
+            needRestart = true; // Нужна перезагрузка MyTetra
             close();
         }
     } else {
-        needRestert = false; // изменения можно делать на лету, перезагрузка MyTetra не нужна
+        needRestart = false; // изменения можно делать на лету, перезагрузка MyTetra не нужна
         close();
     }
 }
