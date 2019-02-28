@@ -62,6 +62,9 @@ protected:
     // Виджет выбора панели инструментов
     QListWidget *selectToolbarsListWidget;
 
+    // Надпись над кнопками, перемещающие кнопки панелей (невидимая, нужна для вертикального выравнивания)
+    QLabel *exchangeButtonsLabel;
+
     // Кнопки для перемещения выбранных кнопок панелей
     QPushButton *toUsedCommandsPushButton; // Кнопка для переноса команды в модель используемых команд панели инструментов
     QPushButton *toAvailableCommandsPushButton; // Кнопка для переноса команды в модель всех доступных команд
@@ -71,17 +74,28 @@ protected:
 
     // Слой, объединяющий команды для перемещения выбранных кнопок панелей
     QVBoxLayout *buttonsToMoveLayout;
-    // Слой, объединяющий команды для перемещения выбранных кнопок панелей и слой buttonsToMoveLayout
-    QGridLayout *usedToolBarsLayout;
+
+    // Слой для столбца доступных кнопок (заголовок и список)
+    QVBoxLayout *availableLayout;
+
+    // Слой для столбца перемещающих кнопок (невидимый заголовок для вертикального выравнивания и список)
+    QVBoxLayout *exchangeButtonsLayout;
+
+    // Слой для столбца используемых кнопок (заголовок и список)
+    QVBoxLayout *usedLayout;
+
+    // Слой из трех столбцов: доступные кнопки, панель с кнопками перемещения, используемые кнопки
+    QHBoxLayout *exchangeLayout;
+
 
     // Используемые комманды на панели инструментов
-    QLabel *usedCommandsToolbaLabel;
+    QLabel *usedCommandsToolbarLabel;
     QStackedWidget *usedCommandsToolbarStackedWidget;
     EditorToolbarUsedCommandsController *usedCommandsToolbar1Controller;
     EditorToolbarUsedCommandsController *usedCommandsToolbar2Controller;
 
     // Слой, объединяющий все слои
-    QGridLayout *screenLayout;
+    QVBoxLayout *screenLayout;
 
     // Кнопки Ok и Cancel
     QDialogButtonBox *dialogButtonBox;

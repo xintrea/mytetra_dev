@@ -59,6 +59,9 @@ void EditorToolbarScreen::setupUI()
     QFontMetrics metr(selectToolbarsListWidget->font());
     selectToolbarsListWidget->setFixedHeight(metr.height()*3);
 
+    // Невидимая надпись над кнопками перемещения, нужна для вертикального выравнивания
+    exchangeButtonsLabel=new QLabel(" ");
+
     // Кнопки для перемещения выбранных кнопок панелей
     toUsedCommandsPushButton = new QPushButton(QIcon(":/resource/pic/move_right.svg"), "", this);
     toUsedCommandsPushButton->setShortcut(QKeySequence("Alt+Right"));
@@ -72,7 +75,7 @@ void EditorToolbarScreen::setupUI()
     usedCommandDownPushButton = new QPushButton(QIcon(":/resource/pic/move_dn.svg"), "", this);
     usedCommandDownPushButton->setShortcut(QKeySequence("Alt+Down"));
     // Текущие комманды на панели инструментов
-    usedCommandsToolbaLabel = new QLabel(tr("Current Toolbar Commands"), this);
+    usedCommandsToolbarLabel = new QLabel(tr("Current Toolbar Commands"), this);
 
     // Контроллер списка всех доступных кнопок Редактора Текста
     availableCommandsToolbarController = new EditorToolbarAvailableCommandsController(this);
@@ -146,19 +149,27 @@ void EditorToolbarScreen::assembly()
     usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar1Controller->getView());
     usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar2Controller->getView());
 
-    // Слой, объединяющий кнопки для перемещения выбранных кнопок панелей и слой buttonsToMoveLayout
-    usedToolBarsLayout = new QGridLayout();
-    usedToolBarsLayout->addWidget(selectToolbarsListWidget, 0, 0, 1, 2);       // Виджет выбора панели инструментов (ячейка начинается с нулевой строки нулевой колонки, и занимает 1 строку и 2 колонки)
-    usedToolBarsLayout->addWidget(usedCommandsToolbaLabel, 1, 0, 1, 2);    // Метка "Текущие комманды на панели инструментов"
-    usedToolBarsLayout->addLayout(buttonsToMoveLayout, 2, 0);                  // Слой, объединяющий кнопки для перемещения выбранных кнопок панелей
-    usedToolBarsLayout->addWidget(usedCommandsToolbarStackedWidget, 2, 1);  // Виджет выбора кнопок "Текущие комманды на панели инструментов"
+    availableLayout=new QVBoxLayout();
+    availableLayout->addWidget(availableToolbarsCommandsLabel);
+    availableLayout->addWidget(availableCommandsToolbarController->getView());
 
-    // Слой, объединяющий все слои
-    screenLayout = new QGridLayout();
-    screenLayout->addWidget(availableToolbarsCommandsLabel, 0, 0, 1, 2);        // Метка "Доступные команды панелей инструментов" (ячейка начинается с нулевой строки нулевой колонки, и занимает 1 строку и 2 колонки)
-    screenLayout->addWidget(availableCommandsToolbarController->getView(), 1, 0);// Виджет выбора кнопок "Доступные команды панелей инструментов"
-    screenLayout->addLayout(usedToolBarsLayout, 1, 1);                                 // Слой, объединяющий контролы по работе с кнопками текущих команд
-    screenLayout->addWidget(dialogButtonBox, 2, 1);                             // Кнопки Ok и Cancel
+    exchangeButtonsLayout=new QVBoxLayout();
+    exchangeButtonsLayout->addWidget(exchangeButtonsLabel);
+    exchangeButtonsLayout->addLayout(buttonsToMoveLayout);
+
+    usedLayout=new QVBoxLayout();
+    usedLayout->addWidget(usedCommandsToolbarLabel);
+    usedLayout->addWidget(usedCommandsToolbarStackedWidget);
+
+    exchangeLayout=new QHBoxLayout();
+    exchangeLayout->addLayout(availableLayout);
+    exchangeLayout->addLayout(exchangeButtonsLayout);
+    exchangeLayout->addLayout(usedLayout);
+
+    screenLayout=new QVBoxLayout();
+    screenLayout->addWidget(selectToolbarsListWidget);
+    screenLayout->addLayout(exchangeLayout);
+    screenLayout->addWidget(dialogButtonBox);
 
     setLayout(screenLayout);
 }
@@ -172,7 +183,7 @@ void EditorToolbarScreen::onCheckViewToolbarWidget()
             .arg(tr("Commands for"))
             .arg(selectToolbarsListWidget->item(selectToolbarsListWidget->currentRow())->text());
 
-    usedCommandsToolbaLabel->setText(text);
+    usedCommandsToolbarLabel->setText(text);
 }
 
 // Перемещение выбранной команды из модели всех доступных команд в модель команд рабочей панели
