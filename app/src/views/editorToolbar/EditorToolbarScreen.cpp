@@ -39,7 +39,7 @@ EditorToolbarScreen::~EditorToolbarScreen()
 }
 
 // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
-bool EditorToolbarScreen::isNeedRestert() const
+bool EditorToolbarScreen::isNeedRestart() const
 {
     // false - изменения можно делать на лету, перезагрузка MyTetra не нужна
     // true - для принятия изменений нужна перезагрузка MyTetra

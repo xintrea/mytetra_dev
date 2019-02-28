@@ -78,5 +78,5 @@ int EditorConfigToolbars::applyChanges(void)
 {
   qDebug() << "Apply changes editor toolbars";
 
-  return toolbuttonsScreen->isNeedRestert() ? 1 : 0;
+  return toolbuttonsScreen->isNeedRestart() ? 1 : 0;
 }
