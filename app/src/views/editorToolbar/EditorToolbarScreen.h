@@ -96,7 +96,7 @@ private:
     EditorToolbarUsedCommandsController *getCurrentEditorToolbarUsedCommandsController();
 
     // Признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
-    bool needRestert;
+    bool needRestart;
 
     // Признак, были ли внесены изменения в настройки панелей инструментов
     bool changedCommands;
