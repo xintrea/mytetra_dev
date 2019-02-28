@@ -6,6 +6,7 @@
 #include "../../main.h"
 
 #include "EditorConfigKeyboard.h"
+#include "views/editorToolbar/EditorToolbarScreen.h"
 
 
 EditorConfigKeyboard::EditorConfigKeyboard(QWidget *parent) : ConfigPage(parent)
@@ -25,7 +26,7 @@ void EditorConfigKeyboard::setupUi(void)
 {
  qDebug() << "Create keyboard config page";
 
- // Кнопка редактирования файла конфигурации распределения кнопок по панелям инструментов редактора
+ // Кнопка редактирования файла конфигурации распределения кнопок (команд) по панелям инструментов редактора
  editToolButtonsConfigFile = new QPushButton(this);
  editToolButtonsConfigFile->setText(tr("Edit ToolButtons"));
  editToolButtonsConfigFile->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
@@ -62,25 +63,20 @@ void EditorConfigKeyboard::assembly(void)
 }
 
 
-// Запуск диалога распределения кнопок по панелям инструментов редактора
+// Запуск диалога распределения кнопок (команд) по панелям инструментов редактора
 void EditorConfigKeyboard::onClickedEditToolButtonsConfigFile(void)
 {
-//  ShortcutSettingsScreen shortcutSettingsScreen;
-//  shortcutSettingsScreen.setWindowTitle(tr("Keyboard config"));
-
-//  shortcutSettingsScreen.exec();
+  toolbuttonsScreen = new EditorToolbarScreen(this);
+  toolbuttonsScreen->exec();
 }
 
 
-// Возвращает признак необходимости перезагрузки MyTetra,
-// в зависимости от уровеня сложности вносимых изменений
+// Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
 // 0 - изменения можно делать на лету, перезагрузка MyTetra не нужна
 // 1 - для принятия изменений нужна перезагрузка MyTetra
 int EditorConfigKeyboard::applyChanges(void)
 {
-  qDebug() << "Apply changes editor misc";
+  qDebug() << "Apply changes editor keyboard";
 
-  int result = 0;
-
-  return result;
+  return toolbuttonsScreen->isNeedRestert() ? 1 : 0;
 }

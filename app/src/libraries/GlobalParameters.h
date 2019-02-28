@@ -61,6 +61,12 @@ public:
     // Так как в более старых версиях MyTetra его еще не было
     void createStyleSheetFile(QString dirName);
 
+public:
+    // Указание на обрабатываемую панель инструментов редактора текста
+    enum EditorToolbar {
+        First = 0,
+        Second
+    };
 
 private:
 
