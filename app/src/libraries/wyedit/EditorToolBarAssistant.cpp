@@ -467,3 +467,9 @@ int EditorToolBarAssistant::getFontSizeByNum(int n)
 {
     return fontSize->itemData(n).toInt();
 }
+
+// Режим представления (мобильный или десктопный)
+int EditorToolBarAssistant::getViewMode()
+{
+    return viewMode;
+}
