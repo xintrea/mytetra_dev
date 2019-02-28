@@ -5,11 +5,11 @@
 
 #include "../../main.h"
 
-#include "EditorConfigKeyboard.h"
+#include "EditorConfigToolbars.h"
 #include "views/editorToolbar/EditorToolbarScreen.h"
 
 
-EditorConfigKeyboard::EditorConfigKeyboard(QWidget *parent) : ConfigPage(parent)
+EditorConfigToolbars::EditorConfigToolbars(QWidget *parent) : ConfigPage(parent)
 {
   setupUi();
   setupSignals();
@@ -17,36 +17,36 @@ EditorConfigKeyboard::EditorConfigKeyboard(QWidget *parent) : ConfigPage(parent)
 }
 
 
-EditorConfigKeyboard::~EditorConfigKeyboard()
+EditorConfigToolbars::~EditorConfigToolbars()
 {
 
 }
 
-void EditorConfigKeyboard::setupUi(void)
+void EditorConfigToolbars::setupUi(void)
 {
- qDebug() << "Create keyboard config page";
+ qDebug() << "Create toolbars config page";
 
  // Кнопка редактирования файла конфигурации распределения кнопок (команд) по панелям инструментов редактора
  editToolButtonsConfigFile = new QPushButton(this);
- editToolButtonsConfigFile->setText(tr("Edit ToolButtons"));
+ editToolButtonsConfigFile->setText(tr("Edit tool buttons"));
  editToolButtonsConfigFile->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
 }
 
 
 // Связывание сигналов, генерируемых объектами класса и слотов для их обработки
-void EditorConfigKeyboard::setupSignals(void)
+void EditorConfigToolbars::setupSignals(void)
 {
   connect(editToolButtonsConfigFile, &QPushButton::clicked,
-          this,                      &EditorConfigKeyboard::onClickedEditToolButtonsConfigFile);
+          this,                      &EditorConfigToolbars::onClickedEditToolButtonsConfigFile);
 }
 
 
 // Создание жиджетов панели "Keyboard"
-void EditorConfigKeyboard::assembly(void)
+void EditorConfigToolbars::assembly(void)
 {
   // Группирующая рамка
   QGroupBox *toolButtonsBox=new QGroupBox(this);
-  toolButtonsBox->setTitle(tr("ToolButtons preferences"));
+  toolButtonsBox->setTitle(tr("Tool buttons preferences"));
 
   // Вставка виджетов в группирующую рамку
   QVBoxLayout *toolButtonsLayout = new QVBoxLayout(this);
@@ -64,7 +64,7 @@ void EditorConfigKeyboard::assembly(void)
 
 
 // Запуск диалога распределения кнопок (команд) по панелям инструментов редактора
-void EditorConfigKeyboard::onClickedEditToolButtonsConfigFile(void)
+void EditorConfigToolbars::onClickedEditToolButtonsConfigFile(void)
 {
   toolbuttonsScreen = new EditorToolbarScreen(this);
   toolbuttonsScreen->exec();
@@ -74,9 +74,9 @@ void EditorConfigKeyboard::onClickedEditToolButtonsConfigFile(void)
 // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
 // 0 - изменения можно делать на лету, перезагрузка MyTetra не нужна
 // 1 - для принятия изменений нужна перезагрузка MyTetra
-int EditorConfigKeyboard::applyChanges(void)
+int EditorConfigToolbars::applyChanges(void)
 {
-  qDebug() << "Apply changes editor keyboard";
+  qDebug() << "Apply changes editor toolbars";
 
   return toolbuttonsScreen->isNeedRestert() ? 1 : 0;
 }

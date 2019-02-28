@@ -1,5 +1,5 @@
-#ifndef EDITORCONFIGKEYBOARD_H
-#define	EDITORCONFIGKEYBOARD_H
+#ifndef EDITORCONFIGTOOLBARS_H
+#define	EDITORCONFIGTOOLBARS_H
 
 #include <QWidget>
 #include <QLineEdit>
@@ -15,13 +15,13 @@
 class EditorConfig;
 class EditorToolbarScreen;
 
-class EditorConfigKeyboard : public ConfigPage
+class EditorConfigToolbars : public ConfigPage
 {
  Q_OBJECT
 
 public:
-  EditorConfigKeyboard(QWidget *parent = nullptr);
-  virtual ~EditorConfigKeyboard(void);
+  EditorConfigToolbars(QWidget *parent = nullptr);
+  virtual ~EditorConfigToolbars(void);
   
   int applyChanges(void);
     
@@ -52,5 +52,5 @@ private:
 };
 
 
-#endif	// EDITORCONFIGKEYBOARD_H
+#endif	// EDITORCONFIGTOOLBARS_H
 

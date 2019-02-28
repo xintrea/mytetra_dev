@@ -7,7 +7,7 @@
 #include "EditorConfigDialog.h"
 #include "EditorConfigFont.h"
 #include "EditorConfigMisc.h"
-#include "EditorConfigKeyboard.h"
+#include "EditorConfigToolbars.h"
 
 
 EditorConfigDialog::EditorConfigDialog(QWidget *parent) : QWidget(parent)
@@ -17,7 +17,7 @@ EditorConfigDialog::EditorConfigDialog(QWidget *parent) : QWidget(parent)
  configDialog->setWindowTitle(tr("Editor settings"));
  
  configDialog->addWidget(new EditorConfigFont(this),tr("Fonts"));
- configDialog->addWidget(new EditorConfigKeyboard(this),tr("Keyboard"));
+ configDialog->addWidget(new EditorConfigToolbars(this),tr("Toolbars"));
  configDialog->addWidget(new EditorConfigMisc(this),tr("Misc"));
  
  configDialog->exec();
