@@ -241,7 +241,8 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h \
-    src/libraries/wyedit/EditorConfigToolbars.h
+    src/libraries/wyedit/EditorConfigToolbars.h \
+    src/libraries/wyedit/EditorMathExpressionDialog.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -378,7 +379,8 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.cpp \
-    src/libraries/wyedit/EditorConfigToolbars.cpp
+    src/libraries/wyedit/EditorConfigToolbars.cpp \
+    src/libraries/wyedit/EditorMathExpressionDialog.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \

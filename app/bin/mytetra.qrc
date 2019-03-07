@@ -119,5 +119,7 @@
         <file>resource/pic/edit_strikeout.svg</file>
         <file>resource/pic/move_left.svg</file>
         <file>resource/pic/move_right.svg</file>
+        <file>resource/pic/edit_zoom-in.svg</file>
+        <file>resource/pic/edit_zoom-out.svg</file>
     </qresource>
 </RCC>

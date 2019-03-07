@@ -74,7 +74,7 @@ void EditorToolbarSettingsScreen::setupUI()
 
     usedCommandDownPushButton = new QPushButton(QIcon(":/resource/pic/move_dn.svg"), "", this);
     usedCommandDownPushButton->setShortcut(QKeySequence("Alt+Down"));
-    // Текущие комманды на панели инструментов
+    // Текущие команды на панели инструментов
     usedCommandsToolbarLabel = new QLabel(tr("Current Toolbar Commands"), this);
 
     // Контроллер списка всех доступных кнопок Редактора Текста

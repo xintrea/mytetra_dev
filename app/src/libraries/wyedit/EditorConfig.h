@@ -57,6 +57,10 @@ public:
     int get_tab_size(void);
     void set_tab_size(int i);
 
+    // Счетчик для таймера обновления картинки формулы в редакторе формулы
+    int getMathExpressionUpdateTime(void);
+    void setMathExpressionUpdateTime(int i);
+
     QString get_finddialog_geometry(void);
     void set_finddialog_geometry(QString geometry);
 
@@ -102,6 +106,7 @@ private:
     static QStringList get_parameter_table_17(bool withEndSignature=true);
     static QStringList get_parameter_table_18(bool withEndSignature=true);
     static QStringList get_parameter_table_19(bool withEndSignature=true);
+    static QStringList get_parameter_table_20(bool withEndSignature=true);
 
     static QStringList remove_option(QStringList table, QString optionName);
 
