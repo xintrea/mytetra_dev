@@ -123,7 +123,7 @@ void EditorMathExpressionDialog::setupUi()
 
     // Прокрутка для картинки формулы
     imageScrollArea = new QScrollArea(this);
-    imageScrollArea->setBackgroundRole(QPalette::Dark);
+    imageScrollArea->setBackgroundRole(QPalette::Light);
     imageScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     imageScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     imageScrollArea->setWidget(imageLabel);
