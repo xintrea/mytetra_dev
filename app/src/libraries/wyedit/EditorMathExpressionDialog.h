@@ -22,7 +22,9 @@
  *                      Диалог написания Tex формулы              *
  * ****************************************************************/
 
+// =================================================================
 // Вспомогательный класс-наследник QTextEdit для отлова undo / redo
+// =================================================================
 class TexTextEdit : public QTextEdit
 {
     Q_OBJECT
@@ -46,6 +48,9 @@ signals:
     void isRedo(); // Сообщение о том, что произошло событие redo
 };
 
+// =============================================
+// Основной класс диалога написания Tex формулы
+// =============================================
 class EditorMathExpressionDialog : public QDialog
 {
     Q_OBJECT
@@ -68,17 +73,14 @@ public:
 
 protected slots:
 
-    // Масштабирование картинки до размеров ScrollArea
-    void onFitToScrollArea();
+    // Обработка переключения режима масштабирования картинки формулы
+    void onSwitchFitToScrollArea();
 
     // Увеличение масштаба области текста формулы
     void onTextZoomIn();
 
     // Уменьшение масштаба области текста формулы
     void onTextZoomOut();
-
-    // Масштабирование картинки формулы при перемещении разделителя
-    void onPictureZoom(int /*pos*/, int /*index*/);
 
     // Включение таймера обновления картинки формулы
     void onStartTimer();
@@ -103,6 +105,9 @@ protected:
     // Первая отрисовка картинки формулы
     void showEvent(QShowEvent *event);
 
+    // Масштабирование картинки формулы в зависимости от изменения размеров диалога
+    void resizeEvent(QResizeEvent *event);
+
     void setupUi(void);
     void setupSignals(void);
     void assembly(void);
@@ -111,6 +116,9 @@ private:
 
     // Обновление картинки формулы
     void updateFormulaPicture();
+
+    // Масштабирование картинки формулы
+    void pictureZoom();
 
     // Разделитель областей отображения картинки формулы и написания текста формулы
     QSplitter *mathSplitter;
@@ -123,8 +131,6 @@ private:
     QRadioButton *realTimeRadioButton;          // Обновление картинки формулы в реальном времени
     QCheckBox *fitToScrollAreaCheckBox;         // Масштабирование картинки до размеров ScrollArea
     QVBoxLayout *pictureFormulaLayout;          // Компановщик всех контролов по работе с картинкой формулы
-
-    bool fitToScrollArea;                       // Надо ли масштабировать картинку до размеров ScrollArea
 
     // Область работы с текстом формулы
     QWidget *bottomWidget;  // Виджет, объединяющий все контролы по работе с текстом формулы (для сплитера)
