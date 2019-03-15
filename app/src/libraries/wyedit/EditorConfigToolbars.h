@@ -47,7 +47,7 @@ private:
   QSpinBox *indentStep;
 
   // Диалог настройки панелей инструментов
-  EditorToolbarSettingsScreen *toolbuttonsScreen;
+  EditorToolbarSettingsScreen *toolbuttonsScreen=nullptr;
   
 };
 
