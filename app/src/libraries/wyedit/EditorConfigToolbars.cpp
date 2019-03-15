@@ -78,5 +78,9 @@ int EditorConfigToolbars::applyChanges(void)
 {
   qDebug() << "Apply changes editor toolbars";
 
-  return toolbuttonsScreen->isNeedRestart() ? 1 : 0;
+  if (toolbuttonsScreen!=nullptr) {
+      // Только, если диалог по работе с командами панелей вызывался
+      return toolbuttonsScreen->isNeedRestart() ? 1 : 0;
+  }
+  return 0;
 }
