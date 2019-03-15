@@ -284,6 +284,24 @@ void EditorConfig::set_tab_size(int i)
 }
 
 
+// -------------------------------------------
+// Счетчик для таймера обновления картинки формулы в редакторе формулы
+// -------------------------------------------
+
+int EditorConfig::getMathExpressionUpdateTime(void)
+{
+    int n = get_parameter("mathExpressionUpdateTime").toInt();
+
+    return n==0 ? 1 : n;
+}
+
+
+void EditorConfig::setMathExpressionUpdateTime(int i)
+{
+    conf->setValue("mathExpressionUpdateTime",i);
+}
+
+
 // -----------------------------
 // Координаты поискового диалога
 // -----------------------------
@@ -396,6 +414,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_17;
     parameterFunctions << get_parameter_table_18;
     parameterFunctions << get_parameter_table_19;
+    parameterFunctions << get_parameter_table_20;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -779,6 +798,25 @@ QStringList EditorConfig::get_parameter_table_19(bool withEndSignature)
     return table;
 }
 
+
+QStringList EditorConfig::get_parameter_table_20(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 14
+    table << get_parameter_table_19(false);
+
+    // Добавляются новые параметры
+    // время обновления картинки формулы (в секундах)
+    table << "mathExpressionUpdateTime" << "int" << "1";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
 
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров

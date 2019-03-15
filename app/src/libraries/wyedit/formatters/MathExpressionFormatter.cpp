@@ -15,7 +15,7 @@
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
 #include "../EditorCursorPositionDetector.h"
-#include "../EditorMultiLineInputDialog.h"
+#include "../EditorMathExpressionDialog.h"
 
 #include "main.h"
 #include "libraries/DiskHelper.h"
@@ -167,9 +167,9 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 // Запрос математического выражения от пользователя
 QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressionText)
 {
-    EditorMultiLineInputDialog dialog(textArea);
+    EditorMathExpressionDialog dialog(this, textArea); // Диалог написания Tex формулы
 
-    dialog.setText(iMathExpressionText);
+    dialog.setMathExpressionText(iMathExpressionText);
     dialog.setWindowTitle(tr("Edit TeX math expression"));
     int result=dialog.exec();
 
@@ -180,7 +180,7 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
     // Если нажато OK, исходное выражение было непустым, и пользователь обнулил выражение
     if(result==QDialog::Accepted &&
        iMathExpressionText.size()>0 &&
-       dialog.getText().trimmed().size()==0) {
+       dialog.getMathExpressionText().trimmed().size()==0) {
         // Нельзя превращать картинку в картинку с пустой формулой
         QMessageBox msgBox;
         msgBox.setText(tr("Error while input TeX source"));
@@ -196,16 +196,18 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
     if(!dialog.isModified())
         return QString();
 
-    return dialog.getText().trimmed();
+    return dialog.getMathExpressionText().trimmed();
 }
 
 
-void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName)
+void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName, bool removeTeXFileToTrash)
 {
     // Исходник в формате TeX записывается во временный файл
     // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
     // работала передача текста, без побочных шелл-эффектов, которые могут возникнуть
     // при передаче математического варажения в командной строке
+    // Если removeTeXFileToTrash = true, то временный Tex файл удаляеься в корзину myTetra
+    // Если removeTeXFileToTrash = false, то временный Tex файл кничтожается
     QString mathExpressionFileName=QDir::tempPath()+"/"+getUniqueId()+".txt";
     QFile mathExpressionFile(mathExpressionFileName);
     if(!mathExpressionFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -238,8 +240,15 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
     exCommand.setCommand(command);
     exCommand.runSimple();
 
-    // Файл с TeX исходником удаляется в корзину
-    DiskHelper::removeFileToTrash( mathExpressionFileName );
+    if (removeTeXFileToTrash) {
+        // Файл с TeX исходником удаляется в корзину
+        DiskHelper::removeFileToTrash( mathExpressionFileName );
+    } else {
+        // Файл с TeX исходником полностью уничтожается
+        if (QFile::exists(mathExpressionFileName)) {
+            QFile::remove(mathExpressionFileName);
+        }
+    }
 }
 
 
