@@ -130,21 +130,21 @@ void ConfigDialog::updateListWidth(void)
 
 void ConfigDialog::applyChanges(void)
 {
- int difficult_flag=0;
+ int difficultFlag=0;
 
  // Перебираются виджеты настройки
  for(int i=0;i<pagesWidget->count();i++)
   {
    // Выясняется указатель на виджет
-   ConfigPage *cnpg=qobject_cast<ConfigPage *>(pagesWidget->widget(i));
+   ConfigPage *currentConfigPage=qobject_cast<ConfigPage *>(pagesWidget->widget(i));
     
    // Вызывается метод apply_changes() для текущего перебираемого виджета
-   if( cnpg->applyChanges()==1 )
-    difficult_flag=1;
+   if( currentConfigPage->applyChanges()==1 )
+    difficultFlag=1;
   }
  
  // Если требуется перезапустить программу для принятия изменений
- if(difficult_flag==1)
+ if(difficultFlag==1)
   {
    QMessageBox::warning(this, tr("Warning"),
                               tr("The program will have to be restarted for changes to take effect."),

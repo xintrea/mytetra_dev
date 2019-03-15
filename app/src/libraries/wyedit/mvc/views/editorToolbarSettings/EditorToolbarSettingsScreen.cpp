@@ -377,8 +377,8 @@ void EditorToolbarSettingsScreen::applyChanges()
 
     // Проверка, были ли внесены изменения в расположение команд
     if (loadedAvailableCommandsList!=availableCommandsList ||
-            loadedToolBar1CommandsList!=toolBar1CommandsList ||
-            loadedToolBar2CommandsList!=toolBar2CommandsList ) {
+        loadedToolBar1CommandsList!=toolBar1CommandsList ||
+        loadedToolBar2CommandsList!=toolBar2CommandsList ) {
         // Изменения были сделаны. Обработка изменений
         if (toolBar1CommandsList.indexOf("settings")==-1 && toolBar2CommandsList.indexOf("settings")==-1) {
             // Команду Настройки (settings) оставляем, иначе невозможно будет настраивать редактор
