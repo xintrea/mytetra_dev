@@ -82,7 +82,8 @@ contains(TARGET_OS, ANY_OS) {
 TARGET = mytetra
 RESOURCES = bin/mytetra.qrc \
             bin/icons.qrc
-TRANSLATIONS = bin/resource/translations/mytetra_ru.ts
+TRANSLATIONS = bin/resource/translations/mytetra_ru.ts \ 
+               bin/resource/translations/mytetra_fr.ts
 CODECFORTR  = utf8
 
 # QMAKE_LFLAGS += -L/usr/lib/qt4/lib

@@ -78,6 +78,7 @@
         <file>resource/pic/mobile_back.svg</file>
         <file>resource/pic/sort.svg</file>
         <file>resource/translations/mytetra_ru.qm</file>
+        <file>resource/translations/mytetra_fr.qm</file>
         <file>resource/standartconfig/any/conf.ini</file>
         <file>resource/standartconfig/any/editorconf.ini</file>
         <file>resource/standartconfig/any/stylesheet.css</file>
