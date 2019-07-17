@@ -1,6 +1,0 @@
-base referer
-rect $main_8h.html 275,149 344,173
-rect $mainwindow_8h.html 442,175 559,199
-rect $recordtablescreen_8h.html 608,212 766,236
-rect $clipbrecords_8h.html 251,299 368,323
-rect $recordtablemodel_8h.html 232,347 387,371
