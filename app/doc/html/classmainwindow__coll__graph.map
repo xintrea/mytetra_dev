@@ -1,5 +1,0 @@
-base referer
-rect $classfindscreen.html 5,204 208,882
-rect $classmetaeditor.html 232,395 456,691
-rect $classrecordtablescreen.html 480,131 744,955
-rect $classtreescreen.html 768,7 1032,1079
