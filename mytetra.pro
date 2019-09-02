@@ -6,7 +6,7 @@ TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="debug"
+BUILD_TYPE="release"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable
