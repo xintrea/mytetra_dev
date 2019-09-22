@@ -1,5 +1,5 @@
-#ifndef __XMLTREE_H__
-#define __XMLTREE_H__
+#ifndef XMLTREE_H
+#define XMLTREE_H
 
 #include <QObject>
 #include <QtXml>
@@ -21,4 +21,4 @@ class XmlTree : public QObject
 };
 
 
-#endif // __XMLTREE_H__
+#endif // XMLTREE_H

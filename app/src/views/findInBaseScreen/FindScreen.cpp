@@ -536,7 +536,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
     RecordTableData *searchRecordTable=curritem->recordtableGetTableData();
 
     // Перебираются записи таблицы
-    for(unsigned int i=0; i<searchRecordTable->size(); i++)
+    for(int i=0; i<static_cast<int>( searchRecordTable->size() ); i++)
     {
       // Обновляется линейка наполняемости
       progress->setValue(++totalProgressCounter);
@@ -618,7 +618,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
 
 
   // Рекурсивная обработка каждой подчиненной ветки
-  for(unsigned int i=0; i<curritem->childCount(); i++)
+  for(int i=0; i<curritem->childCount(); i++)
     findRecurse(curritem->child(i));
 
 }

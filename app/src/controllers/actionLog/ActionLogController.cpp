@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
+#include <algorithm>
 
 #include "main.h"
 #include "ActionLogController.h"
@@ -59,7 +60,7 @@ void ActionLogController::onCopyClicked()
     return;
 
   // Индексы выбранных ячеек идут не так как на экране, поэтому их нужно отсортировать
-  qSort(indexes);
+  std::sort( indexes.begin(), indexes.end() );
 
   // Размещаемый в буфере обмена текст
   QString selectedText;

@@ -834,7 +834,7 @@ void TreeScreen::delBranch(QString mode)
       QStringList path_1=(knowTreeModel->getItem(selectitems.at(j-1)))->getPath();
       QStringList path_2=(knowTreeModel->getItem(selectitems.at(j)))->getPath();
       if(path_1.size() < path_2.size())
-       selectitems.swap(j-1, j);
+       selectitems.swapItemsAt(j-1, j);
      }
  
    qDebug() << "Path for delete";
@@ -881,7 +881,7 @@ void TreeScreen::delOneBranch(QModelIndex index)
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
  // Сортировка массива веток по длине пути
- qSort(subbranchespath.begin(),subbranchespath.end(),compareQStringListLen);
+ std::sort(subbranchespath.begin(),subbranchespath.end(),compareQStringListLen);
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок

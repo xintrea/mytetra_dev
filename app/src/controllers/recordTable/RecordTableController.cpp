@@ -809,7 +809,7 @@ void RecordTableController::deleteRecords(void)
   }
 
   // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
-  qSort(delRows.begin(), delRows.end(), qGreater<int>());
+  std::sort(delRows.begin(), delRows.end(), std::greater<int>());
   int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
 
   // Номер строки на который надо установить засветку после удаления

@@ -72,10 +72,10 @@ void PreviewView::paintPage(QPainter *painter, int page)
     painter->drawRect(QRectF(QPointF(0, 0), pgSize));
     painter->setBrush(Qt::NoBrush);
 
-    col = col.light();
+    col = col.lighter();
     painter->drawLine(QLineF(pgSize.width(), 1, pgSize.width(), pgSize.height() - 1));
 
-    col = col.light();
+    col = col.lighter();
     painter->drawLine(QLineF(pgSize.width(), 2, pgSize.width(), pgSize.height() - 2));
 
     QRectF docRect(QPointF(0, page * pgSize.height()), pgSize);

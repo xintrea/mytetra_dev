@@ -24,7 +24,7 @@ TreeModel::~TreeModel(void)
 
 int TreeModel::columnCount(const QModelIndex &itemIndex) const
 {
- Q_UNUSED(itemIndex);
+ Q_UNUSED(itemIndex)
  
  // Ранее число столбцов вычислялось исходя из 
  // количества полей в корневом элементе
@@ -117,7 +117,7 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
     else
     {
       qDebug() << "Detect bad castind to TreeItem in getItem() method ";
-      return NULL;
+      return nullptr;
     }
 
   }
@@ -182,7 +182,7 @@ TreeItem *TreeModel::getItem(QStringList path) const
   int found=0;
 
   // Поиск нужного идентификатора в подчиненных узлах текущего узла
-  for(unsigned int j=0; j < curritem->childCount(); j++)
+  for(int j=0; j<static_cast<int>(curritem->childCount()); j++)
    if( (curritem->child(j))->getField("id") == path.at(i) )
     {
      // Узел найден, он становится текущим
@@ -216,7 +216,7 @@ bool TreeModel::isItemValid(QStringList path) const
     int found=0;
 
     // Поиск нужного идентификатора в подчиненных узлах текущего узла
-    for(unsigned int j=0;j<curritem->childCount();j++)
+    for(int j=0; j<static_cast<int>(curritem->childCount()); j++)
       if( (curritem->child(j))->getField("id") == path.at(i) )
       {
         // Узел найден, он становится текущим
@@ -247,9 +247,9 @@ void TreeModel::emitSignalDataChanged(const QModelIndex &index)
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
-  Q_UNUSED(section);
-  Q_UNUSED(orientation);
-  Q_UNUSED(role);
+  Q_UNUSED(section)
+  Q_UNUSED(orientation)
+  Q_UNUSED(role)
   
   // Для всех столбцов возвращается одинаковое значение
   // фактически используется только один столбец
@@ -311,7 +311,7 @@ QModelIndex TreeModel::parent(const QModelIndex &index) const
   if(parentItem == rootItem)
     return QModelIndex();
 
-  return createIndex(parentItem->childNumber(), 0, parentItem);
+  return createIndex(static_cast<int>( parentItem->childNumber() ), 0, parentItem);
 }
 
 
@@ -331,7 +331,7 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
 int TreeModel::rowCount(const QModelIndex &itemIndex) const
 {
  TreeItem *item = getItem(itemIndex);
-  return item->childCount();
+  return static_cast<int>( item->childCount() );
 }
 
 
@@ -381,7 +381,8 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
   if (role != Qt::EditRole || orientation != Qt::Horizontal)
     return false;
 
-  Q_UNUSED(section);
+  Q_UNUSED(section)
+
   rootItem->setField("name", value.toString());
   return true;
 }

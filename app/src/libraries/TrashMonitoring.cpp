@@ -23,43 +23,41 @@ TrashMonitoring::~TrashMonitoring(void)
 
 void TrashMonitoring::init(QString trashPath)
 {
- // Инит объекта директории с указанным путем
- dir.setPath(trashPath);
- if(!dir.exists())
- {
-  criticalError("Can not open trash directory "+trashPath);
-  exit(1);
- }
- path=trashPath; // Имя директории запоминается
- 
- // Размер директории
- dirSize=0;
- 
- // Получение списка информации о файлах
- QFileInfoList fileInfoList=dir.entryInfoList(QDir::Files, QDir::Time);
+    // Инит объекта директории с указанным путем
+    dir.setPath(trashPath);
+    if(!dir.exists())
+        criticalError("Can not open trash directory "+trashPath);
 
- // Перебор всех файлов в полученном списке
- for(int i=0;i<fileInfoList.size();i++)
- {
-  QString      fileName=fileInfoList.at(i).fileName();
-  unsigned int fileTime=fileInfoList.at(i).created().toTime_t();
-  unsigned int fileSize=fileInfoList.at(i).size();
-  
-  // Директории с именами "." и ".." обрабатывать не нужно
-  if(fileName=="." || fileName=="..")continue;
-  
-  // Увеличивается подсчитываемый размер директории
-  dirSize=dirSize+fileSize;
-  
-  // Информация о файле добавляется в таблицу
-  FileData currentFileData;
-  currentFileData.fileName=fileName;
-  currentFileData.fileTime=fileTime;
-  currentFileData.fileSize=fileSize;
-  filesTable << currentFileData;
- }
+    path=trashPath; // Имя директории запоминается
 
- // qDebug() << "In init trash " << filesTable.size() << "files";
+    // Размер директории
+    dirSize=0;
+
+    // Получение списка информации о файлах
+    QFileInfoList fileInfoList=dir.entryInfoList(QDir::Files, QDir::Time);
+
+    // Перебор всех файлов в полученном списке
+    for(int i=0;i<fileInfoList.size();i++)
+    {
+        QString      fileName=fileInfoList.at(i).fileName();
+        unsigned int fileTime=fileInfoList.at(i).birthTime().toTime_t();
+        unsigned int fileSize=static_cast<unsigned int>( fileInfoList.at(i).size() );
+
+        // Директории с именами "." и ".." обрабатывать не нужно
+        if(fileName=="." || fileName=="..")continue;
+
+        // Увеличивается подсчитываемый размер директории
+        dirSize=dirSize+fileSize;
+
+        // Информация о файле добавляется в таблицу
+        FileData currentFileData;
+        currentFileData.fileName=fileName;
+        currentFileData.fileTime=fileTime;
+        currentFileData.fileSize=fileSize;
+        filesTable << currentFileData;
+    }
+
+    // qDebug() << "In init trash " << filesTable.size() << "files";
 }
 
 

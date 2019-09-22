@@ -609,7 +609,7 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
 
  // Список возвращается в произвольном порядке, не в таком как на экране
  // поэтому его нужно отсортировать по QModelIndex
- qSort(itemsForCopy.begin(),itemsForCopy.end());
+ std::sort(itemsForCopy.begin(),itemsForCopy.end());
 
  qDebug() << "Get selected records";
  for(int i=0; i<itemsForCopy.size(); ++i)
