@@ -422,7 +422,7 @@ void EditorToolBar::setupShortcuts(void)
 // Список названий всех контролов (команд) панелей инструментов
 QStringList *EditorToolBar::getCommandNameList()
 {
-    QRegExp nameMask("editor_tb_.*");
+    QRegularExpression nameMask("editor_tb_.*");
     QList<QWidget *> widgetList = this->findChildren<QWidget *>(nameMask);
     QList<QAction *> actionList = this->findChildren<QAction *>(nameMask);
 
@@ -441,7 +441,7 @@ QStringList *EditorToolBar::getCommandNameList()
 
 QList<QWidget *> EditorToolBar::getButtonWidgetList(void)
 {
-  QRegExp nameMask("editor_tb_.*");
+  QRegularExpression nameMask("editor_tb_.*");
 
   return this->findChildren<QWidget *>(nameMask); // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
 }
