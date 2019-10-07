@@ -1260,7 +1260,7 @@ void TypefaceFormatter::onFontcolorClicked()
     // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
     // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
     if(!hasForegroundBrush)
-        currentColor = textArea->palette().foreground().color();
+        currentColor = textArea->palette().windowText().color();
 
     // Диалог запроса цвета текста
     QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"));
@@ -1480,7 +1480,7 @@ void TypefaceFormatter::onBackgroundcolorClicked()
                 // нет BackgroundBrush в ячейке под курсором, то
                 // в диалог выбора цвета передаем цвет background редактора textArea (QTextEdit)
                 // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-                currentColor = textArea->palette().background().color();
+                currentColor = textArea->palette().window().color();
             }
         }
         else
@@ -1488,7 +1488,7 @@ void TypefaceFormatter::onBackgroundcolorClicked()
             // Если нет BackgroundBrush в тексте под курсором, то
             // в диалог выбора цвета передаем цвет background редактора textArea (QTextEdit)
             // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-            currentColor = textArea->palette().background().color();
+            currentColor = textArea->palette().window().color();
         }
     }
 

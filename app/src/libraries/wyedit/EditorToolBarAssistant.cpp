@@ -166,7 +166,7 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
         // Если нет ForegroundBrush в тексте под курсором, то
         // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
         // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
-        pix.fill(textArea->palette().foreground().color());
+        pix.fill(textArea->palette().windowText().color());
     }
     fontColor->setIcon(pix);
 }
@@ -241,7 +241,7 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
                 // нет BackgroundBrush в ячейке под курсором,
                 // то за цвет кнопки берется цвет background редактора textArea (QTextEdit)
                 // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-                pix.fill(textArea->palette().background().color());
+                pix.fill(textArea->palette().window().color());
             }
         }
         else
@@ -249,7 +249,7 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
             // Если нет BackgroundBrush в тексте под курсором, то
             // за цвет кнопки берется цвет background редактора textArea (QTextEdit)
             // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-            pix.fill(textArea->palette().background().color());
+            pix.fill(textArea->palette().window().color());
         }
     }
     backgroundColor->setIcon(pix);
@@ -377,7 +377,7 @@ void EditorToolBarAssistant::updateToActualFormat(void)
         onChangeFontselectOnDisplay(actualFontFamily);
 
     // Размер
-    int actualFontPointSize=editor->smartFontSize( (int)textArea->fontPointSize() );
+    int actualFontPointSize=editor->smartFontSize( static_cast<int>(textArea->fontPointSize()) );
     if(currentFontSize!=actualFontPointSize) {
         onChangeFontsizeOnDisplay(actualFontPointSize);
     }
