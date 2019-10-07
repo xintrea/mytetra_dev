@@ -431,16 +431,17 @@ void TreeScreen::collapseAllSubbranch(void)
 }
 
 
-void TreeScreen::expandOrCollapseRecurse(QModelIndex index, bool mode)
+void TreeScreen::expandOrCollapseRecurse(QModelIndex modelIndex, bool mode)
 {
- knowTreeView->setExpanded(index, mode);
+    knowTreeView->setExpanded(modelIndex, mode);
 
- int i=0;
- while( (index.child(i,0)).isValid() )  
-  {
-   expandOrCollapseRecurse(index.child(i,0), mode);
-   i++;
-  } 
+    // Перебор дочерних (child) элементов
+    int i=0;
+    while( (modelIndex.model()->index(i,0,modelIndex)).isValid() )
+    {
+        expandOrCollapseRecurse(modelIndex.model()->index(i,0,modelIndex), mode);
+        i++;
+    }
 
 }
 

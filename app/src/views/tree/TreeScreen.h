@@ -56,7 +56,7 @@ private slots:
 
  void expandAllSubbranch(void);
  void collapseAllSubbranch(void);
- void expandOrCollapseRecurse(QModelIndex index, bool mode);
+ void expandOrCollapseRecurse(QModelIndex modelIndex, bool mode);
  void insSubbranch(void);
  void insBranch(void);
  void editBranch(void);

@@ -129,45 +129,45 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
 
 QModelIndex TreeModel::getIndexByItem(TreeItem *item)
 {
- // Инициализация рекурсивной функции
- getIndexRecurse(QModelIndex(), item, 0);
+    // Инициализация рекурсивной функции
+    getIndexRecurse(QModelIndex(), item, 0);
 
- return getIndexRecurse(QModelIndex(), item, 1);
+    return getIndexRecurse(QModelIndex(), item, 1);
 }
 
 
-QModelIndex TreeModel::getIndexRecurse(QModelIndex index, TreeItem *item, int mode)
+QModelIndex TreeModel::getIndexRecurse(QModelIndex modelIndex, TreeItem *item, int mode)
 {
- static QModelIndex find_index;
- static bool is_find=false;
+    static QModelIndex find_index;
+    static bool is_find=false;
 
- if(is_find) return find_index;
+    if(is_find) return find_index;
 
- if(mode==0)
-  {
-   is_find=false;
-   return QModelIndex();
-  }
-
- if(mode==1)
-  {
-   // Если указатель узла совпадает с заданным item
-   if(item==static_cast<TreeItem*>(index.internalPointer()))
+    if(mode==0)
     {
-     is_find=true;
-     find_index=index;
-     return find_index;
+        is_find=false;
+        return QModelIndex();
     }
-   else
-    {
-     // Иначе указатель узла не совпадает с заданным
-     // и нужно рекурсивно искать далее
-     for(int i=0; i<index.row(); i++)
-      getIndexRecurse(index.child(i, 0), item, 1);
-    }
-  }
 
- return QModelIndex();
+    if(mode==1)
+    {
+        // Если указатель узла совпадает с заданным item
+        if(item==static_cast<TreeItem*>(modelIndex.internalPointer()))
+        {
+            is_find=true;
+            find_index=modelIndex;
+            return find_index;
+        }
+        else
+        {
+            // Иначе указатель узла не совпадает с заданным
+            // и нужно рекурсивно искать далее
+            for(int i=0; i<modelIndex.row(); i++)
+                getIndexRecurse( index(i, 0, modelIndex), item, 1 ); // Через index выясняются дочерние (child) элементы
+        }
+    }
+
+    return QModelIndex();
 }
 
 
