@@ -25,11 +25,7 @@ extern ShortcutManager shortcutManager;
 
 // Окно добавления новой записи
 
-#if QT_VERSION < 0x050000
-AddNewRecord::AddNewRecord( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
-#else
 AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
-#endif
 {
   setupUI();
   setupShortcuts();
@@ -56,6 +52,10 @@ void AddNewRecord::setupUI(void)
   recordTextEditor.initEnableRandomSeed(false);
   recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
   recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
+
+  // В редакторе текста записи устанавливается пустой текст, что активирует правильное
+  // начальное положение различных кнопок редактора, например кнопок цвета текста
+  recordTextEditor.setTextarea("");
 
   // Кнопки OK и Cancel
   buttonBox.setOrientation(Qt::Horizontal);

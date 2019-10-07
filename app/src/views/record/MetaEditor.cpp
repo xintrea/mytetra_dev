@@ -223,8 +223,8 @@ void MetaEditor::clearAll(void)
  setAuthor("");
  setUrl("");
  setTags("");
- setTextarea("");
 
+ setTextarea("");
  setWorkDirectory("");
  setFileName("");
 
