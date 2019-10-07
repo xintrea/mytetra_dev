@@ -11,11 +11,9 @@
 #include <QSplashScreen>
 #include <QTextOption>
 
-#if QT_VERSION >= 0x050000
 #include <QScroller>
 #include <QScrollerProperties>
 #include <QScrollBar>
-#endif
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -26,11 +24,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/ActionLogger.h"
 
-#if QT_VERSION < 0x050000
-#include "libraries/qtSingleApplication/qtsingleapplication.h"
-#else
 #include "libraries/qtSingleApplication5/qtsingleapplication.h"
-#endif
 
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
