@@ -61,6 +61,7 @@ int EditorToolbarUsedCommandsModel::columnCount(const QModelIndex &itemIndex) co
     return 1;
 }
 
+
 // Нахождение индекса комманды
 QModelIndex EditorToolbarUsedCommandsModel::findCommand(const QString &command, bool toLower)
 {

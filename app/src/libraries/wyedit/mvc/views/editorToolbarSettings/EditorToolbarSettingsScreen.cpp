@@ -7,6 +7,8 @@
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/wyedit/EditorConfig.h"
+#include "libraries/wyedit/EditorToolBarAssistant.h"
+#include "views/record/MetaEditor.h"
 
 
 EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
@@ -192,14 +194,14 @@ void EditorToolbarSettingsScreen::onCheckViewToolbarWidget()
 }
 
 
-// Перемещение выбранной команды из модели всех доступных команд
-// в модель команд рабочей панели
+// Перемещение выбранного инструмента из модели всех доступных инструментов
+// в модель инструментов рабочей панели
 void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
 {
-    // Получение индекса выбранной команды из списка всех доступных комманд
+    // Получение индекса выбранного инструмента из списка всех доступных инструментов
     QModelIndex selectedAvailableIndex = availableCommandsToolbarController->getSelectionModel()->currentIndex();
 
-    // Код команды
+    // Имя инструмента
     QString command = selectedAvailableIndex.row() == 0
             ? "separator" // Для <SEPARATOR> меняем название
             : selectedAvailableIndex.data(Qt::DisplayRole).toString();
@@ -208,6 +210,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
 
     // Индекс выбранного элемента списка команд панели инструментов
+    // todo: Сравнение индексов - не лучшая идея. Надо переделать на сравнение наименований
     QModelIndex toolbarSelectedIndex = controller->getSelectionModel()->currentIndex();
     int row = toolbarSelectedIndex.row();
     int newRow = 0; // Если элемент в списке панели инструментов не выбран, то вставляем в начало списка
@@ -244,7 +247,8 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     // Создание нового item для добавления в список выбранной панели инструментов
     // Владение данным объектом передается модели при вызове метода insertRow()
     QStandardItem *newItem = new QStandardItem();
-    newItem->setData(command, Qt::DisplayRole);
+    newItem->setData(command, Qt::DisplayRole); // Копирование названия
+    newItem->setIcon( qvariant_cast<QIcon>( selectedAvailableIndex.data(Qt::DecorationRole)) ); // Копирование иконки
 
     // Добавление новой команды в модель
     controller->getModel()->insertRow(newRow, newItem);
@@ -310,7 +314,8 @@ void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
     } else {
         // Создание нового item для добавления в модель выбранной панели инструментов
         QStandardItem *newItem = new QStandardItem();
-        newItem->setData(command, Qt::DisplayRole);
+        newItem->setData(command, Qt::DisplayRole); // Копирование наименования
+        newItem->setIcon( qvariant_cast<QIcon>( selectedIndex.data(Qt::DecorationRole)) ); // Копирование иконки
 
         // Добавление нового элемента в модель
         availableCommandsToolbarController->getModel()->insertRow(0, newItem);
@@ -354,6 +359,7 @@ void EditorToolbarSettingsScreen::onMoveSelectedCommandDown()
     // Перемещение выделенной команды вниз
     controller->moveCommandUpDown(EditorToolbarUsedCommandsController::CommandMove::Down);
 }
+
 
 // Отображение информации-подсказки
 void EditorToolbarSettingsScreen::onInfoClick()
