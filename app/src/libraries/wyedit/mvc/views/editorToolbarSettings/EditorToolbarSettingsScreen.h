@@ -12,9 +12,8 @@
 #include <QTreeView>
 #include <QStackedWidget>
 
-/******************************************************************/
-/* Диалог выбора команд для панелей инструментов редактора текста */
-/******************************************************************/
+// Диалог выбора команд для панелей инструментов редактора текста
+
 
 class EditorToolbarAvailableCommandsController;
 class EditorToolbarUsedCommandsController;

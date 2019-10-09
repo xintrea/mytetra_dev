@@ -8,6 +8,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/wyedit/EditorConfig.h"
 
+
 EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
 {
     this->setWindowTitle(tr("Toolbars settings"));

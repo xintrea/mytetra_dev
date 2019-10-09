@@ -147,7 +147,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>AddNewRecord</name>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="51"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="47"/>
         <source>Enter a new note</source>
         <translation type="unfinished"></translation>
     </message>
@@ -953,7 +953,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorConfigToolbars.cpp" line="49"/>
-        <source>Tool buttons preferences</source>
+        <source>Toolbars preferences</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1031,37 +1031,37 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorMathExpressionDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="107"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="117"/>
         <source>Picture formula</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="110"/>
-        <source>Fit to scroll area</source>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="120"/>
+        <source>Fit to scroll area for big formula</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="114"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="124"/>
         <source>Timer update (%1) sec.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="116"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="126"/>
         <source>Real time update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="139"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="149"/>
         <source>Formula text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="143"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="153"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="147"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="157"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1226,72 +1226,72 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorToolbarSettingsScreen</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="13"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="14"/>
         <source>Toolbars settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="52"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="53"/>
         <source>Available Toolbars Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="57"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="58"/>
         <source>Toolbar 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="58"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="59"/>
         <source>Toolbar 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="78"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="79"/>
         <source>Current Toolbar Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="183"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="184"/>
         <source>Commands for</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="218"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="219"/>
         <source>&lt;b&gt;%1:&lt;/b&gt; This command is already in &lt;b&gt;%2&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="218"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="219"/>
         <source>ToolBar 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="229"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="230"/>
         <source>&lt;b&gt;%1&lt;/b&gt;: This command is already in &lt;b&gt;%2&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="229"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="230"/>
         <source>ToolBar 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="350"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="351"/>
         <source>&lt;b&gt;Information&lt;/b&gt; for inserting the selected command (list of all available commands) in the list of working toolbars:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="353"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="354"/>
         <source>The command is inserted &lt;b&gt;above the cursor&lt;/b&gt; in the command list of the text editor toolbar.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="366"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="367"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="386"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="387"/>
         <source>The Settings command &lt;b&gt;%1&lt;/b&gt; must be on the ToolBar 1 or ToolBar 2!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2117,17 +2117,17 @@ MyTetra needs to reload the database tree to keep data consistency.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/main.cpp" line="363"/>
+        <location filename="../../../src/main.cpp" line="357"/>
         <source>Edit config file (Be careful!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="404"/>
+        <location filename="../../../src/main.cpp" line="398"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="405"/>
+        <location filename="../../../src/main.cpp" line="399"/>
         <source>The program will have to be restarted for changes to take effect.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3148,202 +3148,202 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="494"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="533"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="629"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="734"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="946"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="990"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1101"/>
-        <source>Unavailable action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="495"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="534"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="630"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="735"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="947"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="991"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="1102"/>
-        <source>You&apos;ve selected </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="495"/>
-        <source> items.
-Please select single item for moving.</source>
+        <source>Unavailable action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="496"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="535"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="631"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="736"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="948"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="992"/>
         <location filename="../../../src/views/tree/TreeScreen.cpp" line="1103"/>
+        <source>You&apos;ve selected </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="496"/>
+        <source> items.
+Please select single item for moving.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="497"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="536"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="632"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="737"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="949"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="993"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1104"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="534"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="535"/>
         <source> items.
 Please select single item for enabling insert operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="544"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="545"/>
         <source>Create new item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="545"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="654"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="546"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="655"/>
         <source>Item name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="548"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="549"/>
         <source>Create new sub item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="549"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="550"/>
         <source>Sub item name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="630"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="631"/>
         <source> items.
 Please select single item for enabling edit operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="653"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="654"/>
         <source>Edit item name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="735"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="736"/>
         <source>In your selected data found closed item. Action canceled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="768"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="769"/>
         <source>Confirmation request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="769"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="770"/>
         <source>In the selected item has been found blocked notes. Do you really want to delete one?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="790"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="791"/>
         <source>Delete item(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="791"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="792"/>
         <source>Are you sure you wish to delete item(s) &lt;b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="791"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="799"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="792"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="800"/>
         <source>&lt;/b&gt; and all sub items?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="792"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="793"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="798"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="799"/>
         <source>Cut item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="799"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="800"/>
         <source>Are you sure you wish to cut item &lt;b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="800"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="801"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="812"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="813"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="947"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="948"/>
         <source>Please select a single item for copy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="991"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="992"/>
         <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1102"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1103"/>
         <source> items.
 Please select single item for enabling paste operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1247"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1248"/>
         <source>No icon selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1292"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1293"/>
         <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1299"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1300"/>
         <source>No export tree item selected. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1320"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1321"/>
         <source>Exported tree item contains encrypted data.
 Please click OK and enter the password.
 All data will be exported unencrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1333"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1334"/>
         <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1335"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1336"/>
         <source>Errors occurred while exporting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1344"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1345"/>
         <source>No tree item selected for importing. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1358"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1359"/>
         <source>You are importing into an encrypted item.
 Please click Ok and enter the password.
 All data imported will be encrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1375"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1376"/>
         <source>Item importing finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1600"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1601"/>
         <source>Rename me</source>
         <translation type="unfinished"></translation>
     </message>

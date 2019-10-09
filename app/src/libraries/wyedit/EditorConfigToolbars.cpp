@@ -46,7 +46,7 @@ void EditorConfigToolbars::assembly(void)
 {
   // Группирующая рамка
   QGroupBox *toolButtonsBox=new QGroupBox(this);
-  toolButtonsBox->setTitle(tr("Tool buttons preferences"));
+  toolButtonsBox->setTitle(tr("Toolbars preferences"));
 
   // Вставка виджетов в группирующую рамку
   QVBoxLayout *toolButtonsLayout = new QVBoxLayout(this);
