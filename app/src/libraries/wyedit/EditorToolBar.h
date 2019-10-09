@@ -112,6 +112,9 @@ public:
     // Список названий всех контролов (команд) панелей инструментов
     QStringList *getCommandNameList();
 
+    // Иконка, присвоенная инструменту (по имени инструмента)
+    QIcon getIcon(const QString &name);
+
 public slots:
 
     void setupShortcuts(void);

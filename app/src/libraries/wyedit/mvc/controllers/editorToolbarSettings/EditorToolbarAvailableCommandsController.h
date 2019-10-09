@@ -6,9 +6,9 @@
 #include "../../views/editorToolbarSettings/EditorToolbarCommandsListView.h"
 #include "../../models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h"
 
-/*********************************************************************************************************/
-/* Контроллер для представления и модели всех доступных команд для панелей инструментов редактора текста */
-/*********************************************************************************************************/
+// Контроллер для представления и модели всех доступных
+// инструментов редактора текста
+
 
 class EditorToolbarAvailableCommandsController : public QObject
 {

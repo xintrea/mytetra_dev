@@ -54,7 +54,7 @@ void EditorToolbarSettingsScreen::setupUI()
     // Доступные кнопки панелей инструментов
     availableToolbarsCommandsLabel = new QLabel(tr("Available toolbars buttons"), this);
 
-    // Виджет выбора панели инструментов
+    // Виджет выбора строки 1 или 2 панели инструментов
     selectToolbarsListWidget = new QListWidget(this);
     selectToolbarsListWidget->setAutoFillBackground(true);
     selectToolbarsListWidget->addItem(tr("Toolbar line 1"));
@@ -65,7 +65,7 @@ void EditorToolbarSettingsScreen::setupUI()
     // Невидимая надпись над кнопками перемещения, нужна для вертикального выравнивания
     exchangeButtonsLabel=new QLabel(" ");
 
-    // Кнопки для перемещения выбранных кнопок панелей
+    // Кнопки для перемещения выбранных кнопок
     toUsedCommandsPushButton = new QPushButton(QIcon(":/resource/pic/move_right.svg"), "", this);
     toUsedCommandsPushButton->setShortcut(QKeySequence("Alt+Right"));
 
@@ -79,7 +79,7 @@ void EditorToolbarSettingsScreen::setupUI()
     usedCommandDownPushButton->setShortcut(QKeySequence("Alt+Down"));
 
     // Текущие команды на панели инструментов
-    usedCommandsToolbarLabel = new QLabel(tr("Current toolbar buttons"), this);
+    usedCommandsToolbarLabel = new QLabel(tr("Current buttons"), this);
 
     // Контроллер списка всех доступных кнопок Редактора Текста
     availableCommandsToolbarController = new EditorToolbarAvailableCommandsController(this);
@@ -149,7 +149,7 @@ void EditorToolbarSettingsScreen::assembly()
     buttonsToMoveLayout->addWidget(infoPushButton);
 
     // Стэк виджетов для видов 2-х панелей инструментов
-    usedCommandsToolbarStackedWidget = new QStackedWidget();
+    usedCommandsToolbarStackedWidget = new QStackedWidget(this);
     usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar1Controller->getView());
     usedCommandsToolbarStackedWidget->addWidget(usedCommandsToolbar2Controller->getView());
 
@@ -192,7 +192,8 @@ void EditorToolbarSettingsScreen::onCheckViewToolbarWidget()
 }
 
 
-// Перемещение выбранной команды из модели всех доступных команд в модель команд рабочей панели
+// Перемещение выбранной команды из модели всех доступных команд
+// в модель команд рабочей панели
 void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
 {
     // Получение индекса выбранной команды из списка всех доступных комманд
@@ -241,6 +242,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     }
 
     // Создание нового item для добавления в список выбранной панели инструментов
+    // Владение данным объектом передается модели при вызове метода insertRow()
     QStandardItem *newItem = new QStandardItem();
     newItem->setData(command, Qt::DisplayRole);
 

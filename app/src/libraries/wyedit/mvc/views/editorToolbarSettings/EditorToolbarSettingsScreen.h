@@ -114,7 +114,7 @@ private:
     // Признак, были ли внесены изменения в настройки панелей инструментов
     bool changedCommands;
 
-    // Изначальные, в момент заргузки диалога списки команд
+    // Изначальные (в момент заргузки диалога) списки команд
     QString loadedAvailableCommandsList;
     QString loadedToolBar1CommandsList;
     QString loadedToolBar2CommandsList;

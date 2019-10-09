@@ -24,7 +24,7 @@ EditorToolbarAvailableCommandsModel::~EditorToolbarAvailableCommandsModel()
 // Получение заголовка столбца
 QVariant EditorToolbarAvailableCommandsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    Q_UNUSED(orientation);
+    Q_UNUSED(orientation)
 
     if (role != Qt::DisplayRole) {
         return QVariant();
@@ -60,6 +60,7 @@ int EditorToolbarAvailableCommandsModel::columnCount(const QModelIndex &itemInde
     return 1;
 }
 
+
 // Нахождение индекса комманды
 QModelIndex EditorToolbarAvailableCommandsModel::findCommand(const QString &command, bool toLower)
 {
@@ -82,6 +83,7 @@ QModelIndex EditorToolbarAvailableCommandsModel::findCommand(const QString &comm
     return QModelIndex(); // Возвращается пустой индекс
 }
 
+
 // Данные модели (команды) в виде строки с разделителем-запятая
 QString EditorToolbarAvailableCommandsModel::getCommandsList() const
 {
@@ -92,16 +94,18 @@ QString EditorToolbarAvailableCommandsModel::getCommandsList() const
     return commandsList.join(',');
 }
 
+
 // Редактор конфигурации
 EditorConfig *EditorToolbarAvailableCommandsModel::getEditorConfig() const
 {
     return editorConfig;
 }
 
+
 // Создание модели
 void EditorToolbarAvailableCommandsModel::createModel()
 {
-    // Все используемые коммнды на 2-х панелях инструментов
+    // Все уже используемые инструменты на обоих линиях панели
     QStringList commandsInToolsLine = editorConfig->get_tools_line_1().split(',');
     commandsInToolsLine.append(editorConfig->get_tools_line_2().split(','));
 
@@ -110,15 +114,18 @@ void EditorToolbarAvailableCommandsModel::createModel()
     QStringList *commandNameList = editorToolBarAssistant->getCommandNameList();
     for (int i=0; i!=commandNameList->size(); ++i) {
         QString command = commandNameList->at(i);
+
         // Для десктопной версии пропускаем кнопки, нужные для мобильной версии
+        // todo: подумать, а надо ли это действие
         if (editorToolBarAssistant->getViewMode() == Editor::WYEDIT_DESKTOP_MODE && (command=="back" || command=="find_in_base")) {
             continue;
         }
+
+        // Добавление только тех команд, которые отсутствуют на обоих панелях инструментов
         if (commandsInToolsLine.indexOf(command)==-1) {
-            // Добавление только тех команд, которые отсутствуют на обоих панелях инструментов
-            QList<QStandardItem *> items;
-            items.append(new QStandardItem(command)); // Комманда
-            this->appendRow(items);
+            QStandardItem *item=new QStandardItem(command);
+            item->setIcon( editorToolBarAssistant->getIcon(command) );
+            this->appendRow(item); // Элемент отдается во владение модели
         }
     }
 

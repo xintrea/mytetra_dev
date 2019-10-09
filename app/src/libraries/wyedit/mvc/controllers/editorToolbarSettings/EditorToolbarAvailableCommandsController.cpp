@@ -12,6 +12,7 @@ EditorToolbarAvailableCommandsController::~EditorToolbarAvailableCommandsControl
 
 }
 
+
 // Инициализация представления
 void EditorToolbarAvailableCommandsController::init()
 {
@@ -38,17 +39,20 @@ void EditorToolbarAvailableCommandsController::init()
     }
 }
 
+
 // Получение представления
 EditorToolbarCommandsListView *EditorToolbarAvailableCommandsController::getView() const
 {
     return view;
 }
 
+
 // Получение модели
 EditorToolbarAvailableCommandsModel *EditorToolbarAvailableCommandsController::getModel() const
 {
     return model;
 }
+
 
 // Получение SelectionModel
 QItemSelectionModel *EditorToolbarAvailableCommandsController::getSelectionModel() const
