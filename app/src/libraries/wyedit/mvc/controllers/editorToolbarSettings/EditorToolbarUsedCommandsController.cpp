@@ -20,7 +20,7 @@ EditorToolbarUsedCommandsController::~EditorToolbarUsedCommandsController()
 void EditorToolbarUsedCommandsController::init()
 {
     // Создается вид со списком кнопок для ToolBar 1
-    view = new EditorToolbarUsedCommandsView( qobject_cast<QWidget *>(parent()) );
+    view = new EditorToolbarCommandsListView( qobject_cast<QWidget *>(parent()) );
     view->setObjectName("editorToolbarUsedCommandsView");
 
     // Создание модели данных
@@ -43,7 +43,7 @@ void EditorToolbarUsedCommandsController::init()
 }
 
 // Получение представления
-EditorToolbarUsedCommandsView *EditorToolbarUsedCommandsController::getView() const
+EditorToolbarCommandsListView *EditorToolbarUsedCommandsController::getView() const
 {
     return view;
 }

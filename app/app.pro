@@ -138,6 +138,7 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
     src/views/record/RecordInfoFieldsEditor.h \
@@ -238,8 +239,6 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h \
-    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarUsedCommandsView.h \
-    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h \
     src/libraries/wyedit/EditorConfigToolbars.h \
@@ -276,6 +275,7 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
@@ -376,8 +376,6 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp \
-    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarUsedCommandsView.cpp \
-    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarAvailableCommandsView.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.cpp \
     src/libraries/wyedit/EditorConfigToolbars.cpp \

@@ -3,13 +3,14 @@
 
 #include <QObject>
 
-#include "../../views/editorToolbarSettings/EditorToolbarUsedCommandsView.h"
+#include "../../views/editorToolbarSettings/EditorToolbarCommandsListView.h"
 #include "../../models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h"
 #include "libraries/GlobalParameters.h"
 
-/***********************************************************************************************************************/
-/* Контроллер для представления и модели списка используемых команд для выбранной панели инструментов редактора текста */
-/***********************************************************************************************************************/
+
+// Контроллер для представления и модели списка используемых команд
+// для выбранной строки инструментов редактора текста
+
 
 class EditorToolbarUsedCommandsController : public QObject
 {
@@ -20,7 +21,7 @@ public:
     EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar tb, QObject *parent = nullptr);
     ~EditorToolbarUsedCommandsController();
 
-    // Направление перемещения команды панели используемых комманд
+    // Направление перемещения команды на панели используемых комманд
     enum CommandMove {
         Up = -1,
         Down = 1
@@ -30,7 +31,7 @@ public:
     void init();
 
     // Получение представления
-    EditorToolbarUsedCommandsView *getView() const;
+    EditorToolbarCommandsListView *getView() const;
 
     // Получение модели
     EditorToolbarUsedCommandsModel *getModel() const;
@@ -38,19 +39,21 @@ public:
     // Получение SelectionModel
     QItemSelectionModel *getSelectionModel() const;
 
-    // Перемещение выбранной команды в моделе команд выбранной рабочей панели инструментов
+    // Перемещение выбранной команды в моделе команд выбранной строки панели инструментов
     void moveCommandUpDown(CommandMove direction);
+
 
 protected:
 
     GlobalParameters::EditorToolbar tb; // Указание на обрабатываемую панель
 
-    EditorToolbarUsedCommandsView *view;
+    EditorToolbarCommandsListView *view;
     EditorToolbarUsedCommandsModel *model;
+
 
 private:
 
-    // Перемещение выбранной команды в моделе команд выбранной рабочей панели инструментов
+    // Перемещение выбранной команды в моделе команд выбранной строки панели инструментов
     void moveCommandUpDown(CommandMove direction, int selectedRow);
 };
 

@@ -119,7 +119,7 @@ void EditorConfigMisc::onClickedEditWyEditConfigFile(void)
   // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
   conf->sync();
 
-  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8 );
+  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8f );
 }
 
 

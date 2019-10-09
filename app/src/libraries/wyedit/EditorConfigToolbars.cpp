@@ -26,14 +26,13 @@ void EditorConfigToolbars::setupUi(void)
 {
  qDebug() << "Create toolbars config page";
 
- // Кнопка редактирования файла конфигурации распределения кнопок (команд) по панелям инструментов редактора
+ // Кнопка редактирования кнопок по панелям инструментов редактора
  editToolButtonsConfigFile = new QPushButton(this);
  editToolButtonsConfigFile->setText(tr("Edit tool buttons"));
  editToolButtonsConfigFile->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed, QSizePolicy::ToolButton));
 }
 
 
-// Связывание сигналов, генерируемых объектами класса и слотов для их обработки
 void EditorConfigToolbars::setupSignals(void)
 {
   connect(editToolButtonsConfigFile, &QPushButton::clicked,
@@ -41,7 +40,7 @@ void EditorConfigToolbars::setupSignals(void)
 }
 
 
-// Создание жиджетов панели "Keyboard"
+// Создание виджетов панели "Keyboard"
 void EditorConfigToolbars::assembly(void)
 {
   // Группирующая рамка
@@ -82,5 +81,6 @@ int EditorConfigToolbars::applyChanges(void)
       // Только, если диалог по работе с командами панелей вызывался
       return toolbuttonsScreen->isNeedRestart() ? 1 : 0;
   }
+
   return 0;
 }

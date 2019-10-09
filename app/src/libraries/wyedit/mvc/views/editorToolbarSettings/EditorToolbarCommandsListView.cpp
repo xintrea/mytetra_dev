@@ -1,19 +1,20 @@
-#include "EditorToolbarUsedCommandsView.h"
+#include "EditorToolbarCommandsListView.h"
 
 
-EditorToolbarUsedCommandsView::EditorToolbarUsedCommandsView(QWidget *parent) : QTreeView(parent)
+EditorToolbarCommandsListView::EditorToolbarCommandsListView(QWidget *parent) : QTreeView(parent)
 {
 
 }
 
 
-EditorToolbarUsedCommandsView::~EditorToolbarUsedCommandsView()
+EditorToolbarCommandsListView::~EditorToolbarCommandsListView()
 {
 
 }
+
 
 // Инициализация представления
-void EditorToolbarUsedCommandsView::init()
+void EditorToolbarCommandsListView::init()
 {
     this->setAlternatingRowColors(true);
     this->setAutoFillBackground(true);

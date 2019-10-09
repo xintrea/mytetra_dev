@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "../../views/editorToolbarSettings/EditorToolbarAvailableCommandsView.h"
+#include "../../views/editorToolbarSettings/EditorToolbarCommandsListView.h"
 #include "../../models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h"
 
 /*********************************************************************************************************/
@@ -23,7 +23,7 @@ public:
     void init();
 
     // Получение представления
-    EditorToolbarAvailableCommandsView *getView() const;
+    EditorToolbarCommandsListView *getView() const;
 
     // Получение модели
     EditorToolbarAvailableCommandsModel *getModel() const;
@@ -33,7 +33,7 @@ public:
 
 protected:
 
-    EditorToolbarAvailableCommandsView *view;
+    EditorToolbarCommandsListView *view;
     EditorToolbarAvailableCommandsModel *model;
 
 };
