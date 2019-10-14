@@ -161,7 +161,7 @@ QStringList ClipboardBranch::formats() const
 
 QVariant ClipboardBranch::retrieveData(const QString &format,QVariant::Type preferredType) const
 {
- Q_UNUSED(preferredType);
+ Q_UNUSED(preferredType)
 
  if(format==clipboardBranchFormat[0])
   {
