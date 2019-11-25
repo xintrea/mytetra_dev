@@ -100,8 +100,8 @@ void ExecuteCommand::closeProcess(void)
 {
     // Процессы 0 и 1 - это однозначно системные процессы, такого PID быть не может
     // Возможно данное условие поборет проблему [WRN] QIODevice::read (QProcess): device not open
-    if(process->pid()>1) {
-        qDebug() << "Close process, PID" << process->pid();
+    if(process->processId()>1) {
+        qDebug() << "Close process, PID" << process->processId();
         
         process->kill();
         process->terminate();
