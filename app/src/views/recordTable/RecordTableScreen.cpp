@@ -445,7 +445,7 @@ void RecordTableScreen::toolsWidgetsUpdate()
      recordTableController->getView()->model()->rowCount()==0)
   {
    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-   if(mimeData!=NULL)
+   if(mimeData!=nullptr)
     if(mimeData->hasFormat(FixedParameters::appTextId+"/records"))
      actionPaste->setEnabled(true);
   }

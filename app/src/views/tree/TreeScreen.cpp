@@ -304,7 +304,7 @@ void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
     // Если в буфере есть ветки, соответсвующие пункты становятся активными
     bool isBranch=false;
     const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-     if(mimeData!=NULL)
+     if(mimeData!=nullptr)
       if(mimeData->hasFormat(FixedParameters::appTextId+"/branch"))
         isBranch=true;
 
@@ -932,105 +932,99 @@ void TreeScreen::cutBranch(void)
 
 bool TreeScreen::copyBranch(void)
 {
- qDebug() << "In copy_branch()";
+    qDebug() << "In copy_branch()";
 
- // Сохраняется текст в окне редактирования
- find_object<MainWindow>("mainwindow")->saveTextarea();
+    // Сохраняется текст в окне редактирования
+    find_object<MainWindow>("mainwindow")->saveTextarea();
 
- // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
+    // Получение списка индексов QModelIndex выделенных элементов
+    QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
- // Если выбрано более одной ветки
- if(selectitems.size()>1)
-  {
-   QMessageBox messageBox(this);
-   messageBox.setWindowTitle(tr("Unavailable action"));
-   messageBox.setText(tr("Please select a single item for copy."));
-   messageBox.addButton(tr("OK"),QMessageBox::AcceptRole);
-   messageBox.exec();
-   return false;
-  }
-
-
- // Получение индекса выделенной ветки
- QModelIndex index=getCurrentItemIndex();
-
- // Получение ссылки на узел, который соответствует выделенной ветке
- TreeItem *item=knowTreeModel->getItem(index);
-
- // Получение пути к выделенной ветке
- QStringList path=item->getPath();
-
- // Получение путей ко всем подветкам
- QList<QStringList> subbranchespath=item->getAllChildrenPath();
+    // Если выбрано более одной ветки
+    if(selectitems.size()>1)
+    {
+        QMessageBox messageBox(this);
+        messageBox.setWindowTitle(tr("Unavailable action"));
+        messageBox.setText(tr("Please select a single item for copy."));
+        messageBox.addButton(tr("OK"),QMessageBox::AcceptRole);
+        messageBox.exec();
+        return false;
+    }
 
 
- // Проверка, содержит ли данная ветка как шифрованные
- // так и незашифрованные данные
- bool nocryptPresence=false;
- bool encryptPresence=false;
+    // Получение индекса выделенной ветки
+    QModelIndex index=getCurrentItemIndex();
 
- // Флаги на основе состояния текущей ветки
- if(knowTreeModel->getItem(path)->getField("crypt")=="1")
-  encryptPresence=true;
- else
-  nocryptPresence=true;
+    // Получение ссылки на узел, который соответствует выделенной ветке
+    TreeItem *item=knowTreeModel->getItem(index);
 
- // Флаги на основе состояния подветок
- foreach(QStringList currPath, subbranchespath)
-  if(knowTreeModel->getItem(currPath)->getField("crypt")=="1")
-   encryptPresence=true;
-  else
-   nocryptPresence=true;
+    // Получение пути к выделенной ветке
+    QStringList path=item->getPath();
 
- // Если ветка содержит как шифрованные так и нешифрованные данные
- // то такую ветку копировать в буфер нельзя
- if(nocryptPresence==true && encryptPresence==true)
-  {
-   QMessageBox messageBox(this);
-   messageBox.setWindowTitle(tr("Unavailable action"));
-   messageBox.setText(tr("This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data."));
-   messageBox.addButton(tr("OK"),QMessageBox::AcceptRole);
-   messageBox.exec();
-   return false;
-  }
+    // Получение путей ко всем подветкам
+    QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
 
- // -------------------
- // Копирование в буфер
- // -------------------
+    // Проверка, содержит ли данная ветка как шифрованные
+    // так и незашифрованные данные
+    bool nocryptPresence=false;
+    bool encryptPresence=false;
 
- qDebug() << "Tree item copy to buffer";
+    // Флаги на основе состояния текущей ветки
+    if(knowTreeModel->getItem(path)->getField("crypt")=="1")
+        encryptPresence=true;
+    else
+        nocryptPresence=true;
 
- // Создается ссылка на буфер обмена
- QClipboard *cbuf=QApplication::clipboard();
+    // Флаги на основе состояния подветок
+    foreach(QStringList currPath, subbranchespath)
+        if(knowTreeModel->getItem(currPath)->getField("crypt")=="1")
+            encryptPresence=true;
+        else
+            nocryptPresence=true;
 
- // Создается объект с данными для заполнения буфера обмена
- // Если в буфере есть какие-то старые данные, они удаляются
- static int fillflag=0;
- if(fillflag==1)
-  {
-   const ClipboardBranch *branch_clipboard_data_previos;
-   branch_clipboard_data_previos=qobject_cast<const ClipboardBranch *>(cbuf->mimeData());
-   if(branch_clipboard_data_previos!=NULL)delete branch_clipboard_data_previos;
-   fillflag=0;
-  }
- ClipboardBranch *branch_clipboard_data=new ClipboardBranch();
- fillflag=1;
+    // Если ветка содержит как шифрованные так и нешифрованные данные
+    // то такую ветку копировать в буфер нельзя
+    if(nocryptPresence==true && encryptPresence==true)
+    {
+        QMessageBox messageBox(this);
+        messageBox.setWindowTitle(tr("Unavailable action"));
+        messageBox.setText(tr("This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data."));
+        messageBox.addButton(tr("OK"),QMessageBox::AcceptRole);
+        messageBox.exec();
+        return false;
+    }
 
- // Добавление корневой ветки
- addBranchToClipboard(branch_clipboard_data, path, true);
 
- // Добавление прочих веток
- foreach(QStringList curr_path, subbranchespath)
-  addBranchToClipboard(branch_clipboard_data, curr_path, false);
+    // -------------------
+    // Копирование в буфер
+    // -------------------
 
- branch_clipboard_data->print();
+    qDebug() << "Tree item copy to buffer";
 
- // Объект с ветками помещается в буфер обмена
- cbuf->setMimeData(branch_clipboard_data);
+    // Создается ссылка на буфер обмена
+    QClipboard *cbuf=QApplication::clipboard();
 
- return true;
+    // Данные в буфере обмена очищаются
+    cbuf->clear();
+
+    // Создается объект с данными для заполнения буфера обмена
+    ClipboardBranch *branch_clipboard_data=new ClipboardBranch();
+
+    // Добавление корневой ветки
+    addBranchToClipboard(branch_clipboard_data, path, true);
+
+    // Добавление прочих веток
+    foreach(QStringList curr_path, subbranchespath)
+        addBranchToClipboard(branch_clipboard_data, curr_path, false);
+
+    // branch_clipboard_data->print();
+
+    // Объект с ветками помещается в буфер обмена, владение указателем передается
+    // глобальному объекту буфера обмена, поэтому утечки нет
+    cbuf->setMimeData(branch_clipboard_data);
+
+    return true;
 }
 
 
@@ -1087,7 +1081,7 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
- if(mimeData==NULL)
+ if(mimeData==nullptr)
   return;
  if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/branch")) )
   return;
