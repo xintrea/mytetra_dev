@@ -138,6 +138,9 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
@@ -236,8 +239,6 @@ HEADERS = src/main.h \
     src/models/shortcutSettings/ShortcutSettingsModel.h \
     src/views/appConfigWindow/AppConfigPage_Keyboard.h \
     src/views/shortcutSettings/HotKeyGrabber.h \
-    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h \
-    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h \
@@ -275,6 +276,9 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
@@ -373,8 +377,6 @@ SOURCES = src/main.cpp \
     src/models/shortcutSettings/ShortcutSettingsModel.cpp \
     src/views/appConfigWindow/AppConfigPage_Keyboard.cpp \
     src/views/shortcutSettings/HotKeyGrabber.cpp \
-    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarUsedCommandsModel.cpp \
-    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.cpp \
     src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.cpp \

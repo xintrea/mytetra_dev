@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "../../views/editorToolbarSettings/EditorToolbarCommandsListView.h"
-#include "../../models/editorToolbarSettings/EditorToolbarUsedCommandsModel.h"
+#include "../../models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h"
 #include "libraries/GlobalParameters.h"
 
 
@@ -34,7 +34,7 @@ public:
     EditorToolbarCommandsListView *getView() const;
 
     // Получение модели
-    EditorToolbarUsedCommandsModel *getModel() const;
+    EditorToolbarSettingsUsedToolsModel *getModel() const;
 
     // Получение SelectionModel
     QItemSelectionModel *getSelectionModel() const;
@@ -45,10 +45,10 @@ public:
 
 protected:
 
-    GlobalParameters::EditorToolbar tb; // Указание на обрабатываемую панель
+    GlobalParameters::EditorToolbar tb; // Указатель на обрабатываемую панель
 
     EditorToolbarCommandsListView *view;
-    EditorToolbarUsedCommandsModel *model;
+    EditorToolbarSettingsUsedToolsModel *model;
 
 
 private:

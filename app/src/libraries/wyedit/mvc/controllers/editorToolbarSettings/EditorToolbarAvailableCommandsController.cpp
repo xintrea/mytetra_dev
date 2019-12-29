@@ -21,8 +21,10 @@ void EditorToolbarAvailableCommandsController::init()
     view->setObjectName("editorToolbarAvailableCommandsView");
 
     // Создание модели данных
-    model = new EditorToolbarAvailableCommandsModel(this);
+    model = new EditorToolbarSettingsAvailableToolsModel(this);
     model->setObjectName("editorToolbarAvailableCommandsModel");
+    model->init();
+
     view->setModel(model);
     view->init();
 
@@ -48,7 +50,7 @@ EditorToolbarCommandsListView *EditorToolbarAvailableCommandsController::getView
 
 
 // Получение модели
-EditorToolbarAvailableCommandsModel *EditorToolbarAvailableCommandsController::getModel() const
+EditorToolbarSettingsAvailableToolsModel *EditorToolbarAvailableCommandsController::getModel() const
 {
     return model;
 }

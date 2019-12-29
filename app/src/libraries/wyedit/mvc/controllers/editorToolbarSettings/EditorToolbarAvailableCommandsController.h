@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "../../views/editorToolbarSettings/EditorToolbarCommandsListView.h"
-#include "../../models/editorToolbarSettings/EditorToolbarAvailableCommandsModel.h"
+#include "../../models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h"
 
 // Контроллер для представления и модели всех доступных
 // инструментов редактора текста
@@ -26,7 +26,7 @@ public:
     EditorToolbarCommandsListView *getView() const;
 
     // Получение модели
-    EditorToolbarAvailableCommandsModel *getModel() const;
+    EditorToolbarSettingsAvailableToolsModel *getModel() const;
 
     // Получение SelectionModel
     QItemSelectionModel *getSelectionModel() const;
@@ -34,7 +34,7 @@ public:
 protected:
 
     EditorToolbarCommandsListView *view;
-    EditorToolbarAvailableCommandsModel *model;
+    EditorToolbarSettingsAvailableToolsModel *model;
 
 };
 

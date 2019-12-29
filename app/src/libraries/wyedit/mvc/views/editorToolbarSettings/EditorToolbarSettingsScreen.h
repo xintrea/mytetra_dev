@@ -106,7 +106,7 @@ protected:
 private:
 
     // Контроллер для работы с моделью панели используемых команд, в зависимости от выбранной панели
-    EditorToolbarUsedCommandsController *getCurrentEditorToolbarUsedCommandsController();
+    EditorToolbarUsedCommandsController *getUsedCommandsController();
 
     // Признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
     bool needRestart;

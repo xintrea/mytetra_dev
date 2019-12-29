@@ -4,6 +4,7 @@
 
 extern GlobalParameters globalParameters;
 
+
 EditorToolbarUsedCommandsController::EditorToolbarUsedCommandsController(GlobalParameters::EditorToolbar tb, QObject *parent) : QObject(parent)
 {
     // указание на обрабатываемую панель
@@ -24,8 +25,10 @@ void EditorToolbarUsedCommandsController::init()
     view->setObjectName("editorToolbarUsedCommandsView");
 
     // Создание модели данных
-    model = new EditorToolbarUsedCommandsModel(tb, this);
+    model = new EditorToolbarSettingsUsedToolsModel(this);
     model->setObjectName("editorToolbarUsedCommandsModel");
+    model->init(tb);
+
     view->setModel(model);
     view->init();
 
@@ -49,7 +52,7 @@ EditorToolbarCommandsListView *EditorToolbarUsedCommandsController::getView() co
 }
 
 // Получение модели
-EditorToolbarUsedCommandsModel *EditorToolbarUsedCommandsController::getModel() const
+EditorToolbarSettingsUsedToolsModel *EditorToolbarUsedCommandsController::getModel() const
 {
     return model;
 }

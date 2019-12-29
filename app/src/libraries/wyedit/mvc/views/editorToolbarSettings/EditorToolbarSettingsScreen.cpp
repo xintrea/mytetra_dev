@@ -207,7 +207,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
             : selectedAvailableIndex.data(Qt::DisplayRole).toString();
 
     // Определение контроллера панели инструментов для работы с моделью
-    EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
+    EditorToolbarUsedCommandsController *controller = getUsedCommandsController();
 
     // Индекс выбранного элемента списка команд панели инструментов
     // todo: Сравнение индексов - не лучшая идея. Надо переделать на сравнение наименований
@@ -285,7 +285,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
 void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
 {
     // Определение контроллера для работы с моделью
-    EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
+    EditorToolbarUsedCommandsController *controller = getUsedCommandsController();
 
     // Получение индекса выбранной команды из списка используемых комманд
     QModelIndex selectedIndex = controller->getSelectionModel()->currentIndex();
@@ -343,7 +343,7 @@ void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
 void EditorToolbarSettingsScreen::onMoveSelectedCommandUp()
 {
     // Определение контроллера для работы с моделью
-    EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
+    EditorToolbarUsedCommandsController *controller = getUsedCommandsController();
 
     // Перемещение выделенной команды вверх
     controller->moveCommandUpDown(EditorToolbarUsedCommandsController::CommandMove::Up);
@@ -354,7 +354,7 @@ void EditorToolbarSettingsScreen::onMoveSelectedCommandUp()
 void EditorToolbarSettingsScreen::onMoveSelectedCommandDown()
 {
     // Определение контроллера для работы с моделью
-    EditorToolbarUsedCommandsController *controller = getCurrentEditorToolbarUsedCommandsController();
+    EditorToolbarUsedCommandsController *controller = getUsedCommandsController();
 
     // Перемещение выделенной команды вниз
     controller->moveCommandUpDown(EditorToolbarUsedCommandsController::CommandMove::Down);
@@ -411,7 +411,7 @@ void EditorToolbarSettingsScreen::applyChanges()
             needRestart = false;
         } else {
             // Конфигурация текстового редактора
-            EditorConfig *editorConfig = getCurrentEditorToolbarUsedCommandsController()->getModel()->getEditorConfig();
+            EditorConfig *editorConfig = find_object<EditorConfig>("editorconfig");
 
             // Сохранение конфигурации
             editorConfig->set_tools_line_1(toolBar1CommandsList);
@@ -430,7 +430,7 @@ void EditorToolbarSettingsScreen::applyChanges()
 
 // Контроллер для работы с моделью панели используемых команд,
 // в зависимости от выбранной строки панели
-EditorToolbarUsedCommandsController *EditorToolbarSettingsScreen::getCurrentEditorToolbarUsedCommandsController()
+EditorToolbarUsedCommandsController *EditorToolbarSettingsScreen::getUsedCommandsController()
 {
     return usedCommandsToolbarStackedWidget->currentIndex() == 0 ?
            usedCommandsToolbar1Controller : usedCommandsToolbar2Controller;
