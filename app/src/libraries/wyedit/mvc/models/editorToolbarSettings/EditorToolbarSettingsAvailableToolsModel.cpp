@@ -1,9 +1,14 @@
+#include <QDebug>
+
 #include "EditorToolbarSettingsAvailableToolsModel.h"
 
 #include "main.h"
 #include "views/record/MetaEditor.h"
 #include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "libraries/wyedit/EditorConfig.h"
+#include "libraries/ShortcutManager.h"
+
+extern ShortcutManager shortcutManager;
 
 
 EditorToolbarSettingsAvailableToolsModel::EditorToolbarSettingsAvailableToolsModel(QObject *parent) :
@@ -25,6 +30,8 @@ void EditorToolbarSettingsAvailableToolsModel::init()
     for (int i=0; i!=commandNameList->size(); ++i) {
         QString command = commandNameList->at(i);
 
+        qDebug() << "Add available command " << command;
+
         // Для десктопной версии пропускаем кнопки, нужные для мобильной версии
         // todo: подумать, а надо ли это действие
         if (editorToolBarAssistant->getViewMode() == Editor::WYEDIT_DESKTOP_MODE && (command=="back" || command=="find_in_base")) {
@@ -35,12 +42,14 @@ void EditorToolbarSettingsAvailableToolsModel::init()
         if (commandsInToolsLine.indexOf(command)==-1) {
             QStandardItem *item=new QStandardItem(command);
             item->setIcon( editorToolBarAssistant->getIcon(command) );
+            item->setText( shortcutManager.getDescription( "editor-"+command) );
             this->appendRow(item); // Элемент отдается во владение модели
         }
     }
 
     // Создание неудаляемого элемента <РАЗДЕЛИТЕЛЬ>
-    this->insertRow(0, new QStandardItem(tr("<SEPARATOR>")));
+    QStandardItem *separatorItem=new QStandardItem(tr("<Separator>"));
+    this->insertRow(0, separatorItem); // Элемент вставляется первым и отдается во владение модели
 
     emit layoutChanged();
 }

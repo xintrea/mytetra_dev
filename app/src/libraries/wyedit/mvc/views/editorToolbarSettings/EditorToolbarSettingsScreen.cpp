@@ -54,13 +54,13 @@ bool EditorToolbarSettingsScreen::isNeedRestart() const
 void EditorToolbarSettingsScreen::setupUI()
 {
     // Доступные кнопки панелей инструментов
-    availableToolbarsCommandsLabel = new QLabel(tr("Available toolbars buttons"), this);
+    availableToolbarsCommandsLabel = new QLabel(tr("Available tools"), this);
 
     // Виджет выбора строки 1 или 2 панели инструментов
     selectToolbarsListWidget = new QListWidget(this);
     selectToolbarsListWidget->setAutoFillBackground(true);
-    selectToolbarsListWidget->addItem(tr("Toolbar line 1"));
-    selectToolbarsListWidget->addItem(tr("Toolbar line 2"));
+    selectToolbarsListWidget->addItem(tr("Line 1"));
+    selectToolbarsListWidget->addItem(tr("Line 2"));
     QFontMetrics metr(selectToolbarsListWidget->font());
     selectToolbarsListWidget->setFixedHeight(metr.height()*3);
 
@@ -187,7 +187,7 @@ void EditorToolbarSettingsScreen::onCheckViewToolbarWidget()
     usedCommandsToolbarStackedWidget->setCurrentIndex(selectToolbarsListWidget->currentRow());
 
     QString text = QString("%1 %2")
-            .arg(tr("Buttons for"))
+            .arg(tr("Tools at"))
             .arg(selectToolbarsListWidget->item(selectToolbarsListWidget->currentRow())->text());
 
     usedCommandsToolbarLabel->setText(text);

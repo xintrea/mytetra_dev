@@ -3,9 +3,10 @@
 
 #include "EditorFontFamilyComboBox.h"
 
+
 EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontComboBox(parent)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     isProgrammChanged=false;
 
@@ -20,8 +21,7 @@ EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontCombo
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     this->setValidator(validator);
 
-    connect(this, qOverload<int>(&EditorFontFamilyComboBox::currentIndexChanged),
-            this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
+    this->setupSignals();
 }
 
 
@@ -31,9 +31,26 @@ EditorFontFamilyComboBox::~EditorFontFamilyComboBox()
 }
 
 
+void EditorFontFamilyComboBox::setupSignals()
+{
+    connect(this, qOverload<int>(&EditorFontFamilyComboBox::currentIndexChanged),
+            this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
+
+    // Активация данного виджета по горячей клавише
+    connect(&selectAction, &QAction::changed,
+            this, &EditorFontFamilyComboBox::onChangeSelectAction);
+}
+
+
 void EditorFontFamilyComboBox::setIsProgrammChanged(bool flag)
 {
     isProgrammChanged=flag;
+}
+
+
+QAction *EditorFontFamilyComboBox::getSelectAction()
+{
+    return &selectAction;
 }
 
 
@@ -49,3 +66,12 @@ void EditorFontFamilyComboBox::onCurrentIndexChanged(int index)
 
     previousIndex=index;
 }
+
+
+void EditorFontFamilyComboBox::onChangeSelectAction()
+{
+    qDebug() << "Select EditorFontFamilyComboBox";
+
+    this->setFocus(Qt::ShortcutFocusReason);
+}
+

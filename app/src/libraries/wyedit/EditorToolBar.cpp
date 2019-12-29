@@ -212,7 +212,7 @@ void EditorToolBar::setupToolBarTools(void)
 
   // Выбор шрифта
   fontSelect=new EditorFontFamilyComboBox(this);
-  fontSelect->setObjectName("editor_tb_fontselect");
+  fontSelect->setObjectName("editor_tb_fontSelect");
 
   // Выбор размера шрифта
   fontSize=new EditorFontSizeComboBox(this);
@@ -371,6 +371,9 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-alignWidth", alignWidth);
     shortcutManager.initAction("editor-fontColor", fontColor);
     shortcutManager.initAction("editor-backgroundColor", backgroundColor);
+
+    shortcutManager.initAction("editor-fontSelect", fontSelect->getSelectAction() );
+
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
     shortcutManager.initAction("editor-reference", reference);

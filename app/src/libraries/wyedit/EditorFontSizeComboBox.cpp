@@ -6,7 +6,7 @@
 
 EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(parent)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     isProgrammChanged=false;
 

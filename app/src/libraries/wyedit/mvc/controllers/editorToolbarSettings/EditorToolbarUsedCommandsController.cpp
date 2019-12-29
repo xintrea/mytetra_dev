@@ -93,7 +93,7 @@ void EditorToolbarUsedCommandsController::moveCommandUpDown(CommandMove directio
     }
 }
 
-// Перемещение выбранной команды в моделе команд выбранной рабочей панели инструментов
+// Перемещение выбранной команды в модели команд выбранной рабочей панели инструментов
 void EditorToolbarUsedCommandsController::moveCommandUpDown(CommandMove direction, int selectedRow)
 {
     // Перемещение выделенной команды

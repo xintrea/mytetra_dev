@@ -4,7 +4,9 @@
 #include "libraries/wyedit/EditorConfig.h"
 #include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "views/record/MetaEditor.h"
+#include "libraries/ShortcutManager.h"
 
+extern ShortcutManager shortcutManager;
 extern GlobalParameters globalParameters;
 
 
@@ -25,11 +27,24 @@ void EditorToolbarSettingsUsedToolsModel::init(GlobalParameters::EditorToolbar t
     EditorToolBarAssistant *editorToolBarAssistant = find_object<MetaEditor>("editorScreen")->editorToolBarAssistant;
 
     for (int i=0; i!=commandsInToolsLine.size(); ++i) {
-        QString command(commandsInToolsLine[i]);
+
+        QString command=commandsInToolsLine[i];
         QStandardItem *newItem = new QStandardItem();
+
         newItem->setData(command, Qt::DisplayRole);
+
+        if(command=="separator") {
+            newItem->setText( tr("<Separator>") );
+        }
+        else
+        {
+            newItem->setText( shortcutManager.getDescription( "editor-"+command ) );
+        }
+
         newItem->setIcon( editorToolBarAssistant->getIcon(command) );
+
         this->appendRow(newItem); // Владение элементом передается модели
     }
+
     emit layoutChanged();
 }

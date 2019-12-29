@@ -415,6 +415,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_18;
     parameterFunctions << get_parameter_table_19;
     parameterFunctions << get_parameter_table_20;
+    parameterFunctions << get_parameter_table_21;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -818,6 +819,26 @@ QStringList EditorConfig::get_parameter_table_20(bool withEndSignature)
     return table;
 }
 
+
+QStringList EditorConfig::get_parameter_table_21(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 20
+    table << get_parameter_table_20(false);
+
+    // В параметрах tools_line_1 и tools_line_1 сзменяются "fontselect" на "fontSelect"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
 // Метод разрешения конфликтов если исходные и конечные типы не совпадают
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
@@ -853,7 +874,7 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                                                   QString fromValue,
                                                   QString toValue)
 {
-    Q_UNUSED(toValue);
+    Q_UNUSED(toValue)
 
     QString result=fromValue;
 
@@ -992,6 +1013,15 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                     result.replace("fontcolor", "fontcolor,backgroundcolor,separator");
                 else
                     result=result+",backgroundcolor,separator";
+            }
+        }
+
+    if(versionFrom==20 && versionTo==21)
+        if(name=="tools_line_1" or name=="tools_line_2")
+        {
+            if(result.contains("fontselect"))
+            {
+                result.replace("fontselect", "fontSelect");
             }
         }
 
