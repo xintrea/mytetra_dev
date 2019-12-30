@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QComboBox>
 
 #include "EditorFontToolFocus.h"
 
@@ -7,8 +8,8 @@ EditorFontToolFocus::EditorFontToolFocus(QWidget *parent) :
     QWidget(parent),
     selectAction(parent)
 {
-    // Активация виджета по горячей клавише
-    connect(&selectAction, &QAction::changed,
+    // Активация виджета (changed и toggled не срабатывают)
+    connect(&selectAction, &QAction::triggered,
             this, &EditorFontToolFocus::onChangeSelectAction);
 }
 
@@ -27,7 +28,6 @@ QAction *EditorFontToolFocus::getSelectAction()
 
 void EditorFontToolFocus::onChangeSelectAction()
 {
-    qDebug() << "Select by EditorFontToolFocus";
-
-    this->parentWidget()->setFocus(Qt::ShortcutFocusReason);
+    this->parentWidget()->setFocus(Qt::ShortcutFocusReason); // Установка фокуса
+    qobject_cast<QComboBox*>(this->parentWidget())->showPopup(); // Развертывание комбобокса
 }

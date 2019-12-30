@@ -582,7 +582,7 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
         // Если данный инструмент не содержится в списке заблокированных
         if(!disableToolList.contains(toolName))
         {
-            // Если добавляемый интсрумент - это виджет
+            // Если добавляемый инструмент - это виджет
             if(toolAsWidget)
             {
                 toolAsWidget->setVisible(true);
