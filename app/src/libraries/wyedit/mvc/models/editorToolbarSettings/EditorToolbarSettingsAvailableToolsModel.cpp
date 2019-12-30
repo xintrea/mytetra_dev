@@ -42,13 +42,16 @@ void EditorToolbarSettingsAvailableToolsModel::init()
         if (commandsInToolsLine.indexOf(command)==-1) {
             QStandardItem *item=new QStandardItem(command);
             item->setIcon( editorToolBarAssistant->getIcon(command) );
-            item->setText( shortcutManager.getDescription( "editor-"+command) );
+            item->setData( command, Qt::UserRole );
+            item->setData( shortcutManager.getDescription( "editor-"+command), Qt::DisplayRole );
             this->appendRow(item); // Элемент отдается во владение модели
         }
     }
 
-    // Создание неудаляемого элемента <РАЗДЕЛИТЕЛЬ>
-    QStandardItem *separatorItem=new QStandardItem(tr("<Separator>"));
+    // Создание неудаляемого элемента <Раздлитель>
+    QStandardItem *separatorItem=new QStandardItem();
+    separatorItem->setData( "separator", Qt::UserRole );
+    separatorItem->setData( tr("<Separator>"), Qt::DisplayRole );
     this->insertRow(0, separatorItem); // Элемент вставляется первым и отдается во владение модели
 
     emit layoutChanged();

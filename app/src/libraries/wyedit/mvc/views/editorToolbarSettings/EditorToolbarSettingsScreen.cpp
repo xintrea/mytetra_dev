@@ -201,10 +201,9 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     // Получение индекса выбранного инструмента из списка всех доступных инструментов
     QModelIndex selectedAvailableIndex = availableCommandsToolbarController->getSelectionModel()->currentIndex();
 
-    // Имя инструмента
-    QString command = selectedAvailableIndex.row() == 0
-            ? "separator" // Для <SEPARATOR> меняем название
-            : selectedAvailableIndex.data(Qt::DisplayRole).toString();
+    // Текстовый идентификатор инструмента и видимое имя
+    QString command = selectedAvailableIndex.data(Qt::UserRole).toString();
+    QString commandDescript = selectedAvailableIndex.data(Qt::DisplayRole).toString();
 
     // Определение контроллера панели инструментов для работы с моделью
     EditorToolbarUsedCommandsController *controller = getUsedCommandsController();
@@ -218,7 +217,9 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
         newRow = row;
     }
 
-    // Проверка, есть ли добавляемый элемент в моделях всех панелей (separator не проверяем, их может быть любое число)
+    // Проверка, есть ли добавляемый элемент в моделях всех панелей
+    // чтобы на панели был только один элемент одного вида
+    // (separator не проверяем, их может быть любое число)
     if (command != "separator") {
         QModelIndex commandIndex1 = usedCommandsToolbar1Controller->getModel()->findCommand(command);
         if (commandIndex1!=QModelIndex()) {
@@ -247,7 +248,8 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     // Создание нового item для добавления в список выбранной панели инструментов
     // Владение данным объектом передается модели при вызове метода insertRow()
     QStandardItem *newItem = new QStandardItem();
-    newItem->setData(command, Qt::DisplayRole); // Копирование названия
+    newItem->setData(command, Qt::UserRole); // Копирование команды
+    newItem->setData(commandDescript, Qt::DisplayRole); // Копирование видимого названия
     newItem->setIcon( qvariant_cast<QIcon>( selectedAvailableIndex.data(Qt::DecorationRole)) ); // Копирование иконки
 
     // Добавление новой команды в модель
@@ -273,9 +275,9 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
         controller->getView()->setCurrentIndex(newItem->index());
     }
 
-    // Удаление команды из модели списка всех достукпных команд
+    // Удаление команды из модели списка всех доступных команд
+    // Элемент <SEPARATOR> (имеющий всегда нуливой индекс) из модели всех доступных команд не удаляется
     if (selectedAvailableIndex.row() != 0) {
-        // Удаление всех элементов, кроме <SEPARATOR> из модели всех доступных команд
         availableCommandsToolbarController->getModel()->removeRow(selectedAvailableIndex.row());
     }
 }
@@ -291,7 +293,8 @@ void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
     QModelIndex selectedIndex = controller->getSelectionModel()->currentIndex();
 
     // Код команды
-    QString command(selectedIndex.data(Qt::DisplayRole).toString());
+    QString command(selectedIndex.data(Qt::UserRole).toString());
+    QString commandDescript(selectedIndex.data(Qt::DisplayRole).toString());
 
     // В модели должна остаться хотя бы одна команда
     if (controller->getModel()->rowCount() == 1) {
@@ -314,7 +317,8 @@ void EditorToolbarSettingsScreen::onMoveUsedCommandToAvailableCommands()
     } else {
         // Создание нового item для добавления в модель выбранной панели инструментов
         QStandardItem *newItem = new QStandardItem();
-        newItem->setData(command, Qt::DisplayRole); // Копирование наименования
+        newItem->setData(command, Qt::UserRole); // Копирование команды
+        newItem->setData(commandDescript, Qt::DisplayRole); // Копирование видимого наименования
         newItem->setIcon( qvariant_cast<QIcon>( selectedIndex.data(Qt::DecorationRole)) ); // Копирование иконки
 
         // Добавление нового элемента в модель

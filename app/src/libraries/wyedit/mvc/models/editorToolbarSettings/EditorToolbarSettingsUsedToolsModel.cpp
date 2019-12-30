@@ -31,14 +31,14 @@ void EditorToolbarSettingsUsedToolsModel::init(GlobalParameters::EditorToolbar t
         QString command=commandsInToolsLine[i];
         QStandardItem *newItem = new QStandardItem();
 
-        newItem->setData(command, Qt::DisplayRole);
+        newItem->setData(command, Qt::UserRole);
 
         if(command=="separator") {
-            newItem->setText( tr("<Separator>") );
+            newItem->setData( tr("<Separator>"), Qt::DisplayRole );
         }
         else
         {
-            newItem->setText( shortcutManager.getDescription( "editor-"+command ) );
+            newItem->setData( shortcutManager.getDescription( "editor-"+command ), Qt::DisplayRole );
         }
 
         newItem->setIcon( editorToolBarAssistant->getIcon(command) );
