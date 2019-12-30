@@ -100,6 +100,7 @@ public:
     QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
     void init();
+    void reload();
 
     void initDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
     void setEnableModifyTextButton(bool state); // Установка или снятие доступности кнопок, модифицирующих текст

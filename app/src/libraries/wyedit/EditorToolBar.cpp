@@ -54,12 +54,27 @@ void EditorToolBar::initDisableToolList(QStringList toolNames)
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
 void EditorToolBar::init()
 {
-  isInit=true;
+    isInit=true;
 
-  setupToolBarTools();
-  setupShortcuts();
-  setupSignals();
-  assemblyButtons();
+    this->setupToolBarTools();
+    this->setupShortcuts();
+    this->setupSignals();
+    this->assemblyButtons();
+}
+
+
+void EditorToolBar::reload()
+{
+    this->clearToolsLines();
+
+    // Из слоя с виджетами линеек панели инструментов убираются все виджеты
+    QLayoutItem* item;
+    while ( ( item = textformatButtonsLayout.takeAt( 0 ) ) != nullptr )
+    {
+        textformatButtonsLayout.removeItem(item);
+    }
+
+    this->init();
 }
 
 
@@ -502,6 +517,8 @@ void EditorToolBar::assemblyButtons(void)
   QLayout *lt;
   lt=layout();
   lt->setContentsMargins(0,0,0,0);
+
+  lt->update();
 }
 
 

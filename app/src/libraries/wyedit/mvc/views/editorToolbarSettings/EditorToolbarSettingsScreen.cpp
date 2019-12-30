@@ -422,7 +422,10 @@ void EditorToolbarSettingsScreen::applyChanges()
             editorConfig->set_tools_line_2(toolBar2CommandsList);
             editorConfig->sync();
 
-            needRestart = true; // Нужна перезагрузка MyTetra
+            EditorToolBarAssistant *editorToolBarAssistant = find_object<MetaEditor>("editorScreen")->editorToolBarAssistant;
+            editorToolBarAssistant->reload();
+
+            needRestart = false; // Нужна перезагрузка MyTetra
             close();
         }
     } else {

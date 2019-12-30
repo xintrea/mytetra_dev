@@ -1,5 +1,5 @@
-#ifndef __GLOBALPARAMETERS_H__
-#define	__GLOBALPARAMETERS_H__
+#ifndef GLOBALPARAMETERS_H
+#define	GLOBALPARAMETERS_H
 
 #include <QObject>
 #include <QStatusBar>
@@ -97,5 +97,5 @@ private:
     QByteArray passwordHash;
 };
 
-#endif	/* __GLOBALPARAMETERS_H__ */
+#endif	/* GLOBALPARAMETERS_H */
 

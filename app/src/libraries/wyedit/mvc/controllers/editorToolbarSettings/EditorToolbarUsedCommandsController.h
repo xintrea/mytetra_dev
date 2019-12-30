@@ -45,7 +45,7 @@ public:
 
 protected:
 
-    GlobalParameters::EditorToolbar tb; // Указатель на обрабатываемую панель
+    GlobalParameters::EditorToolbar tb; // Номер обрабатываемой панели
 
     EditorToolbarCommandsListView *view;
     EditorToolbarSettingsUsedToolsModel *model;

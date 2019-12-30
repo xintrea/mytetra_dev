@@ -25,7 +25,7 @@
 
 GlobalParameters::GlobalParameters(QObject *pobj)
 {
- Q_UNUSED(pobj);
+ Q_UNUSED(pobj)
 
 }
 
