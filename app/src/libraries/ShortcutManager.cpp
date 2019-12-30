@@ -135,6 +135,13 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-showHtml",            Data{ QKeySequence("Ctrl+Shift+H"), tr("Edit HTML code"), tr("") });
     defaultKeyTable.insert("editor-showFormatting",      Data{ QKeySequence("Ctrl+F10"), tr("Show special chars"), tr("") });
     defaultKeyTable.insert("editor-createTable",         Data{ QKeySequence("Ctrl+F12"), tr("Create a new table"), tr("") });
+    defaultKeyTable.insert("editor-tableRemoveRow",      Data{ QKeySequence(""), tr("Remove row(s)"), tr("") });
+    defaultKeyTable.insert("editor-tableRemoveCol",      Data{ QKeySequence(""), tr("Remove column(s)"), tr("") });
+    defaultKeyTable.insert("editor-tableAddRow",         Data{ QKeySequence(""), tr("Add row(s)"), tr("") });
+    defaultKeyTable.insert("editor-tableAddCol",         Data{ QKeySequence(""), tr("Add column(s)"), tr("") });
+    defaultKeyTable.insert("editor-tableMergeCells",     Data{ QKeySequence(""), tr("Merge cells"), tr("") });
+    defaultKeyTable.insert("editor-tableSplitCell",      Data{ QKeySequence(""), tr("Split cell"), tr("") });
+    defaultKeyTable.insert("editor-tableProperties",     Data{ QKeySequence(""), tr("Table properties"), tr("") });
     defaultKeyTable.insert("editor-insertImageFromFile", Data{ QKeySequence("Ctrl+Shift+I"), tr("Insert/edit image"), tr("Insert image from file or edit image properties of selected image") });
     defaultKeyTable.insert("editor-insertHorizontalLine",Data{ QKeySequence("Ctrl+H"), tr("Insert horizontal line"), tr("Insert a horizontal line into the empty paragraph from cursor") });
     defaultKeyTable.insert("editor-mathExpression",      Data{ QKeySequence("Ctrl+Shift+M"), tr("Insert/edit math expression"), tr("") });

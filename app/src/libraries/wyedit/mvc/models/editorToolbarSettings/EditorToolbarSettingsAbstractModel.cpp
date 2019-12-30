@@ -51,7 +51,7 @@ int EditorToolbarSettingsAbstractModel::columnCount(const QModelIndex &parent) c
 }
 
 
-// Нахождение индекса комманды по ее названию
+// Нахождение индекса команды по ее названию
 QModelIndex EditorToolbarSettingsAbstractModel::findCommand(const QString &command, bool toLower)
 {
     // Поиск команды
@@ -59,12 +59,12 @@ QModelIndex EditorToolbarSettingsAbstractModel::findCommand(const QString &comma
         QModelIndex commandIndex = this->index(i, 0);
         if (toLower) {
             // Если надо сравнивать с учетом регистра
-            if (this->data( commandIndex ).toString().toLower() == command.toLower()) {
+            if (this->data( commandIndex, Qt::UserRole ).toString().toLower() == command.toLower()) {
                 return commandIndex;
             }
         } else {
             // Если надо сравнивать без учета регистра
-            if (this->data( commandIndex ).toString() == command) {
+            if (this->data( commandIndex, Qt::UserRole ).toString() == command) {
                 return commandIndex;
             }
         }
@@ -79,7 +79,7 @@ QString EditorToolbarSettingsAbstractModel::getCommandsList() const
     QStringList commandsList;
 
     for (int i=0; i<this->rowCount(QModelIndex()); ++i) {
-        commandsList.append( this->data( this->index(i, 0) ).toString());
+        commandsList.append( this->data( this->index(i, 0), Qt::UserRole ).toString());
     }
 
     return commandsList.join(',');

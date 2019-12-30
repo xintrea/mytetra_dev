@@ -379,38 +379,13 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-showHtml", showHtml);
     shortcutManager.initAction("editor-showFormatting", showFormatting);
     shortcutManager.initAction("editor-createTable", createTable);
-
-    // Действия над таблицей пока не имеют горячих клавиш
-    QString info;
-
-    info=tr("Remove row(s)");
-    tableRemoveRow->setStatusTip(info);
-    tableRemoveRow->setToolTip(info);
-
-    info=tr("Remove column(s)");
-    tableRemoveCol->setStatusTip(info);
-    tableRemoveCol->setToolTip(info);
-
-    info=tr("Add row(s)");
-    tableAddRow->setStatusTip(info);
-    tableAddRow->setToolTip(info);
-
-    info=tr("Add column(s)");
-    tableAddCol->setStatusTip(info);
-    tableAddCol->setToolTip(info);
-
-    info=tr("Merge cells");
-    tableMergeCells->setStatusTip(info);
-    tableMergeCells->setToolTip(info);
-
-    info=tr("Split cell");
-    tableSplitCell->setStatusTip(info);
-    tableSplitCell->setToolTip(info);
-
-    info=tr("Table properties");
-    tableProperties->setStatusTip(info);
-    tableProperties->setToolTip(info);
-
+    shortcutManager.initAction("editor-tableRemoveRow", tableRemoveRow);
+    shortcutManager.initAction("editor-tableRemoveCol", tableRemoveCol);
+    shortcutManager.initAction("editor-tableAddRow", tableAddRow);
+    shortcutManager.initAction("editor-tableAddCol", tableAddCol);
+    shortcutManager.initAction("editor-tableMergeCells", tableMergeCells);
+    shortcutManager.initAction("editor-tableSplitCell", tableSplitCell);
+    shortcutManager.initAction("editor-tableProperties", tableProperties);
     shortcutManager.initAction("editor-insertImageFromFile", insertImageFromFile);
     shortcutManager.initAction("editor-insertHorizontalLine", insertHorizontalLine);
     shortcutManager.initAction("editor-mathExpression", mathExpression);
