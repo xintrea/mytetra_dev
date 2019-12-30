@@ -4,7 +4,9 @@
 #include "EditorFontSizeComboBox.h"
 
 
-EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(parent)
+EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) :
+    MtComboBox(parent),
+    toolFocus(this)
 {
     Q_UNUSED(parent)
 

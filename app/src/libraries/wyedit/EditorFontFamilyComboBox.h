@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QFontComboBox>
-#include <QAction>
+
+#include "EditorFontToolFocus.h"
+
 
 class EditorFontFamilyComboBox : public QFontComboBox
 {
@@ -15,11 +17,10 @@ public:
 
     void setIsProgrammChanged(bool flag);
 
-    QAction* getSelectAction();
+    EditorFontToolFocus toolFocus;
 
 protected slots:
     void onCurrentIndexChanged(int index);
-    void onChangeSelectAction();
 
 protected:
 
@@ -28,8 +29,6 @@ protected:
     bool isProgrammChanged;
 
     int previousIndex;
-
-    QAction selectAction; // Действие для активации (выбора) данного виджета
 };
 
 #endif // EDITORFONTFAMILYCOMBOBOX_H

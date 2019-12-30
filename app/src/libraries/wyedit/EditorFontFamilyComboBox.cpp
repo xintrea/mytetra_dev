@@ -4,7 +4,9 @@
 #include "EditorFontFamilyComboBox.h"
 
 
-EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontComboBox(parent)
+EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) :
+    QFontComboBox(parent),
+    toolFocus(this)
 {
     Q_UNUSED(parent)
 
@@ -35,22 +37,12 @@ void EditorFontFamilyComboBox::setupSignals()
 {
     connect(this, qOverload<int>(&EditorFontFamilyComboBox::currentIndexChanged),
             this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
-
-    // Активация данного виджета по горячей клавише
-    connect(&selectAction, &QAction::changed,
-            this, &EditorFontFamilyComboBox::onChangeSelectAction);
 }
 
 
 void EditorFontFamilyComboBox::setIsProgrammChanged(bool flag)
 {
     isProgrammChanged=flag;
-}
-
-
-QAction *EditorFontFamilyComboBox::getSelectAction()
-{
-    return &selectAction;
 }
 
 
@@ -68,10 +60,4 @@ void EditorFontFamilyComboBox::onCurrentIndexChanged(int index)
 }
 
 
-void EditorFontFamilyComboBox::onChangeSelectAction()
-{
-    qDebug() << "Select EditorFontFamilyComboBox";
-
-    this->setFocus(Qt::ShortcutFocusReason);
-}
 

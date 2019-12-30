@@ -372,7 +372,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-fontColor", fontColor);
     shortcutManager.initAction("editor-backgroundColor", backgroundColor);
 
-    shortcutManager.initAction("editor-fontSelect", fontSelect->getSelectAction() );
+    shortcutManager.initAction("editor-fontSelect", fontSelect->toolFocus.getSelectAction() );
 
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
@@ -582,12 +582,27 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
         // Если данный инструмент не содержится в списке заблокированных
         if(!disableToolList.contains(toolName))
         {
-            if(toolAsWidget) {
+            // Если добавляемый интсрумент - это виджет
+            if(toolAsWidget)
+            {
                 toolAsWidget->setVisible(true);
                 line.addWidget(toolAsWidget); // Инструмент добавляется на панель инструментов как виджет
+
+                // Для специальных классов добавляются действия активации виджета
+                // как невидимые кнопки
+                if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontFamilyComboBox")==0)
+                {
+                    insertActionAsButton(&line, static_cast<EditorFontFamilyComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
+                }
+                if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontSizeComboBox")==0 )
+                {
+                    insertActionAsButton(&line, static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
+                }
             }
 
-            if(toolAsAction) {
+            // Если добавляемый инструмент - это действие
+            if(toolAsAction)
+            {
                 toolAsAction->setVisible(true);
                 line.addAction(toolAsAction); // Инструмент добавляется на панель инструментов как кнопка с привязанным действием
 
