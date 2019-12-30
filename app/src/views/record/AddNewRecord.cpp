@@ -50,7 +50,7 @@ void AddNewRecord::setupUI(void)
   recordTextEditor.initEnableAssembly(true);
   recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
   recordTextEditor.initEnableRandomSeed(false);
-  recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
+  recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "showText" << "toAttach") );
   recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
 
   // В редакторе текста записи устанавливается пустой текст, что активирует правильное

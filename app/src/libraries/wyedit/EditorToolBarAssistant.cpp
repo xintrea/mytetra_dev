@@ -39,10 +39,10 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   }
 
   // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
+  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("findInBase"))
   {
     toolsListInLine1.append("separator");
-    toolsListInLine1.append("find_in_base");
+    toolsListInLine1.append("findInBase");
   }
 
 

@@ -34,7 +34,7 @@ void EditorToolbarSettingsAvailableToolsModel::init()
 
         // Для десктопной версии пропускаем кнопки, нужные для мобильной версии
         // todo: подумать, а надо ли это действие
-        if (editorToolBarAssistant->getViewMode() == Editor::WYEDIT_DESKTOP_MODE && (command=="back" || command=="find_in_base")) {
+        if (editorToolBarAssistant->getViewMode() == Editor::WYEDIT_DESKTOP_MODE && (command=="back" || command=="findInBase")) {
             continue;
         }
 

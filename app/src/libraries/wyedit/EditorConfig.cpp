@@ -9,7 +9,7 @@
 // Конструктор объекта хранения настроек редактора
 EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(parent)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     // Информация о файле настроек редактора
     QFileInfo fileinfo(config_file_name);
@@ -416,6 +416,7 @@ void EditorConfig::update_version_process(void)
     parameterFunctions << get_parameter_table_19;
     parameterFunctions << get_parameter_table_20;
     parameterFunctions << get_parameter_table_21;
+    parameterFunctions << get_parameter_table_22;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
         if(fromVersion<=i)
@@ -829,7 +830,26 @@ QStringList EditorConfig::get_parameter_table_21(bool withEndSignature)
     // Старые параметры, аналогичные версии 20
     table << get_parameter_table_20(false);
 
-    // В параметрах tools_line_1 и tools_line_1 сзменяются "fontselect" на "fontSelect"
+    // В параметрах tools_line_1 и tools_line_1 сменяются "fontselect" на "fontSelect"
+    // см. метод update_version_change_value()
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList EditorConfig::get_parameter_table_22(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 21
+    table << get_parameter_table_21(false);
+
+    // В параметрах tools_line_1 и tools_line_1 изменяются все имена инструментов
     // см. метод update_version_change_value()
 
     if(withEndSignature)
@@ -1024,6 +1044,57 @@ QString EditorConfig::update_version_change_value(int versionFrom,
                 result.replace("fontselect", "fontSelect");
             }
         }
+
+    if(versionFrom==21 && versionTo==22)
+        if(name=="tools_line_1" or name=="tools_line_2")
+        {
+            QMap<QString, QString> names;
+
+            names["fontselect"]="fontSelect";
+            names["aligncenter"]="alignCenter";
+            names["alignleft"]="alignLeft";
+            names["alignright"]="alignRight";
+            names["alignwidth"]="alignWidth";
+            names["attach"]="toAttach";
+            names["backgroundcolor"]="backgroundColor";
+            names["createtable"]="createTable";
+            names["dotlist"]="dotList";
+            names["expand_edit_area"]="expandEditArea";
+            names["expand_tools_lines"]="expandToolsLines";
+            names["find_in_base"]="findInBase";
+            names["findtext"]="findText";
+            names["fix_break_symbol"]="fixBreakSymbol";
+            names["fontcolor"]="fontColor";
+            names["fontselect"]="fontSelect";
+            names["fontsize"]="fontSize";
+            names["indentminus"]="indentMinus";
+            names["indentplus"]="indentPlus";
+            names["insert_horizontal_line"]="insertHorizontalLine";
+            names["insert_image_from_file"]="insertImageFromFile";
+            names["math_expression"]="mathExpression";
+            names["numericlist"]="numericList";
+            names["showformatting"]="showFormatting";
+            names["showhtml"]="showHtml";
+            names["show_text"]="showText";
+            names["sub"]="subscript";
+            names["sup"]="superscript";
+            names["text_only"]="textOnly";
+            names["table_add_col"]="tableAddCol";
+            names["table_add_row"]="tableAddRow";
+            names["table_merge_cells"]="tableMergeCells";
+            names["table_properties"]="tableProperties";
+            names["table_remove_col"]="tableRemoveCol";
+            names["table_remove_row"]="tableRemoveRow";
+            names["table_split_cell"]="tableSplitCell";
+
+            for (auto key: names.keys())
+            {
+              auto value=names.value(key);
+
+              result.replace(key, value);
+            }
+        }
+
 
     return result;
 }
