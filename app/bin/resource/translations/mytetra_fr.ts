@@ -1174,41 +1174,6 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <source>Find in base</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="387"/>
-        <source>Remove row(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="391"/>
-        <source>Remove column(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="395"/>
-        <source>Add row(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="399"/>
-        <source>Add column(s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="403"/>
-        <source>Merge cells</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="407"/>
-        <source>Split cell</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="411"/>
-        <source>Table properties</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>EditorToolbarSettingsAbstractModel</name>
@@ -1221,7 +1186,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorToolbarSettingsAvailableToolsModel</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp" line="51"/>
+        <location filename="../../../src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp" line="54"/>
         <source>&lt;Separator&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1259,42 +1224,42 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="228"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="229"/>
         <source>&lt;b&gt;%1:&lt;/b&gt; This command is already in &lt;b&gt;%2&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="228"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="229"/>
         <source>ToolBar 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="239"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="240"/>
         <source>&lt;b&gt;%1&lt;/b&gt;: This command is already in &lt;b&gt;%2&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="239"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="240"/>
         <source>ToolBar 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="367"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="371"/>
         <source>&lt;b&gt;Information&lt;/b&gt; for inserting the selected command (list of all available commands) in the list of working toolbars:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="370"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="374"/>
         <source>The command is inserted &lt;b&gt;above the cursor&lt;/b&gt; in the command list of the text editor toolbar.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="383"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="387"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="406"/>
+        <location filename="../../../src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp" line="410"/>
         <source>The Settings command &lt;b&gt;%1&lt;/b&gt; must be on the toolbar line 1!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2864,161 +2829,196 @@ MyTetra will try to create a blank entry to fix it.</source>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="138"/>
-        <source>Insert/edit image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="138"/>
-        <source>Insert image from file or edit image properties of selected image</source>
+        <source>Remove row(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="139"/>
-        <source>Insert horizontal line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="139"/>
-        <source>Insert a horizontal line into the empty paragraph from cursor</source>
+        <source>Remove column(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="140"/>
-        <source>Insert/edit math expression</source>
+        <source>Add row(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="141"/>
-        <source>Expand edit area</source>
+        <source>Add column(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="142"/>
-        <source>Expand tools</source>
+        <source>Merge cells</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="143"/>
-        <source>Forse save note</source>
+        <source>Split cell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="144"/>
-        <source>Show detached window</source>
+        <source>Table properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="145"/>
-        <source>Attach files</source>
+        <source>Insert/edit image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="145"/>
+        <source>Insert image from file or edit image properties of selected image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="146"/>
-        <source>Go to URL or reference</source>
+        <source>Insert horizontal line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="146"/>
+        <source>Insert a horizontal line into the empty paragraph from cursor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="147"/>
+        <source>Insert/edit math expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="148"/>
-        <source>Copy selected rows</source>
+        <source>Expand edit area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="149"/>
+        <source>Expand tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="150"/>
-        <source>Attach file</source>
+        <source>Forse save note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="151"/>
-        <source>Attach file from URL</source>
+        <source>Show detached window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="152"/>
-        <source>Add link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="152"/>
-        <source>Add link without file copying</source>
+        <source>Attach files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="153"/>
-        <source>Edit file name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="154"/>
-        <source>Delete file</source>
+        <source>Go to URL or reference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="155"/>
-        <source>Preview file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="156"/>
-        <source>Save as...</source>
+        <source>Copy selected rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="157"/>
-        <source>Attach info</source>
+        <source>Attach file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="158"/>
-        <source>Return to editor</source>
+        <source>Attach file from URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="159"/>
+        <source>Add link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="159"/>
+        <source>Add link without file copying</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="160"/>
-        <source>Set focus to items tree</source>
+        <source>Edit file name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="161"/>
-        <source>Set focus to notes table</source>
+        <source>Delete file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="162"/>
-        <source>Set focus to editor</source>
+        <source>Preview file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="163"/>
-        <source>Find in base</source>
+        <source>Save as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="164"/>
-        <source>Synchronization</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="164"/>
-        <source>Run synchronization</source>
+        <source>Attach info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="165"/>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="166"/>
-        <source>Print</source>
+        <source>Return to editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="167"/>
-        <source>Export PDF</source>
+        <source>Set focus to items tree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/ShortcutManager.cpp" line="168"/>
+        <source>Set focus to notes table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="169"/>
+        <source>Set focus to editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="170"/>
+        <source>Find in base</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="171"/>
+        <source>Synchronization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="171"/>
+        <source>Run synchronization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="172"/>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="173"/>
+        <source>Print</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="174"/>
+        <source>Export PDF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="175"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
