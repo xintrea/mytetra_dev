@@ -637,7 +637,23 @@ void EditorTextArea::onChangeFontFamily(QString fontFamily)
 {
   // TRACELOG
 
-  setFontFamily(fontFamily);
+  qDebug() << "Apply font family " << fontFamily;
+
+  // Ранее для установки шрифта хватало одной команды setFontFamily(fontFamily);
+  // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
+
+  QTextCharFormat format;
+  format.setFontFamily(fontFamily);
+
+  // Если нет выделения, дополнительным курсором выделяется слово, на котором стоит курсор
+  QTextCursor cursor = this->textCursor();
+  if (!cursor.hasSelection())
+  {
+      cursor.select(QTextCursor::WordUnderCursor);
+  }
+
+  cursor.mergeCharFormat(format);
+  this->mergeCurrentCharFormat(format);
 }
 
 
