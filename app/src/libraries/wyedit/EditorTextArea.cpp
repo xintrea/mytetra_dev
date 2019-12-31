@@ -645,6 +645,8 @@ void EditorTextArea::onChangeFontFamily(QString fontFamily)
   QTextCharFormat format;
   format.setFontFamily(fontFamily);
 
+  qDebug() << "Font from font name: " << format.font().toString();
+
   // Если нет выделения, дополнительным курсором выделяется слово, на котором стоит курсор
   QTextCursor cursor = this->textCursor();
   if (!cursor.hasSelection())

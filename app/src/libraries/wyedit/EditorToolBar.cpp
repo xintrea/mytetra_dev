@@ -581,11 +581,12 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 
                 // Для специальных классов добавляются действия активации виджета
                 // как невидимые кнопки
-                if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontFamilyComboBox")==0)
+                // if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontFamilyComboBox")==0)
+                if( dynamic_cast<EditorFontFamilyComboBox*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line, static_cast<EditorFontFamilyComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
                 }
-                if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontSizeComboBox")==0 )
+                if( typeid(toolAsWidget)==typeid(EditorFontSizeComboBox&))
                 {
                     insertActionAsButton(&line, static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
                 }
