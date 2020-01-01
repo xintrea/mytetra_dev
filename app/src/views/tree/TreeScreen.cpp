@@ -835,7 +835,11 @@ void TreeScreen::delBranch(QString mode)
       QStringList path_1=(knowTreeModel->getItem(selectitems.at(j-1)))->getPath();
       QStringList path_2=(knowTreeModel->getItem(selectitems.at(j)))->getPath();
       if(path_1.size() < path_2.size())
-       selectitems.swapItemsAt(j-1, j);
+          #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+          selectitems.swapItemsAt(j-1, j);
+          #else
+          selectitems.swap(j-1, j);
+          #endif
      }
  
    qDebug() << "Path for delete";

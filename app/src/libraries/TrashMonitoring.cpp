@@ -40,11 +40,18 @@ void TrashMonitoring::init(QString trashPath)
     for(int i=0;i<fileInfoList.size();i++)
     {
         QString      fileName=fileInfoList.at(i).fileName();
+
+        #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
         unsigned int fileTime=fileInfoList.at(i).birthTime().toTime_t();
+        #else
+        unsigned int fileTime=fileInfoList.at(i).created().toTime_t();
+        #endif
+
         unsigned int fileSize=static_cast<unsigned int>( fileInfoList.at(i).size() );
 
         // Директории с именами "." и ".." обрабатывать не нужно
-        if(fileName=="." || fileName=="..")continue;
+        if(fileName=="." || fileName=="..")
+            continue;
 
         // Увеличивается подсчитываемый размер директории
         dirSize=dirSize+fileSize;

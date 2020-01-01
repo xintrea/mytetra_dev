@@ -389,7 +389,11 @@ bool TreeItem::moveUp(void)
   if(num==0)return false;
 
   // Элемент перемещается вверх по списку
+  #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
   ( parentItem->childItems ).swapItemsAt(num,num-1);
+  #else
+  ( parentItem->childItems ).swap(num,num-1);
+  #endif
 
   return true;
 }
@@ -397,17 +401,21 @@ bool TreeItem::moveUp(void)
 
 bool TreeItem::moveDn(void)
 {
-  // Выясняется номер данного элемента в списке родителя
-  int num=childNumber();
+    // Выясняется номер данного элемента в списке родителя
+    int num=childNumber();
 
-  // Если двигать вниз некуда, ничего делать не нужно
-  if(num>=(parentItem->childCount()-1))
-    return false;
+    // Если двигать вниз некуда, ничего делать не нужно
+    if(num>=(parentItem->childCount()-1))
+        return false;
 
-  // Элемент перемещается вниз по списку
-  ( parentItem->childItems ).swapItemsAt(num, num+1);
+    // Элемент перемещается вниз по списку
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+    ( parentItem->childItems ).swapItemsAt(num,num+1);
+    #else
+    ( parentItem->childItems ).swap(num,num+1);
+    #endif
 
-  return true;
+    return true;
 }
 
 
@@ -452,10 +460,7 @@ QStringList TreeItem::getPathAsField(QString fieldName)
     }
 
     // Поворот массива идентификаторов задом наперед
-    int k=path.size()-1;
-    int j=path.size()/2;
-    for(int i=0; i<j; ++i)
-        path.swapItemsAt(i, k-i);
+    std::reverse(path.begin(), path.end());
 
     return path;
 }
