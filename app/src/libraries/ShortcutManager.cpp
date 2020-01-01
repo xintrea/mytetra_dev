@@ -127,8 +127,8 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-alignWidth",          Data{ QKeySequence("Ctrl+J"), tr("Align width"), tr("") });
     defaultKeyTable.insert("editor-fontColor",           Data{ QKeySequence("Alt+Shift+C"), tr("Text color"), tr("") });
     defaultKeyTable.insert("editor-backgroundColor",     Data{ QKeySequence("Alt+Shift+B"), tr("Background color"), tr("") });
-    defaultKeyTable.insert("editor-fontSelect",          Data{ QKeySequence("Ctrl+Alt+W"), tr("Select font"), tr("") });
-    defaultKeyTable.insert("editor-fontSize",            Data{ QKeySequence("Ctrl+Alt+S"), tr("Select font size"), tr("") });
+    defaultKeyTable.insert("editor-fontSelect",          Data{ QKeySequence("Alt+F"), tr("Select font"), tr("") });
+    defaultKeyTable.insert("editor-fontSize",            Data{ QKeySequence("Alt+S"), tr("Select font size"), tr("") });
     defaultKeyTable.insert("editor-findText",            Data{ QKeySequence("Ctrl+F"), tr("Find text"), tr("Find text in current note") });
     defaultKeyTable.insert("editor-settings",            Data{ QKeySequence("Ctrl+Alt+G"), tr("Editor settings"), tr("") });
     defaultKeyTable.insert("editor-reference",           Data{ QKeySequence("Ctrl+Shift+U"), tr("Edit reference URL"), tr("") });

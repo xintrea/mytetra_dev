@@ -386,8 +386,16 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-alignWidth", alignWidth);
     shortcutManager.initAction("editor-fontColor", fontColor);
     shortcutManager.initAction("editor-backgroundColor", backgroundColor);
+
+    // Настраиваются скрытыя кнопки действия, а надписи настраиваются для самого виджета
     shortcutManager.initAction("editor-fontSelect", fontSelect->toolFocus.getSelectAction() );
+    fontSelect->setStatusTip( shortcutManager.getFullDescription("editor-fontSelect") );
+    fontSelect->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSelect") );
+
     shortcutManager.initAction("editor-fontSize", fontSize->toolFocus.getSelectAction() );
+    fontSize->setStatusTip( shortcutManager.getFullDescription("editor-fontSize") );
+    fontSize->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSize") );
+
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
     shortcutManager.initAction("editor-reference", reference);
@@ -581,12 +589,14 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 
                 // Для специальных классов добавляются действия активации виджета
                 // как невидимые кнопки
-                // if( strcmp(toolAsWidget->metaObject()->className(), "EditorFontFamilyComboBox")==0)
+                // При динамическом приведении типа, если тип не соответсвует заданному,
+                // dynamic_cast вернет NULL для типа указателя коим является toolAsWidget.
+                // Т. е. условие сработает только если тип будет успешно приведен к целевому
                 if( dynamic_cast<EditorFontFamilyComboBox*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line, static_cast<EditorFontFamilyComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
                 }
-                if( typeid(toolAsWidget)==typeid(EditorFontSizeComboBox&))
+                if( dynamic_cast<EditorFontSizeComboBox*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line, static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolFocus.getSelectAction(), false);
                 }
