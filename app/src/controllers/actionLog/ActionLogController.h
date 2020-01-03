@@ -1,5 +1,5 @@
-#ifndef __ACTIONLOGCONTROLLER_H__
-#define __ACTIONLOGCONTROLLER_H__
+#ifndef ACTIONLOGCONTROLLER_H
+#define ACTIONLOGCONTROLLER_H
 
 #include <QObject>
 #include <QModelIndexList>
@@ -34,4 +34,4 @@ protected:
 
 };
 
-#endif // __ACTIONLOGCONTROLLER_H__
+#endif // ACTIONLOGCONTROLLER_H

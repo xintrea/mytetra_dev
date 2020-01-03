@@ -22,7 +22,7 @@ bool PeriodicCheckBase::isStartEnabled()
 // Действия, происходящие по таймеру
 void PeriodicCheckBase::timerEvent(QTimerEvent *event)
 {
-  Q_UNUSED(event);
+  Q_UNUSED(event)
 
   // qDebug() << "In timer working method";
 
