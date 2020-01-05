@@ -22,7 +22,7 @@ extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 
 
-MetaEditor::MetaEditor(void) : Editor()
+MetaEditor::MetaEditor(QWidget *parent) : Editor(parent)
 {
   Editor::initEnableAssembly(false);
   Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");

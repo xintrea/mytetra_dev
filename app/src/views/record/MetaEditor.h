@@ -29,7 +29,7 @@ signals:
  void setFindTextSignal(QString text);
 
 public:
- MetaEditor(void);
+ MetaEditor(QWidget *parent=nullptr);
  ~MetaEditor(void);
 
  void setTreePath(QString path);
