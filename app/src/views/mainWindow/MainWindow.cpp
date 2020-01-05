@@ -40,12 +40,12 @@ MainWindow::MainWindow() : QMainWindow()
   pMainWindow=this;
   setObjectName("mainwindow");
 
-  treeScreen=NULL;
-  recordTableScreen=NULL;
-  findScreenDisp=NULL;
-  editorScreen=NULL;
-  statusBar=NULL;
-  windowSwitcher=NULL;
+  treeScreen=nullptr;
+  recordTableScreen=nullptr;
+  findScreenDisp=nullptr;
+  editorScreen=nullptr;
+  statusBar=nullptr;
+  windowSwitcher=nullptr;
 
   installEventFilter(this);
 
@@ -208,7 +208,7 @@ void MainWindow::saveAllState(void)
 // Слот, срабатывающий когда происходит выход из оконной системы
 void MainWindow::commitData(QSessionManager& manager)
 {
-  Q_UNUSED(manager);
+  Q_UNUSED(manager)
   qDebug() << "Session manager send commit data signal.";
 
   applicationFastExit();
@@ -878,6 +878,17 @@ void MainWindow::onClickFocusEditor(void)
 }
 
 
+// Перечитывание всей базы знаний
+void MainWindow::reload(void)
+{
+  reloadSaveStage();
+
+  // Стадия Load идет сразу после стадии Save, флаг о наличии задержки не выставляется
+  reloadLoadStage(false);
+}
+
+
+// Перечитывание дерева знаний, стадия Save
 void MainWindow::reloadSaveStage(void)
 {
   // Сохраняются данные в поле редактирования
@@ -891,30 +902,39 @@ void MainWindow::reloadSaveStage(void)
 }
 
 
-void MainWindow::reloadLoadStage(void)
+// Перечитывание дерева знаний, стадия Load
+void MainWindow::reloadLoadStage(bool isLongTimeReload)
 {
-  // Блокируется история
-  walkHistory.setDrop(true);
+    // Блокируется история
+    walkHistory.setDrop(true);
 
-  // Заново считываются данные в дерево
-  if( treeScreen->reloadKnowTree() )
-  {
-    restoreTreePosition();
-    restoreRecordTablePosition();
-    restoreEditorCursorPosition();
-    restoreEditorScrollBarPosition();
-  }
+    // Стадия Load может запуститься сильно позже по времени после стадии Save.
+    // И пользователь можейт уйти с записи, которую он редактировал на стадии Save.
+    // Поэтому для такого случая перед перечитыванием модели нужно обязательно
+    // сохранить положение пользователя в дереве, чтобы восстановить именно
+    // актуальное состояние после перечитывания модели
+    if( isLongTimeReload )
+    {
+        saveTreePosition();
+        saveRecordTablePosition();
+        saveEditorCursorPosition();
+        saveEditorScrollBarPosition();
+    }
 
-  // Разблокируется история посещений элементов
-  walkHistory.setDrop(false);
-}
+    // Если дерево успешно перечитано и обнаружено, что оно было изменено
+    // (При этом модель будет полностью пересоздана, все индексы будут новые)
+    if( treeScreen->reloadKnowTree() )
+    {
+        // Чтобы при дальнейшей работе небыло сегфолтов, так как индексы изменились,
+        // нужно восстановить положение пользователя в дереве знаний
+        restoreTreePosition();
+        restoreRecordTablePosition();
+        restoreEditorCursorPosition();
+        restoreEditorScrollBarPosition();
+    }
 
-
-// Перечитывание всей базы знаний
-void MainWindow::reload(void)
-{
-  reloadSaveStage();
-  reloadLoadStage();
+    // Разблокируется история посещений элементов
+    walkHistory.setDrop(false);
 }
 
 
@@ -964,7 +984,8 @@ void MainWindow::synchronization(bool visible)
   exCommand.setCommand(command);
   exCommand.run(visible);
 
-  reloadLoadStage();
+  // Функция вызывается с флагом, что от предыдущей стадии была большая задержка
+  reloadLoadStage(true);
 
   actionLogger.addAction("stopSyncro");
 }
@@ -1115,7 +1136,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
   // Проброс нажатия клавиши Ctrl в редактор, даже если он не активный (не в фокусе)
   if( event->key() == Qt::Key_Control )
-    if(editorScreen!=NULL)
+    if(editorScreen!=nullptr)
       emit globalPressKey(Qt::Key_Control);
 
   QMainWindow::keyPressEvent(event);
@@ -1127,7 +1148,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
   // Если отжата клавиша Ctrl
   if( event->key() == Qt::Key_Control )
-    if(editorScreen!=NULL)
+    if(editorScreen!=nullptr)
       emit globalReleaseKey(Qt::Key_Control);
 
   QMainWindow::keyReleaseEvent(event);
@@ -1218,9 +1239,9 @@ void MainWindow::saveTextarea(void)
 // Слот, обрабатывающий смену фокуса на виджетах
 void MainWindow::onFocusChanged(QWidget *widgetFrom, QWidget *widgetTo)
 {
-  Q_UNUSED (widgetFrom);
+  Q_UNUSED (widgetFrom)
 
-  if(widgetTo==NULL)
+  if(widgetTo==nullptr)
     return;
 
   qDebug() << "MainWindow::onFocusChanged() to " << widgetTo->objectName();

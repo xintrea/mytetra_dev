@@ -162,7 +162,7 @@ private:
  void saveEditorScrollBarPosition(void);
 
  void reloadSaveStage(void);
- void reloadLoadStage(void);
+ void reloadLoadStage(bool isLongTimeReload);
 
 
  QAction *actionFileMenuPrint;

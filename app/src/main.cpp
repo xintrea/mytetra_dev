@@ -64,6 +64,7 @@ ActionLogger actionLogger;
 // Менеджер горячих клавиш
 ShortcutManager shortcutManager;
 
+// Различные периодические проверки
 PeriodicCheckBase periodicCheckBase;
 PeriodicSyncro periodicSyncro;
 
@@ -77,7 +78,7 @@ void logPrint(char *lpszText, ...)
   FILE *pFile;
 
   // открываем лог-файл для добавления данных
-  if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
+  if((pFile = fopen("mytetralog.txt", "a+")) == nullptr)
   {
     printf("\nLog file not writable\n");
     return;
@@ -258,7 +259,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 #endif
 {
  #if QT_VERSION >= 0x050000
- Q_UNUSED(context);
+ Q_UNUSED(context)
  #endif
 
  // #if DEBUG_PRINT==1
@@ -361,7 +362,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
   if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
   {
     criticalError("Cant open config file "+fileName);
-    return;
   }
 
   // Установка в окне текста файла
@@ -383,7 +383,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
   if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
   {
     criticalError("Cant open config file for write: "+fileName);
-    return;
   }
 
   // Измененный текст записывается в файл
@@ -488,7 +487,7 @@ void setKineticScrollArea(QAbstractItemView *object)
 
   #else
 
-  if(object==NULL)
+  if(object==nullptr)
     return;
 
   if(globalParameters.getTargetOs()=="android")
@@ -567,7 +566,7 @@ QString getUniqueId(void)
 
  // Количество секунд как число
  long seconds;
- seconds=(long)time(NULL);
+ seconds=static_cast<long>( time(nullptr) );
 
  // Количество секунд как строка
  QString secondsLine=QString::number(seconds, 10);
@@ -631,7 +630,7 @@ void initRandom(void)
 
  seed1=seed1-getMilliCount()+r;
 
- unsigned int seed2=time(NULL);
+ unsigned int seed2=time(nullptr);
  unsigned int seed3=seed1+seed2;
  unsigned int seed=seed3;
 

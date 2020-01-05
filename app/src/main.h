@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION   79
+#define APPLICATION_RELEASE_MICROVERSION   81
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -55,7 +55,7 @@ using namespace std;
 
 // Прототипы функций, которые могут использоваться в других файлах
 void logPrint(char *lpszText, ...);
-void criticalError(QString message);
+[[ noreturn ]] void criticalError(QString message);
 QString xmlNodeToString(QDomNode xmlData);
 
 void printObjectTree(void);
