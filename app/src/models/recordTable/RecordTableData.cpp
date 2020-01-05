@@ -389,15 +389,19 @@ int RecordTableData::insertNewRecord(int mode,
 
   // В список переданных полей добавляются вычислимые в данном месте поля
 
-  // Время создания данной записи
-  QDateTime ctime_dt=QDateTime::currentDateTime();
-  QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
-  record.setField("ctime", ctime);
-
+  // Время создания данной записи создается, если в принятом слепке записи нет
+  // указанного поля (запись совершенно новая).
+  // Если же в слепке время есть, оно сохраняется тем, которым было
+  if( record.getField("ctime").isEmpty() )
+  {
+      QDateTime ctime_dt=QDateTime::currentDateTime();
+      QString ctime=ctime_dt.toString("yyyyMMddhhmmss");
+      record.setField("ctime", ctime);
+  }
 
   // Выясняется в какой ветке вставляется запись - в зашифрованной или нет
   bool isCrypt=false;
-  if(treeItem!=NULL)
+  if(treeItem!=nullptr)
    if(treeItem->getField("crypt")=="1")
     {
      if(globalParameters.getCryptKey().length()>0)

@@ -1085,16 +1085,18 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
 {
  // Проверяется, содержит ли буфер обмена данные нужного формата
  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+
  if(mimeData==nullptr)
   return;
+
  if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/branch")) )
   return;
 
  // Получение списка индексов QModelIndex выделенных элементов
  QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
 
- // Если выбрано более одной ветки
- if(selectitems.size()>1)
+ // Если выбрано более одной ветки или вообще ветка не выбрана
+ if(selectitems.size()!=1)
   {
    QMessageBox messageBox(this);
    messageBox.setWindowTitle(tr("Unavailable action"));
@@ -1119,8 +1121,8 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
  branch->printIdTree();
 
 
- // Получение индекса выделенной строки
- QModelIndex index=getCurrentItemIndex();
+ // Получение индекса выделенной строки дерева
+ QModelIndex index=this->getCurrentItemIndex();
 
  // Добавление ветки
  QString pasted_branch_id;
