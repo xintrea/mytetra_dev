@@ -108,12 +108,6 @@ private:
     // Контроллер для работы с моделью панели используемых команд, в зависимости от выбранной панели
     EditorToolbarUsedCommandsController *getUsedCommandsController();
 
-    // Признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
-    bool needRestart;
-
-    // Признак, были ли внесены изменения в настройки панелей инструментов
-    bool changedCommands;
-
     // Изначальные (в момент заргузки диалога) списки команд
     QString loadedAvailableCommandsList;
     QString loadedToolBar1CommandsList;

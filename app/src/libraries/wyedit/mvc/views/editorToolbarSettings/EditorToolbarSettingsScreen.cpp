@@ -11,7 +11,7 @@
 #include "views/record/MetaEditor.h"
 
 
-EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent), needRestart(false), changedCommands(false)
+EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent)
 {
     this->setWindowTitle(tr("Toolbars settings"));
 
@@ -45,9 +45,7 @@ EditorToolbarSettingsScreen::~EditorToolbarSettingsScreen()
 // Возвращает признак необходимости перезагрузки MyTetra, в зависимости от уровеня сложности вносимых изменений
 bool EditorToolbarSettingsScreen::isNeedRestart() const
 {
-    // false - изменения можно делать на лету, перезагрузка MyTetra не нужна
-    // true - для принятия изменений нужна перезагрузка MyTetra
-    return needRestart;
+    return false; // Изменения можно делать на лету, перезагрузка MyTetra не нужна
 }
 
 
@@ -411,8 +409,6 @@ void EditorToolbarSettingsScreen::applyChanges()
             msbox.setIcon(QMessageBox::Icon::Warning);
             msbox.setStandardButtons(QMessageBox::Ok);
             msbox.exec();
-
-            needRestart = false;
         } else {
             // Конфигурация текстового редактора
             EditorConfig *editorConfig = find_object<EditorConfig>("editorconfig");
@@ -422,14 +418,13 @@ void EditorToolbarSettingsScreen::applyChanges()
             editorConfig->set_tools_line_2(toolBar2CommandsList);
             editorConfig->sync();
 
+            // Перечитывание конфигурации для обновления тулбара редактора
             EditorToolBarAssistant *editorToolBarAssistant = find_object<MetaEditor>("editorScreen")->editorToolBarAssistant;
-            editorToolBarAssistant->reload();
+            editorToolBarAssistant->reload(); // Происходит "на лету", перезагрузка программы не требуется
 
-            needRestart = false; // Нужна перезагрузка MyTetra
             close();
         }
     } else {
-        needRestart = false; // Изменения можно делать на лету, перезагрузка MyTetra не нужна
         close();
     }
 }
