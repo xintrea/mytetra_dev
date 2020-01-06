@@ -50,8 +50,11 @@ void EditorToolBar::initDisableToolList(QStringList toolNames)
 
 
 // Инициализация панели инструментов
+// Ранее в этот метод передавался параметр mode
 // Если mode=WYEDIT_DESKTOP_MODE - происходит обычная инициализация
 // Если mode=WYEDIT_MOBILE_MODE - при инициализации в первую строку панели инструментов, слева, добавляется кнопка back
+// Теперь доп. кнопки добавляются в конструкторе EditorToolBarAssistant
+// todo: Нужно проверить, что для доп. кнопок выставляются правильные QAction в mobile-режиме
 void EditorToolBar::init()
 {
     isInit=true;
@@ -60,21 +63,6 @@ void EditorToolBar::init()
     this->setupShortcuts();
     this->setupSignals();
     this->assemblyButtons();
-}
-
-
-void EditorToolBar::reload()
-{
-    this->clearToolsLines();
-
-    // Из слоя с виджетами линеек панели инструментов убираются все виджеты
-    QLayoutItem* item;
-    while ( ( item = textformatButtonsLayout.takeAt( 0 ) ) != nullptr )
-    {
-        textformatButtonsLayout.removeItem(item);
-    }
-
-    this->init();
 }
 
 
@@ -89,7 +77,6 @@ QAction* EditorToolBar::generateAction(QIcon icon)
 
     return actions[currentIndex];
 }
-
 
 
 void EditorToolBar::setupSignals()
@@ -530,27 +517,59 @@ void EditorToolBar::assemblyButtons(void)
 }
 
 
+// Убирание всех инструментов с тулбара (но на очистка списков элементов на тулбарах)
 void EditorToolBar::clearToolsLines(void)
 {
+    // Особенность Qt
+    // Владение QWidget-ми, которые вставлены в тулбары через addWidget(),
+    // забирается от тулбаров и возвращается текущему объекту
+    // Однако, данное действие не нужно делать для QAction,
+    // которые вствленны через addAction(), так как для QAction,
+    // в момент вставки в тулбар, владение не передается
+
+    // Тулбар 1
+    QList<QObject*> objectList=toolsLine1.children();
+    for(auto object : objectList)
+    {
+        QWidget *widget=dynamic_cast<QWidget *>(object);
+        if(widget)
+        {
+            widget->setParent(this);
+        }
+    }
+
+    // Тулбар 2
+    objectList=toolsLine2.children();
+    for(auto object : objectList)
+    {
+        QWidget *widget=dynamic_cast<QWidget *>(object);
+        if(widget)
+        {
+            widget->setParent(this);
+        }
+    }
+
+    // Очистка тулбаров
     toolsLine1.clear();
     toolsLine2.clear();
 }
 
 
+// Засовывание инструментов на тулбары согласно спискам инструментов на тулбарах
 void EditorToolBar::updateToolsLines(void)
 {
-  clearToolsLines();
+  this->clearToolsLines();
 
   for(int i=0;i<toolsListInLine1.size();++i)
   {
     QString b=toolsListInLine1.at(i).trimmed();
-    insertButtonToToolsLine(b,toolsLine1);
+    this->insertButtonToToolsLine(b,toolsLine1);
   }
 
   for(int i=0;i<toolsListInLine2.size();++i)
   {
     QString b=toolsListInLine2.at(i).trimmed();
-    insertButtonToToolsLine(b,toolsLine2);
+    this->insertButtonToToolsLine(b,toolsLine2);
   }
 }
 
@@ -575,7 +594,6 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 
         if(!toolAsWidget && !toolAsAction) {
             criticalError("WyEdit: Can not find editor tool with name '"+toolName+"'. Please check editor *.ini file");
-            return;
         }
 
         // Если данный инструмент не содержится в списке заблокированных

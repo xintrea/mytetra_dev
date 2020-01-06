@@ -20,6 +20,9 @@ EditorToolbarSettingsAvailableToolsModel::EditorToolbarSettingsAvailableToolsMod
 
 void EditorToolbarSettingsAvailableToolsModel::init()
 {
+    // Вначале модель полностью очищается, чтобы небыло наложений от предыдущих открытий окна настроек
+    this->clear();
+
     // Все уже используемые инструменты на обоих линиях панели
     QStringList commandsInToolsLine = editorConfig->get_tools_line_1().split(',');
     commandsInToolsLine.append(editorConfig->get_tools_line_2().split(','));

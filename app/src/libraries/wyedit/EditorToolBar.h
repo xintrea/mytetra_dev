@@ -27,7 +27,7 @@ public:
     // Область, содержащая линейки с кнопками форматирования
     QVBoxLayout textformatButtonsLayout;
 
-    // Линейки с кнопками форматирования текста
+    // Тулбары с кнопками форматирования текста
     QToolBar    toolsLine1;
     QToolBar    toolsLine2;
 
@@ -100,7 +100,6 @@ public:
     QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
     void init();
-    void reload();
 
     void initDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
     void setEnableModifyTextButton(bool state); // Установка или снятие доступности кнопок, модифицирующих текст
@@ -124,6 +123,7 @@ protected:
 
     bool isInit;
 
+    // Список инструментов на тулбарах 1 и 2
     QStringList toolsListInLine1;
     QStringList toolsListInLine2;
 

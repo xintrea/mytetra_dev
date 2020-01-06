@@ -25,39 +25,14 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   viewMode=iViewMode;
   textArea=iTextArea;
 
-  initDisableToolList(iDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
-
-
-  // Выясняется перечень кнопок в первой строке на панели инструментов
-  QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
-
-  // В мобильном режиме добавляется кнопка back (если ее нет)
-  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
-  {
-    toolsListInLine1.prepend("separator");
-    toolsListInLine1.prepend("back");
-  }
-
-  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("findInBase"))
-  {
-    toolsListInLine1.append("separator");
-    toolsListInLine1.append("findInBase");
-  }
-
-
-  // Устанавливается перечень кнопок на панели инструментов
-  initToolsLine1(toolsListInLine1); // Первая строка
-  initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
-
   currentFontFamily="";
   currentFontSize=0;
   flagSetFontParametersEnabled=true;
 
-  // Инициализация панели инструментов
-  init();
+  // Настройка списков кнопок на панелях инструментов редактора
+  this->init(iDisableToolList);
 
-  setupSignals();
+  this->setupSignals();
 
   // Устанавливается состояние распахнута или нет панель инструментов
   if(editor->editorConfig->get_expand_tools_lines())
@@ -70,6 +45,69 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
 EditorToolBarAssistant::~EditorToolBarAssistant()
 {
 
+}
+
+
+void EditorToolBarAssistant::init(const QStringList &iDisableToolList)
+{
+    // Установка списков инструментов, считываемых из конфига
+    this->initToolsLists(iDisableToolList);
+
+    // Инициализация панели инструментов, согласно установленным спискам инструментов
+    EditorToolBar::init();
+}
+
+
+// Установка списков инструментов, считываемых из конфига
+void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
+{
+    // Перед инитом устанавливается список скрываемых инструментов
+    EditorToolBar::initDisableToolList(iDisableToolList);
+
+    // Выясняется перечень кнопок в первой строке на панели инструментов
+    QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
+
+    // В мобильном режиме добавляется кнопка back (если ее нет)
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("back"))
+    {
+      EditorToolBar::toolsListInLine1.prepend("separator");
+      EditorToolBar::toolsListInLine1.prepend("back");
+    }
+
+    // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("findInBase"))
+    {
+      EditorToolBar::toolsListInLine1.append("separator");
+      EditorToolBar::toolsListInLine1.append("findInBase");
+    }
+
+    // Устанавливается перечень кнопок на панели инструментов
+    EditorToolBar::initToolsLine1(toolsListInLine1); // Первая строка
+    EditorToolBar::initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
+}
+
+
+void EditorToolBarAssistant::reload()
+{
+    // Очищаются тулбары
+    EditorToolBar::clearToolsLines();
+
+    // Из слоя с виджетами линеек панели инструментов убираются все виджеты (тулбары)
+    QLayoutItem* item;
+    while ( ( item = textformatButtonsLayout.takeAt( 0 ) ) != nullptr )
+    {
+        textformatButtonsLayout.removeItem(item);
+    }
+
+    EditorToolBar::isInit=false;
+
+    // Установка списков инструментов, считанных из конфига
+    this->initToolsLists( EditorToolBar::disableToolList );
+
+    // Сборка тулбаров из инструментов
+    EditorToolBar::assemblyButtons();
+
+    EditorToolBar::isInit=true;
 }
 
 

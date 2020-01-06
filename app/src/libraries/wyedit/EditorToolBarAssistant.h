@@ -24,6 +24,8 @@ public:
                                   QStringList iDisableToolList);
   ~EditorToolBarAssistant();
 
+  void reload();
+
   // Метод, переключающий состояние видимости развернутой/свернутой панели инструментов
   // Если вызывается без параметра, метод сам переключает
   // Параметр 1 - включить полную видимость
@@ -79,6 +81,11 @@ public slots:
 
 protected:
 
+  void init(const QStringList &iDisableToolList);
+  void initToolsLists(const QStringList &iDisableToolList);
+  void setupSignals();
+
+
   Editor *editor; // Указатель на объект редактора, с которым работает эта панель кнопок
   EditorTextArea *textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок
 
@@ -89,7 +96,6 @@ protected:
 
   bool flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
 
-  void setupSignals();
 };
 
 #endif // EDITORTOOLBARASSISTANT_H

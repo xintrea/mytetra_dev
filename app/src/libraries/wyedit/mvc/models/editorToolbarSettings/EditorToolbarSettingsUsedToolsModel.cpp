@@ -19,6 +19,9 @@ EditorToolbarSettingsUsedToolsModel::EditorToolbarSettingsUsedToolsModel(QObject
 
 void EditorToolbarSettingsUsedToolsModel::init(GlobalParameters::EditorToolbar tb)
 {
+    // Вначале модель полностью очищается, чтобы небыло наложений от предыдущих открытий окна настроек
+    this->clear();
+
     // Создание команд для панели с учетом номера панели
     QStringList commandsInToolsLine = tb == GlobalParameters::EditorToolbar::First
             ? editorConfig->get_tools_line_1().split(',')
