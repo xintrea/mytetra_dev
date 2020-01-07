@@ -26,7 +26,6 @@ void ShortcutSettingsView::init()
     // так как this->selectionModel() не определен если не установлена модель
     if( this->model()==nullptr ) {
         criticalError("Please run ShortcutSettingsView::init() after setModel() calleng");
-        return;
     }
 
     // Реакция на перемещение курсора (засветки) по дереву
@@ -43,7 +42,7 @@ void ShortcutSettingsView::init()
 
 void ShortcutSettingsView::onCurrentChanged(const QModelIndex &index, const QModelIndex &prevIndex)
 {
-    Q_UNUSED(prevIndex);
+    Q_UNUSED(prevIndex)
 
     // Курсор должен всегда перемещаться по левым ячейкам, так как если пользователь кликнет
     // на не самую левую ячейку, то курсор сможет перемещаться только в пределах группы

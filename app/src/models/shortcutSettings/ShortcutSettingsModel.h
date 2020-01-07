@@ -17,7 +17,8 @@ public:
 
     enum updateMode {
         updateManager=0,
-        resetToDefaultKeySequence=1
+        resetToDefaultKeySequence=1,
+        checkDuplicate=2
     };
 
     ShortcutSettingsModel(QObject *parent = nullptr);
@@ -26,6 +27,7 @@ public:
     QModelIndex findShortcut(const QString &shortcutFullName);
     void resetAllShortcutsToDefault();
 
+    bool checkShortcutDuplicate();
     void save();
 
     QVariant headerData(int section, Qt::Orientation orientation,
@@ -35,14 +37,17 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    const QString& getDuplicateError() const;
+
 protected:
 
     void updateShortcutManager();
-    void smartUpdate(updateMode mode);
+    bool smartUpdate(updateMode mode);
 
     // Все настройки производятся над копией ShortcutManager, чтобы их можно было отменить
     ShortcutManager copyShortcutManager;
 
+    QString duplicateError;
 };
 
 #endif // SHORTCUTSETTINGSMODEL_H

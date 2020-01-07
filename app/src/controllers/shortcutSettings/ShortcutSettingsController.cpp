@@ -1,3 +1,5 @@
+#include <QMessageBox>
+
 #include "ShortcutSettingsController.h"
 #include "libraries/ShortcutManager.h"
 
@@ -34,6 +36,16 @@ void ShortcutSettingsController::init()
 
 void ShortcutSettingsController::applyChanges()
 {
+    // Проверка на наличие задвоенных сочетаний клавиш
+    if( !model->checkShortcutDuplicate() )
+    {
+        QMessageBox msgBox;
+        msgBox.setText( model->getDuplicateError());
+        msgBox.exec();
+
+        return;
+    }
+
     // Сохранение изменений на диск
     model->save();
 

@@ -100,7 +100,13 @@ void ShortcutSettingsModel::resetAllShortcutsToDefault()
 }
 
 
-void ShortcutSettingsModel::smartUpdate(updateMode mode)
+bool ShortcutSettingsModel::checkShortcutDuplicate()
+{
+    return this->smartUpdate(updateMode::checkDuplicate);
+}
+
+
+bool ShortcutSettingsModel::smartUpdate(updateMode mode)
 {
     // Перебор секций
     for(int i=0; i<this->rowCount( QModelIndex() ); ++i ) {
@@ -109,7 +115,7 @@ void ShortcutSettingsModel::smartUpdate(updateMode mode)
         // Имя секции
         QString sectionName=this->data( sectionIndex ).toString();
 
-        // Перебор команд
+        // Перебор команд в секции
         for(int j=0; j<this->rowCount( sectionIndex ); ++j ) {
 
             // Короткое имя команды
@@ -144,15 +150,43 @@ void ShortcutSettingsModel::smartUpdate(updateMode mode)
                     this->copyShortcutManager.setKeySequence(fullCommandName, defaultKeysName); // Устанавливается в менеджере
                 }
             }
+
+            // Проверка модели на повторы сочетаний клавиш
+            if(mode==updateMode::checkDuplicate) {
+
+                // Сочетание клавиш и название
+                static QMap<QString, QString> keysSequenceList;
+                if(i==0 and j==0)
+                {
+                    keysSequenceList.clear();
+                    duplicateError="";
+                }
+
+                // Если сочетания нет в списке, оно добавляется в список
+                if( !keysSequenceList.contains( keysName ) )
+                {
+                    keysSequenceList[keysName]=fullCommandName;
+                }
+                else
+                {
+                    QString altrnateFullCommandName=keysSequenceList[keysName];
+
+                    duplicateError=tr("Found duplicate key sequense for action %1 and %2").arg(altrnateFullCommandName).arg(fullCommandName);
+
+                    return false;
+                }
+            }
         }
     }
+
+    return true;
 }
 
 
 // Получение заголовка столбца
 QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    Q_UNUSED(orientation);
+    Q_UNUSED(orientation)
 
     if(role!=Qt::DisplayRole) {
         return QVariant();
@@ -184,7 +218,7 @@ QVariant ShortcutSettingsModel::headerData(int section, Qt::Orientation orientat
 
 int ShortcutSettingsModel::columnCount(const QModelIndex &itemIndex) const
 {
-    Q_UNUSED(itemIndex);
+    Q_UNUSED(itemIndex)
 
     return 4;
 }
@@ -198,5 +232,11 @@ Qt::ItemFlags ShortcutSettingsModel::flags(const QModelIndex &index) const
 
     // Для строк с шорткатами
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
+
+
+const QString &ShortcutSettingsModel::getDuplicateError() const
+{
+    return duplicateError;
 }
 
