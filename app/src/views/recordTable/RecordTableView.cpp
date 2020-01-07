@@ -10,6 +10,7 @@
 #include "libraries/ClipboardRecords.h"
 #include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "views/tree/KnowTreeView.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
@@ -165,6 +166,9 @@ void RecordTableView::setupSignals(void)
          this,                     &RecordTableView::onSectionMoved);
  connect(this->horizontalHeader(), &QHeaderView::sectionResized,
          this,                     &RecordTableView::onSectionResized);
+
+ connect(find_object<KnowTreeView>("knowTreeView"), &KnowTreeView::dropEventHandleCatch,
+         this, &RecordTableView::onDropEventHandleCatch);
 }
 
 
@@ -221,22 +225,28 @@ void RecordTableView::onPressToRecord(const QModelIndex &index)
 // Срабатывает при завершении клика (после отпускания мышки)
 void RecordTableView::onClickToRecord(const QModelIndex &index)
 {
-  // В мобильном режиме, как если засветка уже стоит на строке с записью, должна открыться запись
-  // (а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране из-за обрабоки сигнала listSelectionChanged)
-  if(mytetraConfig.getInterfaceMode()=="mobile")
-  {
-    clickToRecord(index);
-    return;
-  }
+    // В мобильном режиме, как если засветка уже стоит на строке с записью, должна открыться запись
+    // (а в десктопном режиме этого не должно происходить, потому что запись уже видна на экране из-за обрабоки сигнала listSelectionChanged)
+    if(mytetraConfig.getInterfaceMode()=="mobile")
+    {
+        clickToRecord(index);
+        return;
+    }
 }
 
 
 // Действия при выборе строки таблицы конечных записей. Принимает индекс Proxy модели
 void RecordTableView::clickToRecord(const QModelIndex &index)
 {
-  controller->clickToRecord(index);
+    // Устранение неправильного поведения Qt
+    if(isDragHappeningNow)
+    {
+        return;
+    }
 
-  globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
+    controller->clickToRecord(index);
+
+    globalParameters.getWindowSwitcher()->switchFromRecordtableToRecord();
 }
 
 
@@ -514,76 +524,136 @@ void RecordTableView::tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture)
 
 
 // Реакция на нажатие кнопок мышки
+// Событие приходит до того, как даже произойдет выделение строки под курсором мышки
 void RecordTableView::mousePressEvent(QMouseEvent *event)
 {
- // Если нажата левая кнопка мыши
- if(event->buttons() == Qt::LeftButton)
-  {
-   mouseStartPos=event->pos();
-  }
+    // Если нажата левая кнопка мыши
+    if(event->buttons() == Qt::LeftButton)
+    {
+        // Запоминаются координаты курсора
+        mouseStartPos=event->pos();
 
- QTableView::mousePressEvent(event);
+        // Запоминается запись-кандидат на перенос
+        // Определение индекса записи нельзя делать через currentIndex(),
+        // т. к. событие приходит раньше выделения записи под курсором
+        // Определять индекс нужно именно по координатам курсора
+        if( this->indexAt( event->pos() ).isValid() )
+        {
+            startDragIndex=this->indexAt( event->pos() );
+            qDebug() << "Candidate to drag: " << startDragIndex.data().toString();
+        }
+        else
+        {
+            startDragIndex=QModelIndex(); // Иначе запоминается невалидный индекс
+        }
+    }
+
+    // При клике перетаскивание еще не начинается,
+    // и кроме того флаг от предыдущего пертаскивания надо очистить
+    isDragHappeningNow=false;
+
+    QTableView::mousePressEvent(event);
 }
 
 
 // Реакция на движение мышкой
 void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 {
- // Если при движении нажата левая кнопка мышки
- if(event->buttons() & Qt::LeftButton)
-  {
-   // Выясняется расстояние от места начала нажатия
-   int distance=(event->pos() - mouseStartPos).manhattanLength();
-
-   if(distance >= QApplication::startDragDistance()*2)
+    // Если при движении нажата левая кнопка мышки
+    if(event->buttons() & Qt::LeftButton)
     {
-       startDrag();
-    }
-  }
+        // Выясняется расстояние от места начала нажатия
+        int distance=(event->pos() - mouseStartPos).manhattanLength();
 
- QTableView::mouseMoveEvent(event);
+        if(distance >= QApplication::startDragDistance())
+        {
+            startDrag();
+        }
+    }
+
+    QTableView::mouseMoveEvent(event);
 }
 
 
 // Реакция на отпускание клавиши мышки
+// Данное событие почему-то не генерируется, если нажатие происходило на одной строке,
+// а отпускание происходит на другой строке
 void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 {
- QTableView::mouseReleaseEvent(event);
+    qDebug() << "Mouse release at RecordTableView...";
+
+    QTableView::mouseReleaseEvent(event);
+
+    qDebug() << "Mouse release at RecordTableView after calling parent event";
+
+    // Если мышка отпускается до того, как завершилось перетаскивание
+    if(isDragHappeningNow)
+    {
+        // Значит перетаскивания не произошло, и надо выделить строку,
+        // на которой начиналось перетаскивание
+        if( startDragIndex.isValid() )
+        {
+            qDebug() << "Candidate drag finish: " << startDragIndex.data().toString();
+
+            this->selectRow( startDragIndex.row() );
+        }
+
+        isDragHappeningNow=false;
+    }
+
+    // Индекс перетаскиваемой записи очищается в любом случае
+    startDragIndex=QModelIndex();
 }
 
 
 // Начало переноса записи
 void RecordTableView::startDrag()
 {
- qDebug() << "Start record drag\n";
-
- // Если действительно выбрана строка
- if( currentIndex().isValid() )
-  {
-   // Перед переносом нужно запомнить текст последней редактируемой записи, чтобы не перенесся неотредактированный вариант
-   find_object<MainWindow>("mainwindow")->saveTextarea();
-
-   // Копирование выделенных строк в объект переноса
-   QDrag *drag=new QDrag(this);
-   drag->setMimeData( getSelectedRecords() );
-
-   // Запуск операции перетаскивания объекта
-   unsigned int result=drag->exec(Qt::MoveAction);
-
-   // Если перетаскивание завершено
-   if(result==0)
+    if( !startDragIndex.isValid() )
     {
-     // Сюда код дойдет после того, как перетаскивание будет закончено
-     qDebug() << "Success drag and drop move record";
-
-     // todo: Совершенно непонятно, где удалять объект drag.
-     // Если удалять в этом месте, имеем сегфолт
-     // delete drag;
-
-     // В модели данных обнуляется оформление элемента, который (возможно) подсвечивался при Drag And Drop
-     find_object<TreeScreen>("treeScreen")->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
+        return;
     }
-  }
+
+    // Исправление особенности Qt
+    // Выделяется строка, на которой был старт движения DragAndDrop,
+    // так как метод startDrag() может сработать, когда выделена строка
+    // с соседней записью, которую на самом деле ненужно перемещать
+    this->selectRow( startDragIndex.row() );
+    isDragHappeningNow=true; // Выставляется флаг что началось перетаскивание
+
+    qDebug() << "Start record drag\n";
+
+    // Перед переносом нужно запомнить текст последней редактируемой записи, чтобы не перенесся неотредактированный вариант
+    find_object<MainWindow>("mainwindow")->saveTextarea();
+
+    // Копирование выделенных строк в объект переноса
+    QDrag *drag=new QDrag(this);
+    drag->setMimeData( getSelectedRecords() );
+
+    // Запуск операции перетаскивания объекта
+    unsigned int result=drag->exec(Qt::MoveAction);
+
+    // Если перетаскивание завершено
+    // Это неточно, докуметаця и М.Шлее не объясняют внятно, когда срабатывает этот код
+    if(result==0)
+    {
+        // Сюда код дойдет после того, как перетаскивание будет закончено
+        qDebug() << "May be, success drag and drop move record";
+
+        // todo: Совершенно непонятно, где удалять объект drag.
+        // Если удалять в этом месте, имеем сегфолт
+        // delete drag;
+
+        // В модели данных обнуляется оформление элемента, который (возможно) подсвечивался при Drag And Drop
+        find_object<TreeScreen>("treeScreen")->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
+    }
+}
+
+
+// Слот вызывается из KnowTreeView если произошол Drop
+void RecordTableView::onDropEventHandleCatch()
+{
+    isDragHappeningNow=false;
 }
 
 

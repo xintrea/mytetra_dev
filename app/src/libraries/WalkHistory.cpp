@@ -36,10 +36,12 @@ void WalkHistory::add(QString id,
                       int scrollBarPosition,
                       int mode)
 {
+  /*
   qDebug() << "WalkHistory::add() : id " << id;
   qDebug() << "WalkHistory::add() : mode " << mode;
   qDebug() << "WalkHistory::add() start status:";
   print();
+  */
 
   if(id.length()==0)
     return;

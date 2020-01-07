@@ -133,6 +133,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
 {
  qDebug() << "dropEvent() - Start";
 
+ emit dropEventHandleCatch();
+
  if( isDragableData(event) )
   {
    qDebug() << "Try move record by drag and drop";

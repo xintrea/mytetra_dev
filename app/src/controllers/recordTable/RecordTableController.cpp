@@ -89,7 +89,7 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 
   // Позиция записи в списке
   int pos=sourceIndex.row();
-  qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
+  qDebug() << "RecordTableController::clickToRecord() : current item num " << pos;
 
   initMetaEditorAtClickToRecord(pos);
   initAttachTableAtClickToRecord(pos);
@@ -162,9 +162,9 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   // И если имя директории или имя файла пусты, то это означает что
   // запись не была расшифрована, и редактор должен просто показывать пустой текст
   // ничего не сохранять и не считывать
-  qDebug() << "RecordTableView::onClickToRecord() : id " << table->getField("id", pos);
-  qDebug() << "RecordTableView::onClickToRecord() : name " << table->getField("name", pos);
-  qDebug() << "RecordTableView::onClickToRecord() : crypt " << table->getField("crypt", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : id " << table->getField("id", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : name " << table->getField("name", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : crypt " << table->getField("crypt", pos);
   if(table->getField("crypt", pos)=="1")
     if(fullDir.length()==0 || currentFile.length()==0)
       edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);

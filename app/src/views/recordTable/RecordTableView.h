@@ -83,6 +83,8 @@ protected slots:
  void onPressToRecord(const QModelIndex &index);
  void onClickToRecord(const QModelIndex &index);
 
+ void onDropEventHandleCatch();
+
 protected:
 
  QMenu *contextMenu;
@@ -119,6 +121,8 @@ protected:
 private:
 
  void startDrag();
+ QModelIndex startDragIndex;
+ bool isDragHappeningNow=false;
 
 };
 
