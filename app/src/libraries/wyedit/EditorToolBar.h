@@ -137,7 +137,7 @@ protected:
     void assemblyButtons(void);
 
     void insertButtonToToolsLine(QString toolName, QToolBar &line);
-    void insertUnusedButtons();
+    void registryActionsToToolBarWidget();
 
     QList<QWidget *> getButtonWidgetList(void);
     void hideAllToolsElements(void);

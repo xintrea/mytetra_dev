@@ -62,6 +62,7 @@ void EditorToolBar::init()
     this->setupToolBarTools();
     this->setupShortcuts();
     this->setupSignals();
+    this->registryActionsToToolBarWidget();
     this->assemblyButtons();
 }
 
@@ -571,10 +572,6 @@ void EditorToolBar::updateToolsLines(void)
     QString b=toolsListInLine2.at(i).trimmed();
     this->insertButtonToToolsLine(b,toolsLine2);
   }
-
-  // Не указанные для размещения на панели инструментов кнопки
-  // вставляются как невидимые, чтобы работали шорткаты
-  this->insertUnusedButtons();
 }
 
 
@@ -648,36 +645,27 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 }
 
 
-void EditorToolBar::insertUnusedButtons()
+// Действия с шорткатами добавляются к виджету EditorToolBar,
+// чтобы шорткаты срабатывали даже если нет кнопок на панелях редактора
+void EditorToolBar::registryActionsToToolBarWidget()
 {
-    // Перечень всех инструментов редактора
-    QStringList allToolsList=shortcutManager.getActionsNameList("editor");
-
-    // Исключение из перечня всех инструментов, которые видны на тулбаре
-    for(auto toolName : toolsListInLine1)
+    // Перебираются все инструменты редактора с шорткатами
+    for(auto toolName : shortcutManager.getActionsNameList("editor") )
     {
-        allToolsList.removeAll( toolName );
-    }
-
-    for(auto toolName : toolsListInLine2)
-    {
-        allToolsList.removeAll( toolName );
-    }
-
-    // В этом месте allToolsList содержит только те инструменты,
-    // которые не размещены на тулбарах
-
-    for(auto toolName : allToolsList)
-    {
-        QAction *toolAsAction=qobject_cast<QAction *>(this->findChild<QObject *>( "editor_tb_"+toolName ));
-
-        // Добавляются только действия, т. к. виджеты не могут быть добавлены
-        // как невидимые кнопки
-        if(toolAsAction)
+        // Запрещенные действия добавляться не должны
+        if( disableToolList.contains(toolName) )
         {
-            insertActionAsButton(&toolsLine1, toolAsAction, false);
+            continue;
         }
 
+        QAction *toolAsAction=qobject_cast<QAction *>(this->findChild<QObject *>( "editor_tb_"+toolName ));
+
+        // Добавляются только действия, но не виджеты (так как виджеты будут
+        // восприняты как дочерние виджеты текущего виджета)
+        if(toolAsAction)
+        {
+            this->addAction( toolAsAction );
+        }
     }
 }
 
