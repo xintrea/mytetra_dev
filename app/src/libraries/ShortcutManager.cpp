@@ -11,6 +11,8 @@ extern GlobalParameters globalParameters;
 
 const QStringList ShortcutManager::availableSection={"note", "tree", "editor", "actionLog", "attach", "misc"};
 
+const QStringList ShortcutManager::overloadSection={"actionLog:*", "attach:editor"};
+
 
 ShortcutManager::ShortcutManager(QObject *parent) : QObject(parent)
 {
@@ -258,14 +260,12 @@ void ShortcutManager::saveConfig(QMap<QString, Data> table)
         QString sectionName=fullActionName.section('-', 0, 0);
         if(!availableSection.contains(sectionName)) {
             criticalError("Not found available shortcut section name for action "+fullActionName+" and keys "+shortcutKeys.toString());
-            return;
         }
 
         // Наименование действия в разделе
         QString shortActionName=fullActionName.section('-', 1, 1);
         if(shortActionName=="") {
             criticalError("Not found shortcut shortActionName for action "+fullActionName+" and keys "+shortcutKeys.toString());
-            return;
         }
 
         // qDebug() << "Save section: "+sectionName+" action: "+shortActionName;
@@ -421,7 +421,6 @@ void ShortcutManager::initAction(QString actionName, QAction *action)
         action->setText(      getDescriptionWithShortcut(actionName) );
     } else {
         criticalError("Not found available action name "+actionName);
-        return;
     }
 
 }
@@ -436,7 +435,65 @@ void ShortcutManager::initToolButton(QString actionName, QToolButton *action)
         action->setText(      getDescriptionWithShortcut(actionName) );
     } else {
         criticalError("Not found available action name "+actionName);
-        return;
     }
 
+}
+
+
+// Проверка имен секций, допустимо ли одно и то же сочетание клавиш
+// для указанных двух секций
+bool ShortcutManager::isOverloadEnable(QString sectionNameA, QString sectionNameB)
+{
+    // В одной и той же секции повторения никогда недопустимы
+    if( sectionNameA==sectionNameB )
+    {
+        return false;
+    }
+
+    // Прямая проверка
+    if( this->isDirectOverloadEnable(sectionNameA, sectionNameB) )
+    {
+        return true;
+    }
+
+    // Обратная проверка
+    if( this->isDirectOverloadEnable(sectionNameB, sectionNameA) )
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
+bool ShortcutManager::isDirectOverloadEnable(QString sectionNameA, QString sectionNameB)
+{
+    // Перебор списка с настройками допустимости перекрытый
+    for(auto sectionData : overloadSection)
+    {
+        QStringList pair=sectionData.split(":");
+
+        if(pair.size()!=2)
+        {
+            criticalError("Incorrect format for overload section. Incorrect item: "+sectionData);
+        }
+
+        QString sectionName=pair[0];
+        QString sectionMask=pair[1];
+
+        if( sectionName==sectionNameA )
+        {
+            if(sectionMask=="*")
+            {
+                return true;
+            }
+
+            if(sectionMask==sectionNameB)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }

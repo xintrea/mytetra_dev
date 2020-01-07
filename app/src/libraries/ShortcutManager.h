@@ -57,6 +57,8 @@ public:
     // Получение списка коротких имен действий в секции
     QStringList getActionsNameList(QString sectionName);
 
+    bool isOverloadEnable(QString sectionNameA, QString sectionNameB);
+
 signals:
 
     void updateWidgetShortcut();
@@ -67,6 +69,13 @@ protected:
     void initKeyTable();
     void checkConfigFile();
     void saveConfig(QMap<QString, Data> table);
+
+    bool isDirectOverloadEnable(QString sectionNameA, QString sectionNameB);
+
+    // Специальный список, показывающий, какие секции могут "перекрывать" другие
+    // Этот список используется при проверке задвоенности шорткатов
+    // Если одна секция перекрывает другую, то такая задвоенность допустима
+    static const QStringList overloadSection;
 
     QMap<QString, Data> keyTable;
     QMap<QString, Data> defaultKeyTable;

@@ -154,7 +154,7 @@ bool ShortcutSettingsModel::smartUpdate(updateMode mode)
             // Проверка модели на повторы сочетаний клавиш
             if(mode==updateMode::checkDuplicate) {
 
-                // Сочетание клавиш и название
+                // Список для сочетаний клавиш и их названий
                 static QMap<QString, QString> keysSequenceList;
                 if(i==0 and j==0)
                 {
@@ -162,18 +162,29 @@ bool ShortcutSettingsModel::smartUpdate(updateMode mode)
                     duplicateError="";
                 }
 
-                // Если сочетания нет в списке, оно добавляется в список
-                if( !keysSequenceList.contains( keysName ) )
+                // Если сочетание не пустое, его можно обрабатывать
+                if( keysName!="" )
                 {
-                    keysSequenceList[keysName]=fullCommandName;
-                }
-                else
-                {
-                    QString altrnateFullCommandName=keysSequenceList[keysName];
+                    // Если сочетания нет в списке, оно добавляется в список
+                    if( !keysSequenceList.contains( keysName ) )
+                    {
+                        keysSequenceList[keysName]=fullCommandName;
+                    }
+                    else
+                    {
+                        // Иначе сочетание повторяется
+                        QString altrnateFullCommandName=keysSequenceList[keysName];
 
-                    duplicateError=tr("Found duplicate key sequense for action %1 and %2").arg(altrnateFullCommandName).arg(fullCommandName);
+                        QString sectionNameA=fullCommandName.left( fullCommandName.indexOf('-') );
+                        QString sectionNameB=altrnateFullCommandName.left( altrnateFullCommandName.indexOf('-') );
 
-                    return false;
+                        // Проверка, допустимо ли повторение сочетания
+                        if( !copyShortcutManager.isOverloadEnable(sectionNameA, sectionNameB) )
+                        {
+                            duplicateError=tr("Found duplicate key sequense <b>%3</b> for action <b>%1</b> and <b>%2</b>").arg(altrnateFullCommandName).arg(fullCommandName).arg(keysName);
+                            return false;
+                        }
+                    }
                 }
             }
         }
