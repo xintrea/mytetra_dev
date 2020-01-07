@@ -571,6 +571,10 @@ void EditorToolBar::updateToolsLines(void)
     QString b=toolsListInLine2.at(i).trimmed();
     this->insertButtonToToolsLine(b,toolsLine2);
   }
+
+  // Не указанные для размещения на панели инструментов кнопки
+  // вставляются как невидимые, чтобы работали шорткаты
+  this->insertUnusedButtons();
 }
 
 
@@ -640,6 +644,40 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
                 toolAsAction->setEnabled(false);
             }
         }
+    }
+}
+
+
+void EditorToolBar::insertUnusedButtons()
+{
+    // Перечень всех инструментов редактора
+    QStringList allToolsList=shortcutManager.getActionsNameList("editor");
+
+    // Исключение из перечня всех инструментов, которые видны на тулбаре
+    for(auto toolName : toolsListInLine1)
+    {
+        allToolsList.removeAll( toolName );
+    }
+
+    for(auto toolName : toolsListInLine2)
+    {
+        allToolsList.removeAll( toolName );
+    }
+
+    // В этом месте allToolsList содержит только те инструменты,
+    // которые не размещены на тулбарах
+
+    for(auto toolName : allToolsList)
+    {
+        QAction *toolAsAction=qobject_cast<QAction *>(this->findChild<QObject *>( "editor_tb_"+toolName ));
+
+        // Добавляются только действия, т. к. виджеты не могут быть добавлены
+        // как невидимые кнопки
+        if(toolAsAction)
+        {
+            insertActionAsButton(&toolsLine1, toolAsAction, false);
+        }
+
     }
 }
 
