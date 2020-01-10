@@ -96,7 +96,7 @@ void RecordTableView::init(void)
  if(height!=0)
   verticalHeader()->setDefaultSectionSize( height );
  if(mytetraConfig.getInterfaceMode()=="mobile")
-  verticalHeader()->setDefaultSectionSize( getCalculateIconSizePx() );
+  verticalHeader()->setDefaultSectionSize( static_cast<int>( getCalculateIconSizePx() ) );
 
  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
@@ -125,11 +125,6 @@ void RecordTableView::setupSignals(void)
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
  connect(this, &RecordTableView::doubleClicked,
          this, &RecordTableView::editFieldContext);
-
- // Перемещение курсора по строкам таблицы
- if(mytetraConfig.getInterfaceMode()=="desktop")
-   connect(this, &RecordTableView::listSelectionChanged,
-           this, &RecordTableView::onSelectionChanged);
 
  // Нажатие на запись (вызывается сразу как только нажалась кнопка, до отпускания)
  connect(this, &RecordTableView::pressed,
@@ -188,21 +183,41 @@ void RecordTableView::restoreHeaderState( void )
 }
 
 
-// Обработчик сигнала listSelectionChanged
+// Реакия на сдвиг засветки клавишами или мышкой
+// Сигнал может приходить как просто при смене выбора записи,
+// так и при движении мышкой в момент, когда есть кандидат на перемещение
+// но само перемещение еще не началось, и при этом указатель мышки сместился
+// на соседнюю запись
 void RecordTableView::onSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected )
 {
-  QModelIndex selectRecord;
-  QModelIndex deselectRecord;
+    QModelIndex selectRecord;
+    QModelIndex deselectRecord;
 
-  if(!selected.indexes().isEmpty())
-    selectRecord=selected.indexes().at(0);
+    if(!selected.indexes().isEmpty())
+        selectRecord=selected.indexes().at(0);
 
-  if(!deselected.indexes().isEmpty())
-    deselectRecord=deselected.indexes().at(0);
+    if(!deselected.indexes().isEmpty())
+        deselectRecord=deselected.indexes().at(0);
 
-  if(selectRecord.isValid())
-    clickToRecord(selectRecord); // Программный клик по записи, куда переместился табличный курсор
+    // Если есть кандидат на перетаскивание записи (само перетаскивание еще не активно)
+    // но мышка с него "уехала" на другую запись, и Qt пытается снять
+    // выбор с кандидата на перетаскивание
+    if(startDragIndex.isValid() and startDragIndex==deselectRecord)
+    {
+        qDebug() << "Disable select new record if drag candidate is set";
+        return; // Делать програмный клик нельзя, чтобы не сбить перетаскивание, если оно начнется
+    }
+
+    // Если идет процесс перетаскивания
+    if(isDragHappeningNow)
+    {
+        qDebug() << "Disable select new record if drag in move";
+        return; // Делать програмный клик нельзя, чтобы не сбить перетаскивание, если оно начнется
+    }
+
+    if(selectRecord.isValid())
+        clickToRecord(selectRecord); // Программный клик по записи, куда переместился табличный курсор
 }
 
 
@@ -241,6 +256,7 @@ void RecordTableView::clickToRecord(const QModelIndex &index)
     // Устранение неправильного поведения Qt
     if(isDragHappeningNow)
     {
+        qDebug() << "Disable click to record if drag moving";
         return;
     }
 
@@ -540,7 +556,9 @@ void RecordTableView::mousePressEvent(QMouseEvent *event)
         if( this->indexAt( event->pos() ).isValid() )
         {
             startDragIndex=this->indexAt( event->pos() );
-            qDebug() << "Candidate to drag: " << startDragIndex.data().toString();
+            qDebug() << "Candidate to drag: " << startDragIndex.data().toString()
+                     << " Row: " << startDragIndex.row()
+                     << " ID: " << startDragIndex.data(RECORD_ID_ROLE).toString();
         }
         else
         {
@@ -559,8 +577,34 @@ void RecordTableView::mousePressEvent(QMouseEvent *event)
 // Реакция на движение мышкой
 void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 {
+    qDebug() << "mouseMoveEvent()";
+
+    // При режиме множественного выбора реакции на движение
+    // мышкой быть не должно (так как работает криво), только на клики
+    if(selectionMode()==QAbstractItemView::ExtendedSelection and
+       this->selectionModel()->selectedRows().size()>1)
+    {
+        return;
+    }
+
+    // Если идет процесс перетаскивания
+    if(isDragHappeningNow)
+    {
+        // При перетаскивании, Qt иногда может выделять соседние записи
+        if(startDragIndex.isValid() and startDragIndex!=this->indexAt( event->pos() ))
+        {
+            qDebug() << "Drag detect, hold start record";
+
+            // Чтобы этого не происходило, выделяется запись, на которой началось перетаскивание
+            this->selectRow( startDragIndex.row() );
+        }
+    }
+
     // Если при движении нажата левая кнопка мышки
-    if(event->buttons() & Qt::LeftButton)
+    // и выделена ровно одна строка
+    // (при включенном множественном выборе возможны случайные выдения и соседних строк)
+    if(event->buttons() & Qt::LeftButton and
+       this->selectionModel()->selectedRows().size()==1)
     {
         // Выясняется расстояние от места начала нажатия
         int distance=(event->pos() - mouseStartPos).manhattanLength();
@@ -586,7 +630,7 @@ void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 
     qDebug() << "Mouse release at RecordTableView after calling parent event";
 
-    // Если мышка отпускается до того, как завершилось перетаскивание
+    // Если мышка отпускается до того, как завершилось перетаскивание (перетаскивание активно)
     if(isDragHappeningNow)
     {
         // Значит перетаскивания не произошло, и надо выделить строку,
@@ -697,23 +741,23 @@ ClipboardRecords *RecordTableView::getSelectedRecords(void)
 }
 
 
-// Переопределенный сигнал (virtual protected slot)
+// Переопределенный слот (virtual protected slot)
 void RecordTableView::selectionChanged(const QItemSelection &selected,
                                        const QItemSelection &deselected )
 {
- // qDebug() << "RecordTableView::selectionChanged()";
+    qDebug() << "RecordTableView::selectionChanged()";
 
- emit listSelectionChanged(selected, deselected);
+    this->onSelectionChanged(selected, deselected);
 
- // Для корректной работы надо вызвать сигнал базового класса
- QTableView::selectionChanged(selected, deselected);
+    // Для корректной работы надо вызвать слот базового класса
+    QTableView::selectionChanged(selected, deselected);
 }
 
 
 // Слот, срабатывающий после того, как был передвинут горизонтальный заголовок
 void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int newVisualIndex )
 {
-  Q_UNUSED(logicalIndex);
+  Q_UNUSED(logicalIndex)
 
   if(!enableMoveSection)
     return;
@@ -761,9 +805,9 @@ void RecordTableView::onSectionMoved( int logicalIndex, int oldVisualIndex, int 
 
 void RecordTableView::onSectionResized( int logicalIndex, int oldSize, int newSize )
 {
-  Q_UNUSED(logicalIndex);
-  Q_UNUSED(oldSize);
-  Q_UNUSED(newSize);
+  Q_UNUSED(logicalIndex)
+  Q_UNUSED(oldSize)
+  Q_UNUSED(newSize)
 
   saveColumnWidth();
 }

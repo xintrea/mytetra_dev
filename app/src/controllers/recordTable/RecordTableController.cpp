@@ -624,6 +624,7 @@ void RecordTableController::onEditFieldContext(void)
 }
 
 
+// При выборе пункта "Блокировка записи" в контекстном меню
 void RecordTableController::onBlockContext(void)
 {
   // Получение индекса выделенного элемента
