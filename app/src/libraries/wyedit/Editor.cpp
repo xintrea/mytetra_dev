@@ -142,6 +142,7 @@ void Editor::init(int mode)
 
   // Создаётся контекстное меню
   editorContextMenu=new EditorContextMenu(this);
+  this->addActions( editorContextMenu->getActionsList() );
 
   setupEditorTextArea();
   setupCursorPositionDetector();
@@ -390,8 +391,6 @@ void Editor::setupSignals(void)
   // connect(textArea->document(), SIGNAL(modificationChanged (bool )),
   //         this, SLOT  (onModificationChanged(bool)));
 
-
-  this->addActions(editorContextMenu->getActionsList());
 
   // Сигналы контекстного меню
   connect(textArea->document(), &QTextDocument::undoAvailable,

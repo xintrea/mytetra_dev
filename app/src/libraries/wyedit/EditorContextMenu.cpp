@@ -62,9 +62,13 @@ void EditorContextMenu::setupShortcuts(void)
     shortcutManager.initAction("editor-pasteAsPlainText", actionPasteAsPlainText );
     shortcutManager.initAction("editor-selectAll", actionSelectAll );
 
-    // Инит только для того, чтобы сгенерировалась надпись с шорткатом, так как рабочие действия есть на панели инстументов
+    // "Умное" действие Вставить изображение / Редактировать свойства изображения
     shortcutManager.initAction("editor-insertImageFromFile", actionEditImageProperties );
+    actionEditImageProperties->setText(tr("Edit image properties")); // В контекстном меню это редактирование свойств изображения
+
+    // "Умное" действие Вставить / Редактировать формулу
     shortcutManager.initAction("editor-mathExpression", actionEditMathExpression );
+    actionEditMathExpression->setText(tr("Edit math expression")); // В контекстном меню это редактирование формулы
 
     shortcutManager.initAction("editor-gotoReference", actionGotoReference );
 

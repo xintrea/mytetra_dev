@@ -213,14 +213,22 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
     imageSelectDialog.setNameFilter("*.png *.jpg *.gif");
     imageSelectDialog.setWindowTitle(tr("Insert image"));
     imageSelectDialog.setDirectory(QDir::homePath());
-    imageSelectDialog.exec();
+    int result=imageSelectDialog.exec();
+
+    // Если не было нажато "Ок"
+    if(result!=QDialog::Accepted)
+    {
+        return;
+    }
 
     // Выясняется список выбранных файлов
     QStringList files=imageSelectDialog.selectedFiles();
 
     // Если ни один файл не выбран
     if(files.size()==0)
-      return;
+    {
+        return;
+    }
 
     // Перебираются файлы выбранных картинок
     for(int i=0; i<files.size(); ++i)

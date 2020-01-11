@@ -144,7 +144,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-tableMergeCells",     Data{ QKeySequence(""), tr("Merge cells"), tr("") });
     defaultKeyTable.insert("editor-tableSplitCell",      Data{ QKeySequence(""), tr("Split cell"), tr("") });
     defaultKeyTable.insert("editor-tableProperties",     Data{ QKeySequence(""), tr("Table properties"), tr("") });
-    defaultKeyTable.insert("editor-insertImageFromFile", Data{ QKeySequence("Ctrl+Shift+I"), tr("Insert/edit image"), tr("Insert image from file or edit image properties of selected image") });
+    defaultKeyTable.insert("editor-insertImageFromFile", Data{ QKeySequence("Ctrl+Shift+I"), tr("Insert/edit image"), tr("Insert image from file or edit selected image properties") });
     defaultKeyTable.insert("editor-insertHorizontalLine",Data{ QKeySequence("Ctrl+H"), tr("Insert horizontal line"), tr("Insert a horizontal line into the empty paragraph from cursor") });
     defaultKeyTable.insert("editor-mathExpression",      Data{ QKeySequence("Ctrl+Shift+M"), tr("Insert/edit math expression"), tr("") });
     defaultKeyTable.insert("editor-expandEditArea",      Data{ QKeySequence("Ctrl+Shift+E"), tr("Expand edit area"), tr("") });
