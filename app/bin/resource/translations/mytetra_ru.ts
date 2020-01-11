@@ -1194,22 +1194,27 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorConfigDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="17"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="18"/>
         <source>Editor settings</source>
         <translation>Настройки редактора</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="19"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="20"/>
         <source>Fonts</source>
         <translation>Шрифты</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="20"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="21"/>
         <source>Toolbars</source>
         <translation>Панель инструментов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="21"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="22"/>
+        <source>Formulas</source>
+        <translation>Формулы</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="23"/>
         <source>Misc</source>
         <translation>Разное</translation>
     </message>
@@ -1259,6 +1264,19 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
 </context>
 <context>
+    <name>EditorConfigMathExpression</name>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMathExpression.cpp" line="34"/>
+        <source>Formula update timer</source>
+        <translation>Период обновления формулы</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMathExpression.cpp" line="35"/>
+        <source>sec.</source>
+        <translation>сек.</translation>
+    </message>
+</context>
+<context>
     <name>EditorConfigMisc</name>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="35"/>
@@ -1281,22 +1299,20 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation>симв.</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="58"/>
         <source>Formula update timer</source>
-        <translation>Период обновления формулы</translation>
+        <translation type="vanished">Период обновления формулы</translation>
+    </message>
+    <message>
+        <source>sec.</source>
+        <translation type="vanished">сек.</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="59"/>
-        <source>sec.</source>
-        <translation>сек.</translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="68"/>
         <source>Edit config file</source>
         <translation>Редактировать конфиг-файл</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="100"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="86"/>
         <source>Danger actions (Attention!)</source>
         <translation>Опасные действия (Будьте внимательны!)</translation>
     </message>
@@ -2393,17 +2409,17 @@ in current directory  &quot;%1&quot;.</source>
         <translation>Вставка изображения</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="318"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="326"/>
         <source>Images download initiating...</source>
         <translation>Инициализация загрузки изображений...</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="375"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="383"/>
         <source>Download images</source>
         <translation>Скачивание картинок</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="394"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="402"/>
         <source>Probably error in a process of images download.</source>
         <translation>Возникла ошибка в процессе скачивания изображений.</translation>
     </message>
@@ -2648,17 +2664,17 @@ Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
 <context>
     <name>MathExpressionFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="173"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="178"/>
         <source>Edit TeX math expression</source>
         <translation>Редактор формулы в формате TeX</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="186"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="191"/>
         <source>Error while input TeX source</source>
         <translation>Ошибка при вводе TeX-кода</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="305"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="310"/>
         <source>Error while parse TeX syntax</source>
         <translation>Ошибка при разборе TeX-кода</translation>
     </message>

@@ -837,22 +837,27 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>EditorConfigDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="17"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="18"/>
         <source>Editor settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="19"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="20"/>
         <source>Fonts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="20"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="21"/>
         <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="21"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="22"/>
+        <source>Formulas</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigDialog.cpp" line="23"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
@@ -902,6 +907,19 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     </message>
 </context>
 <context>
+    <name>EditorConfigMathExpression</name>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMathExpression.cpp" line="34"/>
+        <source>Formula update timer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMathExpression.cpp" line="35"/>
+        <source>sec.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EditorConfigMisc</name>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="35"/>
@@ -924,22 +942,12 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="58"/>
-        <source>Formula update timer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="59"/>
-        <source>sec.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="68"/>
         <source>Edit config file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="100"/>
+        <location filename="../../../src/libraries/wyedit/EditorConfigMisc.cpp" line="86"/>
         <source>Danger actions (Attention!)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1719,17 +1727,17 @@ in current directory  &quot;%1&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="318"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="326"/>
         <source>Images download initiating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="375"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="383"/>
         <source>Download images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="394"/>
+        <location filename="../../../src/libraries/wyedit/formatters/ImageFormatter.cpp" line="402"/>
         <source>Probably error in a process of images download.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1953,17 +1961,17 @@ You need to update MyTetra.</source>
 <context>
     <name>MathExpressionFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="173"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="178"/>
         <source>Edit TeX math expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="186"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="191"/>
         <source>Error while input TeX source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="305"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="310"/>
         <source>Error while parse TeX syntax</source>
         <translation type="unfinished"></translation>
     </message>
