@@ -78,19 +78,16 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
 // Обработка клавиши добавления/редактирования математического выражения
 void MathExpressionFormatter::onMathExpressionClicked(void)
 {
-
     // Если выделена картинка математического выражения
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << mathExpressionOnSelect();
-
         editMathExpression( mathExpressionOnSelect() );
         return;
     }
 
     // Если курсор стоит на картинке с математическим выражением
     if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
-        qDebug() << "Math expression on cursor: " << mathExpressionOnSelect();
-
+        qDebug() << "Math expression on cursor: " << mathExpressionOnCursor();
         editMathExpression( mathExpressionOnCursor() );
         return;
     }
@@ -110,10 +107,18 @@ void MathExpressionFormatter::onMathExpressionClicked(void)
 // Вызов окна редактирования формулы
 void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
-    // Формула меняется только если формула выделена
+    // Формула меняется если формула выделена
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << this->mathExpressionOnSelect();
         editMathExpression( this->mathExpressionOnSelect() );
+        return;
+    }
+
+    // А так же формула меняется если курсор находится рядом с формулой
+    if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
+        qDebug() << "Math expression on cursor: " << this->mathExpressionOnCursor();
+        editMathExpression( this->mathExpressionOnCursor() );
+        return;
     }
 }
 
