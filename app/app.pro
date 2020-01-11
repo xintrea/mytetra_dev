@@ -138,6 +138,7 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/libraries/wyedit/EditorConfigMathExpression.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
@@ -277,6 +278,7 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/libraries/wyedit/EditorConfigMathExpression.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \

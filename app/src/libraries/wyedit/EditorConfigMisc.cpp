@@ -54,15 +54,6 @@ void EditorConfigMisc::setupUi(void)
  tabStopDistanceSpinBox->setMaximum(50);
  tabStopDistanceSpinBox->setValue(conf->get_tab_size());
 
- // Счетчик для таймера обновления картинки формулы в редакторе формулы
- updateFormulaTimeLabel = new QLabel(tr("Formula update timer"), this);
- updateFormulaTimeSecLabel = new QLabel(tr("sec."), this);
-
- updateFormulaTimeSpinBox = new QSpinBox(this);
- updateFormulaTimeSpinBox->setMinimum(1);
- updateFormulaTimeSpinBox->setMaximum(20);
- updateFormulaTimeSpinBox->setValue(conf->getMathExpressionUpdateTime());
-
  // Кнопка редактирования файла конфигурации WyEdit
  editWyEditConfigFile=new QPushButton(this);
  editWyEditConfigFile->setText(tr("Edit config file"));
@@ -89,11 +80,6 @@ void EditorConfigMisc::assembly(void)
   configLayout->addWidget(tabStopDistanceLabel,         1, 0);
   configLayout->addWidget(tabStopDistanceSpinBox,       1, 1);
   configLayout->addWidget(tabStopDistanceFlexionLabel,  1, 2);
-
-  // Компановка контролов Счетчика для таймера обновления картинки формулы в редакторе формулы
-  configLayout->addWidget(updateFormulaTimeLabel,    2, 0);
-  configLayout->addWidget(updateFormulaTimeSpinBox,  2, 1);
-  configLayout->addWidget(updateFormulaTimeSecLabel, 2, 2);
 
   // Группировщик виджетов для опасной зоны
   QGroupBox *dangerBox=new QGroupBox(this);
@@ -140,11 +126,6 @@ int EditorConfigMisc::applyChanges(void)
  // Если был изменен размер табуляции для клавиши Tab
  if(conf->get_tab_size()!=tabStopDistanceSpinBox->value()) {
    conf->set_tab_size(tabStopDistanceSpinBox->value());
- }
-
- // Если был изменен счетчик для таймера обновления картинки формулы в редакторе формулы
- if(conf->getMathExpressionUpdateTime()!=updateFormulaTimeSpinBox->value()) {
-   conf->setMathExpressionUpdateTime(updateFormulaTimeSpinBox->value());
  }
  
  return difficultChanges;

@@ -36,11 +36,6 @@ private:
   QLabel *tabStopDistanceFlexionLabel;
   QSpinBox *tabStopDistanceSpinBox;
 
-  // Счетчик для таймера обновления картинки формулы в редакторе формулы
-  QLabel *updateFormulaTimeLabel;
-  QSpinBox *updateFormulaTimeSpinBox;
-  QLabel *updateFormulaTimeSecLabel;
-
   QPushButton *editWyEditConfigFile;
   
   EditorConfig *conf;

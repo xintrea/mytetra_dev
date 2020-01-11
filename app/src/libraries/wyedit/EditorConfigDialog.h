@@ -1,8 +1,9 @@
-#ifndef _EDITORCONFIGDIALOG_H_
-#define _EDITORCONFIGDIALOG_H_
+#ifndef EDITORCONFIGDIALOG_H
+#define EDITORCONFIGDIALOG_H
 
 #include <QWidget>
 #include "views/appConfigWindow/ConfigDialog.h"
+
 
 class EditorConfigDialog : public QWidget
 {
@@ -15,4 +16,4 @@ private:
  ConfigDialog *configDialog;
 };
 
-#endif // _EDITORCONFIGDIALOG_H_
+#endif // EDITORCONFIGDIALOG_H
