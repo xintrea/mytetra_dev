@@ -73,7 +73,9 @@ MainWindow::MainWindow() : QMainWindow()
     enableRealClose=false;
 
     // Инициализация генератора случайных чисел
-    initRandom();
+    int x=this->mapFromGlobal(QCursor::pos()).x();
+    int y=this->mapFromGlobal(QCursor::pos()).y();
+    initRandom( static_cast<unsigned int>( x * y + (x % (y==0 ? 1 : y)) + x + y ) );
 }
 
 

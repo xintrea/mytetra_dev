@@ -594,7 +594,7 @@ QString getUniqueImageName(void)
 }
 
 
-int getMilliCount(void)
+unsigned int getMilliCount(void)
 {
 #if TARGET_OS!=ANDROID_OS
     // Something like GetTickCount but portable
@@ -602,7 +602,9 @@ int getMilliCount(void)
     // Use getMilliSpan to correct for rollover
     timeb tb;
     ftime( &tb );
-    int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+
+    // tb.millitm и tb.time - это int, поэтому делается преобразование типа
+    unsigned int nCount = static_cast<unsigned int>(tb.millitm + (tb.time & 0xfffff) * 1000);
     return nCount;
 #else
     long   ms; // Milliseconds
@@ -612,29 +614,32 @@ int getMilliCount(void)
 
     ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
 
-    return (int)ms;
+    return (unsigned int)ms;
 #endif
 }
 
 
-void initRandom(void)
+void initRandom(unsigned int humanGenerateSeedShift)
 {
- qDebug() << "Init random generator";
+    qDebug() << "Init random generator";
 
- unsigned int seed1=getMilliCount();
- srand(seed1+rand());
+    unsigned int seed1=getMilliCount();
+    srand(seed1+static_cast<unsigned int>( rand() )); // Преобразование типа, так как rand() возвращает int
 
- unsigned int delay=rand()%1000;
- unsigned int r=0;
- for(unsigned int i=0; i<delay; i++) r=r+rand();
+    unsigned int delay=rand()%1000;
+    unsigned int r=0;
+    for(unsigned int i=0; i<delay; i++)
+    {
+        r=r+static_cast<unsigned int>( rand() );
+    }
 
- seed1=seed1-getMilliCount()+r;
+    seed1=seed1-getMilliCount()+r;
 
- unsigned int seed2=time(nullptr);
- unsigned int seed3=seed1+seed2;
- unsigned int seed=seed3;
+    unsigned int seed2=static_cast<unsigned int>( time(nullptr) ); // Преобразование типа, так как time() возвращает long
 
- srand( seed );
+    unsigned int seed=seed1+seed2+humanGenerateSeedShift;
+
+    srand( seed );
 }
 
 

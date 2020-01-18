@@ -64,8 +64,8 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible=
 void myMessageOutput(QtMsgType type, const char *msg);
 QString getUniqueId(void);
 QString getUniqueImageName(void);
-int getMilliCount(void);
-void initRandom(void);
+unsigned int getMilliCount(void);
+void initRandom(unsigned int humanGenerateSeedShift);
 
 void setKineticScrollArea(QAbstractItemView *object);
 
