@@ -144,6 +144,7 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/views/installDialog/InstallDialog.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
     src/views/record/RecordInfoFieldsEditor.h \
@@ -284,6 +285,7 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/views/installDialog/InstallDialog.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
@@ -464,5 +466,6 @@ QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bi
 }
 
 FORMS += \
-    src/samples/buttonwidth.ui
+    src/samples/buttonwidth.ui \
+    src/views/installDialog/InstallDialog.ui
 

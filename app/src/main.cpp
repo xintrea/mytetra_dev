@@ -40,6 +40,9 @@
 
 using namespace std;
 
+// todo: Разгрести объекты глобальной области, перенести helper-функции в helper-классы
+
+
 // Фиксированные параметры программы (жестко заданные в текущей версии MyTetra)
 FixedParameters fixedParameters;
 
