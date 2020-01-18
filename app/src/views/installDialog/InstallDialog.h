@@ -15,8 +15,28 @@ public:
     explicit InstallDialog(QWidget *parent = nullptr);
     ~InstallDialog();
 
+    enum InstallType {
+        Standart=0,
+        Portable=1
+    };
+
+    void setEnablePortable(bool enablePortable);
+    void setStandartData(QString dataDirName, QString homePath);
+    void setPortableData(QString fullCurrentPath);
+
+    void update();
+
+    InstallDialog::InstallType getInstallType();
+
 private:
     Ui::InstallDialog *ui;
+
+    bool m_enablePortable=true;
+
+    QString m_standartDataDirName;
+    QString m_standartHomePath;
+
+    QString m_portableFullCurrentPath;
 };
 
 #endif // INSTALLDIALOG_H

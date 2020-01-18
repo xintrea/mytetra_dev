@@ -15,6 +15,7 @@
 #include "views/record/MetaEditor.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "views/installDialog/InstallDialog.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
 
@@ -160,69 +161,29 @@ void GlobalParameters::initWorkDirectory(void)
 
  QString dataDirName=".config/"+getApplicationName();
 
- QString welcomeText=tr("Welcome to MyTetra v.")+QString::number(APPLICATION_RELEASE_VERSION)+'.'+QString::number(APPLICATION_RELEASE_SUBVERSION)+'.'+QString::number(APPLICATION_RELEASE_MICROVERSION)+"!";
 
- QString standartText=tr("Create subdirectory  \"%1\"\nin user directory  \"%2\",\nand create application files in it.").arg(dataDirName).arg(QDir::homePath());
+ InstallDialog installDialog;
+ installDialog.setStandartData(dataDirName, QDir::homePath());
+ installDialog.setPortableData(fullCurrentPath);
+ installDialog.setEnablePortable(enablePortable);
+ int result=installDialog.exec();
 
- QString portableText=tr("Create application files\nin current directory  \"%1\".").arg(fullCurrentPath);
-
- // Если возможно создать только стандартную версию файлового окружения
- if(enablePortable==false)
-  {
-   qDebug() << "Cant create portable version - cant write data to mytetra bin-file directory";
-
-   QString infoText=tr("The following actions will be performed before running this application: \n\n")+
-                    standartText+"\n\n"+
-                    tr("Do you agree to perform these?");
-
-   QMessageBox msgBox;
-   msgBox.setText(welcomeText);
-   msgBox.setInformativeText(infoText);
-   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-   msgBox.setDefaultButton(QMessageBox::Ok);
-   int ret = msgBox.exec();
-
-   if(ret==QMessageBox::Ok)
-    createStandartProgramFiles();
-   else
-    exit(0); // Была нажата отмена
-  }
- else
-  {
-   // Иначе есть возможность создать как стандартное файловое окружение,
-   // так и "переносимое"
-
-   QString infoText=welcomeText+"\n\n"+
-                    tr("Please, select application mode: \n\n")+
-                    tr("Standard:\n")+standartText+"\n\n"+
-                    tr("Portable:\n")+portableText+"\n\n";
-
-   QStringList items;
-   QString standartItem=tr("Standard");
-   QString portableItem=tr("Portable");
-   items << standartItem << portableItem;
-
-   bool ok;
-
-   QWidget *tempWidget=new QWidget();
-   QString item=QInputDialog::getItem(tempWidget,
-                                      welcomeText,
-                                      infoText,
-                                      items, 0, false, &ok);
-   delete tempWidget;
-
-   // Если пользователь сделал выбор
-   if(ok && !item.isEmpty())
-    {
-     if(item==standartItem)
-      createStandartProgramFiles();
+ if(result==QMessageBox::Ok)
+ {
+     // Надо разобраться, какой режим инсталляции был выбран
+     if( installDialog.getInstallType()==InstallDialog::InstallType::Standart)
+     {
+        createStandartProgramFiles();
+     }
      else
-      createPortableProgramFiles();
-    }
-   else
-    exit(0); // Была нажата отмена
-
-  }
+     {
+        createPortableProgramFiles();
+     }
+ }
+ else
+ {
+  exit(0); // Была нажата отмена
+ }
 
  // Заново запускается поиск рабочей директории
  workDirectory="";
