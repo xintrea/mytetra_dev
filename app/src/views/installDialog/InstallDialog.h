@@ -28,7 +28,15 @@ public:
 
     InstallDialog::InstallType getInstallType();
 
-private:
+protected slots:
+
+    void onRadioButtonStandartToggled(bool state);
+    void onRadioButtonPortableToggled(bool state);
+
+protected:
+
+    void setupSignals();
+
     Ui::InstallDialog *ui;
 
     bool m_enablePortable=true;

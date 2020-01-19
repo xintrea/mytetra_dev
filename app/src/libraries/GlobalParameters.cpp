@@ -166,6 +166,7 @@ void GlobalParameters::initWorkDirectory(void)
  installDialog.setStandartData(dataDirName, QDir::homePath());
  installDialog.setPortableData(fullCurrentPath);
  installDialog.setEnablePortable(enablePortable);
+ installDialog.update();
  int result=installDialog.exec();
 
  if(result==QMessageBox::Ok)
