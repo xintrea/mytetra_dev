@@ -912,7 +912,7 @@ enable «Decrypt to a temporary file» option in Settings.</source>
     <message>
         <location filename="../../../src/samples/buttonwidth.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Диалог инсталляции</translation>
     </message>
     <message>
         <location filename="../../../src/samples/buttonwidth.ui" line="60"/>
@@ -2282,68 +2282,6 @@ Try to search for entire database.</source>
     </message>
 </context>
 <context>
-    <name>GlobalParameters</name>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="163"/>
-        <source>Welcome to MyTetra v.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="165"/>
-        <source>Create subdirectory  &quot;%1&quot;
-in user directory  &quot;%2&quot;,
-and create application files in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="167"/>
-        <source>Create application files
-in current directory  &quot;%1&quot;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="174"/>
-        <source>The following actions will be performed before running this application: 
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="176"/>
-        <source>Do you agree to perform these?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="196"/>
-        <source>Please, select application mode: 
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="197"/>
-        <source>Standard:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="198"/>
-        <source>Portable:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="201"/>
-        <source>Standard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="202"/>
-        <source>Portable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="49"/>
@@ -2448,6 +2386,82 @@ in current directory  &quot;%1&quot;.</source>
     </message>
 </context>
 <context>
+    <name>InstallDialog</name>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation>Диалог инсталляции</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="66"/>
+        <source>Title</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="92"/>
+        <source>Any text</source>
+        <translation>Некий текст</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="121"/>
+        <source>Standart</source>
+        <translation>Стандартный</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="128"/>
+        <source>Standart text</source>
+        <translation>Текст стандартного режима</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="150"/>
+        <source>Portable</source>
+        <translation>Портабельный</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="157"/>
+        <source>Portable text</source>
+        <translation>Текст портабельного режима</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="23"/>
+        <source>Welcome to MyTetra v.</source>
+        <translation>Вас приветствует MyTetra v.</translation>
+    </message>
+    <message>
+        <source>Please, select application mode:</source>
+        <translation type="vanished">Пожалуйста, выберите режим установки программы:</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="25"/>
+        <source>Please, select install application mode:</source>
+        <translation>Пожалуйста, выберите режим установки программы:</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="97"/>
+        <source>Create subdirectory &quot;%1&quot;
+in user directory &quot;%2&quot;,
+and create application files in it.</source>
+        <translation>Будет создана поддиректория &quot;%1&quot; в директории пользователя &quot;%2&quot;, и в ней будут размещены все файлы приложения.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
+        <source>Create application files
+in current directory &quot;%1&quot;.</source>
+        <translation>Файлы приложения будут созданы в текущей директории &quot;%1&quot; рядом с исполняемым файлом MyTetra.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="108"/>
+        <source>Can&apos;t create portable version.
+Сan&apos;t write data to MyTetra binary file directory &quot;%1&quot;.</source>
+        <translation>Невозможно установить портабельную версию. Невозможно создать файлы в текущей директории &quot;%1&quot; рядом с исполняемым файлом MyTetra.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="132"/>
+        <source>Please select one of install mode.</source>
+        <translation>Пожалуйста, выберите один из режимов инсталляции.</translation>
+    </message>
+</context>
+<context>
     <name>KnowTreeModel</name>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="65"/>
@@ -2487,22 +2501,22 @@ You need to update MyTetra.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="472"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="474"/>
         <source>&amp;File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="475"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="477"/>
         <source>&amp;Print...</source>
         <translation>Печать...</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="478"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="480"/>
         <source>Print Preview...</source>
         <translation>Предварительный просмотр</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="481"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="483"/>
         <source>&amp;Export PDF...</source>
         <translation>Экспорт в PDF...</translation>
     </message>
@@ -2515,23 +2529,23 @@ You need to update MyTetra.</source>
         <translation type="vanished">Импорт ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="486"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="488"/>
         <source>Export tree item</source>
         <translation>Экспорт ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="489"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="491"/>
         <source>Import tree item</source>
         <translation>Импорт ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="494"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="998"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="496"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1000"/>
         <source>&amp;Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="503"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="505"/>
         <source>&amp;Tools</source>
         <translation>Инструменты</translation>
     </message>
@@ -2540,59 +2554,59 @@ You need to update MyTetra.</source>
         <translation type="vanished">Поиск в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="509"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="511"/>
         <source>Action &amp;log</source>
         <translation>Журнал действий</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="516"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="522"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="518"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="524"/>
         <source>&amp;Preferences</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="533"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="535"/>
         <source>Main</source>
         <translation>Основные</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="537"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="539"/>
         <source>Crypt</source>
         <translation>Шифрование</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="541"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="543"/>
         <source>Synchro</source>
         <translation>Синхронизация</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="545"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="547"/>
         <source>RecordTable</source>
         <translation>Таблица записей</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="549"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="551"/>
         <source>Misc</source>
         <translation>Разное</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="559"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="561"/>
         <source>&amp;Help</source>
         <translation>Справка</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="562"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="564"/>
         <source>About MyTetra</source>
         <translation>О программе MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="565"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="567"/>
         <source>About Qt</source>
         <translation>О фреймворке Qt</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="568"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="849"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="570"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="851"/>
         <source>Technical info</source>
         <translation>Техническая информация</translation>
     </message>
@@ -2601,32 +2615,32 @@ You need to update MyTetra.</source>
         <translation type="obsolete">Печать</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="637"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="639"/>
         <source>Print Document</source>
         <translation>Печать документа</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="684"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="686"/>
         <source>Select an empty directory to export data</source>
         <translation>Укажите пустую директорию для экспорта данных</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="698"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="700"/>
         <source>Select directory to import data</source>
         <translation>Укажите директорию для импорта данных</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="850"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="852"/>
         <source>&lt;b&gt;Technical info&lt;/b&gt;</source>
         <translation>&lt;b&gt;Техническая информация&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="954"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="956"/>
         <source>MyTetra: can&apos;t synchronization</source>
         <translation>MyTetra: Синхронизация невозможна</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="955"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="957"/>
         <source>Do not set synchronization command.&lt;br&gt;Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <translation>Не задана команда синхронизации.&lt;br&gt;Проверьте меню &quot;Инструменты&quot;, &quot;Настройки&quot;, раздел &quot;Синхронизация&quot;.</translation>
     </message>
@@ -2636,27 +2650,27 @@ Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <translation type="obsolete">Не задана команда синхронизации.\nПроверьте меню \&quot;Инструменты\&quot;, \&quot;Настройки\&quot;, раздел \&quot;Синхронизация\&quot;.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="974"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="976"/>
         <source>MyTetra synchronization</source>
         <translation>Синхронизация MyTetra</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="975"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="977"/>
         <source>Synchronization in progress, please wait...</source>
         <translation>Происходит синхронизация. Пожалуйста, подождите...</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="989"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="991"/>
         <source>&amp;Restore window</source>
         <translation>Показать окно</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="992"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="994"/>
         <source>Ma&amp;ximize window</source>
         <translation>Развернуть окно</translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="995"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="997"/>
         <source>Mi&amp;nimize window</source>
         <translation>Свернуть окно</translation>
     </message>
@@ -2897,17 +2911,17 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Редактирование конфиг-файла (Аккуратно!)</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="358"/>
+        <location filename="../../../src/main.cpp" line="361"/>
         <source>Edit config file (Be careful!)</source>
         <translation>Редактирование конфиг-файла (Аккуратно!)</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="397"/>
+        <location filename="../../../src/main.cpp" line="400"/>
         <source>Warning</source>
         <translation>Внимание</translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="398"/>
+        <location filename="../../../src/main.cpp" line="401"/>
         <source>The program will have to be restarted for changes to take effect.</source>
         <translation>Для применения изменений программа будет закрыта. Новые изменения вступят в силу при следующем запуске программы.</translation>
     </message>

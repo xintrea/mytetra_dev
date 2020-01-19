@@ -1600,68 +1600,6 @@ Try to search for entire database.</source>
     </message>
 </context>
 <context>
-    <name>GlobalParameters</name>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="163"/>
-        <source>Welcome to MyTetra v.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="165"/>
-        <source>Create subdirectory  &quot;%1&quot;
-in user directory  &quot;%2&quot;,
-and create application files in it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="167"/>
-        <source>Create application files
-in current directory  &quot;%1&quot;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="174"/>
-        <source>The following actions will be performed before running this application: 
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="176"/>
-        <source>Do you agree to perform these?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="196"/>
-        <source>Please, select application mode: 
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="197"/>
-        <source>Standard:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="198"/>
-        <source>Portable:
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="201"/>
-        <source>Standard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/libraries/GlobalParameters.cpp" line="202"/>
-        <source>Portable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>IconSelectDialog</name>
     <message>
         <location filename="../../../src/libraries/IconSelectDialog.cpp" line="49"/>
@@ -1766,6 +1704,78 @@ in current directory  &quot;%1&quot;.</source>
     </message>
 </context>
 <context>
+    <name>InstallDialog</name>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="66"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="92"/>
+        <source>Any text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="121"/>
+        <source>Standart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="128"/>
+        <source>Standart text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="150"/>
+        <source>Portable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.ui" line="157"/>
+        <source>Portable text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="23"/>
+        <source>Welcome to MyTetra v.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="25"/>
+        <source>Please, select install application mode:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="97"/>
+        <source>Create subdirectory &quot;%1&quot;
+in user directory &quot;%2&quot;,
+and create application files in it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
+        <source>Create application files
+in current directory &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="108"/>
+        <source>Can&apos;t create portable version.
+Сan&apos;t write data to MyTetra binary file directory &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="132"/>
+        <source>Please select one of install mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>KnowTreeModel</name>
     <message>
         <location filename="../../../src/models/tree/KnowTreeModel.cpp" line="65"/>
@@ -1805,155 +1815,155 @@ You need to update MyTetra.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="472"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="474"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="475"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="477"/>
         <source>&amp;Print...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="478"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="480"/>
         <source>Print Preview...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="481"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="483"/>
         <source>&amp;Export PDF...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="486"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="488"/>
         <source>Export tree item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="489"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="491"/>
         <source>Import tree item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="494"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="998"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="496"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1000"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="503"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="505"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="509"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="511"/>
         <source>Action &amp;log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="516"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="522"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="518"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="524"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="533"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="535"/>
         <source>Main</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="537"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="539"/>
         <source>Crypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="541"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="543"/>
         <source>Synchro</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="545"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="547"/>
         <source>RecordTable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="549"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="551"/>
         <source>Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="559"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="561"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="562"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="564"/>
         <source>About MyTetra</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="565"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="567"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="568"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="849"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="570"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="851"/>
         <source>Technical info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="637"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="639"/>
         <source>Print Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="684"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="686"/>
         <source>Select an empty directory to export data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="698"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="700"/>
         <source>Select directory to import data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="850"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="852"/>
         <source>&lt;b&gt;Technical info&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="954"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="956"/>
         <source>MyTetra: can&apos;t synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="955"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="957"/>
         <source>Do not set synchronization command.&lt;br&gt;Check the setting in &quot;Sync&quot; section in &quot;Tools&quot; menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="974"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="976"/>
         <source>MyTetra synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="975"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="977"/>
         <source>Synchronization in progress, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="989"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="991"/>
         <source>&amp;Restore window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="992"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="994"/>
         <source>Ma&amp;ximize window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="995"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="997"/>
         <source>Mi&amp;nimize window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2106,17 +2116,17 @@ MyTetra needs to reload the database tree to keep data consistency.</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../../src/main.cpp" line="358"/>
+        <location filename="../../../src/main.cpp" line="361"/>
         <source>Edit config file (Be careful!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="397"/>
+        <location filename="../../../src/main.cpp" line="400"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/main.cpp" line="398"/>
+        <location filename="../../../src/main.cpp" line="401"/>
         <source>The program will have to be restarted for changes to take effect.</source>
         <translation type="unfinished"></translation>
     </message>

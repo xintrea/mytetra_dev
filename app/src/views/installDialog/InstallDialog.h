@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+// Окно для настройки развертывания базовых файлов приложения
+
+
 namespace Ui {
 class InstallDialog;
 }
@@ -32,10 +35,12 @@ protected slots:
 
     void onRadioButtonStandartToggled(bool state);
     void onRadioButtonPortableToggled(bool state);
+    void onAccepted();
 
 protected:
 
     void setupSignals();
+    void setupAutoLangTranslation();
 
     Ui::InstallDialog *ui;
 
