@@ -2,6 +2,7 @@
 #define INSTALLDIALOG_H
 
 #include <QDialog>
+#include <QTranslator>
 
 // Окно для настройки развертывания базовых файлов приложения
 
@@ -43,6 +44,8 @@ protected:
     void setupAutoLangTranslation();
 
     Ui::InstallDialog *ui;
+
+    QTranslator m_langTranslator; // Транслятор должен существовать все время работы окна
 
     bool m_enablePortable=true;
 

@@ -62,13 +62,12 @@ void InstallDialog::setupAutoLangTranslation()
     QString langFileName=":/resource/translations/mytetra_"+lang+".qm";
     qDebug() << "Lang file: " << langFileName;
 
-    QTranslator langTranslator;
-    bool loadResult=langTranslator.load(langFileName);
+    bool loadResult=m_langTranslator.load(langFileName);
 
     if(loadResult)
     {
         qDebug() << "Success load translation file";
-        qApp->installTranslator(&langTranslator); // Транслятор устанавливается в объекте приложения
+        qApp->installTranslator(&m_langTranslator); // Транслятор устанавливается в объекте приложения
     }
     else
     {
