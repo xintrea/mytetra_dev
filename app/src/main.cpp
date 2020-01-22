@@ -864,8 +864,13 @@ int main(int argc, char ** argv)
  // внутри происходит установка рабочей директории, настройка кодеков для локали и консоли
  globalParameters.init();
 
-  // Инициализация основных конфигурирующих программу переменных
+ // Инициализация основных конфигурирующих программу переменных
  mytetraConfig.init();
+ if( !globalParameters.getInstallAutodetectLang().isEmpty() )
+ {
+     // Если была процедура инсталляции, в конфиг записывается автоопределенный язык
+     mytetraConfig.set_interfacelanguage( globalParameters.getInstallAutodetectLang() );
+ }
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();

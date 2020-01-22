@@ -50,12 +50,12 @@ QString GlobalParameters::getMainProgramFile(void)
 
 void GlobalParameters::init(void)
 {
- pointTreeScreen=NULL;
- pointRecordTableScreen=NULL;
- pointFindScreen=NULL;
- pointMetaEditor=NULL;
- pointStatusBar=NULL;
- windowSwitcher=NULL;
+ pointTreeScreen=nullptr;
+ pointRecordTableScreen=nullptr;
+ pointFindScreen=nullptr;
+ pointMetaEditor=nullptr;
+ pointStatusBar=nullptr;
+ windowSwitcher=nullptr;
 
  initCodepage(); // устанавливаются кодеки локали и кодеки консоли
 
@@ -169,24 +169,27 @@ void GlobalParameters::initWorkDirectory(void)
  installDialog.update();
  int result=installDialog.exec();
 
- if(result==QMessageBox::Ok)
+ if(result==QDialog::Accepted)
  {
      // Надо разобраться, какой режим инсталляции был выбран
      if( installDialog.getInstallType()==InstallDialog::InstallType::Standart)
      {
-        createStandartProgramFiles();
+        createStandartProgramFiles(); // Установка файлов рабочей директории в режиме Стандартного приложения
      }
      else
      {
-        createPortableProgramFiles();
+        createPortableProgramFiles(); // Установка файлов рабочей директории в режиме Переносимого приложения
      }
+
+     // Запоминается автоопределенный язык
+     installAutodetectLang=installDialog.getAutoDetectLang();
  }
  else
  {
   exit(0); // Была нажата отмена
  }
 
- // Заново запускается поиск рабочей директории
+ // Заново запускается поиск рабочей директории, на этот раз она должна быть найдена
  workDirectory="";
  findWorkDirectory();
 }
@@ -209,7 +212,6 @@ void GlobalParameters::createStandartProgramFiles(void)
  else
   {
    criticalError("Can not created directory \""+dataDirName+"\" in user directory \""+QDir::homePath()+"\"");
-   exit(0);
   }
 }
 
@@ -344,7 +346,6 @@ bool GlobalParameters::findWorkDirectory(void)
    else
     {
      criticalError("Can not set work directory as '"+workDirectory+"'. System problem.");
-     return false;
     }
   }
 }
@@ -372,7 +373,9 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    qDebug() << "Config directory name " << dirName;
 
    // Открывается хранилище настроек
-   QSettings *conf=new QSettings(fileName, QSettings::IniFormat, this);
+   // todo: Странность в Qt - если указать третьим параметром this в качестве
+   // родителя, то считывание из файла конфигурации работать не будет. Разобраться
+   QSettings *conf=new QSettings(fileName, QSettings::IniFormat);
 
    // Если есть переменная version
    if(conf->contains("version"))
@@ -537,5 +540,13 @@ void GlobalParameters::setCryptKey(QByteArray hash)
 
 QByteArray GlobalParameters::getCryptKey(void)
 {
- return passwordHash;
+    return passwordHash;
 }
+
+
+QString GlobalParameters::getInstallAutodetectLang()
+{
+    return installAutodetectLang;
+}
+
+

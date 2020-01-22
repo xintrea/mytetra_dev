@@ -1747,30 +1747,30 @@ Try to search for entire database.</source>
     </message>
     <message>
         <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="25"/>
-        <source>Please, select install application mode:</source>
+        <source>Please select a knowledge base installation mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="97"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
         <source>Create subdirectory &quot;%1&quot;
 in user directory &quot;%2&quot;,
 and create application files in it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="109"/>
         <source>Create application files
 in current directory &quot;%1&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="108"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="114"/>
         <source>Can&apos;t create portable version.
 Сan&apos;t write data to MyTetra binary file directory &quot;%1&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="132"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="138"/>
         <source>Please select one of install mode.</source>
         <translation type="unfinished"></translation>
     </message>

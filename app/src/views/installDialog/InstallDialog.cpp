@@ -22,7 +22,7 @@ InstallDialog::InstallDialog(QWidget *parent) :
 
     ui->m_title->setText( tr("Welcome to MyTetra v.")+QString::number(APPLICATION_RELEASE_VERSION)+'.'+QString::number(APPLICATION_RELEASE_SUBVERSION)+'.'+QString::number(APPLICATION_RELEASE_MICROVERSION)+"!" );
 
-    ui->m_text->setText( tr("Please, select install application mode:") );
+    ui->m_text->setText( tr("Please select a knowledge base installation mode:") );
 }
 
 
@@ -68,6 +68,9 @@ void InstallDialog::setupAutoLangTranslation()
     {
         qDebug() << "Success load translation file";
         qApp->installTranslator(&m_langTranslator); // Транслятор устанавливается в объекте приложения
+
+        // Запоминается автоопределенный язык
+        m_autoDetectLang=lang;
     }
     else
     {
@@ -110,13 +113,17 @@ void InstallDialog::update()
     {
         ui->m_labelPortable->setText( tr("Can't create portable version.\nСan't write data to MyTetra binary file directory \"%1\".").
                                       arg(m_portableFullCurrentPath) );
+        ui->m_radioButtonPortable->setEnabled(false);
     }
 }
 
 
 void InstallDialog::onRadioButtonStandartToggled(bool state)
 {
-    ui->m_radioButtonPortable->setChecked(!state);
+    if(m_enablePortable)
+    {
+        ui->m_radioButtonPortable->setChecked(!state);
+    }
 }
 
 
@@ -153,6 +160,12 @@ InstallDialog::InstallType InstallDialog::getInstallType()
     {
         return InstallDialog::InstallType::Portable;
     }
+}
+
+
+QString InstallDialog::getAutoDetectLang()
+{
+    return m_autoDetectLang;
 }
 
 

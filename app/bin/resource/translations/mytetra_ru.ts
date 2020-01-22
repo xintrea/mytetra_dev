@@ -2432,31 +2432,35 @@ Try to search for entire database.</source>
         <translation type="vanished">Пожалуйста, выберите режим установки программы:</translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="25"/>
         <source>Please, select install application mode:</source>
-        <translation>Пожалуйста, выберите режим установки программы:</translation>
+        <translation type="vanished">Пожалуйста, выберите режим установки программы:</translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="97"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="25"/>
+        <source>Please select a knowledge base installation mode:</source>
+        <translation>Пожалуйста, выберите режим установки базы знаний:</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
         <source>Create subdirectory &quot;%1&quot;
 in user directory &quot;%2&quot;,
 and create application files in it.</source>
         <translation>Будет создана поддиректория &quot;%1&quot; в директории пользователя &quot;%2&quot;, и в ней будут размещены все файлы приложения.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="103"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="109"/>
         <source>Create application files
 in current directory &quot;%1&quot;.</source>
         <translation>Файлы приложения будут созданы в текущей директории &quot;%1&quot; рядом с исполняемым файлом MyTetra.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="108"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="114"/>
         <source>Can&apos;t create portable version.
 Сan&apos;t write data to MyTetra binary file directory &quot;%1&quot;.</source>
         <translation>Невозможно установить портабельную версию. Невозможно создать файлы в текущей директории &quot;%1&quot; рядом с исполняемым файлом MyTetra.</translation>
     </message>
     <message>
-        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="132"/>
+        <location filename="../../../src/views/installDialog/InstallDialog.cpp" line="138"/>
         <source>Please select one of install mode.</source>
         <translation>Пожалуйста, выберите один из режимов инсталляции.</translation>
     </message>

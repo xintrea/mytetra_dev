@@ -31,6 +31,7 @@ public:
     void update();
 
     InstallDialog::InstallType getInstallType();
+    QString getAutoDetectLang();
 
 protected slots:
 
@@ -48,6 +49,8 @@ protected:
     QTranslator m_langTranslator; // Транслятор должен существовать все время работы окна
 
     bool m_enablePortable=true;
+
+    QString m_autoDetectLang="en";
 
     QString m_standartDataDirName;
     QString m_standartHomePath;
