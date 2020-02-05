@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include <QSettings>
 #include <QFile>
 #include <QFileInfo>
@@ -257,6 +259,12 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  // Создается файл первой записи
  QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
  QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
+
+ // Синхронизация файловой системы, почему-то после создания файлы
+ // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
+ #ifdef Q_OS_LINUX
+ std::system("sync");
+ #endif
 }
 
 
