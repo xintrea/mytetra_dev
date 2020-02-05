@@ -628,7 +628,7 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
                 line.addAction(toolAsAction); // Инструмент добавляется на панель инструментов как кнопка с привязанным действием
 
                 QToolButton* currentButton=qobject_cast<QToolButton*>(line.widgetForAction(toolAsAction));
-                currentButton->setAutoRaise(false); // Границы кнопки всегда видны
+                currentButton->setAutoRaise(true); // От автоподсвечивания зависит видимость границ кнопок
             }
         }
         else

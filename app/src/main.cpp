@@ -217,7 +217,7 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible)
         currentButton->setFixedWidth(0);
     }
 
-    currentButton->setAutoRaise(false); // Установка видимых границ кнопки
+    currentButton->setAutoRaise(true); // Установка автоподсвечивания, от него зависит видимость границ кнопок
 }
 
 
