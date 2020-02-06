@@ -85,6 +85,7 @@ protected:
   void initToolsLists(const QStringList &iDisableToolList);
   void setupSignals();
 
+  QPixmap drawIconOverColor(const QColor &fillColor, const QIcon &icon ) const;
 
   Editor *editor; // Указатель на объект редактора, с которым работает эта панель кнопок
   EditorTextArea *textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок

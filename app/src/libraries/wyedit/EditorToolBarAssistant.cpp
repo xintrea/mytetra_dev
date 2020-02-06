@@ -194,9 +194,6 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
     // Есть ли ForegroundBrush под курсором
     bool hasForegroundBrush = textAreaFormat.hasProperty(QTextFormat::ForegroundBrush);
 
-    // Размер иконки для кнопки на панеле инструментов
-    QPixmap pixMap(getIconSize());
-
     QColor fillColor;
 
     // Есть ли ForegroundBrush под курсором
@@ -210,17 +207,7 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
         fillColor=textArea->palette().windowText().color();
     }
 
-    pixMap.fill( fillColor );
-
-    QPainter painter;
-    painter.begin(&pixMap);
-    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
-    painter.drawPixmap(0, 0, QIcon(":/resource/pic/edit_fontcolor.svg").pixmap( pixMap.size() ));
-    painter.end();
-
-    fontColor->setIcon(pixMap);
+    fontColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontcolor.svg")) );
 }
 
 
@@ -243,15 +230,15 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
     // Есть ли BackgroundBrush в тексте под курсором
     bool hasTextBackgroundBrush = textAreaFormat.hasProperty(QTextFormat::BackgroundBrush);
 
-    // Размер иконки для кнопки на панеле инструментов
-    QPixmap pix(getIconSize());
+    QPixmap pixMap( getIconSize() );
+    QColor fillColor;
 
     // Есть ли BackgroundBrush в тексте под курсором
     if(hasTextBackgroundBrush && color.isValid())
     {
         // Если есть BackgroundBrush под курсором, то
         // кнопку красим в цвет заливки текста
-        pix.fill(color);
+        fillColor=color;
     }
     else
     {
@@ -278,14 +265,14 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
                 // Если есть BackgroundBrush в таблице под курсором и
                 // есть BackgroundBrush в ячейке под курсором, то
                 // кнопку красим в цвет заливки ячейки
-                pix.fill(charColor);
+                fillColor=charColor;
             }
             else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
             {
                 // Если есть BackgroundBrush в таблице под курсором но
                 // нет BackgroundBrush в ячейке под курсором, то
                 // кнопку красим в цвет заливки таблицы
-                pix.fill(tableColor);
+                fillColor=tableColor;
             }
             else
             {
@@ -293,7 +280,7 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
                 // нет BackgroundBrush в ячейке под курсором,
                 // то за цвет кнопки берется цвет background редактора textArea (QTextEdit)
                 // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-                pix.fill(textArea->palette().window().color());
+                fillColor=textArea->palette().window().color();
             }
         }
         else
@@ -301,10 +288,11 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
             // Если нет BackgroundBrush в тексте под курсором, то
             // за цвет кнопки берется цвет background редактора textArea (QTextEdit)
             // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-            pix.fill(textArea->palette().window().color());
+            fillColor=textArea->palette().window().color();
         }
     }
-    backgroundColor->setIcon(pix);
+
+    backgroundColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontbackgroundcolor.svg")) );
 }
 
 
@@ -313,6 +301,23 @@ void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &
 {
     QColor color = format.background().color();
     onChangeBackgroundColor(color);
+}
+
+
+QPixmap EditorToolBarAssistant::drawIconOverColor(const QColor &fillColor, const QIcon &icon ) const
+{
+    QPixmap pixMap( getIconSize() );
+    pixMap.fill( fillColor );
+
+    QPainter painter;
+    painter.begin(&pixMap);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.drawPixmap(0, 0, icon.pixmap( pixMap.size() ));
+    painter.end();
+
+    return pixMap;
 }
 
 
