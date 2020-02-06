@@ -13,8 +13,8 @@
    height="16px"
    id="svg2385"
    sodipodi:version="0.32"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="note_edit.svg"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="edit_fontcolor.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.1">
   <defs
@@ -76,24 +76,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.783964"
-     inkscape:cx="8.3171186"
-     inkscape:cy="6.9384716"
+     inkscape:zoom="48.327244"
+     inkscape:cx="8.1258979"
+     inkscape:cy="7.9943044"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
      gridtolerance="3"
      guidetolerance="3"
-     inkscape:window-width="1016"
-     inkscape:window-height="711"
+     inkscape:window-width="1920"
+     inkscape:window-height="1033"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:snap-bbox="true"
      inkscape:object-paths="true"
      inkscape:object-nodes="true"
      inkscape:snap-nodes="true"
-     inkscape:window-maximized="1">
+     inkscape:window-maximized="1"
+     inkscape:bbox-paths="true">
     <inkscape:grid
        type="xygrid"
        id="grid3169"
@@ -108,7 +109,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -116,43 +117,16 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
-    <g
-       transform="matrix(0.99982725,0,0,1.0001728,0,1)"
-       style="font-size:51.57247925000000066px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.49999993999999998;stroke-miterlimit:4;font-family:Arial;-inkscape-font-specification:Arial"
-       id="text2824-1">
-      <path
-         d="m 0.25004322,0.24995683 11.50198678,0 0,3.49939527 -4.0006909,0 0,8.9984449 -3.5006048,0 0,-8.9984449 -4.00069108,0 0,-3.49939527 z"
-         style="font-size:17.19082642000000050px;font-weight:bold;fill:#ffffff;stroke:#000000;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
-         id="path3738"
-         sodipodi:nodetypes="ccccccccc" />
-    </g>
-    <rect
-       style="color:#000000;fill:#ffcc00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3695"
-       width="3"
-       height="3"
-       x="9"
-       y="11" />
-    <rect
-       style="color:#000000;fill:#5fd35f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3695-0"
-       width="3"
-       height="3"
-       x="13"
-       y="11" />
-    <rect
-       style="color:#000000;fill:#ff8080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3695-7"
-       width="3"
-       height="3"
-       x="13"
-       y="7" />
-    <rect
-       style="color:#000000;fill:#87aade;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.25;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3695-1"
-       width="3"
-       height="3"
-       x="9"
-       y="7" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.05735397px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.75;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
+       x="2.1876099"
+       y="13.590899"
+       id="text828"><tspan
+         sodipodi:role="line"
+         id="tspan826"
+         x="2.1876099"
+         y="13.590899"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.75;stroke-miterlimit:4;stroke-dasharray:none">A</tspan></text>
   </g>
 </svg>

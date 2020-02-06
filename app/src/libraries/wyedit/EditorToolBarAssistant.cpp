@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QTextTable>
 #include <QTextTableFormat>
+#include <QPainter>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -194,19 +195,32 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
     bool hasForegroundBrush = textAreaFormat.hasProperty(QTextFormat::ForegroundBrush);
 
     // Размер иконки для кнопки на панеле инструментов
-    QPixmap pix(getIconSize());
+    QPixmap pixMap(getIconSize());
+
+    QColor fillColor;
 
     // Есть ли ForegroundBrush под курсором
     if(hasForegroundBrush && color.isValid())
-        pix.fill(color);
+        fillColor=color;
     else
     {
         // Если нет ForegroundBrush в тексте под курсором, то
         // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
         // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
-        pix.fill(textArea->palette().windowText().color());
+        fillColor=textArea->palette().windowText().color();
     }
-    fontColor->setIcon(pix);
+
+    pixMap.fill( fillColor );
+
+    QPainter painter;
+    painter.begin(&pixMap);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.drawPixmap(0, 0, QIcon(":/resource/pic/edit_fontcolor.svg").pixmap( pixMap.size() ));
+    painter.end();
+
+    fontColor->setIcon(pixMap);
 }
 
 
@@ -218,7 +232,7 @@ void EditorToolBarAssistant::onChangeIconFontColor(const QTextCharFormat &format
 }
 
 
-// Изменение цвета иконки выделения фона текста
+// Изменение цвета иконки для фона текста
 void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
 {
     // TRACELOG

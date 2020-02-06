@@ -375,7 +375,8 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-fontColor", fontColor);
     shortcutManager.initAction("editor-backgroundColor", backgroundColor);
 
-    // Настраиваются скрытыя кнопки действия, а надписи настраиваются для самого виджета
+    // Настраиваются скрытые кнопки действия, а надписи настраиваются для самого виджета
+    // Скрытые кнопки нужны чтобы работал выбор виджета по грячим кнопкам
     shortcutManager.initAction("editor-fontSelect", fontSelect->toolFocus.getSelectAction() );
     fontSelect->setStatusTip( shortcutManager.getFullDescription("editor-fontSelect") );
     fontSelect->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSelect") );
