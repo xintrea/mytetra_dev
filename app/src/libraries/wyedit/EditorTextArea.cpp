@@ -469,7 +469,7 @@ bool EditorTextArea::canInsertFromMimeData(const QMimeData *source) const
   if(source->hasImage())
    return true;
   else
-   return QTextEdit::canInsertFromMimeData(source);
+   return QTextEdit::canInsertFromMimeData(source); // Это не рекурсия, это вызов метода базового класса
 }
 
 
@@ -484,7 +484,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   // Вставка обычного текста
   if(mimeDataFormat==MimeDataText)
   {
-    QString text=qvariant_cast<QString>(source->text());
+    QString text=source->text();
     cursor.insertText(text);
     return;
   }
@@ -492,7 +492,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   // Вставка HTML-кода
   if(mimeDataFormat==MimeDataHtml)
   {
-    QString html=qvariant_cast<QString>(source->html());
+    QString html=source->html();
 
     // Вызов процесса загрузки картинок
     // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()

@@ -286,6 +286,8 @@ void ImageFormatter::onDoubleClickOnImage(void)
 
 void ImageFormatter::onDownloadImages(const QString html)
 {
+  // qDebug() << "HTML for download images: " << html;
+
   // Создается временный документ на основе HTML (именно документ, так как у QTextDocumentFragment нет методов перебора блоков текста)
   QTextDocument textDocument;
   QTextCursor textCursor(&textDocument);
@@ -311,6 +313,8 @@ void ImageFormatter::onDownloadImages(const QString html)
       {
         if(currentFragment.charFormat().isImageFormat()) // Если найден блок с картинкой
         {
+          // qDebug() << "Fragment text: " << currentFragment.text();
+
           // Выясняется формат картинки
           QTextImageFormat imgFmt = currentFragment.charFormat().toImageFormat();
 
