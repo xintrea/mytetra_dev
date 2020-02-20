@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION  100
+#define APPLICATION_RELEASE_MICROVERSION  101
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -64,8 +64,6 @@ void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible=
 void myMessageOutput(QtMsgType type, const char *msg);
 QString getUniqueId(void);
 QString getUniqueImageName(void);
-unsigned int getMilliCount(void);
-void initRandom(unsigned int humanGenerateSeedShift);
 
 void setKineticScrollArea(QAbstractItemView *object);
 

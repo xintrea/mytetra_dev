@@ -22,6 +22,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "views/actionLog/ActionLogScreen.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/RandomInitter.h"
 
 #include "libraries/wyedit/EditorTextArea.h"
 
@@ -75,7 +76,7 @@ MainWindow::MainWindow() : QMainWindow()
     // Инициализация генератора случайных чисел
     int x=this->mapFromGlobal(QCursor::pos()).x();
     int y=this->mapFromGlobal(QCursor::pos()).y();
-    initRandom( static_cast<unsigned int>( x * y + (x % (y==0 ? 1 : y)) + x + y ) );
+    RandomInitter::init( static_cast<long>( x * y + (x % (y==0 ? 1 : y)) + x + y ) );
 }
 
 
