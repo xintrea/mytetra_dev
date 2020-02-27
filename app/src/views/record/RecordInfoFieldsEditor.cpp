@@ -6,9 +6,13 @@
 #include <QMessageBox>
 #include <QTextDocumentFragment>
 
+#include "main.h"
 #include "InfoFieldEnter.h"
 #include "RecordInfoFieldsEditor.h"
-#include "main.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 // Окно редактирования информационных полей записи (не текста записи!)
@@ -21,6 +25,7 @@ RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WindowFlag
 #endif
 {
   setupUI();
+  setupShortcuts();
   setupSignals();
   assembly();
 }
@@ -41,18 +46,28 @@ void RecordInfoFieldsEditor::setupUI(void)
  buttonBox=new QDialogButtonBox();
  buttonBox->setOrientation(Qt::Horizontal);
  buttonBox->setStandardButtons(QDialogButtonBox::Ok|QDialogButtonBox::NoButton|QDialogButtonBox::Cancel);
- 
- // На кнопку OK назначается комбинация клавиш Ctrl+Enter
- QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
- OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
- OkButton->setToolTip(tr("Ctrl+Enter"));
+}
+
+
+// Может вызваться повторно при изменении схемы горячих клавиш
+void RecordInfoFieldsEditor::setupShortcuts(void)
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    // На кнопку OK назначается комбинация клавиш Ctrl+Enter
+    QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+    okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
+    okButton->setToolTip( shortcutManager.getKeySequenceAsText("misc-editConfirm") ); // ToolTip зависит от шортката
 }
 
 
 void RecordInfoFieldsEditor::setupSignals(void)
 {
- connect(buttonBox, &QDialogButtonBox::accepted, this, &RecordInfoFieldsEditor::okClick);
- connect(buttonBox, &QDialogButtonBox::rejected, this, &RecordInfoFieldsEditor::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &RecordInfoFieldsEditor::okClick);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &RecordInfoFieldsEditor::reject);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &RecordInfoFieldsEditor::setupShortcuts);
 }
 
 

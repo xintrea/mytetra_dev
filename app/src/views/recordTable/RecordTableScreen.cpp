@@ -15,10 +15,12 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "libraries/ShortcutManager.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern ShortcutManager shortcutManager;
 
 
 // Виджет, который отображает список записей в ветке
@@ -26,17 +28,15 @@ extern AppConfig mytetraConfig;
 
 RecordTableScreen::RecordTableScreen(QWidget *parent) : QWidget(parent)
 {
+  setupActions();
+
   // Инициализируется контроллер списка записей
   recordTableController=new RecordTableController(this);
   recordTableController->setObjectName("recordTableController");
-
-  setupActions();
-
   recordTableController->init();
 
-
   setupUI();
- 
+  setupShortcuts();
   setupSignals();
   assembly();
 }
@@ -52,130 +52,92 @@ RecordTableScreen::~RecordTableScreen()
 void RecordTableScreen::setupActions(void)
 {
  // Добавление записи
- // a->setShortcut(tr("Ctrl+X"));
- actionAddNewToEnd = new QAction(tr("Add note"), this);
- actionAddNewToEnd->setStatusTip(tr("Add a new note"));
+ actionAddNewToEnd = new QAction(this);
  actionAddNewToEnd->setIcon(QIcon(":/resource/pic/note_add.svg"));
- connect(actionAddNewToEnd, &QAction::triggered, recordTableController, &RecordTableController::addNewToEndContext);
 
  // Добавление записи до
- actionAddNewBefore = new QAction(tr("Add note before"), this);
- actionAddNewBefore->setStatusTip(tr("Add a note before selected"));
- connect(actionAddNewBefore, &QAction::triggered, recordTableController, &RecordTableController::addNewBeforeContext);
+ actionAddNewBefore = new QAction(this);
 
  // Добавление записи после
- actionAddNewAfter = new QAction(tr("Add note after"), this);
- actionAddNewAfter->setStatusTip(tr("Add a note after selected"));
- connect(actionAddNewAfter, &QAction::triggered, recordTableController, &RecordTableController::addNewAfterContext);
+ actionAddNewAfter = new QAction(this);
 
- // Редактирование записи
- actionEditField = new QAction(tr("Edit properties (name, author, tags...)"), this);
- actionEditField->setStatusTip(tr("Edit note properties (name, author, tags...)"));
+ // Редактирование свойств записи
+ actionEditField = new QAction(this);
  actionEditField->setIcon(QIcon(":/resource/pic/note_edit.svg"));
- connect(actionEditField, &QAction::triggered, recordTableController, &RecordTableController::onEditFieldContext);
 
  // Блокировка записи
- actionBlock = new QAction(tr("Block/Unblock note"), this);
- actionBlock->setStatusTip(tr("Block or unblock change note"));
+ actionBlock = new QAction(this);
  actionBlock->setIcon(QIcon(":/resource/pic/note_block.svg"));
- connect(actionBlock, &QAction::triggered, recordTableController, &RecordTableController::onBlockContext);
 
  // Удаление записи
- actionDelete = new QAction(tr("Delete note(s)"), this);
- actionDelete->setStatusTip(tr("Delete note(s)"));
+ actionDelete = new QAction(this);
  actionDelete->setIcon(QIcon(":/resource/pic/note_delete.svg"));
- connect(actionDelete, &QAction::triggered, recordTableController, &RecordTableController::deleteContext);
 
  // Удаление записи с копированием в буфер обмена
- actionCut = new QAction(tr("&Cut note(s)"), this);
- actionCut->setStatusTip(tr("Cut notes(s) to clipboard"));
+ actionCut = new QAction(this);
  actionCut->setIcon(QIcon(":/resource/pic/cb_cut.svg"));
- connect(actionCut, &QAction::triggered, recordTableController, &RecordTableController::cut);
 
  // Копирование записи (записей) в буфер обмена
- actionCopy = new QAction(tr("&Copy note(s)"), this);
- actionCopy->setStatusTip(tr("Copy note(s) to clipboard"));
+ actionCopy = new QAction(this);
  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
- connect(actionCopy, &QAction::triggered, recordTableController, &RecordTableController::copy);
 
  // Вставка записи из буфера обмена
- actionPaste = new QAction(tr("&Paste note(s)"), this);
- actionPaste->setStatusTip(tr("Paste note(s) from clipboard"));
+ actionPaste = new QAction(this);
  actionPaste->setIcon(QIcon(":/resource/pic/cb_paste.svg"));
- connect(actionPaste, &QAction::triggered, recordTableController, &RecordTableController::paste);
 
- // Настройка внешнего вида таблицы конечных записей
- actionSettings = new QAction(tr("&View settings"), this);
+ // Настройка внешнего вида таблицы конечных записей (горячая кнопка не требуется)
+ actionSettings = new QAction(tr("View settings"), this);
  actionSettings->setStatusTip(tr("Setup table view settins"));
  actionSettings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
- connect(actionSettings, &QAction::triggered, recordTableController, &RecordTableController::settings);
 
  // Перемещение записи вверх
- actionMoveUp = new QAction(tr("&Move Up"), this);
- actionMoveUp->setStatusTip(tr("Move note up"));
+ actionMoveUp = new QAction(this);
  actionMoveUp->setIcon(QIcon(":/resource/pic/move_up.svg"));
- connect(actionMoveUp, &QAction::triggered, recordTableController, &RecordTableController::moveUp);
 
  // Перемещение записи вниз
- actionMoveDn=new QAction(tr("&Move Down"), this);
- actionMoveDn->setStatusTip(tr("Move note down"));
+ actionMoveDn=new QAction(this);
  actionMoveDn->setIcon(QIcon(":/resource/pic/move_dn.svg"));
- connect(actionMoveDn, &QAction::triggered, recordTableController, &RecordTableController::moveDn);
-
- // Поиск по базе (клик связывается с действием в MainWindow)
- actionFindInBase=new QAction(tr("Find in base"), this);
- actionFindInBase->setStatusTip(tr("Find in base"));
- actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
 
  // Синхронизация
- actionSyncro=new QAction(tr("Synchronization"), this);
- actionSyncro->setStatusTip(tr("Run synchronization"));
+ actionSyncro=new QAction(this);
  actionSyncro->setIcon(QIcon(":/resource/pic/synchronization.svg"));
- connect(actionSyncro, &QAction::triggered, this, &RecordTableScreen::onSyncroClick);
+
+ // Поиск по базе (клик связывается с действием в MainWindow)
+ actionFindInBase=new QAction(shortcutManager.getDescriptionWithShortcut("misc-findInBase"), this);
+ actionFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
 
  // Перемещение по истории посещаемых записей назад
  actionWalkHistoryPrevious=new QAction(tr("Previous viewing note"), this);
- actionWalkHistoryPrevious->setShortcut(tr("Ctrl+<"));
- actionWalkHistoryPrevious->setStatusTip(tr("Previous note has been viewing"));
  actionWalkHistoryPrevious->setIcon(QIcon(":/resource/pic/walk_history_previous.svg"));
- connect(actionWalkHistoryPrevious, &QAction::triggered, this, &RecordTableScreen::onWalkHistoryPreviousClick);
 
  // Перемещение по истории посещаемых записей вперед
  actionWalkHistoryNext=new QAction(tr("Next viewing note"), this);
- actionWalkHistoryNext->setShortcut(tr("Ctrl+>"));
- actionWalkHistoryNext->setStatusTip(tr("Next note has been viewing"));
  actionWalkHistoryNext->setIcon(QIcon(":/resource/pic/walk_history_next.svg"));
- connect(actionWalkHistoryNext, &QAction::triggered, this, &RecordTableScreen::onWalkHistoryNextClick);
 
  // Кнопка Назад (Back) в мобильном интерфейсе
  actionBack=new QAction(tr("Back to item tree"), this);
  actionBack->setStatusTip(tr("Back to item tree"));
  actionBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
- connect(actionBack, &QAction::triggered, this, &RecordTableScreen::onBackClick);
 
- // Действия по сортировке
+ // Действия по сортировке (горячая кнопка не требуется)
  actionSort = new QAction(tr("Toggle sorting"), this);
  actionSort->setStatusTip(tr("Enable/disable sorting by column"));
  actionSort->setIcon(QIcon(":/resource/pic/sort.svg"));
- connect(actionSort, &QAction::triggered, recordTableController, &RecordTableController::onSortClick);
 
  // Кнопка вызова печати таблицы конечных записей
  actionPrint = new QAction(tr("Print table"), this);
  actionPrint->setStatusTip(tr("Print current notes table"));
  actionPrint->setIcon(QIcon(":/resource/pic/print_table.svg"));
- connect(actionPrint, &QAction::triggered, recordTableController, &RecordTableController::onPrintClick);
 
  // Кнопка копирования ссылки на запись
  actionCopyRecordReference = new QAction(tr("Copy note reference"), this);
  actionCopyRecordReference->setStatusTip(tr("Copy note reference to clipboard"));
  actionCopyRecordReference->setIcon(QIcon(":/resource/pic/note_reference.svg"));
- connect(actionCopyRecordReference, &QAction::triggered, this, &RecordTableScreen::onCopyRecordReference);
 
- // Кнопка переключения режима одинарного выбора и мультивыбора
+ // Кнопка переключения режима одинарного выбора и мультивыбора (горячая кнопка не требуется)
  actionSwitchSelectionMode = new QAction(tr("Switch select/multiselect"), this);
  actionSwitchSelectionMode->setStatusTip(tr("Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)"));
  actionSwitchSelectionMode->setIcon(QIcon(":/resource/pic/switch_note_selection_mode.svg"));
- connect(actionSwitchSelectionMode, &QAction::triggered, recordTableController, &RecordTableController::onSwitchSelectionMode);
 
  // Сразу после создания все действия запрещены
  disableAllActions();
@@ -198,9 +160,13 @@ void RecordTableScreen::setupUI(void)
  }
 
  insertActionAsButton(toolsLine, actionAddNewToEnd);
+ insertActionAsButton(toolsLine, actionAddNewBefore, false); // Действие без видимой кнопки
+ insertActionAsButton(toolsLine, actionAddNewAfter, false); // Действие без видимой кнопки
+
  if(mytetraConfig.getInterfaceMode()=="desktop")
  {
    insertActionAsButton(toolsLine, actionEditField);
+   insertActionAsButton(toolsLine, actionBlock, false);
    insertActionAsButton(toolsLine, actionDelete);
  }
 
@@ -230,9 +196,122 @@ void RecordTableScreen::setupUI(void)
 }
 
 
+void RecordTableScreen::setupShortcuts(void)
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    // Добавление записи
+    shortcutManager.initAction("note-addNewToEnd", actionAddNewToEnd);
+
+    // Добавление записи до
+    shortcutManager.initAction("note-addNewBefore", actionAddNewBefore);
+
+    // Добавление записи после
+    shortcutManager.initAction("note-addNewAfter", actionAddNewAfter);
+
+    // Редактирование свойств записи
+    shortcutManager.initAction("note-editField", actionEditField);
+
+    // Блокировка/разблокировка записи
+    shortcutManager.initAction("note-block", actionBlock);
+
+    // Удаление записи (записей)
+    shortcutManager.initAction("note-delete", actionDelete);
+
+    // Удаление записи с копированием в буфер обмена
+    shortcutManager.initAction("note-cut", actionCut);
+
+    // Копирование записи (записей)
+    shortcutManager.initAction("note-copy", actionCopy);
+
+    // Вставка записи (записей)
+    shortcutManager.initAction("note-paste", actionPaste);
+
+    // Перемещение записи вверх
+    shortcutManager.initAction("note-moveUp", actionMoveUp);
+
+    // Перемещение записи вниз
+    shortcutManager.initAction("note-moveDn", actionMoveDn);
+
+
+    // Синхронизация
+    shortcutManager.initAction("misc-syncro", actionSyncro);
+
+    // Переход на предыдущую запись в истории
+    shortcutManager.initAction("note-previousNote", actionWalkHistoryPrevious);
+
+    // Переход на следующую запись в истории
+    shortcutManager.initAction("note-nextNote", actionWalkHistoryNext);
+}
+
+
 void RecordTableScreen::setupSignals(void)
 {
+    // Добавление записи
+    connect(actionAddNewToEnd, &QAction::triggered, recordTableController, &RecordTableController::addNewToEndContext);
 
+    // Добавление записи до
+    connect(actionAddNewBefore, &QAction::triggered, recordTableController, &RecordTableController::addNewBeforeContext);
+
+    // Добавление записи после
+    connect(actionAddNewAfter, &QAction::triggered, recordTableController, &RecordTableController::addNewAfterContext);
+
+    // Редактирование записи
+    connect(actionEditField, &QAction::triggered, recordTableController, &RecordTableController::onEditFieldContext);
+
+    // Блокировка записи
+    connect(actionBlock, &QAction::triggered, recordTableController, &RecordTableController::onBlockContext);
+
+    // Удаление записи
+    connect(actionDelete, &QAction::triggered, recordTableController, &RecordTableController::deleteContext);
+
+    // Удаление записи с копированием в буфер обмена
+    connect(actionCut, &QAction::triggered, recordTableController, &RecordTableController::cut);
+
+    // Копирование записи (записей) в буфер обмена
+    connect(actionCopy, &QAction::triggered, recordTableController, &RecordTableController::copy);
+
+    // Вставка записи из буфера обмена
+    connect(actionPaste, &QAction::triggered, recordTableController, &RecordTableController::paste);
+
+    // Настройка внешнего вида таблицы конечных записей
+    connect(actionSettings, &QAction::triggered, recordTableController, &RecordTableController::settings);
+
+    // Перемещение записи вверх
+    connect(actionMoveUp, &QAction::triggered, recordTableController, &RecordTableController::moveUp);
+
+    // Перемещение записи вниз
+    connect(actionMoveDn, &QAction::triggered, recordTableController, &RecordTableController::moveDn);
+
+    // Поиск по базе (клик связывается с действием в MainWindow)
+    connect(actionFindInBase, &QAction::triggered, find_object<MainWindow>("mainwindow"), &MainWindow::toolsFindInBase);
+
+    // Синхронизация
+    connect(actionSyncro, &QAction::triggered, this, &RecordTableScreen::onSyncroClick);
+
+    // Перемещение по истории посещаемых записей назад
+    connect(actionWalkHistoryPrevious, &QAction::triggered, this, &RecordTableScreen::onWalkHistoryPreviousClick);
+
+    // Перемещение по истории посещаемых записей вперед
+    connect(actionWalkHistoryNext, &QAction::triggered, this, &RecordTableScreen::onWalkHistoryNextClick);
+
+    // Кнопка Назад (Back) в мобильном интерфейсе
+    connect(actionBack, &QAction::triggered, this, &RecordTableScreen::onBackClick);
+
+    // Действия по сортировке
+    connect(actionSort, &QAction::triggered, recordTableController, &RecordTableController::onSortClick);
+
+    // Кнопка вызова печати таблицы конечных записей
+    connect(actionPrint, &QAction::triggered, recordTableController, &RecordTableController::onPrintClick);
+
+    // Кнопка копирования ссылки на запись
+    connect(actionCopyRecordReference, &QAction::triggered, this, &RecordTableScreen::onCopyRecordReference);
+
+    // Кнопка переключения режима одинарного выбора и мультивыбора
+    connect(actionSwitchSelectionMode, &QAction::triggered, recordTableController, &RecordTableController::onSwitchSelectionMode);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &RecordTableScreen::setupShortcuts);
 }
 
 
@@ -285,12 +364,12 @@ void RecordTableScreen::disableAllActions(void)
 
 void RecordTableScreen::toolsUpdate(void)
 {
-  toolsWidgatsUpdate();
+  toolsWidgetsUpdate();
   editorModesUpdate();
 }
 
 
-void RecordTableScreen::toolsWidgatsUpdate()
+void RecordTableScreen::toolsWidgetsUpdate()
 {
  // qDebug() << "recordtablescreen::tools_update()";
 
@@ -318,8 +397,8 @@ void RecordTableScreen::toolsWidgatsUpdate()
  // Добавлять "до" можно только тогда, когда выбрана только одна строка
  // и не включена сортировка
  if(recordTableController->getView()->selectionModel()->hasSelection() &&
-    (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
-    recordTableController->getView()->isSortingEnabled()==false )
+         (recordTableController->getView()->selectionModel()->selectedRows()).size()==1 &&
+         recordTableController->getView()->isSortingEnabled()==false )
    actionAddNewBefore->setEnabled(true);
 
  // Добавление записи после
@@ -366,7 +445,7 @@ void RecordTableScreen::toolsWidgatsUpdate()
      recordTableController->getView()->model()->rowCount()==0)
   {
    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-   if(mimeData!=NULL)
+   if(mimeData!=nullptr)
     if(mimeData->hasFormat(FixedParameters::appTextId+"/records"))
      actionPaste->setEnabled(true);
   }
@@ -496,3 +575,8 @@ QString RecordTableScreen::getTreePath(void)
 }
 
 
+// Установка фокуса на базовый виджет (на список веток дерева)
+void RecordTableScreen::setFocusToBaseWidget()
+{
+    recordTableController->setFocusToBaseWidget();
+}

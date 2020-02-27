@@ -1,10 +1,14 @@
 #include <QDebug>
+#include <QtGlobal>
 
 #include "EditorFontFamilyComboBox.h"
 
-EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontComboBox(parent)
+
+EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) :
+    QFontComboBox(parent),
+    toolFocus(this)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     isProgrammChanged=false;
 
@@ -19,14 +23,20 @@ EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) : QFontCombo
     QValidator *validator = new QRegularExpressionValidator(rx, this);
     this->setValidator(validator);
 
-    connect(this, static_cast<void(EditorFontFamilyComboBox::*)(int)>(&EditorFontFamilyComboBox::currentIndexChanged),
-            this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
+    this->setupSignals();
 }
 
 
 EditorFontFamilyComboBox::~EditorFontFamilyComboBox()
 {
 
+}
+
+
+void EditorFontFamilyComboBox::setupSignals()
+{
+    connect(this, qOverload<int>(&EditorFontFamilyComboBox::currentIndexChanged),
+            this, &EditorFontFamilyComboBox::onCurrentIndexChanged);
 }
 
 
@@ -48,3 +58,6 @@ void EditorFontFamilyComboBox::onCurrentIndexChanged(int index)
 
     previousIndex=index;
 }
+
+
+

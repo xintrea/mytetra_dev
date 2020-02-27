@@ -32,11 +32,11 @@ equals(PROFILING_ENABLE, 1) {
   QMAKE_LFLAGS_DEBUG += -pg
 }
 
-# Enable C++11
+# Enable C++14
 greaterThan(QT_MAJOR_VERSION, 4) {
-  CONFIG += c++11
+  CONFIG += c++14
 } else {
-  QMAKE_CXXFLAGS += -std=c++11
+  QMAKE_CXXFLAGS += -std=c++14
 }
 
 # Create define variable in C++ code
@@ -82,7 +82,8 @@ contains(TARGET_OS, ANY_OS) {
 TARGET = mytetra
 RESOURCES = bin/mytetra.qrc \
             bin/icons.qrc
-TRANSLATIONS = bin/resource/translations/mytetra_ru.ts
+TRANSLATIONS = bin/resource/translations/mytetra_ru.ts \ 
+               bin/resource/translations/mytetra_fr.ts
 CODECFORTR  = utf8
 
 # QMAKE_LFLAGS += -L/usr/lib/qt4/lib
@@ -137,6 +138,14 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/libraries/RandomInitter.h \
+    src/libraries/wyedit/EditorConfigMathExpression.h \
+    src/libraries/wyedit/EditorFontToolFocus.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/views/installDialog/InstallDialog.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
     src/views/record/RecordInfoFieldsEditor.h \
@@ -226,7 +235,19 @@ HEADERS = src/main.h \
     src/libraries/PeriodicSyncro.h \
     src/libraries/wyedit/EditorFontSizeComboBox.h \
     src/libraries/wyedit/EditorFontFamilyComboBox.h \
-    src/libraries/wyedit/formatters/MathExpressionFormatter.h
+    src/libraries/wyedit/formatters/MathExpressionFormatter.h \
+    src/libraries/ShortcutManager.h \
+    src/views/shortcutSettings/ShortcutSettingsScreen.h \
+    src/views/shortcutSettings/ShortcutSettingsView.h \
+    src/controllers/shortcutSettings/ShortcutSettingsController.h \
+    src/models/shortcutSettings/ShortcutSettingsModel.h \
+    src/views/appConfigWindow/AppConfigPage_Keyboard.h \
+    src/views/shortcutSettings/HotKeyGrabber.h \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.h \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.h \
+    src/libraries/wyedit/EditorConfigToolbars.h \
+    src/libraries/wyedit/EditorMathExpressionDialog.h
 
 lessThan(QT_MAJOR_VERSION,5) {
 HEADERS+=src/libraries/qtSingleApplication/qtsingleapplication.h \
@@ -259,6 +280,14 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/libraries/RandomInitter.cpp \
+    src/libraries/wyedit/EditorConfigMathExpression.cpp \
+    src/libraries/wyedit/EditorFontToolFocus.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
+    src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/views/installDialog/InstallDialog.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \
@@ -348,7 +377,19 @@ SOURCES = src/main.cpp \
     src/libraries/PeriodicSyncro.cpp \
     src/libraries/wyedit/EditorFontSizeComboBox.cpp \
     src/libraries/wyedit/EditorFontFamilyComboBox.cpp \
-    src/libraries/wyedit/formatters/MathExpressionFormatter.cpp
+    src/libraries/wyedit/formatters/MathExpressionFormatter.cpp \
+    src/libraries/ShortcutManager.cpp \
+    src/views/shortcutSettings/ShortcutSettingsScreen.cpp \
+    src/views/shortcutSettings/ShortcutSettingsView.cpp \
+    src/controllers/shortcutSettings/ShortcutSettingsController.cpp \
+    src/models/shortcutSettings/ShortcutSettingsModel.cpp \
+    src/views/appConfigWindow/AppConfigPage_Keyboard.cpp \
+    src/views/shortcutSettings/HotKeyGrabber.cpp \
+    src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.cpp \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarUsedCommandsController.cpp \
+    src/libraries/wyedit/mvc/controllers/editorToolbarSettings/EditorToolbarAvailableCommandsController.cpp \
+    src/libraries/wyedit/EditorConfigToolbars.cpp \
+    src/libraries/wyedit/EditorMathExpressionDialog.cpp
 
 lessThan(QT_MAJOR_VERSION,5) {
 SOURCES+=src/libraries/qtSingleApplication/qtsingleapplication.cpp \
@@ -425,4 +466,8 @@ win32 {
 !android {
 QMAKE_POST_LINK += $$copyToDir($${_PRO_FILE_PWD_}/../thirdParty/mimetex/build/bin/$${MIMETEX_BINARY}, $${OUT_PWD}/bin/$${MIMETEX_BINARY})
 }
+
+FORMS += \
+    src/samples/buttonwidth.ui \
+    src/views/installDialog/InstallDialog.ui
 

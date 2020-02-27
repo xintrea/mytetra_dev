@@ -32,9 +32,9 @@ public:
 
   void setReadOnly(bool state);
 
-signals:
-
 public slots:
+
+  void setupShortcuts(void);
 
 protected:
 

@@ -15,7 +15,7 @@
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
 #include "../EditorCursorPositionDetector.h"
-#include "../EditorMultiLineInputDialog.h"
+#include "../EditorMathExpressionDialog.h"
 
 #include "main.h"
 #include "libraries/DiskHelper.h"
@@ -78,19 +78,16 @@ QString MathExpressionFormatter::getMathExpressionByImageName(QString resourceIm
 // Обработка клавиши добавления/редактирования математического выражения
 void MathExpressionFormatter::onMathExpressionClicked(void)
 {
-
     // Если выделена картинка математического выражения
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << mathExpressionOnSelect();
-
         editMathExpression( mathExpressionOnSelect() );
         return;
     }
 
     // Если курсор стоит на картинке с математическим выражением
     if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
-        qDebug() << "Math expression on cursor: " << mathExpressionOnSelect();
-
+        qDebug() << "Math expression on cursor: " << mathExpressionOnCursor();
         editMathExpression( mathExpressionOnCursor() );
         return;
     }
@@ -110,10 +107,18 @@ void MathExpressionFormatter::onMathExpressionClicked(void)
 // Вызов окна редактирования формулы
 void MathExpressionFormatter::onContextMenuEditMathExpression()
 {
-    // Формула меняется только если формула выделена
+    // Формула меняется если формула выделена
     if(editor->cursorPositionDetector->isMathExpressionSelect()) {
         qDebug() << "Math expression on select: " << this->mathExpressionOnSelect();
         editMathExpression( this->mathExpressionOnSelect() );
+        return;
+    }
+
+    // А так же формула меняется если курсор находится рядом с формулой
+    if(editor->cursorPositionDetector->isCursorOnMathExpression()) {
+        qDebug() << "Math expression on cursor: " << this->mathExpressionOnCursor();
+        editMathExpression( this->mathExpressionOnCursor() );
+        return;
     }
 }
 
@@ -167,9 +172,9 @@ void MathExpressionFormatter::editMathExpression(QString iMathExpressionText)
 // Запрос математического выражения от пользователя
 QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressionText)
 {
-    EditorMultiLineInputDialog dialog(textArea);
+    EditorMathExpressionDialog dialog(this, textArea); // Диалог написания Tex формулы
 
-    dialog.setText(iMathExpressionText);
+    dialog.setMathExpressionText(iMathExpressionText);
     dialog.setWindowTitle(tr("Edit TeX math expression"));
     int result=dialog.exec();
 
@@ -180,7 +185,7 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
     // Если нажато OK, исходное выражение было непустым, и пользователь обнулил выражение
     if(result==QDialog::Accepted &&
        iMathExpressionText.size()>0 &&
-       dialog.getText().trimmed().size()==0) {
+       dialog.getMathExpressionText().trimmed().size()==0) {
         // Нельзя превращать картинку в картинку с пустой формулой
         QMessageBox msgBox;
         msgBox.setText(tr("Error while input TeX source"));
@@ -196,16 +201,18 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
     if(!dialog.isModified())
         return QString();
 
-    return dialog.getText().trimmed();
+    return dialog.getMathExpressionText().trimmed();
 }
 
 
-void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName)
+void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName, bool removeTeXFileToTrash)
 {
     // Исходник в формате TeX записывается во временный файл
     // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
     // работала передача текста, без побочных шелл-эффектов, которые могут возникнуть
     // при передаче математического варажения в командной строке
+    // Если removeTeXFileToTrash = true, то временный Tex файл удаляеься в корзину myTetra
+    // Если removeTeXFileToTrash = false, то временный Tex файл кничтожается
     QString mathExpressionFileName=QDir::tempPath()+"/"+getUniqueId()+".txt";
     QFile mathExpressionFile(mathExpressionFileName);
     if(!mathExpressionFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -238,8 +245,15 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
     exCommand.setCommand(command);
     exCommand.runSimple();
 
-    // Файл с TeX исходником удаляется в корзину
-    DiskHelper::removeFileToTrash( mathExpressionFileName );
+    if (removeTeXFileToTrash) {
+        // Файл с TeX исходником удаляется в корзину
+        DiskHelper::removeFileToTrash( mathExpressionFileName );
+    } else {
+        // Файл с TeX исходником полностью уничтожается
+        if (QFile::exists(mathExpressionFileName)) {
+            QFile::remove(mathExpressionFileName);
+        }
+    }
 }
 
 

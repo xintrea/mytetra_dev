@@ -25,8 +25,6 @@ public:
  TreeScreen(QWidget *parent=nullptr);
  virtual ~TreeScreen();
 
- QMap<QString, QAction *> actionList;
-
  KnowTreeModel *knowTreeModel;
 
  void saveKnowTree(void);
@@ -48,11 +46,17 @@ public:
  
  void updateBranchOnScreen(const QModelIndex &index);
 
+ void setFocusToBaseWidget(void);
+
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
 
  void expandAllSubbranch(void);
  void collapseAllSubbranch(void);
- void expandOrCollapseRecurse(QModelIndex index, bool mode);
+ void expandOrCollapseRecurse(QModelIndex modelIndex, bool mode);
  void insSubbranch(void);
  void insBranch(void);
  void editBranch(void);
@@ -62,7 +66,7 @@ private slots:
  void delOneBranch(QModelIndex index);
 
  void moveUpBranch(void);
- void moveDnBranch(void);
+ void moveDownBranch(void);
  void cutBranch(void);
  bool copyBranch(void);
  void pasteBranch(void);
@@ -73,11 +77,15 @@ private slots:
 
  // Действия при клике на ветку дерева
  void onKnowtreeClicked(const QModelIndex &index);
+ void checkIfOneRootCryptItem(const QModelIndex &index);
 
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
+
+ QMap<QString, QAction *> actionList;
+
  QToolBar *toolsLine;
 
  KnowTreeView  *knowTreeView;
@@ -93,7 +101,7 @@ private:
  void setupActions(void);
  void assembly(void);
  
- void moveUpDnBranch(int direction);
+ void moveUpDownBranch(int direction);
  bool moveCheckEnable(void);
 
  void insBranchSmart(bool is_branch);

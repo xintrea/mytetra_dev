@@ -1,5 +1,5 @@
-#ifndef _EDITOR_H_
-#define _EDITOR_H_
+#ifndef MYTETRA_EDITOR
+#define MYTETRA_EDITOR
 
 #include <QBoxLayout>
 #include <QToolButton>
@@ -64,6 +64,8 @@ class Editor : public QWidget
  friend class ImageFormatter;
  friend class MathExpressionFormatter;
  friend class ReferenceFormatter;
+
+ friend class EditorContextMenu;
 
 public:
  Editor(QWidget *parent=nullptr);
@@ -240,12 +242,16 @@ private:
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
 
  void setupSignals(void);
+ void setupToolsSignals(void);
  void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
  void setupIndentSliderAssistant(void);
  void setupEditorTextArea(void);
  void setupCursorPositionDetector(void);
  void setupFormatters(void);
  void assembly(void);
+
+ // Устанавка размера табуляции для клавиши Tab
+ void setTabSize();
 
  // Переопределение событий обработки клавиш
  // нужны для определения момента undo/redo
@@ -275,4 +281,4 @@ private:
  int dirFileEmptyReaction;
 };
 
-#endif /* _EDITOR_H_ */
+#endif /* MYTETRA_EDITOR */

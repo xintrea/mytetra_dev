@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include <QSettings>
 #include <QFile>
 #include <QFileInfo>
@@ -15,6 +17,7 @@
 #include "views/record/MetaEditor.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "views/installDialog/InstallDialog.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
 
@@ -25,7 +28,7 @@
 
 GlobalParameters::GlobalParameters(QObject *pobj)
 {
- Q_UNUSED(pobj);
+ Q_UNUSED(pobj)
 
 }
 
@@ -49,17 +52,17 @@ QString GlobalParameters::getMainProgramFile(void)
 
 void GlobalParameters::init(void)
 {
- pointTreeScreen=NULL;
- pointRecordTableScreen=NULL;
- pointFindScreen=NULL;
- pointMetaEditor=NULL;
- pointStatusBar=NULL;
- windowSwitcher=NULL;
+ pointTreeScreen=nullptr;
+ pointRecordTableScreen=nullptr;
+ pointFindScreen=nullptr;
+ pointMetaEditor=nullptr;
+ pointStatusBar=nullptr;
+ windowSwitcher=nullptr;
 
  initCodepage(); // устанавливаются кодеки локали и кодеки консоли
 
  // После установки кодеков можно показать имя бинарника, и оно должно отобразиться правильно
- // даже если пути есть каталог с национальными символами
+ // даже если путь содержит каталог с национальными символами
  qDebug() << "Set main program file to " << mainProgramFile;
 
  initWorkDirectory(); // Инициализация рабочей директории
@@ -160,71 +163,35 @@ void GlobalParameters::initWorkDirectory(void)
 
  QString dataDirName=".config/"+getApplicationName();
 
- QString welcomeText=tr("Welcome to MyTetra v.")+QString::number(APPLICATION_RELEASE_VERSION)+'.'+QString::number(APPLICATION_RELEASE_SUBVERSION)+'.'+QString::number(APPLICATION_RELEASE_MICROVERSION)+"!";
 
- QString standartText=tr("Create subdirectory  \"%1\"\nin user directory  \"%2\",\nand create application files in it.").arg(dataDirName).arg(QDir::homePath());
+ InstallDialog installDialog;
+ installDialog.setStandartData(dataDirName, QDir::homePath());
+ installDialog.setPortableData(fullCurrentPath);
+ installDialog.setEnablePortable(enablePortable);
+ installDialog.update();
+ int result=installDialog.exec();
 
- QString portableText=tr("Create application files\nin current directory  \"%1\".").arg(fullCurrentPath);
-
- // Если возможно создать только стандартную версию файлового окружения
- if(enablePortable==false)
-  {
-   qDebug() << "Cant create portable version - cant write data to mytetra bin-file directory";
-
-   QString infoText=tr("The following actions will be performed before running this application: \n\n")+
-                    standartText+"\n\n"+
-                    tr("Do you agree to perform these?");
-
-   QMessageBox msgBox;
-   msgBox.setText(welcomeText);
-   msgBox.setInformativeText(infoText);
-   msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-   msgBox.setDefaultButton(QMessageBox::Ok);
-   int ret = msgBox.exec();
-
-   if(ret==QMessageBox::Ok)
-    createStandartProgramFiles();
-   else
-    exit(0); // Была нажата отмена
-  }
- else
-  {
-   // Иначе есть возможность создать как стандартное файловое окружение,
-   // так и "переносимое"
-
-   QString infoText=welcomeText+"\n\n"+
-                    tr("Please, select application mode: \n\n")+
-                    tr("Standard:\n")+standartText+"\n\n"+
-                    tr("Portable:\n")+portableText+"\n\n";
-
-   QStringList items;
-   QString standartItem=tr("Standard");
-   QString portableItem=tr("Portable");
-   items << standartItem << portableItem;
-
-   bool ok;
-
-   QWidget *tempWidget=new QWidget();
-   QString item=QInputDialog::getItem(tempWidget,
-                                      welcomeText,
-                                      infoText,
-                                      items, 0, false, &ok);
-   delete tempWidget;
-
-   // Если пользователь сделал выбор
-   if(ok && !item.isEmpty())
-    {
-     if(item==standartItem)
-      createStandartProgramFiles();
+ if(result==QDialog::Accepted)
+ {
+     // Надо разобраться, какой режим инсталляции был выбран
+     if( installDialog.getInstallType()==InstallDialog::InstallType::Standart)
+     {
+        createStandartProgramFiles(); // Установка файлов рабочей директории в режиме Стандартного приложения
+     }
      else
-      createPortableProgramFiles();
-    }
-   else
-    exit(0); // Была нажата отмена
+     {
+        createPortableProgramFiles(); // Установка файлов рабочей директории в режиме Переносимого приложения
+     }
 
-  }
+     // Запоминается автоопределенный язык
+     installAutodetectLang=installDialog.getAutoDetectLang();
+ }
+ else
+ {
+  exit(0); // Была нажата отмена
+ }
 
- // Заново запускается поиск рабочей директории
+ // Заново запускается поиск рабочей директории, на этот раз она должна быть найдена
  workDirectory="";
  findWorkDirectory();
 }
@@ -247,7 +214,6 @@ void GlobalParameters::createStandartProgramFiles(void)
  else
   {
    criticalError("Can not created directory \""+dataDirName+"\" in user directory \""+QDir::homePath()+"\"");
-   exit(0);
   }
 }
 
@@ -293,6 +259,12 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  // Создается файл первой записи
  QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
  QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
+
+ // Синхронизация файловой системы, почему-то после создания файлы
+ // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
+ #ifdef Q_OS_LINUX
+ std::system("sync");
+ #endif
 }
 
 
@@ -382,7 +354,6 @@ bool GlobalParameters::findWorkDirectory(void)
    else
     {
      criticalError("Can not set work directory as '"+workDirectory+"'. System problem.");
-     return false;
     }
   }
 }
@@ -410,7 +381,9 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    qDebug() << "Config directory name " << dirName;
 
    // Открывается хранилище настроек
-   QSettings *conf=new QSettings(fileName, QSettings::IniFormat, this);
+   // todo: Странность в Qt - если указать третьим параметром this в качестве
+   // родителя, то считывание из файла конфигурации работать не будет. Разобраться
+   QSettings *conf=new QSettings(fileName, QSettings::IniFormat);
 
    // Если есть переменная version
    if(conf->contains("version"))
@@ -575,5 +548,13 @@ void GlobalParameters::setCryptKey(QByteArray hash)
 
 QByteArray GlobalParameters::getCryptKey(void)
 {
- return passwordHash;
+    return passwordHash;
 }
+
+
+QString GlobalParameters::getInstallAutodetectLang()
+{
+    return installAutodetectLang;
+}
+
+

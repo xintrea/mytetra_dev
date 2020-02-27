@@ -11,10 +11,13 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPageSetupDialog>
-#include <QToolButton>
 
 #include "PreviewView.h"
 #include "PrintPreview.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 static inline int inchesToPixels(float inches, QPaintDevice *device)
@@ -38,60 +41,102 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     doc = document->clone();
 
     view = new PreviewView(doc);
-    
     doc->setUseDesignMetrics(true);
     doc->documentLayout()->setPaintDevice(view->viewport());
 
-    // add a nice 2 cm margin
+    setupPrintDoc();
+    setupUI();
+    setupShortcuts();
+    setupSignals();
+    assembly();
+}
+
+
+PrintPreview::~PrintPreview()
+{
+    delete doc; // todo: Проверить на утечку памяти, добавить объекты для удаления если необходимо
+}
+
+
+void PrintPreview::setupPrintDoc()
+{
+    QSizeF page = printer.pageRect().size();
+    page.setWidth(page.width() * view->logicalDpiX() / printer.logicalDpiX());
+    page.setHeight(page.height() * view->logicalDpiY() / printer.logicalDpiY());
+
+    // Add a nice 2 cm margin
+    // todo: Доработать размер полей согласно настройкам принтера (вызов из pageSetup())
     const qreal margin = inchesToPixels(mmToInches(20), this);
     QTextFrameFormat fmt = doc->rootFrame()->frameFormat();
     fmt.setMargin(margin);
     doc->rootFrame()->setFrameFormat(fmt);
 
-    setup();
+    doc->setPageSize(page);
 
     QFont f(doc->defaultFont());
     f.setPointSize(10);
     doc->setDefaultFont(f);
-    
-    
+}
+
+
+void PrintPreview::setupUI()
+{
     // Кнопки на панели инструментов
-    QToolButton *button_print=new QToolButton(this);
-    button_print->setText(tr("&Print..."));
-    button_print->setShortcut(Qt::CTRL + Qt::Key_P);
-    button_print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_print, &QToolButton::clicked, this, &PrintPreview::print);
-    
-    QToolButton *button_page_setup=new QToolButton(this);
-    button_page_setup->setText(tr("Page Setup..."));
-    button_page_setup->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_page_setup, &QToolButton::clicked, this, &PrintPreview::pageSetup);
-    
-    QToolButton *button_zoom_in=new QToolButton(this);
-    button_zoom_in->setText(tr("Zoom In"));
-    button_zoom_in->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_zoom_in, &QToolButton::clicked, view, &PreviewView::zoomIn);
+    buttonPrint=new QToolButton(this);
+    buttonPrint->setText(tr("Print..."));
+    buttonPrint->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    QToolButton *button_zoom_out=new QToolButton(this);
-    button_zoom_out->setText(tr("Zoom Out"));
-    button_zoom_out->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_zoom_out, &QToolButton::clicked, view, &PreviewView::zoomOut);
-    
-    QToolButton *button_close=new QToolButton(this);
-    button_close->setText(tr("&Close"));
-    button_close->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    connect(button_close, &QToolButton::clicked, this, &PrintPreview::close);
+    buttonPageSetup=new QToolButton(this);
+    buttonPageSetup->setText(tr("Page Setup..."));
+    buttonPageSetup->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    
+    buttonZoomIn=new QToolButton(this);
+    buttonZoomIn->setText(tr("Zoom In"));
+    buttonZoomIn->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+    buttonZoomOut=new QToolButton(this);
+    buttonZoomOut->setText(tr("Zoom Out"));
+    buttonZoomOut->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+    buttonClose=new QToolButton(this);
+    buttonClose->setText(tr("Close"));
+    buttonClose->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+}
+
+
+void PrintPreview::setupShortcuts()
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    buttonPrint->setShortcut( shortcutManager.getKeySequence("misc-print") ); // Устанавливается шорткат
+    buttonPrint->setToolTip( shortcutManager.getKeySequenceAsText("misc-print") ); // ToolTip зависит от шортката
+}
+
+
+void PrintPreview::setupSignals()
+{
+    connect(buttonPrint, &QToolButton::clicked, this, &PrintPreview::print);
+    connect(buttonPageSetup, &QToolButton::clicked, this, &PrintPreview::pageSetup);
+    connect(buttonZoomIn, &QToolButton::clicked, view, &PreviewView::zoomIn);
+    connect(buttonZoomOut, &QToolButton::clicked, view, &PreviewView::zoomOut);
+    connect(buttonClose, &QToolButton::clicked, this, &PrintPreview::close);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &PrintPreview::setupShortcuts);
+}
+
+
+void PrintPreview::assembly()
+{
     // Панель инструментов
     QHBoxLayout *toolsbox=new QHBoxLayout();
-    toolsbox->addWidget(button_print);
-    toolsbox->addWidget(button_page_setup);
-    toolsbox->addWidget(button_zoom_in);
-    toolsbox->addWidget(button_zoom_out);
-    toolsbox->addWidget(button_close);
+    toolsbox->addWidget(buttonPrint);
+    toolsbox->addWidget(buttonPageSetup);
+    toolsbox->addWidget(buttonZoomIn);
+    toolsbox->addWidget(buttonZoomOut);
+    toolsbox->addWidget(buttonClose);
     toolsbox->addStretch();
-    
+
 
     // Сборка содержимого окна
     centralLayout=new QVBoxLayout();
@@ -99,32 +144,11 @@ PrintPreview::PrintPreview(const QTextDocument *document, QWidget *parent)
     centralLayout->addWidget(view);
     centralLayout->setSpacing(1);
     centralLayout->setContentsMargins(1,1,1,1);
-    
+
     setLayout(centralLayout);
     resize(800, 600);
 }
 
-
-void PrintPreview::setup()
-{
-    QSizeF page = printer.pageRect().size();
-    page.setWidth(page.width() * view->logicalDpiX() / printer.logicalDpiX());
-    page.setHeight(page.height() * view->logicalDpiY() / printer.logicalDpiY());
-
-    // add a nice 2 cm margin
-    const qreal margin = inchesToPixels(mmToInches(20), this);
-    QTextFrameFormat fmt = doc->rootFrame()->frameFormat();
-    fmt.setMargin(margin);
-    doc->rootFrame()->setFrameFormat(fmt);
-
-    doc->setPageSize(page);
-}
-
-
-PrintPreview::~PrintPreview()
-{
-    delete doc;
-}
 
 
 void PrintPreview::print()
@@ -141,7 +165,7 @@ void PrintPreview::pageSetup()
 {
     QPageSetupDialog dlg(&printer, this);
     if (dlg.exec() == QDialog::Accepted) {
-        setup();
+        setupPrintDoc(); // setup();
         view->updateLayout();
     }
 }

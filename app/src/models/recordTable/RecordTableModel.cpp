@@ -35,7 +35,7 @@ RecordTableModel::~RecordTableModel()
 QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 {
   // Если таблица данных не создана
-  if(table==NULL)
+  if(table==nullptr)
     return QVariant();
 
   // Если таблица пустая
@@ -161,7 +161,7 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
   // Если таблица данных не создана
-  if(table==NULL)
+  if(table==nullptr)
     return false;
 
   // Если таблица пустая
@@ -254,31 +254,31 @@ QVariant RecordTableModel::headerData(int section, Qt::Orientation orientation, 
 // Сколько записей в таблице
 int RecordTableModel::rowCount(const QModelIndex &parent) const
 {
- Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
- if(table==NULL)
-  return 0;
+    if(table==nullptr)
+        return 0;
 
- return table->size();
+    return static_cast<int>( table->size() );
 }
 
 
 // Сколько столбцов в таблице
 int RecordTableModel::columnCount(const QModelIndex &parent) const
 {
- Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
- static int previousColumnCount=0;
+    static int previousColumnCount=0;
 
- int currentColumnCount=mytetraConfig.getRecordTableShowFields().size();
+    int currentColumnCount=mytetraConfig.getRecordTableShowFields().size();
 
- if( currentColumnCount!=previousColumnCount)
- {
-   qDebug() << "Column count change. New column count: " << currentColumnCount;
-   previousColumnCount=currentColumnCount;
- }
+    if( currentColumnCount!=previousColumnCount)
+    {
+        qDebug() << "Column count change. New column count: " << currentColumnCount;
+        previousColumnCount=currentColumnCount;
+    }
 
- return currentColumnCount;
+    return currentColumnCount;
 }
 
 
@@ -287,13 +287,12 @@ int RecordTableModel::columnCount(const QModelIndex &parent) const
 // так как он просто вызывает removeRows() для удаления одной строки
 bool RecordTableModel::removeRows(int row, int count, const QModelIndex &parent)
 {
-  Q_UNUSED(parent);
+  Q_UNUSED(parent)
 
 
   if(row<0 || row>=rowCount() || (row+count-1)<0 || (row+count-1)>=rowCount())
   {
     criticalError("Bad arguments in RecordTableModel::removeRows(). row: "+QString::number(row)+" count: "+QString::number(count));
-    return false;
   }
 
 

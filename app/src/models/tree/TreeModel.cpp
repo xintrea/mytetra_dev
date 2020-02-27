@@ -24,7 +24,7 @@ TreeModel::~TreeModel(void)
 
 int TreeModel::columnCount(const QModelIndex &itemIndex) const
 {
- Q_UNUSED(itemIndex);
+ Q_UNUSED(itemIndex)
  
  // Ранее число столбцов вычислялось исходя из 
  // количества полей в корневом элементе
@@ -36,7 +36,9 @@ int TreeModel::columnCount(const QModelIndex &itemIndex) const
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     // Если индекс невалиден, возвращается несуществующий элемент
-    if(!index.isValid())return QVariant();
+    if(!index.isValid()) {
+        return QVariant();
+    }
 
     // Если запрашивается окраска текста элемента
     if(role==Qt::ForegroundRole)
@@ -115,7 +117,7 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
     else
     {
       qDebug() << "Detect bad castind to TreeItem in getItem() method ";
-      return NULL;
+      return nullptr;
     }
 
   }
@@ -127,45 +129,45 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
 
 QModelIndex TreeModel::getIndexByItem(TreeItem *item)
 {
- // Инициализация рекурсивной функции
- getIndexRecurse(QModelIndex(), item, 0);
+    // Инициализация рекурсивной функции
+    getIndexRecurse(QModelIndex(), item, 0);
 
- return getIndexRecurse(QModelIndex(), item, 1);
+    return getIndexRecurse(QModelIndex(), item, 1);
 }
 
 
-QModelIndex TreeModel::getIndexRecurse(QModelIndex index, TreeItem *item, int mode)
+QModelIndex TreeModel::getIndexRecurse(QModelIndex modelIndex, TreeItem *item, int mode)
 {
- static QModelIndex find_index;
- static bool is_find=false;
+    static QModelIndex find_index;
+    static bool is_find=false;
 
- if(is_find) return find_index;
+    if(is_find) return find_index;
 
- if(mode==0)
-  {
-   is_find=false;
-   return QModelIndex();
-  }
-
- if(mode==1)
-  {
-   // Если указатель узла совпадает с заданным item
-   if(item==static_cast<TreeItem*>(index.internalPointer()))
+    if(mode==0)
     {
-     is_find=true;
-     find_index=index;
-     return find_index;
+        is_find=false;
+        return QModelIndex();
     }
-   else
-    {
-     // Иначе указатель узла не совпадает с заданным
-     // и нужно рекурсивно искать далее
-     for(int i=0; i<index.row(); i++)
-      getIndexRecurse(index.child(i, 0), item, 1);
-    }
-  }
 
- return QModelIndex();
+    if(mode==1)
+    {
+        // Если указатель узла совпадает с заданным item
+        if(item==static_cast<TreeItem*>(modelIndex.internalPointer()))
+        {
+            is_find=true;
+            find_index=modelIndex;
+            return find_index;
+        }
+        else
+        {
+            // Иначе указатель узла не совпадает с заданным
+            // и нужно рекурсивно искать далее
+            for(int i=0; i<modelIndex.row(); i++)
+                getIndexRecurse( index(i, 0, modelIndex), item, 1 ); // Через index выясняются дочерние (child) элементы
+        }
+    }
+
+    return QModelIndex();
 }
 
 
@@ -180,7 +182,7 @@ TreeItem *TreeModel::getItem(QStringList path) const
   int found=0;
 
   // Поиск нужного идентификатора в подчиненных узлах текущего узла
-  for(unsigned int j=0; j < curritem->childCount(); j++)
+  for(int j=0; j<static_cast<int>(curritem->childCount()); j++)
    if( (curritem->child(j))->getField("id") == path.at(i) )
     {
      // Узел найден, он становится текущим
@@ -214,7 +216,7 @@ bool TreeModel::isItemValid(QStringList path) const
     int found=0;
 
     // Поиск нужного идентификатора в подчиненных узлах текущего узла
-    for(unsigned int j=0;j<curritem->childCount();j++)
+    for(int j=0; j<static_cast<int>(curritem->childCount()); j++)
       if( (curritem->child(j))->getField("id") == path.at(i) )
       {
         // Узел найден, он становится текущим
@@ -245,9 +247,9 @@ void TreeModel::emitSignalDataChanged(const QModelIndex &index)
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
-  Q_UNUSED(section);
-  Q_UNUSED(orientation);
-  Q_UNUSED(role);
+  Q_UNUSED(section)
+  Q_UNUSED(orientation)
+  Q_UNUSED(role)
   
   // Для всех столбцов возвращается одинаковое значение
   // фактически используется только один столбец
@@ -309,7 +311,7 @@ QModelIndex TreeModel::parent(const QModelIndex &index) const
   if(parentItem == rootItem)
     return QModelIndex();
 
-  return createIndex(parentItem->childNumber(), 0, parentItem);
+  return createIndex(static_cast<int>( parentItem->childNumber() ), 0, parentItem);
 }
 
 
@@ -329,7 +331,7 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
 int TreeModel::rowCount(const QModelIndex &itemIndex) const
 {
  TreeItem *item = getItem(itemIndex);
-  return item->childCount();
+  return static_cast<int>( item->childCount() );
 }
 
 
@@ -379,7 +381,8 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
   if (role != Qt::EditRole || orientation != Qt::Horizontal)
     return false;
 
-  Q_UNUSED(section);
+  Q_UNUSED(section)
+
   rootItem->setField("name", value.toString());
   return true;
 }

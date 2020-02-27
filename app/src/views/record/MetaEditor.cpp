@@ -22,7 +22,7 @@ extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 
 
-MetaEditor::MetaEditor(void) : Editor()
+MetaEditor::MetaEditor(QWidget *parent) : Editor(parent)
 {
   Editor::initEnableAssembly(false);
   Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
@@ -223,8 +223,8 @@ void MetaEditor::clearAll(void)
  setAuthor("");
  setUrl("");
  setTags("");
- setTextarea("");
 
+ setTextarea("");
  setWorkDirectory("");
  setFileName("");
 
@@ -416,4 +416,10 @@ void MetaEditor::setReadOnly(bool state)
 
   // Слой прикрепленных файлов
   attachTableScreen->setReadOnly(state);
+}
+
+
+void MetaEditor::setFocusToBaseWidget()
+{
+    textArea->setFocus();
 }

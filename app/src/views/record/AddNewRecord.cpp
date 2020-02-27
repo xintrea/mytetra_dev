@@ -15,19 +15,20 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/wyedit/Editor.h"
 #include "libraries/DiskHelper.h"
+#include "libraries/ShortcutManager.h"
+
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern ShortcutManager shortcutManager;
+
 
 // Окно добавления новой записи
 
-#if QT_VERSION < 0x050000
-AddNewRecord::AddNewRecord( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
-#else
 AddNewRecord::AddNewRecord( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
-#endif
 {
   setupUI();
+  setupShortcuts();
   setupSignals();
   assembly();
 
@@ -49,8 +50,12 @@ void AddNewRecord::setupUI(void)
   recordTextEditor.initEnableAssembly(true);
   recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
   recordTextEditor.initEnableRandomSeed(false);
-  recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "show_text" << "attach") );
+  recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "showText" << "toAttach" << "settings" << "expandEditArea") );
   recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
+
+  // В редакторе текста записи устанавливается пустой текст, что активирует правильное
+  // начальное положение различных кнопок редактора, например кнопок цвета текста
+  recordTextEditor.setTextarea("");
 
   // Кнопки OK и Cancel
   buttonBox.setOrientation(Qt::Horizontal);
@@ -58,8 +63,6 @@ void AddNewRecord::setupUI(void)
 
   // На кнопку OK назначается комбинация клавиш Ctrl+Enter и она устанавливается как кнопка по умолчанию
   QPushButton *OkButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
-  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
-  OkButton->setToolTip(tr("Ctrl+Enter"));
   OkButton->setAutoDefault(true);
   OkButton->setDefault(true);
 
@@ -71,10 +74,24 @@ void AddNewRecord::setupUI(void)
 }
 
 
+void AddNewRecord::setupShortcuts(void)
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    // На кнопку OK назначается комбинация клавиш Ctrl+Enter
+    QPushButton *okButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+    okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
+    okButton->setToolTip( shortcutManager.getKeySequenceAsText("misc-editConfirm") ); // ToolTip зависит от шортката
+}
+
+
 void AddNewRecord::setupSignals(void)
 {
   connect(&buttonBox, &QDialogButtonBox::accepted, this, &AddNewRecord::okClick);
   connect(&buttonBox, &QDialogButtonBox::rejected, this, &AddNewRecord::reject);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &AddNewRecord::setupShortcuts);
 }
 
 

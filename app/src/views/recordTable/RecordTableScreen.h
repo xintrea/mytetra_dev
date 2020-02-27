@@ -32,6 +32,9 @@ public:
  void setTreePath(QString path);
  QString getTreePath(void);
 
+ void disableAllActions(void);
+
+ void setFocusToBaseWidget();
 
  // Действия, используемые как на тулбаре, так и в контекстном меню списка записей
  QAction *actionAddNewToEnd;
@@ -60,6 +63,8 @@ public slots:
  void toolsUpdate(void);
 
  void onExecuteCommandFinishWork(void);
+
+  void setupShortcuts(void);
 
 private slots:
  
@@ -90,10 +95,8 @@ private:
  void setupSignals(void);
  void setupActions(void);
  void assembly(void);
- 
- void disableAllActions(void);
 
- void toolsWidgatsUpdate();
+ void toolsWidgetsUpdate();
  void editorModesUpdate();
 
 };

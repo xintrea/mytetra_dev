@@ -11,6 +11,7 @@
 
 class Editor;
 class EditorTextArea;
+class QTextCharFormat;
 
 class EditorToolBarAssistant : public EditorToolBar
 {
@@ -22,6 +23,8 @@ public:
                                   EditorTextArea *iTextArea,
                                   QStringList iDisableToolList);
   ~EditorToolBarAssistant();
+
+  void reload();
 
   // Метод, переключающий состояние видимости развернутой/свернутой панели инструментов
   // Если вызывается без параметра, метод сам переключает
@@ -43,11 +46,17 @@ public:
     BT_BOLD,
     BT_ITALIC,
     BT_UNDERLINE,
+    BT_STRIKEOUT,
+    BT_SUPERSCRIPT,
+    BT_SUBSCRIPT,
     BT_ALIGN_LEFT,
     BT_ALIGN_CENTER,
     BT_ALIGN_RIGHT,
     BT_ALIGN_WIDTH
    };
+
+  // Режим представления (мобильный или десктопный)
+  int getViewMode();
 
 signals:
 
@@ -64,9 +73,19 @@ public slots:
   void onChangeFontsizeOnDisplay(int n);
   void onChangeFontFamily(QString fontFamily);
   void onChangeFontPointSize(int n);
-  void onChangeFontcolor(QColor color);
+  void onChangeFontcolor(const QColor &color);
+  void onChangeIconFontColor(const QTextCharFormat &format);
+  void onChangeBackgroundColor(const QColor &color);
+  void onChangeIconBackgroundColor(const QTextCharFormat &format);
+  void onCursorPositionChanged(); // Слот, вызываемый при изменение позиции курсора
 
 protected:
+
+  void init(const QStringList &iDisableToolList);
+  void initToolsLists(const QStringList &iDisableToolList);
+  void setupSignals();
+
+  QPixmap drawIconOverColor(const QColor &fillColor, const QIcon &icon ) const;
 
   Editor *editor; // Указатель на объект редактора, с которым работает эта панель кнопок
   EditorTextArea *textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок
@@ -75,11 +94,9 @@ protected:
 
   QString currentFontFamily;
   int     currentFontSize;
-  QString currentFontColor;
 
   bool flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
 
-  void setupSignals();
 };
 
 #endif // EDITORTOOLBARASSISTANT_H

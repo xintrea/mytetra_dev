@@ -8,6 +8,7 @@
 // Класс форматирования для начертания текста
 
 class QDomNode;
+class QTextCharFormat;
 
 class TypefaceFormatter : public Formatter
 {
@@ -16,7 +17,7 @@ class TypefaceFormatter : public Formatter
 public:
     TypefaceFormatter();
 
-    enum EasyFormatType {Bold, Italic, Underline};
+    enum EasyFormatType {Bold, Italic, Underline, StrikeOut, SuperScript, SubScript};
 
 signals:
 
@@ -26,7 +27,8 @@ signals:
     void changeFontsizeOnDisplay(int n);
     void changeFontFamily(QString fontFamily);
     void changeFontPointSize(int n);
-    void changeFontcolor(QColor color);
+    void changeFontcolor(const QColor &color);
+    void changeBackgroundcolor(const QColor &color);
 
 public slots:
 
@@ -34,6 +36,9 @@ public slots:
     void onBoldClicked(void);
     void onItalicClicked(void);
     void onUnderlineClicked(void);
+    void onStrikeOutClicked(void); // Зачеркивание текста
+    void onSuperScriptClicked(void);
+    void onSubScriptClicked(void);
     void onMonospaceClicked(void);
     void onCodeClicked(void);
     void onClearClicked(void);
@@ -43,9 +48,17 @@ public slots:
     void onFontselectChanged(const QFont &font);
     void onFontsizeChanged(int n);
     void onFontcolorClicked();
+    void onBackgroundcolorClicked();
+
+    // Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
+    void onInsertHorizontalLineClicked();
+
+    void onLowerCase(); // "Строчные"
+    void onUpperCase(); // "ПРОПИСНЫЕ"
 
 private:
 
+    void mergeFormat(const QTextCharFormat &format);
     void smartFormat(int formatType);
     QString replaceSpacesOnlyTags(QString htmlCode);
     QString clearTypeFace(QString htmlCode);
@@ -62,7 +75,10 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
 
+    // Обработка мягкого переноса
+    void workingSoftCarryInSelection();
 };
 
 #endif // TYPEFACEFORMATTER_H

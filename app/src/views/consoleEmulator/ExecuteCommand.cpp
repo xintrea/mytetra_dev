@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QTextCodec>
+#include <QtGlobal>
 
 #include "ExecuteCommand.h"
 #include "ConsoleEmulator.h"
@@ -97,11 +98,15 @@ void ExecuteCommand::manualCloseProcess(void)
 
 void ExecuteCommand::closeProcess(void)
 {
- qDebug() << "Close process, PID" << process->pid();
-
- process->kill();
- process->terminate();
- process->close();
+    // Процессы 0 и 1 - это однозначно системные процессы, такого PID быть не может
+    // Возможно данное условие поборет проблему [WRN] QIODevice::read (QProcess): device not open
+    if(process->processId()>1) {
+        qDebug() << "Close process, PID" << process->processId();
+        
+        process->kill();
+        process->terminate();
+        process->close();
+    }
 }
 
 
@@ -153,7 +158,7 @@ void ExecuteCommand::run(bool visible)
  process=new QProcess();
 
  connect(console, &ConsoleEmulator::cancelConsole, this, &ExecuteCommand::manualCloseProcess);
- connect(process, static_cast<void(QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
+ connect(process, qOverload<QProcess::ProcessError>(&QProcess::error),
          this,    &ExecuteCommand::errorHanler);
 
 

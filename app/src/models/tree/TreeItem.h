@@ -23,7 +23,7 @@ class TreeItem
     TreeItem *child(int number);
 
     // Возвращение количества потомков (т.е. количество записей в списке childItems)
-    unsigned int childCount() const;
+    int childCount() const;
 
     // Возвращение количества полей, которые хранит данный элемент.
     int fieldCount() const;
@@ -66,7 +66,7 @@ class TreeItem
 
     // Возвращает номер, под которым данный объект хранится
     // в массиве childItems своего родителя
-    unsigned int childNumber() const;
+    int childNumber() const;
 
     bool moveUp(void);
     bool moveDn(void);

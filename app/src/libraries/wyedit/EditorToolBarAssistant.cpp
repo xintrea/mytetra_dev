@@ -1,4 +1,8 @@
 #include <QColor>
+#include <QMessageBox>
+#include <QTextTable>
+#include <QTextTableFormat>
+#include <QPainter>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -15,47 +19,21 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
                                                EditorTextArea *iTextArea,
                                                QStringList iDisableToolList) : EditorToolBar(parent)
 {
-  if(parent==NULL)
+  if(parent==nullptr)
     criticalError("Call "+QString(__FUNCTION__)+" with NULL of parent.");
 
   editor=qobject_cast<Editor *>(parent);
   viewMode=iViewMode;
   textArea=iTextArea;
 
-  initDisableToolList(iDisableToolList); // Перед инитом устанавливается список скрываемых инструментов
-
-
-  // Выясняется перечень кнопок в первой строке на панели инструментов
-  QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
-
-  // В мобильном режиме добавляется кнопка back (если ее нет)
-  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("back"))
-  {
-    toolsListInLine1.prepend("separator");
-    toolsListInLine1.prepend("back");
-  }
-
-  // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-  if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsListInLine1.contains("find_in_base"))
-  {
-    toolsListInLine1.append("separator");
-    toolsListInLine1.append("find_in_base");
-  }
-
-
-  // Устанавливается перечень кнопок на панели инструментов
-  initToolsLine1(toolsListInLine1); // Первая строка
-  initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
-
   currentFontFamily="";
   currentFontSize=0;
-  currentFontColor="#000000";
   flagSetFontParametersEnabled=true;
 
-  // Инициализация панели инструментов
-  init();
+  // Настройка списков кнопок на панелях инструментов редактора
+  this->init(iDisableToolList);
 
-  setupSignals();
+  this->setupSignals();
 
   // Устанавливается состояние распахнута или нет панель инструментов
   if(editor->editorConfig->get_expand_tools_lines())
@@ -71,9 +49,72 @@ EditorToolBarAssistant::~EditorToolBarAssistant()
 }
 
 
+void EditorToolBarAssistant::init(const QStringList &iDisableToolList)
+{
+    // Установка списков инструментов, считываемых из конфига
+    this->initToolsLists(iDisableToolList);
+
+    // Инициализация панели инструментов, согласно установленным спискам инструментов
+    EditorToolBar::init();
+}
+
+
+// Установка списков инструментов, считываемых из конфига
+void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
+{
+    // Перед инитом устанавливается список скрываемых инструментов
+    EditorToolBar::initDisableToolList(iDisableToolList);
+
+    // Выясняется перечень кнопок в первой строке на панели инструментов
+    QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
+
+    // В мобильном режиме добавляется кнопка back (если ее нет)
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("back"))
+    {
+      EditorToolBar::toolsListInLine1.prepend("separator");
+      EditorToolBar::toolsListInLine1.prepend("back");
+    }
+
+    // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("findInBase"))
+    {
+      EditorToolBar::toolsListInLine1.append("separator");
+      EditorToolBar::toolsListInLine1.append("findInBase");
+    }
+
+    // Устанавливается перечень кнопок на панели инструментов
+    EditorToolBar::initToolsLine1(toolsListInLine1); // Первая строка
+    EditorToolBar::initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
+}
+
+
+void EditorToolBarAssistant::reload()
+{
+    // Очищаются тулбары
+    EditorToolBar::clearToolsLines();
+
+    // Из слоя с виджетами линеек панели инструментов убираются все виджеты (тулбары)
+    QLayoutItem* item;
+    while ( ( item = textformatButtonsLayout.takeAt( 0 ) ) != nullptr )
+    {
+        textformatButtonsLayout.removeItem(item);
+    }
+
+    EditorToolBar::isInit=false;
+
+    // Установка списков инструментов, считанных из конфига
+    this->initToolsLists( EditorToolBar::disableToolList );
+
+    // Сборка тулбаров из инструментов
+    EditorToolBar::assemblyButtons();
+
+    EditorToolBar::isInit=true;
+}
+
+
 void EditorToolBarAssistant::setupSignals()
 {
-  connect(&expandToolsLines, &QToolButton::clicked, this, &EditorToolBarAssistant::onExpandToolsLinesClicked);
+  connect(expandToolsLines, &QAction::triggered, this, &EditorToolBarAssistant::onExpandToolsLinesClicked);
 }
 
 
@@ -87,12 +128,12 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
     flagSetFontParametersEnabled=false;
 
-    fontSelect.setIsProgrammChanged(true);
+    fontSelect->setIsProgrammChanged(true);
     if(fontName.size()>0)
-        fontSelect.setCurrentIndex(fontSelect.findText(fontName));
+        fontSelect->setCurrentIndex(fontSelect->findText(fontName));
     else
-        fontSelect.setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
-    fontSelect.setIsProgrammChanged(false);
+        fontSelect->setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    fontSelect->setIsProgrammChanged(false);
 
     currentFontFamily=fontName;
 
@@ -117,9 +158,9 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 
     flagSetFontParametersEnabled=false;
 
-    fontSize.setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
-    fontSize.setCurrentIndex(fontSize.findData(n));
-    fontSize.setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
+    fontSize->setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
+    fontSize->setCurrentIndex(fontSize->findData(n));
+    fontSize->setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
     currentFontSize=n;
 
     flagSetFontParametersEnabled=true;
@@ -142,17 +183,152 @@ void EditorToolBarAssistant::onChangeFontPointSize(int n)
 }
 
 
-void EditorToolBarAssistant::onChangeFontcolor(QColor color)
+// Изменение цвета иконки выделения цвета шрифта
+void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
 {
     // TRACELOG
 
-    // Если цвет правильный
-    if(color.isValid())
+    // Формат символов под курсором
+    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
+
+    // Есть ли ForegroundBrush под курсором
+    bool hasForegroundBrush = textAreaFormat.hasProperty(QTextFormat::ForegroundBrush);
+
+    QColor fillColor;
+
+    // Есть ли ForegroundBrush под курсором
+    if(hasForegroundBrush && color.isValid())
+        fillColor=color;
+    else
     {
-        fontColor.setPalette(QPalette(color)); // Меняется цвет кнопки, отвечающей за цвет шрифта
-        currentFontColor=color.name(); // todo: подумать, а нужна ли эта переменна
+        // Если нет ForegroundBrush в тексте под курсором, то
+        // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
+        // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
+        fillColor=textArea->palette().windowText().color();
     }
 
+    fontColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontcolor.svg")) );
+}
+
+
+// Изменение цвета иконки цвета шрифта, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconFontColor(const QTextCharFormat &format)
+{
+    QColor color = format.foreground().color();
+    onChangeFontcolor(color);
+}
+
+
+// Изменение цвета иконки для фона текста
+void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
+{
+    // TRACELOG
+
+    // Формат символов под курсором
+    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
+
+    // Есть ли BackgroundBrush в тексте под курсором
+    bool hasTextBackgroundBrush = textAreaFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+    QPixmap pixMap( getIconSize() );
+    QColor fillColor;
+
+    // Есть ли BackgroundBrush в тексте под курсором
+    if(hasTextBackgroundBrush && color.isValid())
+    {
+        // Если есть BackgroundBrush под курсором, то
+        // кнопку красим в цвет заливки текста
+        fillColor=color;
+    }
+    else
+    {
+        // Проверка, есть ли таблица под курсором и/или подключены стили из stylesheet.css
+        QTextCursor txtCursor = textArea->textCursor();
+        QTextTable *textTable = txtCursor.currentTable();
+        if(textTable != nullptr)
+        {
+            // Если курсор находится в таблице
+            QTextTableFormat textTableFormat = textTable->format();
+            QTextTableCell tableCell = textTable->cellAt(txtCursor);
+            QTextCharFormat tableCellFormat = tableCell.format();
+            QColor tableColor = textTableFormat.background().color();
+            QColor charColor = tableCellFormat.background().color();
+
+            // Есть ли BackgroundBrush в таблице под курсором
+            bool hasTableBackgroundBrush = textTableFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+            // Есть ли BackgroundBrush в ячейке под курсором
+            bool hasCelBackgroundBrush = tableCellFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+            if(hasTableBackgroundBrush && hasCelBackgroundBrush && charColor.isValid())
+            {
+                // Если есть BackgroundBrush в таблице под курсором и
+                // есть BackgroundBrush в ячейке под курсором, то
+                // кнопку красим в цвет заливки ячейки
+                fillColor=charColor;
+            }
+            else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
+            {
+                // Если есть BackgroundBrush в таблице под курсором но
+                // нет BackgroundBrush в ячейке под курсором, то
+                // кнопку красим в цвет заливки таблицы
+                fillColor=tableColor;
+            }
+            else
+            {
+                // Если нет BackgroundBrush в таблице под курсором и
+                // нет BackgroundBrush в ячейке под курсором,
+                // то за цвет кнопки берется цвет background редактора textArea (QTextEdit)
+                // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+                fillColor=textArea->palette().window().color();
+            }
+        }
+        else
+        {
+            // Если нет BackgroundBrush в тексте под курсором, то
+            // за цвет кнопки берется цвет background редактора textArea (QTextEdit)
+            // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+            fillColor=textArea->palette().window().color();
+        }
+    }
+
+    backgroundColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontbackgroundcolor.svg")) );
+}
+
+
+// Изменение цвета иконки выделения фона текста, в зависимости от положения курсора
+void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &format)
+{
+    QColor color = format.background().color();
+    onChangeBackgroundColor(color);
+}
+
+
+QPixmap EditorToolBarAssistant::drawIconOverColor(const QColor &fillColor, const QIcon &icon ) const
+{
+    QPixmap pixMap( getIconSize() );
+    pixMap.fill( fillColor );
+
+    QPainter painter;
+    painter.begin(&pixMap);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::HighQualityAntialiasing);
+    painter.drawPixmap(0, 0, icon.pixmap( pixMap.size() ));
+    painter.end();
+
+    return pixMap;
+}
+
+
+// Слот, вызываемый при изменение позиции курсора
+void EditorToolBarAssistant::onCursorPositionChanged()
+{
+    // Изменение цвета иконки выделения фона текста при изменении позиции курсора
+    QColor color = textArea->currentCharFormat().background().color();
+
+    // Вызывается слот "Изменение цвета иконки выделения фона текста"
+    onChangeBackgroundColor(color);
 }
 
 
@@ -163,18 +339,18 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
 {
     // TRACELOG
 
-    alignLeft.setChecked(false);
-    alignCenter.setChecked(false);
-    alignRight.setChecked(false);
-    alignWidth.setChecked(false);
+    alignLeft->setChecked(false);
+    alignCenter->setChecked(false);
+    alignRight->setChecked(false);
+    alignWidth->setChecked(false);
 
     if(activate==false)
         return;
 
-    if(textArea->alignment()==Qt::AlignLeft)         alignLeft.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignRight)   alignRight.setChecked(true);
-    else if(textArea->alignment()==Qt::AlignJustify) alignWidth.setChecked(true);
+    if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignRight)   alignRight->setChecked(true);
+    else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setChecked(true);
 }
 
 
@@ -183,13 +359,24 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
 {
     // TRACELOG
 
-    bold.setChecked(false);
-    italic.setChecked(false);
-    underline.setChecked(false);
+    bold->setChecked(false);
+    italic->setChecked(false);
+    underline->setChecked(false);
+    strikeout->setChecked(false);
+    superscript->setChecked(false);
+    subscript->setChecked(false);
 
-    if(textArea->fontWeight()==QFont::Bold) bold.setChecked(true);
-    if(textArea->fontItalic()==true)        italic.setChecked(true);
-    if(textArea->fontUnderline()==true)     underline.setChecked(true);
+    if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
+    if(textArea->fontItalic()==true)        italic->setChecked(true);
+    if(textArea->fontUnderline()==true)     underline->setChecked(true);
+    if(textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
+
+    const QTextCharFormat charFormat = textArea->textCursor().charFormat();
+    if(charFormat.verticalAlignment() == QTextCharFormat::AlignSuperScript) {
+        superscript->setChecked(true);
+    } else if(charFormat.verticalAlignment() == QTextCharFormat::AlignSubScript) {
+        subscript->setChecked(true);
+    }
 }
 
 
@@ -197,22 +384,43 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 {
     if(button==BT_BOLD)
     {
-        if(active==false) bold.setChecked(false);
-        else              bold.setChecked(true);
+        if(active==false) bold->setChecked(false);
+        else              bold->setChecked(true);
         return;
     }
 
     if(button==BT_ITALIC)
     {
-        if(active==false) italic.setChecked(false);
-        else              italic.setChecked(true);
+        if(active==false) italic->setChecked(false);
+        else              italic->setChecked(true);
         return;
     }
 
     if(button==BT_UNDERLINE)
     {
-        if(active==false) underline.setChecked(false);
-        else              underline.setChecked(true);
+        if(active==false) underline->setChecked(false);
+        else              underline->setChecked(true);
+        return;
+    }
+
+    if(button==BT_STRIKEOUT)
+    {
+        if(active==false) strikeout->setChecked(false);
+        else              strikeout->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUPERSCRIPT)
+    {
+        if(active==false) superscript->setChecked(false);
+        else              superscript->setChecked(true);
+        return;
+    }
+
+    if(button==BT_SUBSCRIPT)
+    {
+        if(active==false) subscript->setChecked(false);
+        else              subscript->setChecked(true);
         return;
     }
 }
@@ -226,7 +434,7 @@ void EditorToolBarAssistant::updateToActualFormat(void)
         onChangeFontselectOnDisplay(actualFontFamily);
 
     // Размер
-    int actualFontPointSize=editor->smartFontSize( (int)textArea->fontPointSize() );
+    int actualFontPointSize=editor->smartFontSize( static_cast<int>(textArea->fontPointSize()) );
     if(currentFontSize!=actualFontPointSize) {
         onChangeFontsizeOnDisplay(actualFontPointSize);
     }
@@ -314,5 +522,11 @@ bool EditorToolBarAssistant::isKeyForToolLineUpdate(QKeyEvent *event)
 
 int EditorToolBarAssistant::getFontSizeByNum(int n)
 {
-    return fontSize.itemData(n).toInt();
+    return fontSize->itemData(n).toInt();
+}
+
+// Режим представления (мобильный или десктопный)
+int EditorToolBarAssistant::getViewMode()
+{
+    return viewMode;
 }

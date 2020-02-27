@@ -54,7 +54,18 @@ RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 
 RecordTableController::~RecordTableController()
 {
+    // Уничтожение объекта будет происходить при выходе из программы
 
+    // В окружении рабочего стола LXDE есть проблема: если при выходе из MyTetra в буфере обмена
+    // будет лежать слепок(ки) записей, то произойдет перезапуск DE.
+    // Непонятно как это работает, но проблема есть.
+    // Чтобы ее избежать, надо очищать буфер обмена от данных со слепком записи, если таковые в буфере лежат
+
+    // Проверяется, содержит ли буфер обмена данные записи
+    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+    if(mimeData!=nullptr && (mimeData->hasFormat(FixedParameters::appTextId+"/records")) ) {
+        QApplication::clipboard()->setText(""); // В буфер обмена помещается пустой текст
+    }
 }
 
 
@@ -78,7 +89,7 @@ void RecordTableController::clickToRecord(const QModelIndex &index)
 
   // Позиция записи в списке
   int pos=sourceIndex.row();
-  qDebug() << "RecordTableView::onClickToRecord() : current item num " << pos;
+  qDebug() << "RecordTableController::clickToRecord() : current item num " << pos;
 
   initMetaEditorAtClickToRecord(pos);
   initAttachTableAtClickToRecord(pos);
@@ -151,9 +162,9 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   // И если имя директории или имя файла пусты, то это означает что
   // запись не была расшифрована, и редактор должен просто показывать пустой текст
   // ничего не сохранять и не считывать
-  qDebug() << "RecordTableView::onClickToRecord() : id " << table->getField("id", pos);
-  qDebug() << "RecordTableView::onClickToRecord() : name " << table->getField("name", pos);
-  qDebug() << "RecordTableView::onClickToRecord() : crypt " << table->getField("crypt", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : id " << table->getField("id", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : name " << table->getField("name", pos);
+  qDebug() << "initMetaEditorAtClickToRecord() : crypt " << table->getField("crypt", pos);
   if(table->getField("crypt", pos)=="1")
     if(fullDir.length()==0 || currentFile.length()==0)
       edView->setDirFileEmptyReaction(MetaEditor::DIRFILEEMPTY_REACTION_SUPPRESS_ERROR);
@@ -487,7 +498,7 @@ void RecordTableController::paste(void)
 {
   // Проверяется, содержит ли буфер обмена данные нужного формата
   const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-  if(mimeData==NULL)
+  if(mimeData==nullptr)
     return;
   if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
     return;
@@ -499,7 +510,7 @@ void RecordTableController::paste(void)
   // const clipboardrecords *rcd=new clipboardrecords();
   const ClipboardRecords *clipboardRecords;
   clipboardRecords=qobject_cast<const ClipboardRecords *>(clipboardBuf->mimeData());
-  clipboardRecords->print();
+  // clipboardRecords->print();
 
   // Выясняется количество записей в буфере
   int nList=clipboardRecords->getCount();
@@ -613,6 +624,7 @@ void RecordTableController::onEditFieldContext(void)
 }
 
 
+// При выборе пункта "Блокировка записи" в контекстном меню
 void RecordTableController::onBlockContext(void)
 {
   // Получение индекса выделенного элемента
@@ -798,7 +810,7 @@ void RecordTableController::deleteRecords(void)
   }
 
   // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
-  qSort(delRows.begin(), delRows.end(), qGreater<int>());
+  std::sort(delRows.begin(), delRows.end(), std::greater<int>());
   int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
 
   // Номер строки на который надо установить засветку после удаления
@@ -989,3 +1001,8 @@ void RecordTableController::onSwitchSelectionMode()
   view->switchSelectionMode();
 }
 
+
+void RecordTableController::setFocusToBaseWidget()
+{
+    view->setFocus();
+}

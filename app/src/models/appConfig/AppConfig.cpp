@@ -13,7 +13,7 @@ extern GlobalParameters globalParameters;
 // Конструктор объекта настройки программы
 AppConfig::AppConfig(QObject *pobj)
 {
- Q_UNUSED(pobj);
+ Q_UNUSED(pobj)
 
  is_init_flag=false;
 }
@@ -41,7 +41,7 @@ void AppConfig::init(void)
   criticalError("File "+configFileName+" not found.");
 
  // Создается указатель на объект хранилища конфигурации
- conf=new QSettings(configFileName, QSettings::IniFormat);
+ conf=new QSettings(configFileName, QSettings::IniFormat, this);
 
  update_version_process();
 
@@ -70,8 +70,6 @@ QString AppConfig::get_parameter(QString name)
   return conf->value(name).toString();
  else
   criticalError("In config not found parameter " + name);
-
- return QString();
 }
 
 
@@ -123,7 +121,7 @@ QString AppConfig::get_trashdir(void)
 // Получение максимального размера директории корзины в мегабайтах
 unsigned int AppConfig::get_trashsize(void)
 {
- return get_parameter("trashsize").toInt();
+ return get_parameter("trashsize").toUInt();
 }
 
 
@@ -753,7 +751,7 @@ void AppConfig::setEnableDecryptFileToTrashDirectory(bool state)
 // Получение размера файла лога действий
 unsigned int AppConfig::getActionLogMaximumSize(void)
 {
- return get_parameter("actionLogMaximumSize").toInt();
+ return get_parameter("actionLogMaximumSize").toUInt();
 }
 
 
@@ -1022,7 +1020,7 @@ void AppConfig::update_version_process(void)
  // Перечень функций, выдающих список параметров для конкретной версии конфига
  QList< std::function< QStringList(AppConfig&, bool) > > parameterFunctions;
 
- parameterFunctions << NULL; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+ parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
  parameterFunctions << &AppConfig::get_parameter_table_1;
  parameterFunctions << &AppConfig::get_parameter_table_2;
  parameterFunctions << &AppConfig::get_parameter_table_3;
@@ -1478,7 +1476,7 @@ QStringList AppConfig::get_parameter_table_20(bool withEndSignature)
 
   // Новые параметры
   if(globalParameters.getTargetOs()=="android")
-    table << "hideEditorTools" << "QString" << "italic,underline,monospace,alignleft,aligncenter,alignright,alignwidth,numericlist,dotlist,indentplus,indentminus,showformatting,showhtml,fontcolor,expand_edit_area,save,createtable,table_add_row,table_remove_row,table_add_col,table_remove_col,table_merge_cells,table_split_cell"; // В Андроид прячутся инструменты сложного форматирования текста
+    table << "hideEditorTools" << "QString" << "italic,underline,monospace,alignleft,aligncenter,alignright,alignwidth,numericlist,dotlist,indentplus,indentminus,showformatting,showhtml,fontcolor,backgroundcolor,expand_edit_area,save,createtable,table_add_row,table_remove_row,table_add_col,table_remove_col,table_merge_cells,table_split_cell"; // В Андроид прячутся инструменты сложного форматирования текста
   else
     table << "hideEditorTools" << "QString" << ""; // На десктопе скрываемых кнопок редактора нет
 

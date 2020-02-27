@@ -5,6 +5,10 @@
 #include <QPushButton>
 
 #include "EditorMultiLineInputDialog.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 EditorMultiLineInputDialog::EditorMultiLineInputDialog(QWidget *parent) : QDialog(parent)
@@ -12,6 +16,7 @@ EditorMultiLineInputDialog::EditorMultiLineInputDialog(QWidget *parent) : QDialo
   sizeCoefficient=1.0;
 
   setupUi();
+  setupShortcuts();
   setupSignals();
   assembly();
 }
@@ -43,8 +48,6 @@ void EditorMultiLineInputDialog::setupUi()
 
   // На кнопку OK назначается комбинация клавиш Ctrl+Enter и она устанавливается как кнопка по умолчанию
   QPushButton *OkButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
-  OkButton->setShortcut( QKeySequence(Qt::CTRL + Qt::Key_Return) ); // Устанавливается шорткат
-  OkButton->setToolTip(tr("Ctrl+Enter"));
   OkButton->setAutoDefault(true);
   OkButton->setDefault(true);
 
@@ -58,16 +61,29 @@ void EditorMultiLineInputDialog::setupUi()
 
   // Устанавливается размер окна, основанный на размере виджета, из которого
   // этот виджет был вызван
-  if(this->parent()!=0)
+  if(this->parent()!=nullptr)
     if(this->parent()->isWidgetType())
         updateSize();
 }
 
 
+void EditorMultiLineInputDialog::setupShortcuts(void)
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
+    okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
+    okButton->setToolTip(shortcutManager.getKeySequenceAsText("misc-editConfirm")); // ToolTip зависит от шортката
+}
+
+
 void EditorMultiLineInputDialog::setupSignals()
 {
-  connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorMultiLineInputDialog::accept);
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorMultiLineInputDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &EditorMultiLineInputDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &EditorMultiLineInputDialog::reject);
+
+    // Обновление горячих клавиш, если они были изменены
+    connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &EditorMultiLineInputDialog::setupShortcuts);
 }
 
 

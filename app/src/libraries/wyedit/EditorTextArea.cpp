@@ -469,7 +469,7 @@ bool EditorTextArea::canInsertFromMimeData(const QMimeData *source) const
   if(source->hasImage())
    return true;
   else
-   return QTextEdit::canInsertFromMimeData(source);
+   return QTextEdit::canInsertFromMimeData(source); // Это не рекурсия, это вызов метода базового класса
 }
 
 
@@ -484,7 +484,7 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   // Вставка обычного текста
   if(mimeDataFormat==MimeDataText)
   {
-    QString text=qvariant_cast<QString>(source->text());
+    QString text=source->text();
     cursor.insertText(text);
     return;
   }
@@ -492,10 +492,12 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   // Вставка HTML-кода
   if(mimeDataFormat==MimeDataHtml)
   {
-    QString html=qvariant_cast<QString>(source->html());
+    QString html=source->html();
 
     // Вызов процесса загрузки картинок
-    emit downloadImages(html); // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()
+    // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()
+    // в котором будут добавляться к документу скачанные картики и будет вставляться текст
+    emit downloadImages(html);
 
     return;
   }
@@ -551,6 +553,7 @@ int EditorTextArea::detectMimeDataFormat(const QMimeData *source)
 }
 
 
+// Обработка момента после загрузки всех картинок при вставке HTML-кода
 void EditorTextArea::onDownloadImagesSuccessfull(const QString html,
                                                  const QMap<QString, QByteArray> referencesAndMemoryFiles,
                                                  const QMap<QString, QString> referencesAndInternalNames)
@@ -571,12 +574,21 @@ void EditorTextArea::onDownloadImagesSuccessfull(const QString html,
     }
   }
 
-  // Вставляется текст
-  this->textCursor().insertHtml(html);
+  // Вставляется HTML-код
+  qDebug() << "Insert source HTML text: " << html;
+
+  // Код вставляется не напрямую, а пропускается через временный документ,
+  // чтобы вставить более понятный для QTextEdit HTML-код
+  QTextDocument htmlFilterDoc;
+  htmlFilterDoc.setHtml(html);
+
+  qDebug() << "Insert filtered HTML text: " << htmlFilterDoc.toHtml();
+
+  this->textCursor().insertHtml( htmlFilterDoc.toHtml() );
 }
 
 
-void EditorTextArea::onChangeFontcolor(QColor selectedColor)
+void EditorTextArea::onChangeFontcolor(const QColor &selectedColor)
 {
   // TRACELOG
 
@@ -598,11 +610,52 @@ void EditorTextArea::onChangeFontcolor(QColor selectedColor)
 }
 
 
+// Изменение цвета фона текста
+void EditorTextArea::onChangeBackgroundColor(const QColor &selectedColor)
+{
+  // TRACELOG
+
+  // Если выделение есть
+  if(textCursor().hasSelection())
+    setTextBackgroundColor(selectedColor); // Меняется цвет фона
+  else
+  {
+    // Иначе надо выделить дополнительным курсором слово на
+    // котором стоит курсор
+    QTextCursor cursor=textCursor();
+    cursor.select(QTextCursor::WordUnderCursor);
+
+    QTextCharFormat format;
+    format.setBackground(selectedColor);
+
+    cursor.mergeCharFormat(format);
+  }
+}
+
+
 void EditorTextArea::onChangeFontFamily(QString fontFamily)
 {
   // TRACELOG
 
-  setFontFamily(fontFamily);
+  qDebug() << "Apply font family " << fontFamily;
+
+  // Ранее для установки шрифта хватало одной команды setFontFamily(fontFamily);
+  // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
+
+  QTextCharFormat format;
+  format.setFontFamily(fontFamily);
+
+  qDebug() << "Font from font name: " << format.font().toString();
+
+  // Если нет выделения, дополнительным курсором выделяется слово, на котором стоит курсор
+  QTextCursor cursor = this->textCursor();
+  if (!cursor.hasSelection())
+  {
+      cursor.select(QTextCursor::WordUnderCursor);
+  }
+
+  cursor.mergeCharFormat(format);
+  this->mergeCurrentCharFormat(format);
 }
 
 

@@ -14,30 +14,34 @@ class ActionLogController;
 
 class ActionLogView : public QTableView
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  ActionLogView(QWidget *parent=nullptr);
-  virtual ~ActionLogView();
+    ActionLogView(QWidget *parent=nullptr);
+    virtual ~ActionLogView();
 
-  void init();
-  void setController(ActionLogController *pController);
+    void init();
+    void setController(ActionLogController *pController);
+
+signals:
+
+    void tapAndHoldGestureFinished(const QPoint &pos);
 
 protected slots:
 
-  void onCustomContextMenuRequested(const QPoint &pos);
+    void onCustomContextMenuRequested(const QPoint &pos);
 
 protected:
 
-  ActionLogController *controller;
+    ActionLogController *controller;
 
-  QMenu contextMenu;
+    QMenu contextMenu;
 
-  virtual void resizeEvent(QResizeEvent *event);
-  virtual void paintEvent(QPaintEvent *event);
+    virtual void resizeEvent(QResizeEvent *event);
+    virtual void paintEvent(QPaintEvent *event);
 
-  void assemblyContextMenu(void);
-  void setupSignals(void);
+    void assemblyContextMenu(void);
+    void setupSignals(void);
 
 };
 

@@ -20,6 +20,7 @@ public:
 
 signals:
  void tapAndHoldGestureFinished(const QPoint &);
+ void dropEventHandleCatch();
 
 public slots:
 

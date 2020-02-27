@@ -589,7 +589,7 @@ void KnowTreeModel::parseTreeToDom(QDomDocument *doc, QDomElement *xmlData, Tree
   }
 
  // Обработка каждой подчиненной ветки
- for(unsigned int i=0;i<currItem->childCount();i++)
+ for(int i=0; i<currItem->childCount(); i++)
   {
    // Временный элемент, куда будет внесена текущая перебираемая ветка
    QDomElement  tempElement = doc->createElement("node");
@@ -630,7 +630,7 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
    currItem->recordtableExportDataToStreamWriter( xmlWriter );
 
   // Обработка каждой подчиненной ветки
-  for(unsigned int i=0;i<currItem->childCount();i++)
+  for(int i=0; i<currItem->childCount(); i++)
    {
     xmlWriter->writeStartElement("node");
 
@@ -846,19 +846,19 @@ QString KnowTreeModel::pasteNewSiblingBranch(const QModelIndex &index, Clipboard
 // Перемещение ветки вверх
 QModelIndex KnowTreeModel::moveUpBranch(const QModelIndex &index)
 {
-  return moveUpDnBranch(index,1);
+  return moveUpDownBranch(index,1);
 }
 
 
 // Перемещение ветки вниз
-QModelIndex KnowTreeModel::moveDnBranch(const QModelIndex &index)
+QModelIndex KnowTreeModel::moveDownBranch(const QModelIndex &index)
 {
-  return moveUpDnBranch(index,-1);
+  return moveUpDownBranch(index,-1);
 }
 
 
 // Перемещение ветки вверх или вниз
-QModelIndex KnowTreeModel::moveUpDnBranch(const QModelIndex &index,int direction)
+QModelIndex KnowTreeModel::moveUpDownBranch(const QModelIndex &index,int direction)
 {
   // Получение QModelIndex расположенного над или под элементом index
   QModelIndex swap_index=index.sibling(index.row()-direction,0);
@@ -992,7 +992,7 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
 
   n=n+item->recordtableGetRowCount();
 
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     getAllRecordCountRecurse(item->child(i), 1);
 
   return n;
@@ -1032,7 +1032,7 @@ bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mo
   }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     isItemIdExistsRecurse(item->child(i), findId, 1);
 
   return isExists;
@@ -1072,7 +1072,7 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
   }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     isRecordIdExistsRecurse(item->child(i), findId, 1);
 
   return isExists;
@@ -1106,14 +1106,14 @@ bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, in
 
   // Если в какой-нибудь записи текущей ветки содержится искомое имя директории
   for(unsigned int i=0; i<item->recordtableGetTableData()->size(); ++i)
-    if( item->recordtableGetTableData()->getRecord(i)->getField("dir")==findDir )
+    if( item->recordtableGetTableData()->getRecord( static_cast<int>(i) )->getField("dir")==findDir )
     {
       isExists=true;
       return true;
     }
 
   // Перебираются подветки
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     isRecordDirExistsRecurse(item->child(i), findDir, 1);
 
   return isExists;
@@ -1269,7 +1269,7 @@ TreeItem *KnowTreeModel::getItemByIdRecurse(TreeItem *item, QString id, int mode
   }
   else
   {
-    for(unsigned int i=0; i < item->childCount(); i++)
+    for(int i=0; i < item->childCount(); i++)
       getItemByIdRecurse(item->child(i), id, 1);
 
     return find_item;
@@ -1316,7 +1316,7 @@ QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
   else
   {
     // Иначе перебираются подветки
-    for(unsigned int i=0; i < item->childCount(); i++)
+    for(int i=0; i < item->childCount(); i++)
       getRecordPathRecurse(item->child(i), currentPath, recordId, 1);
   }
 
@@ -1358,7 +1358,7 @@ bool KnowTreeModel::isContainsCryptBranchesRecurse(TreeItem *item, int mode)
     return isCrypt;
   }
 
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     isContainsCryptBranchesRecurse(item->child(i), 1);
 
   return isCrypt;
@@ -1391,7 +1391,7 @@ bool KnowTreeModel::isContainsBlockRecordsRecurse(TreeItem *item, int mode)
     return isBlock;
   }
 
-  for(unsigned int i=0; i < item->childCount(); i++)
+  for(int i=0; i < item->childCount(); i++)
     isContainsBlockRecordsRecurse(item->child(i), 1);
 
   return isBlock;

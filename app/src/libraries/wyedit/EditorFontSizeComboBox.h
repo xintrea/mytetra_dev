@@ -1,10 +1,9 @@
 #ifndef EDITORFONTSIZECOMBOBOX_H
 #define EDITORFONTSIZECOMBOBOX_H
 
-
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
-
+#include "EditorFontToolFocus.h"
 
 #define MINIMUM_ALLOWED_FONT_SIZE 5
 #define MAXIMUM_ALLOWED_FONT_SIZE 100
@@ -20,6 +19,8 @@ public:
 
     void setIsProgrammChanged(bool flag);
 
+    EditorFontToolFocus toolFocus;
+
 protected slots:
     void onCurrentIndexChanged(int index);
 
@@ -28,7 +29,6 @@ protected:
     bool isProgrammChanged;
 
     int previousIndex;
-
 };
 
 

@@ -102,6 +102,10 @@ public slots:
  void commitData(QSessionManager& manager);
  void messageHandler(QString message);
 
+ void toolsFindInBase(void);
+
+ void setupShortcuts(void);
+
 private slots:
 
  void showWindow();
@@ -116,7 +120,6 @@ private slots:
  void fileExportBranch(void);
  void fileImportBranch(void);
  
- void toolsFind(void);
  void toolsPreferences(void);
  void onActionLogClicked(void);
 
@@ -125,7 +128,11 @@ private slots:
  void onClickHelpAboutMyTetra(void);
  void onClickHelpAboutQt(void);
  void onClickHelpTechnicalInfo(void);
- 
+
+ void onClickFocusTree(void);
+ void onClickFocusNoteTable(void);
+ void onClickFocusEditor(void);
+
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
  void onFocusChanged(QWidget *, QWidget *);
@@ -140,7 +147,8 @@ private:
  void initToolsMenu(void);
  void initPreferencesMenu(QMenu *menu);
  void initHelpMenu(void);
- 
+ void initHiddenActions(void);
+
  void initRecordTableActions(void);
 
  void setupIconActions(void);
@@ -154,12 +162,32 @@ private:
  void saveEditorScrollBarPosition(void);
 
  void reloadSaveStage(void);
- void reloadLoadStage(void);
+ void reloadLoadStage(bool isLongTimeReload);
+
+
+ QAction *actionFileMenuPrint;
+ QAction *actionFileMenuPrintPreview;
+ QAction *actionFileMenuExportPdf;
+ QAction *actionFileMenuExportTreeItem;
+ QAction *actionFileMenuImportTreeItem;
+ QAction *actionFileMenuQuit;
+
+ QAction *actionToolsMenuFindInBase;
+ QAction *actionToolsMenuActionLog;
+ QAction *actionToolsMenuPreferences;
+
+ QAction *actionHelpMenuAboutMyTetra;
+ QAction *actionHelpMenuAboutQt;
+ QAction *actionHelpMenuTechnicalInfo;
 
  QAction *actionTrayRestore;
  QAction *actionTrayMaximize;
  QAction *actionTrayMinimize;
  QAction *actionTrayQuit;
+
+ QAction *actionFocusTree;
+ QAction *actionFocusNoteTable;
+ QAction *actionFocusEditor;
 
  QSystemTrayIcon *trayIcon;
  QMenu           *trayIconMenu;

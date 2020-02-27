@@ -116,6 +116,8 @@ QString Downloader::getSaveDirectory()
 // Установка списка ссылок для закачивания
 void Downloader::setReferencesList(QStringList iReferencesList)
 {
+  // qDebug() << "Downlod list: "  << iReferencesList;
+
   referencesList=iReferencesList;
 
   if(downloadMode==disk)

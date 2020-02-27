@@ -29,7 +29,7 @@ signals:
  void setFindTextSignal(QString text);
 
 public:
- MetaEditor(void);
+ MetaEditor(QWidget *parent=nullptr);
  ~MetaEditor(void);
 
  void setTreePath(QString path);
@@ -44,6 +44,8 @@ public:
  void switchToAttachLayout(void);
 
  void setReadOnly(bool state);
+
+ void setFocusToBaseWidget();
 
 private:
  void setupLabels(void);

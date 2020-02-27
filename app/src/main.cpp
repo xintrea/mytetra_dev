@@ -11,11 +11,9 @@
 #include <QSplashScreen>
 #include <QTextOption>
 
-#if QT_VERSION >= 0x050000
 #include <QScroller>
 #include <QScrollerProperties>
 #include <QScrollBar>
-#endif
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
@@ -26,11 +24,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/ActionLogger.h"
 
-#if QT_VERSION < 0x050000
-#include "libraries/qtSingleApplication/qtsingleapplication.h"
-#else
 #include "libraries/qtSingleApplication5/qtsingleapplication.h"
-#endif
 
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
@@ -38,12 +32,16 @@
 #include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/TraceLogger.h"
+#include "libraries/ShortcutManager.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
 
 using namespace std;
+
+// todo: Разгрести объекты глобальной области, перенести helper-функции в helper-классы
+
 
 // Фиксированные параметры программы (жестко заданные в текущей версии MyTetra)
 FixedParameters fixedParameters;
@@ -66,6 +64,10 @@ WalkHistory walkHistory;
 // Логгер действий с данными
 ActionLogger actionLogger;
 
+// Менеджер горячих клавиш
+ShortcutManager shortcutManager;
+
+// Различные периодические проверки
 PeriodicCheckBase periodicCheckBase;
 PeriodicSyncro periodicSyncro;
 
@@ -79,7 +81,7 @@ void logPrint(char *lpszText, ...)
   FILE *pFile;
 
   // открываем лог-файл для добавления данных
-  if((pFile = fopen("mytetralog.txt", "a+")) == NULL)
+  if((pFile = fopen("mytetralog.txt", "a+")) == nullptr)
   {
     printf("\nLog file not writable\n");
     return;
@@ -202,10 +204,20 @@ bool compareQStringListLen(const QStringList &list1, const QStringList &list2)
 }
 
 
-void insertActionAsButton(QToolBar *tools_line, QAction *action)
+void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible)
 {
-  tools_line->addAction(action);
-  qobject_cast<QToolButton*>(tools_line->widgetForAction(action))->setAutoRaise(false);
+    // Действие добавляется в виде кнопки
+    tools_line->addAction(action);
+
+    // Выясняется кнопка, которая была создана и обрабатвает данное действие
+    QToolButton* currentButton=qobject_cast<QToolButton*>(tools_line->widgetForAction(action));
+
+    if(!isVisible) {
+        currentButton->setFixedHeight(0);
+        currentButton->setFixedWidth(0);
+    }
+
+    currentButton->setAutoRaise(true); // Установка автоподсвечивания, от него зависит видимость границ кнопок
 }
 
 
@@ -250,7 +262,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 #endif
 {
  #if QT_VERSION >= 0x050000
- Q_UNUSED(context);
+ Q_UNUSED(context)
  #endif
 
  // #if DEBUG_PRINT==1
@@ -340,6 +352,7 @@ int getScreenSizeY(void)
 }
 
 
+// Редактирование произвольного конфиг-файла (конфиг программы, конфиг редактора)
 void editConfigFile( QString fileName, float sizeCoefficient )
 {
   // Окно диалога для редактирования файла конфига
@@ -352,7 +365,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
   if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
   {
     criticalError("Cant open config file "+fileName);
-    return;
   }
 
   // Установка в окне текста файла
@@ -374,7 +386,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
   if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
   {
     criticalError("Cant open config file for write: "+fileName);
-    return;
   }
 
   // Измененный текст записывается в файл
@@ -479,7 +490,7 @@ void setKineticScrollArea(QAbstractItemView *object)
 
   #else
 
-  if(object==NULL)
+  if(object==nullptr)
     return;
 
   if(globalParameters.getTargetOs()=="android")
@@ -558,7 +569,7 @@ QString getUniqueId(void)
 
  // Количество секунд как число
  long seconds;
- seconds=(long)time(NULL);
+ seconds=static_cast<long>( time(nullptr) );
 
  // Количество секунд как строка
  QString secondsLine=QString::number(seconds, 10);
@@ -583,50 +594,6 @@ QString getUniqueId(void)
 QString getUniqueImageName(void)
 {
     return "image"+getUniqueId()+".png"; // "image"+QString::number(rand())+".png";
-}
-
-
-int getMilliCount(void)
-{
-#if TARGET_OS!=ANDROID_OS
-    // Something like GetTickCount but portable
-    // It rolls over every ~ 12.1 days (0x100000/24/60/60)
-    // Use getMilliSpan to correct for rollover
-    timeb tb;
-    ftime( &tb );
-    int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
-    return nCount;
-#else
-    long   ms; // Milliseconds
-    struct timespec spec;
-
-    clock_gettime(CLOCK_REALTIME, &spec);
-
-    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
-
-    return (int)ms;
-#endif
-}
-
-
-void initRandom(void)
-{
- qDebug() << "Init random generator";
-
- unsigned int seed1=getMilliCount();
- srand(seed1+rand());
-
- unsigned int delay=rand()%1000;
- unsigned int r=0;
- for(unsigned int i=0; i<delay; i++) r=r+rand();
-
- seed1=seed1-getMilliCount()+r;
-
- unsigned int seed2=time(NULL);
- unsigned int seed3=seed1+seed2;
- unsigned int seed=seed3;
-
- srand( seed );
 }
 
 
@@ -705,9 +672,12 @@ void printHelp()
   printf("\n");
   printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
   printf("For use control mode, run by standard way MyTetra for show GUI interface, and next use command:\n");
+  printf("./mytetra --control --show - Show and activate MyTetra window\n");
+  printf("./mytetra --control --hide - Hide MyTetra window\n");
   printf("./mytetra --control --quit - Quit from MyTetra\n");
   printf("./mytetra --control --reload - Reload database\n");
   printf("./mytetra --control --openNote <noteId> - Jump to note with <noteId>\n");
+  printf("./mytetra --control --addNoteDialog - Show dialod for create new note in current tree item\n");
   printf("./mytetra --control --openTreeItem <treeItemId> - Jump to tree item with <treeItemId>\n");
   printf("\n");
 }
@@ -756,7 +726,17 @@ void parseConsoleOption(QtSingleApplication &app)
   // Если MyTetra запущена в режиме управления, и есть другой экземпляр, которым нужно управлять
   if(app.arguments().contains("--control") && app.isRunning())
   {
-    if(app.arguments().contains("--quit"))
+    if(app.arguments().contains("--show"))
+    {
+      app.sendMessage("show");
+      exit(0);
+    }
+    else if (app.arguments().contains("--hide"))
+    {
+      app.sendMessage("hide");
+      exit(0);
+    }
+    else if (app.arguments().contains("--quit"))
     {
       app.sendMessage("quit");
       exit(0);
@@ -770,6 +750,11 @@ void parseConsoleOption(QtSingleApplication &app)
     {
       int openNoteIndex=app.arguments().indexOf("--openNote");
       app.sendMessage("openNote "+app.arguments().at(openNoteIndex+1));
+      exit(0);
+    }
+    else if (app.arguments().contains("--addNoteDialog"))
+    {
+      app.sendMessage("addNoteDialog");
       exit(0);
     }
     else if (app.arguments().contains("--openBranch")) // Устаревшая опция
@@ -830,8 +815,13 @@ int main(int argc, char ** argv)
  // внутри происходит установка рабочей директории, настройка кодеков для локали и консоли
  globalParameters.init();
 
-  // Инициализация основных конфигурирующих программу переменных
+ // Инициализация основных конфигурирующих программу переменных
  mytetraConfig.init();
+ if( !globalParameters.getInstallAutodetectLang().isEmpty() )
+ {
+     // Если была процедура инсталляции, в конфиг записывается автоопределенный язык
+     mytetraConfig.set_interfacelanguage( globalParameters.getInstallAutodetectLang() );
+ }
 
  // Инициализация переменных, отвечающих за хранилище данных
  dataBaseConfig.init();
@@ -867,8 +857,12 @@ int main(int argc, char ** argv)
                       QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
  {
      if(!app.installTranslator(&qtTranslator))
-         qDebug() << QObject::tr("Can't install QT translations");
+         qDebug() << "Can't install QT translations";
  }
+
+ // Инициализация менеджера горячих клавиш должна происходить после инициализации переводов,
+ // чтобы были переведены все действия по горячим клавишам
+ shortcutManager.init();
 
  // Создание объекта главного окна
  MainWindow win;
@@ -968,6 +962,8 @@ int main(int argc, char ** argv)
  QApplication::setQuitOnLastWindowClosed(false);
 
  app.connect(&app, &QtSingleApplication::lastWindowClosed, &app, &QtSingleApplication::quit);
+
+ // Прием сообщений, испускаемых другим экземпляром MyTetra с помощью консольных команд "--control"
  app.connect(&app, &QtSingleApplication::messageReceived,  &win, &MainWindow::messageHandler);
 
  // Окно сплеш-скрина скрывается

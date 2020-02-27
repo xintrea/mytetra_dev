@@ -30,7 +30,7 @@ const int FixedParameters::mathExpHeaderLen=29; // Сколько символо
 
 FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
-  Q_UNUSED(parent);
+  Q_UNUSED(parent)
 
 }
 

@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QScrollBar>
 #include <QColor>
+#include <QtGlobal>
 
 #include "Editor.h"
 #include "EditorConfig.h"
@@ -141,6 +142,7 @@ void Editor::init(int mode)
 
   // Создаётся контекстное меню
   editorContextMenu=new EditorContextMenu(this);
+  this->addActions( editorContextMenu->getActionsList() );
 
   setupEditorTextArea();
   setupCursorPositionDetector();
@@ -199,6 +201,9 @@ void Editor::setupEditorTextArea(void)
   textArea->selectAll();
   textArea->setCurrentFont(font);
   textArea->setFont(font);
+
+  // Устанавка размера табуляции для клавиши Tab
+  setTabSize();
 }
 
 
@@ -250,42 +255,7 @@ void Editor::setupFormatters(void)
 
 void Editor::setupSignals(void)
 {
-  // Создание сигналов, генерируемых кнопками форматирования текста
-  connect(&editorToolBarAssistant->bold, &QToolButton::clicked,
-          typefaceFormatter,             &TypefaceFormatter::onBoldClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->italic, &QToolButton::clicked,
-          typefaceFormatter,               &TypefaceFormatter::onItalicClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->underline, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onUnderlineClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->monospace, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onMonospaceClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->code, &QToolButton::clicked,
-          typefaceFormatter,             &TypefaceFormatter::onCodeClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->clear, &QToolButton::clicked,
-          typefaceFormatter,              &TypefaceFormatter::onClearClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->textOnly, &QToolButton::clicked,
-          typefaceFormatter,                 &TypefaceFormatter::onTextOnlyClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fixBreakSymbol, &QToolButton::clicked,
-          typefaceFormatter,                       &TypefaceFormatter::onFixBreakSymbolClicked,
-          Qt::DirectConnection);
-
-  connect(&editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
-          typefaceFormatter,                   &TypefaceFormatter::onFontselectChanged,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fontSize, static_cast<void(EditorFontSizeComboBox::*)(int)>(&EditorFontSizeComboBox::currentIndexChanged),
-          typefaceFormatter,                 &TypefaceFormatter::onFontsizeChanged,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->fontColor, &QToolButton::clicked,
-          typefaceFormatter,                  &TypefaceFormatter::onFontcolorClicked,
-          Qt::DirectConnection);
-
+  setupToolsSignals();
 
   // Обратка для typefaceFormatter todo: подумать, а надо ли
   connect(typefaceFormatter,      &TypefaceFormatter::updateOutlineButtonHiglight,
@@ -315,21 +285,29 @@ void Editor::setupSignals(void)
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontcolor,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontcolor,
           Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconFontColor,
+          Qt::DirectConnection);
 
+  // Соединение сигналов и слотов обрабортки для цвета выделения текста
+  connect(typefaceFormatter, &TypefaceFormatter::changeBackgroundcolor,
+          textArea,          &EditorTextArea::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(typefaceFormatter,      &TypefaceFormatter::changeBackgroundcolor,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeBackgroundColor,
+          Qt::DirectConnection);
+  connect(textArea,               &EditorTextArea::currentCharFormatChanged,
+          editorToolBarAssistant, &EditorToolBarAssistant::onChangeIconBackgroundColor,
+          Qt::DirectConnection);
+  connect(textArea,                 &EditorTextArea::cursorPositionChanged,
+          editorToolBarAssistant,   &EditorToolBarAssistant::onCursorPositionChanged,
+          Qt::DirectConnection);
 
   connect(this,                   &Editor::changeFontselectOnDisplay,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontselectOnDisplay,
           Qt::DirectConnection);
   connect(this,                   &Editor::changeFontsizeOnDisplay,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontsizeOnDisplay,
-          Qt::DirectConnection);
-
-
-  connect(&editorToolBarAssistant->indentPlus, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onIndentplusClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->indentMinus, &QToolButton::clicked,
-          placementFormatter,                   &PlacementFormatter::onIndentminusClicked,
           Qt::DirectConnection);
 
 
@@ -340,70 +318,6 @@ void Editor::setupSignals(void)
           indentSliderAssistant, &EditorIndentSliderAssistant::updateToActualFormat,
           Qt::DirectConnection);
 
-  connect(&editorToolBarAssistant->alignLeft, &QToolButton::clicked,
-          placementFormatter,                 &PlacementFormatter::onAlignleftClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignCenter, &QToolButton::clicked,
-          placementFormatter,                   &PlacementFormatter::onAligncenterClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignRight, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onAlignrightClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->alignWidth, &QToolButton::clicked,
-          placementFormatter,                  &PlacementFormatter::onAlignwidthClicked,
-          Qt::DirectConnection);
-
-
-  connect(&editorToolBarAssistant->numericList, &QToolButton::clicked,
-          listFormatter,                        &ListFormatter::onNumericlistClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->dotList, &QToolButton::clicked,
-          listFormatter,                    &ListFormatter::onDotlistClicked,
-          Qt::DirectConnection);
-
-
-  // Кнопки работы с таблицами
-  connect(&editorToolBarAssistant->createTable, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onCreatetableClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableRemoveRow, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableRemoveRowClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableRemoveCol, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableRemoveColClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableAddRow, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onTableAddRowClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableAddCol, &QToolButton::clicked,
-          tableFormatter,                       &TableFormatter::onTableAddColClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableMergeCells, &QToolButton::clicked,
-          tableFormatter,                           &TableFormatter::onTableMergeCellsClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableSplitCell, &QToolButton::clicked,
-          tableFormatter,                          &TableFormatter::onTableSplitCellClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->tableProperties, &QToolButton::clicked,
-          tableFormatter,                           &TableFormatter::onTablePropertiesClicked,
-          Qt::DirectConnection);
-
-  connect(&editorToolBarAssistant->reference, &QToolButton::clicked,
-          referenceFormatter,                 &ReferenceFormatter::onReferenceClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showHtml, &QToolButton::clicked,
-          this,                              &Editor::onShowhtmlClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->findText, &QToolButton::clicked,
-          this,                              &Editor::onFindtextClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->settings, &QToolButton::clicked,
-          this,                              &Editor::onSettingsClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showFormatting, &QToolButton::toggled,
-          this,                                    &Editor::onShowformattingClicked,
-          Qt::DirectConnection);
-
 
   connect(this,                   &Editor::updateAlignButtonHiglight,
           editorToolBarAssistant, &EditorToolBarAssistant::onUpdateAlignButtonHiglight,
@@ -412,32 +326,6 @@ void Editor::setupSignals(void)
           editorToolBarAssistant, &EditorToolBarAssistant::onUpdateAlignButtonHiglight,
           Qt::DirectConnection);
 
-
-  // Прочие кнопки
-  connect(&editorToolBarAssistant->insertImageFromFile, &QToolButton::clicked,
-          imageFormatter,                               &ImageFormatter::onInsertImageFromFileClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->mathExpression, &QToolButton::clicked,
-          mathExpressionFormatter,                 &MathExpressionFormatter::onMathExpressionClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->expandEditArea, &QToolButton::clicked,
-          this,                                    &Editor::onExpandEditAreaClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->save, &QToolButton::clicked,
-          this,                          &Editor::onSaveClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->back, &QToolButton::clicked,
-          this,                          &Editor::onBackClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->findInBase, &QToolButton::clicked,
-          this,                                &Editor::onFindInBaseClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->showText, &QToolButton::clicked,
-          this,                              &Editor::onShowTextClicked,
-          Qt::DirectConnection);
-  connect(&editorToolBarAssistant->toAttach, &QToolButton::clicked,
-          this,                              &Editor::onToAttachClicked,
-          Qt::DirectConnection);
 
   // Область редактирования текста
   connect(textArea, &EditorTextArea::cursorPositionChanged,
@@ -505,12 +393,17 @@ void Editor::setupSignals(void)
 
 
   // Сигналы контекстного меню
+  connect(textArea->document(), &QTextDocument::undoAvailable,
+          editorContextMenu->getActionUndo(), &QAction::setEnabled);
+  connect(textArea->document(), &QTextDocument::redoAvailable,
+          editorContextMenu->getActionRedo(), &QAction::setEnabled);
   connect(editorContextMenu, &EditorContextMenu::undo,
           this,              &Editor::onUndo,
           Qt::DirectConnection);
   connect(editorContextMenu, &EditorContextMenu::redo,
           this,              &Editor::onRedo,
           Qt::DirectConnection);
+
   connect(editorContextMenu, &EditorContextMenu::cut,
           this,              &Editor::onCut,
           Qt::DirectConnection);
@@ -535,6 +428,12 @@ void Editor::setupSignals(void)
   connect(editorContextMenu,  &EditorContextMenu::contextMenuGotoReference,
           referenceFormatter, &ReferenceFormatter::onContextMenuGotoReference,
           Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::lowercase,
+          typefaceFormatter, &TypefaceFormatter::onLowerCase,
+          Qt::DirectConnection);
+  connect(editorContextMenu,  &EditorContextMenu::uppercase,
+          typefaceFormatter, &TypefaceFormatter::onUpperCase,
+          Qt::DirectConnection);
 
   // Вызов диалога поиска в тексте
   connect(findDialog, &EditorFindDialog::find_text,
@@ -548,6 +447,164 @@ void Editor::setupSignals(void)
   connect(this,                  &Editor::updateIndentSliderGeometry,
           indentSliderAssistant, &EditorIndentSliderAssistant::onUpdateGeometry,
           Qt::DirectConnection);
+}
+
+
+void Editor::setupToolsSignals(void)
+{
+    // Создание сигналов, генерируемых кнопками Undo / Redo
+    connect(textArea->document(), &QTextDocument::undoAvailable,
+            editorToolBarAssistant->undo, &QAction::setEnabled);
+    connect(textArea->document(), &QTextDocument::redoAvailable,
+            editorToolBarAssistant->redo, &QAction::setEnabled);
+    connect(editorToolBarAssistant->undo, &QAction::triggered,
+            this,                         &Editor::onUndo,
+            Qt::DirectConnection);
+    connect(editorToolBarAssistant->redo, &QAction::triggered,
+            this,                         &Editor::onRedo,
+            Qt::DirectConnection);
+
+    // Создание сигналов, генерируемых кнопками форматирования текста
+    connect(editorToolBarAssistant->bold, &QAction::triggered,
+            typefaceFormatter,            &TypefaceFormatter::onBoldClicked);
+
+    connect(editorToolBarAssistant->italic, &QAction::triggered,
+            typefaceFormatter,              &TypefaceFormatter::onItalicClicked);
+
+    connect(editorToolBarAssistant->underline, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onUnderlineClicked);
+
+    connect(editorToolBarAssistant->strikeout, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onStrikeOutClicked);
+
+    connect(editorToolBarAssistant->superscript, &QAction::triggered,
+            typefaceFormatter,                   &TypefaceFormatter::onSuperScriptClicked);
+
+    connect(editorToolBarAssistant->subscript, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onSubScriptClicked);
+
+    connect(editorToolBarAssistant->monospace, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
+
+    connect(editorToolBarAssistant->code, &QAction::triggered,
+            typefaceFormatter,            &TypefaceFormatter::onCodeClicked);
+
+    connect(editorToolBarAssistant->clear, &QAction::triggered,
+            typefaceFormatter,             &TypefaceFormatter::onClearClicked);
+
+    connect(editorToolBarAssistant->textOnly, &QAction::triggered,
+            typefaceFormatter,                &TypefaceFormatter::onTextOnlyClicked);
+
+    connect(editorToolBarAssistant->fixBreakSymbol, &QAction::triggered,
+            typefaceFormatter,                      &TypefaceFormatter::onFixBreakSymbolClicked);
+
+    connect(editorToolBarAssistant->fontSelect, &EditorFontFamilyComboBox::currentFontChanged,
+            typefaceFormatter,                  &TypefaceFormatter::onFontselectChanged);
+
+    connect(editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
+            typefaceFormatter,                &TypefaceFormatter::onFontsizeChanged);
+
+    connect(editorToolBarAssistant->fontColor, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onFontcolorClicked);
+
+    // Цвет фона текста
+    connect(editorToolBarAssistant->backgroundColor, &QAction::triggered,
+            typefaceFormatter,                       &TypefaceFormatter::onBackgroundcolorClicked);
+
+    connect(editorToolBarAssistant->indentPlus, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onIndentplusClicked);
+
+    connect(editorToolBarAssistant->indentMinus, &QAction::triggered,
+            placementFormatter,                  &PlacementFormatter::onIndentminusClicked);
+
+    connect(editorToolBarAssistant->alignLeft, &QAction::triggered,
+            placementFormatter,                &PlacementFormatter::onAlignleftClicked);
+
+    connect(editorToolBarAssistant->alignCenter, &QAction::triggered,
+            placementFormatter,                  &PlacementFormatter::onAligncenterClicked);
+
+    connect(editorToolBarAssistant->alignRight, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onAlignrightClicked);
+
+    connect(editorToolBarAssistant->alignWidth, &QAction::triggered,
+            placementFormatter,                 &PlacementFormatter::onAlignwidthClicked);
+
+    connect(editorToolBarAssistant->numericList, &QAction::triggered,
+            listFormatter,                       &ListFormatter::onNumericlistClicked);
+
+    connect(editorToolBarAssistant->dotList, &QAction::triggered,
+            listFormatter,                   &ListFormatter::onDotlistClicked);
+
+
+    // Кнопки работы с таблицами
+    connect(editorToolBarAssistant->createTable, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onCreatetableClicked);
+
+    connect(editorToolBarAssistant->tableRemoveRow, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableRemoveRowClicked);
+
+    connect(editorToolBarAssistant->tableRemoveCol, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableRemoveColClicked);
+
+    connect(editorToolBarAssistant->tableAddRow, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onTableAddRowClicked);
+
+    connect(editorToolBarAssistant->tableAddCol, &QAction::triggered,
+            tableFormatter,                      &TableFormatter::onTableAddColClicked);
+
+    connect(editorToolBarAssistant->tableMergeCells, &QAction::triggered,
+            tableFormatter,                          &TableFormatter::onTableMergeCellsClicked);
+
+    connect(editorToolBarAssistant->tableSplitCell, &QAction::triggered,
+            tableFormatter,                         &TableFormatter::onTableSplitCellClicked);
+
+    connect(editorToolBarAssistant->tableProperties, &QAction::triggered,
+            tableFormatter,                          &TableFormatter::onTablePropertiesClicked);
+
+    connect(editorToolBarAssistant->reference, &QAction::triggered,
+            referenceFormatter,                &ReferenceFormatter::onReferenceClicked);
+
+    connect(editorToolBarAssistant->showHtml, &QAction::triggered,
+            this,                             &Editor::onShowhtmlClicked);
+
+    connect(editorToolBarAssistant->findText, &QAction::triggered,
+            this,                             &Editor::onFindtextClicked);
+
+    connect(editorToolBarAssistant->settings, &QAction::triggered,
+            this,                             &Editor::onSettingsClicked);
+
+    connect(editorToolBarAssistant->showFormatting, &QAction::toggled, // Это не клик а переключение
+            this,                                   &Editor::onShowformattingClicked);
+
+
+    // Прочие кнопки
+    connect(editorToolBarAssistant->insertImageFromFile, &QAction::triggered,
+            imageFormatter,                              &ImageFormatter::onInsertImageFromFileClicked);
+
+    connect(editorToolBarAssistant->insertHorizontalLine, &QAction::triggered,
+            typefaceFormatter,                            &TypefaceFormatter::onInsertHorizontalLineClicked);
+
+    connect(editorToolBarAssistant->mathExpression, &QAction::triggered,
+            mathExpressionFormatter,                &MathExpressionFormatter::onMathExpressionClicked);
+
+    connect(editorToolBarAssistant->expandEditArea, &QAction::triggered,
+            this,                                   &Editor::onExpandEditAreaClicked);
+
+    connect(editorToolBarAssistant->save, &QAction::triggered,
+            this,                         &Editor::onSaveClicked);
+
+    connect(editorToolBarAssistant->back, &QAction::triggered,
+            this,                         &Editor::onBackClicked);
+
+    connect(editorToolBarAssistant->findInBase, &QAction::triggered,
+            this,                               &Editor::onFindInBaseClicked);
+
+    connect(editorToolBarAssistant->showText, &QAction::triggered,
+            this,                             &Editor::onShowTextClicked);
+
+    connect(editorToolBarAssistant->toAttach, &QAction::triggered,
+            this,                             &Editor::onToAttachClicked);
+
 }
 
 
@@ -804,7 +861,7 @@ void Editor::saveTextarea(void)
       qDebug() << "Cant remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
-    if(loadCallbackFunc==NULL)
+    if(loadCallbackFunc==nullptr)
     {
       // Сохранение текста записи в файл
       saveTextareaText();
@@ -857,7 +914,7 @@ bool Editor::loadTextarea()
   QString content;
 
   // Если происходит прямая работа с файлом текста
-  if(loadCallbackFunc==NULL)
+  if(loadCallbackFunc==nullptr)
   {
     // Создается объект файла с нужным именем
     QFile f(fileName);
@@ -930,7 +987,7 @@ QString Editor::smartFontFamily(QString fontName)
         if(firstCommaPos>0)
             fontName=fontName.left(firstCommaPos);
     }
-    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect.findText(fontName)==-1)
+    else if(fontName=="Sans" && editorToolBarAssistant->fontSelect->findText(fontName)==-1)
         fontName="Sans Serif";
 
     return fontName;
@@ -988,12 +1045,14 @@ void Editor::onSelectionChanged(void)
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
+  bool startStrikeOut=cursor.charFormat().fontStrikeOut(); // Зачеркивание
 
   bool differentFontFlag=false;
   bool differentSizeFlag=false;
   bool differentBoldFlag=false;
   bool differentItalicFlag=false;
   bool differentUnderlineFlag=false;
+  bool differentStrikeOutFlag=false;
   bool differentAlignFlag=false;
 
   // Слишком большие выделения текста нельзя обрабатывать, так как выделение становится слишком медленным
@@ -1004,6 +1063,7 @@ void Editor::onSelectionChanged(void)
     differentBoldFlag=true;
     differentItalicFlag=true;
     differentUnderlineFlag=true;
+    differentStrikeOutFlag=true;
     differentAlignFlag=true;
   }
   else
@@ -1034,6 +1094,9 @@ void Editor::onSelectionChanged(void)
 
       if( differentUnderlineFlag==false && startUnderline!=cursor.charFormat().fontUnderline() )
         differentUnderlineFlag=true;
+
+      if( differentStrikeOutFlag==false && startStrikeOut!=cursor.charFormat().fontStrikeOut() )
+        differentStrikeOutFlag=true;
 
       if( differentAlignFlag==false && startAlign!=cursor.blockFormat().alignment() )
         differentAlignFlag=true;
@@ -1085,6 +1148,13 @@ void Editor::onSelectionChanged(void)
     if(startUnderline==true)
       editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_UNDERLINE,true);
 
+  // Кнопка StrikeOut
+  if(differentStrikeOutFlag==true)
+    editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,false);
+  else
+    if(startStrikeOut==true)
+      editorToolBarAssistant->setOutlineButtonHiglight(EditorToolBarAssistant::BT_STRIKEOUT,true);
+
   // Кнопки выравнивания
   if(differentAlignFlag==true)
     emit updateAlignButtonHiglight(false);
@@ -1114,6 +1184,8 @@ void Editor::keyPressEvent(QKeyEvent *event)
 {
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
     editorToolBarAssistant->updateToActualFormat();
+
+  QWidget::keyPressEvent(event);
 }
 
 
@@ -1122,6 +1194,8 @@ void Editor::keyReleaseEvent(QKeyEvent *event)
 {
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
     editorToolBarAssistant->updateToActualFormat();
+
+  QWidget::keyReleaseEvent(event);
 }
 
 
@@ -1150,37 +1224,64 @@ void Editor::onCut(void)
 
 void Editor::onCopy(void)
 {
-  // Если выбрана только картинка или курсор стоит на позиции картинки
-  if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
-  {
-    QTextImageFormat imageFormat;
+    // qDebug() << "Editor::onCopy()" << sender()->objectName() << sender()->metaObject()->className();
+    // qDebug() << "Editor::onCopy() textArea has focus:" << textArea->hasFocus();
 
-    if(cursorPositionDetector->isImageSelect())
-      imageFormat = imageFormatter->imageFormatOnSelect();
+    // Если текущий виджет не основной виджет редактирования текста
+    if(textArea->hasFocus()==false) {
 
-    if(cursorPositionDetector->isCursorOnImage())
-      imageFormat = imageFormatter->imageFormatOnCursor();
+        QWidget *focusWidget=qApp->focusWidget(); // Выясняется, какой виджет выбран
 
-    // Из формата выясняется имя картинки
-    QString imageName=imageFormat.name();
+        // Если это надпись QLabel
+        // Для виджетов, существующих рядом с textArea в рамках виджета Editor,
+        // сочетание клавиш копирования не перекрывается самим виджетом.
+        // Поэтому нужно вручную заполнить буфер обмена.
+        // Это поведения стало необходимо после введения подсистемы горячих клавиш
+        if(QString(focusWidget->metaObject()->className())=="QLabel") {
+            QLabel *label=static_cast<QLabel *>(focusWidget);
 
-    // Из ресурсов вытягивается картинка
-    QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
-    QImage image=imageData.value<QImage>();
+            if(label->selectedText().size()>0) {
+                QClipboard *clipboard=QApplication::clipboard();
+                clipboard->setText(label->selectedText());
+            }
+        }
 
-    // Создается ссылка на буфер обмена
-    QClipboard *clipboard=QApplication::clipboard();
+        return; // Закончилась обработка что текущий виджет не основной виджет редактирования текста
+    }
 
-    // Копирование картинки в буфер обмена
-    clipboard->setImage(image);
-  }
-  else
-    textArea->copy(); // Обычное копирование
 
-  editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
+    // Если выбрана только картинка или курсор стоит на позиции картинки
+    if(cursorPositionDetector->isImageSelect() || cursorPositionDetector->isCursorOnImage())
+    {
+        QTextImageFormat imageFormat;
+
+        if(cursorPositionDetector->isImageSelect())
+            imageFormat = imageFormatter->imageFormatOnSelect();
+
+        if(cursorPositionDetector->isCursorOnImage())
+            imageFormat = imageFormatter->imageFormatOnCursor();
+
+        // Из формата выясняется имя картинки
+        QString imageName=imageFormat.name();
+
+        // Из ресурсов вытягивается картинка
+        QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
+        QImage image=imageData.value<QImage>();
+
+        // Создается ссылка на буфер обмена
+        QClipboard *clipboard=QApplication::clipboard();
+
+        // Копирование картинки в буфер обмена
+        clipboard->setImage(image);
+    }
+    else
+        textArea->copy(); // Обычное копирование
+
+    editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
 
 
+// Обработка команды Paste контекстного меню
 void Editor::onPaste(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирования,
@@ -1194,6 +1295,7 @@ void Editor::onPaste(void)
 }
 
 
+// Обработка команды PasteAsPlainText контекстного меню
 void Editor::onPasteAsPlainText(void)
 {
   // В Qt обнаружен баг, заключающийся в том, что при установке ReadOnly на область редактирование,
@@ -1261,39 +1363,8 @@ void Editor::onCustomContextMenuRequested(const QPoint &pos)
 {
     qDebug() << "In Editor on_customContextMenuRequested";
 
-
-    // Сначала скрываются пункты редактирования формулы и картинки
-    editorContextMenu->setEditMathExpression( false );
-    editorContextMenu->setImageProperties( false );
-
-    // Если выбрана формула или курсор находится на позиции формулы
-    if(cursorPositionDetector->isMathExpressionSelect() ||
-       cursorPositionDetector->isCursorOnMathExpression()) {
-        editorContextMenu->setEditMathExpression( true );
-    } else {
-
-        // Если выбрана картинка или курсор находится на позиции картинки
-        if(cursorPositionDetector->isImageSelect() ||
-           cursorPositionDetector->isCursorOnImage()) {
-            editorContextMenu->setImageProperties( true );
-        }
-    }
-
-
-    // Если курсор находится на ссылке (URL)
-    if(cursorPositionDetector->isCursorOnReference()) {
-        editorContextMenu->setGotoReference( true );
-    } else {
-        editorContextMenu->setGotoReference( false );
-    }
-
-    // Если в буфере обмена есть текст
-    if(QGuiApplication::clipboard()->text().size()>0) {
-        editorContextMenu->setPasteAsPlainText( true );
-    } else {
-        editorContextMenu->setPasteAsPlainText( false );
-    }
-
+    // В контекстном меню выставляются допустимые пункты
+    editorContextMenu->update();
 
     // Контекстное меню запускается
     editorContextMenu->exec(textArea->viewport()->mapToGlobal(pos));
@@ -1305,6 +1376,9 @@ void Editor::onSettingsClicked(void)
   // Создается окно настроек, после выхода из этой функции окно удалится
   EditorConfigDialog dialog;
   dialog.show();
+
+  // Устанавка размера табуляции для клавиши Tab
+  setTabSize();
 }
 
 
@@ -1381,6 +1455,29 @@ void Editor::onShowTextClicked(void)
   showText->setDocument( cloneDocument );
 
   showText->show();
+}
+
+
+void Editor::setTabSize()
+{
+    // Устанавка размера табуляции для клавиши Tab
+    // Учитываем среднюю ширину глифов в шрифте
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+    textArea->setTabStopDistance(
+        QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
+        editorConfig->get_tab_size()
+        );
+    #else
+    textArea->setTabStopWidth(
+        QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
+        editorConfig->get_tab_size()
+        );
+    #endif
+
+    // Альтернатива, не учитывающая среднюю ширину глифов в шрифте
+    // textArea->setTabStopDistance(
+    //    textArea->fontMetrics().width(QLatin1Char('a')
+    // ) * editorConfig->get_tab_size() );
 }
 
 

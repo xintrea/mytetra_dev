@@ -1,5 +1,0 @@
-base referer
-rect $main_8h.html 251,400 320,424
-rect $mainwindow_8h.html 407,547 524,571
-rect $appconfig_8h.html 577,694 679,718
-rect $recordtabledata_8h.html 215,747 356,771

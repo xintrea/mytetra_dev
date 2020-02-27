@@ -13,7 +13,11 @@
         <file>resource/pic/edit_alignleft.svg</file>
         <file>resource/pic/edit_alignright.svg</file>
         <file>resource/pic/edit_alignwidth.svg</file>
+        <file>resource/pic/edit_undo.svg</file>
+        <file>resource/pic/edit_redo.svg</file>
         <file>resource/pic/edit_bold.svg</file>
+        <file>resource/pic/edit_sub.svg</file>
+        <file>resource/pic/edit_sup.svg</file>
         <file>resource/pic/edit_clear.svg</file>
         <file>resource/pic/edit_code.svg</file>
         <file>resource/pic/edit_createtable.svg</file>
@@ -40,6 +44,7 @@
         <file>resource/pic/edit_underline.svg</file>
         <file>resource/pic/edit_expand_text_area.svg</file>
         <file>resource/pic/edit_fontcolor.svg</file>
+        <file>resource/pic/edit_fontbackgroundcolor.svg</file>
         <file>resource/pic/edit_save.svg</file>
         <file>resource/pic/expand_all_subbranch.svg</file>
         <file>resource/pic/edit_expand_tools_lines.svg</file>
@@ -73,7 +78,9 @@
         <file>resource/pic/transparent_dot.png</file>
         <file>resource/pic/mobile_back.svg</file>
         <file>resource/pic/sort.svg</file>
+        <file>resource/pic/installation/installCover.png</file>
         <file>resource/translations/mytetra_ru.qm</file>
+        <file>resource/translations/mytetra_fr.qm</file>
         <file>resource/standartconfig/any/conf.ini</file>
         <file>resource/standartconfig/any/editorconf.ini</file>
         <file>resource/standartconfig/any/stylesheet.css</file>
@@ -111,5 +118,11 @@
         <file>resource/pic/countryFlags/Russia.png</file>
         <file>resource/pic/countryFlags/United-Kingdom.png</file>
         <file>resource/pic/edit_math_expression.svg</file>
+        <file>resource/pic/edit_insert_horizontal_line.svg</file>
+        <file>resource/pic/edit_strikeout.svg</file>
+        <file>resource/pic/move_left.svg</file>
+        <file>resource/pic/move_right.svg</file>
+        <file>resource/pic/edit_zoom-in.svg</file>
+        <file>resource/pic/edit_zoom-out.svg</file>
     </qresource>
 </RCC>

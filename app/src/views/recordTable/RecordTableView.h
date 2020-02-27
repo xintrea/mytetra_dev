@@ -53,8 +53,6 @@ public:
 
 signals:
 
- void listSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-
  void tapAndHoldGestureFinished(const QPoint &);
 
 
@@ -83,6 +81,8 @@ protected slots:
  void onPressToRecord(const QModelIndex &index);
  void onClickToRecord(const QModelIndex &index);
 
+ void onDropEventHandleCatch();
+
 protected:
 
  QMenu *contextMenu;
@@ -100,7 +100,7 @@ protected:
 
  void deleteRecords(void);
 
- // Реакия на выбор записи мышкой или клавишами
+ // Реакция на выбор записи мышкой или клавишами
  void clickToRecord(const QModelIndex &index);
 
  bool event(QEvent *event);
@@ -119,6 +119,8 @@ protected:
 private:
 
  void startDrag();
+ QModelIndex startDragIndex;
+ bool isDragHappeningNow=false;
 
 };
 

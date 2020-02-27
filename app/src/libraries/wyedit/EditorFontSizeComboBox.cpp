@@ -1,11 +1,14 @@
 #include <QDebug>
+#include <QtGlobal>
 
 #include "EditorFontSizeComboBox.h"
 
 
-EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(parent)
+EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) :
+    MtComboBox(parent),
+    toolFocus(this)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     isProgrammChanged=false;
 
@@ -30,7 +33,7 @@ EditorFontSizeComboBox::EditorFontSizeComboBox(QWidget *parent) : MtComboBox(par
     this->setValidator(fontsizeValidator);
 
 
-    connect(this, static_cast<void(EditorFontSizeComboBox::*)(int)>(&EditorFontSizeComboBox::currentIndexChanged),
+    connect(this, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
             this, &EditorFontSizeComboBox::onCurrentIndexChanged);
 }
 

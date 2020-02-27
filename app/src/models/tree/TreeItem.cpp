@@ -43,20 +43,20 @@ TreeItem *TreeItem::child(int number)
 
 
 // Возвращение количества потомков (т.е. количество записей в списке childItems)
-unsigned int TreeItem::childCount() const
+int TreeItem::childCount() const
 {
- return childItems.count();
+    return childItems.count();
 }
 
 
 // Возвращает номер, под которым данный объект хранится
 // в массиве childItems своего родителя
-unsigned int TreeItem::childNumber() const
+int TreeItem::childNumber() const
 {
- if (parentItem)
-  return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
+    if (parentItem)
+        return parentItem->childItems.indexOf(const_cast<TreeItem*>(this));
 
- return 0;
+    return 0;
 }
 
 
@@ -65,15 +65,15 @@ unsigned int TreeItem::childNumber() const
 // а физические данные на диске не затрагиваются
 void TreeItem::empty(void)
 {
- fieldsTable.clear();
+    fieldsTable.clear();
 
- recordsTable.empty();
+    recordsTable.empty();
 
- // Если элемент не является "оторванным"
- if(detachedState==false)
-   qDeleteAll(childItems); // Удаляются все подветки
- 
- parentItem=NULL;
+    // Если элемент не является "оторванным"
+    if(detachedState==false)
+        qDeleteAll(childItems); // Удаляются все подветки
+
+    parentItem=nullptr;
 }
 
 
@@ -85,72 +85,72 @@ int TreeItem::fieldCount() const
 
 QString TreeItem::getField(QString name)
 {
- // Если запрашивается динамическое имя из имени и количества потомков
- if(name=="dynamicname")
-  {
-   // Имя ветки
-   QString itemName=fieldsTable["name"];
-
-   // Если есть шифрование в этой ветке
-   // и поле является зашифрованным
-   if(fieldsTable.contains("crypt"))
-    if(fieldsTable["crypt"]=="1")
-     {
-      if(globalParameters.getCryptKey().length()>0)
-       itemName=CryptService::decryptString(globalParameters.getCryptKey(), itemName);
-      else
-       itemName=QString(QObject::tr("Closed"));
-     }
-
-   // Выясняется, есть ли у текущего элемента конечные записи
-   int recordCount=this->recordtableGetRowCount();
-
-   // Если конечных элементов нет, возвращатся просто имя
-   if(recordCount==0)
-    return itemName;
-   else
+    // Если запрашивается динамическое имя из имени и количества потомков
+    if(name=="dynamicname")
     {
-     // Иначе конечные элементы есть, возвращается имя записи
-     // и количество конечных элементов
-     QString r,i;
-     r=itemName+" ["+i.setNum(recordCount)+"]";
-     return r;
-    }
-   }
+        // Имя ветки
+        QString itemName=fieldsTable["name"];
 
+        // Если есть шифрование в этой ветке
+        // и поле является зашифрованным
+        if(fieldsTable.contains("crypt"))
+            if(fieldsTable["crypt"]=="1")
+            {
+                if(globalParameters.getCryptKey().length()>0)
+                    itemName=CryptService::decryptString(globalParameters.getCryptKey(), itemName);
+                else
+                    itemName=QString(QObject::tr("Closed"));
+            }
 
- // Если имя поля допустимо
- if(FixedParameters::itemFieldAvailableList.contains(name))
-  {
-   // Если поле с таким именем существует
-   if(fieldsTable.contains(name))
-    {
-     QString value=fieldsTable[name];
+        // Выясняется, есть ли у текущего элемента конечные записи
+        int recordCount=this->recordtableGetRowCount();
 
-     // Если есть шифрование
-     // и поле является зашифрованным
-     if(fieldsTable.contains("crypt"))
-      if(fieldsTable["crypt"]=="1")
-       if(FixedParameters::itemFieldCryptedList.contains(name))
+        // Если конечных элементов нет, возвращатся просто имя
+        if(recordCount==0)
+            return itemName;
+        else
         {
-         if(globalParameters.getCryptKey().length()>0 &&
-            value!="")
-          value=CryptService::decryptString(globalParameters.getCryptKey(), value);
-         else
-          value="";
+            // Иначе конечные элементы есть, возвращается имя записи
+            // и количество конечных элементов
+            QString r,i;
+            r=itemName+" ["+i.setNum(recordCount)+"]";
+            return r;
         }
-
-     return value;
     }
-   else
-    return QString(""); // Если поле не существует, возвращается пустая строка
-  }
- else
-  {
-   criticalError("In TreeItem::get_field() unavailable name '"+name+"'");
-   exit(1);
-   return "";
-  }
+
+
+    // Если имя поля допустимо
+    if(FixedParameters::itemFieldAvailableList.contains(name))
+    {
+        // Если поле с таким именем существует
+        if(fieldsTable.contains(name))
+        {
+            QString value=fieldsTable[name];
+
+            // Если есть шифрование
+            // и поле является зашифрованным
+            if(fieldsTable.contains("crypt"))
+                if(fieldsTable["crypt"]=="1")
+                    if(FixedParameters::itemFieldCryptedList.contains(name))
+                    {
+                        if(globalParameters.getCryptKey().length()>0 &&
+                                value!="")
+                            value=CryptService::decryptString(globalParameters.getCryptKey(), value);
+                        else
+                            value="";
+                    }
+
+            return value;
+        }
+        else
+            return QString(""); // Если поле не существует, возвращается пустая строка
+    }
+    else
+    {
+        criticalError("In TreeItem::get_field() unavailable name '"+name+"'");
+    }
+
+    return "";
 }
 
 
@@ -284,20 +284,18 @@ TreeItem *TreeItem::parent()
 
 QString TreeItem::getId()
 {
-  if(fieldsTable.contains("id"))
-    return (fieldsTable["id"]);
-  else
-  {
-    criticalError("In TreeItem data getting field with unavailable name 'id'");
-    exit(1);
+    if(fieldsTable.contains("id"))
+        return (fieldsTable["id"]);
+    else
+        criticalError("In TreeItem data getting field with unavailable name 'id'");
+
     return "";
-  }
 }
 
 
 QString TreeItem::getParentId()
 {
-  if(parentItem!=NULL)
+  if(parentItem!=nullptr)
   {
     return parentItem->getField("id");
   }
@@ -391,7 +389,11 @@ bool TreeItem::moveUp(void)
   if(num==0)return false;
 
   // Элемент перемещается вверх по списку
+  #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+  ( parentItem->childItems ).swapItemsAt(num,num-1);
+  #else
   ( parentItem->childItems ).swap(num,num-1);
+  #endif
 
   return true;
 }
@@ -399,17 +401,21 @@ bool TreeItem::moveUp(void)
 
 bool TreeItem::moveDn(void)
 {
-  // Выясняется номер данного элемента в списке родителя
-  unsigned int num=childNumber();
+    // Выясняется номер данного элемента в списке родителя
+    int num=childNumber();
 
-  // Если двигать вниз некуда, ничего делать не нужно
-  if(num>=(parentItem->childCount()-1))
-    return false;
+    // Если двигать вниз некуда, ничего делать не нужно
+    if(num>=(parentItem->childCount()-1))
+        return false;
 
-  // Элемент перемещается вниз по списку
-  ( parentItem->childItems ).swap(num,num+1);
+    // Элемент перемещается вниз по списку
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
+    ( parentItem->childItems ).swapItemsAt(num,num+1);
+    #else
+    ( parentItem->childItems ).swap(num,num+1);
+    #endif
 
-  return true;
+    return true;
 }
 
 
@@ -442,48 +448,46 @@ QString TreeItem::getPathAsNameWithDelimeter(QString delimeter)
 
 QStringList TreeItem::getPathAsField(QString fieldName)
 {
-  QStringList path;
-  TreeItem *currentItem=this;
+    QStringList path;
+    TreeItem *currentItem=this;
 
-  path << currentItem->getField(fieldName);
-
-  while(currentItem->parent()!=NULL)
-  {
-    currentItem=currentItem->parent();
     path << currentItem->getField(fieldName);
-  }
 
-  // Поворот массива идентификаторов задом наперед
-  int k=path.size()-1;
-  int j=path.size()/2;
-  for(int i=0;i<j;++i)path.swap(i,k-i);
+    while(currentItem->parent()!=nullptr)
+    {
+        currentItem=currentItem->parent();
+        path << currentItem->getField(fieldName);
+    }
 
-  return path;
+    // Поворот массива идентификаторов задом наперед
+    std::reverse(path.begin(), path.end());
+
+    return path;
 }
 
 
 // Возвращает массив путей всех подветок, которые содержит ветка
 QList<QStringList> TreeItem::getAllChildrenPath(void)
 {
-  // Очищение списка путей
-  getAllChildrenPathAsFieldRecurse(this, "", 0);
+    // Очищение списка путей
+    getAllChildrenPathAsFieldRecurse(this, "", 0);
 
-  // Получение списка путей
-  QList<QStringList> pathList=getAllChildrenPathAsFieldRecurse(this, "id", 1);
+    // Получение списка путей
+    QList<QStringList> pathList=getAllChildrenPathAsFieldRecurse(this, "id", 1);
 
-  return pathList;
+    return pathList;
 }
 
 
 QList<QStringList> TreeItem::getAllChildrenPathAsField(QString fieldName)
 {
-  // Очищение списка путей
-  getAllChildrenPathAsFieldRecurse(this, "", 0);
+    // Очищение списка путей
+    getAllChildrenPathAsFieldRecurse(this, "", 0);
 
-  // Получение списка путей
-  QList<QStringList> pathList=getAllChildrenPathAsFieldRecurse(this, fieldName, 1);
+    // Получение списка путей
+    QList<QStringList> pathList=getAllChildrenPathAsFieldRecurse(this, fieldName, 1);
 
-  return pathList;
+    return pathList;
 }
 
 
@@ -527,7 +531,7 @@ QList<QStringList> TreeItem::getAllChildrenPathAsFieldRecurse(TreeItem *item, QS
     return QList<QStringList>();
   }
 
-  for(unsigned int i=0;i<(item->childCount());i++)
+  for(int i=0; i<(item->childCount()); i++)
   {
     QStringList path=(item->child(i))->getPathAsField(fieldName);
     pathList << path;
@@ -560,7 +564,7 @@ void TreeItem::switchToEncrypt(void)
 
 
   // Шифрация подветок
-  for(unsigned int i=0; i<childCount(); i++)
+  for(int i=0; i<childCount(); i++)
     child(i)->switchToEncrypt();
 }
 
@@ -587,7 +591,7 @@ void TreeItem::switchToDecrypt(void)
 
 
   // Дешифрация подветок
-  for(unsigned int i=0; i<childCount(); i++)
+  for(int i=0; i<childCount(); i++)
     child(i)->switchToDecrypt();
 }
 

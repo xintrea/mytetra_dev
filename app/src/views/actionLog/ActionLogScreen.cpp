@@ -1,10 +1,15 @@
 #include <QDialogButtonBox>
+#include <QDebug>
 
 #include "main.h"
 
 #include "ActionLogScreen.h"
 #include "ActionLogView.h"
 #include "controllers/actionLog/ActionLogController.h"
+#include "libraries/ShortcutManager.h"
+
+
+extern ShortcutManager shortcutManager;
 
 
 ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
@@ -20,6 +25,7 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
 
   setupActions();
   setupUI();
+  setupShortcuts();
   setupSignals();
   assembly();
 
@@ -35,7 +41,7 @@ ActionLogScreen::~ActionLogScreen()
 
 void ActionLogScreen::setupUI(void)
 {
-  // Экранная таблица с отображение лога действий
+  // Экранная таблица с отображением лога действий
   actionLogView=actionLogController->getView();
 
   // Создание тулбара
@@ -47,19 +53,29 @@ void ActionLogScreen::setupUI(void)
 }
 
 
-void ActionLogScreen::setupSignals(void)
-{
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
-}
-
-
 void ActionLogScreen::setupActions(void)
 {
   actionCopy = new QAction(tr("Copy selected rows"), this);
-  actionCopy->setStatusTip(tr("Copy selected rows"));
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
-  actionCopy->setShortcut(QKeySequence("Ctrl+C"));
   connect(actionCopy, &QAction::triggered, actionLogController, &ActionLogController::onCopyClicked);
+}
+
+
+void ActionLogScreen::setupShortcuts(void)
+{
+    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+
+    shortcutManager.initAction("actionLog-copy", actionCopy );
+}
+
+
+void ActionLogScreen::setupSignals(void)
+{
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
+
+  // Обновление горячих клавиш, если они были изменены
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &ActionLogScreen::setupShortcuts);
+
 }
 
 

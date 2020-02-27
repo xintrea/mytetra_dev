@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QFontComboBox>
 
+#include "EditorFontToolFocus.h"
+
+
 class EditorFontFamilyComboBox : public QFontComboBox
 {
     Q_OBJECT
@@ -14,10 +17,14 @@ public:
 
     void setIsProgrammChanged(bool flag);
 
+    EditorFontToolFocus toolFocus;
+
 protected slots:
     void onCurrentIndexChanged(int index);
 
 protected:
+
+    void setupSignals();
 
     bool isProgrammChanged;
 

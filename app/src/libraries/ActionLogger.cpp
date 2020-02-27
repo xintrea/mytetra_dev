@@ -12,7 +12,7 @@ extern GlobalParameters globalParameters;
 
 ActionLogger::ActionLogger(QObject *pobj)
 {
-  Q_UNUSED(pobj);
+  Q_UNUSED(pobj)
 
   // Текущий номер версии формата строк лога
   version=1;

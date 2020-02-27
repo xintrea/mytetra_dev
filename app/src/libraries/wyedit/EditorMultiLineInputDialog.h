@@ -1,5 +1,5 @@
-#ifndef _EDITORMULTILINEINPUTDIALOG_H_
-#define	_EDITORMULTILINEINPUTDIALOG_H_
+#ifndef EDITORMULTILINEINPUTDIALOG_H
+#define	EDITORMULTILINEINPUTDIALOG_H
 
 #include <QtGlobal>
 #include <QWidget>
@@ -10,31 +10,35 @@
 
 class EditorMultiLineInputDialog : public QDialog
 {
- Q_OBJECT
+    Q_OBJECT
 
 public:
- EditorMultiLineInputDialog(QWidget *parent=nullptr);
- virtual ~EditorMultiLineInputDialog();
+    EditorMultiLineInputDialog(QWidget *parent=nullptr);
+    virtual ~EditorMultiLineInputDialog();
 
- void setText(QString text);
- QString getText();
- bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
+    void setText(QString text);
+    QString getText();
+    bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
 
- void setWordWrapMode(QTextOption::WrapMode mode);
- void setSizeCoefficient(float f);
+    void setWordWrapMode(QTextOption::WrapMode mode);
+    void setSizeCoefficient(float f);
+
+public slots:
+
+    void setupShortcuts(void);
 
 private:
 
- float sizeCoefficient;
- QTextEdit *textArea;
- QDialogButtonBox *buttonBox;
+    float sizeCoefficient;
+    QTextEdit *textArea;
+    QDialogButtonBox *buttonBox;
 
- void setupUi(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUi(void);
+    void setupSignals(void);
+    void assembly(void);
 
- void updateSize();
+    void updateSize();
 };
 
-#endif	/* _EDITORMULTILINEINPUTDIALOG_H_ */
+#endif // EDITORMULTILINEINPUTDIALOG_H
 

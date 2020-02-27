@@ -61,7 +61,7 @@ public:
 
 private:
 
-    QModelIndex getIndexRecurse(QModelIndex index, TreeItem *item, int mode);
+    QModelIndex getIndexRecurse(QModelIndex modelIndex, TreeItem *item, int mode);
 
     // Элемент, над которым проносят курсор. Используется при Drag And Drop.
     QModelIndex cursorOverIndex;

@@ -5,6 +5,7 @@
 #include <QPrinter>
 #include <QVBoxLayout>
 #include <QDialog>
+#include <QToolButton>
 
 class PreviewView;
 class QTextDocument;
@@ -16,16 +17,29 @@ public:
     PrintPreview(const QTextDocument *document, QWidget *parent);
     virtual ~PrintPreview();
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
     void print();
     void pageSetup();
 
 private:
-    void setup();
+    void setupPrintDoc();
+    void setupUI();
+    void setupSignals();
+    void assembly();
 
     QTextDocument *doc;
     PreviewView *view;
     QPrinter printer;
+
+    QToolButton *buttonPrint;
+    QToolButton *buttonPageSetup;
+    QToolButton *buttonZoomIn;
+    QToolButton *buttonZoomOut;
+    QToolButton *buttonClose;
     
     QVBoxLayout *centralLayout;
 };

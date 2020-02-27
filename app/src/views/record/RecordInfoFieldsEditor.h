@@ -30,6 +30,10 @@ public:
   void setReadOnly(bool state);
   bool isReadOnly();
 
+public slots:
+
+  void setupShortcuts(void);
+
 private slots:
 
   void okClick(void);

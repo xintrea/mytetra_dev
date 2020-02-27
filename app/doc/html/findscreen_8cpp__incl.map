@@ -1,5 +1,0 @@
-base referer
-rect $main_8h.html 232,8 301,32
-rect $findscreen_8h.html 215,157 319,181
-rect $findtablewidget_8h.html 407,208 545,232
-rect $knowtreemodel_8h.html 197,256 336,280

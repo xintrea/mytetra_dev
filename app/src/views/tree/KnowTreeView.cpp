@@ -110,27 +110,30 @@ void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
 }
 
 
-template <class X> bool KnowTreeView::isDragableData(X *event)
+template <class X>
+bool KnowTreeView::isDragableData(X *event)
 {
- // Проверяется, содержит ли объект переноса данные нужного формата
- const QMimeData *mimeData=event->mimeData();
- if(mimeData==NULL)
-  return false;
- if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
-  return false;
+    // Проверяется, содержит ли объект переноса данные нужного формата
+    const QMimeData *mimeData=event->mimeData();
+    if(mimeData==nullptr)
+        return false;
+    if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
+        return false;
 
- QObject *sourceObject=qobject_cast<QObject *>( event->source() );
+    QObject *sourceObject=qobject_cast<QObject *>( event->source() );
 
- if( sourceObject->objectName()=="recordTableView" )
-  return true;
- else
-  return false;
+    if( sourceObject->objectName()=="recordTableView" )
+        return true;
+    else
+        return false;
 }
 
 
 void KnowTreeView::dropEvent(QDropEvent *event)
 {
  qDebug() << "dropEvent() - Start";
+
+ emit dropEventHandleCatch();
 
  if( isDragableData(event) )
   {

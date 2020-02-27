@@ -42,6 +42,17 @@ void EditorConfigMisc::setupUi(void)
  indentStep->setMaximum(250);
  indentStep->setValue(conf->get_indent_step());
 
+ // Размер табуляции для клавиши Tab
+ tabStopDistanceLabel=new QLabel(this);
+ tabStopDistanceLabel->setText(tr("Tab size"));
+
+ tabStopDistanceFlexionLabel=new QLabel(this);
+ tabStopDistanceFlexionLabel->setText(tr("letters"));
+
+ tabStopDistanceSpinBox=new QSpinBox(this);
+ tabStopDistanceSpinBox->setMinimum(1);
+ tabStopDistanceSpinBox->setMaximum(50);
+ tabStopDistanceSpinBox->setValue(conf->get_tab_size());
 
  // Кнопка редактирования файла конфигурации WyEdit
  editWyEditConfigFile=new QPushButton(this);
@@ -62,9 +73,13 @@ void EditorConfigMisc::assembly(void)
   // Сборка всех блоков настройки отступа в окно
   QGridLayout *configLayout=new QGridLayout();
   configLayout->addWidget(indentStepLabel,   0, 0);
-  configLayout->addWidget(indentStep,         0, 1);
+  configLayout->addWidget(indentStep,        0, 1);
   configLayout->addWidget(indentStepFlexion, 0, 2);
 
+  // Компановка контролов "Шаг дистанции для клавиши Tab"
+  configLayout->addWidget(tabStopDistanceLabel,         1, 0);
+  configLayout->addWidget(tabStopDistanceSpinBox,       1, 1);
+  configLayout->addWidget(tabStopDistanceFlexionLabel,  1, 2);
 
   // Группировщик виджетов для опасной зоны
   QGroupBox *dangerBox=new QGroupBox(this);
@@ -90,7 +105,7 @@ void EditorConfigMisc::onClickedEditWyEditConfigFile(void)
   // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
   conf->sync();
 
-  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8 );
+  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8f );
 }
 
 
@@ -106,6 +121,11 @@ int EditorConfigMisc::applyChanges(void)
   // Если был изменен размер основного шрифта
  if(conf->get_indent_step()!=indentStep->value()) {
   conf->set_indent_step(indentStep->value());
+ }
+
+ // Если был изменен размер табуляции для клавиши Tab
+ if(conf->get_tab_size()!=tabStopDistanceSpinBox->value()) {
+   conf->set_tab_size(tabStopDistanceSpinBox->value());
  }
  
  return difficultChanges;

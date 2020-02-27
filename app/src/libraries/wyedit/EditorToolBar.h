@@ -17,114 +17,138 @@
 
 class EditorToolBar : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  explicit EditorToolBar(QWidget *parent = nullptr);
-  virtual ~EditorToolBar();
+    explicit EditorToolBar(QWidget *parent = nullptr);
+    virtual ~EditorToolBar();
 
-  // Область, содержащая линейки с кнопками форматирования
-  QVBoxLayout textformatButtonsLayout;
+    // Область, содержащая линейки с кнопками форматирования
+    QVBoxLayout textformatButtonsLayout;
 
-  // Линейки с кнопками форматирования текста
-  QToolBar    toolsLine1;
-  QToolBar    toolsLine2;
+    // Тулбары с кнопками форматирования текста
+    QToolBar    toolsLine1;
+    QToolBar    toolsLine2;
 
-  // Кнопки форматирования текста
-  QToolButton   bold;
-  QToolButton   italic;
-  QToolButton   underline;
-  QToolButton   monospace;
-  QToolButton   code;
-  QToolButton   clear; // Очистка начертания текста
-  QToolButton   textOnly; // Полная очистка текста (оставить один текст)
-  QToolButton   fixBreakSymbol;
+    // Кнопки форматирования текста
+    QAction *bold;
+    QAction *italic;
+    QAction *underline;
+    QAction *strikeout; // Зачеркивание текста
+    QAction *monospace;
+    QAction *superscript;
+    QAction *subscript;
+    QAction *code;
+    QAction *clear; // Очистка начертания текста
+    QAction *textOnly; // Полная очистка текста (оставить один текст)
+    QAction *fixBreakSymbol;
 
-  QToolButton   numericList;
-  QToolButton   dotList;
+    QAction *undo;
+    QAction *redo;
 
-  QToolButton   indentPlus;
-  QToolButton   indentMinus;
+    QAction *numericList;
+    QAction *dotList;
 
-  QToolButton   alignLeft;
-  QToolButton   alignCenter;
-  QToolButton   alignRight;
-  QToolButton   alignWidth;
+    QAction *indentPlus;
+    QAction *indentMinus;
 
-  QToolButton   settings;
+    QAction *alignLeft;
+    QAction *alignCenter;
+    QAction *alignRight;
+    QAction *alignWidth;
 
-  EditorFontFamilyComboBox fontSelect;
-  EditorFontSizeComboBox   fontSize;
-  QToolButton              fontColor;
+    QAction *settings;
 
-  QToolButton   reference;
+    EditorFontFamilyComboBox *fontSelect;
+    EditorFontSizeComboBox   *fontSize;
+    QAction                  *fontColor;
+    QAction                  *backgroundColor;
 
-  QToolButton   showHtml;
+    QAction *reference;
 
-  QToolButton   findText;
+    QAction *showHtml;
 
-  QToolButton   showFormatting;
+    QAction *findText;
 
-  QToolButton   createTable;
-  QToolButton   tableRemoveRow;
-  QToolButton   tableRemoveCol;
-  QToolButton   tableAddRow;
-  QToolButton   tableAddCol;
-  QToolButton   tableMergeCells;
-  QToolButton   tableSplitCell;
-  QToolButton   tableProperties;
+    QAction *showFormatting;
 
-  QToolButton   insertImageFromFile;
-  QToolButton   mathExpression;
-  QToolButton   expandEditArea;
-  QToolButton   expandToolsLines;
-  QToolButton   save;
+    QAction *createTable;
+    QAction *tableRemoveRow;
+    QAction *tableRemoveCol;
+    QAction *tableAddRow;
+    QAction *tableAddCol;
+    QAction *tableMergeCells;
+    QAction *tableSplitCell;
+    QAction *tableProperties;
 
-  QToolButton   back;
-  QToolButton   findInBase;
+    QAction *insertImageFromFile;
+    QAction *insertHorizontalLine;
+    QAction *mathExpression;
+    QAction *expandEditArea;
+    QAction *expandToolsLines;
+    QAction *save;
 
-  QToolButton   showText;
+    QAction *back;
+    QAction *findInBase;
 
-  QToolButton   toAttach;
+    QAction *showText;
 
-  QIcon         iconAttachExists; // Иконка, когда аттачи есть
-  QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
+    QAction *toAttach;
 
-  void init();
+    QIcon         iconAttachExists; // Иконка, когда аттачи есть
+    QIcon         iconAttachNotExists; // Иконка, когда аттачей нет
 
-  void initDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
-  void setEnableModifyTextButton(bool state); // Установка или снятие доступности кнопок, модифицирующих текст
+    void init();
 
-  void initToolsLine1(QStringList toolsLine);
-  void initToolsLine2(QStringList toolsLine);
+    void initDisableToolList(QStringList toolNames); // Список кнопок, которые нельзя использовать - они будут невидны (не добавлены)
+    void setEnableModifyTextButton(bool state); // Установка или снятие доступности кнопок, модифицирующих текст
 
-  void switchAttachIconExists(bool isExists); // Переключение иконки аттачей в режим есть аттачи или нет аттачей
+    void initToolsLine1(QStringList toolsLine);
+    void initToolsLine2(QStringList toolsLine);
 
-signals:
+    void switchAttachIconExists(bool isExists); // Переключение иконки аттачей в режим есть аттачи или нет аттачей
+
+    // Список названий всех контролов (команд) панелей инструментов
+    QStringList *getCommandNameList();
+
+    // Иконка, присвоенная инструменту (по имени инструмента)
+    QIcon getIcon(const QString &name);
 
 public slots:
 
+    void setupShortcuts(void);
 
 protected:
 
-  bool isInit;
+    bool isInit;
 
-  QStringList toolsListInLine1;
-  QStringList toolsListInLine2;
+    // Список инструментов на тулбарах 1 и 2
+    QStringList toolsListInLine1;
+    QStringList toolsListInLine2;
 
-  // Список инструментов, которые не нужно подгружать
-  QStringList disableToolList;
+    // Список инструментов, которые не нужно подгружать
+    QStringList disableToolList;
 
-  void setupButtons(void);
-  void assemblyButtons(void);
+    QVector<QAction *> actions; // Делать массив объектов вместо указателей на объект нельзя, невозможно работать с QAction в контейнере QVector
 
-  void insertButtonToToolsLine(QString toolName, QToolBar &line);
+    void setupSignals(void);
+    void setupToolBarTools(void);
+    void assemblyButtons(void);
 
-  QList<QWidget *> getButtonWidgetList(void);
-  void hideAllToolsElements(void);
+    void insertButtonToToolsLine(QString toolName, QToolBar &line);
+    void registryActionsToToolBarWidget();
 
-  void updateToolsLines(void);
+    QList<QWidget *> getButtonWidgetList(void);
+    void hideAllToolsElements(void);
+
+    void clearToolsLines(void);
+    void updateToolsLines(void);
+
+    QAction* generateAction(QIcon icon=QIcon());
+
+    // Размер иконок на панели инструментов редактора
+    QSize getIconSize() const {return toolsLine1.iconSize();}
 
 };
 
