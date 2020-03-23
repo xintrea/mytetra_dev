@@ -192,6 +192,7 @@ private:
  QSystemTrayIcon *trayIcon;
  QMenu           *trayIconMenu;
 
+ QSplitter *vSplitter;
  QSplitter *hSplitter;
  QSplitter *findSplitter;
  

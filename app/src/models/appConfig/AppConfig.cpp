@@ -896,7 +896,12 @@ bool AppConfig::getEnableCreateEmptyRecord(void)
 
 void AppConfig::setEnableCreateEmptyRecord(bool state)
 {
-  conf->setValue("enableCreateEmptyRecord", state);
+    conf->setValue("enableCreateEmptyRecord", state);
+}
+
+bool AppConfig::getVerticalSeparationMainWindow()
+{
+    return conf->value("VerticalSeparationMainWindow").toBool();
 }
 
 
@@ -1754,6 +1759,23 @@ QStringList AppConfig::get_parameter_table_35(bool withEndSignature)
   table << get_parameter_table_34(false);
   //новый флаг, поиск по названию ветки
   table << "findscreen_find_innameItem" << "bool" << "false";
+
+  if(withEndSignature)
+    table << "0" << "0" << "0";
+
+  return table;
+}
+
+QStringList AppConfig::get_parameter_table_36(bool withEndSignature)
+{
+  // Таблица параметров
+  // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+  QStringList table;
+
+  // Старые параметры, аналогичные версии 34
+  table << get_parameter_table_35(false);
+  // вертикальное разделение между окнами редактирование заметок и списком заметок
+  table << "verticalSeparationMainWindow" << "bool" << "false";
 
   if(withEndSignature)
     table << "0" << "0" << "0";

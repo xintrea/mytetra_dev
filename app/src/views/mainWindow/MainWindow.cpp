@@ -162,12 +162,28 @@ void MainWindow::setupSignals(void)
 void MainWindow::assembly(void)
 {
     hSplitter=new QSplitter(Qt::Horizontal);
+
     hSplitter->addWidget(treeScreen); // Дерево веток
-    hSplitter->addWidget(recordTableScreen); // Список конечных записей
-    hSplitter->addWidget(editorScreen);  // Текст записи
     hSplitter->setCollapsible(0,false); // Дерево веток не может смыкаться
-    hSplitter->setCollapsible(1,false); // Столбец со списком и содержимым записи не может смыкаться
-    hSplitter->setCollapsible(2, false);
+
+    if (mytetraConfig.getVerticalSeparationMainWindow())
+    {
+        hSplitter->addWidget(recordTableScreen); // Список конечных записей
+        hSplitter->addWidget(editorScreen);  // Текст записи
+        hSplitter->setCollapsible(1,false); // Столбец со списком и содержимым записи не может смыкаться
+        hSplitter->setCollapsible(2, false);
+    }
+    else
+    {
+        vSplitter=new QSplitter(Qt::Vertical);
+        vSplitter->addWidget(recordTableScreen); // Список конечных записей
+        vSplitter->addWidget(editorScreen);      // Текст записи
+        vSplitter->setCollapsible(0,false); // Список конечных записей не может смыкаться
+        vSplitter->setCollapsible(1,false); // Содержимое записи не может смыкаться
+
+        hSplitter->addWidget(vSplitter);
+        hSplitter->setCollapsible(1,false); // Столбец со списком и содержимым записи не может смыкаться
+    }
 
     findSplitter=new QSplitter(Qt::Vertical);
     findSplitter->addWidget(hSplitter);
@@ -293,6 +309,10 @@ void MainWindow::restoreWindowGeometry(void)
         setWindowState(Qt::WindowMaximized); // Для Андроида окно просто разворачивается на весь экран
     else
         restoreGeometry( mytetraConfig.get_mainwingeometry() );
+    if (vSplitter != nullptr)
+    {
+        vSplitter->setSizes(mytetraConfig.get_vspl_size_list());
+    }
 
     hSplitter->setSizes(mytetraConfig.get_hspl_size_list());
     findSplitter->setSizes(mytetraConfig.get_findsplitter_size_list());
@@ -306,6 +326,10 @@ void MainWindow::saveWindowGeometry(void)
 
     mytetraConfig.set_mainwingeometry( saveGeometry() );
 
+    if (vSplitter != nullptr)
+    {
+        mytetraConfig.set_vspl_size_list(vSplitter->sizes());
+    }
     mytetraConfig.set_hspl_size_list(hSplitter->sizes());
 
 
