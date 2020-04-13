@@ -956,6 +956,10 @@ void MainWindow::synchronization(bool visible)
                              tr("MyTetra: can't synchronization"),
                              tr("Do not set synchronization command.<br>Check the setting in \"Sync\" section in \"Tools\" menu"),
                              QMessageBox::Close);
+
+        // Кнопка синхронизации разблокируется, чтобы ее можно было снова нажать
+        recordTableScreen->actionSyncro->setEnabled(true);
+
         return;
     }
 
