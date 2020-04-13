@@ -9,7 +9,7 @@
 #include "ConfigPage.h"
 
 
-ConfigDialog::ConfigDialog()
+ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent)
 {
  setupUi();
  setupSignals();
@@ -17,10 +17,16 @@ ConfigDialog::ConfigDialog()
 }
 
 
+ConfigDialog::~ConfigDialog()
+{
+
+}
+
+
 void ConfigDialog::setupUi(void)
 {
     // Список конфигурирующих виджетов
-    contentsWidget = new QListWidget;
+    contentsWidget = new QListWidget( this );
     contentsWidget->setViewMode(QListView::ListMode);
     contentsWidget->setMovement(QListView::Static);
     // contentsWidget->setMinimumWidth(100); // contentsWidget->setMaximumWidth(150);
@@ -33,13 +39,13 @@ void ConfigDialog::setupUi(void)
     // scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     // Область переключения конфигурирующих виджетов
-    pagesWidget = new QStackedWidget;
+    pagesWidget = new QStackedWidget( this );
     pagesWidget->setMinimumWidth(250);
     pagesWidget->setMinimumHeight(250);
     pagesWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     // Кнопки закрытия диалога
-    confirmButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    confirmButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 }
 
 

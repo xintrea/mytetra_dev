@@ -9,6 +9,9 @@ qrc_mytetra.cpp
 *.pro.user.*
 *.autosave
 
+/app/build
+/app/build/*
+
 /app/bin/*
 !/app/bin/resource
 !/app/bin/resource/*
@@ -48,3 +51,5 @@ qrc_*.cpp
 
 # Ignore gitignore self
 # .gitignore
+
+.qmake.stash

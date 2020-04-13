@@ -25,6 +25,12 @@ private slots:
 
 protected:
 
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
+
+
+  // Кнопка настройки конфигурации горячих клавиш
   QPushButton *editShortcutConfigFile;
 
   // Объединяющая рамка
@@ -32,10 +38,6 @@ protected:
 
   // Группировщик для виждетов внутри объединяющей рамки
   QVBoxLayout *shortcutLayout;
-
-  void setupUi(void);
-  void setupSignals(void);
-  void assembly(void);
 
 };
 

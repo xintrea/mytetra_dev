@@ -560,7 +560,7 @@ void RecordTableController::addNewRecord(int mode)
   // Создается окно ввода данных
   // При клике Ok внутри этого окна, будет создана временная директория
   // с картинками, содержащимися в тексте
-  AddNewRecord addNewRecordWin;
+  AddNewRecord addNewRecordWin( view );
   int i=addNewRecordWin.exec();
   if(i==QDialog::Rejected)
     return; // Была нажата отмена, ничего не нужно делать
@@ -966,8 +966,8 @@ void RecordTableController::onSortClick(void)
 // Слот, срабатывающий при вызове настроек
 void RecordTableController::settings(void)
 {
-  AppConfigDialog dialog("pageRecordTable");
-  dialog.show();
+  AppConfigDialog dialog("pageRecordTable", view); // view нужен чтобы пробрасывать иконку приложения
+  dialog.exec();
 
   // Todo: Возвращение фокуса почему-то не работает, надо разбираться
   // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
