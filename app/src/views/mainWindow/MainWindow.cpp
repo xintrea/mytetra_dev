@@ -16,7 +16,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/GlobalParameters.h"
-#include "views/consoleEmulator/ExecuteCommand.h"
+#include "views/consoleEmulator/CommandRun.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
@@ -972,16 +972,16 @@ void MainWindow::synchronization(bool visible)
     command.replace("%a", databasePath);
 
     // Запуск команды синхронизации
-    ExecuteCommand exCommand;
+    CommandRun syncroCommandRun=globalParameters.getSyncroCommandRun();
 
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(&exCommand, &ExecuteCommand::finishWork, recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
+    connect(&syncroCommandRun=globalParameters.getSyncroCommandRun(), &CommandRun::finishWork, recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
 
-    exCommand.setWindowTitle(tr("MyTetra synchronization"));
-    exCommand.setMessageText(tr("Synchronization in progress, please wait..."));
+    syncroCommandRun=globalParameters.getSyncroCommandRun().setWindowTitle(tr("MyTetra synchronization"));
+    syncroCommandRun=globalParameters.getSyncroCommandRun().setMessageText(tr("Synchronization in progress, please wait..."));
 
-    exCommand.setCommand(command);
-    exCommand.run(visible);
+    syncroCommandRun=globalParameters.getSyncroCommandRun().setCommand(command);
+    syncroCommandRun=globalParameters.getSyncroCommandRun().run(visible);
 
     // Функция вызывается с флагом, что от предыдущей стадии была большая задержка
     reloadLoadStage(true);

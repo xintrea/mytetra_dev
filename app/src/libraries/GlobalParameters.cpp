@@ -419,34 +419,34 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
 
 QString GlobalParameters::getWorkDirectory(void)
 {
- return workDirectory;
+    return workDirectory;
 }
 
 
 QString GlobalParameters::getActionLogFileName(void)
 {
- return workDirectory+"/actionLog.txt";
+    return workDirectory+"/actionLog.txt";
 }
 
 
 QString GlobalParameters::getActionLogPrevFileName(void)
 {
- return workDirectory+"/actionLogPrev.txt";
+    return workDirectory+"/actionLogPrev.txt";
 }
 
 
 QString GlobalParameters::getTargetOs(void)
 {
 #if TARGET_OS==ANY_OS
- return "any";
+    return "any";
 #endif
 
 #if TARGET_OS==MEEGO_OS
- return "meego";
+    return "meego";
 #endif
 
 #if TARGET_OS==ANDROID_OS
- return "android";
+    return "android";
 #endif
 }
 
@@ -455,94 +455,106 @@ QString GlobalParameters::getTargetOs(void)
 // Используется для создания и поиска каталога с данными пользователя
 QString GlobalParameters::getApplicationName(void)
 {
- // todo: Подумать и заменить этот код на значения, полученные из PRO-файла
- QString appName="";
+    // todo: Подумать и заменить этот код на значения, полученные из PRO-файла
+    QString appName="";
 
- if(getTargetOs()=="any")
-  appName=FixedParameters::appTextId;
+    if(getTargetOs()=="any")
+        appName=FixedParameters::appTextId;
 
- if(getTargetOs()=="meego")
-  appName="ru.webhamster."+FixedParameters::appTextId;
+    if(getTargetOs()=="meego")
+        appName="ru.webhamster."+FixedParameters::appTextId;
 
- if(getTargetOs()=="android")
-   appName="ru.webhamster."+FixedParameters::appTextId;
+    if(getTargetOs()=="android")
+        appName="ru.webhamster."+FixedParameters::appTextId;
 
- // qDebug() << "In getApplicationName() return \"" << appName << "\"";
+    // qDebug() << "In getApplicationName() return \"" << appName << "\"";
 
- return appName;
+    return appName;
 }
 
 
 void GlobalParameters::setTreeScreen(TreeScreen *point)
 {
- pointTreeScreen=point;
+    pointTreeScreen=point;
 }
 
 TreeScreen *GlobalParameters::getTreeScreen()
 {
- return pointTreeScreen;
+    return pointTreeScreen;
 }
 
 
 void GlobalParameters::setRecordTableScreen(RecordTableScreen *point)
 {
- pointRecordTableScreen=point;
+    pointRecordTableScreen=point;
 }
 
 RecordTableScreen *GlobalParameters::getRecordTableScreen()
 {
- return pointRecordTableScreen;
+    return pointRecordTableScreen;
 }
 
 
 void GlobalParameters::setFindScreen(FindScreen *point)
 {
- pointFindScreen=point;
+    pointFindScreen=point;
 }
 
 FindScreen *GlobalParameters::getFindScreen()
 {
- return pointFindScreen;
+    return pointFindScreen;
 }
 
 
 void GlobalParameters::setMetaEditor(MetaEditor *point)
 {
- pointMetaEditor=point;
+    pointMetaEditor=point;
 }
 
 MetaEditor *GlobalParameters::getMetaEditor()
 {
- return pointMetaEditor;
+    return pointMetaEditor;
 }
 
 
 void GlobalParameters::setStatusBar(QStatusBar *point)
 {
- pointStatusBar=point;
+    pointStatusBar=point;
 }
 
 QStatusBar *GlobalParameters::getStatusBar()
 {
- return pointStatusBar;
+    return pointStatusBar;
 }
 
 
 void GlobalParameters::setWindowSwitcher(WindowSwitcher *point)
 {
- windowSwitcher=point;
+    windowSwitcher=point;
 }
 
 
 WindowSwitcher *GlobalParameters::getWindowSwitcher()
 {
- return windowSwitcher;
+    return windowSwitcher;
+}
+
+
+void GlobalParameters::setSyncroCommandRun(CommandRun *point)
+{
+    syncroCommandRun=point;
+}
+
+
+CommandRun *GlobalParameters::getSyncroCommandRun()
+{
+    return syncroCommandRun;
 }
 
 
 void GlobalParameters::setCryptKey(QByteArray hash)
 {
- passwordHash=hash;
+    passwordHash=hash;
 }
 
 

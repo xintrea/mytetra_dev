@@ -20,7 +20,7 @@
 #include "main.h"
 #include "libraries/DiskHelper.h"
 #include "libraries/FixedParameters.h"
-#include "views/consoleEmulator/ExecuteCommand.h"
+#include "views/consoleEmulator/CommandRun.h"
 
 
 MathExpressionFormatter::MathExpressionFormatter()
@@ -226,7 +226,7 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
     QString mimetexBinaryName="mimetex";
     QString chDirCommand;
     QString mimetexPath=QCoreApplication::applicationDirPath(); // mimetex должен лежать там же где и mytetra
-    ExecuteCommand exCommand;
+    CommandRun exCommand;
 
     if(exCommand.getOsFamily()=="unix") {
         mimetexBinaryName="./"+mimetexBinaryName;
