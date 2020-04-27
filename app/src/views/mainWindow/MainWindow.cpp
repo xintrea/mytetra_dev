@@ -41,13 +41,6 @@ MainWindow::MainWindow() : QMainWindow()
     pMainWindow=this;
     setObjectName("mainwindow");
 
-    treeScreen=nullptr;
-    recordTableScreen=nullptr;
-    findScreenDisp=nullptr;
-    editorScreen=nullptr;
-    statusBar=nullptr;
-    windowSwitcher=nullptr;
-
     installEventFilter(this);
 
     setupUI();
@@ -119,6 +112,10 @@ void MainWindow::setupUI(void)
     windowSwitcher->setObjectName("windowSwitcher");
     globalParameters.setWindowSwitcher(windowSwitcher);
 
+    // Вспомогательный объект с виджетом синхронизации базы знаний
+    syncroCommandRun=new CommandRun( this );
+    globalParameters.setSyncroCommandRun( syncroCommandRun );
+
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 }
@@ -153,6 +150,10 @@ void MainWindow::setupSignals(void)
     connect(actionFocusTree, &QAction::triggered, this, &MainWindow::onClickFocusTree);
     connect(actionFocusNoteTable, &QAction::triggered, this, &MainWindow::onClickFocusNoteTable);
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
+
+    // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
+    connect(syncroCommandRun, &CommandRun::finishWork,
+            recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
 
     // Обновление горячих клавиш, если они были изменены
     connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &MainWindow::setupShortcuts);
@@ -972,16 +973,10 @@ void MainWindow::synchronization(bool visible)
     command.replace("%a", databasePath);
 
     // Запуск команды синхронизации
-    CommandRun syncroCommandRun=globalParameters.getSyncroCommandRun();
-
-    // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(&syncroCommandRun=globalParameters.getSyncroCommandRun(), &CommandRun::finishWork, recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
-
-    syncroCommandRun=globalParameters.getSyncroCommandRun().setWindowTitle(tr("MyTetra synchronization"));
-    syncroCommandRun=globalParameters.getSyncroCommandRun().setMessageText(tr("Synchronization in progress, please wait..."));
-
-    syncroCommandRun=globalParameters.getSyncroCommandRun().setCommand(command);
-    syncroCommandRun=globalParameters.getSyncroCommandRun().run(visible);
+    globalParameters.getSyncroCommandRun()->setWindowTitle(tr("MyTetra synchronization"));
+    globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
+    globalParameters.getSyncroCommandRun()->setCommand(command);
+    globalParameters.getSyncroCommandRun()->run(visible);
 
     // Функция вызывается с флагом, что от предыдущей стадии была большая задержка
     reloadLoadStage(true);

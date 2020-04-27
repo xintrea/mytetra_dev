@@ -50,6 +50,7 @@ class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
+class CommandRun;
 
 
 class MainWindow : public QMainWindow
@@ -60,12 +61,12 @@ public:
  MainWindow();
  ~MainWindow();
 
- TreeScreen *treeScreen;
- RecordTableScreen *recordTableScreen;
- MetaEditor *editorScreen;
- FindScreen *findScreenDisp;
- QStatusBar *statusBar;
- WindowSwitcher *windowSwitcher;
+ TreeScreen *treeScreen=nullptr;
+ RecordTableScreen *recordTableScreen=nullptr;
+ MetaEditor *editorScreen=nullptr;
+ FindScreen *findScreenDisp=nullptr;
+ QStatusBar *statusBar=nullptr;
+ WindowSwitcher *windowSwitcher=nullptr;
 
  void restoreWindowGeometry(void);
  void restoreTreePosition(void);
@@ -195,6 +196,9 @@ private:
  QSplitter *vSplitter;
  QSplitter *hSplitter;
  QSplitter *findSplitter;
+
+ CommandRun *syncroCommandRun=nullptr;
+
  
 protected:
  
