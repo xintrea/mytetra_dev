@@ -205,6 +205,8 @@ void CommandRun::run(bool visible)
 
     // Отслеживание завершения запущенного процесса
     // (Сигнал finished перегружен, поэтому новый синтаксис надо писать в виде замыкания, поэтому оставлен старый синтаксис)
+    // todo: переделать на замыкание, т.к. нельзя мешать старый и новый синтаксис
+    // подробности: https://evileg.com/ru/post/342/
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(onProcessFinish(int, QProcess::ExitStatus)) );
 
