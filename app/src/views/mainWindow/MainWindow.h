@@ -134,6 +134,8 @@ private slots:
  void onClickFocusNoteTable(void);
  void onClickFocusEditor(void);
 
+ void onSyncroCommandFinishWork(void);
+
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
  void onFocusChanged(QWidget *, QWidget *);

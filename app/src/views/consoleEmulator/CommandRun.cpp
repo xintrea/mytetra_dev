@@ -95,6 +95,8 @@ void CommandRun::createProcessAndConsole()
     // Создается процесс
     if(m_process)
     {
+        m_process->blockSignals(true);
+        m_process->disconnect();
         delete m_process;
     }
     m_process=new QProcess();
@@ -168,7 +170,7 @@ int CommandRun::runSimple()
 }
 
 
-// Метод с основным циклом ожидания завершения процесса
+// Запуск процесса выполнения команды
 void CommandRun::run(bool visible)
 {
     // Если командный интерпретатор не установлен

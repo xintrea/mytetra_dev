@@ -153,7 +153,10 @@ void MainWindow::setupSignals(void)
 
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
     connect(syncroCommandRun, &CommandRun::finishWork,
-            recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
+            recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
+    connect(syncroCommandRun, &CommandRun::finishWork,
+            this, &MainWindow::onSyncroCommandFinishWork);
+
 
     // Обновление горячих клавиш, если они были изменены
     connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &MainWindow::setupShortcuts);
@@ -977,8 +980,13 @@ void MainWindow::synchronization(bool visible)
     globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
     globalParameters.getSyncroCommandRun()->setCommand(command);
     globalParameters.getSyncroCommandRun()->run(visible);
+}
 
-    // Функция вызывается с флагом, что от предыдущей стадии была большая задержка
+
+void MainWindow::onSyncroCommandFinishWork()
+{
+    // Функция перечитывания дерева знаний вызывается с флагом,
+    // что от предыдущей стадии была большая задержка
     reloadLoadStage(true);
 
     actionLogger.addAction("stopSyncro");

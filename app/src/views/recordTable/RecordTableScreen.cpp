@@ -526,7 +526,7 @@ void RecordTableScreen::onSyncroClick(void)
 }
 
 
-void RecordTableScreen::onExecuteCommandFinishWork(void)
+void RecordTableScreen::onSyncroCommandFinishWork(void)
 {
   // Разблокируется кнопка синхронизации
   actionSyncro->setEnabled(true);
