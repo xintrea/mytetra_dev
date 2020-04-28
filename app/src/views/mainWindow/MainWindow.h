@@ -59,7 +59,7 @@ Q_OBJECT
 
 public:
  MainWindow();
- ~MainWindow();
+ virtual ~MainWindow();
 
  TreeScreen *treeScreen=nullptr;
  RecordTableScreen *recordTableScreen=nullptr;

@@ -49,6 +49,9 @@ CommandRun::~CommandRun()
 {
     if(m_process)
     {
+        m_process->close();
+        m_process->blockSignals(true);
+        m_process->disconnect();
         delete m_process;
     }
 
@@ -95,6 +98,7 @@ void CommandRun::createProcessAndConsole()
     // Создается процесс
     if(m_process)
     {
+        m_process->close();
         m_process->blockSignals(true);
         m_process->disconnect();
         delete m_process;
@@ -204,11 +208,9 @@ void CommandRun::run(bool visible)
             this, &CommandRun::onReadyReadStandardOutput );
 
     // Отслеживание завершения запущенного процесса
-    // (Сигнал finished перегружен, поэтому новый синтаксис надо писать в виде замыкания, поэтому оставлен старый синтаксис)
-    // todo: переделать на замыкание, т.к. нельзя мешать старый и новый синтаксис
-    // подробности: https://evileg.com/ru/post/342/
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(onProcessFinish(int, QProcess::ExitStatus)) );
+    // (Сигнал finished перегружен, поэтому новый синтаксис надо писать в виде замыкания)
+    connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, [=](int exitCode, QProcess::ExitStatus exitStatus){ this->onProcessFinish(exitCode, exitStatus); } );
 
 
     // Запускается команда на исполнение внутри процесса
@@ -235,6 +237,8 @@ void CommandRun::onReadyReadStandardOutput()
 
 void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    // qDebug() << Q_FUNC_INFO;
+
     this->printOutput();
 
     // Если была ошибка, и консоль не закрывалась вручную

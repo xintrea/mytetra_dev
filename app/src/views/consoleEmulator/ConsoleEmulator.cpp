@@ -22,12 +22,7 @@ ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 
 ConsoleEmulator::~ConsoleEmulator()
 {
- delete waitClock;
- delete messageLabel;
- delete buttonCancel;
- delete buttonDetails;
- delete consoleOutput;
- delete escShortcut;
+
 }
 
 

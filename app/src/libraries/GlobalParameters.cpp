@@ -26,9 +26,8 @@
 #endif
 
 
-GlobalParameters::GlobalParameters(QObject *pobj)
+GlobalParameters::GlobalParameters(QObject *pobj) : QObject(pobj)
 {
- Q_UNUSED(pobj)
 
 }
 
