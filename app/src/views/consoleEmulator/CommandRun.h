@@ -60,7 +60,6 @@ private:
  ConsoleEmulator *m_console=nullptr;
 
  bool m_isError;
- bool m_isManualClose;
 
 };
 

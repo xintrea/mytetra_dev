@@ -52,12 +52,12 @@ CommandRun::~CommandRun()
         m_process->close();
         m_process->blockSignals(true);
         m_process->disconnect();
-        delete m_process;
+        delete m_process; // Обнулять m_process не нужно, т.к. код в деструкторе
     }
 
     if(m_console)
     {
-        delete m_console;
+        delete m_console; // Обнулять m_console не нужно, т.к. код в деструкторе
     }
 }
 
@@ -102,6 +102,7 @@ void CommandRun::createProcessAndConsole()
         m_process->blockSignals(true);
         m_process->disconnect();
         delete m_process;
+        m_process=nullptr;
     }
     m_process=new QProcess();
 
@@ -110,6 +111,7 @@ void CommandRun::createProcessAndConsole()
     if(m_console)
     {
         delete m_console;
+        m_console=nullptr;
     }
     m_console=new ConsoleEmulator();
     m_console->setWindowTitle(m_windowTitle);
@@ -138,15 +140,19 @@ void CommandRun::removeProcessAndConsole(void)
         m_process->close();
 
         delete m_process;
+        m_process=nullptr;
+
+        qDebug() << "Execute command process remove.";
     }
 
     // Удаление консоли
     if(m_console)
     {
         delete m_console;
+        m_console=nullptr;
     }
 
-    qDebug() << "Execute command process remove.";
+    emit finishWork();
 }
 
 
@@ -182,7 +188,6 @@ void CommandRun::run(bool visible)
         criticalError("ExecuteCommand::run() : Not detect available shell");
 
     m_isError=false;
-    m_isManualClose=false;
 
     // Создается процесс и консоль к нему
     this->createProcessAndConsole();
@@ -223,9 +228,7 @@ void CommandRun::onManualCloseProcess(void)
 {
     qDebug() << "Manual close process, PID" << m_process->pid();
 
-    m_isManualClose=true;
-
-    removeProcessAndConsole();
+    this->removeProcessAndConsole();
 }
 
 
@@ -241,24 +244,20 @@ void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 
     this->printOutput();
 
-    // Если была ошибка, и консоль не закрывалась вручную
-    if((m_isError or exitCode!=0 or exitStatus==QProcess::ExitStatus::CrashExit) and !m_isManualClose)
+    // Если была какая-то ошибка
+    if( m_isError or exitCode!=0 or exitStatus==QProcess::ExitStatus::CrashExit)
     {
         m_console->switchToErrorView();
 
-        // Окно с консолью было просто видно (чтобы показывать вывод),
-        // а теперь запускается как модальное, чтобы началось ожидание нажатия кнопки Close
-        m_console->exec();
+        // Окно консоли переключается на передний план чтобы пользователь
+        // точно увидел сообщение об ошибке
+        m_console->activateWindow();
     }
     else
     {
-        // Иначе выполнение команды успешно завершилось, и консоль скрывается
-        m_console->hide();
+        // Иначе выполнение команды успешно завершилось, и консоль удаляется
+        this->removeProcessAndConsole();
     }
-
-    this->removeProcessAndConsole();
-
-    emit finishWork();
 }
 
 

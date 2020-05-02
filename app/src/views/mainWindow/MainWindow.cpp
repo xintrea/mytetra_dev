@@ -937,6 +937,7 @@ void MainWindow::reloadLoadStage(bool isLongTimeReload)
 }
 
 
+// Старт синхронизации
 void MainWindow::synchronization(bool visible)
 {
     // Если кнопка синхронизации заблокирована, начинать синхронизацию нельзя
@@ -983,6 +984,7 @@ void MainWindow::synchronization(bool visible)
 }
 
 
+// Завершение синхронизации
 void MainWindow::onSyncroCommandFinishWork()
 {
     // Функция перечитывания дерева знаний вызывается с флагом,
