@@ -8,6 +8,7 @@
 
 #include "CommandRun.h"
 #include "ConsoleEmulator.h"
+#include "views/mainWindow/MainWindow.h"
 #include "main.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/GlobalParameters.h"
@@ -114,6 +115,7 @@ void CommandRun::createProcessAndConsole()
         m_console=nullptr;
     }
     m_console=new ConsoleEmulator();
+    m_console->setWindowIcon( find_object<MainWindow>("mainwindow")->windowIcon() );
     m_console->setWindowTitle(m_windowTitle);
     m_console->setMessageText(m_messageText);
     m_console->setConsoleOutput( this->getCommandForProcessExecute()+"\n" );
@@ -288,7 +290,5 @@ void CommandRun::printOutput() const
     {
         m_console->addConsoleOutput(output);
         qDebug() << "[Console] " << output;
-
-        // qApp->processEvents();
     }
 }
