@@ -115,7 +115,14 @@ void CommandRun::createProcessAndConsole()
         m_console=nullptr;
     }
     m_console=new ConsoleEmulator();
+
+    // Вместо указания основного окна как родителя
+    // (чтобы у окна была иконка приложения),
+    // иконка устанавливается отдельной командой.
+    // Это нужно из-за того, что окно консоли модальное, а если
+    // указать родителя, то окно не сможет спрятаться за родительское окно
     m_console->setWindowIcon( find_object<MainWindow>("mainwindow")->windowIcon() );
+
     m_console->setWindowTitle(m_windowTitle);
     m_console->setMessageText(m_messageText);
     m_console->setConsoleOutput( this->getCommandForProcessExecute()+"\n" );
