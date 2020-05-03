@@ -357,7 +357,7 @@ void RecordTableController::setSelectionToId(QString id)
 
   // Если таблица конечных данных задана
   // (Не задана таблица может быть по причине если ветка зашифрована и введен неверный пароль, или при вводе пароля была нажата отмена)
-  if(table!=NULL)
+  if(table!=nullptr)
   {
     // Номер записи в Source данных
     int pos=table->getPosById(id);
@@ -669,7 +669,7 @@ void RecordTableController::onBlockContext(void)
   }
 
   // По записи происходит виртуальный клик, чтобы интерфейс принял новое состояние блокировки записи
-  clickToRecord(index);
+  this->clickToRecord(index);
 }
 
 
@@ -864,7 +864,7 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
-  if(table==NULL)
+  if(table==nullptr)
     return;
 
   for(int i=0;i<delIds.count();i++)

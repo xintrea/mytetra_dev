@@ -139,7 +139,7 @@ void CommandRun::removeProcessAndConsole(void)
     if(m_process)
     {
         // todo: разобраться с проблемой [WRN] QIODevice::read (QProcess): device not open
-        if(m_process->processId()<=1) {
+        if(m_process->state()==QProcess::Running and m_process->processId()<=1) {
             qDebug() << QString("Abnormal execute command process PID %1 for close").arg( m_process->processId() );
         }
 
@@ -247,6 +247,8 @@ void CommandRun::onReadyReadStandardOutput()
 }
 
 
+// Данный слот вызывается когда выполнение процесса завершено,
+// и процесс уже неактивный
 void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 {
     // qDebug() << Q_FUNC_INFO;
