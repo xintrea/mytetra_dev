@@ -120,7 +120,7 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   table->setWorkPos( pos );
 
 
-  // Устанавливается функция обратного вызова для записи данных
+  // Устанавливается функция обратного вызова для записи данных редактором на диск
   edView->setSaveCallback(table->editorSaveCallback);
 
   // Сохраняется текст и картинки в окне редактирования

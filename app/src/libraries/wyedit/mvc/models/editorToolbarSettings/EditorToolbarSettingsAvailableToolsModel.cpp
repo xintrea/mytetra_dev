@@ -29,9 +29,9 @@ void EditorToolbarSettingsAvailableToolsModel::init()
 
     // Список названий всех контролов (команд) панелей инструментов
     EditorToolBarAssistant *editorToolBarAssistant = find_object<MetaEditor>("editorScreen")->editorToolBarAssistant;
-    QStringList *commandNameList = editorToolBarAssistant->getCommandNameList();
-    for (int i=0; i!=commandNameList->size(); ++i) {
-        QString command = commandNameList->at(i);
+    QStringList controlsNameList = editorToolBarAssistant->getCommandNameList();
+    for (int i=0; i!=controlsNameList.size(); ++i) {
+        QString command = controlsNameList.at(i);
 
         qDebug() << "Add available command " << command;
 
@@ -51,7 +51,7 @@ void EditorToolbarSettingsAvailableToolsModel::init()
         }
     }
 
-    // Создание неудаляемого элемента <Раздлитель>
+    // Создание неудаляемого элемента <Разделитель>
     QStandardItem *separatorItem=new QStandardItem();
     separatorItem->setData( "separator", Qt::UserRole );
     separatorItem->setData( tr("<Separator>"), Qt::DisplayRole );
