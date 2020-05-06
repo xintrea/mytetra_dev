@@ -342,12 +342,12 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value, int rol
   // что курсор неаходится над элементом при Drag and Drop
   if(role==Qt::UserRole)
   {
-    QModelIndex previousIndex=cursorOverIndex;
+    QPersistentModelIndex previousIndex=cursorOverIndex;
 
     if(value.toBool())
       cursorOverIndex=index;
     else
-      cursorOverIndex=QModelIndex();
+      cursorOverIndex=QPersistentModelIndex();
 
     if(previousIndex.isValid())
       emitSignalDataChanged(previousIndex);

@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QModelIndex>
+#include <QPersistentModelIndex>
 #include <QVariant>
 #include <QObject>
 #include <QtXml>
@@ -64,7 +65,10 @@ private:
     QModelIndex getIndexRecurse(QModelIndex modelIndex, TreeItem *item, int mode);
 
     // Элемент, над которым проносят курсор. Используется при Drag And Drop.
-    QModelIndex cursorOverIndex;
+    // Индекс сделан как постоянный, так как во время переноса может измениться модель
+    // и перечитаться дерево вследствие завершения процедуры синхронизации,
+    // и непостоянный индекс будет приводить к сегфолту
+    QPersistentModelIndex cursorOverIndex;
 };
 
 #endif
