@@ -473,7 +473,7 @@ bool EditorTextArea::canInsertFromMimeData(const QMimeData *source) const
 }
 
 
-// Вставка MIME данных (из буфера обмена)
+// Переопределенная функция, срабатывает при вставке (paste) текста/объектов из буфера обмена
 void EditorTextArea::insertFromMimeData(const QMimeData *source)
 {
   int mimeDataFormat=detectMimeDataFormat( source );
@@ -493,6 +493,15 @@ void EditorTextArea::insertFromMimeData(const QMimeData *source)
   if(mimeDataFormat==MimeDataHtml)
   {
     QString html=source->html();
+
+    html=QString( html.toUtf8() );
+
+    QByteArray byteArray=html.toUtf8();
+    if(byteArray.contains( static_cast<char>(0) ))
+    {
+        qDebug() << "Problem in HTML code. It has null symbol.";
+        qDebug() << "Null symbol pos: " << byteArray.indexOf( static_cast<char>(0) ) << " Text len: " << byteArray.size();
+    }
 
     // Вызов процесса загрузки картинок
     // В конце процесса скачивания будет вызван слот EditorTextArea::onDownloadImagesSuccessfull()

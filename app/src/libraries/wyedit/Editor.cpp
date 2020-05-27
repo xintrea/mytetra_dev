@@ -1179,7 +1179,7 @@ void Editor::onCursorPositionChanged(void)
 }
 
 
-// Cлот отлавливает нажатия клавиш
+// Событие отлавливает нажатия клавиш
 void Editor::keyPressEvent(QKeyEvent *event)
 {
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
@@ -1189,7 +1189,7 @@ void Editor::keyPressEvent(QKeyEvent *event)
 }
 
 
-// Cлот отлавливает отжатия клавиш
+// Событие отлавливает отжатия клавиш
 void Editor::keyReleaseEvent(QKeyEvent *event)
 {
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))

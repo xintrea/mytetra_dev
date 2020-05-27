@@ -1,30 +1,36 @@
-#ifndef _APPCONFIGDIALOG_H_
-#define _APPCONFIGDIALOG_H_
+#ifndef APPCONFIGDIALOG_H
+#define APPCONFIGDIALOG_H
 
+#include <QString>
 #include <QWidget>
+
+// Объект, подготавливающий и отображающий диалог настройки MyTetra
+
 
 class ConfigDialog;
 class QListWidgetItem;
 
-class AppConfigDialog : public QWidget
+class AppConfigDialog
 {
- Q_OBJECT
 
 public:
- explicit AppConfigDialog(const QString &firstPageName = QString());
+    explicit AppConfigDialog(const QString &firstPageName, QWidget *parent);
+    virtual ~AppConfigDialog();
+
+    void exec();
     
 private:
- ConfigDialog *configDialog;
+    ConfigDialog *configDialog;
 
- QListWidgetItem *pageMain;
- QListWidgetItem *pageCrypt;
- QListWidgetItem *pageSynchro;
- QListWidgetItem *pageRecordTable;
- QListWidgetItem *pageAttach;
- QListWidgetItem *pageKeyboard;
- QListWidgetItem *pageMisc;
+    QListWidgetItem *pageMain;
+    QListWidgetItem *pageCrypt;
+    QListWidgetItem *pageSynchro;
+    QListWidgetItem *pageRecordTable;
+    QListWidgetItem *pageAttach;
+    QListWidgetItem *pageKeyboard;
+    QListWidgetItem *pageMisc;
 
- void changePage(QString name);
+    void changePage(QString name);
 };
 
-#endif // _APPCONFIGDIALOG_H_
+#endif // APPCONFIGDIALOG_H

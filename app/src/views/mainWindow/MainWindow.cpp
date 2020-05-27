@@ -16,7 +16,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/GlobalParameters.h"
-#include "views/consoleEmulator/ExecuteCommand.h"
+#include "views/consoleEmulator/CommandRun.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
@@ -40,13 +40,6 @@ MainWindow::MainWindow() : QMainWindow()
     extern QObject *pMainWindow;
     pMainWindow=this;
     setObjectName("mainwindow");
-
-    treeScreen=nullptr;
-    recordTableScreen=nullptr;
-    findScreenDisp=nullptr;
-    editorScreen=nullptr;
-    statusBar=nullptr;
-    windowSwitcher=nullptr;
 
     installEventFilter(this);
 
@@ -119,6 +112,10 @@ void MainWindow::setupUI(void)
     windowSwitcher->setObjectName("windowSwitcher");
     globalParameters.setWindowSwitcher(windowSwitcher);
 
+    // Вспомогательный объект с виджетом синхронизации базы знаний
+    syncroCommandRun=new CommandRun( this );
+    globalParameters.setSyncroCommandRun( syncroCommandRun );
+
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
 }
@@ -153,6 +150,13 @@ void MainWindow::setupSignals(void)
     connect(actionFocusTree, &QAction::triggered, this, &MainWindow::onClickFocusTree);
     connect(actionFocusNoteTable, &QAction::triggered, this, &MainWindow::onClickFocusNoteTable);
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
+
+    // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
+    connect(syncroCommandRun, &CommandRun::finishWork,
+            recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
+    connect(syncroCommandRun, &CommandRun::finishWork,
+            this, &MainWindow::onSyncroCommandFinishWork);
+
 
     // Обновление горячих клавиш, если они были изменены
     connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &MainWindow::setupShortcuts);
@@ -749,9 +753,8 @@ void MainWindow::toolsFindInBase(void)
 
 void MainWindow::toolsPreferences(void)
 {
-    // Создается окно настроек, после выхода из этой функции окно удалится
-    AppConfigDialog dialog("");
-    dialog.show();
+    AppConfigDialog dialog("", this); // this нужен чтобы пробрасывать иконку приложения
+    dialog.exec();
 }
 
 
@@ -934,6 +937,7 @@ void MainWindow::reloadLoadStage(bool isLongTimeReload)
 }
 
 
+// Старт синхронизации
 void MainWindow::synchronization(bool visible)
 {
     // Если кнопка синхронизации заблокирована, начинать синхронизацию нельзя
@@ -957,6 +961,10 @@ void MainWindow::synchronization(bool visible)
                              tr("MyTetra: can't synchronization"),
                              tr("Do not set synchronization command.<br>Check the setting in \"Sync\" section in \"Tools\" menu"),
                              QMessageBox::Close);
+
+        // Кнопка синхронизации разблокируется, чтобы ее можно было снова нажать
+        recordTableScreen->actionSyncro->setEnabled(true);
+
         return;
     }
 
@@ -969,18 +977,18 @@ void MainWindow::synchronization(bool visible)
     command.replace("%a", databasePath);
 
     // Запуск команды синхронизации
-    ExecuteCommand exCommand;
+    globalParameters.getSyncroCommandRun()->setWindowTitle(tr("MyTetra synchronization"));
+    globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
+    globalParameters.getSyncroCommandRun()->setCommand(command);
+    globalParameters.getSyncroCommandRun()->run(visible);
+}
 
-    // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(&exCommand, &ExecuteCommand::finishWork, recordTableScreen, &RecordTableScreen::onExecuteCommandFinishWork);
 
-    exCommand.setWindowTitle(tr("MyTetra synchronization"));
-    exCommand.setMessageText(tr("Synchronization in progress, please wait..."));
-
-    exCommand.setCommand(command);
-    exCommand.run(visible);
-
-    // Функция вызывается с флагом, что от предыдущей стадии была большая задержка
+// Завершение синхронизации
+void MainWindow::onSyncroCommandFinishWork()
+{
+    // Функция перечитывания дерева знаний вызывается с флагом,
+    // что от предыдущей стадии была большая задержка
     reloadLoadStage(true);
 
     actionLogger.addAction("stopSyncro");

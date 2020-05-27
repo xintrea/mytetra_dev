@@ -496,10 +496,16 @@ additional symbols
   #if defined(_O_BINARY) || defined(O_BINARY)  /* setmode() now available */
     #define HAVE_SETMODE	/* so we'll use setmode() */
   #endif
-  #if defined(_MSC_VER) && defined(_DEBUG) /* MS VC++ in debug mode */
+  #if defined(_MSC_VER)
+    #define popen _popen
+    #define pclose _pclose
+    #define strncasecmp _strnicmp
+
+    #if defined(_DEBUG) /* MS VC++ in debug mode */
     /* to show source file and line numbers where memory leaks occur... */
-    #define _CRTDBG_MAP_ALLOC	/* ...include this debug macro */
-    #include <crtdbg.h>		/* and this debug library */
+      #define _CRTDBG_MAP_ALLOC	/* ...include this debug macro */
+      #include <crtdbg.h>		/* and this debug library */
+    #endif
   #endif
   #define ISWINDOWS 1
 #else

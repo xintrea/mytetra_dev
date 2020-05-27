@@ -9,6 +9,7 @@ class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
+class CommandRun;
 
 class GlobalParameters : public QObject
 {
@@ -53,6 +54,9 @@ public:
     void setWindowSwitcher(WindowSwitcher *point);
     WindowSwitcher *getWindowSwitcher();
 
+    void setSyncroCommandRun(CommandRun *point);
+    CommandRun *getSyncroCommandRun();
+
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
 
@@ -82,12 +86,13 @@ private:
     void createPortableProgramFiles(void);
     void createFirstProgramFiles(QString dirName);
 
-    TreeScreen *pointTreeScreen;
-    RecordTableScreen *pointRecordTableScreen;
-    FindScreen *pointFindScreen;
-    MetaEditor *pointMetaEditor;
-    QStatusBar *pointStatusBar;
-    WindowSwitcher *windowSwitcher;
+    TreeScreen *pointTreeScreen=nullptr;
+    RecordTableScreen *pointRecordTableScreen=nullptr;
+    FindScreen *pointFindScreen=nullptr;
+    MetaEditor *pointMetaEditor=nullptr;
+    QStatusBar *pointStatusBar=nullptr;
+    WindowSwitcher *windowSwitcher=nullptr;
+    CommandRun *syncroCommandRun=nullptr; //! Объект выполнения команд синхронизации базы MyTetra
 
     QString mainProgramFile;
     QString workDirectory;
@@ -97,8 +102,8 @@ private:
 
     QByteArray passwordHash;
 
-    // Язык, который был автоопределен если запускалась инсталляция базы знаний
-    // Если автоинсталляция не запускалась, это значение будет пустой строкой
+    //! Язык, который был автоопределен если запускалась инсталляция базы знаний.
+    //! Если автоинсталляция не запускалась, это значение будет пустой строкой
     QString installAutodetectLang;
 };
 

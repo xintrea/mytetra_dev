@@ -343,7 +343,7 @@ void EditorToolBar::setupToolBarTools(void)
   toAttach->setObjectName("editor_tb_toAttach");
 
   // Все только что созданные элементы скрываются
-  hideAllToolsElements();
+  this->hideAllToolsElements();
 }
 
 
@@ -410,31 +410,23 @@ void EditorToolBar::setupShortcuts(void)
 
 
 // Список названий всех контролов (команд) панелей инструментов
-QStringList *EditorToolBar::getCommandNameList()
+QStringList EditorToolBar::getCommandNameList()
 {
     QRegularExpression nameMask("editor_tb_.*");
     QList<QWidget *> widgetList = this->findChildren<QWidget *>(nameMask);
     QList<QAction *> actionList = this->findChildren<QAction *>(nameMask);
 
-    QStringList *buttonsNameList = new QStringList();
+    QStringList controlsNameList;
 
     for (int i=0; i!=widgetList.size(); ++i) {
-        buttonsNameList->append(widgetList.at(i)->objectName().replace("editor_tb_", ""));
+        controlsNameList.append(widgetList.at(i)->objectName().replace("editor_tb_", ""));
     }
     for (int i=0; i!=actionList.size(); ++i) {
-        buttonsNameList->append(actionList.at(i)->objectName().replace("editor_tb_", ""));
+        controlsNameList.append(actionList.at(i)->objectName().replace("editor_tb_", ""));
     }
-    buttonsNameList->sort();
+    controlsNameList.sort();
 
-    return buttonsNameList;
-}
-
-
-QList<QWidget *> EditorToolBar::getButtonWidgetList(void)
-{
-  QRegularExpression nameMask("editor_tb_.*");
-
-  return this->findChildren<QWidget *>(nameMask); // QList<QWidget *> tb_tools_list=qFindChildren(qobject_cast<QObject *>(this),name_mask);
+    return controlsNameList;
 }
 
 
@@ -460,34 +452,62 @@ QIcon EditorToolBar::getIcon(const QString &name)
 
 void EditorToolBar::hideAllToolsElements(void)
 {
-  QList<QWidget *> tbToolsList=getButtonWidgetList();
+    QStringList commandNameList=this->getCommandNameList();
 
-  for(int i=0;i<tbToolsList.size();++i)
-    tbToolsList.at(i)->setVisible(false);
+    for(auto commandName : commandNameList)
+    {
+        QWidget *widget=this->findChild<QWidget *>(QString("editor_tb_")+commandName);
+        if(widget)
+        {
+            widget->setVisible(false);
+        }
+
+        QAction *action=this->findChild<QAction *>(QString("editor_tb_")+commandName);
+        if(action)
+        {
+            action->setVisible(false);
+        }
+    }
 }
 
 
 // Установка или снятие доступности кнопок, модифицирующих текст
 void EditorToolBar::setEnableModifyTextButton(bool state)
 {
-  // Перечень суффиксов имен кнопок, которые не влияют на форматирование
-  QStringList noModifyButton;
-  noModifyButton << "settings" \
-                 << "findText" \
-                 << "showFormatting" \
-                 << "expandEditArea" \
-                 << "expandToolsLines" \
-                 << "back" \
-                 << "findInBase"
-                 << "showText" \
-                 << "toAttach";
+    // Перечень суффиксов имен кнопок, которые не влияют на форматирование
+    QStringList noModifyButton;
+    noModifyButton << "settings" \
+                   << "findText" \
+                   << "showFormatting" \
+                   << "expandEditArea" \
+                   << "expandToolsLines" \
+                   << "back" \
+                   << "findInBase"
+                   << "showText" \
+                   << "toAttach";
 
-  QList<QWidget *> tbToolsList=getButtonWidgetList();
+    // Перечень имен всех элементов управления на панели
+    QStringList commandNameList=this->getCommandNameList();
 
-  // Перебор всех кнопок
-  for(int i=0; i<tbToolsList.size(); ++i)
-    if( !noModifyButton.contains( tbToolsList.at(i)->objectName().replace("editor_tb_", "") ) ) // Если кнопка влияет на форматирование
-      tbToolsList.at(i)->setEnabled(state);
+    for(auto commandName : commandNameList)
+    {
+        // Если элемент влияет на форматирование
+        if( !noModifyButton.contains( commandName ) )
+        {
+            QWidget *widget=this->findChild<QWidget *>(QString("editor_tb_")+commandName);
+            if(widget)
+            {
+                widget->setEnabled(state);
+            }
+
+            QAction *action=this->findChild<QAction *>(QString("editor_tb_")+commandName);
+            if(action)
+            {
+                action->setEnabled(state);
+            }
+        }
+    }
+
 }
 
 

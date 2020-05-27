@@ -215,6 +215,23 @@ private slots:
 
 private:
 
+ void setupSignals(void);
+ void setupToolsSignals(void);
+ void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
+ void setupIndentSliderAssistant(void);
+ void setupEditorTextArea(void);
+ void setupCursorPositionDetector(void);
+ void setupFormatters(void);
+ void assembly(void);
+
+ // Устанавка размера табуляции для клавиши Tab
+ void setTabSize();
+
+ // Переопределение событий обработки клавиш
+ // нужны для определения момента undo/redo
+ virtual void keyPressEvent(QKeyEvent *event);
+ virtual void keyReleaseEvent(QKeyEvent *event);
+
  // Область редактирования текста
  EditorTextArea *textArea=nullptr;
 
@@ -240,24 +257,6 @@ private:
  QString workFileName;
 
  int viewMode; // Режим отображения редактора - WYEDIT_DESKTOP_MODE или WYEDIT_MOBILE_MODE
-
- void setupSignals(void);
- void setupToolsSignals(void);
- void setupEditorToolBarAssistant(int mode, EditorTextArea *textArea, QStringList disableToolList);
- void setupIndentSliderAssistant(void);
- void setupEditorTextArea(void);
- void setupCursorPositionDetector(void);
- void setupFormatters(void);
- void assembly(void);
-
- // Устанавка размера табуляции для клавиши Tab
- void setTabSize();
-
- // Переопределение событий обработки клавиш
- // нужны для определения момента undo/redo
- virtual void keyPressEvent(QKeyEvent *event);
- virtual void keyReleaseEvent(QKeyEvent *event);
-
 
  EditorFindDialog *findDialog; // Виджет поиска
 

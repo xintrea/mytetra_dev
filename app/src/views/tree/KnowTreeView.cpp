@@ -15,6 +15,7 @@
 #include "models/recordTable/RecordTableModel.h"
 #include "views/mainWindow/MainWindow.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "views/recordTable/RecordTableView.h"
 #include "views/record/MetaEditor.h"
 #include "controllers/recordTable/RecordTableController.h"
 
@@ -153,7 +154,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    if(!index.isValid())
     return;
 
-   // Указатель на родительский элемент
+   // Указатель на родительский виджет
    TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
 
    // Выясняется ссылка на элемент дерева (на ветку), над которым был совершен Drop
@@ -203,9 +204,24 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      recordTableController->removeRowById( record.getField("id") );
 
-     // Если таблица конечных записей после удаления перемещенной записи стала пустой
-     if(recordTableController->getRowCount()==0)
-       find_object<MetaEditor>("editorScreen")->clearAll(); // Нужно очистить поле редактирования чтобы не видно было текста последней удаленной записи
+     // Если после удаления перемещаемой записи в таблице остались еще какие-то записи
+     if(recordTableController->getRowCount()>0)
+     {
+         // Происходит виртуальный клик по записи, на которой
+         // стоит курсор после удаления переносимой записи.
+         // Это нужно чтобы обновился текст записи, так как курсор в таблице записей
+         // после удаления остается на месте и никаких событий изменения
+         // selection model не генерируются, соответственно автоматического
+         // обновления не происходит, и нужно делать виртуальный клик
+         recordTableController->clickToRecord( recordTableController->getView()->currentIndex() );
+     }
+      else
+     {
+         // Иначе таблица конечных записей после удаления перемещенной записи стала пустой
+         // Нужно очистить поле редактирования чтобы не видно было текста последней удаленной записи
+         find_object<MetaEditor>("editorScreen")->clearAll();
+     }
+
      find_object<RecordTableScreen>("recordTableScreen")->toolsUpdate();
 
      // Добавление записи в базу
@@ -223,7 +239,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    // Обновлении конечной ветки чтобы было видно что записей прибавилось
    parentPointer->updateBranchOnScreen(index);
 
-   // В модели данных обнуляется элемент, который подсвечивался при Drag And Drop
+   // В модели данных дерева обнуляется элемент, который подсвечивался при Drag And Drop
    parentPointer->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
   }
 }

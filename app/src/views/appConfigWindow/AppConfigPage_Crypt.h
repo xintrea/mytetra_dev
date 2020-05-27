@@ -30,6 +30,16 @@ private slots:
 
 protected:
 
+  QString getRetrieveStatusText(void);
+  QString getRetrieveButtonText(void);
+  QString getRetrieveAnnotationText(void);
+
+  void setupUi(void);
+  void updateUi(void);
+  void setupSignals(void);
+  void assembly(void);
+
+
   QGroupBox *passRetrieveBox;
   QLabel *passRetrieveStatus;
   QPushButton *passRetrieveButton;
@@ -50,15 +60,6 @@ protected:
 
   QGroupBox *decryptFileToTrashDirectoryBox;
   QCheckBox *decryptFileToTrashDirectoryEnable;
-
-  QString getRetrieveStatusText(void);
-  QString getRetrieveButtonText(void);
-  QString getRetrieveAnnotationText(void);
-
-  void setupUi(void);
-  void updateUi(void);
-  void setupSignals(void);
-  void assembly(void);
 
 };
 

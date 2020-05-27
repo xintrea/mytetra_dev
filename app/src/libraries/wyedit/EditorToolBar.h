@@ -110,7 +110,7 @@ public:
     void switchAttachIconExists(bool isExists); // Переключение иконки аттачей в режим есть аттачи или нет аттачей
 
     // Список названий всех контролов (команд) панелей инструментов
-    QStringList *getCommandNameList();
+    QStringList getCommandNameList();
 
     // Иконка, присвоенная инструменту (по имени инструмента)
     QIcon getIcon(const QString &name);
@@ -139,7 +139,6 @@ protected:
     void insertButtonToToolsLine(QString toolName, QToolBar &line);
     void registryActionsToToolBarWidget();
 
-    QList<QWidget *> getButtonWidgetList(void);
     void hideAllToolsElements(void);
 
     void clearToolsLines(void);
