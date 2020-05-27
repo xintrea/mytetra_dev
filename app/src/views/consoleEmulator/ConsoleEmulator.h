@@ -82,8 +82,8 @@ private:
 
  QShortcut *escShortcut;
 
- // Возникала ли ошибка при выполнении команд
- bool isError;
+ // Должен ли диалог показывать ошибку
+ bool isErrorMode;
 };
 
 #endif /* _CONSOLEEMULATOR_H_ */

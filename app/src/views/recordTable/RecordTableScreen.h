@@ -62,9 +62,9 @@ public slots:
  // Обновление состояния экранных элементов согласно состоянию записи и положении зиписи в таблице
  void toolsUpdate(void);
 
- void onExecuteCommandFinishWork(void);
+ void onSyncroCommandFinishWork(void);
 
-  void setupShortcuts(void);
+ void setupShortcuts(void);
 
 private slots:
  

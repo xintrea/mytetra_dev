@@ -1,19 +1,19 @@
-#ifndef _CONFIGPAGE_H_
-#define _CONFIGPAGE_H_
+#ifndef CONFIGPAGE_H
+#define CONFIGPAGE_H
 
 #include <QWidget>
 
 
 class ConfigPage : public QWidget
 {
- Q_OBJECT
+    Q_OBJECT
 
 public:
-  ConfigPage(QWidget *parent = nullptr);
-  virtual ~ConfigPage();
+    ConfigPage(QWidget *parent = nullptr);
+    virtual ~ConfigPage();
 
-  virtual int applyChanges(void);
+    virtual int applyChanges(void);
 };
 
 
-#endif // _CONFIGPAGE_H_
+#endif // CONFIGPAGE_H

@@ -12,7 +12,7 @@ extern ActionLogger actionLogger;
 
 ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 {
- isError=false;
+ isErrorMode=false;
 
  setupUI();
  setupSignals();
@@ -22,12 +22,7 @@ ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 
 ConsoleEmulator::~ConsoleEmulator()
 {
- delete waitClock;
- delete messageLabel;
- delete buttonCancel;
- delete buttonDetails;
- delete consoleOutput;
- delete escShortcut;
+
 }
 
 
@@ -169,7 +164,7 @@ void ConsoleEmulator::switchToErrorView(void)
 {
  qDebug() << "ConsoleEmulator::switchToErrorView() : Detect error!";
 
- isError=true;
+ isErrorMode=true;
 
  actionLogger.addAction("syncroError");
 

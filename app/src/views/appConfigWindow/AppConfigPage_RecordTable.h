@@ -24,6 +24,8 @@ private slots:
 
 protected:
 
+  void setupSignals(void);
+
   QMap<QString, QCheckBox *> fields;
 
   QCheckBox *showHorizontalHeader;
@@ -32,8 +34,6 @@ protected:
   // Объединяющая рамка
   QGroupBox *showFieldsBox;
   QGroupBox *showHeadersBox;
-
-  void setupSignals(void);
 };
 
 

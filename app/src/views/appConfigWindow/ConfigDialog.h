@@ -16,9 +16,10 @@ class ConfigDialog : public QDialog
     Q_OBJECT
 
 public:
-    ConfigDialog();
-    QListWidgetItem *addWidget(QWidget *inswidget, QString name);
+    ConfigDialog(QWidget * parent = nullptr);
+    virtual ~ConfigDialog();
 
+    QListWidgetItem *addWidget(QWidget *inswidget, QString name);
 
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);

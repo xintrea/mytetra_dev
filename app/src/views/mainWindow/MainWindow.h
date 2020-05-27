@@ -50,6 +50,7 @@ class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
+class CommandRun;
 
 
 class MainWindow : public QMainWindow
@@ -58,14 +59,14 @@ Q_OBJECT
 
 public:
  MainWindow();
- ~MainWindow();
+ virtual ~MainWindow();
 
- TreeScreen *treeScreen;
- RecordTableScreen *recordTableScreen;
- MetaEditor *editorScreen;
- FindScreen *findScreenDisp;
- QStatusBar *statusBar;
- WindowSwitcher *windowSwitcher;
+ TreeScreen *treeScreen=nullptr;
+ RecordTableScreen *recordTableScreen=nullptr;
+ MetaEditor *editorScreen=nullptr;
+ FindScreen *findScreenDisp=nullptr;
+ QStatusBar *statusBar=nullptr;
+ WindowSwitcher *windowSwitcher=nullptr;
 
  void restoreWindowGeometry(void);
  void restoreTreePosition(void);
@@ -133,6 +134,8 @@ private slots:
  void onClickFocusNoteTable(void);
  void onClickFocusEditor(void);
 
+ void onSyncroCommandFinishWork(void);
+
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
  void onFocusChanged(QWidget *, QWidget *);
@@ -195,6 +198,9 @@ private:
  QSplitter *vSplitter;
  QSplitter *hSplitter;
  QSplitter *findSplitter;
+
+ CommandRun *syncroCommandRun=nullptr;
+
  
 protected:
  

@@ -145,6 +145,7 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/views/consoleEmulator/CommandRun.h \
     src/views/installDialog/InstallDialog.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
@@ -267,7 +268,6 @@ HEADERS+=\
     src/libraries/GlobalParameters.h \
     src/models/dataBaseConfig/DataBaseConfig.h \
     src/views/enterPassword/EnterPassword.h \
-    src/views/consoleEmulator/ExecuteCommand.h \
     src/views/consoleEmulator/ConsoleEmulator.h \
     src/views/waitClock/WaitClock.h \
     src/libraries/WalkHistory.h \
@@ -287,6 +287,7 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/views/consoleEmulator/CommandRun.cpp \
     src/views/installDialog/InstallDialog.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
@@ -413,7 +414,6 @@ SOURCES+=\
     src/libraries/GlobalParameters.cpp \
     src/models/dataBaseConfig/DataBaseConfig.cpp \
     src/views/enterPassword/EnterPassword.cpp \
-    src/views/consoleEmulator/ExecuteCommand.cpp \
     src/views/consoleEmulator/ConsoleEmulator.cpp \
     src/views/waitClock/WaitClock.cpp \
     src/libraries/WalkHistory.cpp \

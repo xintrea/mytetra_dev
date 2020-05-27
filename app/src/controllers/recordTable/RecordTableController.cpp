@@ -120,7 +120,7 @@ void RecordTableController::initMetaEditorAtClickToRecord(const int pos)
   table->setWorkPos( pos );
 
 
-  // Устанавливается функция обратного вызова для записи данных
+  // Устанавливается функция обратного вызова для записи данных редактором на диск
   edView->setSaveCallback(table->editorSaveCallback);
 
   // Сохраняется текст и картинки в окне редактирования
@@ -357,7 +357,7 @@ void RecordTableController::setSelectionToId(QString id)
 
   // Если таблица конечных данных задана
   // (Не задана таблица может быть по причине если ветка зашифрована и введен неверный пароль, или при вводе пароля была нажата отмена)
-  if(table!=NULL)
+  if(table!=nullptr)
   {
     // Номер записи в Source данных
     int pos=table->getPosById(id);
@@ -560,7 +560,7 @@ void RecordTableController::addNewRecord(int mode)
   // Создается окно ввода данных
   // При клике Ok внутри этого окна, будет создана временная директория
   // с картинками, содержащимися в тексте
-  AddNewRecord addNewRecordWin;
+  AddNewRecord addNewRecordWin( view );
   int i=addNewRecordWin.exec();
   if(i==QDialog::Rejected)
     return; // Была нажата отмена, ничего не нужно делать
@@ -669,7 +669,7 @@ void RecordTableController::onBlockContext(void)
   }
 
   // По записи происходит виртуальный клик, чтобы интерфейс принял новое состояние блокировки записи
-  clickToRecord(index);
+  this->clickToRecord(index);
 }
 
 
@@ -864,7 +864,7 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
   // Выясняется ссылка на таблицу конечных данных
   RecordTableData *table=recordSourceModel->getTableData();
 
-  if(table==NULL)
+  if(table==nullptr)
     return;
 
   for(int i=0;i<delIds.count();i++)
@@ -966,8 +966,8 @@ void RecordTableController::onSortClick(void)
 // Слот, срабатывающий при вызове настроек
 void RecordTableController::settings(void)
 {
-  AppConfigDialog dialog("pageRecordTable");
-  dialog.show();
+  AppConfigDialog dialog("pageRecordTable", view); // view нужен чтобы пробрасывать иконку приложения
+  dialog.exec();
 
   // Todo: Возвращение фокуса почему-то не работает, надо разбираться
   // (а может просто не выделяется виджет, в Qt5 вделенный виджет не виден в дефолтной схеме)
