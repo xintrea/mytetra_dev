@@ -1421,74 +1421,94 @@ void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
 // Действия при клике на ветку дерева через selection-модель
 void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 {
- // QModelIndex index = nodetreeview->selectionModel()->currentIndex();
-
- // Сохраняется текст в окне редактирования в соответсвующий файл
- find_object<MainWindow>("mainwindow")->saveTextarea(); 
- 
- // Получаем указатель на текущую выбранную ветку дерева
- TreeItem *item = knowTreeModel->getItem(index);
-
- // Все инструменты по работе с записями выключаются
- find_object<RecordTableScreen>("recordTableScreen")->disableAllActions();
-
- // Вначале все инструменты работы с веткой включаются
- QMapIterator<QString, QAction *> i(actionList);
- while (i.hasNext()) {
-    i.next();
-    i.value()->setEnabled(true);
- }
-
- // Проверяется, происходит ли клик по зашифрованной ветке
- if(item->getField("crypt")=="1")
-  {
-   // Если пароль доступа к зашифрованным данным не вводился в этой сессии
-   if(globalParameters.getCryptKey().length()==0)
+    // Данный слот может повторно вызываться, когда его работа еще не завершена,
+    // например в момент завершения синхронизации. Это возможно, так как
+    // в данном слоте может быть вызван диалог запроса пароля, а диалог
+    // может ожидать ввода пользователя неограниченное время.
+    // Переменная isThisSlotWork блокирует работу слота, ели он
+    // повторно вызван когда он еще не закончил работу
+    static bool isThisSlotWork=false;
+    if(isThisSlotWork)
     {
-     // Запрашивается пароль
-     Password password;
-     if(password.retrievePassword()==false)
-      {
-       // Устанавливаем пустые данные для отображения таблицы конечных записей
-       find_object<RecordTableController>("recordTableController")->setTableData(NULL);
-
-       // Все инструменты работы с веткой отключаются
-       QMapIterator<QString, QAction *> i(actionList);
-       while (i.hasNext())
-       {
-        i.next();
-        i.value()->setEnabled(false);
-       }
-
-       return; // Программа дальше не идет, доделать...
-      }
+        return;
     }
-  }
+    else
+    {
+        isThisSlotWork=true; // Следить чтобы перед каждым return данный флаг сбрасывался
+    }
+
+    // QModelIndex index = nodetreeview->selectionModel()->currentIndex();
+
+    // Сохраняется текст в окне редактирования в соответсвующий файл
+    find_object<MainWindow>("mainwindow")->saveTextarea();
+
+    // Получаем указатель на текущую выбранную ветку дерева
+    TreeItem *item = knowTreeModel->getItem(index);
+
+    // Все инструменты по работе с записями выключаются
+    find_object<RecordTableScreen>("recordTableScreen")->disableAllActions();
+
+    // Вначале все инструменты работы с веткой включаются
+    QMapIterator<QString, QAction *> i(actionList);
+    while (i.hasNext()) {
+        i.next();
+        i.value()->setEnabled(true);
+    }
+
+    // Проверяется, происходит ли клик по зашифрованной ветке
+    if(item->getField("crypt")=="1")
+    {
+        // Если пароль доступа к зашифрованным данным не вводился в этой сессии
+        if(globalParameters.getCryptKey().length()==0)
+        {
+            // Запрашивается пароль
+            Password password;
+            if(password.retrievePassword()==false)
+            {
+                // Устанавливаем пустые данные для отображения таблицы конечных записей
+                find_object<RecordTableController>("recordTableController")->setTableData(NULL);
+
+                // Все инструменты работы с веткой отключаются
+                QMapIterator<QString, QAction *> i(actionList);
+                while (i.hasNext())
+                {
+                    i.next();
+                    i.value()->setEnabled(false);
+                }
+
+                isThisSlotWork=false;
+
+                return; // Программа дальше не идет, доделать...
+            }
+        }
+    }
 
 
- // Получаем указатель на данные таблицы конечных записей
- RecordTableData *rtdata=item->recordtableGetTableData();
+    // Получаем указатель на данные таблицы конечных записей
+    RecordTableData *rtdata=item->recordtableGetTableData();
 
- // Устанавливаем данные таблицы конечных записей
- find_object<RecordTableController>("recordTableController")->setTableData(rtdata);
+    // Устанавливаем данные таблицы конечных записей
+    find_object<RecordTableController>("recordTableController")->setTableData(rtdata);
 
- // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
- if(mytetraConfig.getInterfaceMode()=="mobile")
- {
-   QStringList path=item->getPathAsName();
+    // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
+    if(mytetraConfig.getInterfaceMode()=="mobile")
+    {
+        QStringList path=item->getPathAsName();
 
-   // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
-   int emptyStringIndex=path.indexOf("");
-   path.removeAt(emptyStringIndex);
+        // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
+        int emptyStringIndex=path.indexOf("");
+        path.removeAt(emptyStringIndex);
 
-   find_object<RecordTableScreen>("recordTableScreen")->setTreePath( path.join(" > ") );
- }
+        find_object<RecordTableScreen>("recordTableScreen")->setTreePath( path.join(" > ") );
+    }
 
- // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
- knowTreeView->resizeColumnToContents(0);
+    // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
+    knowTreeView->resizeColumnToContents(0);
 
- // Переключаются окна (используется для мобильного интерфейса)
- globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
+    // Переключаются окна (используется для мобильного интерфейса)
+    globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
+
+    isThisSlotWork=false;
 }
 
 
