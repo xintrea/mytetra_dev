@@ -252,6 +252,7 @@ public:
 
     // Вертикальное ли разделение окна редактирование заметок и списка заметок
     bool getVerticalSeparationMainWindow();
+    void setVerticalSeparationMainWindow(bool state);
 
 
 private:

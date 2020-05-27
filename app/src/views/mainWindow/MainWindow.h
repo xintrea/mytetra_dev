@@ -195,9 +195,9 @@ private:
  QSystemTrayIcon *trayIcon;
  QMenu           *trayIconMenu;
 
- QSplitter *vSplitter;
- QSplitter *hSplitter;
- QSplitter *findSplitter;
+ QSplitter *vSplitter{nullptr};
+ QSplitter *hSplitter{nullptr};
+ QSplitter *findSplitter{nullptr};
 
  CommandRun *syncroCommandRun=nullptr;
 

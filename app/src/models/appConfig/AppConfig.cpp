@@ -216,7 +216,8 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
 
 QByteArray AppConfig::get_mainwingeometry(void)
 {
- return QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
+    auto test = QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
+    return QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
 }
 
 
@@ -604,7 +605,8 @@ void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
 // Ширина полей, отображаемых в таблице конечных записей
 QStringList AppConfig::getRecordTableFieldsWidth(void)
 {
- return (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
+    auto test = (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
+    return (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
 }
 
 
@@ -899,9 +901,16 @@ void AppConfig::setEnableCreateEmptyRecord(bool state)
     conf->setValue("enableCreateEmptyRecord", state);
 }
 
+// Использовать ли режим с тремя колонками для главного окна
 bool AppConfig::getVerticalSeparationMainWindow()
 {
-    return conf->value("VerticalSeparationMainWindow").toBool();
+    auto test = conf->value("verticalSeparationMainWindow").toBool();
+    return conf->value("verticalSeparationMainWindow").toBool();
+}
+
+void AppConfig::setVerticalSeparationMainWindow(bool state)
+{
+    conf->setValue("verticalSeparationMainWindow", state);
 }
 
 
@@ -1025,7 +1034,7 @@ void AppConfig::update_version_process(void)
  // Перечень функций, выдающих список параметров для конкретной версии конфига
  QList< std::function< QStringList(AppConfig&, bool) > > parameterFunctions;
 
- parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+ parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нулевой элемент
  parameterFunctions << &AppConfig::get_parameter_table_1;
  parameterFunctions << &AppConfig::get_parameter_table_2;
  parameterFunctions << &AppConfig::get_parameter_table_3;
@@ -1061,6 +1070,7 @@ void AppConfig::update_version_process(void)
  parameterFunctions << &AppConfig::get_parameter_table_33;
  parameterFunctions << &AppConfig::get_parameter_table_34;
  parameterFunctions << &AppConfig::get_parameter_table_35;
+ parameterFunctions << &AppConfig::get_parameter_table_36;
 
  for(int i=1; i<parameterFunctions.count()-1; ++i)
    if(fromVersion<=i)
@@ -1772,7 +1782,7 @@ QStringList AppConfig::get_parameter_table_36(bool withEndSignature)
   // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
   QStringList table;
 
-  // Старые параметры, аналогичные версии 34
+  // Старые параметры, аналогичные версии 35
   table << get_parameter_table_35(false);
   // вертикальное разделение между окнами редактирование заметок и списком заметок
   table << "verticalSeparationMainWindow" << "bool" << "false";
