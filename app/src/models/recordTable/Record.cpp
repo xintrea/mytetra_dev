@@ -187,7 +187,7 @@ QString Record::getIdAndNameAsString() const
 
 // Получение значения поля
 // Метод возвращает расшифрованные данные, если запись была зашифрована
-QString Record::getField(QString name) const
+QString Record::getField(const QString &name) const
 {
   // Если имя поля недопустимо
   if(FixedParameters::isRecordFieldAvailable(name)==false)
@@ -274,7 +274,7 @@ QString Record::getCalculableField(QString name) const
 }
 
 
-void Record::setField(QString name, QString value)
+void Record::setField(const QString &name, const QString &value)
 {
   // Если имя поля недопустимо (установить значение можно только для натурального поля)
   if(FixedParameters::isRecordFieldNatural(name)==false)
@@ -297,19 +297,20 @@ void Record::setField(QString name, QString value)
             criticalError("In RecordTableData::setField() can not set data to crypt field "+name+". Password not setted");
         }
 
-
-  // Если нужно шифровать, поле шифруется
-  if(isCrypt==true)
-    value=CryptService::encryptString(globalParameters.getCryptKey(), value);
-
   // Устанавливается значение поля
-  fieldList.insert(name, value);
-
-  // qDebug() << "RecordTableData::set_field : pos" << pos <<"name"<<name<<"value"<<value;
+  if(!isCrypt)
+  {
+      fieldList.insert(name, value);
+  }
+  else
+  {
+      // Если нужно шифровать, поле шифруется
+      fieldList.insert(name, CryptService::encryptString(globalParameters.getCryptKey(), value) );
+  }
 }
 
 
-bool Record::isNaturalFieldExists(QString name) const
+bool Record::isNaturalFieldExists(const QString &name) const
 {
   return fieldList.contains(name);
 }
@@ -447,7 +448,7 @@ QString Record::getText() const
 
 
 // Получение значения текста напрямую из файла, без заполнения свойства text
-QString Record::getTextDirect()
+QString Record::getTextDirect() const
 {
   // У тяжелого объекта невозможно получить текст записи из файла (у тяжелого объекта текст записи хранится в памяти)
   if(liteFlag==false)
@@ -486,9 +487,15 @@ QString Record::getTextDirect()
 }
 
 
+QTextDocument Record::getTextDocument() const
+{
+
+}
+
+
 // Установка текста записи как свойства объекта
 // Принимает незашифрованные данные, сохраняет их в памяти, при записи шифрует если запись шифрованная
-void Record::setText(QString iText)
+void Record::setText(const QString &iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
@@ -506,7 +513,7 @@ void Record::setText(QString iText)
 
 // Сохранение текста записи на диск без установки текста записи как свойства
 // Принимает незашифрованные данные, сохраняет в файл, при записи шифрует если запись зашифрована
-void Record::saveTextDirect(QString iText)
+void Record::saveTextDirect(QString iText) const
 {
   QString fileName=getFullTextFileName();
 
@@ -887,7 +894,7 @@ void Record::checkAndFillFileDir(QString &iDirName, QString &iFileName)
 
 
 // В функцию должно передаваться полное имя файла
-void Record::checkAndCreateTextFile()
+void Record::checkAndCreateTextFile() const
 {
   QString fileName=getFullTextFileName();
 

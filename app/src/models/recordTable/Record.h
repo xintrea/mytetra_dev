@@ -6,6 +6,7 @@
 #include <QByteArray>
 #include <QDomElement>
 #include <QXmlStreamWriter>
+#include <QTextDocument>
 
 #include "models/attachTable/Attach.h"
 #include "models/attachTable/AttachTableData.h"
@@ -16,8 +17,6 @@
 // В полях записей с crypt=1 хранятся зашифрованные данные
 // Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
-// class Attach;
-// class AttachTableData;
 
 class Record
 {
@@ -36,12 +35,13 @@ public:
   void exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) const;
 
   QString getText() const;
-  QString getTextDirect();
-  void setText(QString iText);
+  QString getTextDirect() const;
+  QTextDocument getTextDocument() const;
+  void setText(const QString &iText);
 
-  QString getField(QString name) const;
-  void setField(QString name, QString value);
-  bool isNaturalFieldExists(QString name) const;
+  QString getField(const QString &name) const;
+  void setField(const QString &name, const QString &value);
+  bool isNaturalFieldExists(const QString &name) const;
 
   // Установка и чтение данных без преобразований. Используется при генерации/чтении XML
   QString getNaturalFieldSource(QString name) const;
@@ -98,7 +98,7 @@ protected:
   // Защищенные методы
   // -----------------
 
-  void saveTextDirect(QString iText);
+  void saveTextDirect(QString iText) const;
   void saveText();
 
   QString getIdAndNameAsString() const; // Внутренний метод для облегчения печати отладочной информации
@@ -113,7 +113,7 @@ protected:
   void switchToDecryptFields(void);
 
   void checkAndFillFileDir(QString &nameDirFull, QString &nameFileFull);
-  void checkAndCreateTextFile();
+  void checkAndCreateTextFile() const;
 
   QString getNaturalField(QString name) const;
   QString getCalculableField(QString name) const;

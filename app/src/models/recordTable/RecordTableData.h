@@ -38,7 +38,14 @@ public:
     // Получение образа записи
     Record getRecordLite(int pos);
     Record getRecordFat(int pos);
+
+
+    // Получение указателя на запись по известному номеру записи в таблице
     Record *getRecord(int pos);
+
+    // Получение указателя на запись по известному id записи
+    Record *getRecordById(const QString &id);
+
 
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);

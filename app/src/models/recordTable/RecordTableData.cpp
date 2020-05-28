@@ -263,6 +263,21 @@ Record *RecordTableData::getRecord(int pos)
 }
 
 
+Record *RecordTableData::getRecordById(const QString &id)
+{
+    int pos=this->getPosById(id);
+
+    if(pos==-1)
+    {
+        return nullptr;
+    }
+    else
+    {
+        return this->getRecord(pos);
+    }
+}
+
+
 // Инициализация таблицы данных на основе переданного DOM-элемента
 void RecordTableData::init(TreeItem *item, QDomElement iDomElement)
 {
