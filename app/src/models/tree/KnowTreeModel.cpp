@@ -1317,9 +1317,6 @@ QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
         return findPath;
     }
 
-    // Путь дополняется
-    currentPath << item->getId();
-
     // Если в данной ветке есть искомая запись
     if( item->recordtableGetTableData()->isRecordExists(recordId) )
     {

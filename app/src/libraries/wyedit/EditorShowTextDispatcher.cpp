@@ -45,7 +45,7 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     // Выясняется ссылка на объект записи
     Record *note=dataModel->getRecord(noteId);
 
-    showText->setWindowTitle( note->getField("title") );
+    showText->setWindowTitle( note->getField("name") );
     showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
 
     /*
