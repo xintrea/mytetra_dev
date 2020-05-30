@@ -216,7 +216,6 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
 
 QByteArray AppConfig::get_mainwingeometry(void)
 {
-    auto test = QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
     return QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
 }
 
@@ -605,7 +604,6 @@ void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
 // Ширина полей, отображаемых в таблице конечных записей
 QStringList AppConfig::getRecordTableFieldsWidth(void)
 {
-    auto test = (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
     return (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
 }
 
