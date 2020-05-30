@@ -141,6 +141,7 @@ HEADERS = src/main.h \
     src/libraries/RandomInitter.h \
     src/libraries/wyedit/EditorConfigMathExpression.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
+    src/libraries/wyedit/EditorShowTextDispatcher.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
@@ -283,6 +284,7 @@ SOURCES = src/main.cpp \
     src/libraries/RandomInitter.cpp \
     src/libraries/wyedit/EditorConfigMathExpression.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
+    src/libraries/wyedit/EditorShowTextDispatcher.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \

@@ -29,6 +29,7 @@
 #include "formatters/Formatter.h"
 #include "EditorMultiLineInputDialog.h"
 #include "EditorCursorPositionDetector.h"
+#include "EditorShowTextDispatcher.h"
 
 #include "../../main.h"
 #include "../../views/mainWindow/MainWindow.h"
@@ -1440,21 +1441,7 @@ void Editor::onShowTextClicked(void)
     return;
   }
 
-  // Создается открепленное окно
-  // Нелья в качестве parent указывать this, так если редактор станет неактивным (например, когда запись не выбрана)
-  // то данное окно тоже станет неактивным, и невозможно будет выделить в нем текст
-  EditorShowText *showText=new EditorShowText(find_object<MainWindow>("mainwindow"));
-
-  // Устанавливается флаг удаления диалога после закрытия его окна
-  showText->setAttribute( Qt::WA_DeleteOnClose );
-
-  if(getMiscField("title").length()>0)
-    showText->setWindowTitle( getMiscField("title") );
-
-  QTextDocument *cloneDocument=textArea->document()->clone(showText); // Для метода clone указан parent, который уничтожится при закрытии окна, и за собой уничтожит этот временный документ
-  showText->setDocument( cloneDocument );
-
-  showText->show();
+  EditorShowTextDispatcher::instance()->createWindow( this->getMiscField("id") );
 }
 
 

@@ -15,6 +15,7 @@
 
 
 class ClipboardBranch;
+class Record;
 
 class KnowTreeModel : public TreeModel
 {
@@ -50,8 +51,8 @@ public:
     
     QModelIndex getIndexByItem(TreeItem *item);
 
-    // Поиск ветки с указанным ID
-    TreeItem *getItemById(QString id);
+    // Получение ветки с указанным ID (поиск ветки)
+    TreeItem *getItemById(const QString &id);
 
     // Возвращает общее количество записей, хранимых в дереве
     int getAllRecordCount(void);
@@ -69,7 +70,9 @@ public:
 
     bool isItemContainsBlockRecords(TreeItem *item);
 
-    QStringList getRecordPath(QString recordId);
+    QStringList getRecordPath(const QString &recordId);
+
+    Record *getRecord(const QString &recordId);
 
     // Проверка наличия идентификатора ветки во всем дереве
     bool isItemIdExists(QString findId);
@@ -126,7 +129,7 @@ private:
                                   QString startBranchId,
                                   ClipboardBranch *subbranch);
 
-    TreeItem *getItemByIdRecurse(TreeItem *item, QString id, int mode);
+    TreeItem *getItemByIdRecurse(TreeItem *item, const QString &id, int mode);
 
     bool isContainsCryptBranchesRecurse(TreeItem *item, int mode);
 
@@ -136,8 +139,8 @@ private:
     QString pasteSubbranch(TreeItem *item, ClipboardBranch *subbranch);
 
     QStringList getRecordPathRecurse(TreeItem *item,
-                                     QStringList currentPath,
-                                     QString recordId,
+                                     QStringList &currentPath,
+                                     const QString &recordId,
                                      int mode);
 
     bool isItemIdExistsRecurse(TreeItem *item, QString findId, int mode);

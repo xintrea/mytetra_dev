@@ -21,6 +21,7 @@ EditorShowText::~EditorShowText()
 
 }
 
+
 void EditorShowText::setupUi()
 {
   QSizePolicy sizePolicy;
