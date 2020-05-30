@@ -1,5 +1,5 @@
 #include "ShortcutSettingsModel.h"
-
+#include <iso646.h>
 
 extern ShortcutManager shortcutManager;
 

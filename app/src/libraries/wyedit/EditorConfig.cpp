@@ -4,6 +4,7 @@
 
 #include "EditorConfig.h"
 #include "../../main.h"
+#include <iso646.h>
 
 
 // Конструктор объекта хранения настроек редактора
