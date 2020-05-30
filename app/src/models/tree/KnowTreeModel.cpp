@@ -1240,87 +1240,102 @@ void KnowTreeModel::reEncrypt(QString previousPassword, QString currentPassword)
 
 // Функция ищет ветку с указанным ID и возвращает ссылку не неё в виде TreeItem *
 // Если ветка с указанным ID не будет найдена, возвращается NULL
-TreeItem *KnowTreeModel::getItemById(QString id)
+TreeItem *KnowTreeModel::getItemById(const QString &id)
 {
-  // Инициализация поиска
-  getItemByIdRecurse(rootItem, 0, 0);
+    // Инициализация поиска
+    getItemByIdRecurse(rootItem, 0, 0);
 
-  // Запуск поиска и возврат результата
-  return getItemByIdRecurse(rootItem, id, 1);
+    // Запуск поиска и возврат результата
+    return getItemByIdRecurse(rootItem, id, 1);
 }
 
 
-TreeItem *KnowTreeModel::getItemByIdRecurse(TreeItem *item, QString id, int mode)
+TreeItem *KnowTreeModel::getItemByIdRecurse(TreeItem *item, const QString &id, int mode)
 {
-  static TreeItem *find_item=NULL;
+    static TreeItem *findItem=NULL;
 
-  if(mode==0)
-  {
-    find_item=NULL;
-    return NULL;
-  }
+    if(mode==0)
+    {
+        findItem=NULL;
+        return NULL;
+    }
 
-  if(find_item!=NULL) return find_item;
+    if(findItem!=NULL)
+    {
+        return findItem;
+    }
 
-  if(item->getId()==id)
-  {
-    find_item=item;
-    return find_item;
-  }
-  else
-  {
-    for(int i=0; i < item->childCount(); i++)
-      getItemByIdRecurse(item->child(i), id, 1);
+    if(item->getId()==id)
+    {
+        findItem=item;
+    }
+    else
+    {
+        for(int i=0; i < item->childCount(); i++)
+            getItemByIdRecurse(item->child(i), id, 1); // Рекурсивный поиск с установкой findItem в момент когда запись найдена
+    }
 
-    return find_item;
-  }
+    return findItem;
+}
+
+
+// Получение указателя на запись по известному идентификатору записи
+Record *KnowTreeModel::getRecord(const QString &recordId)
+{
+    QStringList path=this->getRecordPath(recordId);
+
+    return getItem(path)->recordtableGetTableData()->getRecordById(recordId);
 }
 
 
 // Получение пути к ветке, где находится запись
-QStringList KnowTreeModel::getRecordPath(QString recordId)
+QStringList KnowTreeModel::getRecordPath(const QString &recordId)
 {
-  getRecordPathRecurse(rootItem, QStringList(), "0", 0);
+    QStringList path;
 
-  return getRecordPathRecurse(rootItem, QStringList(), recordId, 1);
+    getRecordPathRecurse(rootItem, path, "0", 0);
+
+    return getRecordPathRecurse(rootItem, path, recordId, 1);
 }
 
 
 QStringList KnowTreeModel::getRecordPathRecurse(TreeItem *item,
-                                                QStringList currentPath,
-                                                QString recordId,
+                                                QStringList &currentPath,
+                                                const QString &recordId,
                                                 int mode)
 {
-  static QStringList findPath;
-  static bool isFind;
+    static QStringList findPath;
 
-  if(mode==0)
-  {
-    findPath.clear();
-    isFind=false;
-    return QStringList();
-  }
+    if(mode==0)
+    {
+        findPath.clear();
+        return QStringList();
+    }
 
-  if(isFind)
+    if(findPath.size()!=0)
+    {
+        return findPath;
+    }
+
+    // Если в данной ветке есть искомая запись
+    if( item->recordtableGetTableData()->isRecordExists(recordId) )
+    {
+        findPath=currentPath;
+        findPath << item->getId();
+    }
+    else
+    {
+        // Иначе перебираются подветки
+        for(int i=0; i < item->childCount(); i++)
+        {
+            // Рекурсивный поиск с установкой findPath в момент когда запись найдена
+            currentPath << item->getId();
+            getRecordPathRecurse(item->child(i), currentPath, recordId, 1);
+            currentPath.removeLast();
+        }
+    }
+
     return findPath;
-
-  // Путь дополняется
-  currentPath << item->getId();
-
-  // Если в данной ветке есть искомая запись
-  if( item->recordtableGetTableData()->isRecordExists(recordId) )
-  {
-    isFind=true;
-    findPath=currentPath;
-  }
-  else
-  {
-    // Иначе перебираются подветки
-    for(int i=0; i < item->childCount(); i++)
-      getRecordPathRecurse(item->child(i), currentPath, recordId, 1);
-  }
-
-  return findPath;
 }
 
 
