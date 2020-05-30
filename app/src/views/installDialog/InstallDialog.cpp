@@ -8,6 +8,7 @@
 #include "ui_InstallDialog.h"
 
 #include "main.h"
+#include <iso646.h>
 
 
 InstallDialog::InstallDialog(QWidget *parent) :

@@ -20,6 +20,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/ShortcutManager.h"
+#include <iso646.h>
 
 
 extern GlobalParameters globalParameters;
