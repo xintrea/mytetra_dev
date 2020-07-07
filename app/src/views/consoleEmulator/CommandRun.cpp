@@ -157,7 +157,9 @@ void CommandRun::removeProcessAndConsole(void)
     // Удаление консоли
     if(m_console)
     {
-        delete m_console;
+        // Т. к. данный метод может быть вызван из самой консоли (через сигнал cancelConsole),
+        // то конструкцию delete m_console использовать нельзя
+        m_console->deleteLater();
         m_console=nullptr;
     }
 
@@ -251,7 +253,7 @@ void CommandRun::onReadyReadStandardOutput()
 // и процесс уже неактивный
 void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    // qDebug() << Q_FUNC_INFO;
+    qDebug() << Q_FUNC_INFO;
 
     this->printOutput();
 
@@ -262,7 +264,7 @@ void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 
         // Окно консоли переключается на передний план чтобы пользователь
         // точно увидел сообщение об ошибке
-        m_console->activateWindow();
+        m_console->show(); // Ранее, при старом цикле опроса, использовался метод m_console->activateWindow();
     }
     else
     {
