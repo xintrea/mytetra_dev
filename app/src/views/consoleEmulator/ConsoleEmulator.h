@@ -56,9 +56,6 @@ signals:
  // Сигнал, вырабатывающийся в слоте onCancelConsole()
  void cancelConsole(void);
 
- // Сигнал, вырабатывающийся при закрытии окна
- void dialogHide(void);
-
 private:
 
  void setupUI(void);

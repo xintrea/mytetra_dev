@@ -114,7 +114,8 @@ void ConsoleEmulator::onCancelClick(void)
 {
  qDebug() << "ConsoleEmulator::onCancelClick() : Click cancel";
 
- this->close(); // Будет сгенерировано событие closeEvent
+ this->hide();
+ this->close(); // Генерация события closeEvent
 }
 
 
@@ -133,11 +134,11 @@ bool ConsoleEmulator::event(QEvent *event)
 {
   // qDebug() << "ConsoleEmulator::event:" << event->type();
 
-  if(event->type()==QEvent::Hide)
-  {
-    qDebug() << "Emit signal dialogHide";
-    emit dialogHide();
-  }
+  // if(event->type()==QEvent::Hide)
+  // {
+  //  qDebug() << "Emit custom signal dialogHide";
+  //  emit dialogHide();
+  // }
 
   return QDialog::event(event);
 }
