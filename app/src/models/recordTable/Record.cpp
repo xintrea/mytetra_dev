@@ -487,8 +487,12 @@ QString Record::getTextDirect() const
 }
 
 
-QTextDocument Record::getTextDocument() const
+// Тип QTextDocument является унаследованным от QObject, а QObject
+// нельзя передавать по значению, т.к. у него нет конструктора копирования,
+// поэтому возвращаться должен указатель на QTextDocument
+std::unique_ptr<QTextDocument> Record::getTextDocument() const
 {
+    // todo: Доработать метод получения текстового документа из записи
 
 }
 

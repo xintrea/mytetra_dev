@@ -1,6 +1,8 @@
 #ifndef __RECORD_H__
 #define __RECORD_H__
 
+#include <memory>
+
 #include <QString>
 #include <QMap>
 #include <QByteArray>
@@ -36,7 +38,7 @@ public:
 
   QString getText() const;
   QString getTextDirect() const;
-  QTextDocument getTextDocument() const;
+  std::unique_ptr<QTextDocument> getTextDocument() const;
   void setText(const QString &iText);
 
   QString getField(const QString &name) const;
