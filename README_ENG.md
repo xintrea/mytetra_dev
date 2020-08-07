@@ -52,3 +52,43 @@ The system Git created two main branches.
 Besides these two branches have been established in other branches for the implementation of a functional. Upon completion of the changes flow into the branch experimental. After stabilization of the changes in the experimental, the changes flow into the master and release is issued.
 
 Deciding to connect to the development MyTetra, please use the experimental branch for the current code.
+
+
+Build
+=====
+
+MyTetra is a Qt-only program.
+This means that only the Qt SDK is required to build MyTetra.
+No additional build libraries are required.
+
+In Linux, the assembly is carried out by the commands:
+```
+qmake.
+make
+```
+
+Installation is carried out by the command:
+```
+make install
+```
+
+The installed binary is located along the path:
+```
+/ usr / local / bin / mytetra
+```
+
+On Linux, Windows and MacOs, building can be done through QtCreator.
+To do this, open the mytetra.pro project in QtCreator, and select:
+```
+Build - Build project "mytetra"
+```
+
+Running
+======
+
+To run MyTetra, you need to run the compiled binary.
+Different operating systems place the binary in different paths.
+To find out which path the built or installed binary is located in, you need to view the build output or the installation output.
+
+For Linux and MacOs, build generates a binary named **mytetra**.
+For Windows, the build generates a binary named **mytetra.exe**.
