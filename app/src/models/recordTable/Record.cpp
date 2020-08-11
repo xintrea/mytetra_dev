@@ -492,8 +492,38 @@ QString Record::getTextDirect() const
 // поэтому возвращаться должен указатель на QTextDocument
 std::unique_ptr<QTextDocument> Record::getTextDocument() const
 {
-    // todo: Доработать метод получения текстового документа из записи
+    const QString fileName=this->getFullTextFileName(); // Имя файла с текстом записи
 
+
+    // Создается объект файла с нужным именем
+    QFile f(fileName);
+
+    // Если нужный файл не существует
+    if(!f.exists())
+    {
+        criticalError(QString(Q_FUNC_INFO)+" File "+fileName+" not found");
+        return nullptr;
+    }
+
+    // Если нужный файл недоступен для чтения
+    if(!f.open(QIODevice::ReadOnly))
+    {
+        criticalError(QString(Q_FUNC_INFO)+" File "+fileName+" not readable. Check permission.");
+        return nullptr;
+    }
+
+    QString content=QString::fromUtf8(f.readAll());
+
+    std::unique_ptr<QTextDocument> textDocument(new QTextDocument());
+
+
+    // Устанавливается URL документа, с помощью него будут высчитываться
+    // относительные ссылки при загрузке картинок
+    textDocument->setMetaInformation(QTextDocument::DocumentUrl, "file:"+fileName);
+
+    textDocument->setHtml( content );
+
+    return textDocument;
 }
 
 
