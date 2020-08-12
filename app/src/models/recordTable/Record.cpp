@@ -472,7 +472,7 @@ QString Record::getTextDirect() const
     criticalError("File "+fileName+" not readable. Check permission.");
 
   // Если незашифровано
-  if(fieldList.value("crypt").length()==0 ||fieldList.value("crypt")=="0")
+  if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
   {
     qDebug() << "Record::getTextDirect() : return direct data";
     return QString::fromUtf8( f.readAll() );
@@ -494,28 +494,11 @@ std::unique_ptr<QTextDocument> Record::getTextDocument() const
 {
     const QString fileName=this->getFullTextFileName(); // Имя файла с текстом записи
 
+    QString content=this->getTextDirect(); // Содержимое файла
 
-    // Создается объект файла с нужным именем
-    QFile f(fileName);
 
-    // Если нужный файл не существует
-    if(!f.exists())
-    {
-        criticalError(QString(Q_FUNC_INFO)+" File "+fileName+" not found");
-        return nullptr;
-    }
-
-    // Если нужный файл недоступен для чтения
-    if(!f.open(QIODevice::ReadOnly))
-    {
-        criticalError(QString(Q_FUNC_INFO)+" File "+fileName+" not readable. Check permission.");
-        return nullptr;
-    }
-
-    QString content=QString::fromUtf8(f.readAll());
-
+    // Текстовый документ создается в куче, и функция вернет умный указатель на него
     std::unique_ptr<QTextDocument> textDocument(new QTextDocument());
-
 
     // Устанавливается URL документа, с помощью него будут высчитываться
     // относительные ссылки при загрузке картинок
@@ -523,7 +506,7 @@ std::unique_ptr<QTextDocument> Record::getTextDocument() const
 
     textDocument->setHtml( content );
 
-    return textDocument;
+    return textDocument; // Возвращается умный указатель на текстовый документ в куче
 }
 
 

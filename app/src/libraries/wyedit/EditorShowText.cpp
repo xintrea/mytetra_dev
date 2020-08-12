@@ -63,6 +63,7 @@ void EditorShowText::setHtml(QString text)
 void EditorShowText::setDocument(QTextDocument *document)
 {
   textArea->setDocument(document);
+  textArea->document()->setParent(textArea);
 }
 
 
