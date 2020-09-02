@@ -8,6 +8,7 @@
 #include "controllers/actionLog/ActionLogController.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern AppConfig mytetraConfig;

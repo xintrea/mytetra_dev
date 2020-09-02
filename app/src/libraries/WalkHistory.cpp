@@ -4,6 +4,7 @@
 #include "WalkHistory.h"
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 WalkHistory::WalkHistory(void)

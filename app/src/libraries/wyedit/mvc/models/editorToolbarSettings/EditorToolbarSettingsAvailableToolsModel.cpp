@@ -7,6 +7,7 @@
 #include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "libraries/wyedit/EditorConfig.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern ShortcutManager shortcutManager;
 

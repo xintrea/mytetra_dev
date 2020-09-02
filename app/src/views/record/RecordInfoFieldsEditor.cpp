@@ -10,6 +10,7 @@
 #include "InfoFieldEnter.h"
 #include "RecordInfoFieldsEditor.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 extern ShortcutManager shortcutManager;

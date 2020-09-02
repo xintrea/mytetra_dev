@@ -9,6 +9,7 @@
 #include "libraries/wyedit/EditorConfig.h"
 #include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "views/record/MetaEditor.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 EditorToolbarSettingsScreen::EditorToolbarSettingsScreen(QWidget *parent) : QDialog(parent)

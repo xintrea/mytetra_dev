@@ -12,6 +12,7 @@
 #include "main.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern ActionLogger actionLogger;
 extern GlobalParameters globalParameters;

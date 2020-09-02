@@ -3,7 +3,7 @@
 #include "main.h"
 #include "ReduceMessageBox.h"
 #include "views/mainWindow/MainWindow.h"
-
+#include "libraries/helpers/ObjectHelper.h"
 
 
 ReduceMessageBox::ReduceMessageBox(QWidget *parent) : QDialog(parent)

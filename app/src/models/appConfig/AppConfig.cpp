@@ -6,6 +6,7 @@
 #include "AppConfigUpdater.h"
 
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern GlobalParameters globalParameters;
 

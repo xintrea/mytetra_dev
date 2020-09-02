@@ -3,6 +3,7 @@
 
 #include "AppConfigUpdater.h"
 #include "main.h"
+#include "libraries/helpers/DebugHelper.h"
 
 #define APPCONFIGUPDATER_VERSION "APPCONFIGUPDATER v.1.0 Build 29.10.2010"
 

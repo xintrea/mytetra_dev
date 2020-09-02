@@ -11,6 +11,7 @@
 #include "models/attachTable/AttachTableData.h"
 #include "ClipboardRecords.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 ClipboardRecords::ClipboardRecords(void) : QMimeData()

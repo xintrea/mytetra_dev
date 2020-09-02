@@ -16,6 +16,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/attachTable/AttachTableScreen.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern GlobalParameters globalParameters;

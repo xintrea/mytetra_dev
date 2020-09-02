@@ -10,6 +10,7 @@
 #include "libraries/FixedParameters.h"
 #include "models/recordTable/RecordTableModel.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern AppConfig mytetraConfig;
 

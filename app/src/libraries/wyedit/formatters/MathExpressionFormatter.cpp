@@ -21,6 +21,7 @@
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/FixedParameters.h"
 #include "views/consoleEmulator/CommandRun.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 MathExpressionFormatter::MathExpressionFormatter()

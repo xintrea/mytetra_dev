@@ -8,6 +8,7 @@
 #include "libraries/FixedParameters.h"
 #include "libraries/crypt/CryptService.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;

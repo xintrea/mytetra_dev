@@ -3,6 +3,7 @@
 #include "InfoFieldEnter.h"
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern AppConfig mytetraConfig;
 

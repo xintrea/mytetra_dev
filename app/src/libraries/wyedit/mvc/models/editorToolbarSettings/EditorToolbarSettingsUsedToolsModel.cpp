@@ -5,6 +5,8 @@
 #include "libraries/wyedit/EditorToolBarAssistant.h"
 #include "views/record/MetaEditor.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/helpers/ObjectHelper.h"
+
 
 extern ShortcutManager shortcutManager;
 extern GlobalParameters globalParameters;

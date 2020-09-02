@@ -15,6 +15,8 @@
 #include "libraries/GlobalParameters.h"
 #include "views/enterPassword/EnterPassword.h"
 #include "models/dataBaseConfig/DataBaseConfig.h"
+#include "libraries/helpers/ObjectHelper.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;

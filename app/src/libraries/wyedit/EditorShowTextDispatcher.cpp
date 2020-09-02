@@ -6,6 +6,7 @@
 #include "views/tree/KnowTreeView.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/Record.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 EditorShowTextDispatcher::EditorShowTextDispatcher(QObject *parent) : QObject(parent)

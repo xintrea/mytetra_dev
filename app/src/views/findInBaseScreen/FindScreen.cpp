@@ -27,6 +27,7 @@
 #include "views/tree/TreeScreen.h"
 #include "libraries/MtComboBox.h"
 #include "views/tree/KnowTreeView.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;

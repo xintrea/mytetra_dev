@@ -9,6 +9,7 @@
 #include "views/tree/KnowTreeView.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"

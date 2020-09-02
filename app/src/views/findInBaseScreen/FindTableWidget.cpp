@@ -18,6 +18,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 #define USER_ROLE_PATH      Qt::UserRole
 #define USER_ROLE_RECORD_ID Qt::UserRole+1

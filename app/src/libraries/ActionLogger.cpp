@@ -5,6 +5,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/CryptService.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;

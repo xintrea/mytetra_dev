@@ -5,6 +5,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern AppConfig mytetraConfig;
 extern TrashMonitoring trashMonitoring;

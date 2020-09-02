@@ -8,6 +8,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppConfigUpdater.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;

@@ -23,6 +23,7 @@
 #include "views/actionLog/ActionLogScreen.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/RandomInitter.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 #include "libraries/wyedit/EditorTextArea.h"
 

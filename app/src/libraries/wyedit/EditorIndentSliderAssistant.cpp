@@ -2,6 +2,7 @@
 #include "indentslider/IndentSlider.h"
 #include "EditorTextArea.h"
 #include "main.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 EditorIndentSliderAssistant::EditorIndentSliderAssistant(QObject *parent, EditorTextArea *iTextArea) : QObject(parent)

@@ -20,6 +20,7 @@
 #include "views/installDialog/InstallDialog.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 #ifdef Q_OS_WIN32
 #include "windows.h"

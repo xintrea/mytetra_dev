@@ -15,6 +15,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "EnterPassword.h"
 #include "views/findInBaseScreen/FindScreen.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 EnterPassword::EnterPassword(int imode, QWidget *parent) : QDialog(parent)

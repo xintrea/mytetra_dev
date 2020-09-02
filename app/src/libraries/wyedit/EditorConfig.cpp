@@ -4,6 +4,7 @@
 
 #include "EditorConfig.h"
 #include "../../main.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 // Конструктор объекта хранения настроек редактора

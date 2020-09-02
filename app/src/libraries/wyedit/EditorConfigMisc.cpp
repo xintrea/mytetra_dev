@@ -13,6 +13,7 @@
 #include "EditorConfigMisc.h"
 #include "EditorConfig.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern GlobalParameters globalParameters;
 

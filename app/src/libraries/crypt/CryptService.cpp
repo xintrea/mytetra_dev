@@ -5,6 +5,8 @@
 
 #include <QFile>
 
+#include "libraries/helpers/DebugHelper.h"
+
 
 CryptService::CryptService()
 {

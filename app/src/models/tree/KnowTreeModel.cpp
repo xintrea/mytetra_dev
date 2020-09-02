@@ -19,6 +19,7 @@
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern AppConfig mytetraConfig;

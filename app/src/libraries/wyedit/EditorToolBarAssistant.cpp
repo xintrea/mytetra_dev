@@ -12,6 +12,7 @@
 #include "EditorConfig.h"
 #include "EditorIndentSliderAssistant.h"
 #include "../TraceLogger.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,

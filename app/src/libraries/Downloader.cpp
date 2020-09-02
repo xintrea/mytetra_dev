@@ -16,6 +16,7 @@
 
 #include "Downloader.h"
 #include "main.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 Downloader::Downloader()

@@ -8,6 +8,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 extern AppConfig mytetraConfig;

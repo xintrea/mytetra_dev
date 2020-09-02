@@ -17,6 +17,7 @@
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"
 #include "libraries/Downloader.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern GlobalParameters globalParameters;

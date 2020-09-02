@@ -3,6 +3,7 @@
 #include "EditorAbsTableCell.h"
 
 #include "../../main.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 // Конструктор по умолчанию пустой ячейки

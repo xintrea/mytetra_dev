@@ -9,6 +9,7 @@
 #include "libraries/ClipboardRecords.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"

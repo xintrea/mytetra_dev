@@ -2,6 +2,7 @@
 
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 ShortcutSettingsView::ShortcutSettingsView(QWidget *parent) : QTreeView(parent)

@@ -7,6 +7,7 @@
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern AppConfig mytetraConfig;

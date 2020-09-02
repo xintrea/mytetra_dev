@@ -25,6 +25,7 @@
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
 #include "libraries/helpers/DiskHelper.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern GlobalParameters globalParameters;

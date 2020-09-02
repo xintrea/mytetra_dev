@@ -12,6 +12,7 @@
 #include "EditorConfig.h"
 
 #include "../../main.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 EditorConfigFont::EditorConfigFont(QWidget *parent) : ConfigPage(parent)

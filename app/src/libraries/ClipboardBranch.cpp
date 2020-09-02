@@ -9,6 +9,8 @@
 #include "main.h"
 #include "ClipboardBranch.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/helpers/DebugHelper.h"
+
 
 ClipboardBranch::ClipboardBranch(void) : QMimeData()
 {

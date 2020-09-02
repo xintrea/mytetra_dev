@@ -27,6 +27,7 @@
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/IconSelectDialog.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 extern AppConfig mytetraConfig;

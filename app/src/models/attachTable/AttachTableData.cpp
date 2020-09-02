@@ -7,6 +7,7 @@
 #include "AttachTableData.h"
 #include "AttachTableModel.h"
 #include "models/recordTable/Record.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 AttachTableData::AttachTableData(Record *iRecord)

@@ -54,11 +54,6 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-void logPrint(char *lpszText, ...);
-[[ noreturn ]] void criticalError(QString message);
-QString xmlNodeToString(QDomNode xmlData);
-
-void printObjectTree(void);
 bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
 void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible=true);
 void myMessageOutput(QtMsgType type, const char *msg);
@@ -76,69 +71,6 @@ void editConfigFile( QString fileName, float sizeCoeffitient ); // Редакт�
 
 QString htmlSpecialChars(QString line);
 QString htmlSpecialCharsDecode(QString line);
-
-
-// Поиск объекта от корня по имени
-template <class X> inline X *find_object(QString objectName)
-{
-    QObject *findObj;
-
-    extern QObject *pMainWindow;
-
-    // Если запрошен сам корень
-    if(objectName=="mainwindow")
-    {
-        QObject *mvp=qobject_cast<X *>(pMainWindow);
-
-        if(mvp->metaObject()->className()!=pMainWindow->metaObject()->className())
-        {
-            // Если запрошенный класс объекта не является классом главного окна
-            printf("find_object(): Can't find mainwindow object. Check <type> in function call\n");
-            exit(1);
-            return nullptr;
-        }
-        else
-            return qobject_cast<X *>(pMainWindow);
-    }
-
-    // Запрошен обычный объект, надо его найти
-    // findObj=qFindChild<X *>(pMainWindow, objectName);
-    findObj=pMainWindow->findChild<X *>(objectName);
-
-    if(!findObj)
-    {
-        // Если объекта с указанным именем не найдено
-        // print_object_tree();
-        printf("find_object(): Can't find object with name %s\n",qPrintable(objectName));
-
-        printObjectTree();
-
-        /*
-        QList<QWidget *> widgets = pMainWindow->findChildren<QWidget *>();
-        foreach (QWidget* b, widgets)
-            printf("Obj: %s\n", qPrintable( b->objectName() ) );
-        */
-
-        exit(1);
-    }
-    else
-    {
-        // Объект был найден, и нужно преобразовать указатель на него
-        // к указателю c заданным в шаблоне типом
-        X *obj=qobject_cast<X *>(findObj);
-
-        if(obj==0)
-        {
-            // Если найденный объект не может быть преобразован к заданному в шаблоне типу
-            printf("find_object(): Object %s find, but can't convert type. Check <type> in function call\n",qPrintable(objectName));
-            exit(1);
-        }
-        else
-            return obj; // Объект найден нормально
-    }
-
-    return nullptr;
-}
 
 
 #endif // MYTETRA_MAIN_H

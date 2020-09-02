@@ -35,6 +35,7 @@
 #include "../../views/mainWindow/MainWindow.h"
 #include "../TraceLogger.h"
 #include "libraries/helpers/DiskHelper.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 
 // Максимально возможная длина выделения текста (в символах) при которой

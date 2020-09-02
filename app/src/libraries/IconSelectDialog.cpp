@@ -16,6 +16,7 @@
 #include "IconSelectDialog.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
+#include "libraries/helpers/ObjectHelper.h"
 
 extern AppConfig mytetraConfig;
 

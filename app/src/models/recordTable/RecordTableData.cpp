@@ -20,6 +20,8 @@
 #include "libraries/ActionLogger.h"
 
 #include "libraries/wyedit/Editor.h"
+#include "libraries/helpers/ObjectHelper.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
