@@ -16,7 +16,7 @@
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"
 #include "libraries/crypt/CryptService.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 #include "libraries/ActionLogger.h"
 
 #include "libraries/wyedit/Editor.h"

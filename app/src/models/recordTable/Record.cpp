@@ -10,7 +10,7 @@
 #include "libraries/GlobalParameters.h"
 #include "models/attachTable/AttachTableData.h"
 #include "libraries/crypt/CryptService.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;

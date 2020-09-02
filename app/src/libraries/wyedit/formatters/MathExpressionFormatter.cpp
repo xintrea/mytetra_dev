@@ -18,7 +18,7 @@
 #include "../EditorMathExpressionDialog.h"
 
 #include "main.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 #include "libraries/FixedParameters.h"
 #include "views/consoleEmulator/CommandRun.h"
 

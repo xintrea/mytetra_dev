@@ -24,7 +24,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 
 
 extern GlobalParameters globalParameters;

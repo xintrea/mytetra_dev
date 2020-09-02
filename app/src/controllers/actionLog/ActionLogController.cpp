@@ -12,7 +12,6 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/CryptService.h"
-#include "libraries/DiskHelper.h"
 #include "views/record/MetaEditor.h"
 #include "views/tree/TreeScreen.h"
 #include "views/dialog/ReduceMessageBox.h"

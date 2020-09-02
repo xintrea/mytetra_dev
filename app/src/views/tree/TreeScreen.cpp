@@ -23,7 +23,7 @@
 #include "libraries/FixedParameters.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/WindowSwitcher.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/IconSelectDialog.h"
 #include "libraries/ShortcutManager.h"

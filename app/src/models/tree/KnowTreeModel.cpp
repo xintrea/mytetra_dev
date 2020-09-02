@@ -16,7 +16,7 @@
 #include "views/tree/TreeScreen.h"
 #include "libraries/crypt/Password.h"
 #include "libraries/crypt/CryptService.h"
-#include "libraries/DiskHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 
