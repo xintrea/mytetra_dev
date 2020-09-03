@@ -77,20 +77,6 @@ PeriodicSyncro periodicSyncro;
 QObject *pMainWindow;
 
 
-int getScreenSizeY(void)
-{
-#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
-  int size=(qApp->desktop()->availableGeometry()).height();
-#endif
-
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  int size=(QApplication::screens().at(0)->availableGeometry()).height();
-#endif
-
-  return size;
-}
-
-
 // Редактирование произвольного конфиг-файла (конфиг программы, конфиг редактора)
 void editConfigFile( QString fileName, float sizeCoefficient )
 {
@@ -140,20 +126,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
                        QObject::tr("The program will have to be restarted for changes to take effect."),
                        QMessageBox::Ok);
   exit(0);
-}
-
-
-int getScreenSizeX(void)
-{
-#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
-  int size=(qApp->desktop()->availableGeometry()).width();
-#endif
-
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  int size=(QApplication::screens().at(0)->availableGeometry()).width();
-#endif
-
-  return size;
 }
 
 

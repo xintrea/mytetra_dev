@@ -23,12 +23,12 @@ using namespace std;
 
 // ----------------------------------------------------------
 // MyTetra - программа для накопления осмысленной информации
-// Волгодонск, 2010 - 2019 г.
+// Волгодонск, Санкт-Петербург 2010 - 2020 г.
 // Контакты: xintrea@gmail.com, www.webhamster.ru
 // Данный исходный код распространяется под лицензиями:
 // - GPL v.3
 // - Modified BSD
-// © Степанов С. М. и товарищи 2010 - 2018
+// © Степанов С. М. и товарищи 2010 - 2020
 // ----------------------------------------------------------
 
 // Версия программы
@@ -56,8 +56,6 @@ using namespace std;
 // Прототипы функций, которые могут использоваться в других файлах
 void setKineticScrollArea(QAbstractItemView *object);
 
-int getScreenSizeX(void);
-int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
 
 void editConfigFile( QString fileName, float sizeCoeffitient ); // Редактирование какого-либо конфиг-файла

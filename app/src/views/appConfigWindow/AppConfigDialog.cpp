@@ -14,6 +14,8 @@
 #include "AppConfigPage_Attach.h"
 #include "AppConfigPage_Keyboard.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/helpers/ScreenHelper.h"
+
 
 extern AppConfig mytetraConfig;
 
@@ -28,8 +30,8 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
 
     if(mytetraConfig.getInterfaceMode()=="mobile")
     {
-        qDebug() << "Screen size X Y: " << getScreenSizeX() << getScreenSizeY();
-        configDialog->setMinimumSize(getScreenSizeX(), getScreenSizeY());
+        qDebug() << "Screen size X Y: " << ScreenHelper::getSizeX() << ScreenHelper::getSizeY();
+        configDialog->setMinimumSize(ScreenHelper::getSizeX(), ScreenHelper::getSizeY());
         configDialog->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     }
 
