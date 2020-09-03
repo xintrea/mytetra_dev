@@ -1,10 +1,11 @@
 #ifndef DEBUGHELPER_H
 #define DEBUGHELPER_H
 
-#include <QString>
-#include <QDomNode>
-
 // Функции, используемые при отладке
+
+
+class QString;
+class QDomNode;
 
 void logPrint(char *lpszText, ...);
 
@@ -14,6 +15,7 @@ QString xmlNodeToString(QDomNode xmlData);
 
 void printObjectTree(void);
 
+void setDebugMessageHandler();
 
 //class DebugHelper
 //{

@@ -55,7 +55,6 @@ using namespace std;
 
 // Прототипы функций, которые могут использоваться в других файлах
 
-void myMessageOutput(QtMsgType type, const char *msg);
 QString getUniqueId(void);
 QString getUniqueImageName(void);
 
