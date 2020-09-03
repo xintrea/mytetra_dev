@@ -7,6 +7,8 @@
 #include "AppConfigPage_Misc.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/ConfigEditorHelper.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -121,7 +123,7 @@ void AppConfigPage_Misc::onClickedEditMyTetraConfigFile(void)
   // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
   mytetraConfig.sync();
 
-  editConfigFile( globalParameters.getWorkDirectory()+"/conf.ini", 0.8 );
+  ConfigEditorHelper::editConfigFile( globalParameters.getWorkDirectory()+"/conf.ini", 0.8 );
 }
 
 

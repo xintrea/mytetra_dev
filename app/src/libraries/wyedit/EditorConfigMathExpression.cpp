@@ -14,6 +14,8 @@
 #include "EditorConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/ConfigEditorHelper.h"
+
 
 extern GlobalParameters globalParameters;
 
@@ -71,7 +73,7 @@ void EditorConfigMathExpression::onClickedEditWyEditConfigFile(void)
   // Сбрасываются в файл конфига все возможные изменения, которые, возможно еще не были записаны
   conf->sync();
 
-  editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8f );
+  ConfigEditorHelper::editConfigFile( globalParameters.getWorkDirectory()+"/editorconf.ini", 0.8f );
 }
 
 
