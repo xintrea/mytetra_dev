@@ -6,6 +6,8 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/crypt/CryptService.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "libraries/helpers/HtmlHelper.h"
+
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -394,7 +396,7 @@ void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
 
   // Добавляются атрибуты действия
   foreach(const QString &attributeName, iData.keys()) // Перебираются имена переданных атрибутов
-    line+=attributeName +"=\"" + htmlSpecialChars( iData.value(attributeName) ) +"\" ";
+    line+=attributeName +"=\"" + HtmlHelper::htmlSpecialChars( iData.value(attributeName) ) +"\" ";
 
   // Завершается строка лога
   line+="/>";

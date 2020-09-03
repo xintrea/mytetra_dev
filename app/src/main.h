@@ -34,7 +34,7 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION  115
+#define APPLICATION_RELEASE_MICROVERSION  116
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -51,12 +51,6 @@ using namespace std;
 #else
 #define TRACELOG
 #endif
-
-
-// Прототипы функций, которые могут использоваться в других файлах
-
-QString htmlSpecialChars(QString line);
-QString htmlSpecialCharsDecode(QString line);
 
 
 #endif // MYTETRA_MAIN_H

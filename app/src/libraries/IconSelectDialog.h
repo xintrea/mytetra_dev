@@ -27,6 +27,9 @@ public:
 
   int exec();
 
+  // Проверка наличия коллекции иконок
+  static void iconsCollectionCheck();
+
 protected slots:
 
   void onRemoveIconClick();
