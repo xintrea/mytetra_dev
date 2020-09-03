@@ -7,6 +7,7 @@
 #include "ActionLogView.h"
 #include "controllers/actionLog/ActionLogController.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/helpers/ActionHelper.h"
 
 
 extern ShortcutManager shortcutManager;

@@ -76,31 +76,6 @@ PeriodicSyncro periodicSyncro;
 QObject *pMainWindow;
 
 
-
-// Функция для сортировки массива из QStringList исходя из длин списков
-bool compareQStringListLen(const QStringList &list1, const QStringList &list2)
-{
-  return list1.size() < list2.size();
-}
-
-
-void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible)
-{
-    // Действие добавляется в виде кнопки
-    tools_line->addAction(action);
-
-    // Выясняется кнопка, которая была создана и обрабатвает данное действие
-    QToolButton* currentButton=qobject_cast<QToolButton*>(tools_line->widgetForAction(action));
-
-    if(!isVisible) {
-        currentButton->setFixedHeight(0);
-        currentButton->setFixedWidth(0);
-    }
-
-    currentButton->setAutoRaise(true); // Установка автоподсвечивания, от него зависит видимость границ кнопок
-}
-
-
 void smartPrintDebugMessage(QString msg)
 {
     if(globalParameters.getTargetOs()=="any" ||

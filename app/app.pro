@@ -139,6 +139,11 @@ INSTALLS+=icon_48_file
 
 HEADERS = src/main.h \
     src/libraries/RandomInitter.h \
+    src/libraries/helpers/ActionHelper.h \
+    src/libraries/helpers/DebugHelper.h \
+    src/libraries/helpers/DiskHelper.h \
+    src/libraries/helpers/ObjectHelper.h \
+    src/libraries/helpers/SortHelper.h \
     src/libraries/wyedit/EditorConfigMathExpression.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
     src/libraries/wyedit/EditorShowTextDispatcher.h \
@@ -209,7 +214,6 @@ HEADERS = src/main.h \
     src/views/dialog/ReduceMessageBox.h \
     src/views/dialog/OverTextToolButton.h \
     src/libraries/crypt/CryptService.h \
-    src/libraries/DiskHelper.h \
     src/libraries/wyedit/EditorToolBar.h \
     src/libraries/wyedit/formatters/TypefaceFormatter.h \
     src/libraries/wyedit/formatters/Formatter.h \
@@ -282,6 +286,11 @@ HEADERS+=\
 
 SOURCES = src/main.cpp \
     src/libraries/RandomInitter.cpp \
+    src/libraries/helpers/ActionHelper.cpp \
+    src/libraries/helpers/DebugHelper.cpp \
+    src/libraries/helpers/DiskHelper.cpp \
+    src/libraries/helpers/ObjectHelper.cpp \
+    src/libraries/helpers/SortHelper.cpp \
     src/libraries/wyedit/EditorConfigMathExpression.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
     src/libraries/wyedit/EditorShowTextDispatcher.cpp \
@@ -352,7 +361,6 @@ SOURCES = src/main.cpp \
     src/views/dialog/ReduceMessageBox.cpp \
     src/views/dialog/OverTextToolButton.cpp \
     src/libraries/crypt/CryptService.cpp \
-    src/libraries/DiskHelper.cpp \
     src/libraries/wyedit/EditorToolBar.cpp \
     src/libraries/wyedit/formatters/TypefaceFormatter.cpp \
     src/libraries/wyedit/formatters/Formatter.cpp \

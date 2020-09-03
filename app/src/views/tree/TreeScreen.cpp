@@ -28,6 +28,8 @@
 #include "libraries/IconSelectDialog.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/SortHelper.h"
+#include "libraries/helpers/ActionHelper.h"
 
 
 extern AppConfig mytetraConfig;
@@ -887,7 +889,7 @@ void TreeScreen::delOneBranch(QModelIndex index)
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
  // Сортировка массива веток по длине пути
- std::sort(subbranchespath.begin(),subbranchespath.end(),compareQStringListLen);
+ std::sort(subbranchespath.begin(), subbranchespath.end(), compareQStringListLen);
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок

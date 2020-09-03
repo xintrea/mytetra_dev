@@ -54,8 +54,7 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-bool compareQStringListLen(const QStringList &list1, const QStringList &list2);
-void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible=true);
+
 void myMessageOutput(QtMsgType type, const char *msg);
 QString getUniqueId(void);
 QString getUniqueImageName(void);
