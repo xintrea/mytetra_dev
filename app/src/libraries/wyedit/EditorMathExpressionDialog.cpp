@@ -6,6 +6,7 @@
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 EditorMathExpressionDialog::EditorMathExpressionDialog(MathExpressionFormatter *mathExpressionFormatter, QWidget *parent) : QDialog(parent)

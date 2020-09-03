@@ -18,6 +18,8 @@
 #include "views/dialog/ReduceMessageBox.h"
 #include "libraries/Downloader.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/MessageHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 extern GlobalParameters globalParameters;

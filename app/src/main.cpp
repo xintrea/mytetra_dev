@@ -36,6 +36,7 @@
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "libraries/helpers/MessageHelper.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
 
@@ -74,15 +75,6 @@ PeriodicSyncro periodicSyncro;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
-
-
-// Выдача на экран простого окна с сообщением
-void showMessageBox(QString message)
-{
-  QMessageBox msgBox;
-  msgBox.setText(message);
-  msgBox.exec();
-}
 
 
 int getScreenSizeY(void)
@@ -305,42 +297,6 @@ QString htmlSpecialCharsDecode(QString line)
   line.replace("&gt;", ">");
 
   return line;
-}
-
-
-// Функция всегда возвращает уникальный идентификатор
-QString getUniqueId(void)
-{
- // Уникальный идентификатор состоит из 10 цифр количества секунд с эпохи UNIX
- // и 10 случайных символов 0-9 a-z
-
- // Количество секунд как число
- long seconds;
- seconds=static_cast<long>( time(nullptr) );
-
- // Количество секунд как строка
- QString secondsLine=QString::number(seconds, 10);
- secondsLine=secondsLine.rightJustified(10, '0');
-
- // Строка из 10 случайных символов
- QString symbols="0123456789abcdefghijklmnopqrstuvwxyz";
- QString line;
-
- for(int i=0; i<10; i++)
-  line+=symbols.mid(rand()%symbols.length(), 1);
-
- QString result=secondsLine+line;
-
- return result;
-}
-
-
-// Получение псевдо-уникального имени картинки
-// Внутренний формат для храния картинок в MyTetra - png
-// Вызывающий код должен при необходимости проверять уникальность имени картинки в пределах одной записи
-QString getUniqueImageName(void)
-{
-    return "image"+getUniqueId()+".png"; // "image"+QString::number(rand())+".png";
 }
 
 

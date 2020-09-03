@@ -7,6 +7,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
+#include "libraries/helpers/MessageHelper.h"
 
 extern AppConfig mytetraConfig;
 extern PeriodicCheckBase periodicCheckBase;

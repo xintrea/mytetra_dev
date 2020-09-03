@@ -21,6 +21,7 @@
 
 #include "libraries/wyedit/Editor.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 extern AppConfig mytetraConfig;

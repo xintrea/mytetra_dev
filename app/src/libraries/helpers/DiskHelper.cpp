@@ -6,6 +6,7 @@
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 extern AppConfig mytetraConfig;
 extern TrashMonitoring trashMonitoring;

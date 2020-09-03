@@ -18,6 +18,7 @@
 
 #include "main.h"
 #include "libraries//Downloader.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 ImageFormatter::ImageFormatter()

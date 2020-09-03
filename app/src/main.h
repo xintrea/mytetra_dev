@@ -54,17 +54,12 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-
-QString getUniqueId(void);
-QString getUniqueImageName(void);
-
 void setKineticScrollArea(QAbstractItemView *object);
 
 int getScreenSizeX(void);
 int getScreenSizeY(void);
 qreal getCalculateIconSizePx(void);
 
-void showMessageBox(QString message); // Выдача на экран простого окна с сообщением
 void editConfigFile( QString fileName, float sizeCoeffitient ); // Редактирование какого-либо конфиг-файла
 
 QString htmlSpecialChars(QString line);

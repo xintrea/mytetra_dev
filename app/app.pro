@@ -142,8 +142,10 @@ HEADERS = src/main.h \
     src/libraries/helpers/ActionHelper.h \
     src/libraries/helpers/DebugHelper.h \
     src/libraries/helpers/DiskHelper.h \
+    src/libraries/helpers/MessageHelper.h \
     src/libraries/helpers/ObjectHelper.h \
     src/libraries/helpers/SortHelper.h \
+    src/libraries/helpers/UniqueIdHelper.h \
     src/libraries/wyedit/EditorConfigMathExpression.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
     src/libraries/wyedit/EditorShowTextDispatcher.h \
@@ -289,8 +291,10 @@ SOURCES = src/main.cpp \
     src/libraries/helpers/ActionHelper.cpp \
     src/libraries/helpers/DebugHelper.cpp \
     src/libraries/helpers/DiskHelper.cpp \
+    src/libraries/helpers/MessageHelper.cpp \
     src/libraries/helpers/ObjectHelper.cpp \
     src/libraries/helpers/SortHelper.cpp \
+    src/libraries/helpers/UniqueIdHelper.cpp \
     src/libraries/wyedit/EditorConfigMathExpression.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
     src/libraries/wyedit/EditorShowTextDispatcher.cpp \

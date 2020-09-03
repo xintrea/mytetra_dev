@@ -30,6 +30,8 @@
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/SortHelper.h"
 #include "libraries/helpers/ActionHelper.h"
+#include "libraries/helpers/MessageHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 extern AppConfig mytetraConfig;

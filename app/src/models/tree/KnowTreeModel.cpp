@@ -20,6 +20,8 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/MessageHelper.h"
+#include "libraries/helpers/UniqueIdHelper.h"
 
 
 extern AppConfig mytetraConfig;

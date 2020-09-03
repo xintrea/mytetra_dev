@@ -14,6 +14,7 @@
 #include "../EditorToolBarAssistant.h"
 #include "../EditorCursorPositionDetector.h"
 #include "../../TraceLogger.h"
+#include "libraries/helpers/MessageHelper.h"
 
 
 TypefaceFormatter::TypefaceFormatter()

@@ -8,6 +8,7 @@
 #include "views/tree/KnowTreeView.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/MessageHelper.h"
 
 
 extern AppConfig mytetraConfig;
