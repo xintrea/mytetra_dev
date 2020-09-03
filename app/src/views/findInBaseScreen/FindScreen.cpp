@@ -28,6 +28,7 @@
 #include "libraries/MtComboBox.h"
 #include "views/tree/KnowTreeView.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/CssHelper.h"
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
@@ -121,18 +122,18 @@ void FindScreen::setupComboOption(void)
     // treeSearchArea->showMinimized();
 
     wordRegard->setMinimumContentsLength(1);
-    wordRegard->setMaximumWidth(getCalculateIconSizePx()*2);
-    wordRegard->setMinimumWidth(getCalculateIconSizePx()*2);
+    wordRegard->setMaximumWidth(CssHelper::getCalculateIconSizePx()*2);
+    wordRegard->setMinimumWidth(CssHelper::getCalculateIconSizePx()*2);
     wordRegard->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
 
     howExtract->setMinimumContentsLength(1);
-    howExtract->setMaximumWidth(getCalculateIconSizePx()*2);
-    howExtract->setMinimumWidth(getCalculateIconSizePx()*2);
+    howExtract->setMaximumWidth(CssHelper::getCalculateIconSizePx()*2);
+    howExtract->setMinimumWidth(CssHelper::getCalculateIconSizePx()*2);
     howExtract->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
 
     treeSearchArea->setMinimumContentsLength(1);
-    treeSearchArea->setMaximumWidth(getCalculateIconSizePx()*2);
-    treeSearchArea->setMinimumWidth(getCalculateIconSizePx()*2);
+    treeSearchArea->setMaximumWidth(CssHelper::getCalculateIconSizePx()*2);
+    treeSearchArea->setMinimumWidth(CssHelper::getCalculateIconSizePx()*2);
     treeSearchArea->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
   }
 }

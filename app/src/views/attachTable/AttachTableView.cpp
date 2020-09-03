@@ -8,6 +8,7 @@
 #include "AttachTableScreen.h"
 #include "controllers/attachTable/AttachTableController.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/helpers/GestureHelper.h"
 
 extern GlobalParameters globalParameters;
 
@@ -18,7 +19,7 @@ AttachTableView::AttachTableView(QWidget *parent) : QTableView(parent)
   this->setSelectionBehavior(QAbstractItemView::SelectRows); // Выделяется вся строка
 
   // Настройка области виджета для кинетической прокрутки
-  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+  GestureHelper::setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 
   // Разрешение принимать жест QTapAndHoldGesture
   grabGesture(Qt::TapAndHoldGesture);

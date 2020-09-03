@@ -9,6 +9,7 @@
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/GestureHelper.h"
 
 
 extern AppConfig mytetraConfig;
@@ -45,7 +46,7 @@ void ActionLogView::init()
   this->resizeColumnToContents(0);
 
   // Настройка области виджета для кинетической прокрутки
-  setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+  GestureHelper::setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 
   assemblyContextMenu();
   setContextMenuPolicy(Qt::CustomContextMenu);

@@ -54,10 +54,6 @@ using namespace std;
 
 
 // Прототипы функций, которые могут использоваться в других файлах
-void setKineticScrollArea(QAbstractItemView *object);
-
-qreal getCalculateIconSizePx(void);
-
 void editConfigFile( QString fileName, float sizeCoeffitient ); // Редактирование какого-либо конфиг-файла
 
 QString htmlSpecialChars(QString line);

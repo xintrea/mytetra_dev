@@ -19,6 +19,8 @@
 #include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/GestureHelper.h"
+#include "libraries/helpers/CssHelper.h"
 
 #define USER_ROLE_PATH      Qt::UserRole
 #define USER_ROLE_RECORD_ID Qt::UserRole+1
@@ -59,7 +61,7 @@ void FindTableWidget::setupUI(void)
   if(height!=0)
     findTableView->verticalHeader()->setDefaultSectionSize( height );
   if(mytetraConfig.getInterfaceMode()=="mobile")
-    findTableView->verticalHeader()->setDefaultSectionSize( getCalculateIconSizePx() );
+    findTableView->verticalHeader()->setDefaultSectionSize( CssHelper::getCalculateIconSizePx() );
 
   // Устанавливается режим что могут выделяться только строки
   // а не отдельный item таблицы
@@ -69,7 +71,7 @@ void FindTableWidget::setupUI(void)
   findTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
   // Настройка области виджета для кинетической прокрутки
-  setKineticScrollArea( qobject_cast<QAbstractItemView*>(findTableView) );
+  GestureHelper::setKineticScrollArea( qobject_cast<QAbstractItemView*>(findTableView) );
 }
 
 

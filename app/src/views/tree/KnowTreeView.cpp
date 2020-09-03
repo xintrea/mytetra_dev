@@ -10,6 +10,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/GestureHelper.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
@@ -34,7 +35,7 @@ KnowTreeView::KnowTreeView(QWidget *parent) : QTreeView(parent)
  grabGesture(Qt::TapAndHoldGesture);
 
  // Настройка области виджета для кинетической прокрутки
- setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+ GestureHelper::setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 }
 
 

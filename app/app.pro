@@ -140,8 +140,10 @@ INSTALLS+=icon_48_file
 HEADERS = src/main.h \
     src/libraries/RandomInitter.h \
     src/libraries/helpers/ActionHelper.h \
+    src/libraries/helpers/CssHelper.h \
     src/libraries/helpers/DebugHelper.h \
     src/libraries/helpers/DiskHelper.h \
+    src/libraries/helpers/GestureHelper.h \
     src/libraries/helpers/MessageHelper.h \
     src/libraries/helpers/ObjectHelper.h \
     src/libraries/helpers/ScreenHelper.h \
@@ -290,8 +292,10 @@ HEADERS+=\
 SOURCES = src/main.cpp \
     src/libraries/RandomInitter.cpp \
     src/libraries/helpers/ActionHelper.cpp \
+    src/libraries/helpers/CssHelper.cpp \
     src/libraries/helpers/DebugHelper.cpp \
     src/libraries/helpers/DiskHelper.cpp \
+    src/libraries/helpers/GestureHelper.cpp \
     src/libraries/helpers/MessageHelper.cpp \
     src/libraries/helpers/ObjectHelper.cpp \
     src/libraries/helpers/ScreenHelper.cpp \

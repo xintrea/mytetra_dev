@@ -21,6 +21,8 @@
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/GestureHelper.h"
+#include "libraries/helpers/CssHelper.h"
 
 
 extern GlobalParameters globalParameters;
@@ -37,7 +39,7 @@ RecordTableView::RecordTableView(QWidget *parent) : QTableView(parent)
  this->setSortingEnabled(false);
 
  // Настройка области виджета для кинетической прокрутки
- setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
+ GestureHelper::setKineticScrollArea( qobject_cast<QAbstractItemView*>(this) );
 
  // Разрешение принимать жест QTapAndHoldGesture
  grabGesture(Qt::TapAndHoldGesture);
@@ -97,7 +99,7 @@ void RecordTableView::init(void)
  if(height!=0)
   verticalHeader()->setDefaultSectionSize( height );
  if(mytetraConfig.getInterfaceMode()=="mobile")
-  verticalHeader()->setDefaultSectionSize( static_cast<int>( getCalculateIconSizePx() ) );
+  verticalHeader()->setDefaultSectionSize( static_cast<int>( CssHelper::getCalculateIconSizePx() ) );
 
  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 

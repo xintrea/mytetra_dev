@@ -37,6 +37,7 @@
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/MessageHelper.h"
+#include "libraries/helpers/CssHelper.h"
 #include "libraries/wyedit/EditorMultiLineInputDialog.h"
 
 
@@ -126,129 +127,6 @@ void editConfigFile( QString fileName, float sizeCoefficient )
                        QObject::tr("The program will have to be restarted for changes to take effect."),
                        QMessageBox::Ok);
   exit(0);
-}
-
-
-qreal getCalculateIconSizePx(void)
-{
-#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
-  qreal dpiX=qApp->desktop()->physicalDpiX();
-  qreal dpiY=qApp->desktop()->physicalDpiY();
-  qreal dpi=(dpiX+dpiY)/2;
-#endif
-
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
-#endif
-
-  qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
-  qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
-  qreal iconSizePx=iconSizeInch*dpi;
-
-  return iconSizePx;
-}
-
-
-// Замена в CSS-стиле все вхождения подстроки META_ICON_SIZE на вычисленный размер иконки в пикселях
-QString replaceCssMetaIconSize(QString styleText)
-{
-  styleText.replace( "META_ICON_SIZE", QString::number( (int) getCalculateIconSizePx() ) );
-  styleText.replace( "META_ICON_HALF_SIZE", QString::number( (int)getCalculateIconSizePx()/2 ) );
-  styleText.replace( "META_ICON_TWO_THIRDS_SIZE", QString::number( ((int)getCalculateIconSizePx()*2)/3 ) );
-  styleText.replace( "META_ICON_QUARTER_SIZE", QString::number( (int)getCalculateIconSizePx()/4 ) );
-  styleText.replace( "META_ICON_FIFTH_SIZE", QString::number( (int)getCalculateIconSizePx()/5 ) );
-  styleText.replace( "META_ICON_SIXTH_SIZE", QString::number( (int)getCalculateIconSizePx()/6 ) );
-
-  return styleText;
-}
-
-
-void setCssStyle()
-{
-  QString csspath = globalParameters.getWorkDirectory()+"/stylesheet.css";
-
-  QFile css(csspath);
-
-  bool openResult=css.open(QIODevice::ReadOnly | QIODevice::Text);
-
-  // Если файла не существует
-  if(!openResult)
-  {
-    qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
-    globalParameters.createStyleSheetFile( globalParameters.getWorkDirectory() );
-  }
-  css.close();
-
-  // Заново открывается файл
-  if(css.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    qDebug() << "Stylesheet success loaded from" << csspath;
-    QString style = QTextStream(&css).readAll();
-
-    style=replaceCssMetaIconSize(style);
-
-    qApp->setStyleSheet(style);
-  }
-}
-
-
-void setKineticScrollArea(QAbstractItemView *object)
-{
-  #if QT_VERSION < 0x050000
-
-   Q_UNUSED(object);
-   return;
-
-  #else
-
-  if(object==nullptr)
-    return;
-
-  if(globalParameters.getTargetOs()=="android")
-  {
-    // Настройка жестов прокрутки
-    QScroller *scroller = QScroller::scroller(object);
-
-    // For desktop - QScroller::LeftMouseButtonGesture, for Android - QScroller::TouchGesture in doc
-    // TouchGesture по факту на Андроиде не работает, а LeftMouseButtonGesture - почему-то работает
-    scroller->grabGesture(object, QScroller::LeftMouseButtonGesture);
-
-    // Поведение прокрутки на краях списка (сейчас не пружинит)
-    QScrollerProperties properties = scroller->scrollerProperties();
-    QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
-    properties.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
-    properties.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
-    scroller->setScrollerProperties(properties); // QScrollerProperties::OvershootAlwaysOff
-
-    // Горизонтальный скроллинг скрывается
-    object->horizontalScrollBar()->setStyleSheet("QScrollBar {height:0px;}");
-
-    // QScrollBar::add-line:horizontal { border: none; background: none; } QScrollBar::sub-line:horizontal { border: none; background: none; }
-    // QScrollBar {width:3px;}
-    // QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}
-    // QScrollBar::add-line:vertical { height: 0px; } QScrollBar::sub-line:vertical { height: 0px; }
-    // QScrollBar::add-line:vertical { border: none; background: none; height: 0px; } QScrollBar::sub-line:vertical { border: none; background: none; height: 0px; }
-    // background: transparent; background-color:transparent;
-    // "QScrollBar::up-arrow, QScrollBar::down-arrow {width: 0px; height: 0px;}"
-    object->verticalScrollBar()->setStyleSheet("QScrollBar:vertical {width:3px; border: none; background: transparent; margin: 0;}"
-                                               "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {width: 0px; height: 0px; border: none;  background: transparent; image: url(:/resource/pic/transparent_dot.png); }"
-                                               "QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical { image: url(:/resource/pic/transparent_dot.png); }");
-
-
-
-    /*
-    object->horizontalScrollBar()->setStyleSheet("QScrollBar:horizontal {border: 2px solid black; background: grey; height: 15px;}"
-                                                 "QScrollBar::add-line:horizontal {border none; background: none;}"
-                                                 "QScrollBar::sub-line:horizontal {border none; background: none;}"
-                                                 );
-    */
-
-    object->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-
-    // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-  }
-  
-  #endif
 }
 
 
@@ -505,7 +383,7 @@ int main(int argc, char ** argv)
  iconsCollectionCheck();
 
  // Установка CSS-оформления
- setCssStyle();
+ CssHelper::setCssStyle();
 
  // Инициализация логирования действий над данными
  actionLogger.init();
