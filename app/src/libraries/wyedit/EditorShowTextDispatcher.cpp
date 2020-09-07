@@ -46,8 +46,23 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     // Выясняется ссылка на объект записи
     Record *note=dataModel->getRecord(noteId);
 
+    // Для отладки просматривается документ, как у него выглядят картинки
+    auto textDocument=note->getTextDocument();
+    showText->setDocument( textDocument ); // showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
     showText->setWindowTitle( note->getField("name") );
-    showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
+    showText->show();
+
+
+    // todo: Убрать после отладки
+    /*
+    QTextEdit *mShowEditor=nullptr;
+    if(!mShowEditor)
+        mShowEditor=new QTextEdit();
+    mShowEditor->setDocument( textDocument.data() );
+    mShowEditor->setWindowTitle("Record");
+    mShowEditor->resize(800, 480);
+    mShowEditor->show();
+    */
 
     /*
     find_object<MetaEditor>("mainwindow")
@@ -71,7 +86,6 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
 
     */
 
-    showText->show();
 }
 
 

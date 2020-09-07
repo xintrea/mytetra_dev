@@ -9,6 +9,7 @@
 #include <QDomElement>
 #include <QXmlStreamWriter>
 #include <QTextDocument>
+#include <QSharedPointer>
 
 #include "models/attachTable/Attach.h"
 #include "models/attachTable/AttachTableData.h"
@@ -38,7 +39,8 @@ public:
 
   QString getText() const;
   QString getTextDirect() const;
-  std::unique_ptr<QTextDocument> getTextDocument() const;
+  // QSharedPointer<QTextDocument> getTextDocument() const;
+  QTextDocument* getTextDocument() const;
   void setText(const QString &iText);
 
   QString getField(const QString &name) const;
@@ -94,7 +96,6 @@ protected:
 
   // Таблица прикрепляемых файлов
   AttachTableData attachTableData;
-
 
   // -----------------
   // Защищенные методы
