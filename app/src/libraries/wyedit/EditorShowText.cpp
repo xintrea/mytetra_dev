@@ -6,15 +6,16 @@
 
 EditorShowText::EditorShowText(QWidget *parent) : QDialog(parent)
 {
-  geomX=0;
-  geomY=0;
-  geomW=0;
-  geomH=0;
+    mGeomX=0;
+    mGeomY=0;
+    mGeomW=0;
+    mGeomH=0;
 
-  setupUi();
-  setupSignals();
-  assembly();
+    setupUi();
+    setupSignals();
+    assembly();
 }
+
 
 EditorShowText::~EditorShowText()
 {
@@ -24,19 +25,19 @@ EditorShowText::~EditorShowText()
 
 void EditorShowText::setupUi()
 {
-  QSizePolicy sizePolicy;
-  sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
-  sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
+    QSizePolicy sizePolicy;
+    sizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+    sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
 
-  setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
+    setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
 
-  // Создается новая область редактора и запоминается указательна него
-  pTextArea.reset(new QTextEdit(this));
+    // Создается новая область редактора и запоминается указательна него
+    mTextArea.reset(new QTextEdit(this));
 
-  // Настраивается область редактора
-  pTextArea.get()->setAcceptRichText(true);
-  pTextArea.get()->setSizePolicy(sizePolicy);
-  pTextArea.get()->setReadOnly(true); // Показываемый текст можно только просматривать
+    // Настраивается область редактора
+    mTextArea.get()->setAcceptRichText(true);
+    mTextArea.get()->setSizePolicy(sizePolicy);
+    mTextArea.get()->setReadOnly(true); // Показываемый текст можно только просматривать
 }
 
 
@@ -48,63 +49,78 @@ void EditorShowText::setupSignals()
 
 void EditorShowText::assembly()
 {
-  QVBoxLayout *mainLayout=new QVBoxLayout(this);
-  mainLayout->setContentsMargins(0,0,0,0);
+    QVBoxLayout *mainLayout=new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-  // Добавляется область текста
-  mainLayout->addWidget( pTextArea.get() );
+    // Добавляется область текста
+    mainLayout->addWidget( mTextArea.get() );
+}
+
+
+void EditorShowText::setNoteId(const QString &noteId)
+{
+    mNoteId=noteId;
 }
 
 
 void EditorShowText::setHtml(QString text)
 {
-  pTextArea.get()->setHtml(text);
+    mTextArea.get()->setHtml(text);
 }
 
 
 void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
 {
-  // Указатель на документ запоминается
-  pTextDocument=pDocument;
+    // Указатель на документ запоминается
+    mTextDocument=pDocument;
 
-  // Полученный документ устанавливается как содержимое области редактирования
-  pTextArea.get()->setDocument( pTextDocument.get() );
-  pTextArea.get()->document()->setParent( pTextArea.get() );
+    // Полученный документ устанавливается как содержимое области редактирования
+    mTextArea.get()->setDocument( mTextDocument.get() );
+    mTextArea.get()->document()->setParent( mTextArea.get() );
+}
+
+
+void EditorShowText::closeEvent(QCloseEvent *event)
+{
+    emit editorShowTextClose( mNoteId );
+    // event->ignore();
+
+    event->accept();
 }
 
 
 void EditorShowText::hideEvent(QHideEvent *event)
 {
-  qDebug() << "Hide event of EditorShowText dialog, window X " << this->x() << " Y " << this->y() << " W " << this->width() << " H " << this->height();
+    qDebug() << "Hide event of EditorShowText dialog, window X " << this->x() << " Y " << this->y() << " W " << this->width() << " H " << this->height();
 
-  if( this->width()>0 && this->height()>0 && !(this->x()<=0 && this->y()<=0) )
-  {
-    // Запоминается геометрия
-    QRect g=this->frameGeometry();
-    qDebug() << "Frame geometry X " << g.x() << " Y " << g.y() << " W " << g.width() << " H " << g.height();
-    geomX=g.x();
-    geomY=g.y();
-    geomW=g.width();
-    geomH=g.height();
-  }
+    if( this->width()>0 && this->height()>0 && !(this->x()<=0 && this->y()<=0) )
+    {
+        // Запоминается геометрия
+        QRect g=this->frameGeometry();
+        qDebug() << "Frame geometry X " << g.x() << " Y " << g.y() << " W " << g.width() << " H " << g.height();
+        mGeomX=g.x();
+        mGeomY=g.y();
+        mGeomW=g.width();
+        mGeomH=g.height();
+    }
 
-  QWidget::hideEvent(event);
+    QWidget::hideEvent(event);
 }
 
 
 void EditorShowText::showEvent(QShowEvent *event)
 {
-  qDebug() << "Show event of EditorShowText dialog";
+    qDebug() << "Show event of EditorShowText dialog";
 
-  // Если была запомнена геометрия окна, устанавливается прежняя геометрия
-  if(!(geomX==0 && geomY==0 && geomW==0 && geomH==0))
-  {
-    this->move(geomX,geomY);
-  }
-  else
-    qDebug() << "Previos geometry of EditorShowText dialog is not setted";
+    // Если была запомнена геометрия окна, устанавливается прежняя геометрия
+    if(!(mGeomX==0 && mGeomY==0 && mGeomW==0 && mGeomH==0))
+    {
+        this->move(mGeomX,mGeomY);
+    }
+    else
+        qDebug() << "Previos geometry of EditorShowText dialog is not setted";
 
-  QWidget::showEvent(event);
+    QWidget::showEvent(event);
 }
 
 

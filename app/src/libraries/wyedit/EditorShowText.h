@@ -4,39 +4,47 @@
 #include <QDialog>
 #include <QTextEdit>
 #include <QEvent>
+#include <QCloseEvent>
 
 
 // Класс отдельного (открепляемого) окна для просмотра текста записи без возможности редактирования
 class EditorShowText : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  explicit EditorShowText(QWidget *parent = nullptr);
-  virtual ~EditorShowText();
+    explicit EditorShowText(QWidget *parent = nullptr);
+    virtual ~EditorShowText();
 
-  void setHtml(QString text);
-  void setDocument(QSharedPointer<QTextDocument> pDocument);
+    void setNoteId(const QString &noteId);
+    void setHtml(QString text);
+    void setDocument(QSharedPointer<QTextDocument> pDocument);
+
+    // Действия при закрытии диалога
+    void closeEvent(QCloseEvent *event);
 
 signals:
+
+    void editorShowTextClose(const QString &noteId);
 
 public slots:
 
 private:
 
- QSharedPointer<QTextEdit> pTextArea=nullptr;
- QSharedPointer<QTextDocument> pTextDocument=nullptr;
+    QString mNoteId;
+    QSharedPointer<QTextEdit> mTextArea;
+    QSharedPointer<QTextDocument> mTextDocument;
 
- int geomX;
- int geomY;
- int geomW;
- int geomH;
+    int mGeomX;
+    int mGeomY;
+    int mGeomW;
+    int mGeomH;
 
- void setupUi(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUi(void);
+    void setupSignals(void);
+    void assembly(void);
 
- void hideEvent(QHideEvent *event);
- void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
+    void showEvent(QShowEvent *event);
 };
 
 #endif // EDITORSHOWTEXT_H

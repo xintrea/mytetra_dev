@@ -23,7 +23,7 @@ public:
     void updateWindow(const QString &noteId);
     void updateAllWindow();
 
-    bool isWindowAlreadyCreate( const QString &noteId );
+    bool isWindowPresent( const QString &noteId );
 
 signals:
 
@@ -36,7 +36,8 @@ protected:
     explicit EditorShowTextDispatcher(QObject *parent = nullptr);
     virtual ~EditorShowTextDispatcher();
 
-    QHash<QString, EditorShowText*> mWindowList;
+    // Список открытых окошек, ключ - это ID открытой записи
+    QHash<QString, QPointer<EditorShowText> > mWindowList;
 
 };
 
