@@ -30,11 +30,13 @@ void EditorShowText::setupUi()
 
   setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
 
-  textArea=new QTextEdit(this);
-  textArea->setAcceptRichText(true);
-  textArea->setSizePolicy(sizePolicy);
+  // Создается новая область редактора и запоминается указательна него
+  pTextArea.reset(new QTextEdit(this));
 
-  textArea->setReadOnly(true); // Показываемый текст можно только просматривать
+  // Настраивается область редактора
+  pTextArea.get()->setAcceptRichText(true);
+  pTextArea.get()->setSizePolicy(sizePolicy);
+  pTextArea.get()->setReadOnly(true); // Показываемый текст можно только просматривать
 }
 
 
@@ -50,20 +52,24 @@ void EditorShowText::assembly()
   mainLayout->setContentsMargins(0,0,0,0);
 
   // Добавляется область текста
-  mainLayout->addWidget(textArea);
+  mainLayout->addWidget( pTextArea.get() );
 }
 
 
 void EditorShowText::setHtml(QString text)
 {
-  textArea->setHtml(text);
+  pTextArea.get()->setHtml(text);
 }
 
 
-void EditorShowText::setDocument(QTextDocument *document)
+void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
 {
-  textArea->setDocument(document);
-  textArea->document()->setParent(textArea);
+  // Указатель на документ запоминается
+  pTextDocument=pDocument;
+
+  // Полученный документ устанавливается как содержимое области редактирования
+  pTextArea.get()->setDocument( pTextDocument.get() );
+  pTextArea.get()->document()->setParent( pTextArea.get() );
 }
 
 

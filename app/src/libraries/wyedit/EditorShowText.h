@@ -15,7 +15,7 @@ public:
   virtual ~EditorShowText();
 
   void setHtml(QString text);
-  void setDocument(QTextDocument *document);
+  void setDocument(QSharedPointer<QTextDocument> pDocument);
 
 signals:
 
@@ -23,7 +23,8 @@ public slots:
 
 private:
 
- QTextEdit *textArea;
+ QSharedPointer<QTextEdit> pTextArea=nullptr;
+ QSharedPointer<QTextDocument> pTextDocument=nullptr;
 
  int geomX;
  int geomY;

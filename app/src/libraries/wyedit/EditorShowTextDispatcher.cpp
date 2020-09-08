@@ -46,12 +46,9 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     // Выясняется ссылка на объект записи
     Record *note=dataModel->getRecord(noteId);
 
-    // Для отладки просматривается документ, как у него выглядят картинки
-    auto textDocument=note->getTextDocument();
-    showText->setDocument( textDocument ); // showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
+    showText->setDocument( note->getTextDocument() ); // showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
     showText->setWindowTitle( note->getField("name") );
     showText->show();
-
 
     // todo: Убрать после отладки
     /*

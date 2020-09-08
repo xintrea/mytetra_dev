@@ -493,16 +493,16 @@ QString Record::getTextDirect() const
 // нельзя передавать по значению, т.к. у него нет конструктора копирования,
 // поэтому возвращаться должен указатель на QTextDocument
 // std::unique_ptr<QTextDocument> Record::getTextDocument() const
-// QSharedPointer<QTextDocument> Record::getTextDocument() const
-QTextDocument* Record::getTextDocument() const
+QSharedPointer<QTextDocument> Record::getTextDocument() const
+// QTextDocument* Record::getTextDocument() const
 {
     const QString recordDirName=this->getFullDirName(); // Директория, где находится файл записи и картинки
 
     QString content=this->getTextDirect(); // Содержимое файла
 
     // Текстовый документ создается в куче, и функция вернет умный указатель на него
-    // QSharedPointer<QTextDocument> textDocument(new QTextDocument());
-    QTextDocument* textDocument(new QTextDocument());
+    QSharedPointer<QTextDocument> textDocument(new QTextDocument());
+    // QTextDocument* textDocument(new QTextDocument());
 
     // Устанавливается URL директории документа, с помощью него будут высчитываться
     // относительные ссылки при загрузке картинок

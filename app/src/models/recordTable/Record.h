@@ -39,8 +39,8 @@ public:
 
   QString getText() const;
   QString getTextDirect() const;
-  // QSharedPointer<QTextDocument> getTextDocument() const;
-  QTextDocument* getTextDocument() const;
+  QSharedPointer<QTextDocument> getTextDocument() const;
+  // QTextDocument* getTextDocument() const;
   void setText(const QString &iText);
 
   QString getField(const QString &name) const;
