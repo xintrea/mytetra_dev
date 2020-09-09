@@ -57,13 +57,13 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     // Выясняется ссылка на объект записи
     Record *note=dataModel->getRecord(noteId);
 
-    editorShowText->setDocument( note->getTextDocument() ); // showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
+    editorShowText->setDocument( note->getTextDocument() );
     editorShowText->setWindowTitle( note->getField("name") );
     editorShowText->show();
 }
 
 
-// Обновление открепляемого окна, содержащего запись с указанным ID
+// Обновление содержимого открепляемого окна, содержащего запись с указанным ID
 void EditorShowTextDispatcher::updateWindow(const QString &noteId)
 {
     if( mWindowList.contains( noteId ) )
@@ -80,7 +80,7 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
 }
 
 
-// Обновление всех открепляемых окон
+// Обновление содержимого всех открепляемых окон
 void EditorShowTextDispatcher::updateAllWindow()
 {
     for( auto noteId : mWindowList.keys() )
@@ -94,6 +94,18 @@ void EditorShowTextDispatcher::updateAllWindow()
 bool EditorShowTextDispatcher::isWindowPresent(const QString &noteId)
 {
     return mWindowList.contains( noteId );
+}
+
+
+void EditorShowTextDispatcher::saveOpenWindows()
+{
+
+}
+
+
+void EditorShowTextDispatcher::restoreOpenWindows()
+{
+
 }
 
 

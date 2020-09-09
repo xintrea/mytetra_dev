@@ -25,6 +25,9 @@ public:
 
     bool isWindowPresent( const QString &noteId );
 
+    void saveOpenWindows();
+    void restoreOpenWindows();
+
 signals:
 
 public slots:
