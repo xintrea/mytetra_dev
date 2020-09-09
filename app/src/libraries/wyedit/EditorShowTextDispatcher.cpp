@@ -60,40 +60,6 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     editorShowText->setDocument( note->getTextDocument() ); // showText->setHtml( note->getTextDirect() ); // showText->setHtml("In development....");
     editorShowText->setWindowTitle( note->getField("name") );
     editorShowText->show();
-
-    // todo: Убрать после отладки
-    /*
-    QTextEdit *mShowEditor=nullptr;
-    if(!mShowEditor)
-        mShowEditor=new QTextEdit();
-    mShowEditor->setDocument( textDocument.data() );
-    mShowEditor->setWindowTitle("Record");
-    mShowEditor->resize(800, 480);
-    mShowEditor->show();
-    */
-
-    /*
-    find_object<MetaEditor>("mainwindow")
-
-    editorScreen=new MetaEditor( this );
-    editorScreen->setObjectName("editorScreen");
-
-    if(getMiscField("title").length()>0)
-      showText->setWindowTitle( getMiscField("title") );
-
-    QTextDocument *cloneDocument=textArea->document()->clone(showText); // Для метода clone указан parent, который уничтожится при закрытии окна, и за собой уничтожит этот временный документ
-    showText->setDocument( cloneDocument );
-
-
-    // Устанавливается URL документа, с помощью него будут высчитываться
-    // относительные ссылки при загрузке картинок
-    textArea->document()->setMetaInformation( QTextDocument::DocumentUrl, "file:"+fileName );
-
-    // Текст из файла вставляется в область редактирования
-    textArea->setHtml( content );
-
-    */
-
 }
 
 
@@ -138,7 +104,7 @@ void EditorShowTextDispatcher::onCloseWindow(const QString &noteId)
     {
         mWindowList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
 
-        // mWindowList.remove(noteId); // Закрываемое окно убирается из списка окон
+        mWindowList.remove(noteId); // Закрываемое окно убирается из списка окон
     }
 }
 
