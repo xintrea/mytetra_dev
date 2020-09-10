@@ -7,6 +7,10 @@
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/Record.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "models/appConfig/AppConfig.h"
+
+
+extern AppConfig mytetraConfig;
 
 
 EditorShowTextDispatcher::EditorShowTextDispatcher(QObject *parent) : QObject(parent)
@@ -28,8 +32,13 @@ EditorShowTextDispatcher *EditorShowTextDispatcher::instance()
 }
 
 
-void EditorShowTextDispatcher::createWindow(const QString &noteId)
+void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y, int w, int h)
 {
+    if( mWindowsList.contains( noteId ) )
+    {
+        return; // Уже открытое окно не должно открываться дважды
+    }
+
     // Создается открепленное окно
     // Нельзя в качестве parent указывать виджет редактора: если редактор
     // станет неактивным (например, когда запись не выбрана)
@@ -43,7 +52,7 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
     editorShowText->setAttribute( Qt::WA_DeleteOnClose );
 
     // Новое окно запоминается в список окон
-    mWindowList.insert( noteId, editorShowText );
+    mWindowsList.insert( noteId, editorShowText );
 
 
     // Создается соединение, обрабатывающее закрытие окна
@@ -59,14 +68,22 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId)
 
     editorShowText->setDocument( note->getTextDocument() );
     editorShowText->setWindowTitle( note->getField("name") );
+
+    if( !(x==-1 and y==-1 and w==-1 and h==-1) )
+    {
+        editorShowText->setGeometry(x, y, w, h);
+    }
+
     editorShowText->show();
+
+    this->saveOpenWindows();
 }
 
 
 // Обновление содержимого открепляемого окна, содержащего запись с указанным ID
 void EditorShowTextDispatcher::updateWindow(const QString &noteId)
 {
-    if( mWindowList.contains( noteId ) )
+    if( mWindowsList.contains( noteId ) )
     {
         // Выясняется ссылка на модель дерева данных
         KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
@@ -75,17 +92,30 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         Record *note=dataModel->getRecord(noteId);
 
         // Открепляемое окно начинает отображать новый взятый из записи документ
-        mWindowList[noteId]->setDocument( note->getTextDocument() );
+        mWindowsList[noteId]->setDocument( note->getTextDocument() );
     }
 }
 
 
 // Обновление содержимого всех открепляемых окон
-void EditorShowTextDispatcher::updateAllWindow()
+void EditorShowTextDispatcher::updateAllWindows()
 {
-    for( auto noteId : mWindowList.keys() )
+    for( auto noteId : mWindowsList.keys() )
     {
         this->updateWindow( noteId );
+    }
+}
+
+
+void EditorShowTextDispatcher::closeAllWindows()
+{
+    for( auto noteId : mWindowsList.keys() )
+    {
+        // При выполнении close() должен будет вызваться слот EditorShowTextDispatcher::onCloseWindow()
+        // и в нем произойдет удаление окна из списка окон,
+        // окно должно будет само удалиться так как стоит флаг WA_DeleteOnClose,
+        // и будет сохранено в конфиг новое состояни списка
+        mWindowsList[ noteId ]->close();
     }
 }
 
@@ -93,30 +123,71 @@ void EditorShowTextDispatcher::updateAllWindow()
 // Существует ли открепляемое окно с указанной записью
 bool EditorShowTextDispatcher::isWindowPresent(const QString &noteId)
 {
-    return mWindowList.contains( noteId );
+    return mWindowsList.contains( noteId );
 }
 
 
+// Сохранение списка ID записей, для которых открыты открепляемые окна с их координатами
 void EditorShowTextDispatcher::saveOpenWindows()
 {
+    QStringList windowsState;
 
+    for( auto noteId : mWindowsList.keys() )
+    {
+        QString state;
+        state=noteId+",";
+
+        QRect geom=mWindowsList[noteId]->geometry();
+        state+=QString::number( geom.x() )+",";
+        state+=QString::number( geom.y() )+",";
+        state+=QString::number( geom.width() )+",";
+        state+=QString::number( geom.height() );
+
+        windowsState << state;
+    }
+
+    // Формат запоминаемых данных
+    // "IDокна1,x1,y1,w1,h1;IDокна2,x2,y2,w2,h2" и т. д.
+    mytetraConfig.setDockableWindowsState( windowsState.join(";") );
 }
 
 
+// Восстановление открепляемых окон с записями
 void EditorShowTextDispatcher::restoreOpenWindows()
 {
+    // Строка со веми окнами
+    QString state=mytetraConfig.getDockableWindowsState();
 
+    // Строка совсеми окнами разделяется на подстроки с описанием одного окна
+    QStringList windowsState=state.split(";");
+
+    // Перебираются описания окон
+    for( auto window : windowsState )
+    {
+        if(window.trimmed().size()>0) // Если описание существует, а не пустая строка
+        {
+            QStringList chunks=window.split(",");
+
+            this->createWindow(chunks[0],
+                               chunks[1].toInt(),
+                               chunks[2].toInt(),
+                               chunks[3].toInt(),
+                               chunks[4].toInt() );
+        }
+    }
 }
 
 
 // При обнаружении события что одно из открепляемых окон закрывается
 void EditorShowTextDispatcher::onCloseWindow(const QString &noteId)
 {
-    if( mWindowList.contains( noteId ) )
+    if( mWindowsList.contains( noteId ) )
     {
-        mWindowList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
+        mWindowsList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
 
-        mWindowList.remove(noteId); // Закрываемое окно убирается из списка окон
+        mWindowsList.remove(noteId); // Закрываемое окно убирается из списка окон
     }
+
+    this->saveOpenWindows();
 }
 

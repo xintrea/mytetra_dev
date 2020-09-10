@@ -901,6 +901,18 @@ void AppConfig::setEnableCreateEmptyRecord(bool state)
 }
 
 
+QString AppConfig::getDockableWindowsState(void)
+{
+  return get_parameter("dockableWindowsState");
+}
+
+void AppConfig::setDockableWindowsState(QString state)
+{
+  conf->setValue("dockableWindowsState", state);
+}
+
+
+
 // --------------------
 // Номер версии конфига
 // --------------------

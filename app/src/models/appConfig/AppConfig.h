@@ -250,6 +250,9 @@ public:
     bool getEnableCreateEmptyRecord(void);
     void setEnableCreateEmptyRecord(bool state);
 
+    // Список открепляемых окон с координатами окон
+    QString getDockableWindowsState(void);
+    void setDockableWindowsState(QString state);
 
 private:
 

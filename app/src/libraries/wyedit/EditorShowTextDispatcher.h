@@ -7,7 +7,7 @@
 
 //! \brief
 //! Объект для управления открепляемыми окнами
-//! Используется для создания окон, обновления содержимого
+//! Используется для создания окон, обновления содержимого,
 //! запоминание списка окон и их размещения
 
 
@@ -19,9 +19,10 @@ public:
     //! Класс в виде синглтона
     static EditorShowTextDispatcher *instance();
 
-    void createWindow(const QString &noteId);
+    void createWindow(const QString &noteId, int x=-1, int y=-1, int w=-1, int h=-1);
     void updateWindow(const QString &noteId);
-    void updateAllWindow();
+    void updateAllWindows();
+    void closeAllWindows();
 
     bool isWindowPresent( const QString &noteId );
 
@@ -40,7 +41,7 @@ protected:
     virtual ~EditorShowTextDispatcher();
 
     // Список открытых окошек, ключ - это ID открытой записи
-    QHash<QString, QPointer<EditorShowText> > mWindowList;
+    QHash<QString, QPointer<EditorShowText> > mWindowsList;
 
 };
 

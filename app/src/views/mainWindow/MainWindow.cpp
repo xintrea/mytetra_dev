@@ -24,8 +24,8 @@
 #include "libraries/ShortcutManager.h"
 #include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
-
 #include "libraries/wyedit/EditorTextArea.h"
+#include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
 extern AppConfig mytetraConfig;
@@ -200,6 +200,9 @@ void MainWindow::saveAllState(void)
     saveRecordTablePosition();
     saveEditorCursorPosition();
     saveEditorScrollBarPosition();
+
+    // Запоминается список и состояния открепляемых окон
+    EditorShowTextDispatcher::instance()->saveOpenWindows();
 
     // Синхронизируется с диском конфиг программы
     mytetraConfig.sync();
@@ -463,12 +466,17 @@ void MainWindow::restoreFindOnBaseVisible(void)
 void MainWindow::restoreAllWindowState(void)
 {
     globalParameters.getWindowSwitcher()->disableSwitch();
+
     restoreFindOnBaseVisible();
     restoreWindowGeometry();
     restoreTreePosition();
     restoreRecordTablePosition();
     restoreEditorCursorPosition();
     restoreEditorScrollBarPosition();
+
+    // Восстанавливаются открепляемые окна
+    EditorShowTextDispatcher::instance()->restoreOpenWindows();
+
     globalParameters.getWindowSwitcher()->enableSwitch();
 }
 
