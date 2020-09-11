@@ -16,6 +16,7 @@
 #include "views/enterPassword/EnterPassword.h"
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
 extern AppConfig mytetraConfig;
@@ -56,7 +57,6 @@ bool Password::retrievePassword()
             // В этом месте пароль введен правильно и подтвержден пользователем
             QString password=enterPwd.getPassword();
 
-
             // Вычисляется и запоминается в память ключ шифрования
             setCryptKeyToMemory(password);
 
@@ -64,18 +64,21 @@ bool Password::retrievePassword()
             // значения для последующей проверки пароля при вводе
             saveCheckPasswordKey(password);
 
+            // Содержимое открепляемых окон обновляется, чтобы было показано зашифрованное содержимое
+            EditorShowTextDispatcher::instance()->updateAllWindows();
+
             return true;
         }
         else
         {
-            // Иначе пароль уже задан в системе
-            // И нужно либо запросить пароль,
-            // Либо воспользоваться промежуточным хешем если пароль был запомнен
+            // Иначе пароль уже задан в системе, и нужно
+            // либо воспользоваться промежуточным хешем если пароль был запомнен,
+            // либо запросить пароль
 
 
-            // Проверяется, запомнен ли пароль (точнее, промежуточный хеш)
-            if( mytetraConfig.getPasswordSaveFlag() &&
-                    mytetraConfig.getPasswordMiddleHash().length()>0)
+            // Проверяется, запомнен ли пароль в конфиге (точнее, промежуточный хеш)
+            if( mytetraConfig.getPasswordSaveFlag() and
+                mytetraConfig.getPasswordMiddleHash().length()>0)
             {
                 // Пароль хранится в системе
 
@@ -84,15 +87,28 @@ bool Password::retrievePassword()
                 {
                     setCryptKeyToMemoryFromMiddleHash();
 
+                    // Содержимое открепляемых окон обновляется, чтобы было показано зашифрованное содержимое
+                    EditorShowTextDispatcher::instance()->updateAllWindows();
+
                     // И пароль у пользователя запрашивать не нужно
                     return true;
                 }
                 else
                     mytetraConfig.setPasswordMiddleHash(""); // хранимый пароль сбрасывается
             }
+            else // Иначе пароль в конфиге не запомнен, его надо запрашивать у пользователя
+            {
+                // Запрос пароля у пользователя
+                bool result=enterExistsPassword();
 
-            // Запрос пароля у пользователя
-            return enterExistsPassword();
+                if(result)
+                {
+                    // Содержимое открепляемых окон обновляется, чтобы было показано зашифрованное содержимое
+                    EditorShowTextDispatcher::instance()->updateAllWindows();
+                }
+
+                return result;
+            }
 
         } // Закрылось условие что пароль уже есть в конфиге хранилища данных
     }
