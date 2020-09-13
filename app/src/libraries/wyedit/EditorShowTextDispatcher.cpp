@@ -91,8 +91,10 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         // Выясняется ссылка на объект записи
         Record *note=dataModel->getRecord(noteId);
 
+        QSharedPointer<QTextDocument> doc=note->getTextDocument();
+
         // Открепляемое окно начинает отображать новый взятый из записи документ
-        mWindowsList[noteId]->setDocument( note->getTextDocument() );
+        mWindowsList[noteId]->setDocument( doc );
     }
 }
 

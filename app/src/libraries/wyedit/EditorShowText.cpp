@@ -2,6 +2,7 @@
 #include <QDebug>
 
 #include "EditorShowText.h"
+#include "libraries/helpers/DebugHelper.h"
 
 
 EditorShowText::EditorShowText(QWidget *parent) : QDialog(parent)
@@ -74,9 +75,15 @@ void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
     // Указатель на документ запоминается
     mTextDocument=pDocument;
 
+    qDebug() << "mTextArea document ref    : " << mTextArea.get()->document();
+    qDebug() << "mTextDocument document ref: " << mTextDocument.get();
+
     // Полученный документ устанавливается как содержимое области редактирования
-    mTextArea.get()->setDocument( mTextDocument.get() );
-    mTextArea.get()->document()->setParent( mTextArea.get() );
+    if(mTextArea.get()->document()!=mTextDocument.get())
+    {
+        mTextArea.get()->setDocument( mTextDocument.get() );
+        mTextArea.get()->document()->setParent( mTextArea.get() );
+    }
 }
 
 
