@@ -602,26 +602,29 @@ void RecordTableController::addNewRecord(int mode)
 // Принимает полный формат записи
 void RecordTableController::addNew(int mode, Record record)
 {
-  qDebug() << "In add_new()";
+    qDebug() << "In add_new()";
 
-  // Получение Source-индекса первой выделенной строки
-  QModelIndex posIndex=view->getFirstSelectionSourceIndex();
+    // Получение Source-индекса первой выделенной строки
+    QModelIndex posIndex=view->getFirstSelectionSourceIndex();
 
-  // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
-  int selPos=recordSourceModel->addTableData(mode,
-                                             posIndex,
-                                             record);
+    // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
+    int selPos=recordSourceModel->addTableData(mode,
+                                               posIndex,
+                                               record);
 
-  view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
+    if(selPos>=0)
+    {
+        view->moveCursorToNewRecord(mode, convertSourcePosToProxyPos(selPos) );
 
-  // Сохранение дерева веток
-  find_object<TreeScreen>("treeScreen")->saveKnowTree();
+        // Сохранение дерева веток
+        find_object<TreeScreen>("treeScreen")->saveKnowTree();
+    }
 }
 
 
 void RecordTableController::onEditFieldContext(void)
 {
-  view->editFieldContext();
+    view->editFieldContext();
 }
 
 

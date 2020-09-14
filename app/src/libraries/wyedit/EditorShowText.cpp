@@ -72,11 +72,19 @@ void EditorShowText::setHtml(QString text)
 
 void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
 {
+    // Очистка указателя внутри mTextArea на область документа, куда указывал mTextDocument
+    // Данное действие необходимо производить перед вызовом mTextArea.get()->setDocument()
+    // так как mTextArea является родителем mTextDocument, а согласно документации
+    // в момент выполнения setDocument вначале происходит удаление предыдущего связанного
+    // с QTextEdit документа, а потом установка нового документа.
+    // Получается, что после удаления предыдущего связанного документа методом setDocument,
+    // сырой указатель умного указателя начинает указывать на мусор, а потом в том же setDocument
+    // этот сырой указатель используется для установки указателя на связываемый документ,
+    // и это приводит к сегфолту.
+    mTextArea.get()->setDocument( nullptr );
+
     // Указатель на документ запоминается
     mTextDocument=pDocument;
-
-    qDebug() << "mTextArea document ref    : " << mTextArea.get()->document();
-    qDebug() << "mTextDocument document ref: " << mTextDocument.get();
 
     // Полученный документ устанавливается как содержимое области редактирования
     if(mTextArea.get()->document()!=mTextDocument.get())
@@ -90,7 +98,6 @@ void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
 void EditorShowText::closeEvent(QCloseEvent *event)
 {
     emit editorShowTextClose( mNoteId );
-    // event->ignore();
 
     event->accept();
 }

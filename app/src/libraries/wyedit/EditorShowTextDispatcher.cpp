@@ -94,8 +94,16 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         QSharedPointer<QTextDocument> doc=note->getTextDocument();
 
         // Открепляемое окно начинает отображать новый взятый из записи документ
-        mWindowsList[noteId]->setDocument( doc );
+        if( !mWindowsList[noteId].isNull() )
+        {
+            mWindowsList[noteId]->setDocument( doc );
+        }
+        else
+        {
+            criticalError("Incorrect pointer in mWindowsList");
+        }
     }
+
 }
 
 

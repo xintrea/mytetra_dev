@@ -42,7 +42,6 @@ protected:
 
     // Список открытых окошек, ключ - это ID открытой записи
     QHash<QString, QPointer<EditorShowText> > mWindowsList;
-
 };
 
 #endif // EDITORSHOWTEXTDISPATCHER_H

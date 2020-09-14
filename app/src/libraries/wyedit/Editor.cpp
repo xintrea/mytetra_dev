@@ -73,6 +73,7 @@ Editor::~Editor(void)
   delete tableFormatter;
   delete imageFormatter;
   delete mathExpressionFormatter;
+  delete referenceFormatter;
 }
 
 

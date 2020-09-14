@@ -1471,7 +1471,7 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
             if(password.retrievePassword()==false)
             {
                 // Устанавливаем пустые данные для отображения таблицы конечных записей
-                find_object<RecordTableController>("recordTableController")->setTableData(NULL);
+                find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
 
                 // Все инструменты работы с веткой отключаются
                 QMapIterator<QString, QAction *> i(actionList);
