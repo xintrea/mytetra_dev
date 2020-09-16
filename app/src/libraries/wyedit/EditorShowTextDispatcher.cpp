@@ -36,6 +36,7 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
 {
     if( mWindowsList.contains( noteId ) )
     {
+        qApp->alert(mWindowsList[noteId].data());
         return; // Уже открытое окно не должно открываться дважды
     }
 
@@ -97,6 +98,7 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         if( !mWindowsList[noteId].isNull() )
         {
             mWindowsList[noteId]->setDocument( doc );
+            mWindowsList[noteId]->setWindowTitle( note->getField("name") );
         }
         else
         {
