@@ -37,6 +37,8 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
     if( mWindowsList.contains( noteId ) )
     {
         qApp->alert(mWindowsList[noteId].data());
+        mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
+        mWindowsList[noteId]->setWindowState(Qt::WindowActive);
         return; // Уже открытое окно не должно открываться дважды
     }
 
@@ -44,7 +46,8 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
     // Нельзя в качестве parent указывать виджет редактора: если редактор
     // станет неактивным (например, когда запись не выбрана)
     // то данное окно тоже станет неактивным, и невозможно будет выделить в нем текст
-    QPointer<EditorShowText> editorShowText( new EditorShowText( find_object<MainWindow>("mainwindow") ) );
+    // QPointer<EditorShowText> editorShowText( new EditorShowText( find_object<MainWindow>("mainwindow") ) );
+    QPointer<EditorShowText> editorShowText( new EditorShowText() );
 
     // Устанавливается идентификатор записи, которое отображает данное окно
     editorShowText->setNoteId( noteId );
@@ -119,16 +122,38 @@ void EditorShowTextDispatcher::updateAllWindows()
 }
 
 
+// Закрытие всех открепляемых окон
 void EditorShowTextDispatcher::closeAllWindows()
 {
     for( auto noteId : mWindowsList.keys() )
     {
-        // При выполнении close() должен будет вызваться слот EditorShowTextDispatcher::onCloseWindow()
+        // Если существует connect() между
+        // EditorShowText::editorShowTextClose и EditorShowTextDispatcher::onCloseWindow
+        // то при выполнении метода close() открепляемого окна, должен будет вызваться слот
+        // EditorShowTextDispatcher::onCloseWindow()
         // и в нем произойдет удаление окна из списка окон,
-        // окно должно будет само удалиться так как стоит флаг WA_DeleteOnClose,
-        // и будет сохранено в конфиг новое состояни списка
+        // и новое состояние списка открепляемых окон будет сохранено в конфиг.
+        // Объект окна должен будет сам удалиться, так как стоит флаг WA_DeleteOnClose
         mWindowsList[ noteId ]->close();
     }
+
+    mWindowsList.clear();
+}
+
+
+// Закрытие всех открепляемых окон без сохранения списка удаляемых окон.
+// Используется при закрытии программы, чтобы само закрытие открепляемых окон
+// не повлияло на список открепляемых окон, сохраненный при выполнении предыдущих
+// действий с открепляемыми окнами
+void EditorShowTextDispatcher::closeAllWindowsForExit()
+{
+    for( auto noteId : mWindowsList.keys() )
+    {
+        mWindowsList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
+        mWindowsList[ noteId ]->close();
+    }
+
+    mWindowsList.clear();
 }
 
 

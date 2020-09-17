@@ -201,9 +201,6 @@ void MainWindow::saveAllState(void)
     saveEditorCursorPosition();
     saveEditorScrollBarPosition();
 
-    // Запоминается список и состояния открепляемых окон
-    EditorShowTextDispatcher::instance()->saveOpenWindows();
-
     // Синхронизируется с диском конфиг программы
     mytetraConfig.sync();
 }
@@ -474,10 +471,14 @@ void MainWindow::restoreAllWindowState(void)
     restoreEditorCursorPosition();
     restoreEditorScrollBarPosition();
 
+    globalParameters.getWindowSwitcher()->enableSwitch();
+}
+
+
+void MainWindow::restoreDockableWindowsState()
+{
     // Восстанавливаются открепляемые окна
     EditorShowTextDispatcher::instance()->restoreOpenWindows();
-
-    globalParameters.getWindowSwitcher()->enableSwitch();
 }
 
 
@@ -1111,7 +1112,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(enableRealClose==false)
     {
-        if(QSystemTrayIcon::isSystemTrayAvailable()==false) return;
+        if(QSystemTrayIcon::isSystemTrayAvailable()==false)
+        {
+            return;
+        }
 
         // При приходе события закрыть окно, событие игнорируется
         // и окно просто делается невидимым. Это нужно чтобы при закрытии окна
@@ -1120,8 +1124,24 @@ void MainWindow::closeEvent(QCloseEvent *event)
         {
             hide();
             event->ignore();
+            return;
         }
     }
+
+    // Здесь код оказывается если далее должно однозначно происходить закрытие программы
+
+    // Запоминается список и состояния открепляемых окон,
+    // данное действие нельзя делать в saveAllState(), вызываемое из деструктора, так как если
+    // все открепляемые окна не будут закрыты (см. следующею команду), то деструктор
+    // главного окна не будет вызываться объектом приложения
+    EditorShowTextDispatcher::instance()->saveOpenWindows();
+
+    // Закрытие открепляемых окон, даже если главное окно не является родителем для
+    // открепляемых окон, чтобы не осталось "висячих" открепляемых окон, которые
+    // не будут давать закрыться приложению
+    EditorShowTextDispatcher::instance()->closeAllWindowsForExit();
+
+    event->accept();
 }
 
 

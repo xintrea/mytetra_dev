@@ -76,6 +76,8 @@ public:
  void restoreFindOnBaseVisible(void);
  void restoreAllWindowState(void);
 
+ void restoreDockableWindowsState(void);
+
  void setTreePosition(QStringList path);
  bool isTreePositionCrypt();
 

@@ -23,6 +23,7 @@ public:
     void updateWindow(const QString &noteId);
     void updateAllWindows();
     void closeAllWindows();
+    void closeAllWindowsForExit();
 
     bool isWindowPresent( const QString &noteId );
 

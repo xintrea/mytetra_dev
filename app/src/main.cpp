@@ -298,6 +298,9 @@ int main(int argc, char ** argv)
      win.hide();
  }
 
+ // Восстанавливаются открепляемые окна
+ win.restoreDockableWindowsState();
+
  // Восстановление видимости виджета, который был активный, для мобильного интерфейса
  if(mytetraConfig.getInterfaceMode()=="mobile")
    globalParameters.getWindowSwitcher()->restoreFocusWidget();
