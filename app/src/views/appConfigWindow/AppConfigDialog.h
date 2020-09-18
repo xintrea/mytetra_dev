@@ -23,6 +23,7 @@ private:
     ConfigDialog *configDialog;
 
     QListWidgetItem *pageMain;
+    QListWidgetItem *pageAppearance;
     QListWidgetItem *pageCrypt;
     QListWidgetItem *pageSynchro;
     QListWidgetItem *pageRecordTable;

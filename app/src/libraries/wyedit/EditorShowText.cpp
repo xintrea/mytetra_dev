@@ -1,11 +1,12 @@
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QIcon>
 
 #include "EditorShowText.h"
 #include "libraries/helpers/DebugHelper.h"
 
 
-EditorShowText::EditorShowText(QWidget *parent) : QDialog(parent)
+EditorShowText::EditorShowText(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
     mGeomX=0;
     mGeomY=0;
@@ -31,6 +32,10 @@ void EditorShowText::setupUi()
     sizePolicy.setVerticalPolicy(QSizePolicy::Expanding);
 
     setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint); // Скрывается кнопка с вопросом
+
+    // Задается иконка окна
+    QIcon icon = QIcon(":/resource/pic/detach_window_icon.svg");
+    this->setWindowIcon( icon );
 
     // Создается новая область редактора и запоминается указательна него
     mTextArea.reset(new QTextEdit(this));

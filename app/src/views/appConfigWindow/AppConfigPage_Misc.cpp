@@ -42,11 +42,6 @@ void AppConfigPage_Misc::setupUi(void)
   printDebugMessages->setText(tr("Print debug messages to console"));
   printDebugMessages->setChecked(mytetraConfig.get_printdebugmessages());
 
-  // Настройка запуска MyTetra в свернутом окне
-  runInMinimizedWindow=new QCheckBox(this);
-  runInMinimizedWindow->setText(tr("Run MyTetra in a minimized window"));
-  runInMinimizedWindow->setChecked(mytetraConfig.get_runinminimizedwindow());
-
   // Разрешение/запрещение лога действий
   enableActionLog=new QCheckBox(this);
   enableActionLog->setText(tr("Enable action logging (experimental)"));
@@ -86,7 +81,6 @@ void AppConfigPage_Misc::assembly(void)
   QVBoxLayout *centralLayout=new QVBoxLayout();
   centralLayout->addWidget(cutBranchConfirm);
   centralLayout->addWidget(printDebugMessages);
-  centralLayout->addWidget(runInMinimizedWindow);
   centralLayout->addWidget(enableActionLog);
   centralLayout->addWidget(enableCreateEmptyRecord);
   centralLayout->addWidget(dangerBox);
@@ -122,10 +116,6 @@ int AppConfigPage_Misc::applyChanges(void)
   // Сохраняется настройка отображения отладочных сообщений в консоли
   if(mytetraConfig.get_printdebugmessages()!=printDebugMessages->isChecked())
     mytetraConfig.set_printdebugmessages(printDebugMessages->isChecked());
-
-  // Сохраняется настройка режима запуска MyTetra - обычный или свернутый
-  if(mytetraConfig.get_runinminimizedwindow()!=runInMinimizedWindow->isChecked())
-    mytetraConfig.set_runinminimizedwindow(runInMinimizedWindow->isChecked());
 
   // Сохраняется настройка разрешения/запрещения лога действий
   if(mytetraConfig.getEnableLogging()!=enableActionLog->isChecked())

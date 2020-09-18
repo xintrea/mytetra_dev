@@ -30,6 +30,8 @@ public:
     void saveOpenWindows();
     void restoreOpenWindows();
 
+    void switchBehavior(const QString &mode);
+
 signals:
 
 public slots:

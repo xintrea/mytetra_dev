@@ -12,7 +12,7 @@ class EditorShowText : public QDialog
 {
     Q_OBJECT
 public:
-    explicit EditorShowText(QWidget *parent = nullptr);
+    explicit EditorShowText(QWidget *parent = nullptr, Qt::WindowFlags f=Qt::WindowFlags());
     virtual ~EditorShowText();
 
     void setNoteId(const QString &noteId);

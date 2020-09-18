@@ -34,20 +34,44 @@ EditorShowTextDispatcher *EditorShowTextDispatcher::instance()
 
 void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y, int w, int h)
 {
+    // Уже открытое окно не должно открываться дважды
     if( mWindowsList.contains( noteId ) )
     {
-        qApp->alert(mWindowsList[noteId].data());
-        mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
-        mWindowsList[noteId]->setWindowState(Qt::WindowActive);
-        return; // Уже открытое окно не должно открываться дважды
+        if(mytetraConfig.getDockableWindowsBehavior()=="single")
+        {
+            // Если у виджета нет родителя, метод alert() будет работать для привлечения внимания
+            qApp->alert(mWindowsList[noteId].data());
+        }
+        else
+        {
+            // Иначе надо активировать окно с существующей записью чтобы привлечь к нему внимание
+            mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
+            mWindowsList[noteId]->setWindowState(Qt::WindowActive);
+        }
+
+        return;
     }
 
+
     // Создается открепленное окно
-    // Нельзя в качестве parent указывать виджет редактора: если редактор
+    // Отсутствие родителя будет приводить к отдельному управлению
+    // окном виджета при сворачивании/разворачивании.
+    // Наличие родителя будет приводить к групповой работе с окном и родительским окном
+    // при сворачивании/разворачивании окна виджета.
+    // Примечание: нельзя в качестве parent указывать виджет редактора: если редактор
     // станет неактивным (например, когда запись не выбрана)
     // то данное окно тоже станет неактивным, и невозможно будет выделить в нем текст
-    // QPointer<EditorShowText> editorShowText( new EditorShowText( find_object<MainWindow>("mainwindow") ) );
-    QPointer<EditorShowText> editorShowText( new EditorShowText() );
+    QPointer<EditorShowText> editorShowText;
+    if(mytetraConfig.getDockableWindowsBehavior()=="single")
+    {
+        editorShowText=new EditorShowText(nullptr, Qt::Window);
+    }
+    else if(mytetraConfig.getDockableWindowsBehavior()=="together")
+    {
+        editorShowText=new EditorShowText( find_object<MainWindow>("mainwindow"), Qt::Dialog );
+    }
+
+
 
     // Устанавливается идентификатор записи, которое отображает данное окно
     editorShowText->setNoteId( noteId );
@@ -211,6 +235,30 @@ void EditorShowTextDispatcher::restoreOpenWindows()
                                chunks[3].toInt(),
                                chunks[4].toInt() );
         }
+    }
+}
+
+
+// Переключение поведения окна при сворачивыании/разворачивании
+void EditorShowTextDispatcher::switchBehavior(const QString &mode)
+{
+    MainWindow *mainWindow=find_object<MainWindow>("mainwindow");
+
+    for( auto widgetWindow : mWindowsList )
+    {
+        if(mode=="single")
+        {
+            widgetWindow->setParent(nullptr);
+            widgetWindow->setWindowFlags(Qt::Window);
+        }
+        else if(mode=="together")
+        {
+            widgetWindow->setParent( mainWindow );
+            widgetWindow->setWindowFlags(Qt::Dialog);
+        }
+
+        widgetWindow->hide();
+        widgetWindow->show();
     }
 }
 

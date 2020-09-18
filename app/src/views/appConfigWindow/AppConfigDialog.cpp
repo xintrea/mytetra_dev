@@ -14,6 +14,7 @@
 #include "AppConfigPage_Attach.h"
 #include "AppConfigPage_Keyboard.h"
 #include "AppConfigPage_History.h"
+#include "AppConfigPage_Appearance.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ScreenHelper.h"
 
@@ -40,6 +41,8 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
     // В качестве родителя надо указывать parent а не configDialog (разобраться почему)
     pageMain       =configDialog->addWidget(new AppConfigPage_Main( parent ),
                                             QObject::tr("Main"));
+    pageAppearance=configDialog->addWidget(new AppConfigPage_Appearance( parent ),
+                                            QObject::tr("Appearance"));
     pageCrypt      =configDialog->addWidget(new AppConfigPage_Crypt( parent ),
                                             QObject::tr("Crypt"));
     pageSynchro    =configDialog->addWidget(new AppConfigPage_Synchro( parent ),
@@ -86,6 +89,7 @@ void AppConfigDialog::changePage(QString name)
     QListWidgetItem *item=nullptr;
 
     if(name=="pageMain") item=pageMain;
+    if(name=="pageAppearance") item=pageAppearance;
     if(name=="pageCrypt") item=pageCrypt;
     if(name=="pageSynchro") item=pageSynchro;
     if(name=="pageRecordTable") item=pageRecordTable;
