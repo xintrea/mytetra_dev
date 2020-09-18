@@ -121,6 +121,8 @@ protected:
                  QString url,
                  QString tags);
 
+  void closeDetachedWindowByIdList(const QVector<QString> &delIds);
+
 };
 
 #endif // __RECORDTABLECONTROLLER_H__

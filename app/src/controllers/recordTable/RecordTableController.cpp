@@ -26,6 +26,7 @@
 #include "libraries/ClipboardRecords.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
 extern GlobalParameters globalParameters;
@@ -813,6 +814,7 @@ void RecordTableController::deleteRecords(void)
     }
   }
 
+
   // Массив удаляемых номеров строк (в Proxy-нумерации) сортируется так чтоб вначале были индексы с наибольшим номером
   std::sort(delRows.begin(), delRows.end(), std::greater<int>());
   int lastRowNum=delRows[0]; // Максимальный номер удаляемой строки
@@ -824,6 +826,9 @@ void RecordTableController::deleteRecords(void)
 
   // Надо очистить поля области редактировния, чтобы редактор не пытался сохранить текущую открытую, но удаленную запись
   find_object<MetaEditor>("editorScreen")->clearAll();
+
+  // Вызывается закрытие открепляемых окон для удаляемых записей
+  closeDetachedWindowByIdList(delIds);
 
   // Вызывается удаление отмеченных записей
   removeRowsByIdList(delIds);
@@ -880,6 +885,16 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
     // Proxy модель сама должна уведомить вид о своем изменении, так как именно она подключена к виду
     recordProxyModel->removeRow(idx.row());
   }
+}
+
+
+// Закрытие открепляемых окон согласно удаляемому списку записей
+void RecordTableController::closeDetachedWindowByIdList(const QVector<QString> &delIds)
+{
+    for( auto id : delIds )
+    {
+        EditorShowTextDispatcher::instance()->closeWindow(id);
+    }
 }
 
 

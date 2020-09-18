@@ -52,6 +52,15 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
         return;
     }
 
+    // Выясняется ссылка на модель дерева данных
+    KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
+
+    // Если в дереве нет вообще записи с указанным идентификатором, окно с такой записью создать невозможно
+    if( !dataModel->isRecordIdExists( noteId ))
+    {
+        return;
+    }
+
 
     // Создается открепленное окно
     // Отсутствие родителя будет приводить к отдельному управлению
@@ -72,7 +81,6 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
     }
 
 
-
     // Устанавливается идентификатор записи, которое отображает данное окно
     editorShowText->setNoteId( noteId );
 
@@ -88,12 +96,10 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
             this, &EditorShowTextDispatcher::onCloseWindow);
 
 
-    // Выясняется ссылка на модель дерева данных
-    KnowTreeModel *dataModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
-
     // Выясняется ссылка на объект записи
     Record *note=dataModel->getRecord(noteId);
 
+    // Из записи заполняется содержимое открепляемого окна
     editorShowText->setDocument( note->getTextDocument() );
     editorShowText->setWindowTitle( note->getField("name") );
 
@@ -141,6 +147,16 @@ void EditorShowTextDispatcher::updateAllWindows()
     for( auto noteId : mWindowsList.keys() )
     {
         this->updateWindow( noteId );
+    }
+}
+
+
+// Закрытие указанного окна
+void EditorShowTextDispatcher::closeWindow(const QString &noteId)
+{
+    if( mWindowsList.contains( noteId ) )
+    {
+        mWindowsList[ noteId ]->close();
     }
 }
 
@@ -215,13 +231,13 @@ void EditorShowTextDispatcher::saveOpenWindows()
 // Восстановление открепляемых окон с записями
 void EditorShowTextDispatcher::restoreOpenWindows()
 {
-    // Строка со веми окнами
+    // Строка со всеми окнами
     QString state=mytetraConfig.getDockableWindowsState();
 
-    // Строка совсеми окнами разделяется на подстроки с описанием одного окна
+    // Строка со всеми окнами разделяется на подстроки с описанием одного окна
     QStringList windowsState=state.split(";");
 
-    // Перебираются описания окон
+    // Перебираются описания окон в виде ID и координат
     for( auto window : windowsState )
     {
         if(window.trimmed().size()>0) // Если описание существует, а не пустая строка
