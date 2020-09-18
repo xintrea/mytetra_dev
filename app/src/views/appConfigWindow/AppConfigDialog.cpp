@@ -13,6 +13,7 @@
 #include "AppConfigPage_RecordTable.h"
 #include "AppConfigPage_Attach.h"
 #include "AppConfigPage_Keyboard.h"
+#include "AppConfigPage_History.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ScreenHelper.h"
 
@@ -49,6 +50,8 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
                                             QObject::tr("Attaches"));
     pageKeyboard   =configDialog->addWidget(new AppConfigPage_Keyboard( parent ),
                                             QObject::tr("Keyboard"));
+    pageHistory    =configDialog->addWidget(new AppConfigPage_History( parent ),
+                                            QObject::tr("History"));
     pageMisc       =configDialog->addWidget(new AppConfigPage_Misc( parent ),
                                             QObject::tr("Misc"));
 
@@ -88,6 +91,7 @@ void AppConfigDialog::changePage(QString name)
     if(name=="pageRecordTable") item=pageRecordTable;
     if(name=="pageAttach") item=pageAttach;
     if(name=="pageKeyboard") item=pageKeyboard;
+    if(name=="pageHistory") item=pageHistory;
     if(name=="pageMisc") item=pageMisc;
 
     if(item!=nullptr)

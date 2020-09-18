@@ -35,13 +35,8 @@ protected:
   QCheckBox *enableCreateEmptyRecord; // Разрешено ли создание записи, не содержащей текст (а только заголовок)
   QPushButton *editMyTetraConfigFile;
 
-  // Объединяющая рамка
-  QGroupBox *historyBox;
+  // Объединяющая рамка для блока с кнопкой редактирования конфиг-файла
   QGroupBox *dangerBox;
-
-  QCheckBox *rememberAtHistoryNavigationCheckBox;
-  QCheckBox *rememberAtOrdinarySelectionCheckBox;
-
 };
 
 

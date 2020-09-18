@@ -1,5 +1,5 @@
-#ifndef _CONFIGDIALOG_H_
-#define _CONFIGDIALOG_H_
+#ifndef CONFIGDIALOG_H
+#define CONFIGDIALOG_H
 
 #include <QDialog>
 
@@ -40,4 +40,4 @@ private:
     QDialogButtonBox *confirmButtons;
 };
 
-#endif // _CONFIGDIALOG_H_
+#endif // CONFIGDIALOG_H

@@ -57,15 +57,6 @@ void AppConfigPage_Misc::setupUi(void)
   enableCreateEmptyRecord->setText(tr("Create empty note enable"));
   enableCreateEmptyRecord->setChecked(mytetraConfig.getEnableCreateEmptyRecord());
 
-  // Настройки курсора при навигации по истории
-  rememberAtHistoryNavigationCheckBox=new QCheckBox(this);
-  rememberAtHistoryNavigationCheckBox->setText(tr("Remember cursor position at history navigation"));
-  rememberAtHistoryNavigationCheckBox->setChecked(mytetraConfig.getRememberCursorAtHistoryNavigation());
-
-  rememberAtOrdinarySelectionCheckBox=new QCheckBox(this);
-  rememberAtOrdinarySelectionCheckBox->setText(tr("Try remember cursor position at ordinary selection"));
-  rememberAtOrdinarySelectionCheckBox->setChecked(mytetraConfig.getRememberCursorAtOrdinarySelection());
-
   // Кнопка редактирования файла конфигурации MyTetra
   editMyTetraConfigFile=new QPushButton(this);
   editMyTetraConfigFile->setText(tr("Edit config file"));
@@ -81,17 +72,6 @@ void AppConfigPage_Misc::setupSignals(void)
 
 void AppConfigPage_Misc::assembly(void)
 {
-  // Группировщик виджетов для настроек курсора при навигации по истории
-  historyBox=new QGroupBox(this);
-  historyBox->setTitle(tr("History of visited notes"));
-
-  // Виджеты вставляются в группировщик настроек курсора при навигации по истории
-  QVBoxLayout *historyLayout = new QVBoxLayout;
-  historyLayout->addWidget(rememberAtHistoryNavigationCheckBox);
-  historyLayout->addWidget(rememberAtOrdinarySelectionCheckBox);
-  historyBox->setLayout(historyLayout);
-
-
   // Группировщик виджетов для опасной зоны
   dangerBox=new QGroupBox(this);
   dangerBox->setTitle(tr("Danger actions (Attention!)"));
@@ -109,7 +89,6 @@ void AppConfigPage_Misc::assembly(void)
   centralLayout->addWidget(runInMinimizedWindow);
   centralLayout->addWidget(enableActionLog);
   centralLayout->addWidget(enableCreateEmptyRecord);
-  centralLayout->addWidget(historyBox);
   centralLayout->addWidget(dangerBox);
   centralLayout->addStretch();
 
@@ -158,16 +137,6 @@ int AppConfigPage_Misc::applyChanges(void)
   // Сохраняется настройка возможности создания записи, не содержащей текст
   if(mytetraConfig.getEnableCreateEmptyRecord()!=enableCreateEmptyRecord->isChecked())
     mytetraConfig.setEnableCreateEmptyRecord(enableCreateEmptyRecord->isChecked());
-
-  // Сохраняется настройка нужно ли вспоминать позицию курсора при перемещении
-  // по истории
-  if(mytetraConfig.getRememberCursorAtHistoryNavigation()!=rememberAtHistoryNavigationCheckBox->isChecked())
-    mytetraConfig.setRememberCursorAtHistoryNavigation(rememberAtHistoryNavigationCheckBox->isChecked());
-
-  // Сохраняется настройка нужно ли пытаться вспоминать позицию курсора при
-  // обычном выборе записи
-  if(mytetraConfig.getRememberCursorAtOrdinarySelection()!=rememberAtOrdinarySelectionCheckBox->isChecked())
-    mytetraConfig.setRememberCursorAtOrdinarySelection(rememberAtOrdinarySelectionCheckBox->isChecked());
 
   return result;
 }
