@@ -254,6 +254,10 @@ public:
     QString getDockableWindowsState(void);
     void setDockableWindowsState(QString state);
 
+    QString getDockableWindowsBehavior(void);
+    void setDockableWindowsBehavior(QString mode);
+
+
 private:
 
     QSettings *conf; // было static
@@ -303,6 +307,7 @@ private:
     QStringList get_parameter_table_34(bool withEndSignature=true);
     QStringList get_parameter_table_35(bool withEndSignature=true);
     QStringList get_parameter_table_36(bool withEndSignature=true);
+    QStringList get_parameter_table_37(bool withEndSignature=true);
 
     bool is_init_flag;
 };
