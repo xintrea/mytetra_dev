@@ -1001,6 +1001,10 @@ void MainWindow::onSyncroCommandFinishWork()
     // что от предыдущей стадии была большая задержка
     reloadLoadStage(true);
 
+    // Содержимое открепляемых окон обновляется, так как содержимое записей
+    // могло поменяться (т. к. получены новые изменения)
+    EditorShowTextDispatcher::instance()->updateAllWindows();
+
     actionLogger.addAction("stopSyncro");
 }
 

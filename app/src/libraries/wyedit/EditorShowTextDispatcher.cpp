@@ -132,7 +132,6 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
             criticalError("Incorrect pointer in mWindowsList");
         }
     }
-
 }
 
 

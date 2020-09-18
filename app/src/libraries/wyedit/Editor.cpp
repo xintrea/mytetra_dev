@@ -880,6 +880,9 @@ void Editor::saveTextarea(void)
       saveCallbackFunc(qobject_cast<QObject *>(this), content);
     }
 
+    // Обновляется открепляемое окно с текстом записи, если таковое открыто
+    EditorShowTextDispatcher::instance()->updateWindow( this->getMiscField("id") );
+
     // Так как произошло сохранение,
     // отмечается что новый текст небыл еще изменен
     setTextareaModified(false);
