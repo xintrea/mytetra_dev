@@ -2,6 +2,7 @@
 #define EDITORSHOWTEXTDISPATCHER_H
 
 #include <QObject>
+#include <QThread>
 
 #include "EditorShowText.h"
 
@@ -39,6 +40,10 @@ signals:
 
 public slots:
 
+    void closeWindowByIdVector(const QVector<QString> &ids);
+    void closeWindowByIdList(const QStringList &ids);
+    void closeWindowForNonExistentRecords();
+
     void onCloseWindow(const QString &noteId);
 
 protected:
@@ -46,8 +51,14 @@ protected:
     explicit EditorShowTextDispatcher(QObject *parent = nullptr);
     virtual ~EditorShowTextDispatcher();
 
+    // Код диспетчера должен выполняться в отдельном треде,
+    // как минимум методы закрытия окошек по списку
+    QThread *mThread;
+
     // Список открытых окошек, ключ - это ID открытой записи
     QHash<QString, QPointer<EditorShowText> > mWindowsList;
+
+
 };
 
 #endif // EDITORSHOWTEXTDISPATCHER_H

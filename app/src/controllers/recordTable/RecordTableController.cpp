@@ -51,6 +51,10 @@ RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
 
   // Модель данных задается для вида
   view->setModel(recordProxyModel);
+
+  connect(this, &RecordTableController::doCloseDetachedWindowsByIdVector,
+          EditorShowTextDispatcher::instance(), &EditorShowTextDispatcher::closeWindowByIdVector,
+          Qt::QueuedConnection);
 }
 
 
@@ -828,7 +832,7 @@ void RecordTableController::deleteRecords(void)
   find_object<MetaEditor>("editorScreen")->clearAll();
 
   // Вызывается закрытие открепляемых окон для удаляемых записей
-  closeDetachedWindowByIdList(delIds);
+  emit doCloseDetachedWindowsByIdVector(delIds);
 
   // Вызывается удаление отмеченных записей
   removeRowsByIdList(delIds);
@@ -885,16 +889,6 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
     // Proxy модель сама должна уведомить вид о своем изменении, так как именно она подключена к виду
     recordProxyModel->removeRow(idx.row());
   }
-}
-
-
-// Закрытие открепляемых окон согласно удаляемому списку записей
-void RecordTableController::closeDetachedWindowByIdList(const QVector<QString> &delIds)
-{
-    for( auto id : delIds )
-    {
-        EditorShowTextDispatcher::instance()->closeWindow(id);
-    }
 }
 
 

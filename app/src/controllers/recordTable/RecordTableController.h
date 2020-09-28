@@ -61,6 +61,8 @@ public:
 
 signals:
 
+  void doCloseDetachedWindowsByIdVector(const QVector<QString> &ids);
+
 public slots:
 
   // Вызов действий для копирования записей в буфер обмена с удалением
@@ -120,8 +122,6 @@ protected:
                  QString author,
                  QString url,
                  QString tags);
-
-  void closeDetachedWindowByIdList(const QVector<QString> &delIds);
 
 };
 

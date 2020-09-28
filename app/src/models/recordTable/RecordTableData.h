@@ -47,6 +47,10 @@ public:
     Record *getRecordById(const QString &id);
 
 
+    // Получение списка идентификаторов всех записей в таблице
+    QStringList getRecordsIdList();
+
+
     // Первичное заполнение таблицы конечных записей
     void init(TreeItem *item, QDomElement domModel);
 

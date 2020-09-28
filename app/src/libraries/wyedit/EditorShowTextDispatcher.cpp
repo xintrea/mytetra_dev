@@ -15,13 +15,24 @@ extern AppConfig mytetraConfig;
 
 EditorShowTextDispatcher::EditorShowTextDispatcher(QObject *parent) : QObject(parent)
 {
-
+    mThread=new QThread();
+    this->moveToThread(mThread);
 }
 
 
 EditorShowTextDispatcher::~EditorShowTextDispatcher()
 {
+    // Корректное закрытие и удаление треда
+    if(mThread!=nullptr)
+    {
+        mThread->quit();
+        if(mThread->wait(1000))
+        {
+            mThread->terminate();
+        }
 
+        delete mThread;
+    }
 }
 
 
@@ -157,6 +168,51 @@ void EditorShowTextDispatcher::closeWindow(const QString &noteId)
     if( mWindowsList.contains( noteId ) )
     {
         mWindowsList[ noteId ]->close();
+    }
+}
+
+
+// Закрытие окон по списку
+// Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
+// Так как списки могут быть длинными
+void EditorShowTextDispatcher::closeWindowByIdVector(const QVector<QString> &ids)
+{
+    for( auto id : ids )
+    {
+        this->closeWindow(id);
+    }
+}
+
+
+// Закрытие окон по списку
+// Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
+// Так как списки могут быть длинными
+void EditorShowTextDispatcher::closeWindowByIdList(const QStringList &ids)
+{
+    for( auto id : ids )
+    {
+        this->closeWindow(id);
+    }
+}
+
+
+// Закрытие окон, для которых не существует записи
+// Используется при синхронизации, т.к. после синхронизации может оказаться
+// что открепляемое окно не связано ни с какой записью
+// Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
+void EditorShowTextDispatcher::closeWindowForNonExistentRecords()
+{
+    // Выясняется ссылка на модель дерева данных
+    KnowTreeModel *knowTreeModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
+
+    QStringList availableIds=knowTreeModel->getAllRecordsIdList();
+
+    for( auto noteId : mWindowsList.keys() )
+    {
+        if( !availableIds.contains(noteId) )
+        {
+            this->closeWindow(noteId);
+        }
     }
 }
 

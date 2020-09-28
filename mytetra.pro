@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
+RC_ICONS = app/bin/resource/pic/icon.ico
+
 # For desktop
 !android {
 SUBDIRS = app mimetex
@@ -16,3 +18,4 @@ SUBDIRS = app
 
 app.file = app/app.pro
 }
+

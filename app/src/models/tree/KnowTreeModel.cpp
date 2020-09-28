@@ -1003,7 +1003,7 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
 
 
 // Проверка наличия идентификатора ветки во всем дереве
-bool KnowTreeModel::isItemIdExists(QString findId)
+bool KnowTreeModel::isItemIdExists(QString findId) const
 {
   // Обнуление счетчика
   isItemIdExistsRecurse(rootItem, findId, 0);
@@ -1012,7 +1012,7 @@ bool KnowTreeModel::isItemIdExists(QString findId)
 }
 
 
-bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mode)
+bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mode) const
 {
   static bool isExists=false;
 
@@ -1043,16 +1043,16 @@ bool KnowTreeModel::isItemIdExistsRecurse(TreeItem *item, QString findId, int mo
 
 
 // Проверка наличия идентификатора записи во всем дереве
-bool KnowTreeModel::isRecordIdExists(QString findId)
+bool KnowTreeModel::isRecordIdExists(QString findId) const
 {
-  // Обнуление счетчика
+  // Обнуление флага наличия записи с указанным ID
   isRecordIdExistsRecurse(rootItem, findId, 0);
 
   return isRecordIdExistsRecurse(rootItem, findId, 1);
 }
 
 
-bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode)
+bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode) const
 {
   static bool isExists=false;
 
@@ -1082,8 +1082,29 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
 }
 
 
+// Получение списка всех идентификаторов записей в базе
+QSet<QString> KnowTreeModel::getAllRecordsIdList() const
+{
+    QSet<QString> idList;
+
+    this->getAllRecordsIdListRecurse(rootItem, &idList );
+
+    return idList;
+}
+
+
+void KnowTreeModel::getAllRecordsIdListRecurse(TreeItem *item, QSet<QString> *ids) const
+{
+    *ids << item->recordtableGetTableData()->getRecordsIdList();
+
+    // Перебираются подветки
+    for(int i=0; i < item->childCount(); i++)
+      getAllRecordsIdListRecurse(item->child(i), ids);
+}
+
+
 // Проверка наличия имени директории записи во всем дереве
-bool KnowTreeModel::isRecordDirExists(QString findDir)
+bool KnowTreeModel::isRecordDirExists(QString findDir) const
 {
   // Обнуление счетчика
   isRecordDirExistsRecurse(rootItem, findDir, 0);
@@ -1092,7 +1113,7 @@ bool KnowTreeModel::isRecordDirExists(QString findDir)
 }
 
 
-bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, int mode)
+bool KnowTreeModel::isRecordDirExistsRecurse(TreeItem *item, QString findDir, int mode) const
 {
   static bool isExists=false;
 

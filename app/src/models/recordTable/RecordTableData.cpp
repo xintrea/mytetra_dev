@@ -281,6 +281,19 @@ Record *RecordTableData::getRecordById(const QString &id)
 }
 
 
+QStringList RecordTableData::getRecordsIdList()
+{
+    QStringList ids;
+
+    for( auto record : tableData)
+    {
+        ids << record.getField("id");
+    }
+
+    return ids;
+}
+
+
 // Инициализация таблицы данных на основе переданного DOM-элемента
 void RecordTableData::init(TreeItem *item, QDomElement iDomElement)
 {
