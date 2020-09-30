@@ -158,6 +158,11 @@ void MainWindow::setupSignals(void)
     connect(syncroCommandRun, &CommandRun::finishWork,
             this, &MainWindow::onSyncroCommandFinishWork);
 
+    // Связывание сигнала вызова обработки открепляемых окон на предмет того,
+    // что они отображают существующие записи
+    connect(this, &MainWindow::doUpdateDetachedWindows,
+            EditorShowTextDispatcher::instance(), &EditorShowTextDispatcher::closeWindowForNonExistentRecords,
+            Qt::QueuedConnection);
 
     // Обновление горячих клавиш, если они были изменены
     connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &MainWindow::setupShortcuts);
@@ -1001,9 +1006,15 @@ void MainWindow::onSyncroCommandFinishWork()
     // что от предыдущей стадии была большая задержка
     reloadLoadStage(true);
 
-    // Содержимое открепляемых окон обновляется, так как содержимое записей
-    // могло поменяться (т. к. получены новые изменения)
+    // После того, как дерево перечитано, содержимое открепляемых окон обновляется,
+    // так как содержимое записей могло поменяться (т. к. получены новые изменения)
     EditorShowTextDispatcher::instance()->updateAllWindows();
+
+    // Возможно, что после обновления имеются открепляемые окна, показывающие
+    // записи, которые были удалены при синхронизации. Такие окна должны быть закрыты.
+    // Проверка и закрытие таких окон делается в отдельном потоке, потому вызов
+    // делается через сингнал-слот
+    emit doUpdateDetachedWindows();
 
     actionLogger.addAction("stopSyncro");
 }

@@ -14,7 +14,7 @@ public:
   TimerMonitoring(void);
   virtual ~TimerMonitoring(void);
 
-  void init();
+  virtual void init();
 
   void setDelay(int sec);
   void start();

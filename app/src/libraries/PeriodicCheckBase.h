@@ -6,12 +6,20 @@
 
 class PeriodicCheckBase : public TimerMonitoring
 {
-  Q_OBJECT
+    Q_OBJECT
+
+public:
+
+    void init();
+
+signals:
+
+    void doUpdateDetachedWindows();
 
 protected:
 
-  bool isStartEnabled();
-  void timerEvent(QTimerEvent *event);
+    bool isStartEnabled();
+    void timerEvent(QTimerEvent *event);
 
 };
 

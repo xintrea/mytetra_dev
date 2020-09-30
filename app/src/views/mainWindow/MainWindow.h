@@ -99,6 +99,8 @@ signals:
  void globalPressKey(int key);
  void globalReleaseKey(int key);
 
+ void doUpdateDetachedWindows();
+
 public slots:
  void applicationExit(void);
  void applicationFastExit(void);
