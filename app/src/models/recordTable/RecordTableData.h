@@ -48,7 +48,7 @@ public:
 
 
     // Получение списка идентификаторов всех записей в таблице
-    QStringList getRecordsIdList();
+    QSet<QString> getRecordsIdList();
 
 
     // Первичное заполнение таблицы конечных записей

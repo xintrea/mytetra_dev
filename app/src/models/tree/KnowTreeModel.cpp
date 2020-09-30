@@ -1083,19 +1083,20 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
 
 
 // Получение списка всех идентификаторов записей в базе
-QSet<QString> KnowTreeModel::getAllRecordsIdList() const
+QSharedPointer< QSet<QString> > KnowTreeModel::getAllRecordsIdList() const
 {
-    QSet<QString> idList;
+    QSharedPointer< QSet<QString> > idListPointer;
 
-    this->getAllRecordsIdListRecurse(rootItem, &idList );
+    this->getAllRecordsIdListRecurse(rootItem, idListPointer.data() );
 
-    return idList;
+    return idListPointer;
 }
 
 
 void KnowTreeModel::getAllRecordsIdListRecurse(TreeItem *item, QSet<QString> *ids) const
 {
-    *ids << item->recordtableGetTableData()->getRecordsIdList();
+    // Множество идентификаторов записей текущей ветки добавляется в итоговое множество
+    ids->unite( item->recordtableGetTableData()->getRecordsIdList() );
 
     // Перебираются подветки
     for(int i=0; i < item->childCount(); i++)

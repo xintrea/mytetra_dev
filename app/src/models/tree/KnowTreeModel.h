@@ -82,7 +82,7 @@ public:
     bool isRecordIdExists(QString findId) const;
 
     // Получение списка всех идентификаторов записей в базе
-    QSet<QString> getAllRecordsIdList() const;
+    QSharedPointer< QSet<QString> > getAllRecordsIdList() const;
 
     // Выгрузка ветки и всех подветок в директорию в виде отдельной базы MyTetra (экспорт)
     bool exportBranchToDirectory(TreeItem *startItem, QString exportDir);

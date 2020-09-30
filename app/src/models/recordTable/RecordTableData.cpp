@@ -281,9 +281,9 @@ Record *RecordTableData::getRecordById(const QString &id)
 }
 
 
-QStringList RecordTableData::getRecordsIdList()
+QSet<QString> RecordTableData::getRecordsIdList()
 {
-    QStringList ids;
+    QSet<QString> ids;
 
     for( auto record : tableData)
     {

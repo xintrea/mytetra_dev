@@ -205,11 +205,11 @@ void EditorShowTextDispatcher::closeWindowForNonExistentRecords()
     // Выясняется ссылка на модель дерева данных
     KnowTreeModel *knowTreeModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
 
-    QStringList availableIds=knowTreeModel->getAllRecordsIdList();
+    QSharedPointer< QSet<QString> > availableIds=knowTreeModel->getAllRecordsIdList();
 
     for( auto noteId : mWindowsList.keys() )
     {
-        if( !availableIds.contains(noteId) )
+        if( !availableIds.data()->contains(noteId) )
         {
             this->closeWindow(noteId);
         }
