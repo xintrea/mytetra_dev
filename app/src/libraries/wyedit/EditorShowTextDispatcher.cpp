@@ -168,6 +168,7 @@ void EditorShowTextDispatcher::closeWindow(const QString &noteId)
     if( mWindowsList.contains( noteId ) )
     {
         mWindowsList[ noteId ]->close();
+        mWindowsList.remove( noteId );
     }
 }
 

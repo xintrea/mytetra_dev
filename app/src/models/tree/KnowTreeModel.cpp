@@ -1085,7 +1085,7 @@ bool KnowTreeModel::isRecordIdExistsRecurse(TreeItem *item, QString findId, int 
 // Получение списка всех идентификаторов записей в базе
 QSharedPointer< QSet<QString> > KnowTreeModel::getAllRecordsIdList() const
 {
-    QSharedPointer< QSet<QString> > idListPointer;
+    QSharedPointer< QSet<QString> > idListPointer( new QSet<QString> );
 
     this->getAllRecordsIdListRecurse(rootItem, idListPointer.data() );
 
