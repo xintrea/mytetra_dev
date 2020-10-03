@@ -19,16 +19,9 @@ void PeriodicCheckBase::init()
 {
     TimerMonitoring::init();
 
-    QMetaObject::Connection c;
-
-    c=connect(this, &PeriodicCheckBase::doUpdateDetachedWindows,
+    connect(this, &PeriodicCheckBase::doUpdateDetachedWindows,
             EditorShowTextDispatcher::instance(), &EditorShowTextDispatcher::closeWindowForNonExistentRecords,
             Qt::QueuedConnection);
-
-    if(c)
-    {
-        qDebug() << "Connection to EditorShowTextDispatcher success";
-    }
 }
 
 

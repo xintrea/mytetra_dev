@@ -17,6 +17,8 @@ EditorShowTextDispatcher::EditorShowTextDispatcher(QObject *parent) : QObject(pa
 {
     mThread=new QThread();
     this->moveToThread(mThread);
+
+    mThread->start();
 }
 
 
