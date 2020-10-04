@@ -199,6 +199,18 @@ void EditorShowTextDispatcher::closeWindowByIdList(const QStringList &ids)
 }
 
 
+// Закрытие окон по списку в виде множества
+// Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
+// Так как списки могут быть длинными
+void EditorShowTextDispatcher::closeWindowByIdSet(const QSet<QString> &ids)
+{
+    for( auto id : ids )
+    {
+        this->closeWindow(id);
+    }
+}
+
+
 // Закрытие окон, для которых не существует записи
 // Используется при синхронизации, т.к. после синхронизации может оказаться
 // что открепляемое окно не связано ни с какой записью
@@ -342,7 +354,10 @@ void EditorShowTextDispatcher::onCloseWindow(const QString &noteId)
 {
     if( mWindowsList.contains( noteId ) )
     {
-        mWindowsList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
+        // Все соединения закрываемого окна отключаются
+        // так как код и так уже находится в обработчике события закрытия окна, и
+        // больше никаких событий вызываться не должно
+        mWindowsList[ noteId ]->disconnect();
 
         mWindowsList.remove(noteId); // Закрываемое окно убирается из списка окон
     }

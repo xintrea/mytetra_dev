@@ -28,7 +28,6 @@
 #include "libraries/IconSelectDialog.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/helpers/ObjectHelper.h"
-#include "libraries/helpers/SortHelper.h"
 #include "libraries/helpers/ActionHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
@@ -688,15 +687,15 @@ void TreeScreen::delBranch(QString mode)
 
 
  // Получение списка индексов QModelIndex выделенных элементов
- QModelIndexList selectitems=knowTreeView->selectionModel()->selectedIndexes();
+ QModelIndexList selectItems=knowTreeView->selectionModel()->selectedIndexes();
 
  // Список имен веток, которые нужно удалить
- QStringList branches_name;
- for(int i = 0; i < selectitems.size(); ++i)
+ QStringList branchesName;
+ for(int i = 0; i < selectItems.size(); ++i)
   {
-   QModelIndex index=selectitems.at(i);
+   QModelIndex index=selectItems.at(i);
    TreeItem *item=knowTreeModel->getItem(index);
-   branches_name << item->getField("name");
+   branchesName << item->getField("name");
   }
 
  
@@ -706,9 +705,9 @@ void TreeScreen::delBranch(QString mode)
    bool disableFlag=false;
 
    // Перебираются удаляемые ветки
-   for(int i = 0; i < selectitems.size(); ++i)
+   for(int i = 0; i < selectItems.size(); ++i)
     {
-     QModelIndex index=selectitems.at(i);
+     QModelIndex index=selectItems.at(i);
      TreeItem *item=knowTreeModel->getItem(index);
      
      // Если у ветки установлен флаг шифрования
@@ -752,11 +751,11 @@ void TreeScreen::delBranch(QString mode)
   } // Закрылось условие что системный пароль не установлен
  
 
- // Перебираются ветоки, которые нужно удалить, и в них проверяется наличие заблокированных записей
+ // Перебираются ветки, которые нужно удалить, и в них проверяется наличие заблокированных записей
  bool isSelectionContainBlockRecords=false;
- for(int i = 0; i < selectitems.size(); ++i)
+ for(int i = 0; i < selectItems.size(); ++i)
  {
-   QModelIndex index=selectitems.at(i);
+   QModelIndex index=selectItems.at(i);
    TreeItem *item=knowTreeModel->getItem(index);
 
    if( knowTreeModel->isItemContainsBlockRecords(item) )
@@ -794,7 +793,7 @@ void TreeScreen::delBranch(QString mode)
  if(mode=="delete")
   {
    title=tr("Delete item(s)");
-   text=tr("Are you sure you wish to delete item(s) <b>") + branches_name.join(", ") + tr("</b> and all sub items?");
+   text=tr("Are you sure you wish to delete item(s) <b>") + branchesName.join(", ") + tr("</b> and all sub items?");
    del_button=tr("Delete");
 
    enable_question=true;
@@ -802,7 +801,7 @@ void TreeScreen::delBranch(QString mode)
  else if(mode=="cut")
   {
    title=tr("Cut item");
-   text=tr("Are you sure you wish to cut item <b>") + branches_name.join(", ") + tr("</b> and all sub items?");
+   text=tr("Are you sure you wish to cut item <b>") + branchesName.join(", ") + tr("</b> and all sub items?");
    del_button=tr("Cut");
 
    if(mytetraConfig.get_cutbranchconfirm()) enable_question=true;
@@ -832,28 +831,7 @@ void TreeScreen::delBranch(QString mode)
    // если она находится в удаляемой ветке
    find_object<MainWindow>("mainwindow")->saveTextarea();
 
-   // Сортировка списка индексов по вложенности методом пузырька
-   // Индексы с длинным путем перемещаются в начало списка
-   for(int i = 0; i < selectitems.size(); i++)
-    for(int j=selectitems.size()-1; j>i; j--)
-     {
-      QStringList path_1=(knowTreeModel->getItem(selectitems.at(j-1)))->getPath();
-      QStringList path_2=(knowTreeModel->getItem(selectitems.at(j)))->getPath();
-      if(path_1.size() < path_2.size())
-          #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
-          selectitems.swapItemsAt(j-1, j);
-          #else
-          selectitems.swap(j-1, j);
-          #endif
-     }
- 
-   qDebug() << "Path for delete";
-   for(int i = 0; i < selectitems.size(); ++i)
-    qDebug() << (knowTreeModel->getItem(selectitems.at(i)))->getPath();
-
-   // Вызов удаления веток
-   for(int i = 0; i < selectitems.size(); ++i)
-    delOneBranch(selectitems.at(i));
+   knowTreeModel->deleteItemsByModelIndexList( selectItems );
 
    qDebug() << "Delete finish";
 
@@ -863,68 +841,13 @@ void TreeScreen::delBranch(QString mode)
    qDebug() << "Save new tree finish";
   }
 
+
  // Разблокируется главное окно
  find_object<MainWindow>("mainwindow")->setEnabled(true);
  find_object<MainWindow>("mainwindow")->blockSignals(false);
 
  treeEmptyControl();
  treeCryptControl();
-}
-
-
-// Удаление одной ветки и её подветок
-void TreeScreen::delOneBranch(QModelIndex index)
-{
-
- if(!index.isValid())
-   return;
-
- // Получение узла, который соответствует обрабатываемому индексу
- TreeItem *item=knowTreeModel->getItem(index);
-
- // qDebug() << "Delete tree item id:" << item->getField("id") << "name:" << item->getField("name");
-
- // Получение пути к элементу
- QStringList path=item->getPath();
-
- // Получение путей ко всем подветкам
- QList<QStringList> subbranchespath=item->getAllChildrenPath();
-
- // Сортировка массива веток по длине пути
- std::sort(subbranchespath.begin(), subbranchespath.end(), compareQStringListLen);
-
- // Удаление всех таблиц конечных записей для нужных подветок
- // Удаление всех подчиненных элементов для нужных подветок
- // Вначале пробегаются самые длинные ветки а потом более короткие
- for(int i=subbranchespath.size()-1;i>=0;i--)
- {
-  qDebug() << "Delete subbranch, id:" << knowTreeModel->getItem(subbranchespath.at(i))->getField("id") << "name:" << knowTreeModel->getItem(subbranchespath.at(i))->getField("name");
-  ( knowTreeModel->getItem(subbranchespath.at(i)) )->recordtableDeleteAllRecords();
-  // ( knowTreeModel->getItem(subbranchespath.at(i)) )->removeAllChildren(); // Команда действительно не нужна. Далее в removeRows() вызывается removeChildren()
- }
-
- // Удаление таблицы конечных записей для самой удаляемой ветки
- // Удаление подчиненных элементов для самой удаляемой ветки
- qDebug() << "Delete rootbranch, id:" << knowTreeModel->getItem(path)->getField("id") << "name:" << knowTreeModel->getItem(path)->getField("name");
- ( knowTreeModel->getItem(path) )->recordtableDeleteAllRecords();
- // ( knowTreeModel->getItem(path) )->removeAllChildren(); // Команда действительно не нужна. Далее в removeRows() вызывается removeChildren()
-
- // Удаление ветки на экране, при этом удалятся все подветки
- qDebug() << "This branch have row() as" << index.row();
- if(index.isValid()) qDebug() << "Index valid";
- else qDebug() << "Index non valid";
- knowTreeModel->removeRows(index.row(), 1, index.parent());
-
- /*
- // Удаление всех нужных подветок
- // Пробегаются самые длинные ветки а потом более короткие
- for (int i=subbranchespath.size()-1;i>=0;i--)
-  if(knowTreeModel->isItemValid(subbranchespath.at(i)))
-   {
-    TreeItem *current_item=knowTreeModel->getItem(subbranchespath.at(i));
-    delete current_item;
-   }
- */
 }
 
 

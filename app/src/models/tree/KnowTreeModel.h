@@ -81,8 +81,13 @@ public:
     // Проверка наличия идентификатора записи во всем дереве
     bool isRecordIdExists(QString findId) const;
 
+    // Получение списка всех идентификаторов записей в ветке и ее подветках
+    QSharedPointer< QSet<QString> > getRecordsIdList(TreeItem *item) const;
+
     // Получение списка всех идентификаторов записей в базе
     QSharedPointer< QSet<QString> > getAllRecordsIdList() const;
+
+    void deleteItemsByModelIndexList(QModelIndexList &selectItems);
 
     // Выгрузка ветки и всех подветок в директорию в виде отдельной базы MyTetra (экспорт)
     bool exportBranchToDirectory(TreeItem *startItem, QString exportDir);
@@ -94,6 +99,11 @@ public:
     QDateTime getLastLoadDateTime();
 
     QString getXmlFileName() const;
+
+
+signals:
+
+    void doCloseDetachedWindowByIdSet( QSet<QString> ids );
 
 private:
 
@@ -152,6 +162,9 @@ private:
     bool isRecordIdExistsRecurse(TreeItem *item, QString findId, int mode) const;
 
     void getAllRecordsIdListRecurse(TreeItem *item, QSet<QString> *ids) const;
+
+    // Удаление одной ветки и её подветок
+    void deleteOneBranch(QModelIndex index);
 
     bool isRecordDirExists(QString findDir) const;
     bool isRecordDirExistsRecurse(TreeItem *item, QString findDir, int mode) const;

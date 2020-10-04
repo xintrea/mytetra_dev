@@ -63,7 +63,6 @@ private slots:
  void setIcon(void);
 
  void delBranch(QString mode="delete");
- void delOneBranch(QModelIndex index);
 
  void moveUpBranch(void);
  void moveDownBranch(void);
