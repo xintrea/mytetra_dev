@@ -3,7 +3,12 @@
 #include <QIcon>
 
 #include "EditorShowText.h"
+#include "EditorShowTextContextMenu.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "libraries/helpers/ObjectHelper.h"
+#include "models/tree/KnowTreeModel.h"
+#include "views/tree/KnowTreeView.h"
+#include "views/mainWindow/MainWindow.h"
 
 
 EditorShowText::EditorShowText(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f)
@@ -44,12 +49,21 @@ void EditorShowText::setupUi()
     mTextArea.get()->setAcceptRichText(true);
     mTextArea.get()->setSizePolicy(sizePolicy);
     mTextArea.get()->setReadOnly(true); // Показываемый текст можно только просматривать
+    mTextArea.get()->setContextMenuPolicy(Qt::CustomContextMenu); // Меню определяется в программе
+
+    // Создается контекстное меню
+    mContextMenu.reset( new EditorShowTextContextMenu(this) );
 }
 
 
 void EditorShowText::setupSignals()
 {
+    // Соединение сигнал-слот чтобы показать контекстное меню по правому клику в редакторе
+    connect(mTextArea.data(), &QTextEdit::customContextMenuRequested,
+            this, &EditorShowText::onCustomContextMenuRequested);
 
+    connect(mContextMenu.data(), &EditorShowTextContextMenu::gotoNote,
+            this, &EditorShowText::onGotoNote);
 }
 
 
@@ -60,6 +74,12 @@ void EditorShowText::assembly()
 
     // Добавляется область текста
     mainLayout->addWidget( mTextArea.get() );
+}
+
+
+QSharedPointer<QTextEdit> EditorShowText::getTextArea()
+{
+    return mTextArea;
 }
 
 
@@ -142,6 +162,33 @@ void EditorShowText::showEvent(QShowEvent *event)
         qDebug() << "Previos geometry of EditorShowText dialog is not setted";
 
     QWidget::showEvent(event);
+}
+
+
+void EditorShowText::onCustomContextMenuRequested(const QPoint &pos)
+{
+    qDebug() << "In EditorShowText onCustomContextMenuRequested";
+
+    // Контекстное меню обновляется
+    mContextMenu->update();
+
+    // Контекстное меню запускается
+    mContextMenu->exec( mTextArea.get()->viewport()->mapToGlobal(pos) );
+}
+
+
+void EditorShowText::onGotoNote()
+{
+    qDebug() << "Goto note: " << mNoteId;
+
+    // Выясняется ссылка на модель дерева данных
+    KnowTreeModel *knowTreeModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
+
+    // Нахождение ветки, в которой лежит запись с указанным идентификатором
+    QStringList path=knowTreeModel->getRecordPath(mNoteId);
+
+    find_object<MainWindow>("mainwindow")->setTreePosition(path);
+    find_object<MainWindow>("mainwindow")->setRecordtablePositionById(mNoteId);
 }
 
 

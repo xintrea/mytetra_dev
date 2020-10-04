@@ -7,6 +7,9 @@
 #include <QCloseEvent>
 
 
+class EditorShowTextContextMenu;
+
+
 // Класс отдельного (открепляемого) окна для просмотра текста записи без возможности редактирования
 class EditorShowText : public QDialog
 {
@@ -14,6 +17,8 @@ class EditorShowText : public QDialog
 public:
     explicit EditorShowText(QWidget *parent = nullptr, Qt::WindowFlags f=Qt::WindowFlags());
     virtual ~EditorShowText();
+
+    QSharedPointer<QTextEdit> getTextArea();
 
     void setNoteId(const QString &noteId);
     void setHtml(QString text);
@@ -26,13 +31,17 @@ signals:
 
     void editorShowTextClose(const QString &noteId);
 
-public slots:
+protected slots:
+
+    void onCustomContextMenuRequested(const QPoint &pos);
+    void onGotoNote();
 
 private:
 
     QString mNoteId;
     QSharedPointer<QTextEdit> mTextArea;
     QSharedPointer<QTextDocument> mTextDocument;
+    QSharedPointer<EditorShowTextContextMenu> mContextMenu;
 
     int mGeomX;
     int mGeomY;

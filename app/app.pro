@@ -153,6 +153,7 @@ HEADERS = src/main.h \
     src/libraries/helpers/UniqueIdHelper.h \
     src/libraries/wyedit/EditorConfigMathExpression.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
+    src/libraries/wyedit/EditorShowTextContextMenu.h \
     src/libraries/wyedit/EditorShowTextDispatcher.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
@@ -309,6 +310,7 @@ SOURCES = src/main.cpp \
     src/libraries/helpers/UniqueIdHelper.cpp \
     src/libraries/wyedit/EditorConfigMathExpression.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
+    src/libraries/wyedit/EditorShowTextContextMenu.cpp \
     src/libraries/wyedit/EditorShowTextDispatcher.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAbstractModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
