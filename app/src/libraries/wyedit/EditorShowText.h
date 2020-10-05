@@ -6,11 +6,12 @@
 #include <QEvent>
 #include <QCloseEvent>
 
+//! \brief
+//! Класс открепляемого окна для просмотра текста записи без возможности редактирования
+
 
 class EditorShowTextContextMenu;
 
-
-// Класс отдельного (открепляемого) окна для просмотра текста записи без возможности редактирования
 class EditorShowText : public QDialog
 {
     Q_OBJECT

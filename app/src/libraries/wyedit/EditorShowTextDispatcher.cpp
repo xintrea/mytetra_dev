@@ -59,23 +59,6 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
         mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
         mWindowsList[noteId]->setWindowState(Qt::WindowActive);
 
-        /*
-        if(mytetraConfig.getDockableWindowsBehavior()=="single")
-        {
-            qDebug() << "Alert for note: " << noteId << " in single mode";
-            qDebug() << "Window exists in list: " << !mWindowsList[noteId].isNull();
-
-            // Если у виджета нет родителя, метод alert() будет работать для привлечения внимания
-            qApp->alert(mWindowsList[noteId].data()->window());
-        }
-        else
-        {
-            // Иначе надо активировать окно с существующей записью чтобы привлечь к нему внимание
-            mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
-            mWindowsList[noteId]->setWindowState(Qt::WindowActive);
-        }
-        */
-
         return;
     }
 
