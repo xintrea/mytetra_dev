@@ -47,13 +47,26 @@ EditorShowTextDispatcher *EditorShowTextDispatcher::instance()
 
 void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y, int w, int h)
 {
-    // Уже открытое окно не должно открываться дважды
+    // Уже созданное окно не должно открываться дважды
     if( mWindowsList.contains( noteId ) )
     {
+        // Если окно было свернуто, его надо показать
+        if(mWindowsList[noteId].data()->window()->isMinimized())
+        {
+            mWindowsList[noteId].data()->window()->showNormal();
+        }
+
+        mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
+        mWindowsList[noteId]->setWindowState(Qt::WindowActive);
+
+        /*
         if(mytetraConfig.getDockableWindowsBehavior()=="single")
         {
+            qDebug() << "Alert for note: " << noteId << " in single mode";
+            qDebug() << "Window exists in list: " << !mWindowsList[noteId].isNull();
+
             // Если у виджета нет родителя, метод alert() будет работать для привлечения внимания
-            qApp->alert(mWindowsList[noteId].data());
+            qApp->alert(mWindowsList[noteId].data()->window());
         }
         else
         {
@@ -61,6 +74,7 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
             mWindowsList[noteId]->setWindowState(Qt::WindowNoState);
             mWindowsList[noteId]->setWindowState(Qt::WindowActive);
         }
+        */
 
         return;
     }
@@ -143,8 +157,8 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         // Открепляемое окно начинает отображать новый взятый из записи документ
         if( !mWindowsList[noteId].isNull() )
         {
-            mWindowsList[noteId]->setDocument( doc );
-            mWindowsList[noteId]->setWindowTitle( note->getField("name") );
+            mWindowsList[noteId]->setDocument( doc ); // Текст окна
+            mWindowsList[noteId]->setWindowTitle( note->getField("name") ); // Заголовок окна
         }
         else
         {
