@@ -119,13 +119,13 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
         editorShowText->setGeometry(x, y, w, h);
     }
 
-    // Установка прокрутки текста
+    editorShowText->show();
+
+    // Установка прокрутки текста, должна быть после того, как отображаемое окно сформировано методом show()
     if(vScroll!=0)
     {
         editorShowText->setTextVerticalScroll(vScroll);
     }
-
-    editorShowText->show();
 
     this->saveOpenWindows();
 }
@@ -337,7 +337,7 @@ void EditorShowTextDispatcher::restoreOpenWindows()
 }
 
 
-// Переключение поведения окна при сворачивыании/разворачивании
+// Переключение поведения окон при сворачивыании/разворачивании
 void EditorShowTextDispatcher::switchBehavior(const QString &mode)
 {
     MainWindow *mainWindow=find_object<MainWindow>("mainwindow");
@@ -358,6 +358,18 @@ void EditorShowTextDispatcher::switchBehavior(const QString &mode)
         widgetWindow->hide();
         widgetWindow->show();
     }
+}
+
+
+// Обновление поведения окон согласно настройкам
+// метод вызывается после разворачивания основного окна MyTetra из иконки трея
+// так как при сворачивании окна MyTetra, все открепляемые окна
+// теряют указатель на родителя, и, соответственно меняют свое поведение
+void EditorShowTextDispatcher::updateBehavior()
+{
+    this->switchBehavior( mytetraConfig.getDockableWindowsBehavior() );
+
+    qDebug() << "Update detached window behavior";
 }
 
 

@@ -35,6 +35,7 @@ public:
     void restoreOpenWindows();
 
     void switchBehavior(const QString &mode);
+    void updateBehavior();
 
 signals:
 

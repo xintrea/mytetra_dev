@@ -1041,6 +1041,9 @@ void MainWindow::showWindow()
     activateWindow();
     showNormal();
     raise();
+
+    // Обновляется (по сути, восстанавливается) поведение открепляемых окон
+    EditorShowTextDispatcher::instance()->updateBehavior();
 }
 
 
