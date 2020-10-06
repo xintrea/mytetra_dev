@@ -19,11 +19,14 @@ public:
     explicit EditorShowText(QWidget *parent = nullptr, Qt::WindowFlags f=Qt::WindowFlags());
     virtual ~EditorShowText();
 
-    QSharedPointer<QTextEdit> getTextArea();
-
     void setNoteId(const QString &noteId);
     void setHtml(QString text);
     void setDocument(QSharedPointer<QTextDocument> pDocument);
+
+    bool hasTextSelection();
+
+    int getTextVerticalScroll();
+    void setTextVerticalScroll(int vScroll);
 
     // Действия при закрытии диалога
     void closeEvent(QCloseEvent *event);

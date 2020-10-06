@@ -1078,7 +1078,7 @@ void AppConfig::update_version_process(void)
     QString configFileName=globalParameters.getWorkDirectory()+"/conf.ini";
 
     AppConfigUpdater updater;
-    updater.set_config_file(configFileName);
+    updater.setConfigFile(configFileName);
 
     int fromVersion=get_config_version();
 
@@ -1126,13 +1126,14 @@ void AppConfig::update_version_process(void)
     parameterFunctions << &AppConfig::get_parameter_table_35;
     parameterFunctions << &AppConfig::get_parameter_table_36;
     parameterFunctions << &AppConfig::get_parameter_table_37;
+    parameterFunctions << &AppConfig::get_parameter_table_38;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
     {
         if(fromVersion<=i)
         {
             // В вызове метода: *this - это объект, а true - это первый параметр метода. Именно так работает вызов метода для std::function
-            updater.update_version(i, i+1, (parameterFunctions.at(i))(*this, true), (parameterFunctions.at(i+1))(*this, true) );
+            updater.updateVersion(i, i+1, (parameterFunctions.at(i))(*this, true), (parameterFunctions.at(i+1))(*this, true) );
         }
     }
 }
@@ -1846,6 +1847,7 @@ QStringList AppConfig::get_parameter_table_36(bool withEndSignature)
     table << get_parameter_table_35(false);
 
     // Состояние окрепляемых окон
+    // Предполагаемый формат - "IDзаписи1,x1,y1,w1,h1;IDзаписи2,x2,y2,w2,h2..."
     table << "dockableWindowsState" << "QString" << "";
 
     if(withEndSignature)
@@ -1866,6 +1868,26 @@ QStringList AppConfig::get_parameter_table_37(bool withEndSignature)
 
     // Поведение окрепляемых окон
     table << "dockableWindowsBehavior" << "QString" << "single";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_38(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 37
+    table << get_parameter_table_37(false);
+
+    // Обновление формата конфига не происходит, обновляется только
+    // представление параметра dockableWindowsState
+    // см. AppConfigUpdater::updateValueRepresentation
 
     if(withEndSignature)
         table << "0" << "0" << "0";

@@ -45,7 +45,7 @@ EditorShowTextDispatcher *EditorShowTextDispatcher::instance()
 }
 
 
-void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y, int w, int h)
+void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y, int w, int h, int vScroll)
 {
     // Уже созданное окно не должно открываться дважды
     if( mWindowsList.contains( noteId ) )
@@ -113,9 +113,16 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
     editorShowText->setDocument( note->getTextDocument() );
     editorShowText->setWindowTitle( note->getField("name") );
 
+    // Установка координат окна
     if( !(x==-1 and y==-1 and w==-1 and h==-1) )
     {
         editorShowText->setGeometry(x, y, w, h);
+    }
+
+    // Установка прокрутки текста
+    if(vScroll!=0)
+    {
+        editorShowText->setTextVerticalScroll(vScroll);
     }
 
     editorShowText->show();
@@ -140,8 +147,14 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
         // Открепляемое окно начинает отображать новый взятый из записи документ
         if( !mWindowsList[noteId].isNull() )
         {
+            // Когда обновися текстовый документ, прокрутка будет сброшена, и надо будет ее восстановить
+            int vScroll=mWindowsList[noteId]->getTextVerticalScroll();
+
             mWindowsList[noteId]->setDocument( doc ); // Текст окна
             mWindowsList[noteId]->setWindowTitle( note->getField("name") ); // Заголовок окна
+
+            // Восстановление прокрутки
+            mWindowsList[noteId]->setTextVerticalScroll(vScroll);
         }
         else
         {
@@ -285,7 +298,8 @@ void EditorShowTextDispatcher::saveOpenWindows()
         state+=QString::number( geom.x() )+",";
         state+=QString::number( geom.y() )+",";
         state+=QString::number( geom.width() )+",";
-        state+=QString::number( geom.height() );
+        state+=QString::number( geom.height() )+",";
+        state+=QString::number( mWindowsList[noteId]->getTextVerticalScroll() );
 
         windowsState << state;
     }
@@ -316,7 +330,8 @@ void EditorShowTextDispatcher::restoreOpenWindows()
                                chunks[1].toInt(),
                                chunks[2].toInt(),
                                chunks[3].toInt(),
-                               chunks[4].toInt() );
+                               chunks[4].toInt(),
+                               chunks[5].toInt() );
         }
     }
 }

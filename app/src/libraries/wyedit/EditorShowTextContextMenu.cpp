@@ -40,7 +40,7 @@ void EditorShowTextContextMenu::setupActions(void)
 void EditorShowTextContextMenu::update(void)
 {
     actionCopy->setVisible(true);
-    actionCopy->setEnabled( static_cast<EditorShowText*>(this->parent())->getTextArea()->textCursor().hasSelection() );
+    actionCopy->setEnabled( static_cast<EditorShowText*>(this->parent())->hasTextSelection() );
 
     actionSelectAll->setVisible(true);
     actionSelectAll->setEnabled(true);

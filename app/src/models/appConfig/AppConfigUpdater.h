@@ -19,9 +19,9 @@ public:
     AppConfigUpdater(QObject *pobj=nullptr);
     virtual ~AppConfigUpdater();
 
-    void set_config_file(QString fileName);
+    void setConfigFile(QString fileName);
 
-    void update_version(int versionFrom,
+    void updateVersion(int versionFrom,
                         int versionTo,
                         QStringList baseTable,
                         QStringList finalTable);
@@ -30,7 +30,12 @@ private:
 
     const int maxParameterCount;
 
-    QString update_version_allowcollision(int versionFrom,
+    QString updateValueRepresentation(int versionFrom,
+                                      int versionTo,
+                                      QString name,
+                                      QString value);
+
+    QString updateVersionAllowCollision(int versionFrom,
                                           int versionTo,
                                           QString name,
                                           QString fromType,

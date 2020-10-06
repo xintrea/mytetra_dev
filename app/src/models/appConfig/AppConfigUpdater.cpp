@@ -22,7 +22,7 @@ AppConfigUpdater::~AppConfigUpdater()
 }
 
 
-void AppConfigUpdater::set_config_file(QString fileName)
+void AppConfigUpdater::setConfigFile(QString fileName)
 {
  // Проверяется, есть ли файл конфигурации
  QFile conffile(fileName);
@@ -36,19 +36,47 @@ void AppConfigUpdater::set_config_file(QString fileName)
 }
 
 
+// Обновление значения в случае,
+// если значение есть в конфиге, но его представление нужно изменить
+QString AppConfigUpdater::updateValueRepresentation(int versionFrom,
+                                                    int versionTo,
+                                                    QString name,
+                                                    QString value)
+{
+    if(versionFrom==37 and versionTo==38 and name=="dockableWindowsState")
+    {
+        if(value.trimmed().size()>1)
+        {
+            QStringList chunks=value.split(';');
+
+            for(int i=0; i<chunks.size(); ++i)
+            {
+                chunks[i]+=",0";
+            }
+
+            value=chunks.join(';');
+
+            return value;
+        }
+    }
+
+    return value;
+}
+
+
 // Метод разрешения конфликтов
 // Должен включать в себя логику обработки только тех параметров
 // и только для тех версий конфигов, которые действительно
 // должны поменять тип. Если для принятых параметров не будет
 // обработки, это значит что что-то сделано программистом не так
 // и нужно дорабатывать код
-QString AppConfigUpdater::update_version_allowcollision(int versionFrom,
-                                                        int versionTo,
-                                                        QString name,
-                                                        QString fromType,
-                                                        QString fromValue,
-                                                        QString toType,
-                                                        QString toValue)
+QString AppConfigUpdater::updateVersionAllowCollision(int versionFrom,
+                                                      int versionTo,
+                                                      QString name,
+                                                      QString fromType,
+                                                      QString fromValue,
+                                                      QString toType,
+                                                      QString toValue)
 {
 
  // todo: Прописать сюда правила перевода int в bool и обратно
@@ -66,10 +94,10 @@ QString AppConfigUpdater::update_version_allowcollision(int versionFrom,
 
 
 // Основной метод обновления версий конфига
-void AppConfigUpdater::update_version(int versionFrom,
-                                      int versionTo,
-                                      QStringList baseTable,
-                                      QStringList finalTable)
+void AppConfigUpdater::updateVersion(int versionFrom,
+                                     int versionTo,
+                                     QStringList baseTable,
+                                     QStringList finalTable)
 {
   // Таблица исходных параметров преобразуется к более удобному для работы виду
   // И параллельно заполняется значениями из конфига
@@ -89,7 +117,10 @@ void AppConfigUpdater::update_version(int versionFrom,
     line.clear();
     line["type"]=type;
     if(conf->contains(name))
-      line["value"]=conf->value(name).toString(); // Значение из конфига
+      line["value"]=this->updateValueRepresentation(versionFrom,
+                                                    versionTo,
+                                                    name,
+                                                    conf->value(name).toString()); // Значение из конфига
     else
       line["value"]=defValue; // Дефолтное значение
 
@@ -193,7 +224,7 @@ void AppConfigUpdater::update_version(int versionFrom,
    if(beforeParamFlag==2)
    {
     // Будет возвращено высчитанное значение
-    toTable[toName]["value"]=update_version_allowcollision(versionFrom,versionTo,toName,
+    toTable[toName]["value"]=updateVersionAllowCollision(versionFrom,versionTo,toName,
                                                              fromType,fromValue,
                                                              toType,toValue);
 

@@ -1,6 +1,7 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QIcon>
+#include <QScrollBar>
 
 #include "EditorShowText.h"
 #include "EditorShowTextContextMenu.h"
@@ -77,12 +78,6 @@ void EditorShowText::assembly()
 }
 
 
-QSharedPointer<QTextEdit> EditorShowText::getTextArea()
-{
-    return mTextArea;
-}
-
-
 void EditorShowText::setNoteId(const QString &noteId)
 {
     mNoteId=noteId;
@@ -119,6 +114,24 @@ void EditorShowText::setDocument(QSharedPointer<QTextDocument> pDocument)
         mTextArea.get()->setDocument( mTextDocument.get() );
         mTextArea.get()->document()->setParent( mTextArea.get() );
     }
+}
+
+
+bool EditorShowText::hasTextSelection()
+{
+    return  mTextArea.data()->textCursor().hasSelection();
+}
+
+
+int EditorShowText::getTextVerticalScroll()
+{
+    return mTextArea.data()->verticalScrollBar()->value();
+}
+
+
+void EditorShowText::setTextVerticalScroll(int vScroll)
+{
+    mTextArea.data()->verticalScrollBar()->setValue(vScroll);
 }
 
 
