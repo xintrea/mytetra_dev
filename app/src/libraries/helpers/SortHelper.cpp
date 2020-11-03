@@ -1,6 +1,6 @@
-#include "SortHelper.h"
-
 #include <QStringList>
+
+#include "SortHelper.h"
 
 
 // Функция для сортировки массива из QStringList исходя из длин списков

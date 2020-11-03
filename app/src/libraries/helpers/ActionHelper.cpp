@@ -1,8 +1,8 @@
-#include "ActionHelper.h"
-
 #include <QToolBar>
 #include <QToolButton>
 #include <QAction>
+
+#include "ActionHelper.h"
 
 
 void insertActionAsButton(QToolBar *tools_line, QAction *action, bool isVisible)

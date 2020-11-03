@@ -26,7 +26,7 @@ ActionLogModel::~ActionLogModel()
 // Число столбцов
 int ActionLogModel::columnCount(const QModelIndex & parent) const
 {
-  Q_UNUSED(parent);
+  Q_UNUSED(parent)
 
   return ACTIONLOG_COLUMNS;
 }
@@ -35,7 +35,7 @@ int ActionLogModel::columnCount(const QModelIndex & parent) const
 // Число строк
 int ActionLogModel::rowCount(const QModelIndex& parent) const
 {
-  Q_UNUSED(parent);
+  Q_UNUSED(parent)
 
   return doc.elementsByTagName("r").length();
 }
@@ -54,7 +54,7 @@ QVariant ActionLogModel::data(const QModelIndex& index, int role) const
 // Получение значения ячейки, защищенный метод
 QVariant ActionLogModel::getCell(int row, int column, int role) const
 {
-  Q_UNUSED(row);
+  Q_UNUSED(row)
 
   QDomNode node=doc.elementsByTagName("r").at(row);
   QDomElement element=node.toElement();
@@ -68,7 +68,7 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
       // Если вывод на экран, то происходит преобразование TIMESTAMP в человекочитаемый формат даты и времени
       if(role==Qt::DisplayRole)
       {
-        QDateTime fieldDateTime=QDateTime::fromTime_t( element.attribute("t").toInt() );
+        QDateTime fieldDateTime=QDateTime::fromTime_t( element.attribute("t").toUInt() );
         if(mytetraConfig.getEnableCustomDateTimeFormat()==false)
           return fieldDateTime.toString(Qt::SystemLocaleDate);
         else
@@ -76,6 +76,8 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
       }
       else
         return QVariant( element.attribute("t") ); // Время передается в сыром виде (формат TIMESTAMP), чтобы была возможность сортировки
+
+      break;
 
     case ACTIONLOG_COLUMN_ACTION:
       if(role==Qt::DisplayRole)
@@ -91,9 +93,11 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
           return QCommonStyle().standardIcon(QStyle::SP_MessageBoxCritical);
       }
 
-    default:
-      return QVariant();
+      break;
   }
+
+  return QVariant();
+
 }
 
 

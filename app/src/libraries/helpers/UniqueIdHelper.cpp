@@ -1,6 +1,8 @@
-#include "UniqueIdHelper.h"
+#include <ctime>
 
 #include <QString>
+
+#include "UniqueIdHelper.h"
 
 
 // Функция всегда возвращает уникальный идентификатор
