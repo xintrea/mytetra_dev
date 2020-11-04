@@ -14,11 +14,6 @@
 
 EditorShowText::EditorShowText(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f)
 {
-    mGeomX=0;
-    mGeomY=0;
-    mGeomW=0;
-    mGeomH=0;
-
     setupUi();
     setupSignals();
     assembly();
@@ -145,17 +140,21 @@ void EditorShowText::closeEvent(QCloseEvent *event)
 
 void EditorShowText::hideEvent(QHideEvent *event)
 {
-    qDebug() << "Hide event of EditorShowText dialog, window X " << this->x() << " Y " << this->y() << " W " << this->width() << " H " << this->height();
+    int x=this->x();
+    int y=this->y();
+    int w=this->width();
+    int h=this->height();
 
-    if( this->width()>0 && this->height()>0 && !(this->x()<=0 && this->y()<=0) )
+    qDebug() << "Hide event of EditorShowText dialog, window X " << x << " Y " << y << " W " << w << " H " << h;
+
+    // Если геометрия допустимая
+    if( x>=0 && y>=0 && w>0 && h>0 )
     {
         // Запоминается геометрия
-        QRect g=this->frameGeometry();
-        qDebug() << "Frame geometry X " << g.x() << " Y " << g.y() << " W " << g.width() << " H " << g.height();
-        mGeomX=g.x();
-        mGeomY=g.y();
-        mGeomW=g.width();
-        mGeomH=g.height();
+        mGeomX=x;
+        mGeomY=y;
+        mGeomW=w;
+        mGeomH=h;
     }
 
     QWidget::hideEvent(event);
@@ -164,15 +163,31 @@ void EditorShowText::hideEvent(QHideEvent *event)
 
 void EditorShowText::showEvent(QShowEvent *event)
 {
+    int x=this->x();
+    int y=this->y();
+    int w=this->width();
+    int h=this->height();
+
     qDebug() << "Show event of EditorShowText dialog";
 
     // Если была запомнена геометрия окна, устанавливается прежняя геометрия
     if(!(mGeomX==0 && mGeomY==0 && mGeomW==0 && mGeomH==0))
     {
-        this->move(mGeomX,mGeomY);
+        // Установка геометрии происходит только если текущяя геометрия не совпадает с запомненной
+        if(x!=mGeomX ||
+           y!=mGeomY ||
+           w!=mGeomW ||
+           h!=mGeomH)
+        {
+            this->move(mGeomX, mGeomY);
+            this->resize(mGeomW, mGeomH);
+        }
     }
     else
+    {
         qDebug() << "Previos geometry of EditorShowText dialog is not setted";
+        qDebug() << "Strange geometry X " << mGeomX << " Y " << mGeomY << " W " << mGeomW << " H " << mGeomH;
+    }
 
     QWidget::showEvent(event);
 }
@@ -190,6 +205,7 @@ void EditorShowText::onCustomContextMenuRequested(const QPoint &pos)
 }
 
 
+// Переход на запись в интерфейсе MyTetra, текст которой содержится в открепляемом окне
 void EditorShowText::onGotoNote()
 {
     qDebug() << "Goto note: " << mNoteId;

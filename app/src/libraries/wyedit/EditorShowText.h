@@ -47,10 +47,10 @@ private:
     QSharedPointer<QTextDocument> mTextDocument;
     QSharedPointer<EditorShowTextContextMenu> mContextMenu;
 
-    int mGeomX;
-    int mGeomY;
-    int mGeomW;
-    int mGeomH;
+    int mGeomX=0;
+    int mGeomY=0;
+    int mGeomW=0;
+    int mGeomH=0;
 
     void setupUi(void);
     void setupSignals(void);
