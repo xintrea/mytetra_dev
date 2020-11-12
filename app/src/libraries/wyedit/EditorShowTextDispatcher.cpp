@@ -337,7 +337,7 @@ void EditorShowTextDispatcher::restoreOpenWindows()
 }
 
 
-// Переключение поведения окон при сворачивыании/разворачивании
+// Установка поведения окон, которое используется при сворачивании/разворачивании
 void EditorShowTextDispatcher::switchBehavior(const QString &mode)
 {
     MainWindow *mainWindow=find_object<MainWindow>("mainwindow");
