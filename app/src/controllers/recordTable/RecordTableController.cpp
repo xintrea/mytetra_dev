@@ -523,7 +523,7 @@ void RecordTableController::paste(void)
 
   // Пробегаются все записи в буфере
   for(int i=0;i<nList;i++)
-    addNew(ADD_NEW_RECORD_TO_END, clipboardRecords->getRecord(i));
+    addNew(GlobalParameters::AddNewRecordBehavior::ADD_TO_END, clipboardRecords->getRecord(i));
 
   // Обновление на экране ветки, на которой стоит засветка,
   // так как количество хранимых в ветке записей поменялось
@@ -536,7 +536,7 @@ void RecordTableController::addNewToEndContext(void)
 {
   qDebug() << "In slot add_new_toend_context()";
 
-  addNewRecord(ADD_NEW_RECORD_TO_END);
+  addNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_TO_END);
 }
 
 
@@ -545,7 +545,7 @@ void RecordTableController::addNewBeforeContext(void)
 {
   qDebug() << "In slot add_new_before_context()";
 
-  addNewRecord(ADD_NEW_RECORD_BEFORE);
+  addNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_BEFORE);
 }
 
 
@@ -554,7 +554,7 @@ void RecordTableController::addNewAfterContext(void)
 {
   qDebug() << "In slot add_new_after_context()";
 
-  addNewRecord(ADD_NEW_RECORD_AFTER);
+  addNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_AFTER);
 }
 
 

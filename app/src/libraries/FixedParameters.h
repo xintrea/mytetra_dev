@@ -41,7 +41,6 @@ public:
   static const int mathExpVersionNumberLen; // Сколько символов занимает номер версии (только цифры)
   static const int mathExpHeaderLen; // Сколько символов занимает весь заголовок (префикс, номер версии, три двоеточия)
 
-
   static bool isRecordFieldAvailable(QString name);
   static bool isRecordFieldNatural(QString name);
   static bool isRecordFieldCalculable(QString name);

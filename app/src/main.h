@@ -34,18 +34,13 @@ using namespace std;
 // Версия программы
 #define APPLICATION_RELEASE_VERSION         1
 #define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION  139
+#define APPLICATION_RELEASE_MICROVERSION  140
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
 #define CURRENT_FORMAT_SUBVERSION 2
 
-
-#define ADD_NEW_RECORD_TO_END         0
-#define ADD_NEW_RECORD_BEFORE         1
-#define ADD_NEW_RECORD_AFTER          2
-
-
+// Управление трассировкой
 #ifdef QT_DEBUG
 #define TRACELOG TraceLogger logger(__FILE__, __FUNCTION__, __LINE__);
 #else

@@ -478,8 +478,8 @@ void RecordTableView::moveCursorToNewRecord(int mode, int pos)
   // Прокрутка к только что созданной строке через selectRow() показывает только
   // верхнюю часть новой строки. Чтобы этого избежать, при добавлении в конец
   // таблицы конечных записей, установка прокрутки делается через scrollToBottom()
-  if(mode==ADD_NEW_RECORD_TO_END ||
-    ( mode==ADD_NEW_RECORD_AFTER && pos>=(model()->rowCount()-1) ) )
+  if(mode==GlobalParameters::AddNewRecordBehavior::ADD_TO_END ||
+    ( mode==GlobalParameters::AddNewRecordBehavior::ADD_AFTER && pos>=(model()->rowCount()-1) ) )
     scrollToBottom();
 
   int proxyPos=controller->convertPosToProxyIndex(pos).row();

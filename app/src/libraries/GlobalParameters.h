@@ -73,6 +73,14 @@ public:
         Second
     };
 
+    // Возможные режимы добавления записей в таблицу конечных записей
+    enum AddNewRecordBehavior
+    {
+        ADD_TO_END=0,
+        ADD_BEFORE,
+        ADD_AFTER
+    };
+
 private:
 
     void initCodepage(void);
