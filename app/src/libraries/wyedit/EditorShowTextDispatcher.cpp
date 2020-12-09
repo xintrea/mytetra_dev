@@ -337,27 +337,66 @@ void EditorShowTextDispatcher::restoreOpenWindows()
 }
 
 
-// Установка поведения окон, которое используется при сворачивании/разворачивании
+// Установка поведения окон, которое запускается при сворачивании/разворачивании
 void EditorShowTextDispatcher::switchBehavior(const QString &mode)
 {
     MainWindow *mainWindow=find_object<MainWindow>("mainwindow");
 
     for( auto widgetWindow : mWindowsList )
     {
+        int x=widgetWindow->geometry().x();
+        int y=widgetWindow->geometry().y();
+
         if(mode=="single")
         {
+            // Если идет переключение режима together->single,
+            // и это не первое переключение (когда поведение еще не было установлено)
+            if(mBehavior!=mode && mBehavior!="")
+            {
+                // Необходим пересчет координат
+
+                // Ранее виджет имел родительский виджет, и его координаты были относительны родительскому
+                int parentX=widgetWindow->parentWidget()->geometry().x();
+                int parentY=widgetWindow->parentWidget()->geometry().y();
+
+                // Высчитываются абсолютные координаты
+                x=parentX+x;
+                y=parentY+y;
+            }
+
             widgetWindow->setParent(nullptr);
             widgetWindow->setWindowFlags(Qt::Window);
         }
         else if(mode=="together")
         {
+            // Если идет переключение режима single->together,
+            // и это не первое переключение (когда поведение еще не было установлено)
+            if(mBehavior!=mode && mBehavior!="")
+            {
+                // Необходим пересчет координат
+
+                // Ранее виджет не имел родительский виджет, и его координаты были абсолютными
+                // и для вычисления новых относительных координат требуются координаты
+                // устанавливаемого родительского виджета
+                int parentX=mainWindow->geometry().x();
+                int parentY=mainWindow->geometry().y();
+
+                // Высчитываются новые относительные координаты
+                x=x-parentX;
+                y=y-parentY;
+            }
+
             widgetWindow->setParent( mainWindow );
             widgetWindow->setWindowFlags(Qt::Dialog);
         }
 
+        widgetWindow->move(x, y);
+
         widgetWindow->hide();
         widgetWindow->show();
     }
+
+    mBehavior=mode;
 }
 
 
@@ -365,11 +404,11 @@ void EditorShowTextDispatcher::switchBehavior(const QString &mode)
 // метод вызывается после разворачивания основного окна MyTetra из иконки трея
 // так как при сворачивании окна MyTetra, все открепляемые окна
 // теряют указатель на родителя, и, соответственно меняют свое поведение
-void EditorShowTextDispatcher::updateBehavior()
+void EditorShowTextDispatcher::restoreBehavior()
 {
     this->switchBehavior( mytetraConfig.getDockableWindowsBehavior() );
 
-    qDebug() << "Update detached window behavior";
+    qDebug() << "Restore detached window behavior";
 }
 
 

@@ -35,7 +35,7 @@ public:
     void restoreOpenWindows();
 
     void switchBehavior(const QString &mode);
-    void updateBehavior();
+    void restoreBehavior();
 
 signals:
 
@@ -61,6 +61,9 @@ protected:
     // Список открытых окошек, ключ - это ID открытой записи
     QHash<QString, QPointer<EditorShowText> > mWindowsList;
 
+    // Текущее поведение сворачивания/разворачивания окон
+    // Возможные значения "single" и "together"
+    QString mBehavior;
 
 };
 
