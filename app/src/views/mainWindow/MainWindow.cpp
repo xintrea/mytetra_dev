@@ -731,11 +731,16 @@ void MainWindow::applicationExit(void)
 {
     saveAllState();
 
-    // Если в конфиге настроено, что нужно синхронизироваться при выходе
+    // Если происходит первая инициализация выхода из программы
+    // И если в конфиге настроено, что нужно синхронизироваться при выходе
     // И задана команда синхронизации
-    if(mytetraConfig.get_synchroonexit())
-        if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
-            synchronization();
+    if(enableRealClose==false)
+        if(mytetraConfig.get_synchroonexit())
+            if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
+            {
+                enableRealClose=true;
+                synchronization(); // В конце синхронизации будет вызван слот onSyncroCommandFinishWork()
+            }
 
     // Запуск выхода из программы
     enableRealClose=true;
@@ -1017,6 +1022,12 @@ void MainWindow::onSyncroCommandFinishWork()
     emit doUpdateDetachedWindows();
 
     actionLogger.addAction("stopSyncro");
+
+    // В конце синхронизации нужно проверить, не происходит ли выход из программы
+    if(enableRealClose==true)
+    {
+        this->applicationExit();
+    }
 }
 
 
@@ -1148,16 +1159,24 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     // Здесь код оказывается если далее должно однозначно происходить закрытие программы
 
-    // Запоминается список и состояния открепляемых окон,
-    // данное действие нельзя делать в saveAllState(), вызываемое из деструктора, так как если
-    // все открепляемые окна не будут закрыты (см. следующею команду), то деструктор
-    // главного окна не будет вызываться объектом приложения
-    EditorShowTextDispatcher::instance()->saveOpenWindows();
+    // Так как закрытие окна может происходить не с первого раза, например при
+    // синхронизации при закрытии программы, то действия
+    // которые должны выполняться при закрытии должны срабатывать только единожды
+    if(closeCounter==0)
+    {
+        // Запоминается список и состояния открепляемых окон,
+        // данное действие нельзя делать в saveAllState(), вызываемое из деструктора, так как если
+        // все открепляемые окна не будут закрыты (см. следующею команду), то деструктор
+        // главного окна не будет вызываться объектом приложения
+        EditorShowTextDispatcher::instance()->saveOpenWindows();
 
-    // Закрытие открепляемых окон, даже если главное окно не является родителем для
-    // открепляемых окон, чтобы не осталось "висячих" открепляемых окон, которые
-    // не будут давать закрыться приложению
-    EditorShowTextDispatcher::instance()->closeAllWindowsForExit();
+        // Закрытие открепляемых окон, даже если главное окно не является родителем для
+        // открепляемых окон, чтобы не осталось "висячих" открепляемых окон, которые
+        // не будут давать закрыться приложению
+        EditorShowTextDispatcher::instance()->closeAllWindowsForExit();
+
+        closeCounter++;
+    }
 
     event->accept();
 }
