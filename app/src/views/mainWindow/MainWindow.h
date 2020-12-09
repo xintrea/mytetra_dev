@@ -218,7 +218,7 @@ protected:
  void goWalkHistory(void);
 
  bool enableRealClose;
- int closeCounter=0;
+ int exitCounter=0;
  
 };
 #endif
