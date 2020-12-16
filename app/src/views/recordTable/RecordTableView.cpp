@@ -749,6 +749,10 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
                                        const QItemSelection &deselected )
 {
     qDebug() << "RecordTableView::selectionChanged()";
+    for(auto index : selected.indexes())
+    {
+        qDebug() << "Select row: " << index.row();
+    }
 
     this->onSelectionChanged(selected, deselected);
 

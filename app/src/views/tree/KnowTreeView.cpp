@@ -201,10 +201,14 @@ void KnowTreeView::dropEvent(QDropEvent *event)
      // Полные данные записи
      Record record=clipboardRecords->getRecord(i);
 
+     qDebug() << " Before delete, cursor at row: " << recordTableController->getView()->currentIndex().row();
+
      // Удаление записи из исходной ветки, удаление должно быть вначале, чтобы сохранился ID записи
      // В этот момент вид таблицы конечных записей показывает таблицу, из которой совершается Drag
      // TreeItem *treeItemFrom=parentPointer->knowTreeModel->getItem(indexFrom);
      recordTableController->removeRowById( record.getField("id") );
+
+     qDebug() << " After delete, cursor at row: " << recordTableController->getView()->currentIndex().row();
 
      // Если после удаления перемещаемой записи в таблице остались еще какие-то записи
      if(recordTableController->getRowCount()>0)
@@ -215,7 +219,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
          // после удаления остается на месте и никаких событий изменения
          // selection model не генерируются, соответственно автоматического
          // обновления не происходит, и нужно делать виртуальный клик
-         recordTableController->clickToRecord( recordTableController->getView()->currentIndex() );
+         recordTableController->clickToRecord( recordTableController->getView()->currentIndex(), true );
      }
       else
      {
