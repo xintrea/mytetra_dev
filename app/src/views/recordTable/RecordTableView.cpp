@@ -757,29 +757,10 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
 {
     qDebug() << "RecordTableView::selectionChanged()";
 
-
-    // Для отлавливания странного сигнала с заранее сформированными условиями
-    if(selected.indexes().size()>=1 and selected.indexes()[0].row()==1)
-    {
-        qDebug() << "Strange select row 1";
-    }
-
     // Отладка
     for(auto index : selected.indexes())
     {
         qDebug() << "Select row: " << index.row();
-    }
-
-    // Исправление Qt-сигнала, который прилетает в момент перетаскивания, и
-    // содержит информацию о выделении соседней строки, а не той которую начали перетаскивать
-    // Этот сигнал прилетает, если происходит очень быстрое движение мышкой
-    // и процессор в этот момент дополнительно еще нагружен какими-нибудь задачами
-    if(startDragIndex.isValid() and isDragHappeningNow and selected.indexes().size()>=1)
-    {
-        if(selected.indexes()[0].row()!=startDragIndex.row())
-        {
-            selected.indexes()[0]=startDragIndex;
-        }
     }
 
     this->onSelectionChanged(selected, deselected);

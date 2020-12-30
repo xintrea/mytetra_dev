@@ -23,7 +23,7 @@ public:
 
   RecordTableView *getView(void);
 
-  void clickToRecord(const QModelIndex &index, const bool withCursorMove=false);
+  void clickToRecord(const QModelIndex &index);
 
   bool isTableNotExists(void);
   void setTableData(RecordTableData *rtData);

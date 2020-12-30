@@ -88,7 +88,7 @@ RecordTableView *RecordTableController::getView(void)
 
 
 // Действия при выборе записи. Метод принимает индекс Proxy модели
-void RecordTableController::clickToRecord(const QModelIndex &index, const bool withCursorMove)
+void RecordTableController::clickToRecord(const QModelIndex &index)
 {
   // Так как, возможно, включена сортировка, индекс на экране преобразуется в обычный индекс
   QModelIndex sourceIndex=convertProxyIndexToSourceIndex(index);
@@ -99,11 +99,6 @@ void RecordTableController::clickToRecord(const QModelIndex &index, const bool w
 
   initMetaEditorAtClickToRecord(pos);
   initAttachTableAtClickToRecord(pos);
-
-  if(withCursorMove)
-  {
-    view->selectRow(pos);
-  }
 }
 
 

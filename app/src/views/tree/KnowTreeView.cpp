@@ -219,7 +219,7 @@ void KnowTreeView::dropEvent(QDropEvent *event)
          // после удаления остается на месте и никаких событий изменения
          // selection model не генерируются, соответственно автоматического
          // обновления не происходит, и нужно делать виртуальный клик
-         recordTableController->clickToRecord( recordTableController->getView()->currentIndex(), true );
+         recordTableController->clickToRecord( recordTableController->getView()->currentIndex() );
      }
       else
      {
