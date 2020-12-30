@@ -614,11 +614,18 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 
         if(distance >= QApplication::startDragDistance())
         {
-            startDrag();
+            startDrag(); // Начинается перетаскивание
         }
     }
 
-    QTableView::mouseMoveEvent(event);
+    // При зажатых кнопках нельзя пробрасывать вызов родительского метода
+    // так как внутри него метасистема Qt может сгенерировать событие setSelection() и вызван слот
+    // selectionChanged() с выбором соседней строки, не той на которой был клик,
+    // при быстром движении мышкой
+    if( !( (event->buttons() & Qt::LeftButton) or (event->buttons() & Qt::RightButton) ) )
+    {
+        QTableView::mouseMoveEvent(event);
+    }
 }
 
 
@@ -749,9 +756,30 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
                                        const QItemSelection &deselected )
 {
     qDebug() << "RecordTableView::selectionChanged()";
+
+
+    // Для отлавливания странного сигнала с заранее сформированными условиями
+    if(selected.indexes().size()>=1 and selected.indexes()[0].row()==1)
+    {
+        qDebug() << "Strange select row 1";
+    }
+
+    // Отладка
     for(auto index : selected.indexes())
     {
         qDebug() << "Select row: " << index.row();
+    }
+
+    // Исправление Qt-сигнала, который прилетает в момент перетаскивания, и
+    // содержит информацию о выделении соседней строки, а не той которую начали перетаскивать
+    // Этот сигнал прилетает, если происходит очень быстрое движение мышкой
+    // и процессор в этот момент дополнительно еще нагружен какими-нибудь задачами
+    if(startDragIndex.isValid() and isDragHappeningNow and selected.indexes().size()>=1)
+    {
+        if(selected.indexes()[0].row()!=startDragIndex.row())
+        {
+            selected.indexes()[0]=startDragIndex;
+        }
     }
 
     this->onSelectionChanged(selected, deselected);
