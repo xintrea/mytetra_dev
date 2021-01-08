@@ -21,6 +21,7 @@
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
 #include "views/actionLog/ActionLogScreen.h"
+#include "views/databasesManagement/DatabasesManagementScreen.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
@@ -697,7 +698,8 @@ void MainWindow::filePrintPdf(void)
 // Раздел меню File, управление базами данных
 void MainWindow::fileDatabasesManagement(void)
 {
-
+    DatabasesManagementScreen databasesManagementScreen(this);
+    databasesManagementScreen.exec();
 }
 
 

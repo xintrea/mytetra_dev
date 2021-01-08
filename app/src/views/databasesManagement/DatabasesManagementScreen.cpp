@@ -3,9 +3,9 @@
 
 #include "main.h"
 
-#include "ActionLogScreen.h"
-#include "ActionLogView.h"
-#include "controllers/actionLog/ActionLogController.h"
+#include "DatabasesManagementScreen.h"
+#include "DatabasesManagementTable.h"
+#include "controllers/databasesManagement/DatabasesManagementController.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/helpers/ActionHelper.h"
 
@@ -13,16 +13,16 @@
 extern ShortcutManager shortcutManager;
 
 
-ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
+DatabasesManagementScreen::DatabasesManagementScreen(QWidget *parent) : QDialog(parent)
 {
   // По факту этот класс - синглтон. Синглтон сам задает себе имя
-  this->setObjectName("ActionLogScreen");
+  this->setObjectName("DatabasesManagementScreen");
 
-  this->setWindowTitle(tr("Action log"));
+  this->setWindowTitle(tr("Databases management"));
 
   // Инициализируется контроллер отображения записей лога
-  actionLogController=new ActionLogController(this);
-  actionLogController->setObjectName("ActionLogController");
+  databasesManagementController=new DatabasesManagementController(this);
+  databasesManagementController->setObjectName("DatabasesManagementController");
 
   setupActions();
   setupUI();
@@ -30,20 +30,20 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
   setupSignals();
   assembly();
 
-  actionLogView->init();
+  databasesManagementTable->init();
 }
 
 
-ActionLogScreen::~ActionLogScreen()
+DatabasesManagementScreen::~DatabasesManagementScreen()
 {
 
 }
 
 
-void ActionLogScreen::setupUI(void)
+void DatabasesManagementScreen::setupUI(void)
 {
   // Экранная таблица с отображением лога действий
-  actionLogView=actionLogController->getView();
+  databasesManagementTable=databasesManagementController->getView();
 
   // Создание тулбара
   toolBar=new QToolBar(this);
@@ -54,15 +54,16 @@ void ActionLogScreen::setupUI(void)
 }
 
 
-void ActionLogScreen::setupActions(void)
+void DatabasesManagementScreen::setupActions(void)
 {
   actionCopy = new QAction(tr("Copy selected rows"), this);
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
-  connect(actionCopy, &QAction::triggered, actionLogController, &ActionLogController::onCopyClicked);
+  connect(actionCopy, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onCopyClicked);
 }
 
 
-void ActionLogScreen::setupShortcuts(void)
+void DatabasesManagementScreen::setupShortcuts(void)
 {
     qDebug() << "Setup shortcut for" << this->metaObject()->className();
 
@@ -70,22 +71,23 @@ void ActionLogScreen::setupShortcuts(void)
 }
 
 
-void ActionLogScreen::setupSignals(void)
+void DatabasesManagementScreen::setupSignals(void)
 {
-  connect(buttonBox, &QDialogButtonBox::rejected, this, &ActionLogScreen::close);
+  connect(buttonBox, &QDialogButtonBox::rejected, this, &DatabasesManagementScreen::close);
 
   // Обновление горячих клавиш, если они были изменены
-  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut, this, &ActionLogScreen::setupShortcuts);
+  connect(&shortcutManager, &ShortcutManager::updateWidgetShortcut,
+          this, &DatabasesManagementScreen::setupShortcuts);
 
 }
 
 
-void ActionLogScreen::assembly(void)
+void DatabasesManagementScreen::assembly(void)
 {
   screenLayout=new QVBoxLayout(this);
 
   screenLayout->addWidget(toolBar);
-  screenLayout->addWidget(actionLogView);
+  screenLayout->addWidget(databasesManagementTable);
   screenLayout->addWidget(buttonBox);
 
   setLayout(screenLayout);

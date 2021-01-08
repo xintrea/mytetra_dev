@@ -138,6 +138,7 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/controllers/databasesManagement/DatabasesManagementController.h \
     src/libraries/RandomInitter.h \
     src/libraries/helpers/ActionHelper.h \
     src/libraries/helpers/ConfigEditorHelper.h \
@@ -159,9 +160,12 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/models/databasesManagement/DatabasesManagementModel.h \
     src/views/appConfigWindow/AppConfigPage_Appearance.h \
     src/views/appConfigWindow/AppConfigPage_History.h \
     src/views/consoleEmulator/CommandRun.h \
+    src/views/databasesManagement/DatabasesManagementScreen.h \
+    src/views/databasesManagement/DatabasesManagementTable.h \
     src/views/installDialog/InstallDialog.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
@@ -295,6 +299,7 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/controllers/databasesManagement/DatabasesManagementController.cpp \
     src/libraries/RandomInitter.cpp \
     src/libraries/helpers/ActionHelper.cpp \
     src/libraries/helpers/ConfigEditorHelper.cpp \
@@ -316,9 +321,12 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/models/databasesManagement/DatabasesManagementModel.cpp \
     src/views/appConfigWindow/AppConfigPage_Appearance.cpp \
     src/views/appConfigWindow/AppConfigPage_History.cpp \
     src/views/consoleEmulator/CommandRun.cpp \
+    src/views/databasesManagement/DatabasesManagementScreen.cpp \
+    src/views/databasesManagement/DatabasesManagementTable.cpp \
     src/views/installDialog/InstallDialog.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \

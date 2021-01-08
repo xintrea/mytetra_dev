@@ -1,22 +1,23 @@
-#ifndef ACTIONLOGMODEL_H
-#define ACTIONLOGMODEL_H
+#ifndef DATABASESMANAGEMENTMODEL_H
+#define DATABASESMANAGEMENTMODEL_H
 
 #include <QObject>
 #include <QAbstractTableModel>
 #include <QVariant>
-#include <QDomDocument>
 
-#define ACTIONLOG_COLUMNS 2
-#define ACTIONLOG_COLUMN_TIMESTAMP 0
-#define ACTIONLOG_COLUMN_ACTION    1
+#define DBMANAGEMENT_COLUMNS 3
+#define DBMANAGEMENT_COLUMN_SELECT 0
+#define DBMANAGEMENT_COLUMN_DBPATH 1
+#define DBMANAGEMENT_COLUMN_TRASHPATH 2
 
-class ActionLogModel : public QAbstractTableModel
+
+class DatabasesManagementModel : public QAbstractTableModel
 {
   Q_OBJECT
 
 public:
-  ActionLogModel(QObject *parent);
-  virtual ~ActionLogModel();
+  DatabasesManagementModel(QObject *parent);
+  virtual ~DatabasesManagementModel();
 
   int columnCount(const QModelIndex & parent = QModelIndex()) const;
   int rowCount(const QModelIndex & parent = QModelIndex()) const;
@@ -26,8 +27,6 @@ public:
 private:
 
   QVariant getCell(int row, int column, int role) const;
-
-  QDomDocument doc;
 };
 
-#endif // ACTIONLOGMODEL_H
+#endif // DATABASESMANAGEMENTMODEL_H
