@@ -115,15 +115,16 @@ private slots:
 
  void showWindow();
 
- void fileNew(void);
- void fileOpen(void);
  bool fileSave(void);
  bool fileSaveAs(void);
+
+ void fileDatabasesManagement(void);
+ void fileExportBranch(void);
+ void fileImportBranch(void);
+
  void filePrint(void);
  void filePrintPreview(void);
  void filePrintPdf(void);
- void fileExportBranch(void);
- void fileImportBranch(void);
  
  void toolsPreferences(void);
  void onActionLogClicked(void);
@@ -172,11 +173,12 @@ private:
  void reloadLoadStage(bool isLongTimeReload);
 
 
+ QAction *actionFileMenuDatabasesManagement;
+ QAction *actionFileMenuExportTreeItem;
+ QAction *actionFileMenuImportTreeItem;
  QAction *actionFileMenuPrint;
  QAction *actionFileMenuPrintPreview;
  QAction *actionFileMenuExportPdf;
- QAction *actionFileMenuExportTreeItem;
- QAction *actionFileMenuImportTreeItem;
  QAction *actionFileMenuQuit;
 
  QAction *actionToolsMenuFindInBase;

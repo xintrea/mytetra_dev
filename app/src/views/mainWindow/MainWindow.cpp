@@ -133,11 +133,12 @@ void MainWindow::setupSignals(void)
 
 
     // Сигналы пунктов меню
+    connect(actionFileMenuDatabasesManagement, &QAction::triggered, this, &MainWindow::fileDatabasesManagement);
+    connect(actionFileMenuExportTreeItem, &QAction::triggered, this, &MainWindow::fileExportBranch);
+    connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
     connect(actionFileMenuPrint, &QAction::triggered, this, &MainWindow::filePrint);
     connect(actionFileMenuPrintPreview, &QAction::triggered, this, &MainWindow::filePrintPreview);
     connect(actionFileMenuExportPdf, &QAction::triggered, this, &MainWindow::filePrintPdf);
-    connect(actionFileMenuExportTreeItem, &QAction::triggered, this, &MainWindow::fileExportBranch);
-    connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
     connect(actionFileMenuQuit, &QAction::triggered, this, &MainWindow::applicationExit);
 
     connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
@@ -494,6 +495,17 @@ void MainWindow::initFileMenu(void)
     QMenu *menu = new QMenu(tr("&File"), this);
     this->menuBar()->addMenu(menu);
 
+    actionFileMenuDatabasesManagement = new QAction(tr("Databases management"), this);
+    menu->addAction(actionFileMenuDatabasesManagement);
+
+    actionFileMenuExportTreeItem = new QAction(tr("Export tree item"), this);
+    menu->addAction(actionFileMenuExportTreeItem);
+
+    actionFileMenuImportTreeItem = new QAction(tr("Import tree item"), this);
+    menu->addAction(actionFileMenuImportTreeItem);
+
+    menu->addSeparator();
+
     actionFileMenuPrint = new QAction(tr("&Print..."), this);
     menu->addAction(actionFileMenuPrint);
 
@@ -502,14 +514,6 @@ void MainWindow::initFileMenu(void)
 
     actionFileMenuExportPdf = new QAction(tr("&Export PDF..."), this);
     menu->addAction(actionFileMenuExportPdf);
-
-    menu->addSeparator();
-
-    actionFileMenuExportTreeItem = new QAction(tr("Export tree item"), this);
-    menu->addAction(actionFileMenuExportTreeItem);
-
-    actionFileMenuImportTreeItem = new QAction(tr("Import tree item"), this);
-    menu->addAction(actionFileMenuImportTreeItem);
 
     menu->addSeparator();
 
@@ -624,29 +628,22 @@ void MainWindow::setupShortcuts(void)
 }
 
 
-// Новая коллекция
-void MainWindow::fileNew(void)
-{
-
-}
-
-// Открыть коллекцию
-void MainWindow::fileOpen(void)
-{
-
-}
-
 // Сохранить текущую статью
 bool MainWindow::fileSave(void)
 {
+    // todo: сделать функционал
+
     return true;
 }
+
 
 // Сохранить текущую статью как файл
 bool MainWindow::fileSaveAs(void)
 {
+    // todo: сделать функционал
     return true;
 }
+
 
 // Напечатать текущую статью
 void MainWindow::filePrint(void)
@@ -694,6 +691,13 @@ void MainWindow::filePrintPdf(void)
         editorScreen->getTextareaDocument()->print(&printer);
     }
 #endif
+}
+
+
+// Раздел меню File, управление базами данных
+void MainWindow::fileDatabasesManagement(void)
+{
+
 }
 
 
