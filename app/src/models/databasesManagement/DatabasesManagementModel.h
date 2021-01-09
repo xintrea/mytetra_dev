@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QAbstractTableModel>
 #include <QVariant>
+#include <QPair>
 
 #define DBMANAGEMENT_COLUMNS 3
 #define DBMANAGEMENT_COLUMN_SELECT 0
@@ -27,6 +28,23 @@ public:
 private:
 
   QVariant getCell(int row, int column, int role) const;
+
+  void initData();
+
+  void scanDirectoriesDirect();
+  void scanDirectoriesFromConfig();
+  void scanDirectoriesFromKnownbasesConfig();
+
+  void scanDirectories(const QList<QPair<QString, QString> > &dbDirNames);
+
+
+  // На каждой строке хранится строковый набор данных
+  // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
+  // Столбец 0 - признак выбора строки, если содержит "1" - значит надо рисовать флажок выбора
+  // Столбец 1 - путь к БД
+  // Столбец 2 - путь к корзине
+  QList< QStringList > mTableData;
+
 };
 
 #endif // DATABASESMANAGEMENTMODEL_H

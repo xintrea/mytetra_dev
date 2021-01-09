@@ -345,7 +345,8 @@ int main(int argc, char ** argv)
    if(mytetraConfig.getPasswordSaveFlag())
     if(mytetraConfig.getPasswordMiddleHash().length()>0)
      {
-      // При запросе пароля ключ шифрования будет восстановлен автоматически
+      // При запросе пароля ключ шифрования будет восстановлен автоматически,
+      // если он правильный и подходит для текущих данных
       Password password;
       password.retrievePassword();
      }

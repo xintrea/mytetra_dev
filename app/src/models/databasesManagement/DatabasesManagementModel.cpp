@@ -5,17 +5,77 @@
 #include "main.h"
 #include "DatabasesManagementModel.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/GlobalParameters.h"
 
 extern AppConfig mytetraConfig;
+extern GlobalParameters globalParameters;
 
 
 DatabasesManagementModel::DatabasesManagementModel(QObject *parent) : QAbstractTableModel(parent)
+{
+    this->initData();
+}
+
+
+DatabasesManagementModel::~DatabasesManagementModel()
 {
 
 }
 
 
-DatabasesManagementModel::~DatabasesManagementModel()
+void DatabasesManagementModel::initData()
+{
+    mTableData.clear();
+
+    this->scanDirectoriesDirect();
+    this->scanDirectoriesFromConfig();
+    this->scanDirectoriesFromKnownbasesConfig();
+}
+
+
+// Поиск возможных каталогов баз данных напрямую в известных местах
+void DatabasesManagementModel::scanDirectoriesDirect()
+{
+    QList< QPair<QString, QString> > dbDirs;
+
+    QString dbDirName;
+    QString dbTrashName;
+
+    // Каталог БД относительно бинарника программы
+    QFileInfo mainProgramFileInfo( globalParameters.getMainProgramFile() );
+    dbDirName  =mainProgramFileInfo.absolutePath()+"/data";
+    dbTrashName=mainProgramFileInfo.absolutePath()+"/trash";
+    dbDirs << QPair<QString, QString>(dbDirName, dbTrashName);
+
+    // Каталог БД в пользовательском каталоге в директории ~/.имяПрограммы
+    dbDirName  =QDir::homePath()+"/."+globalParameters.getApplicationName()+"/data";
+    dbTrashName=QDir::homePath()+"/."+globalParameters.getApplicationName()+"/trash";
+    dbDirs << QPair<QString, QString>(dbDirName, dbTrashName);
+
+    // Каталог БД в пользовательском каталоге в директории ~/.config/имяПрограммы
+    dbDirName  =QDir::homePath()+"/.config/"+globalParameters.getApplicationName()+"/data";
+    dbTrashName=QDir::homePath()+"/.config/"+globalParameters.getApplicationName()+"/trash";
+    dbDirs << QPair<QString, QString>(dbDirName, dbTrashName);
+
+    this->scanDirectories(dbDirs);
+}
+
+
+void DatabasesManagementModel::scanDirectoriesFromConfig()
+{
+    // Получить пары директоряБД/директорияКорзины из возможных файлов conf.ini
+
+}
+
+
+void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
+{
+    // Получить пары директоряБД/директорияКорзины из файла knownbases.ini в рабочей директории
+
+}
+
+
+void DatabasesManagementModel::scanDirectories(const QList< QPair<QString, QString> > &dbDirs)
 {
 
 }
