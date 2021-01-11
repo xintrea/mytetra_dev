@@ -63,21 +63,123 @@ void DatabasesManagementModel::scanDirectoriesDirect()
 
 void DatabasesManagementModel::scanDirectoriesFromConfig()
 {
-    // Получить пары директоряБД/директорияКорзины из возможных файлов conf.ini
+    // Получить пары директорияБД/директорияКорзины из возможных файлов conf.ini
 
+    QList< QPair<QString, QString> > dbDirs;
+    QString configFileName;
+
+    // Данные из текущего конфига
+    dbDirs << QPair<QString, QString>(mytetraConfig.get_tetradir(), mytetraConfig.get_trashdir());
+
+    // Данные из возможного конфига в директории ~/.имяПрограммы
+    configFileName=QDir::homePath()+"/."+globalParameters.getApplicationName()+"/conf.ini";
+    dbDirs << this->getDirectoriesFromConfigFile( configFileName );
+
+    // Данные из возможного конфига в директории ~/.config/имяПрограммы
+    configFileName=QDir::homePath()+"/.config/"+globalParameters.getApplicationName()+"/conf.ini";
+    dbDirs << this->getDirectoriesFromConfigFile( configFileName );
+
+    this->scanDirectories(dbDirs);
+}
+
+
+QPair<QString, QString> DatabasesManagementModel::getDirectoriesFromConfigFile(const QString &path)
+{
+    QFile confFile(path);
+
+    // Если файл конфига существует
+    if(confFile.exists())
+    {
+        QSettings conf(path, QSettings::IniFormat);
+
+        if(conf.contains("tetradir") and
+           conf.contains("trashdir"))
+        {
+            return QPair<QString, QString>( conf.value("tetradir").toString(),
+                                            conf.value("trashdir").toString() );
+        }
+    }
+
+    return QPair<QString, QString>("", "");
 }
 
 
 void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 {
-    // Получить пары директоряБД/директорияКорзины из файла knownbases.ini в рабочей директории
+    // Получить пары директорияБД/директорияКорзины из файла knownbases.ini в рабочей директории
 
 }
 
 
 void DatabasesManagementModel::scanDirectories(const QList< QPair<QString, QString> > &dbDirs)
 {
+    for(auto currentDbDirs : dbDirs)
+    {
+        QString dbDirName=currentDbDirs.first;
+        QString dbTrashName=currentDbDirs.second;
 
+        if(dbDirName=="" or dbTrashName=="")
+        {
+            continue; // Если встречены пустые пути, такие данные добавлять и обрабатывать нельзя
+        }
+
+        // Если директории БД и корзины действительно являются таковыми директориями
+        if( this->isDbDirectory(dbDirName) and this->isTrashDirectory(dbTrashName) )
+        {
+            QStringList tableLine;
+            tableLine << "" << dbDirName << dbTrashName;
+
+            // Проверка что таких директорий еще нет в списке возможных директорий
+            bool isExists=false;
+            for(auto tableDataLine: mTableData)
+            {
+                if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbDirName and
+                   tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]==dbTrashName )
+                    isExists=true;
+            }
+
+            if( !isExists)
+            {
+                // Директории добавляются в список
+                mTableData << tableLine;
+            }
+        }
+    }
+}
+
+
+// Проверка, что каталог является каталогом с базой данных
+bool DatabasesManagementModel::isDbDirectory(const QString &path)
+{
+    // Формальными признаками каталога с БД являются:
+    // - Существование в нем файла mytetra.xml
+    // - Существование в нем файла настроек database.ini
+    // - Существование в нем подкаталога /base
+
+    if( !QFileInfo(path+"/mytetra.xml").isFile() )
+    {
+        return false;
+    }
+
+    if( !QFileInfo(path+"/database.ini").isFile() )
+    {
+        return false;
+    }
+
+    if( !QFileInfo(path+"/base").isDir() )
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
+// Проверка, что каталог является каталогом корзины
+bool DatabasesManagementModel::isTrashDirectory(const QString &path)
+{
+    // Формальным признаком каталога с корзиной является то, что он существует
+    return QFileInfo(path).isDir();
 }
 
 
@@ -95,7 +197,7 @@ int DatabasesManagementModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
 
-  return 0;
+  return mTableData.size();
 }
 
 
@@ -119,19 +221,32 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
         if(role==Qt::DisplayRole)
         {
-            return QVariant( QString() );
+            if(mTableData[row][DBMANAGEMENT_COLUMN_SELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            {
+                return QVariant( tr("Selected") );
+            }
+            else
+            {
+                return QVariant( QString() );
+            }
+        }
+
+        // Вывод иконок
+        if(role==Qt::DecorationRole)
+        {
+            if(mTableData[row][DBMANAGEMENT_COLUMN_SELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            {
+                return QCommonStyle().standardIcon(QStyle::SP_DialogApplyButton);
+            }
         }
 
         break;
 
     case DBMANAGEMENT_COLUMN_DBPATH:
-        if(role==Qt::DisplayRole)
-            return QVariant( QString() );
 
-        // Вывод иконок
-        if(role==Qt::DecorationRole)
+        if(role==Qt::DisplayRole)
         {
-            return QCommonStyle().standardIcon(QStyle::SP_MessageBoxWarning);
+            return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_DBPATH] );
         }
 
         break;
@@ -140,7 +255,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
         if(role==Qt::DisplayRole)
         {
-            return QVariant( QString() );
+            return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_TRASHPATH] );
         }
 
         break;
@@ -148,7 +263,6 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
     }
 
     return QVariant();
-
 }
 
 

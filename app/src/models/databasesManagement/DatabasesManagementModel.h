@@ -11,6 +11,8 @@
 #define DBMANAGEMENT_COLUMN_DBPATH 1
 #define DBMANAGEMENT_COLUMN_TRASHPATH 2
 
+#define DBMANAGEMENT_LINE_SELECT_FLAG "1"
+
 
 class DatabasesManagementModel : public QAbstractTableModel
 {
@@ -37,10 +39,15 @@ private:
 
   void scanDirectories(const QList<QPair<QString, QString> > &dbDirNames);
 
+  bool isDbDirectory(const QString &path);
+  bool isTrashDirectory(const QString &path);
+
+  QPair<QString, QString> getDirectoriesFromConfigFile(const QString &path);
 
   // На каждой строке хранится строковый набор данных
   // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
-  // Столбец 0 - признак выбора строки, если содержит "1" - значит надо рисовать флажок выбора
+  // Столбец 0 - признак выбора строки, если содержит DBMANAGEMENT_LINE_SELECT_FLAG
+  //             значит надо рисовать флажок выбора
   // Столбец 1 - путь к БД
   // Столбец 2 - путь к корзине
   QList< QStringList > mTableData;
