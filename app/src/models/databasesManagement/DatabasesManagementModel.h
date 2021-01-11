@@ -6,10 +6,11 @@
 #include <QVariant>
 #include <QPair>
 
-#define DBMANAGEMENT_COLUMNS 3
+#define DBMANAGEMENT_COLUMNS 4
 #define DBMANAGEMENT_COLUMN_SELECT 0
 #define DBMANAGEMENT_COLUMN_DBPATH 1
 #define DBMANAGEMENT_COLUMN_TRASHPATH 2
+#define DBMANAGEMENT_COLUMN_DESCRIPT 3
 
 #define DBMANAGEMENT_LINE_SELECT_FLAG "1"
 
@@ -17,6 +18,13 @@
 class DatabasesManagementModel : public QAbstractTableModel
 {
   Q_OBJECT
+
+  struct DatabasesDirsInfo
+  {
+      QString dbPath;
+      QString trashPath;
+      QString descript;
+  };
 
 public:
   DatabasesManagementModel(QObject *parent);
@@ -37,7 +45,7 @@ private:
   void scanDirectoriesFromConfig();
   void scanDirectoriesFromKnownbasesConfig();
 
-  void scanDirectories(const QList<QPair<QString, QString> > &dbDirNames);
+  void scanDirectories(const QList< DatabasesDirsInfo > &dbDirs);
 
   bool isDbDirectory(const QString &path);
   bool isTrashDirectory(const QString &path);
