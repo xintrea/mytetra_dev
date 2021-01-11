@@ -123,12 +123,13 @@ void DatabasesManagementModel::scanDirectories(const QList< QPair<QString, QStri
             continue; // Если встречены пустые пути, такие данные добавлять и обрабатывать нельзя
         }
 
+        // Пути директорий преобразуются в абсолютные
+        dbDirName=QDir(dbDirName).absolutePath();
+        dbTrashName=QDir(dbTrashName).absolutePath();
+
         // Если директории БД и корзины действительно являются таковыми директориями
         if( this->isDbDirectory(dbDirName) and this->isTrashDirectory(dbTrashName) )
         {
-            QStringList tableLine;
-            tableLine << "" << dbDirName << dbTrashName;
-
             // Проверка что таких директорий еще нет в списке возможных директорий
             bool isExists=false;
             for(auto tableDataLine: mTableData)
@@ -140,8 +141,10 @@ void DatabasesManagementModel::scanDirectories(const QList< QPair<QString, QStri
 
             if( !isExists)
             {
-                // Директории добавляются в список
-                mTableData << tableLine;
+                QStringList tableLine;
+                tableLine << "" << dbDirName << dbTrashName;
+
+                mTableData << tableLine; // Директории добавляются в список
             }
         }
     }
