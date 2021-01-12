@@ -7,12 +7,12 @@
 #include <QPair>
 
 #define DBMANAGEMENT_COLUMNS 4
-#define DBMANAGEMENT_COLUMN_SELECT 0
-#define DBMANAGEMENT_COLUMN_DBPATH 1
-#define DBMANAGEMENT_COLUMN_TRASHPATH 2
-#define DBMANAGEMENT_COLUMN_DESCRIPT 3
+#define DBMANAGEMENT_COLUMN_SELECT    0 // Признак выбора базы
+#define DBMANAGEMENT_COLUMN_DBPATH    1 // Путь к БД
+#define DBMANAGEMENT_COLUMN_TRASHPATH 2 // Путь к корзине
+#define DBMANAGEMENT_COLUMN_DESCRIPT  3 // Человекочитаемое описание базы
 
-#define DBMANAGEMENT_LINE_SELECT_FLAG "1"
+#define DBMANAGEMENT_LINE_SELECT_FLAG "1" // Значение, свидетельствующее о выборе базы
 
 
 class DatabasesManagementModel : public QAbstractTableModel
@@ -24,6 +24,7 @@ class DatabasesManagementModel : public QAbstractTableModel
       QString dbPath;
       QString trashPath;
       QString descript;
+      bool isCurrentConfigPath=false;
   };
 
 public:
@@ -47,6 +48,8 @@ private:
 
   void scanDirectories(const QList< DatabasesDirsInfo > &dbDirs);
 
+  void selectDirectories(const QString &dbPath, const QString &trashPath);
+
   bool isDbDirectory(const QString &path);
   bool isTrashDirectory(const QString &path);
 
@@ -54,10 +57,6 @@ private:
 
   // На каждой строке хранится строковый набор данных
   // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
-  // Столбец 0 - признак выбора строки, если содержит DBMANAGEMENT_LINE_SELECT_FLAG
-  //             значит надо рисовать флажок выбора
-  // Столбец 1 - путь к БД
-  // Столбец 2 - путь к корзине
   QList< QStringList > mTableData;
 
 };

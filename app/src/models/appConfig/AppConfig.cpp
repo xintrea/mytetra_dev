@@ -66,6 +66,13 @@ void AppConfig::sync(void)
 }
 
 
+// Получение имени файла конфига, с которым происходит работа
+QString AppConfig::getConfigFileName()
+{
+    return conf->fileName();
+}
+
+
 // Получение параметра по имени в виде строки с проверкой его существования
 QString AppConfig::get_parameter(QString name)
 {

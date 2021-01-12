@@ -30,6 +30,8 @@ void DatabasesManagementModel::initData()
     this->scanDirectoriesDirect();
     this->scanDirectoriesFromConfig();
     this->scanDirectoriesFromKnownbasesConfig();
+
+    this->selectDirectories(mytetraConfig.get_tetradir(), mytetraConfig.get_trashdir());
 }
 
 
@@ -37,26 +39,32 @@ void DatabasesManagementModel::initData()
 void DatabasesManagementModel::scanDirectoriesDirect()
 {
     QList< DatabasesDirsInfo > dbDirs;
-
     DatabasesDirsInfo dbDirsInfo;
+    QString workingPath;
 
     // Каталог БД относительно бинарника программы
     QFileInfo mainProgramFileInfo( globalParameters.getMainProgramFile() );
-    dbDirsInfo.dbPath   =mainProgramFileInfo.absolutePath()+"/data";
-    dbDirsInfo.trashPath=mainProgramFileInfo.absolutePath()+"/trash";
-    dbDirsInfo.descript =tr("Knowledge base in executeble binary file directory");
+    workingPath=mainProgramFileInfo.absolutePath();
+    dbDirsInfo.dbPath   =workingPath+"/data";
+    dbDirsInfo.trashPath=workingPath+"/trash";
+    dbDirsInfo.descript =tr("Knowledge base in executable binary file directory %1").arg(workingPath);
+    dbDirsInfo.isCurrentConfigPath=false;
     dbDirs << dbDirsInfo;
 
     // Каталог БД в пользовательском каталоге в директории ~/.имяПрограммы
-    dbDirsInfo.dbPath   =QDir::homePath()+"/."+globalParameters.getApplicationName()+"/data";
-    dbDirsInfo.trashPath=QDir::homePath()+"/."+globalParameters.getApplicationName()+"/trash";
-    dbDirsInfo.descript =tr("Knowledge base in user directory %1").arg(dbDirsInfo.dbPath);
+    workingPath=QDir::homePath()+"/."+globalParameters.getApplicationName();
+    dbDirsInfo.dbPath   =workingPath+"/data";
+    dbDirsInfo.trashPath=workingPath+"/trash";
+    dbDirsInfo.descript =tr("Knowledge base in user directory %1").arg(workingPath);
+    dbDirsInfo.isCurrentConfigPath=false;
     dbDirs << dbDirsInfo;
 
     // Каталог БД в пользовательском каталоге в директории ~/.config/имяПрограммы
-    dbDirsInfo.dbPath   =QDir::homePath()+"/.config/"+globalParameters.getApplicationName()+"/data";
-    dbDirsInfo.trashPath=QDir::homePath()+"/.config/"+globalParameters.getApplicationName()+"/trash";
-    dbDirsInfo.descript =tr("Knowledge base in user directory %1").arg(dbDirsInfo.dbPath);
+    workingPath=QDir::homePath()+"/.config/"+globalParameters.getApplicationName();
+    dbDirsInfo.dbPath   =workingPath+"/data";
+    dbDirsInfo.trashPath=workingPath+"/trash";
+    dbDirsInfo.descript =tr("Knowledge base in user directory %1").arg(workingPath);
+    dbDirsInfo.isCurrentConfigPath=false;
     dbDirs << dbDirsInfo;
 
     this->scanDirectories(dbDirs);
@@ -74,7 +82,8 @@ void DatabasesManagementModel::scanDirectoriesFromConfig()
     // Данные из текущего конфига
     dbDirsInfo.dbPath   =mytetraConfig.get_tetradir();
     dbDirsInfo.trashPath=mytetraConfig.get_trashdir();
-    dbDirsInfo.descript =tr("Knowledge base from current config file");
+    dbDirsInfo.descript =tr("Knowledge base from current config file %1").arg(mytetraConfig.getConfigFileName());
+    dbDirsInfo.isCurrentConfigPath=true;
     dbDirs << dbDirsInfo;
 
     // Данные из возможного конфига в директории ~/.имяПрограммы
@@ -82,6 +91,7 @@ void DatabasesManagementModel::scanDirectoriesFromConfig()
     dbDirsInfo.dbPath   =this->getDirectoriesFromConfigFile( configFileName ).first;
     dbDirsInfo.trashPath=this->getDirectoriesFromConfigFile( configFileName ).second;
     dbDirsInfo.descript =tr("Knowledge base from config file in user directory %1").arg(dbDirsInfo.dbPath);
+    dbDirsInfo.isCurrentConfigPath=false;
     dbDirs << dbDirsInfo;
 
     // Данные из возможного конфига в директории ~/.config/имяПрограммы
@@ -89,6 +99,7 @@ void DatabasesManagementModel::scanDirectoriesFromConfig()
     dbDirsInfo.dbPath   =this->getDirectoriesFromConfigFile( configFileName ).first;
     dbDirsInfo.trashPath=this->getDirectoriesFromConfigFile( configFileName ).second;
     dbDirsInfo.descript =tr("Knowledge base from config file in user directory %1").arg(dbDirsInfo.dbPath);
+    dbDirsInfo.isCurrentConfigPath=false;
     dbDirs << dbDirsInfo;
 
     this->scanDirectories(dbDirs);
@@ -130,35 +141,76 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabasesDirsInfo > 
         QString dbPath=currentDbDirs.dbPath;
         QString trashPath=currentDbDirs.trashPath;
         QString descript=currentDbDirs.descript;
+        bool isCurrentConfigPath=currentDbDirs.isCurrentConfigPath;
 
         if(dbPath=="" or trashPath=="")
         {
             continue; // Если встречены пустые пути, такие данные добавлять и обрабатывать нельзя
         }
 
-        // Пути директорий преобразуются в абсолютные
-        dbPath=QDir(dbPath).absolutePath();
-        trashPath=QDir(trashPath).absolutePath();
+        // Получение абсолютных путей
+        QString absoluteDbPath=QDir(dbPath).absolutePath();
+        QString absoluteTrashPath=QDir(trashPath).absolutePath();
 
         // Если директории БД и корзины действительно являются таковыми директориями
         if( this->isDbDirectory(dbPath) and this->isTrashDirectory(trashPath) )
         {
             // Проверка что таких директорий еще нет в списке возможных директорий
             bool isExists=false;
-            for(auto tableDataLine: mTableData)
+            for(auto& tableDataLine : mTableData) // Выводимый auto-тип в виде ссылки, чтобы элементы можно было изменять
             {
-                if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
-                   tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]==trashPath )
+                // В списке возможных директорий могут быть как относительные, так и абсолютные пути
+                // И для корректного сравнения нужны абсолютные
+                QString lineAbsoluteDbPath   =QDir( tableDataLine[DBMANAGEMENT_COLUMN_DBPATH] ).absolutePath();
+                QString lineAbsoluteTrashPath=QDir( tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH] ).absolutePath();
+
+                if(lineAbsoluteDbPath==absoluteDbPath and
+                   lineAbsoluteTrashPath==absoluteTrashPath )
+                {
                     isExists=true;
+
+                    // Пути текущего проверяемого элемента исправляются на пути в явном виде,
+                    // если они совпадают с прописанными в конфиге путями, так как форма записи путей
+                    // в конфиге приоритетнее, чем просто абсолютные пути
+                    if(isCurrentConfigPath)
+                    {
+                        tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]=dbPath;
+                        tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]=trashPath;
+                    }
+                }
             }
 
             if( !isExists)
             {
                 QStringList tableLine;
-                tableLine << "" << dbPath << trashPath << descript;
+
+                if(isCurrentConfigPath)
+                {
+                    // Путь из текущего конфига добавляется как есть, так как он может быть относительным
+                    tableLine << "" << dbPath << trashPath << descript;
+                }
+                else
+                {
+                    tableLine << "" << absoluteDbPath << absoluteTrashPath << descript;
+                }
 
                 mTableData << tableLine; // Директории добавляются в список
             }
+        }
+    }
+}
+
+
+// Выставление пометки что директории базы и корзины выбраны в качестве рабочих
+void DatabasesManagementModel::selectDirectories(const QString &dbPath, const QString &trashPath)
+{
+    for(auto& tableDataLine : mTableData)
+    {
+        if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
+           tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]==trashPath )
+        {
+            tableDataLine[DBMANAGEMENT_COLUMN_SELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+            return;
         }
     }
 }
