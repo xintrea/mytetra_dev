@@ -44,7 +44,25 @@ DatabasesManagementController::~DatabasesManagementController()
 
 DatabasesManagementTable *DatabasesManagementController::getView(void)
 {
-  return view;
+    return view;
+}
+
+
+void DatabasesManagementController::onSelectClicked()
+{
+
+}
+
+
+void DatabasesManagementController::onCreateClicked()
+{
+
+}
+
+
+void DatabasesManagementController::onAddClicked()
+{
+
 }
 
 

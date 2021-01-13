@@ -40,6 +40,30 @@ DatabasesManagementScreen::~DatabasesManagementScreen()
 }
 
 
+void DatabasesManagementScreen::setupActions(void)
+{
+  actionSelect = new QAction(tr("Select database"), this);
+  actionSelect->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  connect(actionSelect, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onSelectClicked);
+
+  actionCreate = new QAction(tr("Create new database"), this);
+  actionCreate->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  connect(actionCreate, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onCreateClicked);
+
+  actionAdd = new QAction(tr("Append exists database"), this);
+  actionAdd->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  connect(actionAdd, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onAddClicked);
+
+  actionCopy = new QAction(tr("Copy selected rows"), this);
+  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  connect(actionCopy, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onCopyClicked);
+}
+
+
 void DatabasesManagementScreen::setupUI(void)
 {
   // Экранная таблица с отображением лога действий
@@ -47,19 +71,13 @@ void DatabasesManagementScreen::setupUI(void)
 
   // Создание тулбара
   toolBar=new QToolBar(this);
+  insertActionAsButton(toolBar, actionSelect);
+  insertActionAsButton(toolBar, actionCreate);
+  insertActionAsButton(toolBar, actionAdd);
   insertActionAsButton(toolBar, actionCopy);
 
   // Создание набора диалоговых кнопок
   buttonBox=new QDialogButtonBox(QDialogButtonBox::Cancel, this);
-}
-
-
-void DatabasesManagementScreen::setupActions(void)
-{
-  actionCopy = new QAction(tr("Copy selected rows"), this);
-  actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
-  connect(actionCopy, &QAction::triggered,
-          databasesManagementController, &DatabasesManagementController::onCopyClicked);
 }
 
 

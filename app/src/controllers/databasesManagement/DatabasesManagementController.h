@@ -20,6 +20,9 @@ public:
 
 public slots:
 
+  void onSelectClicked();
+  void onCreateClicked();
+  void onAddClicked();
   void onCopyClicked();
 
 protected:
