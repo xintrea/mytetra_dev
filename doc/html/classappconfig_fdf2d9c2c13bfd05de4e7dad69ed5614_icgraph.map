@@ -1,7 +1,0 @@
-base referer
-rect $main_8h.html#6ac3f8d337a3e659a3c1cdfeef1cbaf0 421,6 520,30
-rect $classmainwindow.html#5584aaad939eac61d3e5e9e09e666016 328,54 613,78
-rect $classtreescreen.html#5ecf27898d34e891ee560e25d28e8ffa 369,102 572,126
-rect $classrecordtabledata.html#79b4a42221e3838aedc8063901fd77a3 665,6 895,30
-rect $classmainwindow.html#5443e012964c892ef6015e7cebf62a67 675,54 885,78
-rect $classtreescreen.html#773a34b2a15964d0101b142b54da3986 663,102 897,126

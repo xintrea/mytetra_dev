@@ -1,0 +1,43 @@
+#ifndef _CONFIGPAGE_MISC_H_
+#define	_CONFIGPAGE_MISC_H_
+
+#include <QWidget>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QPushButton>
+
+#include "ConfigPage.h"
+
+
+class AppConfigPage_Misc : public ConfigPage
+{
+ Q_OBJECT
+
+public:
+  AppConfigPage_Misc(QWidget *parent = nullptr);
+  virtual ~AppConfigPage_Misc(void);
+
+  int applyChanges(void);
+
+private slots:
+  void onClickedEditMyTetraConfigFile(void);
+
+protected:
+
+  void setupUi(void);
+  void setupSignals(void);
+  void assembly(void);
+
+  QCheckBox *cutBranchConfirm;        // Требуется ли показывать предупреждение при вырезании ветки
+  QCheckBox *printDebugMessages;      // Выводить ли в консоль отладочные сообщения
+  QCheckBox *enableActionLog;         // Разрешено ли логирование действий
+  QCheckBox *enableCreateEmptyRecord; // Разрешено ли создание записи, не содержащей текст (а только заголовок)
+  QPushButton *editMyTetraConfigFile;
+
+  // Объединяющая рамка для блока с кнопкой редактирования конфиг-файла
+  QGroupBox *dangerBox;
+};
+
+
+#endif	// _CONFIGPAGE_MISC_H_
+
