@@ -3,7 +3,7 @@
 #include <QDebug>
 
 #include "main.h"
-#include "DataBaseConfig.h"
+#include "KnownBasesConfig.h"
 
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppConfigUpdater.h"
@@ -14,38 +14,31 @@ extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
-// Объект для работы с конфигурацией (с настройками) базы данных
-// Конфигурация базы данных хранится в файле database.ini
-
-// Под базой данных понимается совокупность файлов - корневой mytetra.xml 
-// и все директории и файлы с записями
-
-
 // Конструктор объекта настройки БД
-DataBaseConfig::DataBaseConfig(QObject *pobj)
+KnownBasesConfig::KnownBasesConfig(QObject *pobj)
 {
- Q_UNUSED(pobj);
+ Q_UNUSED(pobj)
 
- is_init_flag=false;
+ isInitFlag=false;
 }
 
 
 // Деструктор объекта настройки БД
-DataBaseConfig::~DataBaseConfig()
+KnownBasesConfig::~KnownBasesConfig()
 {
- if(is_init_flag)
+ if(isInitFlag)
   {
-   qDebug() << "Save database config file";
+   qDebug() << "Save known bases config file";
    conf->sync();
   }
 }
 
 
-void DataBaseConfig::init(void)
+void KnownBasesConfig::init(void)
 {
  // Создается имя файла конфигурации
  // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
- QString configFileName=mytetraConfig.get_tetradir()+"/database.ini";
+ QString configFileName=mytetraConfig.get_tetradir()+"/knownbases.ini";
 
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);
@@ -55,10 +48,6 @@ void DataBaseConfig::init(void)
    QSettings tempConf(configFileName, QSettings::IniFormat);
 
    tempConf.setValue("version", 1);
-   tempConf.setValue("crypt_mode", 0);
-   tempConf.setValue("crypt_check_salt", "");
-   tempConf.setValue("crypt_check_hash", "");
-   tempConf.setValue("middle_hash_check_data", "");
 
    tempConf.sync();
   }
@@ -68,18 +57,18 @@ void DataBaseConfig::init(void)
 
  conf->sync();
 
- is_init_flag=true;
+ isInitFlag=true;
 }
 
 
-bool DataBaseConfig::is_init(void)
+bool KnownBasesConfig::isInit(void)
 {
- return is_init_flag;
+ return isInitFlag;
 }
 
 
 // Получение параметра по имени в виде строки с проверкой его существования
-QString DataBaseConfig::get_parameter(QString name)
+QString KnownBasesConfig::getParameter(QString name)
 {
  QString t=conf->value(name).toString();
 
@@ -90,48 +79,48 @@ QString DataBaseConfig::get_parameter(QString name)
 }
 
 
-int DataBaseConfig::get_crypt_mode(void)
+int KnownBasesConfig::get_crypt_mode(void)
 {
  return conf->value("crypt_mode", 0).toInt();
 }
 
 
-void DataBaseConfig::set_crypt_mode(int mode)
+void KnownBasesConfig::set_crypt_mode(int mode)
 {
  conf->setValue("crypt_mode", mode);
 }
 
 
-QString DataBaseConfig::get_crypt_check_salt(void)
+QString KnownBasesConfig::get_crypt_check_salt(void)
 {
- return get_parameter("crypt_check_salt");
+ return getParameter("crypt_check_salt");
 }
 
 
-void DataBaseConfig::set_crypt_check_salt(QString salt)
+void KnownBasesConfig::set_crypt_check_salt(QString salt)
 {
  conf->setValue("crypt_check_salt", salt);
 }
 
 
-QString DataBaseConfig::get_crypt_check_hash(void)
+QString KnownBasesConfig::get_crypt_check_hash(void)
 {
- return get_parameter("crypt_check_hash");
+ return getParameter("crypt_check_hash");
 }
 
-void DataBaseConfig::set_crypt_check_hash(QString hash)
+void KnownBasesConfig::set_crypt_check_hash(QString hash)
 {
  conf->setValue("crypt_check_hash", hash);
 }
 
 
-QString DataBaseConfig::get_middle_hash_check_data(void)
+QString KnownBasesConfig::get_middle_hash_check_data(void)
 {
- return get_parameter("middle_hash_check_data");
+ return getParameter("middle_hash_check_data");
 }
 
 
-void DataBaseConfig::set_middle_hash_check_data(QString hash)
+void KnownBasesConfig::set_middle_hash_check_data(QString hash)
 {
  conf->setValue("middle_hash_check_data", hash);
 }
@@ -141,7 +130,7 @@ void DataBaseConfig::set_middle_hash_check_data(QString hash)
 // Номер версии конфига
 // --------------------
 
-int DataBaseConfig::get_config_version(void)
+int KnownBasesConfig::getConfigVersion(void)
 {
  if(conf->contains("version"))
   return conf->value("version").toInt();
@@ -150,7 +139,7 @@ int DataBaseConfig::get_config_version(void)
 }
 
 
-void DataBaseConfig::set_config_version(int i)
+void KnownBasesConfig::setConfigVersion(int i)
 {
  conf->setValue("version", i);
 }
