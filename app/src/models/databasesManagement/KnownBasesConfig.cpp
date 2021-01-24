@@ -79,6 +79,7 @@ QString KnownBasesConfig::getParameter(QString name)
 }
 
 
+/*
 int KnownBasesConfig::get_crypt_mode(void)
 {
  return conf->value("crypt_mode", 0).toInt();
@@ -89,41 +90,7 @@ void KnownBasesConfig::set_crypt_mode(int mode)
 {
  conf->setValue("crypt_mode", mode);
 }
-
-
-QString KnownBasesConfig::get_crypt_check_salt(void)
-{
- return getParameter("crypt_check_salt");
-}
-
-
-void KnownBasesConfig::set_crypt_check_salt(QString salt)
-{
- conf->setValue("crypt_check_salt", salt);
-}
-
-
-QString KnownBasesConfig::get_crypt_check_hash(void)
-{
- return getParameter("crypt_check_hash");
-}
-
-void KnownBasesConfig::set_crypt_check_hash(QString hash)
-{
- conf->setValue("crypt_check_hash", hash);
-}
-
-
-QString KnownBasesConfig::get_middle_hash_check_data(void)
-{
- return getParameter("middle_hash_check_data");
-}
-
-
-void KnownBasesConfig::set_middle_hash_check_data(QString hash)
-{
- conf->setValue("middle_hash_check_data", hash);
-}
+*/
 
 
 // --------------------
