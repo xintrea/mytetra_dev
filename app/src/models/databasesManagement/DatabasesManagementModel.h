@@ -6,6 +6,8 @@
 #include <QVariant>
 #include <QPair>
 
+#include "KnownBasesConfig.h"
+
 // Модель для работы с возможными расположениями каталогов баз данных и каталогов корзин
 
 // Примечание: если в конфиге прописаны относительные пути,
@@ -70,6 +72,7 @@ private:
   // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
   QList< QStringList > mTableData;
 
+  KnownBasesConfig mKnownBasesConfig;
 };
 
 #endif // DATABASESMANAGEMENTMODEL_H

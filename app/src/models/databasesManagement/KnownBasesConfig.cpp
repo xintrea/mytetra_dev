@@ -38,7 +38,7 @@ void KnownBasesConfig::init(void)
 {
  // Создается имя файла конфигурации
  // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
- QString configFileName=mytetraConfig.get_tetradir()+"/knownbases.ini";
+ QString configFileName=globalParameters.getWorkDirectory()+"/knownbases.ini";
 
  // Проверяется, есть ли файл конфигурации
  QFile confFile(configFileName);
@@ -73,7 +73,7 @@ QString KnownBasesConfig::getParameter(QString name)
  QString t=conf->value(name).toString();
 
  if(t.length()==0)
-  criticalError("In database config not found parameter " + name);
+  criticalError("In known bases config not found parameter " + name);
 
  return t;
 }
