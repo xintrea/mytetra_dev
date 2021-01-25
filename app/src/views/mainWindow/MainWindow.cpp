@@ -147,6 +147,9 @@ void MainWindow::setupSignals(void)
     connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
     if(mytetraConfig.getInterfaceMode()=="mobile")
     {
+        // Кнопка поиска по базе в меню дерева разделов для мобильного интерфейса
+        connect(treeScreen, &TreeScreen::treeScreenFindInBaseClicked, this, &MainWindow::toolsFindInBase);
+
         // Кнопка поиска по базе в меню редактора для мобильного интефейса
         connect(editorScreen, &MetaEditor::wyeditFindInBaseClicked, this, &MainWindow::toolsFindInBase);
     }

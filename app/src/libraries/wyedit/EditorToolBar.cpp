@@ -605,9 +605,15 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 {
     // qDebug() << "EditorToolBar::insert_button_to_tools_line() disableToolList : " << disableToolList;
 
-    if(toolName=="separator")
+    if(toolName=="separator") // Постой разделитель
     {
         line.addSeparator();
+    }
+    else if(toolName=="spring") // Пружина, расталкивающая виджеты кнопок
+    {
+        QWidget* empty = new QWidget(this);
+        empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+        line.addWidget(empty);
     }
     else
     {

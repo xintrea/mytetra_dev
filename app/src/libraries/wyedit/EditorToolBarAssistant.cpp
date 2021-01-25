@@ -82,7 +82,7 @@ void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
     // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
     if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("findInBase"))
     {
-      toolsList.append("separator"); // Добавляется в конец панели
+      toolsList.append("spring"); // Добавляется в конец панели
       toolsList.append("findInBase");
     }
 
