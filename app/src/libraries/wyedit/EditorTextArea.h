@@ -30,11 +30,11 @@ class EditorTextArea : public QTextEdit
   virtual void insertFromMimeData(const QMimeData *source);
   int detectMimeDataFormat(const QMimeData *source);
 
-  bool get_showformatting(void);
-  void set_showformatting(bool i);
+  bool getShowFormatting(void);
+  void setShowFormatting(bool i);
 
-  int get_indent_started_left(void);
-  int get_indent_started_right(void);
+  int getIndentStartedLeft(void);
+  int getIndentStartedRight(void);
 
  signals:
   void tapAndHoldGestureFinished(const QPoint &);
@@ -46,8 +46,8 @@ class EditorTextArea : public QTextEdit
   void doubleClickOnImage();
 
  public slots:
-  void show_indetedge(bool i);
-  void set_indentedge_pos(int i);
+  void showIndentEdge(bool i);
+  void setIndentEdgePos(int i);
   void onChangeFontcolor(const QColor &selectedColor);
   void onChangeBackgroundColor(const QColor &selectedColor);
   void onChangeFontFamily(QString fontFamily);

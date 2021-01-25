@@ -3,6 +3,8 @@
 #include <QTextTable>
 #include <QTextTableFormat>
 #include <QPainter>
+#include <QDebug>
+#include <QPair>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -129,14 +131,64 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
     flagSetFontParametersEnabled=false;
 
+    // Шрифт, который будет выставлен в комбобоксе
+    QString updateFontFamily;
+
     fontSelect->setIsProgrammChanged(true);
     if(fontName.size()>0)
-        fontSelect->setCurrentIndex(fontSelect->findText(fontName));
+    {
+        int n=fontSelect->findText(fontName);
+
+        // Если шрифт с заданным названием найден в списке шрифтов (в комбобоксе)
+        if(n>=0)
+        {
+            fontSelect->setCurrentIndex(n);
+            updateFontFamily=fontName;
+        }
+        else
+        {
+            // Иначе шрифт с указанным названием не найден в списке шрифтов,
+            // и надо попробовать выставить комбобоксе стандартный похожий шрифт
+
+            QFontDatabase database; // База всех установленных шрифтов
+
+            // Вывод в консоль полного списка шифтов
+            /*
+            foreach (const QString &family, database.families()) {
+               qDebug() << "Font family:" << family;
+               foreach (const QString &style, database.styles(family)) {
+                   qDebug() << "     style:" << style;
+               }
+            }
+            */
+
+            QList< QPair< QString, QString > > sameFonts;
+            sameFonts << QPair<QString, QString>("Sans Serif",           "MS Sans Serif");
+            sameFonts << QPair<QString, QString>("Sans Serif",           "Microsoft Sans Serif");
+            sameFonts << QPair<QString, QString>("MS Sans Serif",        "Sans Serif");
+            sameFonts << QPair<QString, QString>("Microsoft Sans Serif", "Sans Serif");
+
+            // Перебираются пары похожих шрифтов
+            for(auto currentFontPair : sameFonts)
+            {
+                // Если входящий шрифт имеет похожий шрифт в базе установленных шрифтов
+                if(fontName==currentFontPair.first and
+                   database.families().contains(currentFontPair.second))
+                {
+                    updateFontFamily=currentFontPair.second;
+                    fontSelect->setCurrentIndex( fontSelect->findText(updateFontFamily) );
+                    break;
+                }
+            }
+        }
+    }
     else
+    {
         fontSelect->setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    }
     fontSelect->setIsProgrammChanged(false);
 
-    currentFontFamily=fontName;
+    currentFontFamily=updateFontFamily;
 
     flagSetFontParametersEnabled=true;
 }

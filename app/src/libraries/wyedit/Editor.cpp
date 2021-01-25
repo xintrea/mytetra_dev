@@ -1393,7 +1393,7 @@ void Editor::onSettingsClicked(void)
 
 void Editor::onShowformattingClicked(bool ok)
 {
-    textArea->set_showformatting(ok);
+    textArea->setShowFormatting(ok);
 }
 
 

@@ -46,13 +46,13 @@ EditorTextArea::~EditorTextArea(void)
 }
 
 
-bool EditorTextArea::get_showformatting(void)
+bool EditorTextArea::getShowFormatting(void)
 {
  return flagShowFormatting;
 }
 
 
-void EditorTextArea::set_showformatting(bool i)
+void EditorTextArea::setShowFormatting(bool i)
 {
  flagShowFormatting=i;
 
@@ -432,7 +432,7 @@ void EditorTextArea::resizeEvent(QResizeEvent *event)
 
 // Метод возвращает X-координату курсора в "нуливой" позиции слева
 // Это значение используется для работы линейки отступов
-int EditorTextArea::get_indent_started_left(void)
+int EditorTextArea::getIndentStartedLeft(void)
 {
  return this->lineWidth() + (int)this->document()->documentMargin() + 1;
 }
@@ -440,14 +440,14 @@ int EditorTextArea::get_indent_started_left(void)
 
 // Метод возвращает X-координату курсора в самой крайней правой позиции
 // Это значение используется для работы линейки отступов
-int EditorTextArea::get_indent_started_right(void)
+int EditorTextArea::getIndentStartedRight(void)
 {
  return this->lineWidth() + this->viewport()->width() + 1 - (int)this->document()->documentMargin();
 }
 
 
 // Установка видимости линии настройки отступа
-void EditorTextArea::show_indetedge(bool i)
+void EditorTextArea::showIndentEdge(bool i)
 {
  flagShowIndentEdge=i;
  viewport()->update();
@@ -455,7 +455,7 @@ void EditorTextArea::show_indetedge(bool i)
 
 
 // Установка X-координаты линии настройки отступа
-void EditorTextArea::set_indentedge_pos(int i)
+void EditorTextArea::setIndentEdgePos(int i)
 {
  posIndentEdge=i;
  viewport()->update();
