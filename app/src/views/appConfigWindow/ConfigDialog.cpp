@@ -125,6 +125,12 @@ void ConfigDialog::externalChangePage(QListWidgetItem *item)
 }
 
 
+void ConfigDialog::setMenuListVisible(bool visible)
+{
+    contentsWidget->setVisible(visible);
+}
+
+
 void ConfigDialog::updateListWidth(void)
 {
  contentsWidget->updateGeometry();

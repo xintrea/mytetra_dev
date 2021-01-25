@@ -139,6 +139,8 @@ private slots:
  void onClickFocusNoteTable(void);
  void onClickFocusEditor(void);
 
+ void runDirectPreferences(QAction *action);
+
  void onSyncroCommandFinishWork(void);
 
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -183,7 +185,18 @@ private:
 
  QAction *actionToolsMenuFindInBase;
  QAction *actionToolsMenuActionLog;
- QAction *actionToolsMenuPreferences;
+ QAction *actionToolsMenuPreferences; // Вызов окна настроек, используется в десктопе
+
+ // Напрямую вызываемые настройки, используются в мобильном интерфейсе
+ QAction *actionDirectPreferencesMain       =nullptr;
+ QAction *actionDirectPreferencesAppearance =nullptr;
+ QAction *actionDirectPreferencesCrypt      =nullptr;
+ QAction *actionDirectPreferencesSyncro     =nullptr;
+ QAction *actionDirectPreferencesRecordTable=nullptr;
+ QAction *actionDirectPreferencesAttach     =nullptr;
+ QAction *actionDirectPreferencesKeyboard   =nullptr;
+ QAction *actionDirectPreferencesHistory    =nullptr;
+ QAction *actionDirectPreferencesMisc       =nullptr;
 
  QAction *actionHelpMenuAboutMyTetra;
  QAction *actionHelpMenuAboutQt;

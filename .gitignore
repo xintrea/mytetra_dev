@@ -12,6 +12,9 @@ qrc_mytetra.cpp
 /app/build
 /app/build/*
 
+/app/debug
+/app/debug/*
+
 /app/bin/*
 !/app/bin/resource
 !/app/bin/resource/*
@@ -53,3 +56,6 @@ qrc_*.cpp
 # .gitignore
 
 .qmake.stash
+
+/app/ui_*
+/app/user*appdatalocal*

@@ -144,7 +144,39 @@ void MainWindow::setupSignals(void)
 
     connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
     connect(actionToolsMenuActionLog, &QAction::triggered, this, &MainWindow::onActionLogClicked);
-    connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
+
+    if(mytetraConfig.getInterfaceMode()=="desktop"){
+        connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
+    }
+    else
+    {
+        connect(actionDirectPreferencesMain, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesMain); } );
+
+        connect(actionDirectPreferencesAppearance, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesAppearance); } );
+
+        connect(actionDirectPreferencesCrypt, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesCrypt); } );
+
+        connect(actionDirectPreferencesSyncro, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesSyncro); } );
+
+        connect(actionDirectPreferencesRecordTable, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesRecordTable); } );
+
+        connect(actionDirectPreferencesAttach, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesAttach); } );
+
+        connect(actionDirectPreferencesKeyboard, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesKeyboard); } );
+
+        connect(actionDirectPreferencesHistory, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesHistory); } );
+
+        connect(actionDirectPreferencesMisc, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesMisc); } );
+    }
 
     connect(actionHelpMenuAboutMyTetra, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
     connect(actionHelpMenuAboutQt, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
@@ -546,36 +578,68 @@ void MainWindow::initToolsMenu(void)
     else
     {
         // Создание подменю
-        QMenu *menu = new QMenu(tr("&Preferences"), this);
-        initPreferencesMenu(menu);
+        QMenu *subMenu = new QMenu(tr("&Preferences"), this);
+        initPreferencesMenu(subMenu);
+        menu->addMenu(subMenu);
     }
 }
 
 
-// Заполнение подраздела меню Preferences (для мобильного интерфейса, не доработано)
+// Заполнение подраздела меню Preferences (для мобильного интерфейса)
 void MainWindow::initPreferencesMenu(QMenu *menu)
 {
-    QAction *a;
+    QMap< QString, QAction **> map;
 
-    a = new QAction(tr("Main"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    map[tr("Main")]      = &actionDirectPreferencesMain;
+    map[tr("Appearance")]= &actionDirectPreferencesAppearance;
+    map[tr("Crypt")]     = &actionDirectPreferencesCrypt;
+    map[tr("Syncro")]    = &actionDirectPreferencesSyncro;
+    map[tr("Note Area")] = &actionDirectPreferencesRecordTable;
+    map[tr("Attaches")]  = &actionDirectPreferencesAttach;
+    map[tr("Keyboard")]  = &actionDirectPreferencesKeyboard;
+    map[tr("History")]   = &actionDirectPreferencesHistory;
+    map[tr("Misc")]      = &actionDirectPreferencesMisc;
 
-    a = new QAction(tr("Crypt"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    for(auto pageName : map.keys())
+    {
+        *map[pageName] = new QAction(pageName, this);
+        menu->addAction( *map[pageName] );
+    }
+}
 
-    a = new QAction(tr("Synchro"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
 
-    a = new QAction(tr("RecordTable"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+void MainWindow::runDirectPreferences(QAction *action)
+{
+    QMap< QString, QAction *> map;
 
-    a = new QAction(tr("Misc"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    map["pageMain"]       = actionDirectPreferencesMain;
+    map["pageAppearance"] = actionDirectPreferencesAppearance;
+    map["pageCrypt"]      = actionDirectPreferencesCrypt;
+    map["pageSynchro"]    = actionDirectPreferencesSyncro;
+    map["pageRecordTable"]= actionDirectPreferencesRecordTable;
+    map["pageAttach"]     = actionDirectPreferencesAttach;
+    map["pageKeyboard"]   = actionDirectPreferencesKeyboard;
+    map["pageHistory"]    = actionDirectPreferencesHistory;
+    map["pageMisc"]       = actionDirectPreferencesMisc;
+
+    AppConfigDialog *dialog=nullptr;
+
+    for(auto pageName : map.keys())
+    {
+        if( map[pageName]==action )
+        {
+            dialog=new AppConfigDialog(pageName, this);
+            break;
+        }
+    }
+
+    if(dialog!=nullptr)
+    {
+        dialog->setMenuListVisible(false);
+        dialog->exec();
+    }
+
+    delete dialog;
 }
 
 
