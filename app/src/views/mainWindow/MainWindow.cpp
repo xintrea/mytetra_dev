@@ -142,10 +142,21 @@ void MainWindow::setupSignals(void)
     connect(actionFileMenuExportPdf, &QAction::triggered, this, &MainWindow::filePrintPdf);
     connect(actionFileMenuQuit, &QAction::triggered, this, &MainWindow::applicationExit);
 
+
+    // Поиск по базе в стандартном меню
     connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
+    if(mytetraConfig.getInterfaceMode()=="mobile")
+    {
+        // Кнопка поиска по базе в меню редактора для мобильного интефейса
+        connect(editorScreen, &MetaEditor::wyeditFindInBaseClicked, this, &MainWindow::toolsFindInBase);
+    }
+
+    // Вызов окна просмотра лога
     connect(actionToolsMenuActionLog, &QAction::triggered, this, &MainWindow::onActionLogClicked);
 
-    if(mytetraConfig.getInterfaceMode()=="desktop"){
+    // Вызов окна настроек
+    if(mytetraConfig.getInterfaceMode()=="desktop")
+    {
         connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
     }
     else

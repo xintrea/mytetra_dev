@@ -68,25 +68,27 @@ void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
     // Перед инитом устанавливается список скрываемых инструментов
     EditorToolBar::initDisableToolList(iDisableToolList);
 
+
     // Выясняется перечень кнопок в первой строке на панели инструментов
-    QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
+    QStringList toolsList=editor->editorConfig->get_tools_line_1().split(",");
 
     // В мобильном режиме добавляется кнопка back (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("back"))
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("back"))
     {
-      EditorToolBar::toolsListInLine1.prepend("separator");
-      EditorToolBar::toolsListInLine1.prepend("back");
+      toolsList.prepend("separator"); // Добавляется в начало панели
+      toolsList.prepend("back");
     }
 
     // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("findInBase"))
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("findInBase"))
     {
-      EditorToolBar::toolsListInLine1.append("separator");
-      EditorToolBar::toolsListInLine1.append("findInBase");
+      toolsList.append("separator"); // Добавляется в конец панели
+      toolsList.append("findInBase");
     }
 
+
     // Устанавливается перечень кнопок на панели инструментов
-    EditorToolBar::initToolsLine1(toolsListInLine1); // Первая строка
+    EditorToolBar::initToolsLine1(toolsList); // Первая строка
     EditorToolBar::initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
 }
 

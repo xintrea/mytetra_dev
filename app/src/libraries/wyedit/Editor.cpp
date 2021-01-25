@@ -596,10 +596,10 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->save, &QAction::triggered,
             this,                         &Editor::onSaveClicked);
 
-    connect(editorToolBarAssistant->back, &QAction::triggered,
+    connect(editorToolBarAssistant->mobileBack, &QAction::triggered,
             this,                         &Editor::onBackClicked);
 
-    connect(editorToolBarAssistant->findInBase, &QAction::triggered,
+    connect(editorToolBarAssistant->mobileFindInBase, &QAction::triggered,
             this,                               &Editor::onFindInBaseClicked);
 
     connect(editorToolBarAssistant->showText, &QAction::triggered,
