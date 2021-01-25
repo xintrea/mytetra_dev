@@ -13,6 +13,7 @@ extern GlobalParameters globalParameters;
 
 DatabasesManagementModel::DatabasesManagementModel(QObject *parent) : QAbstractTableModel(parent)
 {
+    mKnownBasesConfig.init();
     this->initData();
 }
 

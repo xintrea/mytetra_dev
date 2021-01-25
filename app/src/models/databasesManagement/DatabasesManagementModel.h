@@ -6,6 +6,19 @@
 #include <QVariant>
 #include <QPair>
 
+#include "KnownBasesConfig.h"
+
+// Модель для работы с возможными расположениями каталогов баз данных и каталогов корзин
+
+// Примечание: если в конфиге прописаны относительные пути,
+// то они высчитываются относительно рабочего каталога,
+// а не каталога бинарника, хотя эти каталоги могут совпадать.
+// Другими словами: файл conf.ini всегда лежит в рабочем каталоге,
+// и таким образом, если в conf.ini прописаны относительные пути, то
+// эти пути и будут высчитываться относительно каталога, в котором
+// лежит этот conf.ini
+
+
 #define DBMANAGEMENT_COLUMNS 4
 #define DBMANAGEMENT_COLUMN_SELECT    0 // Признак выбора базы
 #define DBMANAGEMENT_COLUMN_DBPATH    1 // Путь к БД
@@ -59,6 +72,7 @@ private:
   // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
   QList< QStringList > mTableData;
 
+  KnownBasesConfig mKnownBasesConfig;
 };
 
 #endif // DATABASESMANAGEMENTMODEL_H

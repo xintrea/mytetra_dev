@@ -22,6 +22,9 @@ public:
   virtual ~DatabasesManagementScreen();
 
   // Действия, используемые как на тулбаре, так и в контекстном меню
+  QAction *actionSelect;
+  QAction *actionCreate;
+  QAction *actionAdd;
   QAction *actionCopy;
 
 public slots:

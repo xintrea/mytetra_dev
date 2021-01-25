@@ -64,7 +64,7 @@ void DataBaseConfig::init(void)
   }
 
  // Создается указатель на объект хранилища конфигурации
- conf=new QSettings(configFileName, QSettings::IniFormat);
+ conf=new QSettings(configFileName, QSettings::IniFormat, this);
 
  conf->sync();
 

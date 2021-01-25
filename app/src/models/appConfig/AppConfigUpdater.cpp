@@ -30,7 +30,7 @@ void AppConfigUpdater::setConfigFile(QString fileName)
   criticalError("appconfigupdater::set_config_file() - File "+fileName+" not found.");
 
  // Создается рабочий объект для работы с конфигурацией
- conf=new QSettings(fileName, QSettings::IniFormat);
+ conf=new QSettings(fileName, QSettings::IniFormat, this);
  conf->setPath(QSettings::IniFormat, QSettings::UserScope,"./");
  conf->setPath(QSettings::IniFormat, QSettings::SystemScope,"./");
 }
