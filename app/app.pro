@@ -2,11 +2,11 @@
 # ANY_OS - for desktop Windows and Linux
 # MEEGO_OS - for MEEGO
 # ANDROID_OS - for Android
-TARGET_OS=ANDROID_OS
+TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="release"
+BUILD_TYPE="debug"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable (this is for compile mytetra.exe and rename to mytetra_debug.exe)

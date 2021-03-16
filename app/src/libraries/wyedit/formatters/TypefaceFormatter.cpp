@@ -1395,28 +1395,34 @@ void TypefaceFormatter::workingSoftCarryInSelection()
 
 void TypefaceFormatter::onLowerCase()
 {
-    QTextCharFormat format;
-    format.setFontCapitalization(QFont::AllLowercase);
-    mergeFormatOnWordOrSelection(format);
+    this->replaceSymbolCase(QChar::Letter_Lowercase);
 }
 
 
 void TypefaceFormatter::onUpperCase()
 {
-    QTextCharFormat format;
-    format.setFontCapitalization(QFont::AllUppercase);
-    mergeFormatOnWordOrSelection(format);
+    this->replaceSymbolCase(QChar::Letter_Uppercase);
 }
 
 
-void TypefaceFormatter::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+void TypefaceFormatter::replaceSymbolCase(const QChar::Category &category)
 {
     QTextCursor cursor = textArea->textCursor();
     if (!cursor.hasSelection())
         cursor.select(QTextCursor::WordUnderCursor);
-    cursor.mergeCharFormat(format);
-    textArea->mergeCurrentCharFormat(format);
-    // textArea->setFocus(Qt::TabFocusReason);
+
+    QString text=cursor.selectedText();
+
+    if( category==QChar::Letter_Lowercase )
+    {
+        text=text.toLower();
+    }
+    else if ( category==QChar::Letter_Uppercase )
+    {
+        text=text.toUpper();
+    }
+
+    cursor.insertText(text);
 }
 
 
