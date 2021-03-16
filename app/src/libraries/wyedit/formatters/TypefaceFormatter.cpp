@@ -1411,18 +1411,51 @@ void TypefaceFormatter::replaceSymbolCase(const QChar::Category &category)
     if (!cursor.hasSelection())
         cursor.select(QTextCursor::WordUnderCursor);
 
-    QString text=cursor.selectedText();
+    int startCursorPos=cursor.anchor(); // Начало выделения
+    int stopCursorPos=cursor.position(); // Конец выделения
 
-    if( category==QChar::Letter_Lowercase )
+    // Если выделение было сзаду-наперед, надо поменять начальную и конечную позицию местами
+    bool isSelectionReverse=false;
+    if(startCursorPos>stopCursorPos)
     {
-        text=text.toLower();
-    }
-    else if ( category==QChar::Letter_Uppercase )
-    {
-        text=text.toUpper();
+        int tempCursorPos=startCursorPos;
+        startCursorPos=stopCursorPos;
+        stopCursorPos=tempCursorPos;
+
+        isSelectionReverse=true;
     }
 
-    cursor.insertText(text);
+    if( isSelectionReverse )
+    {
+        cursor.setPosition(startCursorPos, QTextCursor::MoveAnchor);
+        cursor.setPosition(stopCursorPos, QTextCursor::KeepAnchor);
+    }
+
+    QTextCursor replacementCursor=textArea->textCursor();
+
+    replacementCursor.beginEditBlock();
+
+    for(int pos=startCursorPos; pos<stopCursorPos; pos++)
+    {
+        // Выделяется один символ
+        replacementCursor.setPosition(pos, QTextCursor::MoveAnchor);
+        replacementCursor.setPosition(pos+1, QTextCursor::KeepAnchor);
+
+        QString symbol=replacementCursor.selectedText();
+
+        if( category==QChar::Letter_Lowercase )
+        {
+            symbol=symbol.toLower();
+        }
+        else if ( category==QChar::Letter_Uppercase )
+        {
+            symbol=symbol.toUpper();
+        }
+
+        replacementCursor.insertText(symbol);
+    }
+
+    replacementCursor.endEditBlock();
 }
 
 
