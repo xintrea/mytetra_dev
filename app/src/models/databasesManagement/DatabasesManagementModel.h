@@ -51,6 +51,7 @@ public:
 
   bool isDbPathExists(const QString &path);
   void addDatabaseByUser(const QString &dbPath, const QString &trashPath);
+  void selectDatabase(const int &row);
 
 private:
 
@@ -64,6 +65,7 @@ private:
 
   void scanDirectories(const QList< DatabasesDirsInfo > &dbDirs);
 
+  void clearSelection();
   void selectDirectories(const QString &dbPath, const QString &trashPath);
 
   bool isDbDirectory(const QString &path);

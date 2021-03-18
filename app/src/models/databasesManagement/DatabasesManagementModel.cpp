@@ -202,9 +202,20 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabasesDirsInfo > 
 }
 
 
+void DatabasesManagementModel::clearSelection()
+{
+    for(auto& tableDataLine : mTableData)
+    {
+        tableDataLine[DBMANAGEMENT_COLUMN_SELECT]="";
+    }
+}
+
+
 // Выставление пометки что директории базы и корзины выбраны в качестве рабочих
 void DatabasesManagementModel::selectDirectories(const QString &dbPath, const QString &trashPath)
 {
+    this->clearSelection();
+
     for(auto& tableDataLine : mTableData)
     {
         if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
@@ -394,5 +405,18 @@ void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QS
     this->endResetModel();
 
     // todo: Добавить сюда запоминание в mKnownBasesConfig
+}
+
+
+void DatabasesManagementModel::selectDatabase(const int &row)
+{
+    this->clearSelection();
+
+    QStringList line=mTableData[row];
+    line[DBMANAGEMENT_COLUMN_SELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+
+    this->beginResetModel();
+    mTableData[row]=line;
+    this->endResetModel();
 }
 

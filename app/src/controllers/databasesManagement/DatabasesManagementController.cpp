@@ -50,7 +50,21 @@ DatabasesManagementTable *DatabasesManagementController::getView(void)
 
 void DatabasesManagementController::onSelectClicked()
 {
+    QModelIndexList indexList = view->selectionModel()->selectedRows();
 
+    if(indexList.size()!=1)
+    {
+        return;
+    }
+
+    int row=indexList[0].row();
+
+    // Установка пометки выбора базы данных
+    model->selectDatabase(row);
+
+    // Выбор текущей строки
+    const QModelIndex index = model->index(row, 0);
+    view->setCurrentIndex(index);
 }
 
 
@@ -66,8 +80,11 @@ void DatabasesManagementController::onAddClicked()
     QString dbPath;
     QString trashPath;
 
+    QString title=tr("Append exists database");
+
     // Диалог, поясняющий что нужно выбрать директорию с существующей БД
     QMessageBox firstBox;
+    firstBox.setWindowTitle(title);
     firstBox.setText(tr("<b>First step:</b> select database directiory"));
     firstBox.setInformativeText(tr("For database append please select\ndirectory with exists database.\nThis directory should contain the file mytetra.xml."));
     firstBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
@@ -123,6 +140,7 @@ void DatabasesManagementController::onAddClicked()
 
     // Диалог, поясняющий что нужно выбрать директорию корзины
     QMessageBox secondBox;
+    secondBox.setWindowTitle(title);
     secondBox.setText(tr("<b>Second step:</b> select trash directiory"));
     secondBox.setInformativeText(tr("For database append please select\ntrash directory.\nMyTetra will put changed notes file copies\nand changed item tree copies\nto this directories"));
     secondBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
