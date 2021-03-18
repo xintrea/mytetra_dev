@@ -14,6 +14,10 @@ extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
 
+const QString KnownBasesConfig::sectionPrefix="num";
+const QStringList KnownBasesConfig::fieldList={"dbPath", "trashPath"};
+
+
 // Конструктор объекта настройки БД
 KnownBasesConfig::KnownBasesConfig(QObject *pobj)
 {
@@ -108,5 +112,72 @@ int KnownBasesConfig::getConfigVersion(void)
 
 void KnownBasesConfig::setConfigVersion(int i)
 {
- conf->setValue("version", i);
+    conf->setValue("version", i);
+}
+
+
+int KnownBasesConfig::getDbCount()
+{
+    for(int i=0; i<KNOWN_BASES_MAX_COUNT; ++i)
+    {
+        if( !conf->contains(sectionPrefix+QString::number(i)+"/"+fieldList[0]) )
+        {
+            return i;
+        }
+    }
+
+    return 0;
+}
+
+
+QString KnownBasesConfig::getDbParameter(const int &num, const QString &name)
+{
+    QVariant value=conf->value(sectionPrefix+QString::number(num)+"/"+name);
+
+    if(value.isValid())
+    {
+        return value.toString();
+    }
+    else
+    {
+        return "";
+    }
+}
+
+
+void KnownBasesConfig::setDbParameter(const int &num, const QString &name, const QString &value)
+{
+    conf->setValue(sectionPrefix+QString::number(num)+"/"+name, value);
+}
+
+
+bool KnownBasesConfig::isDbParameterExists(const QString &name, const QString &value)
+{
+    for(int i=0; i<KNOWN_BASES_MAX_COUNT; ++i)
+    {
+        QVariant currentValue=conf->value( sectionPrefix+QString::number(i)+"/"+name );
+
+        if( currentValue.isValid() && currentValue.toString()==value )
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+int KnownBasesConfig::getExistsParameterNum(const QString &name, const QString &value)
+{
+    for(int i=0; i<KNOWN_BASES_MAX_COUNT; ++i)
+    {
+        QVariant currentValue=conf->value( sectionPrefix+QString::number(i)+"/"+name );
+
+        if( currentValue.isValid() && currentValue.toString()==value )
+        {
+            return i;
+        }
+    }
+
+    return -1;
 }

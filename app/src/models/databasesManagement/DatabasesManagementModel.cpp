@@ -404,7 +404,22 @@ void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QS
     mTableData << line;
     this->endResetModel();
 
-    // todo: Добавить сюда запоминание в mKnownBasesConfig
+    // Есла такая база уже есть в конфиге баз данных
+    if( mKnownBasesConfig.isDbParameterExists("dbPath", dbPath) )
+    {
+        int n=mKnownBasesConfig.getExistsParameterNum("dbPath", dbPath);
+
+        // Параметр dbPath стоит такой, какой надо,
+        // поэтому устанавливается только trashPath
+        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+    }
+    else // Иначе такой базы данных нет и она добавляется
+    {
+        int n=mKnownBasesConfig.getDbCount();
+
+        mKnownBasesConfig.setDbParameter(n, "dbPath", dbPath);
+        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+    }
 }
 
 
