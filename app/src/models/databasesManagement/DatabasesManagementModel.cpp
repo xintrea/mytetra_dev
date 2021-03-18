@@ -131,7 +131,24 @@ QPair<QString, QString> DatabasesManagementModel::getDirectoriesFromConfigFile(c
 void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 {
     // Получить пары директорияБД/директорияКорзины из файла knownbases.ini в рабочей директории
+    int n=mKnownBasesConfig.getDbCount();
 
+    if(n==0)
+    {
+        return;
+    }
+
+    for(int i=0; i<n; ++i)
+    {
+        QString dbPath=mKnownBasesConfig.getDbParameter(i, "dbPath");
+        QString trashPath=mKnownBasesConfig.getDbParameter(i, "trashPath");
+        QString descript=tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
+
+        QStringList tableLine;
+        tableLine << "" << dbPath << trashPath << descript;
+
+        mTableData << tableLine;
+    }
 }
 
 
@@ -398,7 +415,7 @@ bool DatabasesManagementModel::isDbPathExists(const QString &path)
 void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QString &trashPath)
 {
     QStringList line;
-    line << "" << dbPath << trashPath << tr("Custom database directory");
+    line << "" << dbPath << trashPath << tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
 
     this->beginResetModel();
     mTableData << line;

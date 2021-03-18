@@ -27,6 +27,8 @@
 
 #define DBMANAGEMENT_LINE_SELECT_FLAG "1" // Значение, свидетельствующее о выборе базы
 
+#define DBMANAGEMENT_DEFAULT_DESCRIPT "Custom database directory"
+
 
 class DatabasesManagementModel : public QAbstractTableModel
 {
