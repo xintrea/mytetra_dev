@@ -49,6 +49,9 @@ public:
   QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
   QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  bool isDbPathExists(const QString &path);
+  void addDatabaseByUser(const QString &dbPath, const QString &trashPath);
+
 private:
 
   QVariant getCell(int row, int column, int role) const;

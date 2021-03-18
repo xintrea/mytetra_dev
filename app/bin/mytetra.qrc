@@ -128,5 +128,7 @@
         <file>resource/pic/dbmanagement_append.svg</file>
         <file>resource/pic/dbmanagement_create.svg</file>
         <file>resource/pic/dbmanagement_select.svg</file>
+        <file>resource/pic/dbmanagement_db_icon.svg</file>
+        <file>resource/pic/dbmanagement_trash_icon.svg</file>
     </qresource>
 </RCC>

@@ -370,3 +370,29 @@ QVariant DatabasesManagementModel::headerData(int section, Qt::Orientation orien
         }
 }
 
+
+bool DatabasesManagementModel::isDbPathExists(const QString &path)
+{
+    for(auto& tableDataLine : mTableData)
+    {
+        if( QDir( tableDataLine[DBMANAGEMENT_COLUMN_DBPATH] ).absolutePath() == QDir( path ).absolutePath() )
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QString &trashPath)
+{
+    QStringList line;
+    line << "" << dbPath << trashPath << tr("Custom database directory");
+
+    this->beginResetModel();
+    mTableData << line;
+    this->endResetModel();
+
+    // todo: Добавить сюда запоминание в mKnownBasesConfig
+}
+
