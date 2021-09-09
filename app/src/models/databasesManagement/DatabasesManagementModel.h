@@ -27,6 +27,8 @@
 
 #define DBMANAGEMENT_LINE_SELECT_FLAG "1" // Значение, свидетельствующее о выборе базы
 
+#define DBMANAGEMENT_DEFAULT_DESCRIPT "Custom database directory"
+
 
 class DatabasesManagementModel : public QAbstractTableModel
 {
@@ -49,6 +51,10 @@ public:
   QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
   QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  bool isDbPathExists(const QString &path);
+  void addDatabaseByUser(const QString &dbPath, const QString &trashPath);
+  void selectDatabase(const int &row);
+
 private:
 
   QVariant getCell(int row, int column, int role) const;
@@ -61,6 +67,7 @@ private:
 
   void scanDirectories(const QList< DatabasesDirsInfo > &dbDirs);
 
+  void clearSelection();
   void selectDirectories(const QString &dbPath, const QString &trashPath);
 
   bool isDbDirectory(const QString &path);

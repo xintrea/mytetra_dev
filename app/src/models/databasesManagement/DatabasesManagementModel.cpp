@@ -131,7 +131,24 @@ QPair<QString, QString> DatabasesManagementModel::getDirectoriesFromConfigFile(c
 void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 {
     // Получить пары директорияБД/директорияКорзины из файла knownbases.ini в рабочей директории
+    int n=mKnownBasesConfig.getDbCount();
 
+    if(n==0)
+    {
+        return;
+    }
+
+    for(int i=0; i<n; ++i)
+    {
+        QString dbPath=mKnownBasesConfig.getDbParameter(i, "dbPath");
+        QString trashPath=mKnownBasesConfig.getDbParameter(i, "trashPath");
+        QString descript=tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
+
+        QStringList tableLine;
+        tableLine << "" << dbPath << trashPath << descript;
+
+        mTableData << tableLine;
+    }
 }
 
 
@@ -202,9 +219,20 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabasesDirsInfo > 
 }
 
 
+void DatabasesManagementModel::clearSelection()
+{
+    for(auto& tableDataLine : mTableData)
+    {
+        tableDataLine[DBMANAGEMENT_COLUMN_SELECT]="";
+    }
+}
+
+
 // Выставление пометки что директории базы и корзины выбраны в качестве рабочих
 void DatabasesManagementModel::selectDirectories(const QString &dbPath, const QString &trashPath)
 {
+    this->clearSelection();
+
     for(auto& tableDataLine : mTableData)
     {
         if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
@@ -368,5 +396,59 @@ QVariant DatabasesManagementModel::headerData(int section, Qt::Orientation orien
         default:
             return QVariant();
         }
+}
+
+
+bool DatabasesManagementModel::isDbPathExists(const QString &path)
+{
+    for(auto& tableDataLine : mTableData)
+    {
+        if( QDir( tableDataLine[DBMANAGEMENT_COLUMN_DBPATH] ).absolutePath() == QDir( path ).absolutePath() )
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QString &trashPath)
+{
+    QStringList line;
+    line << "" << dbPath << trashPath << tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
+
+    this->beginResetModel();
+    mTableData << line;
+    this->endResetModel();
+
+    // Есла такая база уже есть в конфиге баз данных
+    if( mKnownBasesConfig.isDbParameterExists("dbPath", dbPath) )
+    {
+        int n=mKnownBasesConfig.getExistsParameterNum("dbPath", dbPath);
+
+        // Параметр dbPath стоит такой, какой надо,
+        // поэтому устанавливается только trashPath
+        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+    }
+    else // Иначе такой базы данных нет и она добавляется
+    {
+        int n=mKnownBasesConfig.getDbCount();
+
+        mKnownBasesConfig.setDbParameter(n, "dbPath", dbPath);
+        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+    }
+}
+
+
+void DatabasesManagementModel::selectDatabase(const int &row)
+{
+    this->clearSelection();
+
+    QStringList line=mTableData[row];
+    line[DBMANAGEMENT_COLUMN_SELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+
+    this->beginResetModel();
+    mTableData[row]=line;
+    this->endResetModel();
 }
 

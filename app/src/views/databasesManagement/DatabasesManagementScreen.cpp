@@ -43,17 +43,17 @@ DatabasesManagementScreen::~DatabasesManagementScreen()
 void DatabasesManagementScreen::setupActions(void)
 {
   actionSelect = new QAction(tr("Select database"), this);
-  actionSelect->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  actionSelect->setIcon(QIcon(":/resource/pic/dbmanagement_select.svg"));
   connect(actionSelect, &QAction::triggered,
           databasesManagementController, &DatabasesManagementController::onSelectClicked);
 
   actionCreate = new QAction(tr("Create new database"), this);
-  actionCreate->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  actionCreate->setIcon(QIcon(":/resource/pic/dbmanagement_create.svg"));
   connect(actionCreate, &QAction::triggered,
           databasesManagementController, &DatabasesManagementController::onCreateClicked);
 
   actionAdd = new QAction(tr("Append exists database"), this);
-  actionAdd->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
+  actionAdd->setIcon(QIcon(":/resource/pic/dbmanagement_append.svg"));
   connect(actionAdd, &QAction::triggered,
           databasesManagementController, &DatabasesManagementController::onAddClicked);
 
@@ -74,6 +74,7 @@ void DatabasesManagementScreen::setupUI(void)
   insertActionAsButton(toolBar, actionSelect);
   insertActionAsButton(toolBar, actionCreate);
   insertActionAsButton(toolBar, actionAdd);
+  toolBar->addSeparator();
   insertActionAsButton(toolBar, actionCopy);
 
   // Создание набора диалоговых кнопок
