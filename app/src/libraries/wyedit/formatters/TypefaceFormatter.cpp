@@ -230,6 +230,22 @@ void TypefaceFormatter::smartFormat(int formatType)
 }
 
 
+// Задаём фрагменту шрифт по умолчанию
+void TypefaceFormatter::onDefaultFontClicked(void)
+{
+    textArea->textCursor().beginEditBlock();
+
+    // Устанавливается шрифт
+    QFont font;
+    font.fromString(editorConfig->get_default_font());
+    emit changeFontFamily(font.family());
+
+    // Новый установленный шрифт показывается в выпадающем списке шрифтов
+    emit changeFontselectOnDisplay(font.family());
+
+    textArea->textCursor().endEditBlock();
+}
+
 // Форматирование моноширинным шрифтом
 void TypefaceFormatter::onMonospaceClicked(void)
 {

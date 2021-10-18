@@ -486,6 +486,9 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->subscript, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onSubScriptClicked);
 
+    connect(editorToolBarAssistant->defaultFont, &QAction::triggered,
+            typefaceFormatter,                 &TypefaceFormatter::onDefaultFontClicked);
+
     connect(editorToolBarAssistant->monospace, &QAction::triggered,
             typefaceFormatter,                 &TypefaceFormatter::onMonospaceClicked);
 

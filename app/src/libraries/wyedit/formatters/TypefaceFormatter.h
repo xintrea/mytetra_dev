@@ -39,6 +39,7 @@ public slots:
     void onStrikeOutClicked(void); // Зачеркивание текста
     void onSuperScriptClicked(void);
     void onSubScriptClicked(void);
+    void onDefaultFontClicked(void);
     void onMonospaceClicked(void);
     void onCodeClicked(void);
     void onClearClicked(void);

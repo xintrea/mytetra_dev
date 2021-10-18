@@ -143,6 +143,11 @@ void EditorToolBar::setupToolBarTools(void)
   subscript->setIcon(QIcon(":/resource/pic/edit_sub.svg"));
   subscript->setObjectName("editor_tb_subscript");
 
+  // Кнопка Set the font
+  defaultFont=new QAction(this);
+  defaultFont->setIcon(QIcon(":/resource/pic/edit_defaultfont.svg"));
+  defaultFont->setObjectName("editor_tb_defaultFont");
+
   // Кнопка Monospace
   monospace=new QAction(this);
   monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
@@ -359,6 +364,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-strikeout", strikeout);
     shortcutManager.initAction("editor-superscript", superscript);
     shortcutManager.initAction("editor-subscript", subscript);
+    shortcutManager.initAction("editor-defaultFont", defaultFont);
     shortcutManager.initAction("editor-monospace", monospace);
     shortcutManager.initAction("editor-code", code);
     shortcutManager.initAction("editor-clear", clear);
