@@ -239,9 +239,13 @@ void TypefaceFormatter::onDefaultFontClicked(void)
     QFont font;
     font.fromString(editorConfig->get_default_font());
     emit changeFontFamily(font.family());
+    // Устанавливается нужный размер
+    emit changeFontPointSize(editorConfig->get_default_font_size());
 
     // Новый установленный шрифт показывается в выпадающем списке шрифтов
     emit changeFontselectOnDisplay(font.family());
+    // В выпадающем списке размеров выставляется установленный размер
+    emit changeFontsizeOnDisplay( editorConfig->get_default_font_size() );
 
     textArea->textCursor().endEditBlock();
 }
