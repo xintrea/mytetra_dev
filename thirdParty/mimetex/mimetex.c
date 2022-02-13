@@ -81,7 +81,6 @@
  *		rastcompose(sp1,sp2,offset2,isalign,isfree) sp2 on top of sp1
  *		rastcat(sp1,sp2,isfree)                  concatanate sp1||sp2
  *		rastack(sp1,sp2,base,space,iscenter,isfree)stack sp2 atop sp1
- *		rastile(tiles,ntiles)      create composite raster from tiles
  *		rastsmash(sp1,sp2,xmin,ymin)      calc #smash pixels sp1||sp2
  *		rastsmashcheck(term)         check if term is "safe" to smash
  *		--- raster "drawing" functions ---
@@ -102,7 +101,6 @@
  *		xbitmap_raster(rp,fp)           emit mime xbitmap of rp on fp
  *		type_pbmpgm(rp,ptype,file)     pbm or pgm image of rp to file
  *		read_pbm(fp,sf)     read pbm from file (or pipe) opened on fp
- *		cstruct_chardef(cp,fp,col1)         emit C struct of cp on fp
  *		cstruct_raster(rp,fp,col1)          emit C struct of rp on fp
  *		hex_bitmap(rp,fp,col1,isstr)emit hex dump of rp->pixmap on fp
  *		--- ancillary output functions ---
@@ -153,7 +151,6 @@
  *		rastdispmath(expression,size,sp)      scripts for displaymath
  *		--- table-driven handlers that rasterize... ---
  *		rastleft(expression,size,basesp,ildelim,arg2,arg3)\left\right
- *		rastright(expression,size,basesp,ildelim,arg2,arg3) ...\right
  *		rastmiddle(expression,size,basesp,arg1,arg2,arg3)     \middle
  *		rastflags(expression,size,basesp,flag,value,arg3)    set flag
  *		rastspace(expression,size,basesp,width,isfill,isheight)\,\:\;
@@ -224,7 +221,6 @@
  *		ssweights(width,height,maxwt,wts)build canonical ss wt matrix
  *		aacolormap(bytemap,nbytes,colors,colormap)make colors,colormap
  *		aaweights(width,height)      builds "canonical" weight matrix
- *		aawtpixel(image,ipixel,weights,rotate) weight image at ipixel
  *		=== miscellaneous ===
  *		mimetexgetbytemap(expression,width,height) bytemap expression
  *		mimetextypebytemap(bp,grayscale,width,height,fp) type bytemap
@@ -2224,80 +2220,6 @@ end_of_job:
 
 
 /* ==========================================================================
- * Function:	rastile ( tiles, ntiles )
- * Purpose:	Allocate and build up a composite raster
- *		from the ntiles components/characters supplied in tiles.
- * --------------------------------------------------------------------------
- * Arguments:	tiles (I)	subraster *  to array of subraster structs
- *				describing the components and their locations
- *		ntiles (I)	int containing number of subrasters in tiles[]
- * --------------------------------------------------------------------------
- * Returns:	( raster * )	ptr to composite raster,
- *				or NULL for any error.
- * --------------------------------------------------------------------------
- * Notes:     o	The top,left corner of a raster is row=0,col=0
- *		with row# increasing as you move down,
- *		and col# increasing as you move right.
- *		Metafont numbers rows with the baseline=0,
- *		so the top row is a positive number that
- *		decreases as you move down.
- *	      o	rastile() is no longer used.
- *		It was used by an earlier rasterize() algorithm,
- *		and I've left it in place should it be needed again.
- *		But recent changes haven't been tested/exercised.
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE raster *rastile ( subraster *tiles, int ntiles )
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-raster	/**new_raster(),*/ *composite=(raster *)NULL;/*raster back to caller*/
-int	width=0, height=0, pixsz=0, /*width,height,pixsz of composite raster*/
-	toprow=9999, rightcol=-999, /* extreme upper-right corner of tiles */
-	botrow=-999, leftcol=9999;  /* extreme lower-left corner of tiles */
-int	itile;			/* tiles[] index */
-/*int	rastput();*/		/* overlay each tile in composite raster */
-/* -------------------------------------------------------------------------
-run through tiles[] to determine dimensions for composite raster
--------------------------------------------------------------------------- */
-/* --- determine row and column bounds of composite raster --- */
-for ( itile=0; itile<ntiles; itile++ ) {
-  subraster *tile = &(tiles[itile]);		/* ptr to current tile */
-  /* --- upper-left corner of composite --- */
-  toprow = min2(toprow, tile->toprow);
-  leftcol = min2(leftcol, tile->leftcol);
-  /* --- lower-right corner of composite --- */
-  botrow = max2(botrow, tile->toprow + (tile->image)->height - 1);
-  rightcol = max2(rightcol, tile->leftcol + (tile->image)->width  - 1);
-  /* --- pixsz of composite --- */
-  pixsz = max2(pixsz,(tile->image)->pixsz);
-  } /* --- end-of-for(itile) --- */
-/* --- calculate width and height from bounds --- */
-width  = rightcol - leftcol + 1;
-height = botrow - toprow + 1;
-/* --- sanity check (quit if bad dimensions) --- */
-if ( width<1 || height<1 ) goto end_of_job;
-/* -------------------------------------------------------------------------
-allocate composite raster, and embed tiles[] within it
--------------------------------------------------------------------------- */
-/* --- allocate composite raster --- */
-if ( (composite=new_raster(width,height,pixsz))	/*allocate composite raster*/
-==   (raster *)NULL ) goto end_of_job;		/* and quit if failed */
-/* --- embed tiles[] in composite --- */
-for ( itile=0; itile<ntiles; itile++ )
-  { subraster *tile = &(tiles[itile]);		/* ptr to current tile */
-    rastput (composite, tile->image,		/* overlay tile image at...*/
-      tile->toprow-toprow, tile->leftcol-leftcol, 1); } /*upper-left corner*/
-/* -------------------------------------------------------------------------
-Back to caller with composite raster (or null for any error)
--------------------------------------------------------------------------- */
-end_of_job:
-  return ( composite );			/* back with composite or null ptr */
-} /* --- end-of-function rastile() --- */
-
-
-/* ==========================================================================
  * Function:	rastsmash ( sp1, sp2 )
  * Purpose:	When concatanating sp1||sp2, calculate #pixels
  *		we can "smash sp2 left"
@@ -3818,7 +3740,7 @@ FUNCSCOPE int xbitmap_raster ( raster *rp, FILE *fp )
 {
 /* -------------------------------------------------------------------------
 Allocations and Declarations
--------------------------------------------------------------------------- */
+--------------------------------------------------------------------------- */
 char	*title = "image";		/* dummy title */
 /*int	hex_bitmap();*/			/* dump bitmap as hex bytes */
 /* --------------------------------------------------------------------------
@@ -3832,7 +3754,7 @@ if ( isstring )				/* pixmap has string, not raster */
 /* --- emit prologue strings and hex dump of bitmap for mime xbitmap --- */
 fprintf( fp, "Content-type: image/x-xbitmap\n\n" );
 fprintf( fp, "#define %s_width %d\n#define %s_height %d\n",
-	title,rp->width, title,rp->height );
+    title,rp->width, title,rp->height );
 fprintf( fp, "static char %s_bits[] = {\n", title );
 hex_bitmap(rp,fp,0,0);			/* emit hex dump of bitmap bytes */
 fprintf (fp,"};\n");			/* ending with "};" for C array */
@@ -4103,51 +4025,6 @@ end_of_job:
   if ( pixels != NULL ) free((void *)pixels); /* raster's pixmap has image */
   return ( sp );			/*back to caller with pbm subraster*/
 } /* --- end-of-function read_pbm() --- */
-
-
-/* ==========================================================================
- * Function:	cstruct_chardef ( cp, fp, col1 )
- * Purpose:	Emit a C struct of cp on fp, starting in col1.
- * --------------------------------------------------------------------------
- * Arguments:	cp (I)		ptr to chardef struct for which
- *				a C struct is to be generated.
- *		fp (I)		File ptr to output device (defaults to
- *				stdout if passed as NULL).
- *		col1 (I)	int containing 0...65; output lines
- *				are preceded by col1 blanks.
- * --------------------------------------------------------------------------
- * Returns:	( int )		1 if completed successfully,
- *				or 0 otherwise (for any error).
- * --------------------------------------------------------------------------
- * Notes:
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE int cstruct_chardef ( chardef *cp, FILE *fp, int col1 )
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-char	field[64];		/* field within output line */
-/*int	cstruct_raster(),*/	/* emit a raster */
-/*	emit_string();*/	/* emit a string and comment */
-/* -------------------------------------------------------------------------
-emit   charnum, location, name  /  hirow, hicol,  lorow, locol
--------------------------------------------------------------------------- */
-/* --- charnum, location, name --- */
-sprintf(field,"{ %3d,%5d,\n", cp->charnum,cp->location);  /*char#,location*/
-emit_string ( fp, col1, field, "character number, location");
-/* --- toprow, topleftcol,   botrow, botleftcol  --- */
-sprintf(field,"  %3d,%2d,  %3d,%2d,\n",		/* format... */
-  cp->toprow,cp->topleftcol,			/* toprow, topleftcol, */
-  cp->botrow,cp->botleftcol);			/* and botrow, botleftcol */
-emit_string ( fp, col1, field, "topleft row,col, and botleft row,col");
-/* -------------------------------------------------------------------------
-emit raster and chardef's closing brace, and then return to caller
--------------------------------------------------------------------------- */
-cstruct_raster(&cp->image,fp,col1+4);		/* emit raster */
-emit_string ( fp, 0, "  }", NULL);		/* emit closing brace */
-return ( 1 );			/* back to caller with 1=okay, 0=failed */
-} /* --- end-of-function cstruct_chardef() --- */
 
 
 /* ==========================================================================
@@ -8768,43 +8645,6 @@ end_of_job:
   isdelimscript = isrightscript;	/* signal if right delim scripted */
   return ( sp );
 } /* --- end-of-function rastleft() --- */
-
-
-/* ==========================================================================
- * Function:	rastright ( expression, size, basesp, ildelim, arg2, arg3 )
- * Purpose:	...\right handler, intercepts an unexpected/unbalanced \right
- * --------------------------------------------------------------------------
- * Arguments:	expression (I)	char **  to first char of null-terminated
- *				string beginning with a \right
- *				to be rasterized
- *		size (I)	int containing 0-7 default font size
- *		basesp (I)	subraster *  to character (or subexpression)
- *				immediately preceding leading left{
- *				(unused, but passed for consistency)
- *		ildelim (I)	int containing rdelims[] index of
- *				right delimiter
- *		arg2 (I)	int unused
- *		arg3 (I)	int unused
- * --------------------------------------------------------------------------
- * Returns:	( subraster * )	ptr to subraster corresponding to subexpr,
- *				or NULL for any parsing error
- * --------------------------------------------------------------------------
- * Notes:     o
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE subraster *rastright(char **expression, int size, subraster *basesp,
-                               int ildelim, int arg2, int arg3)
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-subraster /* *rasterize(),*/ *sp=NULL;	/*rasterize \right subexpr's*/
-  if ( sp != NULL )			/* returning entire expression */
-    {
-      isreplaceleft = 1;		/* set flag to replace left half*/
-    }
-return ( sp );
-} /* --- end-of-function rastright() --- */
 
 
 /* ==========================================================================
@@ -16349,116 +16189,6 @@ end_of_job:
 
 
 /* ==========================================================================
- * Function:	aawtpixel ( image, ipixel, weights, rotate )
- * Purpose:	Applies matrix of weights to the pixels
- *		surrounding ipixel in image, rotated clockwise
- *		by rotate degrees (typically 0 or 30).
- * --------------------------------------------------------------------------
- * Arguments:	image (I)	raster * to bitmap (though it can be bytemap)
- *				containing image with pixels to be averaged.
- *		ipixel (I)	int containing index (irow*width+icol) of
- *				center pixel of image for weighted average.
- *		weights (I)	raster * to bytemap of relative weights
- *				(0-255), whose dimensions (usually odd width
- *				and odd height) determine the "subgrid" of
- *				image surrounding ipixel to be averaged.
- *		rotate (I)	int containing degrees clockwise rotation
- *				(typically 0 or 30), i.e., imagine weights
- *				rotated clockwise and then averaging the
- *				image pixels "underneath" it now.
- * --------------------------------------------------------------------------
- * Returns:	( int )		0-255 weighted average, or -1 for any error
- * --------------------------------------------------------------------------
- * Notes:     o	The rotation matrix used (when requested) is
- *		    / x' \     / cos(theta)  sin(theta)/a \  / x \
- *		    |    |  =  |                          |  |   |
- *                  \ y' /     \ -a*sin(theta) cos(theta) /  \ y /
- *		where a=1 (current default) is the pixel (not screen)
- *		aspect ratio width:height, and theta is rotate (converted
- *		from degrees to radians).  Then x=col,y=row are the integer
- *		pixel coords relative to the input center ipixel, and
- *		x',y' are rotated coords which aren't necessarily integer.
- *		The actual pixel used is the one nearest x',y'.
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE int aawtpixel(raster *image, int ipixel, raster *weights, int rotate)
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-int	aaimgval = 0,			/* weighted avg returned to caller */
-	totwts=0, sumwts=0;		/* total of all wts, sum wts used */
-int	pixsz = image->pixsz,		/* #bits per image pixel */
-	black1=1, black8=255,		/* black for 1-bit, 8-bit pixels */
-	black = (pixsz==1? black1:black8), /* black value for our image */
-    scalefactor = (black1+black8-black); /* only scale 1-bit images */
-/* --- grid dimensions and indexes --- */
-int	wtheight  = weights->height,	/* #rows in weight matrix */
-	wtwidth   = weights->width,	/* #cols in weight matrix */
-	imgheight =   image->height,	/* #rows in image */
-	imgwidth  =   image->width;	/* #cols in image */
-int	wtrow,  wtrow0 = wtheight/2,	/* center row index for weights */
-	wtcol,  wtcol0 = wtwidth/2,	/* center col index for weights */
-	imgrow, imgrow0= ipixel/imgwidth, /* center row index for ipixel */
-	imgcol, imgcol0= ipixel-(imgrow0*imgwidth); /*center col for ipixel*/
-/* --- rotated grid variables --- */
-static	int prevrotate = 0;		/* rotate from previous call */
-static	double costheta = 1.0,		/* cosine for previous rotate */
-	sintheta = 0.0;			/* and sine for previous rotate */
-double	a = 1.0;			/* default aspect ratio */
-/* -------------------------------------------------------------------------
-Initialization
--------------------------------------------------------------------------- */
-/* --- refresh trig functions for rotate when it changes --- */
-if ( rotate != prevrotate )		/* need new sine/cosine */
-  { costheta = cos(((double)rotate)/57.29578);	/*cos of rotate in radians*/
-    sintheta = sin(((double)rotate)/57.29578);	/*sin of rotate in radians*/
-    prevrotate = rotate; }		/* save current rotate as prev */
-/* -------------------------------------------------------------------------
-Calculate aapixel as weighted average over image points around ipixel
--------------------------------------------------------------------------- */
-for ( wtrow=0; wtrow<wtheight; wtrow++ )
- for ( wtcol=0; wtcol<wtwidth; wtcol++ )
-  {
-  /* --- allocations and declarations --- */
-  int	wt = (int)getpixel(weights,wtrow,wtcol); /* weight for irow,icol */
-  int	drow = wtrow - wtrow0,		/* delta row offset from center */
-	dcol = wtcol - wtcol0;		/* delta col offset from center */
-  /* --- initialization --- */
-  totwts += wt;				/* sum all weights */
-  /* --- rotate (if requested) --- */
-  if ( rotate != 0 )			/* non-zero rotation */
-    {
-    /* --- apply rotation matrix to (x=dcol,y=drow) --- */
-    double dx=(double)dcol, dy=(double)drow, dtemp; /* need floats */
-    dtemp = dx*costheta + dy*sintheta/a; /* save new dx' */
-    dy = -a*dx*sintheta + dy*costheta;	/* dy becomes new dy' */
-    dx = dtemp;				/* just for notational convenience */
-    /* --- replace original (drow,dcol) with nearest rotated point --- */
-    drow = (int)(dy+0.5);		/* round dy for nearest row */
-    dcol = (int)(dx+0.5);		/* round dx for nearest col */
-    } /* --- end-of-if(rotate!=0) --- */
-  /* --- select image pixel to be weighted --- */
-  imgrow = imgrow0 + drow;		/*apply displacement to center row*/
-  imgcol = imgcol0 + dcol;		/*apply displacement to center col*/
-  /* --- if pixel in bounds, accumulate weighted average --- */
-  if ( imgrow>=0 && imgrow<imgheight )	/* row is in bounds */
-   if ( imgcol>=0 && imgcol<imgwidth )	/* and col is in bounds */
-    {
-    /* --- accumulate weighted average --- */
-    int imgval = (int)getpixel(image,imgrow,imgcol); /* image value */
-    aaimgval += wt*imgval;		/* weighted sum of image values */
-    sumwts += wt;			/* and also sum weights used */
-    } /* --- end-of-if(bounds checks ok) --- */
-  } /* --- end-of-for(irow,icol) --- */
-  aaimgval =				/* 0=white ... black */
-      ((totwts/2 - 1) + scalefactor*aaimgval)/totwts; /* not /sumwts; */
-/*end_of_job:*/
-return ( aaimgval );
-} /* --- end-of-function aawtpixel() --- */
-
-
-/* ==========================================================================
  * Function:	mimetexgetbytemap ( expression, width, height )
  * Purpose:	obtain pixel/bytemap image corresponding to expression
  *		by calling rasterize().
@@ -16777,7 +16507,6 @@ subraster /**rasterize(),*/ *sp=NULL;	/* rasterize expression */
 raster	/**border_raster(),*/ *bp=NULL;	/* put a border around raster */
 /*int	delete_subraster();*/		/* for clean-up at end-of-job */
 /*int	type_raster(), type_bytemap(),*/ /* screen dump function prototypes */
-/*	xbitmap_raster();*/		/* mime xbitmap output function */
 /* --- http_referer --- */
 char	*referer = REFERER;		/* http_referer must contain this */
 char	*inputreferer = INPUTREFERER;	/*http_referer's permitted to \input*/

@@ -528,7 +528,6 @@ FUNCSCOPE subraster *rastcompose ( subraster *sp1, subraster *sp2,
 FUNCSCOPE subraster *rastcat ( subraster *sp1, subraster *sp2, int isfree );
 FUNCSCOPE subraster *rastack ( subraster *sp1, subraster *sp2, int base,
                                int space, int iscenter, int isfree );
-FUNCSCOPE raster    *rastile ( subraster *tiles, int ntiles );
 FUNCSCOPE int       rastsmash ( subraster *sp1, subraster *sp2 );
 FUNCSCOPE int       rastsmashcheck ( char *term );
 FUNCSCOPE subraster *accent_subraster ( int accent, int width, int height,
@@ -559,7 +558,6 @@ FUNCSCOPE int       type_bytemap ( intbyte *bp, int grayscale,
 FUNCSCOPE int       xbitmap_raster ( raster *rp, FILE *fp );
 FUNCSCOPE int       type_pbmpgm ( raster *rp, int ptype, char *file );
 FUNCSCOPE subraster *read_pbm ( FILE *fp, double sf );
-FUNCSCOPE int       cstruct_chardef ( chardef *cp, FILE *fp, int col1 );
 FUNCSCOPE int       cstruct_raster ( raster *rp, FILE *fp, int col1 );
 FUNCSCOPE int       hex_bitmap ( raster *rp, FILE *fp, int col1, int isstr );
 FUNCSCOPE int       emit_string ( FILE *fp, int col1, char *string,
@@ -613,8 +611,6 @@ FUNCSCOPE subraster *rastdispmath (char **expression, int size, subraster *sp);
  * ---------------------------------------- */
 FUNCSCOPE subraster *rastleft ( char **expression, int size, subraster *basesp,
                                 int ildelim, int arg2, int arg3 );
-FUNCSCOPE subraster *rastright(char **expression, int size, subraster *basesp,
-                               int ildelim, int arg2, int arg3);
 FUNCSCOPE subraster *rastmiddle(char **expression, int size, subraster *basesp,
                                 int arg1, int arg2, int arg3);
 FUNCSCOPE subraster *rastflags(char **expression, int size, subraster *basesp,
@@ -730,8 +726,6 @@ FUNCSCOPE int       ssweights(int width, int height, int maxwt, raster **wts);
 FUNCSCOPE int       aacolormap ( intbyte *bytemap, int nbytes,
                                          intbyte *colors, intbyte *colormap );
 FUNCSCOPE raster    *aaweights ( int width, int height );
-FUNCSCOPE int       aawtpixel(raster *image, int ipixel, raster *weights,
-                                                                  int rotate);
 FUNCSHARED int      mimetexsetmsg ( int newmsglevel, FILE *newmsgfp );
 FUNCSHARED unsigned char *mimetexgetbytemap ( char *expression,
                                                     int *width, int *height );
