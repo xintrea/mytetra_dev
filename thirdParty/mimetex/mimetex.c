@@ -16464,8 +16464,7 @@ int	aaimgval = 0,			/* weighted avg returned to caller */
 int	pixsz = image->pixsz,		/* #bits per image pixel */
 	black1=1, black8=255,		/* black for 1-bit, 8-bit pixels */
 	black = (pixsz==1? black1:black8), /* black value for our image */
-	scalefactor = (black1+black8-black), /* only scale 1-bit images */
-	iscenter = 0;			/* set true if center pixel black */
+    scalefactor = (black1+black8-black); /* only scale 1-bit images */
 /* --- grid dimensions and indexes --- */
 int	wtheight  = weights->height,	/* #rows in weight matrix */
 	wtwidth   = weights->width,	/* #cols in weight matrix */
@@ -16498,7 +16497,6 @@ for ( wtrow=0; wtrow<wtheight; wtrow++ )
   int	wt = (int)getpixel(weights,wtrow,wtcol); /* weight for irow,icol */
   int	drow = wtrow - wtrow0,		/* delta row offset from center */
 	dcol = wtcol - wtcol0;		/* delta col offset from center */
-  int	iscenter = 0;			/* set true if center point black */
   /* --- initialization --- */
   totwts += wt;				/* sum all weights */
   /* --- rotate (if requested) --- */
@@ -16524,15 +16522,8 @@ for ( wtrow=0; wtrow<wtheight; wtrow++ )
     int imgval = (int)getpixel(image,imgrow,imgcol); /* image value */
     aaimgval += wt*imgval;		/* weighted sum of image values */
     sumwts += wt;			/* and also sum weights used */
-    /* --- check if center image pixel black --- */
-    if ( drow==0 && dcol==0 )		/* this is center ipixel */
-      if ( imgval==black )		/* and it's black */
-	iscenter = 1;			/* so set black center flag true */
     } /* --- end-of-if(bounds checks ok) --- */
   } /* --- end-of-for(irow,icol) --- */
-if ( 0 && iscenter )			/* center point is black */
-  aaimgval = black8;			/* so force average black */
-else					/* center point not black */
   aaimgval =				/* 0=white ... black */
       ((totwts/2 - 1) + scalefactor*aaimgval)/totwts; /* not /sumwts; */
 /*end_of_job:*/
