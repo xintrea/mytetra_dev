@@ -101,7 +101,6 @@
  *		xbitmap_raster(rp,fp)           emit mime xbitmap of rp on fp
  *		type_pbmpgm(rp,ptype,file)     pbm or pgm image of rp to file
  *		read_pbm(fp,sf)     read pbm from file (or pipe) opened on fp
- *		cstruct_raster(rp,fp,col1)          emit C struct of rp on fp
  *		hex_bitmap(rp,fp,col1,isstr)emit hex dump of rp->pixmap on fp
  *		--- ancillary output functions ---
  *		emit_string(fp,col1,string,comment) emit string and C comment
@@ -4025,47 +4024,6 @@ end_of_job:
   if ( pixels != NULL ) free((void *)pixels); /* raster's pixmap has image */
   return ( sp );			/*back to caller with pbm subraster*/
 } /* --- end-of-function read_pbm() --- */
-
-
-/* ==========================================================================
- * Function:	cstruct_raster ( rp, fp, col1 )
- * Purpose:	Emit a C struct of rp on fp, starting in col1.
- * --------------------------------------------------------------------------
- * Arguments:	rp (I)		ptr to raster struct for which
- *				a C struct is to be generated.
- *		fp (I)		File ptr to output device (defaults to
- *				stdout if passed as NULL).
- *		col1 (I)	int containing 0...65; output lines
- *				are preceded by col1 blanks.
- * --------------------------------------------------------------------------
- * Returns:	( int )		1 if completed successfully,
- *				or 0 otherwise (for any error).
- * --------------------------------------------------------------------------
- * Notes:
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE int cstruct_raster ( raster *rp, FILE *fp, int col1 )
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-char	field[64];		/* field within output line */
-char	typecast[64] = "(pixbyte *)"; /* type cast for pixmap string */
-/*int	hex_bitmap();*/		/* to emit raster bitmap */
-/*int	emit_string();*/	/* emit a string and comment */
-/* -------------------------------------------------------------------------
-emit width and height
--------------------------------------------------------------------------- */
-sprintf(field,"{ %2d,  %3d,%2d,%2d, %s\n", /* format width,height,pixsz */
-	rp->width,rp->height,rp->format,rp->pixsz,typecast);
-emit_string ( fp, col1, field, "width,ht, fmt,pixsz,map...");
-/* -------------------------------------------------------------------------
-emit bitmap and closing brace, and return to caller
--------------------------------------------------------------------------- */
-hex_bitmap(rp,fp,col1+2,1);	/* emit bitmap */
-emit_string ( fp, 0, " }", NULL); /* emit closing brace */
-return ( 1 );			/* back to caller with 1=okay, 0=failed */
-} /* --- end-of-function cstruct_raster() --- */
 
 
 /* ==========================================================================
