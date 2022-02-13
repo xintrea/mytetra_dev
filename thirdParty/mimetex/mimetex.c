@@ -16838,7 +16838,6 @@ char	*query = getenv("QUERY_STRING"); /* getenv("QUERY_STRING") result */
 /*int	unescape_url();*/		/* convert %xx's to ascii chars */
 /*int	emitcache();*/			/* emit cached image if it exists */
 int	/*isquery = 0, (now global)*/	/* true if input from QUERY_STRING */
-	isqempty = 0,			/* true if query string empty */
 	isqforce = 0,			/* true to force query emulation */
 	isqlogging = 0,			/* true if logging in query mode */
 	isformdata = 0,			/* true if input from html form */
@@ -16967,13 +16966,11 @@ if ( !isquery ) {			/* empty query string */
     strcpy(expression,			/* and give user an error message */
     "\\red\\small\\rm\\fbox{\\begin{gather}\\LaTeX~expression~not~supplied"
     "\\\\i.e.,~no~?query\\_string~given~to~mimetex.cgi\\end{gather}}"); }
-  isqempty = 1;				/* signal empty query string */
   } /* --- end-of-if(!isquery) --- */
 /* ---
  * process command-line input args (if not a query)
  * ------------------------------------------------ */
-if ( !isquery				/* don't have an html query string */
-||   ( /*isqempty &&*/ argc>1) )	/* or have command-line args */
+if ( !isquery || argc>1 )
  {
  char	*argsignal = ARGSIGNAL,		/* signals start of mimeTeX args */
 	stopsignal[32] = "--";		/* default Unix end-of-args signal */
