@@ -205,16 +205,18 @@ raster
 	((rp)->pixsz==1? getlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))) :\
 	 ((rp)->pixsz==8? ((rp)->pixmap)[PIXDEX(rp,(irow),(icol))] : (-1)) )
 /* --- set value of pixel, either one bit or one byte, at (irow,icol) --- */
-#define	setpixel(rp,irow,icol,value)	/*set bit or byte based on pixsz*/  \
-	if ( (rp)->pixsz == 1 )		/*set pixel to 1 or 0 for bitmap*/  \
-	 if ( (value) != 0 )		/* turn bit pixel on */             \
-	  { setlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))); }            \
-	 else				/* or turn bit pixel 0ff */         \
-	  { unsetlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))); }	    \
-	else				/* set 8-bit bytemap pixel value */ \
-	  if ( (rp)->pixsz == 8 )	/* check pixsz=8 for bytemap */	    \
-	     ((rp)->pixmap)[PIXDEX(rp,(irow),(icol))]=(pixbyte)(value);     \
-	  else				/* let user supply final ; */
+
+/*set bit or byte based on pixsz*/
+static inline void setpixel(raster * rp, int irow, int icol, int value) {
+    if ( rp->pixsz == 1 ) {		/*set pixel to 1 or 0 for bitmap*/
+        if ( value != 0 )		/* turn bit pixel on */
+          { setlongbit(rp->pixmap,PIXDEX(rp,irow,icol)); }
+        else				/* or turn bit pixel 0ff */
+            { unsetlongbit(rp->pixmap,PIXDEX(rp,irow,icol)); }
+     } else				/* set 8-bit bytemap pixel value */
+      if ( rp->pixsz == 8 )	/* check pixsz=8 for bytemap */
+         (rp->pixmap)[PIXDEX(rp,irow,icol)]=(pixbyte)value;
+}
 
 /* --------------------------------------------------------------------------
 some char classes tokenizer needs to recognize, and macros to check for them
