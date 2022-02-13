@@ -1,8 +1,8 @@
-#include "main.h"
 #include "CryptService.h"
 #include "RC5Simple.h"
 #include "Password.h"
 
+#include <QApplication>
 #include <QFile>
 
 #include "libraries/helpers/DebugHelper.h"

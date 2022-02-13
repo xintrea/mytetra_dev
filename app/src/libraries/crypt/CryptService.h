@@ -1,8 +1,8 @@
 #ifndef __CRYPTSERVICE_H__
 #define __CRYPTSERVICE_H__
 
-#include <stdio.h>
 
+#include <vector>
 #include <QString>
 #include <QByteArray>
 
@@ -17,8 +17,8 @@ public:
   CryptService();
   virtual ~CryptService();
 
-  static void convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec);
-  static void convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba);
+  static void convertByteArrayToVector(const QByteArray &qba, std::vector<unsigned char> &vec);
+  static void convertVectorToByteArray(const std::vector<unsigned char> &vec, QByteArray &qba);
 
   static QString encryptString(QByteArray key, QString line);
   static QString decryptString(QByteArray key, QString line);

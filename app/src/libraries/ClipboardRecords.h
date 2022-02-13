@@ -7,8 +7,8 @@
 #include <QList>
 
 // class Record;
-#include "models/recordTable/Record.h"
-#include "models/attachTable/AttachTableData.h"
+#include "../models/recordTable/Record.h"
+#include "../models/attachTable/AttachTableData.h"
  
 // Определяется структура данных набора записей
 // которая будет передаваться через буфер обмена
