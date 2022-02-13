@@ -511,10 +511,8 @@ typedef struct
  * ----------------------------------------------------------------- */
 FUNCSCOPE raster    *new_raster ( int width, int height, int pixsz );
 FUNCSCOPE subraster *new_subraster ( int width, int height, int pixsz );
-FUNCSCOPE chardef   *new_chardef (  );
 FUNCSCOPE int       delete_raster ( raster *rp );
 FUNCSCOPE int       delete_subraster ( subraster *sp );
-FUNCSCOPE int       delete_chardef ( chardef *cp );
 FUNCSCOPE raster    *rastcpy ( raster *rp );
 FUNCSCOPE subraster *subrastcpy ( subraster *sp );
 FUNCSCOPE raster    *rastrot ( raster *rp );

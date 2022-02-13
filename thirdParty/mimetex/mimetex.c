@@ -67,10 +67,8 @@
  *	PART2	--- raster constructor functions ---
  *		new_raster(width,height,pixsz)   allocation (and constructor)
  *		new_subraster(width,height,pixsz)allocation (and constructor)
- *		new_chardef()                         allocate chardef struct
  *		delete_raster(rp)        deallocate raster (rp =  raster ptr)
  *		delete_subraster(sp)  deallocate subraster (sp=subraster ptr)
- *		delete_chardef(cp)      deallocate chardef (cp = chardef ptr)
  *		--- primitive (sub)raster functions ---
  *		rastcpy(rp)                           allocate new copy of rp
  *		subrastcpy(sp)                        allocate new copy of sp
@@ -1249,47 +1247,6 @@ end_of_job:
   return ( sp );
 } /* --- end-of-function new_subraster() --- */
 
-
-/* ==========================================================================
- * Function:	new_chardef (  )
- * Purpose:	Allocates and initializes a chardef struct,
- *		but _not_ the embedded raster struct.
- * --------------------------------------------------------------------------
- * Arguments:	none
- * --------------------------------------------------------------------------
- * Returns:	( chardef * )	ptr to allocated and initialized
- *				chardef struct, or NULL for any error.
- * --------------------------------------------------------------------------
- * Notes:
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE chardef *new_chardef (  )
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-chardef	*cp = (chardef *)NULL;		/* chardef ptr returned to caller */
-/* -------------------------------------------------------------------------
-allocate and initialize chardef struct
--------------------------------------------------------------------------- */
-cp = (chardef *)malloc(sizeof(chardef)); /* malloc chardef struct */
-if ( cp == (chardef *)NULL )		/* malloc failed */
-  goto end_of_job;			/* return error to caller */
-cp->charnum = cp->location = 0;		/* init character description */
-cp->toprow = cp->topleftcol = 0;	/* init upper-left corner */
-cp->botrow = cp->botleftcol = 0;	/* init lower-left corner */
-cp->image.width = cp->image.height = 0;	/* init raster dimensions */
-cp->image.format = 0;			/* init raster format */
-cp->image.pixsz = 0;			/* and #bits per pixel */
-cp->image.pixmap = NULL;		/* init raster pixmap as null */
-/* -------------------------------------------------------------------------
-Back to caller with address of chardef struct, or NULL ptr for any error.
--------------------------------------------------------------------------- */
-end_of_job:
-  return ( cp );
-} /* --- end-of-function new_chardef() --- */
-
-
 /* ==========================================================================
  * Function:	delete_raster ( rp )
  * Purpose:	Destructor for raster.
@@ -1345,36 +1302,6 @@ if ( sp != (subraster *)NULL )		/* can't free null ptr */
   } /* --- end-of-if(sp!=NULL) --- */
 return ( 1 );				/* back to caller, 1=okay 0=failed */
 } /* --- end-of-function delete_subraster() --- */
-
-
-/* ==========================================================================
- * Function:	delete_chardef ( cp )
- * Purpose:	Deallocates a chardef (and bitmap of embedded raster)
- * --------------------------------------------------------------------------
- * Arguments:	cp (I)		ptr to chardef struct to be deleted.
- * --------------------------------------------------------------------------
- * Returns:	( int )		1 if completed successfully,
- *				or 0 otherwise (for any error).
- * --------------------------------------------------------------------------
- * Notes:
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE int delete_chardef ( chardef *cp )
-{
-/* -------------------------------------------------------------------------
-free chardef struct
--------------------------------------------------------------------------- */
-if ( cp != (chardef *)NULL )		/* can't free null ptr */
-  {
-  if ( cp->image.pixmap != NULL )	/* pixmap allocated within raster */
-    free((void *)cp->image.pixmap);	/* so free embedded pixmap */
-  free((void *)cp);			/* and free chardef struct itself */
-  } /* --- end-of-if(cp!=NULL) --- */
-/* -------------------------------------------------------------------------
-Back to caller with 1=okay, 0=failed.
--------------------------------------------------------------------------- */
-return ( 1 );
-} /* --- end-of-function delete_chardef() --- */
 
 
 /* ==========================================================================
