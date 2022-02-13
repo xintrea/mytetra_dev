@@ -103,7 +103,6 @@
  *		read_pbm(fp,sf)     read pbm from file (or pipe) opened on fp
  *		hex_bitmap(rp,fp,col1,isstr)emit hex dump of rp->pixmap on fp
  *		--- ancillary output functions ---
- *		emit_string(fp,col1,string,comment) emit string and C comment
  *		gftobitmap(rp)        convert .gf-like pixmap to bitmap image
  *		====================== Font Functions =======================
  *		--- font lookup functions ---
@@ -4091,72 +4090,6 @@ for ( ibyte=0; ibyte<nbytes; ibyte++ )	/* one byte at a time */
 if ( isstr ) fprintf(fp,"\"");		/* closing " after last line */
 return ( 1 );				/* back with 1=okay, 0=failed */
 } /* --- end-of-function hex_bitmap() --- */
-
-
-/* ==========================================================================
- * Function:	emit_string ( fp, col1, string, comment )
- * Purpose:	Emit string on fp, starting in col1,
- *		and followed by right-justified comment.
- * --------------------------------------------------------------------------
- * Arguments:	fp (I)		File ptr to output device (defaults to
- *				stdout if passed as NULL).
- *		col1 (I)	int containing 0 or #blanks preceding string
- *		string (I)	char *  containing string to be emitted.
- *				If last char of string is '\n',
- *				the emitted line ends with a newline,
- *				otherwise not.
- *		comment (I)	NULL or char * containing right-justified
- *				comment (we enclose between /star and star/)
- * --------------------------------------------------------------------------
- * Returns:	( int )		1 if completed successfully,
- *				or 0 otherwise (for any error).
- * --------------------------------------------------------------------------
- * Notes:     o
- * ======================================================================= */
-/* --- entry point --- */
-FUNCSCOPE int emit_string ( FILE *fp, int col1, char *string, char *comment )
-{
-/* -------------------------------------------------------------------------
-Allocations and Declarations
--------------------------------------------------------------------------- */
-char	line[256];		/* construct line with caller's fields */
-int	fieldlen;		/* #chars in one of caller's fields */
-int	linelen = 72;		/*line length (for right-justified comment)*/
-int	isnewline = 0;		/* true to emit \n at end of line */
-/* --------------------------------------------------------------------------
-construct line containing prolog, string, epilog, and finally comment
--------------------------------------------------------------------------- */
-/* --- init line --- */
-memset(line,' ',255);			/* start line with blanks */
-/* --- embed string into line --- */
-if ( string != NULL )			/* if caller gave us a string... */
-  { fieldlen = strlen(string);		/* #cols required for string */
-    if ( string[fieldlen-1] == '\n' )	/* check last char for newline */
-      {	isnewline = 1;			/* got it, so set flag */
-	fieldlen--; }			/* but don't print it yet */
-    memcpy(line+col1,string,fieldlen);	/* embid string starting at col1 */
-    col1 += fieldlen; }			/* bump col past epilog */
-/* --- embed comment into line --- */
-if ( comment != NULL )			/* if caller gave us a comment... */
-  { fieldlen = 6 + strlen(comment);	/* plus  /star, star/, 2 spaces */
-    if ( linelen-fieldlen < col1 )	/* comment won't fit */
-      fieldlen -= (col1 - (linelen-fieldlen)); /* truncate comment to fit */
-    if ( fieldlen > 6 )			/* can fit all or part of comment */
-      sprintf(line+linelen-fieldlen,"/%c %.*s %c/", /* so embed it in line */
-	'*', fieldlen-6,comment, '*');
-    col1 = linelen; }			/* indicate line filled */
-/* --- line completed --- */
-line[col1] = '\000';			/* null-terminate completed line */
-/* -------------------------------------------------------------------------
-emit line, then back to caller with 1=okay, 0=failed.
--------------------------------------------------------------------------- */
-/* --- first redirect null fp --- */
-if ( fp == (FILE *)NULL ) fp = stdout;	/* default fp to stdout if null */
-/* --- emit line (and optional newline) --- */
-fprintf(fp,"%.*s",linelen,line);	/* no more than linelen chars */
-if ( isnewline ) fprintf(fp,"\n");	/*caller wants terminating newline*/
-return ( 1 );
-} /* --- end-of-function emit_string() --- */
 
 
 /* ==========================================================================

@@ -559,8 +559,6 @@ FUNCSCOPE int       xbitmap_raster ( raster *rp, FILE *fp );
 FUNCSCOPE int       type_pbmpgm ( raster *rp, int ptype, char *file );
 FUNCSCOPE subraster *read_pbm ( FILE *fp, double sf );
 FUNCSCOPE int       hex_bitmap ( raster *rp, FILE *fp, int col1, int isstr );
-FUNCSCOPE int       emit_string ( FILE *fp, int col1, char *string,
-                                  char *comment );
 FUNCSCOPE raster    *gftobitmap ( raster *gf );
 FUNCSCOPE mathchardef *get_symdef ( char *symbol );
 FUNCSCOPE int       get_ligature ( char *expression, int family );
