@@ -8800,7 +8800,7 @@ switch ( flag )
 	else				/* embed font size in expression */
 	  { sprintf(valuearg,"%d",fontsize); /* convert size */
 	    valuelen = strlen(valuearg); /* ought to be 1 */
-	    if ( *expression != '\000' ) /* ill-formed expression */
+        if ( **expression != '\000' ) /* ill-formed expression */
 	     { *expression = (char *)(*expression-valuelen); /*back up buff*/
 	       memcpy(*expression,valuearg,valuelen); } } /*and put in size*/
 	break;
@@ -12063,7 +12063,7 @@ Allocations and Declarations
 -------------------------------------------------------------------------- */
 char	/**texsubexpr(),*/ subexpr[MAXSUBXSZ+1], narg[512], /* args */
 	composexpr[MAXSUBXSZ+2048],	/* compose subexpr[] with ellipse(s)*/
-	ovalexpr[2048];			/* nested \compose{}{}'s */
+    ovalexpr[2048 + 24];			/* nested \compose{}{}'s */
 subraster /**rasterize(),*/ *framesp=NULL; /*rasterize subexpr to be oval'ed*/
 /*int	delete_subraster();*/		/* just need width,height */
 int	fwidth = 3+size/999;		/* extra frame width */
@@ -12131,7 +12131,7 @@ construct nested \compose{\compose{\circle(,)}{\circle(,)}}{\circle(,)}
 -------------------------------------------------------------------------- */
 *ovalexpr = '\000';			/* init as empty string */
 for ( ioval=0; ioval<novals; ioval++ ) { /* nest each oval */
-  char thisoval[2048],			/* oval to be nested with ovalexpr */
+  char thisoval[11 + 2 * 11 /*max length of int string representation*/],			/* oval to be nested with ovalexpr */
        ovalbuff[2048];			/* temp ovalexpr buffer */
   int thiswidth  =  width + (ioval*wdelta), /*  width for this oval */
       thisheight = height + (ioval*hdelta); /* height for this oval */
@@ -12141,7 +12141,7 @@ for ( ioval=0; ioval<novals; ioval++ ) { /* nest each oval */
   if ( ioval == 0 ) {			/* initial oval */
     strcpy(ovalexpr,thisoval); }	/* just copy \circle(,) directive */
   else {				/* nest with \compose{}{}'s */
-    sprintf(ovalexpr,"\\compose{%s}{%s}",ovalbuff,thisoval); }
+    sprintf(ovalexpr,"\\compose{%.1024s}{%s}",ovalbuff,thisoval); }
   } /* --- end-of-for(ioval) --- */
 /* -------------------------------------------------------------------------
 compose with circumscribed ellipse(s), reset params, and return it to caller
