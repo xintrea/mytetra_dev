@@ -555,10 +555,12 @@ FUNCSCOPE raster    *backspace_raster ( raster *rp, int nback, int *pback,
 FUNCSCOPE int       type_raster ( raster *rp, FILE *fp );
 FUNCSCOPE int       type_bytemap ( intbyte *bp, int grayscale,
                                    int width, int height, FILE *fp );
+#if !defined (GIF)
 FUNCSCOPE int       xbitmap_raster ( raster *rp, FILE *fp );
+FUNCSCOPE int       hex_bitmap ( raster *rp, FILE *fp, int col1, int isstr );
+#endif
 FUNCSCOPE int       type_pbmpgm ( raster *rp, int ptype, char *file );
 FUNCSCOPE subraster *read_pbm ( FILE *fp, double sf );
-FUNCSCOPE int       hex_bitmap ( raster *rp, FILE *fp, int col1, int isstr );
 FUNCSCOPE raster    *gftobitmap ( raster *gf );
 FUNCSCOPE mathchardef *get_symdef ( char *symbol );
 FUNCSCOPE int       get_ligature ( char *expression, int family );

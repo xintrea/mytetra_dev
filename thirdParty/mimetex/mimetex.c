@@ -3719,6 +3719,7 @@ end_of_job: return ( 1 );
 } /* --- end-of-function type_bytemap() --- */
 
 
+#if !defined(GIF)
 /* ==========================================================================
  * Function:	xbitmap_raster ( rp, fp )
  * Purpose:	Emit a mime xbitmap representing rp, on fp.
@@ -3761,6 +3762,7 @@ Back to caller with 1=okay, 0=failed.
 -------------------------------------------------------------------------- */
 return ( 1 );
 } /* --- end-of-function xbitmap_raster() --- */
+#endif /*GIF*/
 
 
 /* ==========================================================================
@@ -4025,6 +4027,7 @@ end_of_job:
 } /* --- end-of-function read_pbm() --- */
 
 
+#if !defined (GIF)
 /* ==========================================================================
  * Function:	hex_bitmap ( rp, fp, col1, isstr )
  * Purpose:	Emit a hex dump of the bitmap of rp on fp, starting in col1.
@@ -4090,6 +4093,7 @@ for ( ibyte=0; ibyte<nbytes; ibyte++ )	/* one byte at a time */
 if ( isstr ) fprintf(fp,"\"");		/* closing " after last line */
 return ( 1 );				/* back with 1=okay, 0=failed */
 } /* --- end-of-function hex_bitmap() --- */
+#endif /*GIF*/
 
 
 /* ==========================================================================
@@ -17300,7 +17304,7 @@ if (  (isquery     && !ispbmpgm)	/* called from browser (usual) */
  emit mime XBITMAP image
  ------------------------------------------------------------------------- */
   xbitmap_raster(bp,stdout);		/* default emits mime xbitmap */
- #endif
+ #endif /*GIF*/
  } /* --- end-of-if(isquery) --- */
 /* --- exit --- */
 end_of_job:
