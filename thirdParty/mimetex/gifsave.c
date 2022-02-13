@@ -74,8 +74,8 @@ static int isCloseOutFile = 0;	/* " */
 #if !defined(MAXGIFSZ)		/* " */
   #define MAXGIFSZ 131072	/* " max #bytes comprising gif image */
 #endif				/* " */
-int gifSize = 0;		/* " #bytes comprising gif */
-int maxgifSize = MAXGIFSZ;	/* " max #bytes written to OutBuffer */
+unsigned gifSize = 0;		/* " #bytes comprising gif */
+unsigned maxgifSize = MAXGIFSZ;	/* " max #bytes written to OutBuffer */
 extern int  iscachecontenttype;	/* " true to cache mime content-type */
 extern char contenttype[2048];	/* " content-type:, etc. buffer */
 
@@ -626,8 +626,9 @@ LZW_Compress(int codesize, int (*inputbyte)(void))
 {
     register int c;
     register Word index;
-    int  clearcode, endofinfo, numbits, limit, errcode;
+    int  clearcode, endofinfo, numbits, errcode;
     Word prefix = 0xFFFF;
+    unsigned limit;
 
     /* set up the given outfile */
     InitBitFile();

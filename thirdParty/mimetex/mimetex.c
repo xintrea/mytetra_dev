@@ -13301,7 +13301,7 @@ if ( nargs != NOVALUE			/* not unspecified */
     *expression = texsubexpr(*expression,subexpr,0,"{","}",0,0); /*flush arg*/
 /* --- return null ptr to caller --- */
 /*end_of_job:*/
-  return ( noopsp );			/* return NULL ptr to caller */
+return ( noopsp );			/* return NULL ptr to caller */
 } /* --- end-of-function rastnoop() --- */
 
 
@@ -14498,7 +14498,7 @@ for ( irow=0; irow<rp->height; irow++ )
 	iscenter = 0,			/* set true if center pixel black */
 	nadjacent=0, wadjacent=0,	/* #adjacent black pixels, their wts*/
 	ngaps = 0,			/* #gaps in 8 pixels around center */
-	iwt=(-1), sumwts=0;		/* weights index, sum in-bound wts */
+    iwt=(-1);		/* weights index */
   char	adjmatrix[8];			/* adjacency "matrix" */
   memset(adjmatrix,0,8);		/* zero out adjacency matrix */
   bytemap[ipixel] = 0;			/* init pixel white */
@@ -14519,7 +14519,6 @@ for ( irow=0; irow<rp->height; irow++ )
 	  { nadjacent++;		/* bump adjacent black count */
 	    adjmatrix[adjindex[iwt]] = 1; } /*set "bit" in adjacency matrix*/
 	wadjacent += weights[iwt]; }	/* sum weights for black pixels */
-    sumwts += weights[iwt];		/* and sum weights for all pixels */
     } /* --- end-of-for(jrow,jcol) --- */
   /* --- count gaps --- */
   ngaps = (adjmatrix[7]!=adjmatrix[0]?1:0); /* init count */
@@ -17781,7 +17780,6 @@ end_of_job:
   if ( !isss )				/*bytemap raster in sp for supersamp*/
    if ( bytemap_raster != NULL ) free(bytemap_raster);/*free bytemap_raster*/
   if (colormap_raster != NULL )free(colormap_raster); /*and colormap_raster*/
-  if ( 0 && gif_buffer != NULL ) free(gif_buffer); /* free malloced buffer */
   if ( 1 && sp != NULL ) delete_subraster(sp);	/* and free expression */
   if ( msgfp != NULL			/* have message/log file open */
   &&   msgfp != stdout )		/* and it's not stdout */
