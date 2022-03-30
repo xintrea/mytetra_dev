@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ${CMAKE_FLAGS_WARN}")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations -Wno-error=uninitialized -Wno-error=dangling-else")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations -Wno-error=uninitialized")
 
 find_package(Qt5 COMPONENTS Core Network PrintSupport Widgets Xml REQUIRED)
 set(QT_LIBS Qt5::Core Qt5::Network Qt5::PrintSupport Qt5::Widgets Qt5::Xml)
