@@ -22,37 +22,6 @@ extern AppConfig mytetraConfig;
 using namespace std;
 
 
-void logPrint(char *lpszText, ...)
-{
-  va_list argList;
-  FILE *pFile;
-
-  // открываем лог-файл для добавления данных
-  if((pFile = fopen("mytetralog.txt", "a+")) == nullptr)
-  {
-    printf("\nLog file not writable\n");
-    return;
-  }
-
-  // инициализируем список аргументов
-  va_start(argList, lpszText);
-
-  // пишем текст в файл
-  vfprintf(pFile, lpszText, argList);
-  // putc('\n', pFile);
-
-  // пишем текст на экран
-  vprintf(lpszText, argList);
-
-  // закрываем файл
-  fclose(pFile);
-  va_end(argList);
-
-  // успешное завершение
-  return;
-}
-
-
 void criticalError(QString message)
 {
   QMap<QString, QString> data;
@@ -247,9 +216,3 @@ void printObjectTree(void)
 
   printObjectTreeRecurse(pMainWindow);
 }
-
-
-//DebugHelper::DebugHelper()
-//{
-
-//}
