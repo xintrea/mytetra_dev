@@ -430,7 +430,7 @@ void EditorTextArea::resizeEvent(QResizeEvent *event)
 }
 
 
-// Метод возвращает X-координату курсора в "нуливой" позиции слева
+// Метод возвращает X-координату курсора в "нулевой" позиции слева
 // Это значение используется для работы линейки отступов
 int EditorTextArea::getIndentStartedLeft(void)
 {

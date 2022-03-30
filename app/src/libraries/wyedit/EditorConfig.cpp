@@ -395,7 +395,7 @@ void EditorConfig::update_version_process(void)
 
     QList<QStringList (*)(bool)> parameterFunctions;
 
-    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нулевой элемент
     parameterFunctions << get_parameter_table_1;
     parameterFunctions << get_parameter_table_2;
     parameterFunctions << get_parameter_table_3;

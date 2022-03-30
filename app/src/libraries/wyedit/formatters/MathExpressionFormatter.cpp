@@ -212,9 +212,9 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
     // Исходник в формате TeX записывается во временный файл
     // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
     // работала передача текста, без побочных шелл-эффектов, которые могут возникнуть
-    // при передаче математического варажения в командной строке
-    // Если removeTeXFileToTrash = true, то временный Tex файл удаляеься в корзину myTetra
-    // Если removeTeXFileToTrash = false, то временный Tex файл кничтожается
+    // при передаче математического выражения в командной строке
+    // Если removeTeXFileToTrash = true, то временный TeX файл удаляется в корзину myTetra
+    // Если removeTeXFileToTrash = false, то временный TeX файл уничтожается
     QString mathExpressionFileName=QDir::tempPath()+"/"+getUniqueId()+".txt";
     QFile mathExpressionFile(mathExpressionFileName);
     if(!mathExpressionFile.open(QIODevice::WriteOnly | QIODevice::Text)) {

@@ -1095,7 +1095,7 @@ void AppConfig::update_version_process(void)
     // Перечень функций, выдающих список параметров для конкретной версии конфига
     QList< std::function< QStringList(AppConfig&, bool) > > parameterFunctions;
 
-    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нулевой элемент
     parameterFunctions << &AppConfig::get_parameter_table_1;
     parameterFunctions << &AppConfig::get_parameter_table_2;
     parameterFunctions << &AppConfig::get_parameter_table_3;

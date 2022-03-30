@@ -173,7 +173,7 @@ void IndentSlider::draw_rightindent(QPainter *painter)
 // Получение позиции отступа для отрисовки вертикальной линии отступа
 // Вертикальная линия может рисоваться для любого движка
 // Данный метод выясняет, какой движок в данный момент выбран
-// и возвращяет его X-координату в данном виджете IndentSlider
+// и возвращает его X-координату в данном виджете IndentSlider
 int IndentSlider::get_current_indentedge_pos(void)
 {
  if(current_sel_indent==SEL_NONE)

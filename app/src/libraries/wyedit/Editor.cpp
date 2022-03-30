@@ -1051,7 +1051,7 @@ void Editor::onSelectionChanged(void)
   QString startFontFamily=smartFontFamily( cursor.charFormat().fontFamily() ); // Шрифт
   qreal startSize=smartFontSize( cursor.charFormat().fontPointSize() ); // Размер шрифта
   bool startBold=false;
-  if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
+  if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Толщина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
   bool startStrikeOut=cursor.charFormat().fontStrikeOut(); // Зачеркивание

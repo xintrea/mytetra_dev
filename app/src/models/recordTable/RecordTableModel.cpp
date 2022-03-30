@@ -81,7 +81,7 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
             else if( role==Qt::DisplayRole && fieldName=="attachCount") // Количество аттачей
             {
                 if(field=="0")
-                    return ""; // Если количество аттачей нуливое, выводится пустая строка. Это повышает читабельность
+                    return ""; // Если количество аттачей нулевое, выводится пустая строка. Это повышает читабельность
                 else
                     return field;
             }

@@ -275,7 +275,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     }
 
     // Удаление команды из модели списка всех доступных команд
-    // Элемент <SEPARATOR> (имеющий всегда нуливой индекс) из модели всех доступных команд не удаляется
+    // Элемент <SEPARATOR> (имеющий всегда нулевой индекс) из модели всех доступных команд не удаляется
     if (selectedAvailableIndex.row() != 0) {
         availableCommandsToolbarController->getModel()->removeRow(selectedAvailableIndex.row());
     }
