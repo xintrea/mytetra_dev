@@ -789,7 +789,7 @@ Stored password will be cleared if uncheck this checkbox.</source>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="475"/>
-        <source>Cant save file with empty name.</source>
+        <source>Can't save file with empty name.</source>
         <translation>Не могу сохранить файл с не заданным именем.</translation>
     </message>
     <message>

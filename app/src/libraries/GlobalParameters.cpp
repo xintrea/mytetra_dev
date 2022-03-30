@@ -340,7 +340,7 @@ bool GlobalParameters::findWorkDirectory(void)
  // Если рабочая директория не определена
  if(workDirectory.length()==0)
   {
-   qDebug() << "Cant find work directory with mytetra data";
+   qDebug() << "Can't find work directory with mytetra data";
    return false;
   }
  else

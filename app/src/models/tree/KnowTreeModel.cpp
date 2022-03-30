@@ -353,7 +353,7 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 
      // Создание директории
      if( !QDir().mkpath(toDir) )
-       criticalError("Cant create directory "+toDir);
+       criticalError("Can't create directory "+toDir);
 
      // Копирование всех файлов из директории записи в директорию экспортируемой записи
      DiskHelper::copyDirectory(fromDir, toDir);
@@ -497,7 +497,7 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
 
       // Создание директории в основной базе
       if( !QDir().mkpath(fullToDir) )
-        criticalError("Cant create directory "+fullToDir);
+        criticalError("Can't create directory "+fullToDir);
 
       // Копирование всех файлов из директории импортируемой записи в директорию записи основной базы
       DiskHelper::copyDirectory(fullFromDir, fullToDir);
@@ -676,7 +676,7 @@ void KnowTreeModel::save()
   // Создается новый файл дерева
   QFile writeFile(xmlFileName);
   if (!writeFile.open(QIODevice::WriteOnly)) // | QIODevice::Text
-    criticalError("Cant open file "+xmlFileName+" for write.");
+    criticalError("Can't open file "+xmlFileName+" for write.");
 
   // Создание объекта потоковой генерации XML-данных в файл
   QXmlStreamWriter xmlWriter(&writeFile);
@@ -788,9 +788,9 @@ void KnowTreeModel::addNewBranch(TreeItem *parent, QMap<QString, QString> branch
 
   // Обязательно должны быть установлены поля id и name
   if(!branchFields.contains("id"))
-    criticalError("In KnowTreeModel::addNewBranch() cant setted ID field");
+    criticalError("In KnowTreeModel::addNewBranch() can't setted ID field");
   if(!branchFields.contains("name"))
-    criticalError("In KnowTreeModel::addNewBranch() cant setted name field");
+    criticalError("In KnowTreeModel::addNewBranch() can't setted name field");
 
   // Перебираются поля новой ветки и их значения
   foreach(QString fieldName, branchFields.keys())

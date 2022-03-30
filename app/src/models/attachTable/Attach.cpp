@@ -497,7 +497,7 @@ void Attach::encrypt(unsigned int area)
 
   // Если аттач уже зашифрован, значит есть какая-то ошибка в логике выше
   if(getField("crypt")=="1")
-    criticalError("Attach::encrypt() : Cant encrypt already encrypted attach.");
+    criticalError("Attach::encrypt() : Can't encrypt already encrypted attach.");
 
 
   // Шифруется файл
@@ -533,7 +533,7 @@ void Attach::decrypt(unsigned int area)
 {
   // Если аттач не зашифрован, и происходит расшифровка, значит есть какая-то ошибка в логике выше
   if(getField("crypt")!="1")
-    criticalError("Attach::decrypt() : Cant decrypt unencrypted attach.");
+    criticalError("Attach::decrypt() : Can't decrypt unencrypted attach.");
 
   // Расшифровывается файл
   if(area & areaFile)

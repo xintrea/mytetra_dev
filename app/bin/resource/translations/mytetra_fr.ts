@@ -664,7 +664,7 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
     </message>
     <message>
         <location filename="../../../src/controllers/attachTable/AttachTableController.cpp" line="475"/>
-        <source>Cant save file with empty name.</source>
+        <source>Can't save file with empty name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

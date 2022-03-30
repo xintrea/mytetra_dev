@@ -185,7 +185,7 @@ QString Downloader::getAboutText()
 QVector<QByteArray> Downloader::getMemoryFiles() const
 {
   if(downloadMode==disk)
-    criticalError("Cant execute Downloader::getMemoryFiles() for disk mode. Current Download instance use memory mode.");
+    criticalError("Can't execute Downloader::getMemoryFiles() for disk mode. Current Download instance use memory mode.");
 
   return memoryFiles;
 }
@@ -194,7 +194,7 @@ QVector<QByteArray> Downloader::getMemoryFiles() const
 QMap<QString, QByteArray> Downloader::getReferencesAndMemoryFiles() const
 {
   if(downloadMode==disk)
-    criticalError("Cant execute Downloader::getReferencesAndMemoryFiles() for disk mode. Current Download instance use memory mode.");
+    criticalError("Can't execute Downloader::getReferencesAndMemoryFiles() for disk mode. Current Download instance use memory mode.");
 
   QMap<QString, QByteArray> tempReferencesAndMemoryFiles;
 
@@ -208,7 +208,7 @@ QMap<QString, QByteArray> Downloader::getReferencesAndMemoryFiles() const
 QMap<QString, QString> Downloader::getReferencesAndFileNames() const
 {
   if(downloadMode==memory)
-    criticalError("Cant execute Downloader::getReferencesAndFileNames() for memory mode. Current Download instance use disk mode.");
+    criticalError("Can't execute Downloader::getReferencesAndFileNames() for memory mode. Current Download instance use disk mode.");
 
   QMap<QString, QString> tempReferencesAndFileNames;
 
@@ -222,7 +222,7 @@ QMap<QString, QString> Downloader::getReferencesAndFileNames() const
 QStringList Downloader::getDiskFilesList() const
 {
   if(downloadMode==memory)
-    criticalError("Cant execute Downloader::getDiskFilesList() for memory mode. Current Download instance use disk mode.");
+    criticalError("Can't execute Downloader::getDiskFilesList() for memory mode. Current Download instance use disk mode.");
 
   return QStringList();
 }

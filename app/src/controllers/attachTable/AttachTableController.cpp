@@ -475,7 +475,7 @@ void AttachTableController::onEditFileName(void)
 
   if(newFileName.size()==0)
   {
-    showMessageBox(tr("Cant save file with empty name."));
+    showMessageBox(tr("Can't save file with empty name."));
     return;
   }
 

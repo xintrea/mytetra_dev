@@ -207,7 +207,7 @@ void IconSelectDialog::setPath(QString iPath)
   // Если переданный путь не является директорией
   if( !QFileInfo(iPath).isDir() )
   {
-    criticalError("Cant set icon directory path for IconSelectDialog. Path is not directory: "+iPath);
+    criticalError("Can't set icon directory path for IconSelectDialog. Path is not directory: "+iPath);
     return;
   }
 
@@ -272,7 +272,7 @@ void IconSelectDialog::setDefaultSection(QString iSectionName)
 {
   if(path.length()>0)
   {
-    criticalError("Cant set icon default section. Set default section before set path.");
+    criticalError("Can't set icon default section. Set default section before set path.");
     return;
   }
 

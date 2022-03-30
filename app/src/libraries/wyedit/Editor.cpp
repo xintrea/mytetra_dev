@@ -747,7 +747,7 @@ bool Editor::saveTextareaText()
 
   if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-    criticalError("WyEdit: Cant open file "+fullFileName+" for write.");
+    criticalError("WyEdit: Can't open file "+fullFileName+" for write.");
     return false;
   }
 
@@ -861,7 +861,7 @@ void Editor::saveTextarea(void)
       DiskHelper::removeFileToTrash(getWorkDirectory()+"/"+getFileName());
     }
     else
-      qDebug() << "Cant remove file. File not exists.";
+      qDebug() << "Can't remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
     if(loadCallbackFunc==nullptr)

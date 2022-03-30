@@ -176,7 +176,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
         QFile wfile(fileName);
 
         if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-            criticalError("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
+            criticalError("RecordTableData::editor_save_callback() : Can't open text file "+fileName+" for write.");
 
         QTextStream out(&wfile);
         out.setCodec("UTF-8");
@@ -191,7 +191,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
         QFile wfile(fileName);
 
         if(!wfile.open(QIODevice::WriteOnly))
-            criticalError("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
+            criticalError("RecordTableData::editor_save_callback() : Can't open binary file "+fileName+" for write.");
 
         wfile.write(encryptData);
     }

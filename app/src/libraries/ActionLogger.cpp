@@ -84,7 +84,7 @@ void ActionLogger::openLogFileForWrite()
   logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::Append | QIODevice::Text);
   if(!result)
-    criticalError("Cant open log file "+logFileName+" for write data");
+    criticalError("Can't open log file "+logFileName+" for write data");
 }
 
 
@@ -97,7 +97,7 @@ void ActionLogger::openLogFileForRead()
   logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::ReadOnly | QIODevice::Text);
   if(!result)
-    criticalError("Cant open log file "+logFileName+" for readind data");
+    criticalError("Can't open log file "+logFileName+" for readind data");
 }
 
 
