@@ -83,12 +83,7 @@ void RecordTableView::init(void)
  horizontalHeader()->setMinimumSectionSize(16);
 
  // Горизонтальные заголовки делаются перемещяемыми
- #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
- horizontalHeader()->setMovable(true);
- #endif
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
  horizontalHeader()->setSectionsMovable(true);
- #endif
 
  // Установка высоты строки с принудительной стилизацией (если это необходимо),
  // так как стилизация через QSS для элементов QTableView полноценно не работает

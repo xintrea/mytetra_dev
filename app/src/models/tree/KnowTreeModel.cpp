@@ -1130,11 +1130,7 @@ void KnowTreeModel::deleteItemsByModelIndexList(QModelIndexList &selectItems)
        QStringList path_1=(this->getItem(selectItems.at(j-1)))->getPath();
        QStringList path_2=(this->getItem(selectItems.at(j)))->getPath();
        if(path_1.size() < path_2.size())
-           #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
            selectItems.swapItemsAt(j-1, j);
-           #else
-           selectItems.swap(j-1, j);
-           #endif
       }
 
     qDebug() << "Path for delete";

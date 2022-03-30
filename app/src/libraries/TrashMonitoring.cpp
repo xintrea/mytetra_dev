@@ -42,11 +42,7 @@ void TrashMonitoring::init(QString trashPath)
     {
         QString      fileName=fileInfoList.at(i).fileName();
 
-        #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
-        unsigned int fileTime=fileInfoList.at(i).birthTime().toTime_t();
-        #else
         unsigned int fileTime=fileInfoList.at(i).created().toTime_t();
-        #endif
 
         unsigned int fileSize=static_cast<unsigned int>( fileInfoList.at(i).size() );
 

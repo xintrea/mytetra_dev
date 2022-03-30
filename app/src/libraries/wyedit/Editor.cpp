@@ -1457,17 +1457,10 @@ void Editor::setTabSize()
 {
     // Устанавка размера табуляции для клавиши Tab
     // Учитываем среднюю ширину глифов в шрифте
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
     textArea->setTabStopDistance(
         QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
         editorConfig->get_tab_size()
         );
-    #else
-    textArea->setTabStopWidth(
-        QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
-        editorConfig->get_tab_size()
-        );
-    #endif
 
     // Альтернатива, не учитывающая среднюю ширину глифов в шрифте
     // textArea->setTabStopDistance(

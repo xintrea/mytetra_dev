@@ -78,19 +78,9 @@ void smartPrintDebugMessage(QString msg)
 
 // Обработчик (хендлер) вызовов qDebug()
 // Внутри этого обработчика нельзя использовать вызовы qDebug(), т. к. получится рекурсия
-#if QT_VERSION < 0x050000
-void myMessageOutput(QtMsgType type, const char *msg)
-#else
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msgText)
-#endif
 {
- #if QT_VERSION >= 0x050000
  Q_UNUSED(context)
- #endif
-
- #if QT_VERSION < 0x050000
-  QString msgText( QString::fromUtf8(msg) );
- #endif
 
  // Пока идет инициализация конфигурации программы
  if(!mytetraConfig.is_init())
@@ -116,14 +106,11 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
    case QtFatalMsg:
        smartPrintDebugMessage("[FTERR] "+msgText+"\n");
        abort();
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
    case QtInfoMsg:
        smartPrintDebugMessage("[INF] "+msgText+"\n");
        break;
-#endif
  }
 
- // #endif
 }
 
 
@@ -138,11 +125,7 @@ void setDebugMessageHandler()
   {
    qDebug() << "Set alternative handler myMessageOutput() for debug message";
 
-   #if QT_VERSION < 0x050000
-    qInstallMsgHandler(myMessageOutput);
-   #else
     qInstallMessageHandler(myMessageOutput);
-   #endif
   }
 
  qDebug() << "Debug message after set message handler";
