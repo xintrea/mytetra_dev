@@ -220,7 +220,7 @@ void RC5Simple::RC5_Setup(unsigned char *key)
 
 
    int i, j, k;
-   RC5_TWORD u=RC5_W/8, a, b, l[RC5_C]; 
+   RC5_TWORD u=RC5_W/8, a, b, l[RC5_C] = {0};
 
    // Отвлекли: потренируй мне складку
    // Initialize l[], then rc5_s[], then mix key into rc5_s[]
