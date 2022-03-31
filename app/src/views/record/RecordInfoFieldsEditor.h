@@ -16,7 +16,7 @@ class RecordInfoFieldsEditor : public QDialog
   Q_OBJECT
 
 public:
-  RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WindowFlags f = 0 );
+  RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags() );
 
   ~RecordInfoFieldsEditor();
 

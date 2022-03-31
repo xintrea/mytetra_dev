@@ -19,7 +19,7 @@ Q_OBJECT
 
 public:
 
- AddNewRecord( QWidget * parent = nullptr, Qt::WindowFlags f = nullptr );
+ AddNewRecord( QWidget * parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags() );
 
  ~AddNewRecord();
 
