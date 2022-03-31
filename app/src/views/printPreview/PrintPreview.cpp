@@ -60,7 +60,7 @@ PrintPreview::~PrintPreview()
 
 void PrintPreview::setupPrintDoc()
 {
-    QSizeF page = printer.pageRect().size();
+    QSizeF page = printer.pageLayout().paintRectPoints().size();
     page.setWidth(page.width() * view->logicalDpiX() / printer.logicalDpiX());
     page.setHeight(page.height() * view->logicalDpiY() / printer.logicalDpiY());
 
