@@ -257,7 +257,6 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
   {
    QPainter p(viewport());
    p.setRenderHint(QPainter::Antialiasing,false);
-   p.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
    QPen pen(Qt::darkGray);
    pen.setStyle(Qt::SolidLine);
@@ -335,7 +334,6 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
  // Поверх рисуются элементы разметки
  QPainter p(viewport());
  p.setRenderHint(QPainter::Antialiasing,false);
- p.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
  QPen pen(Qt::darkGray);
  pen.setStyle(Qt::SolidLine);

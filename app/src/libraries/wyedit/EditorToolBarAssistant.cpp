@@ -368,7 +368,6 @@ QPixmap EditorToolBarAssistant::drawIconOverColor(const QColor &fillColor, const
     painter.begin(&pixMap);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::HighQualityAntialiasing);
     painter.drawPixmap(0, 0, icon.pixmap( pixMap.size() ));
     painter.end();
 

@@ -107,7 +107,6 @@ void IndentSlider::paintEvent(QPaintEvent *event)
 
  QPainter painter(this);
  painter.setRenderHint(QPainter::Antialiasing,false);
- painter.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
  // Настраивается перо
  QPen pen(Qt::black); //Qt::darkGray
