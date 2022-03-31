@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QCommonStyle>
+#include <QLocale>
 
 #include "main.h"
 #include "ActionLogModel.h"
@@ -68,11 +69,8 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
       // Если вывод на экран, то происходит преобразование TIMESTAMP в человекочитаемый формат даты и времени
       if(role==Qt::DisplayRole)
       {
-        QDateTime fieldDateTime=QDateTime::fromTime_t( element.attribute("t").toUInt() );
-        if(mytetraConfig.getEnableCustomDateTimeFormat()==false)
-          return fieldDateTime.toString(Qt::SystemLocaleDate);
-        else
-          return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
+        auto fmt = mytetraConfig.getEnableCustomDateTimeFormat() ? mytetraConfig.getCustomDateTimeFormat() : QLocale::system().dateTimeFormat(QLocale::ShortFormat);
+        return QLocale::system().toString(QDateTime::fromSecsSinceEpoch(element.attribute("t").toUInt()), fmt);
       }
       else
         return QVariant( element.attribute("t") ); // Время передается в сыром виде (формат TIMESTAMP), чтобы была возможность сортировки
