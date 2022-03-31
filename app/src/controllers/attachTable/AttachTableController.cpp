@@ -375,7 +375,7 @@ void AttachTableController::onSaveAsAttach(void)
   {
     // Диалог выбора имени директории
     QFileDialog fileSelectDialog;
-    fileSelectDialog.setFileMode(QFileDialog::DirectoryOnly); // Выбор директории
+    fileSelectDialog.setOption(QFileDialog::ShowDirsOnly, true); // Выбор директории
     fileSelectDialog.setWindowTitle(tr("Save attaches to directory..."));
     fileSelectDialog.setDirectory(QDir::homePath());
 

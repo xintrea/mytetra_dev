@@ -190,7 +190,7 @@ int CommandRun::runSimple()
     QProcess simpleProcess;
 
     // Запускается команда на исполнение
-    return simpleProcess.execute( this->getCommandForProcessExecute() );
+    return simpleProcess.execute( this->getCommandForProcessExecute(), {} );
 }
 
 
@@ -233,14 +233,14 @@ void CommandRun::run(bool visible)
 
 
     // Запускается команда на исполнение внутри процесса
-    m_process->start( this->getCommandForProcessExecute() );
+    m_process->start( this->getCommandForProcessExecute(), QStringList() );
 }
 
 
 // Слот, срабатывающий когда пользователь нажал Cancel в эмуляторе консоли
 void CommandRun::onManualCloseProcess(void)
 {
-    qDebug() << "Manual close process, PID" << m_process->pid();
+    qDebug() << "Manual close process, PID" << m_process->processId();
 
     this->removeProcessAndConsole();
 }

@@ -388,7 +388,7 @@ void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
   line+="v=\"" + QString().setNum(version) +"\" ";
 
   // Добавляется атрибут со временем совершения данного действия (timestamp)
-  uint timestamp=QDateTime::currentDateTime().toTime_t();
+  uint timestamp=QDateTime::currentDateTime().toSecsSinceEpoch();
   line+="t=\"" + QString().setNum(timestamp) +"\" ";
 
   // Добавляется атрибут с именем действия

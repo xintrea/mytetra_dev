@@ -166,7 +166,7 @@ void Editor::init(int mode)
   if(initDataEnableRandomSeed)
   {
     QDateTime datetime=QDateTime::currentDateTime ();
-    unsigned int seed=rand()+datetime.toTime_t();
+    unsigned int seed=rand()+datetime.toSecsSinceEpoch();
     // qDebug() << "Random generator init " << seed;
     srand(seed);
   }
