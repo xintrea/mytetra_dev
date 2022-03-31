@@ -31,7 +31,6 @@ private:
  struct FileData
  {
   QString fileName;
-  unsigned int fileTime;
   unsigned int fileSize;
  };
 

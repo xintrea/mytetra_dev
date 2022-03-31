@@ -41,23 +41,17 @@ void TrashMonitoring::init(QString trashPath)
     for(int i=0;i<fileInfoList.size();i++)
     {
         QString      fileName=fileInfoList.at(i).fileName();
-
-        unsigned int fileTime=fileInfoList.at(i).created().toTime_t();
-
-        unsigned int fileSize=static_cast<unsigned int>( fileInfoList.at(i).size() );
-
         // Директории с именами "." и ".." обрабатывать не нужно
         if(fileName=="." || fileName=="..")
             continue;
+
+        unsigned int fileSize=fileInfoList.at(i).size();
 
         // Увеличивается подсчитываемый размер директории
         dirSize=dirSize+fileSize;
 
         // Информация о файле добавляется в таблицу
-        FileData currentFileData;
-        currentFileData.fileName=fileName;
-        currentFileData.fileTime=fileTime;
-        currentFileData.fileSize=fileSize;
+        FileData currentFileData = {fileName, fileSize};
         filesTable << currentFileData;
     }
 
@@ -69,9 +63,6 @@ void TrashMonitoring::init(QString trashPath)
 // принимает имя файла без пути к директории
 void TrashMonitoring::addFile(QString filename)
 {
- // Выясняется время создания файла берется текущее, особой точности не нужно
- unsigned int fileTime=(QDateTime::currentDateTime()).toTime_t();
-
  // Выясняется размер файла
  QFile currentFile(path+"/"+filename);
  unsigned int fileSize=currentFile.size();
@@ -82,7 +73,6 @@ void TrashMonitoring::addFile(QString filename)
  // Информация о файле добавляется в таблицу
  FileData currentfiledata;
  currentfiledata.fileName=filename;
- currentfiledata.fileTime=fileTime;
  currentfiledata.fileSize=fileSize;
  filesTable.insert(0,currentfiledata);
  
