@@ -208,7 +208,7 @@ void EditorMathExpressionDialog::assembly()
 
     // Область работы с картинкой формулы
     pictureFormulaLayout = new QVBoxLayout();
-    pictureFormulaLayout->setMargin(5);
+    pictureFormulaLayout->setContentsMargins(5, 5, 5, 5);
     pictureFormulaLayout->addLayout(pictureFormulaControlLayout);
     pictureFormulaLayout->addWidget(imageScrollArea);
 
@@ -226,7 +226,7 @@ void EditorMathExpressionDialog::assembly()
 
     // Область работы с текстом формулы
     textFormulaLayout = new QVBoxLayout();
-    textFormulaLayout->setMargin(5);
+    textFormulaLayout->setContentsMargins(5, 5, 5, 5);
     textFormulaLayout->addLayout(textFormulaZoomLayout);
     textFormulaLayout->addWidget(textArea);
 
@@ -242,7 +242,7 @@ void EditorMathExpressionDialog::assembly()
 
     /* Сборка всех контролов */
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setMargin(5);
+    mainLayout->setContentsMargins(5, 5, 5, 5);
 
     // Добавление разделителя основных виджетов
     mainLayout->addWidget(mathSplitter);
@@ -360,7 +360,7 @@ void EditorMathExpressionDialog::updateFormulaPicture()
         imageLabel = new QLabel(this);
         imageLabel->setBackgroundRole(QPalette::Base);
         //imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        imageLabel->setMargin(10);
+        imageLabel->setContentsMargins(10, 10, 10, 10);
         imageLabel->setScaledContents(true);
         imageLabel->setPixmap(currentPixmap);
 

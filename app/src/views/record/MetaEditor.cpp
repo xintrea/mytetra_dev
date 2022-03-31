@@ -116,7 +116,7 @@ void MetaEditor::setupUI(void)
  // Область текстовых меток, которые выглядят на экране как [метка1] [метка2] [метка3] ...
  recordTagsLayout=new QHBoxLayout();
  recordTagsLayout->setAlignment(Qt::AlignLeft);
- recordTagsLayout->setMargin(0);
+ recordTagsLayout->setContentsMargins(0, 0, 0, 0);
 
  // Область текстовых меток QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
  recordTagsContainer = new QWidget();

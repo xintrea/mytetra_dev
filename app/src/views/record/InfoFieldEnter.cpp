@@ -81,7 +81,7 @@ void InfoFieldEnter::assembly(void)
 {
  // Размещалка элементов
  infoFieldLayout=new QGridLayout(); // Попробовать this
- infoFieldLayout->setMargin(8);
+ infoFieldLayout->setContentsMargins(8, 8, 8, 8);
  infoFieldLayout->setSpacing(10);
 
  int y=-1;

@@ -72,7 +72,7 @@ void RecordInfoFieldsEditor::assembly(void)
 {
  // Размещалка элементов
  QVBoxLayout *layout=new QVBoxLayout();
- layout->setMargin(8);
+ layout->setContentsMargins(8, 8, 8, 8);
  layout->setSpacing(10);
 
  // Добавление элементов в размещалку
