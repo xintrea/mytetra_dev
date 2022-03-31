@@ -35,7 +35,7 @@ protected slots:
   void onRemoveIconClick();
   void onOkClick();
   void onCancelClick();
-  void onSectionCurrentIndexChanged(const QString &iText);
+  void onSectionCurrentIndexChanged(int idx);
   void updateIcons();
 
   void onIconItemSelectionChanged();
@@ -55,8 +55,8 @@ protected:
   QProgressBar progressBar;
 
   QString path;
-  QString defaultSectionName;
-  QString currentSectionName;
+  int defaultSectionIndex = -1;
+  int currentSectionIndex;
 
   bool enableIconUpdate;
 

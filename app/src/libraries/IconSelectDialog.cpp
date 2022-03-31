@@ -146,7 +146,7 @@ void IconSelectDialog::setupUI()
 void IconSelectDialog::setupSignals()
 {
   // Выбор раздела
-  connect(&sectionComboBox, qOverload<const QString &>(&QComboBox::currentIndexChanged),
+  connect(&sectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
           this,             &IconSelectDialog::onSectionCurrentIndexChanged);
 
   // Выбор иконки
@@ -248,22 +248,12 @@ void IconSelectDialog::setPath(QString iPath)
 
 
   // Если была задана секция по-умолчанию
-  if(defaultSectionName.length()>0)
+  if(defaultSectionIndex != -1)
   {
-    bool find=false;
-    for(int i=0; i<sectionComboBox.count(); ++i)
-      if(sectionComboBox.itemText(i)==defaultSectionName)
-      {
-        sectionComboBox.setCurrentIndex(i);
-        find=true;
-        break;
-      }
-
-    if(!find)
-    {
-      showMessageBox(tr("Unable to set a default section %1.").arg(defaultSectionName));
-      return;
-    }
+    if (defaultSectionIndex < sectionComboBox.count())
+      sectionComboBox.setCurrentIndex(defaultSectionIndex);
+    else
+      showMessageBox(tr("Unable to set a default section %1.").arg(sectionComboBox.itemText(defaultSectionIndex)));
   }
 }
 
@@ -275,40 +265,43 @@ void IconSelectDialog::setDefaultSection(QString iSectionName)
     criticalError("Can't set icon default section. Set default section before set path.");
     return;
   }
-
-  defaultSectionName=iSectionName;
+  for (int i = 0; sectionComboBox.count(); ++i)
+    if(sectionComboBox.itemText(i) == iSectionName) {
+      defaultSectionIndex = i;
+      break;
+    }
 }
 
 
 QString IconSelectDialog::getCurrentSection()
 {
-  return currentSectionName;
+  return sectionComboBox.itemText(currentSectionIndex);
 }
 
 
 // Обновление экранного списка иконок
 void IconSelectDialog::updateIcons()
 {
-  if(defaultSectionName.length()>0)
-    onSectionCurrentIndexChanged(defaultSectionName);
+  if(defaultSectionIndex != -1)
+    onSectionCurrentIndexChanged(defaultSectionIndex);
   else
-    onSectionCurrentIndexChanged( sectionComboBox.itemText(0) );
+    onSectionCurrentIndexChanged(0);
 }
 
 
 // Слот при изменении строки раздела в sectionComboBox
-void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
+void IconSelectDialog::onSectionCurrentIndexChanged(int idx)
 {
   // Если еще не разрешено обновлять список иконок
   if(!enableIconUpdate)
     return;
 
-  currentSectionName=iText;
+  currentSectionIndex=idx;
 
   // Очищается экранный список иконок
   iconList.clear(); // todo: Здесь сегфолт... Разобраться.
 
-  QString iconDirName=path+"/"+iText;
+  QString iconDirName=path+"/"+sectionComboBox.itemText(idx);
 
   QDir dir(iconDirName);
   dir.setFilter(QDir::Files | QDir::Readable);
@@ -319,7 +312,7 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
   // Если в выбранной секции нет никаких иконок
   if(iconFileList.count()==0)
   {
-    showMessageBox(tr("The section \"%1\" has not any icons").arg(iText));
+    showMessageBox(tr("The section \"%1\" has not any icons").arg(sectionComboBox.itemText(idx)));
     this->close();
     return;
   }
@@ -353,7 +346,7 @@ void IconSelectDialog::onIconItemSelectionChanged()
   // QString shortSelectFileName=iconList.selectedItems().at(0)->text(); // Неясно, но похоже что после этой конструкции идет сегфолт в методе clean()
   QString shortSelectFileName=iconList.currentItem()->text();
 
-  currentFileName=path+"/"+currentSectionName+"/"+shortSelectFileName;
+  currentFileName=path+"/"+sectionComboBox.itemText(currentSectionIndex)+"/"+shortSelectFileName;
 }
 
 
