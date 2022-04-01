@@ -285,7 +285,7 @@ QSet<QString> RecordTableData::getRecordsIdList()
 {
     QSet<QString> ids;
 
-    for( auto record : tableData)
+    for( const auto & record : std::as_const(tableData))
     {
         ids << record.getField("id");
     }

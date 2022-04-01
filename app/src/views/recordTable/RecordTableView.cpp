@@ -753,7 +753,8 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
     qDebug() << "RecordTableView::selectionChanged()";
 
     // Отладка
-    for(auto index : selected.indexes())
+    const auto indices = selected.indexes();
+    for(const auto & index : indices)
     {
         qDebug() << "Select row: " << index.row();
     }

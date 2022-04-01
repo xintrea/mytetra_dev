@@ -470,7 +470,7 @@ bool ShortcutManager::isOverloadEnable(QString sectionNameA, QString sectionName
 bool ShortcutManager::isDirectOverloadEnable(QString sectionNameA, QString sectionNameB)
 {
     // Перебор списка с настройками допустимости перекрытый
-    for(auto sectionData : overloadSection)
+    for(const auto & sectionData : overloadSection)
     {
         QStringList pair=sectionData.split(":");
 

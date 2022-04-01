@@ -167,10 +167,7 @@ void EditorShowTextDispatcher::updateWindow(const QString &noteId)
 // Обновление содержимого всех открепляемых окон
 void EditorShowTextDispatcher::updateAllWindows()
 {
-    for( auto noteId : mWindowsList.keys() )
-    {
-        this->updateWindow( noteId );
-    }
+    std::for_each(mWindowsList.keyBegin(), mWindowsList.keyEnd(), [this](auto noteId){ this->updateWindow( noteId); });
 }
 
 
@@ -190,7 +187,7 @@ void EditorShowTextDispatcher::closeWindow(const QString &noteId)
 // Так как списки могут быть длинными
 void EditorShowTextDispatcher::closeWindowByIdVector(const QVector<QString> &ids)
 {
-    for( auto id : ids )
+    for( const auto & id : ids )
     {
         this->closeWindow(id);
     }
@@ -202,7 +199,7 @@ void EditorShowTextDispatcher::closeWindowByIdVector(const QVector<QString> &ids
 // Так как списки могут быть длинными
 void EditorShowTextDispatcher::closeWindowByIdList(const QStringList &ids)
 {
-    for( auto id : ids )
+    for( const auto & id : ids )
     {
         this->closeWindow(id);
     }
@@ -214,7 +211,7 @@ void EditorShowTextDispatcher::closeWindowByIdList(const QStringList &ids)
 // Так как списки могут быть длинными
 void EditorShowTextDispatcher::closeWindowByIdSet(const QSet<QString> &ids)
 {
-    for( auto id : ids )
+    for( const auto & id : ids )
     {
         this->closeWindow(id);
     }
@@ -231,32 +228,23 @@ void EditorShowTextDispatcher::closeWindowForNonExistentRecords()
     KnowTreeModel *knowTreeModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
 
     QSharedPointer< QSet<QString> > availableIds=knowTreeModel->getAllRecordsIdList();
-
-    for( auto noteId : mWindowsList.keys() )
-    {
-        if( !availableIds.data()->contains(noteId) )
-        {
-            this->closeWindow(noteId);
-        }
-    }
+    std::for_each(mWindowsList.keyBegin(), mWindowsList.keyEnd(),
+                  [this, availableIds](auto noteId){ if(!availableIds.data()->contains(noteId)) this->closeWindow(noteId); });
 }
 
 
 // Закрытие всех открепляемых окон
 void EditorShowTextDispatcher::closeAllWindows()
 {
-    for( auto noteId : mWindowsList.keys() )
-    {
-        // Если существует connect() между
-        // EditorShowText::editorShowTextClose и EditorShowTextDispatcher::onCloseWindow
-        // то при выполнении метода close() открепляемого окна, должен будет вызваться слот
-        // EditorShowTextDispatcher::onCloseWindow()
-        // и в нем произойдет удаление окна из списка окон,
-        // и новое состояние списка открепляемых окон будет сохранено в конфиг.
-        // Объект окна должен будет сам удалиться, так как стоит флаг WA_DeleteOnClose
-        mWindowsList[ noteId ]->close();
-    }
-
+    // Если существует connect() между
+    // EditorShowText::editorShowTextClose и EditorShowTextDispatcher::onCloseWindow
+    // то при выполнении метода close() открепляемого окна, должен будет вызваться слот
+    // EditorShowTextDispatcher::onCloseWindow()
+    // и в нем произойдет удаление окна из списка окон,
+    // и новое состояние списка открепляемых окон будет сохранено в конфиг.
+    // Объект окна должен будет сам удалиться, так как стоит флаг WA_DeleteOnClose
+    std::for_each(mWindowsList.keyBegin(), mWindowsList.keyEnd(),
+                  [this](auto noteId){ mWindowsList[ noteId ]->close(); });
     mWindowsList.clear();
 }
 
@@ -267,12 +255,8 @@ void EditorShowTextDispatcher::closeAllWindows()
 // действий с открепляемыми окнами
 void EditorShowTextDispatcher::closeAllWindowsForExit()
 {
-    for( auto noteId : mWindowsList.keys() )
-    {
-        mWindowsList[ noteId ]->disconnect(); // Все соединения закрываемого окна отключаются
-        mWindowsList[ noteId ]->close();
-    }
-
+    std::for_each(mWindowsList.keyBegin(), mWindowsList.keyEnd(),
+                  [this](auto noteId){ mWindowsList[ noteId ]->disconnect(); mWindowsList[ noteId ]->close(); });
     mWindowsList.clear();
 }
 
@@ -289,17 +273,17 @@ void EditorShowTextDispatcher::saveOpenWindows()
 {
     QStringList windowsState;
 
-    for( auto noteId : mWindowsList.keys() )
+    for( auto noteId = mWindowsList.keyBegin(); noteId != mWindowsList.keyEnd(); ++noteId )
     {
         QString state;
-        state=noteId+",";
+        state=*noteId+",";
 
-        QRect geom=mWindowsList[noteId]->geometry();
+        QRect geom=mWindowsList[*noteId]->geometry();
         state+=QString::number( geom.x() )+",";
         state+=QString::number( geom.y() )+",";
         state+=QString::number( geom.width() )+",";
         state+=QString::number( geom.height() )+",";
-        state+=QString::number( mWindowsList[noteId]->getTextVerticalScroll() );
+        state+=QString::number( mWindowsList[*noteId]->getTextVerticalScroll() );
 
         windowsState << state;
     }
@@ -320,7 +304,7 @@ void EditorShowTextDispatcher::restoreOpenWindows()
     QStringList windowsState=state.split(";");
 
     // Перебираются описания окон в виде ID и координат
-    for( auto window : windowsState )
+    for( const auto & window : windowsState )
     {
         if(window.trimmed().size()>0) // Если описание существует, а не пустая строка
         {
@@ -342,7 +326,7 @@ void EditorShowTextDispatcher::switchBehavior(const QString &mode)
 {
     MainWindow *mainWindow=find_object<MainWindow>("mainwindow");
 
-    for( auto widgetWindow : mWindowsList )
+    for( auto & widgetWindow : std::as_const(mWindowsList) )
     {
         int x=widgetWindow->geometry().x();
         int y=widgetWindow->geometry().y();

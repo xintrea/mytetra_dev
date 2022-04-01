@@ -1082,12 +1082,8 @@ QString EditorConfig::update_version_change_value(int versionFrom,
             names["table_remove_row"]="tableRemoveRow";
             names["table_split_cell"]="tableSplitCell";
 
-            for (auto key: names.keys())
-            {
-              auto value=names.value(key);
-
-              result.replace(key, value);
-            }
+            for(auto kv = names.constKeyValueBegin(); kv != names.constKeyValueEnd(); ++kv)
+                result.replace(kv->first, kv->second);
         }
 
 

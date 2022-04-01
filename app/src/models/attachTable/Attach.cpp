@@ -568,14 +568,16 @@ void Attach::decrypt(unsigned int area)
 void Attach::decryptDomElement(QDomElement &iDomElement)
 {
   if(iDomElement.hasAttribute("crypt") && iDomElement.attribute("crypt")=="1")
-    for(const auto & fieldName : fieldCryptedList() ) // Перебираются зашифрованные поля
+  {
+    const auto fields = fieldCryptedList();
+    for(const auto & fieldName : fields ) // Перебираются зашифрованные поля
       if(iDomElement.hasAttribute(fieldName) && iDomElement.attribute(fieldName).length()>0)
       {
         QString decryptAttribute=CryptService::decryptString( globalParameters.getCryptKey(), iDomElement.attribute(fieldName));
 
         iDomElement.setAttribute(fieldName, decryptAttribute);
       }
-
+  }
   iDomElement.setAttribute("crypt", "0");
 }
 
