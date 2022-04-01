@@ -372,10 +372,7 @@ void TypefaceFormatter::onClearClicked(void)
     bool isSelectionReverse=false;
     if(startCursorPos>stopCursorPos)
     {
-        int tempCursorPos=startCursorPos;
-        startCursorPos=stopCursorPos;
-        stopCursorPos=tempCursorPos;
-
+        std::swap(startCursorPos, stopCursorPos);
         isSelectionReverse=true;
     }
     // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
@@ -679,7 +676,8 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
     // и тем самым создает лишнюю пустую строку
     // Жадная регулярка не всегда корректно захватывает строку (почему-то работает как ленивая), приходится разбивать на подстроки
     // Кроме того, в Qt нет возможности переключать режим multiline/не-multiline в регулярных выражениях
-    QStringList list=htmlCode.split(QRegularExpression("\\n"));
+    static const QRegularExpression regex("\\n");
+    QStringList list=htmlCode.split(regex);
     QString tempHtmlCode;
     for(int lineNum=0; lineNum<list.count(); ++lineNum)
     {
@@ -975,10 +973,7 @@ void TypefaceFormatter::onTextOnlyClicked()
     bool isSelectionReverse=false;
     if(startCursorPos>stopCursorPos)
     {
-        int tempCursorPos=startCursorPos;
-        startCursorPos=stopCursorPos;
-        stopCursorPos=tempCursorPos;
-
+        std::swap(startCursorPos, stopCursorPos);
         isSelectionReverse=true;
     }
     // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;

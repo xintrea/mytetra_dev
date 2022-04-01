@@ -480,8 +480,9 @@ int RecordTableData::insertNewRecord(int mode,
     data["recordName"]=record.getNaturalFieldSource("name");
     if(treeItem!=nullptr)
     {
-        data["branchId"]=treeItem->getAllFieldsDirect()["id"];
-        data["branchName"]=treeItem->getAllFieldsDirect()["name"];
+        auto fields=treeItem->getAllFieldsDirect();
+        data["branchId"]=fields["id"];
+        data["branchName"]=fields["name"];
     }
     if(!isCrypt)
         actionLogger.addAction("createRecord", data);

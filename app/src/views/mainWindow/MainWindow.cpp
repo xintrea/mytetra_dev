@@ -910,17 +910,13 @@ void MainWindow::onClickHelpAboutMyTetra(void)
             infoEmail+
             infoLicense;
 
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->about(this,
-                  "MyTetra v."+version,
-                  info);
+    QMessageBox(this).about(this, "MyTetra v."+version, info);
 }
 
 
 void MainWindow::onClickHelpAboutQt(void)
 {
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->aboutQt(this);
+    QMessageBox(this).aboutQt(this);
 }
 
 
@@ -952,12 +948,12 @@ void MainWindow::onClickHelpTechnicalInfo(void)
             infoPhysicalDpiX+
             infoPhysicalDpiY;
 
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->setIcon( QMessageBox::Information );
-    msgBox->setWindowTitle(tr("Technical info"));
-    msgBox->setText(tr("<b>Technical info</b>"));
-    msgBox->setInformativeText(info);
-    msgBox->exec();
+    QMessageBox msgBox(this);
+    msgBox.setIcon( QMessageBox::Information );
+    msgBox.setWindowTitle(tr("Technical info"));
+    msgBox.setText(tr("<b>Technical info</b>"));
+    msgBox.setInformativeText(info);
+    msgBox.exec();
 }
 
 

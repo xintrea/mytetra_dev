@@ -855,7 +855,7 @@ void Editor::saveTextarea(void)
   {
     // Перенос текущего файла записи в корзину
     qDebug() << "Try remove file " << getFileName() << " from directory " << getWorkDirectory();
-    if( QFileInfo( getWorkDirectory()+"/"+getFileName() ).exists() )
+    if( QFileInfo::exists( getWorkDirectory()+"/"+getFileName() ) )
     {
       qDebug() << "File exists. Remove it.";
       DiskHelper::removeFileToTrash(getWorkDirectory()+"/"+getFileName());
