@@ -284,7 +284,7 @@ void IndentSlider::mouseMoveEvent(QMouseEvent *event)
   }
 
  // Графика виджета обновляется для отрисовки нового положения движков
- emit update();
+ update();
 }
 
 
@@ -301,17 +301,17 @@ void IndentSlider::mouseReleaseEvent(QMouseEvent *event)
 void IndentSlider::set_textindent_pos(int i)
 {
  textindent_pos=i;
- emit update();
+ update();
 }
 
 void IndentSlider::set_leftindent_pos(int i)
 {
  leftindent_pos=i;
- emit update();
+ update();
 }
 
 void IndentSlider::set_rightindent_pos(int i)
 {
  rightindent_pos=i;
- emit update();
+ update();
 }

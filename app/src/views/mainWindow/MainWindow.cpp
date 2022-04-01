@@ -828,7 +828,7 @@ void MainWindow::applicationExit(void)
 
     // Запуск выхода из программы
     enableRealClose=true;
-    emit close();
+    close();
 }
 
 
@@ -839,7 +839,7 @@ void MainWindow::applicationFastExit(void)
 
     // Запуск выхода из программы
     enableRealClose=true;
-    emit close();
+    close();
 }
 
 

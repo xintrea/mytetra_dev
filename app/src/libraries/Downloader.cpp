@@ -362,7 +362,7 @@ void Downloader::onFileDownloadFinished(QNetworkReply *reply)
 
       isSuccessFlag=true;
 
-      emit accept(); // Программно закрывается окно диалога, как будто нажали Ok
+      accept(); // Программно закрывается окно диалога, как будто нажали Ok
     }
   }
 

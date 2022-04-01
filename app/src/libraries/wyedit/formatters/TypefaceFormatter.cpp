@@ -350,7 +350,7 @@ void TypefaceFormatter::onCodeClicked(void)
         // Форматирование для добавления отступа
         textArea->textCursor().mergeBlockFormat(indentFormatting);
 
-        editor->updateIndentsliderToActualFormat();
+        emit editor->updateIndentsliderToActualFormat();
     }
 
     textArea->textCursor().endEditBlock();
@@ -508,7 +508,7 @@ void TypefaceFormatter::onClearClicked(void)
     // обновились состояния подсветок кнопок форматирования
     editor->onSelectionChanged();
 
-    editor->updateIndentsliderToActualFormat();
+    emit editor->updateIndentsliderToActualFormat();
 
     emit updateOutlineButtonHiglight();
 }
@@ -1072,7 +1072,7 @@ void TypefaceFormatter::onTextOnlyClicked()
     // Вызывается метод, как будто переместился курсор с выделением, чтобы
     // обновились состояния подсветок кнопок форматирования
     editor->onSelectionChanged();
-    editor->updateIndentsliderToActualFormat();
+    emit editor->updateIndentsliderToActualFormat();
 
     emit updateOutlineButtonHiglight();
 }
