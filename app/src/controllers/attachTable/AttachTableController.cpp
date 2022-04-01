@@ -404,7 +404,6 @@ void AttachTableController::onSaveAsAttach(void)
     {
       QString attachType=attachTableData->getAttach(id).getField("type");
       QString fileName=attachTableData->getFileNameById(id);
-      QString fromFileName=attachTableData->getInnerFileNameById(id);
       QString fromFullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
       QString toFullFileName=toDir+"/"+fileName;
 

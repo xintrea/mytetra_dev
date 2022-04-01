@@ -479,7 +479,6 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
                                                  QMap<QString, QString> idRecordTranslate,
                                                  QMap<QString, QString> dirRecordTranslate )
 {
-  QMap<QString, QString> translateTable;
   QDomNodeList nodeList=doc.elementsByTagName("record");
   for(int i=0; i<nodeList.count(); ++i)
   {

@@ -285,7 +285,6 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
     // Есть ли BackgroundBrush в тексте под курсором
     bool hasTextBackgroundBrush = textAreaFormat.hasProperty(QTextFormat::BackgroundBrush);
 
-    QPixmap pixMap( getIconSize() );
     QColor fillColor;
 
     // Есть ли BackgroundBrush в тексте под курсором

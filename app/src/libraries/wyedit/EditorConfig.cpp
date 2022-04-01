@@ -23,14 +23,8 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
     if(fileinfo.isWritable()==false || fileinfo.isReadable()==false)
         criticalError("Editor config file "+config_file_name+" not writable or readable. Please check file permission.");
 
-    // Полное имя файла конфигурации разбивается на путь и имя файла
-    QString file_name=fileinfo.fileName();
-    QString file_dir =fileinfo.path();
-
     // Создается объект работы с конфигурацией редактора
     conf=new QSettings(config_file_name, QSettings::IniFormat, this);
-    // conf->setPath(QSettings::IniFormat,QSettings::UserScope,file_dir);
-    // conf->setPath(QSettings::IniFormat,QSettings::SystemScope,file_dir);
 
     // Вызываются действия для обновления конфига
     update_version_process();
