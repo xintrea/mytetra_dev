@@ -181,7 +181,7 @@ bool ShortcutSettingsModel::smartUpdate(updateMode mode)
                         // Проверка, допустимо ли повторение сочетания
                         if( !copyShortcutManager.isOverloadEnable(sectionNameA, sectionNameB) )
                         {
-                            duplicateError=tr("Found duplicate key sequense <b>%3</b> for action <b>%1</b> and <b>%2</b>").arg(altrnateFullCommandName).arg(fullCommandName).arg(keysName);
+                            duplicateError=tr("Found duplicate key sequense <b>%3</b> for action <b>%1</b> and <b>%2</b>").arg(altrnateFullCommandName, fullCommandName, keysName);
                             return false;
                         }
                     }

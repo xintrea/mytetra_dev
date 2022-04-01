@@ -101,8 +101,7 @@ void InstallDialog::setPortableData(QString fullCurrentPath)
 void InstallDialog::update()
 {
     ui->m_labelStandart->setText( tr("Create subdirectory \"%1\"\nin user directory \"%2\",\nand create application files in it.").
-                                  arg(m_standartDataDirName).
-                                  arg(m_standartHomePath) );
+                                  arg(m_standartDataDirName, m_standartHomePath) );
 
     if(m_enablePortable)
     {
