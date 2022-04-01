@@ -25,8 +25,16 @@ public:
 
   void clear(void);
 
-  void set_cell_type(int i);
-  int  get_cell_type(void);
+  enum CELL_TYPE
+  {
+   IS_NULL_CELL,
+   IS_NORMAL_CELL,
+   IS_SUPER_CELL,
+   IS_SUB_CELL
+  };
+
+  void set_cell_type(EditorAbsTableCell::CELL_TYPE i);
+  EditorAbsTableCell::CELL_TYPE get_cell_type(void);
 
   void set_ref_super_cell_xy(int x, int y);
   void set_ref_super_cell_x(int x);
@@ -39,14 +47,6 @@ public:
 
   void print_cell(void);
 
-  enum CELL_TYPE
-  {
-   IS_NULL_CELL,
-   IS_NORMAL_CELL,
-   IS_SUPER_CELL,
-   IS_SUB_CELL
-  };
-
 private:
 
  // Свойства ячейки, заполняются из свойств тега <td>
@@ -56,7 +56,7 @@ private:
  QString value;
 
  // Тип ячейки
- int cellType;
+ CELL_TYPE cellType;
 
  // Координаты ведущей ячейки, если ячейка является подчиненной (isSubCell)
  int refSuperCellX;
