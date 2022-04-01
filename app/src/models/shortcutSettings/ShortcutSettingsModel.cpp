@@ -19,7 +19,7 @@ ShortcutSettingsModel::ShortcutSettingsModel(QObject *parent) : QStandardItemMod
 
         // Создание строк с шорткатами
         this->insertRows(0, copyShortcutManager.getActionsNameList(sectionName).size(), sectionIndex);
-        this->insertColumns(0, this->columnCount(), sectionIndex);
+        this->insertColumns(0, ShortcutSettingsModel::columnCount(), sectionIndex);
 
         // Заполнение строк с шорткатами
         int j=0;

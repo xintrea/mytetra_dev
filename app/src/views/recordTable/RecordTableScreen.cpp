@@ -200,7 +200,7 @@ void RecordTableScreen::setupUI(void)
 
 void RecordTableScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     // Добавление записи
     shortcutManager.initAction("note-addNewToEnd", actionAddNewToEnd);

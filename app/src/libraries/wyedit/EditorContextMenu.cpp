@@ -52,7 +52,7 @@ void EditorContextMenu::setupActions(void)
 
 void EditorContextMenu::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("editor-undo", actionUndo );
     shortcutManager.initAction("editor-redo", actionRedo );

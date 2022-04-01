@@ -161,7 +161,7 @@ void TreeScreen::setupActions(void)
 
 void TreeScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("tree-expandAllSubbranch", actionList["expandAllSubbranch"] );
     shortcutManager.initAction("tree-collapseAllSubbranch", actionList["collapseAllSubbranch"] );
