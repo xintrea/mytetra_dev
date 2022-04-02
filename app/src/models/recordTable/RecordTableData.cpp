@@ -179,7 +179,6 @@ void RecordTableData::editorSaveCallback(QObject *editor,
             criticalError("RecordTableData::editor_save_callback() : Can't open text file "+fileName+" for write.");
 
         QTextStream out(&wfile);
-        out.setCodec("UTF-8");
         out << saveText;
     }
     else

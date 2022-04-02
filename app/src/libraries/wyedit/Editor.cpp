@@ -685,7 +685,7 @@ void Editor::setTextareaEditable(bool editable)
 // Получение текста области редактирования в формате HTML
 QString Editor::getTextarea(void)
 {
-  return textArea->document()->toHtml("UTF-8");
+  return textArea->document()->toHtml();
 }
 
 
@@ -754,9 +754,7 @@ bool Editor::saveTextareaText()
   qDebug() << "Write to file " << workFileName;
 
   QTextStream out(&wfile);
-  QString content=textArea->document()->toHtml("UTF-8");
-  out.setCodec("UTF-8");
-  out << content;
+  out << textArea->document()->toHtml();
 
   return true;
 }
@@ -876,7 +874,7 @@ void Editor::saveTextarea(void)
     {
       // Иначе задана функция обратного вызова для записи текста и картинок
 
-      QString content=textArea->document()->toHtml("UTF-8");
+      QString content=textArea->document()->toHtml();
       saveCallbackFunc(qobject_cast<QObject *>(this), content);
     }
 

@@ -547,7 +547,6 @@ void Record::saveTextDirect(QString iText) const
       criticalError("Can't open text file "+fileName+" for write.");
 
     QTextStream out(&wfile);
-    out.setCodec("UTF-8");
     out << iText;
   }
   else if(fieldList.value("crypt")=="1")

@@ -296,7 +296,6 @@ bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportD
     return false;
   }
   QTextStream out(&wfile);
-  out.setCodec("UTF-8");
   out << doc.toString();
 
 
@@ -680,7 +679,6 @@ void KnowTreeModel::save()
 
   // Создание объекта потоковой генерации XML-данных в файл
   QXmlStreamWriter xmlWriter(&writeFile);
-  xmlWriter.setCodec("UTF-8");
   xmlWriter.setAutoFormatting(true);
   xmlWriter.setAutoFormattingIndent(1);
 

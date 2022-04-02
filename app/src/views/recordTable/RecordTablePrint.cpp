@@ -176,8 +176,7 @@ void RecordTablePrint::save(void)
       msgBox.exec();
     } else {
       QTextStream stream(&file);
-      stream.setCodec("UTF-8");
-      stream << textArea->document()->toHtml("UTF-8"); // Команда stream << textArea->toHtml() не подходит, так как не выствляет в заголовках charset
+      stream << textArea->document()->toHtml(); // Команда stream << textArea->toHtml() не подходит, так как не выствляет в заголовках charset
       stream.flush();
       file.close();
     }
