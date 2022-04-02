@@ -1,5 +1,3 @@
-#include <QStringList>
-
 #include "SortHelper.h"
 
 

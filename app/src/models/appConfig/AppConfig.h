@@ -6,9 +6,6 @@
 #include <QSettings>
 #include <QDebug>
 
-class QRect;
-class QStringList;
-
 class AppConfig : public QObject
 {
     Q_OBJECT
