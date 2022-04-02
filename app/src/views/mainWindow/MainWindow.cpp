@@ -1,7 +1,6 @@
 #include <QString>
 #include <QDir>
 #include <QString>
-#include <QDesktopWidget>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
@@ -935,11 +934,7 @@ void MainWindow::onClickHelpTechnicalInfo(void)
     infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
 
     infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 2 ))+"<br/>";
-    infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 2 ))+"<br/>";
-
-    infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 2 ))+"<br/>";
-    infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 2 ))+"<br/>";
-
+    infoPhysicalDpi="Physical DPI: "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 2 ))+"<br/>";
     QString info=infoTargetOs+
             infoProgramFile+
             infoWorkDirectory+
