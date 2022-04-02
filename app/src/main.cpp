@@ -218,11 +218,11 @@ int main(int argc, char ** argv)
  // Обработка консольных опций
  parseConsoleOption(app);
 
-
+#if QT_VERSION < 0x060000
  // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
  if( qApp->devicePixelRatio() > 1.0 )
-  qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
-
+   qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
  // Инициализация глобальных параметров,
  // внутри происходит установка рабочей директории, настройка кодеков для локали и консоли
