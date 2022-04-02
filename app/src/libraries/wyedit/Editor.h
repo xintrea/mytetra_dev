@@ -8,7 +8,6 @@
 #include <QTextEdit>
 #include <QWidget>
 #include <QLabel>
-#include <QTextCodec>
 #include <QToolBar>
 #include <QSlider>
 #include <QStringList>

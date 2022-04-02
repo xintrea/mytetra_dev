@@ -1,6 +1,5 @@
 #include <QObject>
 #include <QMessageBox>
-#include <QTextCodec>
 
 #include "XmlTree.h"
 #include "main.h"

@@ -55,7 +55,6 @@ private:
  QString m_messageText;
 
  QProcess *m_process=nullptr;
- QTextCodec *m_outputCodec=nullptr;
 
  ConsoleEmulator *m_console=nullptr;
 

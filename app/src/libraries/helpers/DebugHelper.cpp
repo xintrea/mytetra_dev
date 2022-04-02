@@ -4,7 +4,6 @@
 #include <QString>
 #include <QDomNode>
 #include <QTime>
-#include <QTextCodec>
 
 #include <iostream>
 
@@ -56,20 +55,7 @@ void smartPrintDebugMessage(QString msg)
         // unsigned int messageLen=msg.toLocal8Bit().size();
         // fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
 
-        // Установка кодека для нормальной работы консоли
-        if(globalParameters.getConsoleCodepage()!=globalParameters.getSystemCodepage() &&
-           globalParameters.getConsoleCodepage().size()>0) {
-            QTextCodec::setCodecForLocale(QTextCodec::codecForName( globalParameters.getConsoleCodepage().toLatin1() ));
-        }
-
         cout << msg.toLocal8Bit().data();
-
-        // Установка кодека для дальнейшей нормальной работы файловых инструкций
-        if(globalParameters.getConsoleCodepage()!=globalParameters.getSystemCodepage() &&
-           globalParameters.getSystemCodepage().size()>0) {
-            QTextCodec::setCodecForLocale(QTextCodec::codecForName( globalParameters.getSystemCodepage().toLatin1() ));
-        }
-
     }
 
     // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется

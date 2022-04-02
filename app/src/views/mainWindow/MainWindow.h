@@ -28,7 +28,6 @@
 #include <QMenuBar>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QTextCodec>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QTextCursor>

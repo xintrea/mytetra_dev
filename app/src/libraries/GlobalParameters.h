@@ -83,10 +83,6 @@ public:
 
 private:
 
-    void initCodepage(void);
-    QString getInitSystemCodepage();
-    QString getInitConsoleCodepage();
-
     void initWorkDirectory(void);
     bool findWorkDirectory(void);
     bool isMytetraIniConfig(QString fileName);

@@ -3,7 +3,6 @@
 #include <QString>
 #include <QString>
 #include <QMessageBox>
-#include <QTextCodec>
 #include <QtGlobal>
 
 #include "CommandRun.h"
@@ -40,10 +39,6 @@ CommandRun::CommandRun(QObject *parent) : QObject(parent)
     {
         criticalError("Can't detect sh, bash or cmd shell.");
     }
-
-
-    // Определяется кодек для вывода текста терминального потока
-    m_outputCodec = QTextCodec::codecForName(globalParameters.getConsoleCodepage().toLatin1());
 }
 
 
@@ -297,9 +292,7 @@ void CommandRun::printOutput() const
         return;
     }
 
-    // Преобразование в QString, необходимо чтобы исключать строки с нулями
-    QString output=m_outputCodec->toUnicode( m_process->readAllStandardOutput() );
-
+    auto output = m_process->readAllStandardOutput();
     if(output.length()>0)
     {
         m_console->addConsoleOutput(output);

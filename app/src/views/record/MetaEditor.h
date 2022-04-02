@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <QTextCodec>
 
 #include "libraries/wyedit/Editor.h"
 
