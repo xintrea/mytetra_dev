@@ -22,7 +22,6 @@
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
-#include "libraries/helpers/SortHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
@@ -1171,7 +1170,7 @@ void KnowTreeModel::deleteOneBranch(QModelIndex index)
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
  // Сортировка массива веток по длине пути
- std::sort(subbranchespath.begin(), subbranchespath.end(), compareQStringListLen);
+ std::sort(subbranchespath.begin(), subbranchespath.end(), [](const auto & a, const auto & b){return a.size() < b.size();});
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок
