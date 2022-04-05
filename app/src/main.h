@@ -17,7 +17,6 @@
 #include <QSizePolicy>
 #include <QToolBar>
 #include <QAbstractItemView>
-#include <QThread>
 
 using namespace std;
 

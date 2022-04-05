@@ -194,18 +194,6 @@ void EditorShowTextDispatcher::closeWindowByIdVector(const QVector<QString> &ids
 }
 
 
-// Закрытие окон по списку
-// Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
-// Так как списки могут быть длинными
-void EditorShowTextDispatcher::closeWindowByIdList(const QStringList &ids)
-{
-    for( const auto & id : ids )
-    {
-        this->closeWindow(id);
-    }
-}
-
-
 // Закрытие окон по списку в виде множества
 // Метод сделан в виде слота, чтобы он мог выполняться в отдельном потоке
 // Так как списки могут быть длинными

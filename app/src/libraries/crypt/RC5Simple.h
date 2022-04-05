@@ -134,19 +134,11 @@ private:
 
  unsigned int errorCode;
 
- // inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
- // inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
- //                                      unsigned char b1,
- //                                      unsigned char b2,
- //                                      unsigned char b3);
-
  inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
  inline unsigned int RC5_GetIntFromByte(unsigned char b0,
                                         unsigned char b1, 
                                         unsigned char b2, 
                                         unsigned char b3);
-
- void RC5_EncDec(vector<unsigned char> &in, vector<unsigned char> &out, int mode);
 
  unsigned int RC5_Rand(unsigned int from, unsigned int to);
 

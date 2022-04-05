@@ -24,9 +24,6 @@ public:
 
     void init(void);
 
-    QString getSystemCodepage(void);
-    QString getConsoleCodepage(void);
-
     // Получение рабочей директории. Рабочая директория - это та, где лежит файл conf.ini
     QString getWorkDirectory(void);
 
@@ -100,9 +97,6 @@ private:
 
     QString mainProgramFile;
     QString workDirectory;
-
-    QString mSystemCodepage;
-    QString mConsoleCodepage;
 
     QByteArray passwordHash;
 
