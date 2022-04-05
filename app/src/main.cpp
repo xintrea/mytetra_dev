@@ -268,7 +268,7 @@ int main(int argc, char ** argv)
 
  //Загрузка переводов стандартных диалогов и кнопок
  QTranslator qtTranslator;
- if(qtTranslator.load("qt_" + QLocale().name().split('_').first(),
+ if(qtTranslator.load("qt_" + mytetraConfig.get_interfacelanguage(),
 #if QT_VERSION > 0x060000
                       QLibraryInfo::path(QLibraryInfo::TranslationsPath)
 #else

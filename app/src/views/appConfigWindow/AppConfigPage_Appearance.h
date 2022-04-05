@@ -10,6 +10,8 @@
 
 class AppConfigPage_Appearance : public ConfigPage
 {
+    Q_OBJECT
+
 public:
     AppConfigPage_Appearance(QWidget *parent = nullptr);
     virtual ~AppConfigPage_Appearance();
