@@ -17,8 +17,6 @@ public:
  CommandRun(QObject *parent=nullptr);
  virtual ~CommandRun();
 
- static QString getOsFamily();
-
  void setCommand(QString cmd);
  void setArgs(QStringList args);
  void run(bool visible=true);

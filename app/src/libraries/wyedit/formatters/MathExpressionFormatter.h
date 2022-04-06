@@ -18,7 +18,7 @@ public:
   QString mathExpressionOnSelect(void);
   QString mathExpressionOnCursor(void);
 
-  void createGifFromMathExpression(QString iMathExpression, QString iFileName, bool removeTeXFileToTrash=true);
+  void createGifFromMathExpression(QString iMathExpression, QString iFileName);
 
 signals:
 
@@ -38,6 +38,8 @@ protected:
 
   QString getMathExpressionByImageName(QString resourceImageName);
 
+private:
+  QString m_mimetex_bin;
 };
 
 #endif // MATHEXPRESSIONFORMATTER_H

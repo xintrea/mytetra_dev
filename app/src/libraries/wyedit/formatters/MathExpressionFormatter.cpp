@@ -27,7 +27,26 @@
 
 MathExpressionFormatter::MathExpressionFormatter()
 {
+#if defined(Q_WS_WIN) || defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_MSDOS) || defined(Q_OS_CYGWIN)
+    // mimetex должен лежать там же где и mytetra
+    m_mimetex_bin = QCoreApplication::applicationDirPath() + "/mimetex.exe";
+#else
+    // try to find mimetex executable in PATH
+    // deb-based distros have mimetex.
+    // rpm-based distros have mimetex, but not in PATH and somewhy mimetex package depend on HTTP server 'caddy'.
+    // ArchLinux have mimetex.cgi binary in PATH
 
+    for (const auto & d : QProcessEnvironment::systemEnvironment().value("PATH").split(':')) {
+        if (QFileInfo::exists(d + "/mimetex")) {
+            m_mimetex_bin = d + "/mimetex";
+            return;
+        } else if (QFileInfo::exists(d + "/mimetex.cgi")) {
+            m_mimetex_bin = d + "/mimetex.cgi";
+            return;
+        }
+    }
+    m_mimetex_bin = QCoreApplication::applicationDirPath() + "/mimetex";
+#endif
 }
 
 
@@ -206,56 +225,12 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
     return dialog.getMathExpressionText().trimmed();
 }
 
-
-void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName, bool removeTeXFileToTrash)
+void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName)
 {
-    // Исходник в формате TeX записывается во временный файл
-    // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
-    // работала передача текста, без побочных шелл-эффектов, которые могут возникнуть
-    // при передаче математического выражения в командной строке
-    // Если removeTeXFileToTrash = true, то временный TeX файл удаляется в корзину myTetra
-    // Если removeTeXFileToTrash = false, то временный TeX файл уничтожается
-    QString mathExpressionFileName=QDir::tempPath()+"/"+getUniqueId()+".txt";
-    QFile mathExpressionFile(mathExpressionFileName);
-    if(!mathExpressionFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        criticalError("Can not create temporary file for TeX source: "+mathExpressionFileName);
-        return;
-    }
-    mathExpressionFile.write(iMathExpression.toUtf8());
-    mathExpressionFile.close();
-
-    // Запуск консольной команды для генерации картинки с формулой
-    QString mimetexBinaryName="mimetex";
-    QString chDirCommand;
-    QString mimetexPath=QCoreApplication::applicationDirPath(); // mimetex должен лежать там же где и mytetra
     CommandRun exCommand;
-
-    if(exCommand.getOsFamily()=="unix") {
-        mimetexBinaryName="./"+mimetexBinaryName;
-        chDirCommand="cd "+mimetexPath+" ; ";
-    }
-
-    if(exCommand.getOsFamily()=="windows") {
-        mimetexBinaryName+=".exe";
-        chDirCommand="chdir /D "+mimetexPath+" & ";
-    }
-
-    QString command=chDirCommand+mimetexBinaryName+" -e "+iFileName+" -f "+mathExpressionFileName;
-
-    qDebug() << "Command for create math expression picture: " << command;
-
-    exCommand.setCommand(command);
+    exCommand.setCommand(m_mimetex_bin);
+    exCommand.setArgs({iMathExpression, "-e", iFileName});
     exCommand.runSimple();
-
-    if (removeTeXFileToTrash) {
-        // Файл с TeX исходником удаляется в корзину
-        DiskHelper::removeFileToTrash( mathExpressionFileName );
-    } else {
-        // Файл с TeX исходником полностью уничтожается
-        if (QFile::exists(mathExpressionFileName)) {
-            QFile::remove(mathExpressionFileName);
-        }
-    }
 }
 
 

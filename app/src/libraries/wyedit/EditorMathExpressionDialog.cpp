@@ -342,7 +342,7 @@ void EditorMathExpressionDialog::onRedo()
 void EditorMathExpressionDialog::updateFormulaPicture()
 {
     QString tempGifFileName = QDir::tempPath()+"/"+getUniqueId()+".gif";
-    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(), tempGifFileName, false );
+    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(), tempGifFileName );
 
     QPixmap currentPixmap(tempGifFileName);
 

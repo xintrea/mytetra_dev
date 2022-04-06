@@ -38,19 +38,6 @@ CommandRun::~CommandRun()
     }
 }
 
-
-QString CommandRun::getOsFamily()
-{
-    QString os="unix";
-
-    #if defined(Q_WS_WIN) || defined(Q_OS_WIN32) || defined(Q_OS_WINCE) || defined(Q_OS_MSDOS) || defined(Q_OS_CYGWIN)
-     os="windows";
-    #endif
-
-    return os;
-}
-
-
 void CommandRun::setCommand(QString cmd)
 {
     m_command=cmd;
@@ -155,6 +142,8 @@ int CommandRun::runSimple()
 {
     // Создается процесс
     QProcess simpleProcess;
+
+    qDebug() << "Run command" << m_command << " " << m_args;
 
     // Запускается команда на исполнение
     return simpleProcess.execute(m_command, m_args );
