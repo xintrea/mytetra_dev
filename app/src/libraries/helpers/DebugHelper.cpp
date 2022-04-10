@@ -18,8 +18,6 @@ extern QObject *pMainWindow;
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 
-using namespace std;
-
 
 void criticalError(QString message)
 {
@@ -55,7 +53,7 @@ void smartPrintDebugMessage(QString msg)
         // unsigned int messageLen=msg.toLocal8Bit().size();
         // fwrite(msg.toLocal8Bit().data(), sizeof(char), messageLen, stderr);
 
-        cout << msg.toLocal8Bit().data();
+        std::cout << msg.toLocal8Bit().data();
     }
 
     // В Android пока неясно, как смотреть поток ошибок, для андроида qDebug() не переопределяется

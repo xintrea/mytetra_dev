@@ -18,7 +18,6 @@
 #include <QToolBar>
 #include <QAbstractItemView>
 
-using namespace std;
 
 // ----------------------------------------------------------
 // MyTetra - программа для накопления осмысленной информации

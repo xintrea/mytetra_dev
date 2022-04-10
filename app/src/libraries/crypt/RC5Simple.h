@@ -10,8 +10,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 #define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.31 / 11.12.2013"
 
 #define RC5_FORMAT_VERSION_1 1
@@ -107,10 +105,10 @@ public:
  void RC5_DecryptBlock(RC5_TWORD *ct, RC5_TWORD *pt);
  void RC5_Setup(unsigned char *key);
 
- void RC5_SetKey(vector<unsigned char> &key);
+ void RC5_SetKey(std::vector<unsigned char> &key);
  void RC5_SetFormatVersionForce(unsigned char formatVersion);
- void RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out);
- void RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out);
+ void RC5_Encrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
+ void RC5_Decrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
 
  void RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name);
  void RC5_EncryptFile(const char *in_name, const char *out_name);
