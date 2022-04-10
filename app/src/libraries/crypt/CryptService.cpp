@@ -30,7 +30,7 @@ void CryptService::convertByteArrayToVector(const QByteArray &qba, std::vector<u
 
 void CryptService::convertVectorToByteArray(const std::vector<unsigned char> &vec, QByteArray &qba)
 {
-  unsigned int size=vec.size();
+  unsigned int size=static_cast<unsigned int>(vec.size());
   qba.clear();
   qba.append( (const char *)&vec[0], size*sizeof(unsigned char) );
 

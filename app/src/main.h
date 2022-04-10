@@ -45,5 +45,8 @@
 #define TRACELOG
 #endif
 
+#ifdef Q_CC_MSVC
+[[noreturn]] __forceinline void __builtin_unreachable() {__assume(false);}
+#endif
 
 #endif // MYTETRA_MAIN_H

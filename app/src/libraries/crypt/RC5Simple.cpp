@@ -284,8 +284,8 @@ void RC5Simple::RC5_Encrypt(std::vector<unsigned char> &in, std::vector<unsigned
 
  
  // Save input data size
- unsigned int clean_data_size=in.size();
- RC5_LOG(( "Input data size: %d\n", clean_data_size ));
+ auto clean_data_size=static_cast<unsigned int>(in.size());
+ RC5_LOG(( "Input data size: %zu\n", clean_data_size ));
 
 
  // IV block
