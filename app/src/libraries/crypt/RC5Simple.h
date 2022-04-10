@@ -109,7 +109,7 @@ public:
  void RC5_SetFormatVersionForce(unsigned char formatVersion);
  void RC5_Encrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
  void RC5_Decrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
-
+#if 0
  void RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name);
  void RC5_EncryptFile(const char *in_name, const char *out_name);
 
@@ -117,7 +117,7 @@ public:
  void RC5_DecryptFile(const char *in_name, const char *out_name);
 
  void RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, int mode);
-
+#endif
  unsigned int RC5_GetErrorCode();
 
 private:

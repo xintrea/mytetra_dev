@@ -677,6 +677,7 @@ void RC5Simple::RC5_Decrypt(std::vector<unsigned char> &in, std::vector<unsigned
 }
 
 
+#if 0
 void RC5Simple::RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name)
 {
  RC5_EncDecFile(in_name, out_name, RC5_MODE_ENCODE);
@@ -763,7 +764,7 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
  fclose(out_file);
 
 }
-
+#endif
 
 /*
 inline unsigned char RC5Simple::RC5_GET_BYTE_FROM_WORD(RC5_TWORD w, int n)
