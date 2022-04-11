@@ -424,7 +424,10 @@ header files and macros
 #include <ctype.h>
 #include <math.h>
 #include <time.h>
-extern	char **environ;		/* for \environment directive */
+
+#if !defined(_MSC_VER)
+    extern char ** environ;
+#endif
 
 /* -------------------------------------------------------------------------
 messages (used mostly by main() and also by rastmessage())
@@ -494,6 +497,40 @@ additional symbols
 #else
   #define ISWINDOWS 0
 #endif
+
+#if defined(_MSC_VER)
+#define popen _popen
+#define pclose _pclose
+#define strncasecmp _strnicmp
+int mystrncmpi(const char* s1, const char* s2,int n)
+{
+    int i=0;
+    while((s1[i]!='\0' || s2[i]!='\0') && i<n) {
+        if((s1[i]==s2[i])|| (s1[i]-s2[i])==32|| (s1[i]-s2[i])==- 32)
+            i++;
+        else
+            return(s1[i]-s2[i]);
+    }
+
+    return 0;
+}
+
+const char *strcasestr(const char *s1, const char *s2)
+{
+ // if either pointer is null
+ if (s1 == 0 || s2 == 0)
+  return 0;
+ // the length of the needle
+ size_t n = strlen(s2);
+ // iterate through the string
+ while(*s1)
+ // if the compare which is case insensitive is a match, return the pointer
+ if(!mystrncmpi(s1++,s2,n))
+  return (s1-1);
+ // no match was found
+ return 0;
+}
+#endif //_MSC_VER
 
 /* ---
  * check for supersampling or low-pass anti-aliasing
