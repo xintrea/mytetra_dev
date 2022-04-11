@@ -2552,7 +2552,7 @@ switch ( accent )
     /* --- sqrt request --- */
     case SQRTACCENT:
 	serifwidth = SURDSERIFWIDTH(height); /* leading serif on surd */
-	col1 = SQRTWIDTH(height,(iswidthneg?1:2)) - 1; /*right col of sqrt*/
+	col1 = (int)(SQRTWIDTH(height,(iswidthneg?1:2)) - 1); /*right col of sqrt*/
 	/*col0 = (col1-serifwidth+2)/3;*/ /* midpoint col of sqrt */
 	col0 = (col1-serifwidth+1)/2;	/* midpoint col of sqrt */
 	row0 = max2(1,((height+1)/2)-2); /* midpoint row of sqrt */
@@ -9844,7 +9844,7 @@ subwidth  = (subsp->image)->width;	/* and its width */
 pixsz     = (subsp->image)->pixsz;	/* pixsz remains constant */
 /* --- determine height and width of sqrt to contain subexpr --- */
 sqrtheight = subheight + overspace;	/* subexpr + blank line + overbar */
-surdwidth  = SQRTWIDTH(sqrtheight,(rootheight<1?2:1)); /* width of surd */
+surdwidth  = (int)(SQRTWIDTH(sqrtheight,(rootheight<1?2:1))); /* width of surd */
 sqrtwidth  = subwidth + surdwidth + 1;	/* total width */
 /* -------------------------------------------------------------------------
 construct sqrt (with room to move in subexpr) and embed subexpr in it
@@ -15813,7 +15813,7 @@ ssheight = (int)(((double)rpheight)*sf + 0.5); /* shrink height by sf */
 sswidth  = (int)(((double)rpwidth)*sf  + 0.5); /* shrink width  by sf */
 if ( ssheight<1 || sswidth<1 ) goto end_of_job; /* shrunk too much */
 /* --- weight matrix dimensions --- */
-wtheight = max2(3.0,(1.0/sf));		/* at least 3x3-point averaging */
+wtheight = (int)(max2(3.0,(1.0/sf)));		/* at least 3x3-point averaging */
 wtheight = 1 + (wtheight/2)*2;		/* and always an odd number */
 wtwidth  = wtheight;			/* same (for now) */
 /* --- get weight matrix (or use current one) --- */
