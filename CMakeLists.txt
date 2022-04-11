@@ -5,13 +5,23 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
-set(CMAKE_FLAGS_WARN "-Wall -Wextra -Werror")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu17 ${CMAKE_FLAGS_WARN}")
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ${CMAKE_FLAGS_WARN}")
 
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
+message("compiler: ${CMAKE_CXX_COMPILER_ID}\nbuild type: ${CMAKE_BUILD_TYPE}")
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_C_FLAGS "/W3 /WX /O2")
+    set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(GCC_WARNS "-Wall -Wextra -Werror")
+    set(CMAKE_C_FLAGS_DEBUG     "${GCC_WARNS} -O0 -ggdb3")
+    set(CMAKE_C_FLAGS_RELEASE   "${GCC_WARNS} -O3")
+    set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    message(FATAL_ERROR "building under MacOS not supported")
+endif()
 
 find_package(Qt6 COMPONENTS Core Linguist Network PrintSupport Widgets Xml REQUIRED)
 set(QT_LIBS Qt6::Core Qt6::Network Qt6::PrintSupport Qt6::Widgets Qt6::Xml)
@@ -33,7 +43,13 @@ if (DOXYGEN_FOUND)
     doxygen_add_docs(doc ".." WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/app/doc")
 endif()
 
+
+# to run static analysis:
+# scan-build cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ <SRC_DIR>
+# scan-build make
+
 # TODO:
 # more warnings check
 # static analyzer
+# option for build crypto
 # packages. rpm/deb is supported, some windows packages also. Don't know about MacOs/android.
