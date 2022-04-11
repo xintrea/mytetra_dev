@@ -203,7 +203,7 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  // Синхронизация файловой системы, почему-то после создания файлы
  // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
  #ifdef Q_OS_LINUX
- std::system("sync");
+ sync();
  #endif
 }
 
