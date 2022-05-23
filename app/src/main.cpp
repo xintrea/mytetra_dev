@@ -261,8 +261,10 @@ int main(int argc, char ** argv)
  QString langFileName=":/resource/translations/mytetra_"+mytetraConfig.get_interfacelanguage()+".qm";
  qDebug() << "Use language file " << langFileName;
  QTranslator langTranslator;
- langTranslator.load(langFileName);
- app.installTranslator(&langTranslator);
+ if(langTranslator.load(langFileName))
+    app.installTranslator(&langTranslator);
+ else
+     qDebug() << "Can't install translations";
 
  //Загрузка переводов стандартных диалогов и кнопок
  QTranslator qtTranslator;
