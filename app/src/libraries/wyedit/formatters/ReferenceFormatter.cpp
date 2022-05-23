@@ -166,10 +166,7 @@ void ReferenceFormatter::onClickedGotoReference(QString href)
 
 bool ReferenceFormatter::isHrefInternal(QString href)
 {
-    if(href.contains(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/\\w+$")))
-        return true;
-    else
-        return false;
+    return href.contains(QRegularExpression("^"+FixedParameters::appTextId+":\\/\\/note\\/\\w+$"));
 }
 
 
@@ -178,7 +175,7 @@ QString ReferenceFormatter::getIdFromInternalHref(QString href)
     if(!isHrefInternal(href))
         return "";
 
-    href.replace(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/"), "");
+    href.replace(QRegularExpression("^"+FixedParameters::appTextId+":\\/\\/note\\/"), "");
 
     return href;
 }

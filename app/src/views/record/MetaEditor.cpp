@@ -301,7 +301,8 @@ void MetaEditor::setTags(QString tags)
 
 
  // Строка с метками разделяется на отдельные меки
- recordTagsTextList = recordTagsText.split(QRegExp("[,;]+"), Qt::SkipEmptyParts);
+ static const QRegularExpression re("[,;]+");
+ recordTagsTextList = recordTagsText.split(re, Qt::SkipEmptyParts);
 
  // В каждой метке убираются лишние пробелы по краям
  for(int i = 0; i < recordTagsTextList.size(); ++i)

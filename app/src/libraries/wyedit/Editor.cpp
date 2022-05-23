@@ -826,8 +826,9 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
     QStringList imageInDirectory=directory.entryList(QDir::Files);
 
     // Перебираются файлы в директории
+    static const QRegularExpression re("\\.png$");
     foreach(QString fileName, imageInDirectory)
-      if( fileName.contains(QRegExp("\\.png$")) ) // Обрабатыватся только *.png файлы
+      if( fileName.contains(re) ) // Обрабатываются только *.png файлы
         if( !imagesNames.contains(fileName) ) // Только картинки, не встречающиеся в тексте записи
           if( !miscFields["attachFileNameList"].contains(fileName) ) // Только имена файлов, не содержащиеся в прикрепленных файлах
           {

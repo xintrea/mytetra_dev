@@ -590,20 +590,13 @@ QString TypefaceFormatter::replaceSpacesOnlyTags(QString htmlCode)
 {
     qDebug() << "In TypefaceFormatter::replaceSpacesOnlyTags(): " << htmlSimplyfier( htmlCode );
 
-    QRegExp replaceSpaceTagsEx("<span[^>]*>\\s*</span>");
-    replaceSpaceTagsEx.setMinimal(true);
+    static const QRegularExpression replaceSpaceTagsEx("<span[^>]*>\\s*</span>", QRegularExpression::InvertedGreedinessOption);
 
     // Поиск тегов <span> с одними пробелами внутри, с запоминанием их
     QStringList list;
-    int lastPos = 0;
-    while( ( lastPos = replaceSpaceTagsEx.indexIn( htmlCode, lastPos ) ) != -1 )
-    {
-        lastPos += replaceSpaceTagsEx.matchedLength();
-
-        list << replaceSpaceTagsEx.cap(0);
-        // qDebug() << "Find space only sttring: " << list.last();
-    }
-
+    auto m = replaceSpaceTagsEx.globalMatch(htmlCode);
+    while (m.hasNext())
+        list << m.next().captured();
 
     // Замена найденных тегов на теги с RC-символом вместо пробелов
     for( int n = 0; n < list.size(); n++)
@@ -641,8 +634,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 
     // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
     // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
-    QRegExp removeStyleEx("style=\".*\"");
-    removeStyleEx.setMinimal(true);
+    static const QRegularExpression removeStyleEx("style=\".*\"", QRegularExpression::InvertedGreedinessOption);
     htmlCode.replace(removeStyleEx, "style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\"");
     // qDebug() << "After remove style: " << htmlCode;
 
@@ -682,9 +674,8 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
     for(int lineNum=0; lineNum<list.count(); ++lineNum)
     {
         // qDebug() << "L" << lineNum << " " << list[lineNum];
+        static const QRegularExpression replacePBrP("<p.*><br.?\\/><\\/p.*>", QRegularExpression::InvertedGreedinessOption);
 
-        QRegExp replacePBrP("<p.*><br.?\\/><\\/p.*>");
-        replacePBrP.setMinimal(true);
         list[lineNum].replace(replacePBrP, "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; \"></p>");
         // qDebug() << "L" << lineNum << " " << list[lineNum];
 
@@ -693,12 +684,10 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
     htmlCode=tempHtmlCode;
     // qDebug() << "After replace p br p: " << htmlCode;
 
-    QRegExp replaceOpenHeaderEx("<[hH]\\d.*>");
-    replaceOpenHeaderEx.setMinimal(true);
+    static const QRegularExpression replaceOpenHeaderEx("<[hH]\\d.*>", QRegularExpression::InvertedGreedinessOption);
     htmlCode.replace(replaceOpenHeaderEx, "<p>");
 
-    QRegExp replaceCloseHeaderEx("</[hH]\\d.*>");
-    replaceCloseHeaderEx.setMinimal(true);
+    static const QRegularExpression replaceCloseHeaderEx("</[hH]\\d.*>", QRegularExpression::InvertedGreedinessOption);
     htmlCode.replace(replaceCloseHeaderEx, "</p>");
 
     QStringList chunks=htmlCode.split("<body>"); // Вместо удаления ".*<body>" через медленную регулярку
@@ -716,8 +705,7 @@ QString TypefaceFormatter::clearTypeFace(QString htmlCode)
 // Метод, применяемый при выводе отладочной информации, чтобы проще было смотреть на код
 QString TypefaceFormatter::htmlSimplyfier(QString htmlCode)
 {
-    QRegExp rx("style=\"([^\"]*)\"");
-    rx.setMinimal(true);
+    static const QRegularExpression rx("style=\"([^\"]*)\"", QRegularExpression::InvertedGreedinessOption);
     htmlCode.replace(rx, "");
     // qDebug() << "After replace htmlSimplyfier: " << htmlCode;
 
@@ -1171,9 +1159,7 @@ void TypefaceFormatter::onFixBreakSymbolClicked()
 
     // В регулярных выражениях Qt кванторы по-умолчанию жадные (greedy)
     // Поэтому напрямую регвыру указывается что кванторы должны быть ленивые
-    QRegExp replace_expression("<br\\s?/>");
-    replace_expression.setMinimal(true);
-
+    static const QRegularExpression replace_expression("<br\\s?/>", QRegularExpression::InvertedGreedinessOption);
     htmlCode.replace(replace_expression, "</p><p>");
 
     // qDebug() << "After remove style: " << htmlCode;
@@ -1301,8 +1287,9 @@ void TypefaceFormatter::onInsertHorizontalLineClicked()
 
     // Определяем, не является ли этот символ слева от курсора мягким переносом
     QString html = textCursor.selection().toHtml();
-    QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*<br\\s*/\\s*>\\s*</span>");
-    regExp.setMinimal(true);
+    static const QRegularExpression regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*<br\\s*/\\s*>\\s*</span>",
+                                           QRegularExpression::InvertedGreedinessOption);
+
     if(html.indexOf(regExp) != -1)
     {
         // Если это мягкий перенос - заменяем его на абзац
@@ -1347,8 +1334,8 @@ void TypefaceFormatter::workingSoftCarryInSelection()
     if(textCursor.anchor() != 0 && textCursor.position() != 0) // Пропускаем начало документо
     {
         QString html = textCursor.selection().toHtml();
-        QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>");
-        regExp.setMinimal(true);
+        static const QRegularExpression regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>",
+                                               QRegularExpression::InvertedGreedinessOption);
         if(html.indexOf(regExp) != -1)
         {
             // Если это мягкий перенос - заменяем его на абзац
@@ -1364,23 +1351,23 @@ void TypefaceFormatter::workingSoftCarryInSelection()
 
     // Ищем мягкий перенос в качестве пустого абзаца в расширенном вправо выделении
     QString htmlCode = textArea->textCursor().selection().toHtml();
-    QRegExp regExp("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>");
-    regExp.setMinimal(true);
-    if(htmlCode.indexOf(regExp) != -1)
+    static const QRegularExpression regExp_1("<span\\s+style=\"(?:(?:(?:\\s*font-family:'(?:[^<]+)';)(?:\\s*font-size:(?:\\d+)pt;))|(?:(?:\\s*font-size:(?:\\d+)pt;)(?:\\s*font-family:'(?:[^<]+)';)))\">\\s*(?:<br\\s*/\\s*>\\s*){1,}\\s*</span>",
+                                             QRegularExpression::InvertedGreedinessOption);
+    if(htmlCode.indexOf(regExp_1) != -1)
     {
         // Заменяем проблемный код в html
-        htmlCode.replace(regExp, "</p><p><br/>");
+        htmlCode.replace(regExp_1, "</p><p><br/>");
         textArea->textCursor().insertHtml(htmlCode);
     }
 
     // Теперь обрабатываем смитуацию, когда на конце строки - мягкий перенос
     htmlCode = textArea->textCursor().selection().toHtml();
-    regExp.setPattern("(<span\\s+style=\"\\s*((?:[^<]+);\">)(?:.+)\\s*)(?:(?:<br\\s*/\\s*>\\s*){1,}\\s*)(</span>)");
-    regExp.setMinimal(true);
-    if(htmlCode.indexOf(regExp) != -1)
+    static const QRegularExpression regExp_2("(<span\\s+style=\"\\s*((?:[^<]+);\">)(?:.+)\\s*)(?:(?:<br\\s*/\\s*>\\s*){1,}\\s*)(</span>)",
+                                             QRegularExpression::InvertedGreedinessOption);
+    if(htmlCode.indexOf(regExp_2) != -1)
     {
         // Удаляем в html код <br/>
-        htmlCode.replace(regExp, "\\1");
+        htmlCode.replace(regExp_2, "\\1");
         textArea->textCursor().insertHtml(htmlCode);
     }
 

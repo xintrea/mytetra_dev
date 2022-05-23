@@ -806,18 +806,13 @@ void Record::replaceInternalReferenceByTranslateTable(QString recordFileName, QM
 
 
   // Подготавливается регулярное выражение
-  QRegExp rx("href=\""+FixedParameters::appTextId+":\\/\\/note/(.*)\"");
-  rx.setMinimal(true); // Регулярка делается ленивой (ленивые квантификаторы в строке регвыра в Qt не поддерживаются)
+  QRegularExpression rx("href=\""+FixedParameters::appTextId+":\\/\\/note/(.*)\"", QRegularExpression::InvertedGreedinessOption);
 
   // Заполняется список идентификаторов, встречающихся во внутренних ссылках
   QStringList internalIdList;
-  int pos = 0;
-  while ((pos = rx.indexIn(lines, pos))!=-1)
-  {
-    internalIdList << rx.cap(1);
-    pos += rx.matchedLength();
-  }
-
+  auto m = rx.globalMatch(lines);
+  while (m.hasNext())
+      internalIdList << m.next().captured(1);
 
   // Перебираются найденные внутри mytetra-ссылок идентификаторы
   bool isIdReplace=false;
