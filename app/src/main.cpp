@@ -81,7 +81,7 @@ QObject *pMainWindow;
 void printHelp()
 {
   printf("\n");
-  printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
+  printf("MyTetra %s\n", APPLICATION_VERSION);
   printf("For use control mode, run by standard way MyTetra for show GUI interface, and next use command:\n");
   printf("./mytetra --control --show - Show and activate MyTetra window\n");
   printf("./mytetra --control --hide - Hide MyTetra window\n");
@@ -193,7 +193,7 @@ void parseConsoleOption(QtSingleApplication &app)
 
 int main(int argc, char ** argv)
 {
- printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
+ printf("\nStart MyTetra %s\n", APPLICATION_VERSION);
 
  Q_INIT_RESOURCE(mytetra);
 

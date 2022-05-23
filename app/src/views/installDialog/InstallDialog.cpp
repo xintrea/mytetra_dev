@@ -20,7 +20,7 @@ InstallDialog::InstallDialog(QWidget *parent) :
 
     this->setupSignals();
 
-    ui->m_title->setText( tr("Welcome to MyTetra v.")+QString::number(APPLICATION_RELEASE_VERSION)+'.'+QString::number(APPLICATION_RELEASE_SUBVERSION)+'.'+QString::number(APPLICATION_RELEASE_MICROVERSION)+"!" );
+    ui->m_title->setText( tr("Welcome to MyTetra ")+APPLICATION_VERSION+"!" );
 
     ui->m_text->setText( tr("Please select a knowledge base installation mode:") );
 }

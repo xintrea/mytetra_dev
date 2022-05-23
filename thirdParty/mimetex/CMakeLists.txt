@@ -7,3 +7,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "C
     target_compile_options(mimetex PRIVATE "-Wno-unused-parameter" "-Wno-sign-compare")
     target_link_libraries(mimetex PRIVATE "m")
 endif()
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    install(TARGETS mimetex DESTINATION "${CMAKE_INSTALL_BINDIR}")
+endif()

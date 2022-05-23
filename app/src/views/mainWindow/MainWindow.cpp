@@ -884,7 +884,7 @@ void MainWindow::onExpandEditArea(bool flag)
 
 void MainWindow::onClickHelpAboutMyTetra(void)
 {
-    QString version=QString::number(APPLICATION_RELEASE_VERSION)+"."+QString::number(APPLICATION_RELEASE_SUBVERSION)+"."+QString::number(APPLICATION_RELEASE_MICROVERSION);
+    QString version=APPLICATION_VERSION;
 
     QString infoProgramName;
     QString infoVersion;
@@ -893,7 +893,7 @@ void MainWindow::onClickHelpAboutMyTetra(void)
     QString infoLicense;
 
     infoProgramName="<b>MyTetra</b> - smart manager<br/>for information collecting<br/><br/>";
-    infoVersion="v."+version+"<br/><br/>";
+    infoVersion=version+"<br/><br/>";
     infoAuthor="Author: Sergey M. Stepanov<br/>";
     infoEmail="Author Email:<i>xintrea@gmail.com</i><br/><br/>";
     infoLicense="GNU General Public License v.3.0<br/><br/>";
