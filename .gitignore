@@ -59,3 +59,4 @@ qrc_*.cpp
 
 /app/ui_*
 /app/user*appdatalocal*
+CMakeLists.txt.user
