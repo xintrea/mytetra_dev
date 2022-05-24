@@ -11,7 +11,6 @@ file(GLOB_RECURSE SRC_2
 )
 
 add_executable(mytetra "main.cpp" "../bin/mytetra.qrc" "../bin/icons.qrc" ${SRC_1} ${SRC_2})
-target_compile_definitions(mytetra PRIVATE QT_DISABLE_DEPRECATED_BEFORE=0x050F00)
 
 target_include_directories(mytetra PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
