@@ -498,15 +498,15 @@ void AppConfig::set_synchroonexit(bool flag)
 }
 
 
-bool AppConfig::getSyncroConsoleDetails(void)
+bool AppConfig::getSynchroConsoleDetails(void)
 {
-    return conf->value("syncroConsoleDetails").toBool();
+    return conf->value("synchroConsoleDetails").toBool();
 }
 
 
-void AppConfig::setSyncroConsoleDetails(bool flag)
+void AppConfig::setSynchroConsoleDetails(bool flag)
 {
-    conf->setValue("syncroConsoleDetails", flag);
+    conf->setValue("synchroConsoleDetails", flag);
 }
 
 
@@ -905,27 +905,27 @@ void AppConfig::setIconCurrentSectionName(QString name)
 
 
 // Разрешена ли периодическая синхронизация
-bool AppConfig::getEnablePeriodicSyncro(void)
+bool AppConfig::getEnablePeriodicSynchro(void)
 {
-    return conf->value("enablePeriodicSyncro").toBool();
+    return conf->value("enablePeriodicSynchro").toBool();
 }
 
-void AppConfig::setEnablePeriodicSyncro(bool state)
+void AppConfig::setEnablePeriodicSynchro(bool state)
 {
-    conf->setValue("enablePeriodicSyncro", state);
+    conf->setValue("enablePeriodicSynchro", state);
 }
 
 
 // Период автоматической периодической синхронизации
-int AppConfig::getPeriodicSyncroPeriod(void)
+int AppConfig::getPeriodicSynchroPeriod(void)
 {
-    return get_parameter("periodicSyncroPeriod").toInt();
+    return get_parameter("periodicSynchroPeriod").toInt();
 }
 
 
-void AppConfig::setPeriodicSyncroPeriod(int period)
+void AppConfig::setPeriodicSynchroPeriod(int period)
 {
-    conf->setValue("periodicSyncroPeriod", period);
+    conf->setValue("periodicSynchroPeriod", period);
 }
 
 
@@ -1134,6 +1134,7 @@ void AppConfig::update_version_process(void)
     parameterFunctions << &AppConfig::get_parameter_table_36;
     parameterFunctions << &AppConfig::get_parameter_table_37;
     parameterFunctions << &AppConfig::get_parameter_table_38;
+    parameterFunctions << &AppConfig::get_parameter_table_39;
 
     for(int i=1; i<parameterFunctions.count()-1; ++i)
     {
@@ -1895,6 +1896,35 @@ QStringList AppConfig::get_parameter_table_38(bool withEndSignature)
     // Обновление формата конфига не происходит, обновляется только
     // представление параметра dockableWindowsState
     // см. AppConfigUpdater::updateValueRepresentation
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_39(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 38
+    table << get_parameter_table_38(false);
+
+    // rename '*syncro*' to '*synchro*'
+    auto pv = getParameterValueFromTable("enablePeriodicSyncro", table);
+    table = removeParameterFromTable("enablePeriodicSyncro", table);
+    table << "enablePeriodicSynchro" << "bool" << pv;
+
+    pv = getParameterValueFromTable("periodicSyncroPeriod", table);
+    table=removeParameterFromTable("periodicSyncroPeriod", table);
+    table << "periodicSynchroPeriod" << "int" << pv;
+
+    pv = getParameterValueFromTable("syncroConsoleDetails", table);
+    table=removeParameterFromTable("syncroConsoleDetails", table);
+    table << "synchroConsoleDetails" << "bool" << "false";
 
     if(withEndSignature)
         table << "0" << "0" << "0";

@@ -51,9 +51,6 @@ public:
     void setWindowSwitcher(WindowSwitcher *point);
     WindowSwitcher *getWindowSwitcher();
 
-    void setSyncroCommandRun(CommandRun *point);
-    CommandRun *getSyncroCommandRun();
-
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
 
@@ -93,7 +90,6 @@ private:
     MetaEditor *pointMetaEditor=nullptr;
     QStatusBar *pointStatusBar=nullptr;
     WindowSwitcher *windowSwitcher=nullptr;
-    CommandRun *syncroCommandRun=nullptr; //! Объект выполнения команд синхронизации базы MyTetra
 
     QString mainProgramFile;
     QString workDirectory;

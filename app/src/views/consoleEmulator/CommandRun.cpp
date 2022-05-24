@@ -19,26 +19,6 @@ extern GlobalParameters globalParameters;
 
 CommandRun::CommandRun(QObject *parent) : QObject(parent)
 {
-    QString os=getOsFamily();
-
-    // Определение командной оболочки, которую надо использовать
-    m_shell="";
-    if(os=="unix")
-    {
-        if(system("sh -c exit")==0)
-            m_shell="sh -c";
-        else if(system("bash -c exit")==0)
-            m_shell="bash -c";
-    }
-    else if(os=="windows")
-    {
-        m_shell="cmd.exe /C";
-    }
-
-    if(m_shell.length()==0)
-    {
-        criticalError("Can't detect sh, bash or cmd shell.");
-    }
 }
 
 
@@ -76,6 +56,10 @@ void CommandRun::setCommand(QString cmd)
     m_command=cmd;
 }
 
+void CommandRun::setArgs(QStringList args)
+{
+    m_args=args;
+}
 
 void CommandRun::setWindowTitle(QString title)
 {
@@ -121,10 +105,9 @@ void CommandRun::createProcessAndConsole()
 
     m_console->setWindowTitle(m_windowTitle);
     m_console->setMessageText(m_messageText);
-    m_console->setConsoleOutput( this->getCommandForProcessExecute()+"\n" );
+    m_console->setConsoleOutput( m_command + " " + m_args.join(' ') + "\n" );
 
-    qDebug() << "Run shell" << m_shell;
-    qDebug() << "Run command" << m_command;
+    qDebug() << "Run command" << m_command << " " << m_args;
 }
 
 
@@ -165,37 +148,22 @@ void CommandRun::removeProcessAndConsole(void)
 }
 
 
-// Команда, которая должна запускаться в процессе
-QString CommandRun::getCommandForProcessExecute()
-{
-    return m_shell+" \""+m_command+"\"";
-}
-
-
 // Простой запуск консольных команд на исполнение с ожиданием завершения,
 // Метод возвращет код возврата выполняемой команды.
-// Консоль не создается, команду просто выполняется в процессе
+// Консоль не создается, команда просто выполняется в процессе
 int CommandRun::runSimple()
 {
-    // Если командный интерпретатор не установлен
-    if(m_shell.length()==0)
-        criticalError("ExecuteCommand::run() : Not detect available shell");
-
     // Создается процесс
     QProcess simpleProcess;
 
     // Запускается команда на исполнение
-    return simpleProcess.execute( this->getCommandForProcessExecute(), {} );
+    return simpleProcess.execute(m_command, m_args );
 }
 
 
 // Запуск процесса выполнения команды
 void CommandRun::run(bool visible)
 {
-    // Если командный интерпретатор не установлен
-    if(m_shell.length()==0)
-        criticalError("ExecuteCommand::run() : Not detect available shell");
-
     m_isError=false;
 
     // Создается процесс и консоль к нему
@@ -223,12 +191,12 @@ void CommandRun::run(bool visible)
 
     // Отслеживание завершения запущенного процесса
     // (Сигнал finished перегружен, поэтому новый синтаксис надо писать в виде замыкания)
-    connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+    connect(m_process, &QProcess::finished,
             this, [=](int exitCode, QProcess::ExitStatus exitStatus){ this->onProcessFinish(exitCode, exitStatus); } );
 
 
     // Запускается команда на исполнение внутри процесса
-    m_process->start( this->getCommandForProcessExecute(), QStringList() );
+    m_process->start( m_command, m_args );
 }
 
 
@@ -278,7 +246,8 @@ void CommandRun::onProcessError(QProcess::ProcessError error)
 
     QMap<QString, QString> data;
     data["errCode"]=QString::number(error);
-    actionLogger.addAction("syncroProcessError", data);
+    actionLogger.addAction("synchroProcessError", data);
+    m_console->switchToErrorView();
 
     m_isError=true;
 }

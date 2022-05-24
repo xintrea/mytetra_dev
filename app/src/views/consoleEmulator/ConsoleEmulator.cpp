@@ -40,7 +40,7 @@ void ConsoleEmulator::setupUI(void)
  consoleOutput=new QTextEdit(this);
  consoleOutput->setReadOnly(true);
  consoleOutput->setFontFamily("monospace");
- if(mytetraConfig.getSyncroConsoleDetails()==false)
+ if(mytetraConfig.getSynchroConsoleDetails()==false)
   consoleOutput->hide();
 
  waitClock=new WaitClock(this);
@@ -149,12 +149,12 @@ void ConsoleEmulator::onDetailsClick(void)
  if(consoleOutput->isHidden())
   {
    consoleOutput->show();
-   mytetraConfig.setSyncroConsoleDetails(true);
+   mytetraConfig.setSynchroConsoleDetails(true);
   }
  else
   {
    consoleOutput->hide();
-   mytetraConfig.setSyncroConsoleDetails(false);
+   mytetraConfig.setSynchroConsoleDetails(false);
   }
 
  this->adjustSize();
@@ -167,12 +167,7 @@ void ConsoleEmulator::switchToErrorView(void)
 
  isErrorMode=true;
 
- actionLogger.addAction("syncroError");
-
- // Верхняя строка скрывается
- // QLayoutItem *child;
- // while ((child = upToolbar->takeAt(0)) != 0)
- //   child->widget()->hide();
+ actionLogger.addAction("synchroError");
 
  // Сообщение об обнаруженной ошибке
  messageLabel->setText("<b>"+tr("Commands running error")+"</b>");

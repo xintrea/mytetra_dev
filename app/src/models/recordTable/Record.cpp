@@ -399,7 +399,7 @@ QMap<QString, QString> Record::getNaturalFieldList() const
 AttachTableData Record::getAttachTable() const
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   return attachTableData;
 }
@@ -408,7 +408,7 @@ AttachTableData Record::getAttachTable() const
 AttachTableData *Record::getAttachTablePointer()
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   return &attachTableData;
 }
@@ -417,7 +417,7 @@ AttachTableData *Record::getAttachTablePointer()
 void Record::setAttachTable(AttachTableData iAttachTable)
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("setAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   attachTableData=iAttachTable;
 }

@@ -138,7 +138,7 @@ private slots:
 
  void runDirectPreferences(QAction *action);
 
- void onSyncroCommandFinishWork(void);
+ void onSynchroCommandFinishWork(void);
 
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
@@ -215,7 +215,7 @@ private:
  QSplitter *hSplitter;
  QSplitter *findSplitter;
 
- CommandRun *syncroCommandRun=nullptr;
+ CommandRun *synchroCommandRun=nullptr;
 
  
 protected:

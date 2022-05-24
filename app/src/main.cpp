@@ -34,7 +34,7 @@
 #include "libraries/TraceLogger.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/PeriodicCheckBase.h"
-#include "libraries/PeriodicSyncro.h"
+#include "libraries/PeriodicSynchro.h"
 #include "libraries/IconSelectDialog.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/MessageHelper.h"
@@ -74,7 +74,7 @@ ShortcutManager shortcutManager;
 
 // Различные периодические проверки
 PeriodicCheckBase periodicCheckBase;
-PeriodicSyncro periodicSyncro;
+PeriodicSynchro periodicSynchro;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -377,9 +377,9 @@ int main(int argc, char ** argv)
  periodicCheckBase.start();
 
  // Инициалиация периодической синхронизации
- periodicSyncro.init();
- periodicSyncro.setDelay( mytetraConfig.getPeriodicSyncroPeriod() );
- periodicSyncro.start();
+ periodicSynchro.init();
+ periodicSynchro.setDelay( mytetraConfig.getPeriodicSynchroPeriod() );
+ periodicSynchro.start();
 
  // При закрытии окна не выходить из программы.
  // Окно программы может быть снова открыто из трея

@@ -481,18 +481,6 @@ WindowSwitcher *GlobalParameters::getWindowSwitcher()
 }
 
 
-void GlobalParameters::setSyncroCommandRun(CommandRun *point)
-{
-    syncroCommandRun=point;
-}
-
-
-CommandRun *GlobalParameters::getSyncroCommandRun()
-{
-    return syncroCommandRun;
-}
-
-
 void GlobalParameters::setCryptKey(QByteArray hash)
 {
     passwordHash=hash;

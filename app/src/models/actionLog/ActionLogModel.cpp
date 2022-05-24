@@ -84,7 +84,7 @@ QVariant ActionLogModel::getCell(int row, int column, int role) const
       // Вывод иконок
       if(role==Qt::DecorationRole)
       {
-        if(element.attribute("a")=="syncroProcessError" || element.attribute("a")=="syncroError")
+        if(element.attribute("a")=="synchroProcessError" || element.attribute("a")=="synchroError")
           return QCommonStyle().standardIcon(QStyle::SP_MessageBoxWarning);
 
         if(element.attribute("a")=="criticalError")

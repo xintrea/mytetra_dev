@@ -20,6 +20,7 @@ public:
  static QString getOsFamily();
 
  void setCommand(QString cmd);
+ void setArgs(QStringList args);
  void run(bool visible=true);
  int runSimple();
 
@@ -42,7 +43,6 @@ private slots:
 
 private:
 
- QString getCommandForProcessExecute();
  void printOutput() const;
 
  void createProcessAndConsole(void);
@@ -50,7 +50,7 @@ private:
 
 
  QString m_command;
- QString m_shell;
+ QStringList m_args;
  QString m_windowTitle;
  QString m_messageText;
 

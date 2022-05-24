@@ -121,8 +121,8 @@ public:
     bool get_synchroonexit(void);
     void set_synchroonexit(bool flag);
 
-    bool getSyncroConsoleDetails(void);
-    void setSyncroConsoleDetails(bool flag);
+    bool getSynchroConsoleDetails(void);
+    void setSynchroConsoleDetails(bool flag);
     
     int  getEditorCursorPosition(void);
     void setEditorCursorPosition(int n);
@@ -238,12 +238,12 @@ public:
     void setIconCurrentSectionName(QString name);
 
     // Разрешена ли периодическая синхронизация
-    bool getEnablePeriodicSyncro(void);
-    void setEnablePeriodicSyncro(bool state);
+    bool getEnablePeriodicSynchro(void);
+    void setEnablePeriodicSynchro(bool state);
 
     // Период автоматической периодической синхронизации
-    int  getPeriodicSyncroPeriod(void);
-    void setPeriodicSyncroPeriod(int period);
+    int  getPeriodicSynchroPeriod(void);
+    void setPeriodicSynchroPeriod(int period);
 
     // Разрешено ли создавать запись без текста
     bool getEnableCreateEmptyRecord(void);
@@ -309,6 +309,7 @@ private:
     QStringList get_parameter_table_36(bool withEndSignature=true);
     QStringList get_parameter_table_37(bool withEndSignature=true);
     QStringList get_parameter_table_38(bool withEndSignature=true);
+    QStringList get_parameter_table_39(bool withEndSignature=true);
 
     bool is_init_flag;
 };

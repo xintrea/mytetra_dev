@@ -48,10 +48,10 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
   actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
 
-  actionStructure["startSyncro"];
-  actionStructure["stopSyncro"];
-  actionStructure["syncroProcessError"] = (QStringList() << "errCode" );
-  actionStructure["syncroError"];
+  actionStructure["startSynchro"];
+  actionStructure["stopSynchro"];
+  actionStructure["synchroProcessError"] = (QStringList() << "errCode" );
+  actionStructure["synchroError"];
 
   actionStructure["criticalError"] =(QStringList() << "errorMessage" );
 
@@ -307,16 +307,16 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
     line=tr("Drop note \"%1\" with ID %2 to tree item \"%3\" with ID %4").arg(iData["recordName"], iData["recordId"], iData["branchName"], iData["branchId"]);
 
 
-  else if( iData["a"] == "startSyncro")
+  else if( iData["a"] == "startSynchro")
     line=tr("Start synchronization");
 
-  else if( iData["a"] == "stopSyncro")
+  else if( iData["a"] == "stopSynchro")
     line=tr("Stop synchronization");
 
-  else if( iData["a"] == "syncroProcessError")
+  else if( iData["a"] == "synchroProcessError")
     line=tr("Synchronization process error detected. Error code: %1").arg( iData["errCode"]);
 
-  else if( iData["a"] == "syncroError")
+  else if( iData["a"] == "synchroError")
     line=tr("Synchronization error");
 
   else if( iData["a"] == "criticalError")

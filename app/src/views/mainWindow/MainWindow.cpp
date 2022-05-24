@@ -114,8 +114,7 @@ void MainWindow::setupUI(void)
     globalParameters.setWindowSwitcher(windowSwitcher);
 
     // Вспомогательный объект с виджетом синхронизации базы знаний
-    syncroCommandRun=new CommandRun( this );
-    globalParameters.setSyncroCommandRun( syncroCommandRun );
+    synchroCommandRun=new CommandRun( this );
 
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
@@ -200,10 +199,10 @@ void MainWindow::setupSignals(void)
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
 
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(syncroCommandRun, &CommandRun::finishWork,
-            recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
-    connect(syncroCommandRun, &CommandRun::finishWork,
-            this, &MainWindow::onSyncroCommandFinishWork);
+    connect(synchroCommandRun, &CommandRun::finishWork,
+            recordTableScreen, &RecordTableScreen::onSynchroCommandFinishWork);
+    connect(synchroCommandRun, &CommandRun::finishWork,
+            this, &MainWindow::onSynchroCommandFinishWork);
 
     // Связывание сигнала вызова обработки открепляемых окон на предмет того,
     // что они отображают существующие записи
@@ -822,7 +821,7 @@ void MainWindow::applicationExit(void)
             if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
             {
                 enableRealClose=true;
-                synchronization(); // В конце синхронизации будет вызван слот onSyncroCommandFinishWork()
+                synchronization(); // В конце синхронизации будет вызван слот onSynchroCommandFinishWork()
             }
 
     // Запуск выхода из программы
@@ -1034,13 +1033,13 @@ void MainWindow::reloadLoadStage(bool isLongTimeReload)
 void MainWindow::synchronization(bool visible)
 {
     // Если кнопка синхронизации заблокирована, начинать синхронизацию нельзя
-    if(!recordTableScreen->actionSyncro->isEnabled())
+    if(!recordTableScreen->actionSynchro->isEnabled())
         return;
 
     // Блокируется кнопка синхронизации, чтобы два раза случайно не нажать синхронизацию (окно синхронизации не модально)
-    recordTableScreen->actionSyncro->setEnabled(false);
+    recordTableScreen->actionSynchro->setEnabled(false);
 
-    actionLogger.addAction("startSyncro");
+    actionLogger.addAction("startSynchro");
 
     reloadSaveStage();
 
@@ -1056,29 +1055,31 @@ void MainWindow::synchronization(bool visible)
                              QMessageBox::Close);
 
         // Кнопка синхронизации разблокируется, чтобы ее можно было снова нажать
-        recordTableScreen->actionSyncro->setEnabled(true);
+        recordTableScreen->actionSynchro->setEnabled(true);
 
         return;
     }
 
-
+    auto cmdArgs = QProcess::splitCommand(command);
     // Макрос %a заменяется на путь к директории базы данных
     // QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir();
     QDir databaseDir( mytetraConfig.get_tetradir() );
     QString databasePath=databaseDir.canonicalPath();
 
-    command.replace("%a", databasePath);
+    cmdArgs.replaceInStrings("%a", databasePath);
 
     // Запуск команды синхронизации
-    globalParameters.getSyncroCommandRun()->setWindowTitle(tr("MyTetra synchronization"));
-    globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
-    globalParameters.getSyncroCommandRun()->setCommand(command);
-    globalParameters.getSyncroCommandRun()->run(visible);
+    synchroCommandRun->setWindowTitle(tr("MyTetra synchronization"));
+    synchroCommandRun->setMessageText(tr("Synchronization in progress, please wait..."));
+    synchroCommandRun->setCommand(cmdArgs[0]);
+    cmdArgs.removeFirst();
+    synchroCommandRun->setArgs(cmdArgs);
+    synchroCommandRun->run(visible);
 }
 
 
 // Завершение синхронизации
-void MainWindow::onSyncroCommandFinishWork()
+void MainWindow::onSynchroCommandFinishWork()
 {
     // Функция перечитывания дерева знаний вызывается с флагом,
     // что от предыдущей стадии была большая задержка
@@ -1094,7 +1095,7 @@ void MainWindow::onSyncroCommandFinishWork()
     // делается через сингнал-слот
     emit doUpdateDetachedWindows();
 
-    actionLogger.addAction("stopSyncro");
+    actionLogger.addAction("stopSynchro");
 
     // В конце синхронизации нужно проверить, не происходит ли выход из программы
     if(enableRealClose==true)

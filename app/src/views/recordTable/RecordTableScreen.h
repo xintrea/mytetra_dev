@@ -55,20 +55,20 @@ public:
  QAction *actionSwitchSelectionMode;
 
  // Действие, которое может быть вызвано из MainWindows
- QAction *actionSyncro;
+ QAction *actionSynchro;
 
 public slots:
 
  // Обновление состояния экранных элементов согласно состоянию записи и положении зиписи в таблице
  void toolsUpdate(void);
 
- void onSyncroCommandFinishWork(void);
+ void onSynchroCommandFinishWork(void);
 
  void setupShortcuts(void);
 
 private slots:
  
- void onSyncroClick(void);
+ void onSynchroClick(void);
  void onWalkHistoryPreviousClick(void);
  void onWalkHistoryNextClick(void);
  void onBackClick(void);
