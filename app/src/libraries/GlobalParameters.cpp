@@ -24,6 +24,8 @@
 
 #ifdef Q_OS_WIN32
 #include "windows.h"
+#elif defined(Q_OS_LINUX)
+#include <unistd.h>
 #endif
 
 

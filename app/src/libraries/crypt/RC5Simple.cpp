@@ -120,7 +120,7 @@ Volgodonsk, 2011-2013
 //        в методе RC5_EncDecFile()
 
 
-RC5Simple::RC5Simple(bool enableRandomInit)
+RC5Simple::RC5Simple()
 { 
  // Set magic constants
  rc5_p = 0xb7e15163;
@@ -134,10 +134,6 @@ RC5Simple::RC5Simple(bool enableRandomInit)
  rc5_isSetFormatVersionForce=false;
 
  errorCode=0;
-
- // Init random generator
- if(enableRandomInit)
-  srand( time(NULL) );
 }
 
 

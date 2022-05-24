@@ -22,7 +22,6 @@
 #include "views/actionLog/ActionLogScreen.h"
 #include "views/databasesManagement/DatabasesManagementScreen.h"
 #include "libraries/ShortcutManager.h"
-#include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/wyedit/EditorTextArea.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
@@ -67,10 +66,7 @@ MainWindow::MainWindow() : QMainWindow()
     // Закрывать ли по-настоящему окно при обнаружении сигнала closeEvent
     enableRealClose=false;
 
-    // Инициализация генератора случайных чисел
-    int x=this->mapFromGlobal(QCursor::pos()).x();
-    int y=this->mapFromGlobal(QCursor::pos()).y();
-    RandomInitter::init( static_cast<long>( x * y + (x % (y==0 ? 1 : y)) + x + y ) );
+    srand(time(NULL));
 }
 
 

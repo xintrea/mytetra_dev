@@ -51,7 +51,6 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 
   initDataEnableAssembly=true;
   initDataConfigFileName="";
-  initDataEnableRandomSeed=false;
   initDataDisableToolList.clear();
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
@@ -104,15 +103,6 @@ void Editor::initConfigFileName(QString name)
 }
 
 
-void Editor::initEnableRandomSeed(bool flag)
-{
-  if(isInit)
-    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
-
-  initDataEnableRandomSeed=flag;
-}
-
-
 void Editor::initDisableToolList(QStringList toolNames)
 {
   if(isInit)
@@ -162,14 +152,6 @@ void Editor::init(int mode)
   expandEditAreaFlag=false;
 
   emit updateIndentSliderGeometry();
-
-  if(initDataEnableRandomSeed)
-  {
-    QDateTime datetime=QDateTime::currentDateTime ();
-    unsigned int seed=rand()+datetime.toSecsSinceEpoch();
-    // qDebug() << "Random generator init " << seed;
-    srand(seed);
-  }
 }
 
 

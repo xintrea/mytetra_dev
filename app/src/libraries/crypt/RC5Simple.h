@@ -96,7 +96,7 @@ class RC5Simple
 {
 
 public:
- RC5Simple(bool enableRandomInit=false);
+ RC5Simple();
  virtual ~RC5Simple();
 
  const char *RC5_GetVersion(void);

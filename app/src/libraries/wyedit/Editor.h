@@ -91,7 +91,6 @@ public:
 
  void initEnableAssembly(bool flag);
  void initConfigFileName(QString name);
- void initEnableRandomSeed(bool flag);
  void initDisableToolList(QStringList toolNames);
  void init(int mode);
 
@@ -247,7 +246,6 @@ private:
 
  bool        initDataEnableAssembly;
  QString     initDataConfigFileName;
- bool        initDataEnableRandomSeed;
  QStringList initDataDisableToolList;
 
  // Рабочая директория редактора и файл текста

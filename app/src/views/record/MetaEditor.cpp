@@ -27,7 +27,6 @@ MetaEditor::MetaEditor(QWidget *parent) : Editor(parent)
 {
   Editor::initEnableAssembly(false);
   Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
-  Editor::initEnableRandomSeed(false);
   Editor::initDisableToolList( mytetraConfig.getHideEditorTools() );
 
   if(mytetraConfig.getInterfaceMode()=="desktop")
