@@ -24,7 +24,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/ActionLogger.h"
 
-#include "libraries/qtSingleApplication5/qtsingleapplication.h"
+#include "libraries/qtSingleApplication/qtsingleapplication.h"
 
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
