@@ -269,7 +269,12 @@ int main(int argc, char ** argv)
  //Загрузка переводов стандартных диалогов и кнопок
  QTranslator qtTranslator;
  if(qtTranslator.load("qt_" + QLocale().name().split('_').first(),
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+#if QT_VERSION > 0x060000
+                      QLibraryInfo::path(QLibraryInfo::TranslationsPath)
+#else
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath)
+#endif
+                      ))
  {
      if(!app.installTranslator(&qtTranslator))
          qDebug() << "Can't install QT translations";

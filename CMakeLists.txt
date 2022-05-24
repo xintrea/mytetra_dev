@@ -13,8 +13,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ${CMAKE_FLAGS_WARN}")
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -O3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3")
 
-find_package(Qt6 COMPONENTS Core Core5Compat Network PrintSupport Widgets Xml REQUIRED)
-set(QT_LIBS Qt6::Core Qt6::Core5Compat Qt6::Network Qt6::PrintSupport Qt6::Widgets Qt6::Xml)
+find_package(Qt6 COMPONENTS Core Network PrintSupport Widgets Xml REQUIRED)
+set(QT_LIBS Qt6::Core Qt6::Network Qt6::PrintSupport Qt6::Widgets Qt6::Xml)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -36,5 +36,4 @@ endif()
 # TODO:
 # more warnings check
 # static analyzer
-# migrate to Qt6 without Core5Compat
 # packages. rpm/deb is supported, some windows packages also. Don't know about MacOs/android.

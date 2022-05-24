@@ -9,8 +9,6 @@
 
 #include <QtXml>
 #include <QtGui>
-#include <QXmlSimpleReader>
-#include <QXmlInputSource>
 
 #include <QStandardItemModel>
 #include <QAbstractItemModel>

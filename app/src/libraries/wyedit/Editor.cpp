@@ -1047,7 +1047,7 @@ void Editor::onSelectionChanged(void)
 
   // Для анализа форматирования символов надо начинать
   // с позиции, следующей справа от начала выделения
-  QString startFontFamily=smartFontFamily( cursor.charFormat().fontFamily() ); // Шрифт
+  QString startFontFamily=smartFontFamily( cursor.charFormat().font().family() ); // Шрифт
   qreal startSize=smartFontSize( cursor.charFormat().fontPointSize() ); // Размер шрифта
   bool startBold=false;
   if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Толщина
@@ -1081,7 +1081,7 @@ void Editor::onSelectionChanged(void)
     // разные начертания символов, разное выравнивание в выделенном тексте
     while(cursor.position()<=stop)
     {
-      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().fontFamily()) )
+      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().font().family()) )
         differentFontFlag=true;
 
       if( differentSizeFlag==false && startSize!=smartFontSize(cursor.charFormat().fontPointSize()) )

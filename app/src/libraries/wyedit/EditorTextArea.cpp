@@ -651,7 +651,7 @@ void EditorTextArea::onChangeFontFamily(QString fontFamily)
   // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
 
   QTextCharFormat format;
-  format.setFontFamily(fontFamily);
+  format.setFontFamilies({fontFamily});
 
   qDebug() << "Font from font name: " << format.font().toString();
 
