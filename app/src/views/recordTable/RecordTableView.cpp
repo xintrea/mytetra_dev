@@ -609,7 +609,7 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 
         if(distance >= QApplication::startDragDistance())
         {
-            startDrag(); // Начинается перетаскивание
+            startDrag({}); // Начинается перетаскивание
         }
     }
 
@@ -656,8 +656,9 @@ void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 
 
 // Начало переноса записи
-void RecordTableView::startDrag()
+void RecordTableView::startDrag(Qt::DropActions supportedActions)
 {
+    Q_UNUSED(supportedActions);
     if( !startDragIndex.isValid() )
     {
         return;
