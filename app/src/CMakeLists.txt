@@ -23,11 +23,20 @@ set_target_properties(mytetra PROPERTIES
 
 target_compile_definitions(mytetra PRIVATE APPLICATION_VERSION="${APP_VERSION}")
 
-# require Qt 6.2
-qt_add_translations(mytetra
-    TS_FILES "../bin/resource/translations/mytetra_fr.ts" "../bin/resource/translations/mytetra_ru.ts"
-    RESOURCE_PREFIX "resource/translations"
-)
+set(TS_FILES "../bin/resource/translations/mytetra_fr.ts" "../bin/resource/translations/mytetra_ru.ts")
+
+if(USE_QT6)
+    # require Qt 6.2
+    qt_add_translations(mytetra TS_FILES ${TS_FILES} RESOURCE_PREFIX "resource/translations")
+else()
+    # mask deprecation QLabel.pixmap(). In Qt6 return by value works again.
+    target_compile_definitions(mytetra PRIVATE "QT_DISABLE_DEPRECATED_BEFORE=0x050F00")
+
+    configure_file("../bin/translations.qrc" ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+    qt5_create_translation(QM_FILES ${SRC_1} ${SRC_2} ${TS_FILES})
+    target_sources(mytetra PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/translations.qrc" ${QM_FILES})
+endif()
+
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     install(TARGETS mytetra DESTINATION "${CMAKE_INSTALL_BINDIR}")
