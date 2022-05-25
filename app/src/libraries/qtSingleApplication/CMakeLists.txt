@@ -5,4 +5,6 @@ target_compile_definitions(qtsingleapplication PRIVATE QT_QTSINGLEAPPLICATION_LI
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     install(TARGETS qtsingleapplication DESTINATION "${CMAKE_INSTALL_LIBDIR}/mytetra/")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    install(TARGETS qtsingleapplication DESTINATION "${WIN_INSTALL_DIR}")
 endif()

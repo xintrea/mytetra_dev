@@ -10,4 +10,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     install(TARGETS mimetex DESTINATION "${CMAKE_INSTALL_BINDIR}")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    install(TARGETS mimetex DESTINATION "${WIN_INSTALL_DIR}")
 endif()

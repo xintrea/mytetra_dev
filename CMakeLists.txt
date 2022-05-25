@@ -17,6 +17,8 @@ message("compiler: ${CMAKE_CXX_COMPILER_ID}\nbuild type: ${CMAKE_BUILD_TYPE}\nap
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_C_FLAGS "/W3 /WX /EHsc /O2")
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /permissive-") #`/permissive-` somewhy required for Qt5 build
+
+    set(WIN_INSTALL_DIR "${CMAKE_BINARY_DIR}/mytetra_distr/")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(GCC_WARNS "-Wall -Wextra -Werror")
     set(CMAKE_C_FLAGS_DEBUG     "${GCC_WARNS} -O0 -ggdb3")
