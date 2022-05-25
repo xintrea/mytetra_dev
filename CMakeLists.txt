@@ -19,6 +19,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} /permissive-") #`/permissive-` somewhy required for Qt5 build
 
     set(WIN_INSTALL_DIR "${CMAKE_BINARY_DIR}/mytetra_distr/")
+
+    # add necessary MSVC libraries to windows package. windeployqt will add necessary Qt-related libraries.
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${WIN_INSTALL_DIR}")
+    set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+    include(InstallRequiredSystemLibraries)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(GCC_WARNS "-Wall -Wextra -Werror")
     set(CMAKE_C_FLAGS_DEBUG     "${GCC_WARNS} -O0 -ggdb3")

@@ -4,6 +4,13 @@ MyTetra - smart manager for information collecting
 MyTetra is open source and cross platform personal manager for information accumulation. 
 It is powerful program for data memorization and structuring notes.
 
+Build status
+======================
+![ubuntu build](https://github.com/fftmp-forked/mytetra_dev/actions/workflows/ubuntu_release.yml/badge.svg?branch=experimental)
+![ubuntu Qt5 build](https://github.com/fftmp-forked/mytetra_dev/actions/workflows/ubuntu_release_qt5.yml/badge.svg?branch=experimental)
+
+![windows build](https://github.com/fftmp-forked/mytetra_dev/actions/workflows/windows_release.yml/badge.svg?branch=experimental)
+![windows Qt5 build](https://github.com/fftmp-forked/mytetra_dev/actions/workflows/windows_release_qt5.yml/badge.svg?branch=experimental)
 
 Repository mytetra_dev
 ======================
