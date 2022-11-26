@@ -64,7 +64,7 @@ QByteArray Pbkdf2Qt::HmacSha1(QByteArray text,
   k_pad[i]=k_pad[i]^0x36;
 
  ctx.reset();
- ctx.addData(k_pad, PBKDF2QT_SHA1_BLOCK_LENGTH);
+ ctx.addData(k_pad);
  ctx.addData(text);
  digest=ctx.result();
 
@@ -74,8 +74,8 @@ QByteArray Pbkdf2Qt::HmacSha1(QByteArray text,
   k_pad[i]=k_pad[i]^0x5c;
 
  ctx.reset();
- ctx.addData(k_pad, PBKDF2QT_SHA1_BLOCK_LENGTH);
- ctx.addData(digest, PBKDF2QT_SHA1_DIGEST_LENGTH);
+ ctx.addData(k_pad);
+ ctx.addData(digest);
  digest=ctx.result();
 
  return digest;

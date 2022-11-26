@@ -1303,7 +1303,7 @@ void TreeScreen::importBranchFromDirectory(QString importDir)
 
 
   // Если импорт данных был успешным
-  if(importNodeId.count()>0)
+  if(importNodeId.size()>0)
     setCursorToId(importNodeId); // Курсор устанавливается на только что импортированную ветку
 
   showMessageBox(tr("Item importing finished."));

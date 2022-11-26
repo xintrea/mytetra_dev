@@ -37,7 +37,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     message(FATAL_ERROR "building under MacOS not supported")
 endif()
 
-option(USE_QT6 ON)
+option(USE_QT6 "Use Qt6 instead of Qt5" ON)
 
 if(USE_QT6)
     find_package(Qt6 COMPONENTS Core Linguist Network PrintSupport Widgets Xml REQUIRED)

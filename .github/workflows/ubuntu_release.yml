@@ -21,7 +21,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2.14.0
       with:
-        version: 6.2.0
+        version: 6.4.0
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DUSE_QT6=ON
