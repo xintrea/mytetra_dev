@@ -195,6 +195,8 @@ void parseConsoleOption(QtSingleApplication &app)
 
 int main(int argc, char ** argv)
 {
+ QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
  printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
 
  Q_INIT_RESOURCE(mytetra);
