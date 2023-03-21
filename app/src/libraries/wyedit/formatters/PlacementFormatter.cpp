@@ -84,6 +84,17 @@ void PlacementFormatter::onAlignrightClicked(void)
 void PlacementFormatter::onAlignwidthClicked(void)
 {
   alignText(Qt::AlignJustify);
+
+  // Создание форматирования
+  QTextBlockFormat indentFormatting;
+  //~ indentFormatting.setLeftMargin(currentIndent+deltaIndent);
+  indentFormatting.setTextIndent(24);
+
+  // Форматирование
+  textArea->textCursor().mergeBlockFormat(indentFormatting);
+
+  // editor->updateIndentsliderToActualFormat();
+  emit updateIndentsliderToActualFormat();
 }
 
 
