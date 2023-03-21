@@ -1194,6 +1194,35 @@ void Editor::keyPressEvent(QKeyEvent *event)
   if(editorToolBarAssistant->isKeyForToolLineUpdate(event))
     editorToolBarAssistant->updateToActualFormat();
 
+	if (QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)
+		&& event->key() == Qt::Key_Space) {
+
+		QTextCursor cursor = textArea->textCursor();
+		if (cursor.hasSelection()) {
+
+			cursor.movePosition(QTextCursor::EndOfWord
+				, QTextCursor::KeepAnchor);
+			textArea->setTextCursor(cursor);
+
+		} else {
+
+			cursor.movePosition(QTextCursor::StartOfWord);
+			cursor.movePosition(QTextCursor::EndOfWord
+				, QTextCursor::KeepAnchor);
+			textArea->setTextCursor(cursor);
+
+		}
+	} else if (QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier)
+		&& (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)) {
+
+		QTextCursor cursor = textArea->textCursor();
+		cursor.movePosition(QTextCursor::StartOfLine);
+		cursor.movePosition(QTextCursor::EndOfLine
+			, QTextCursor::KeepAnchor);
+		textArea->setTextCursor(cursor);
+
+	}
+
   QWidget::keyPressEvent(event);
 }
 
