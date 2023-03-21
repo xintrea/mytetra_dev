@@ -43,7 +43,7 @@ QString AppConfigUpdater::updateValueRepresentation(int versionFrom,
                                                     QString name,
                                                     QString value)
 {
-    if(versionFrom==37 and versionTo==38 and name=="dockableWindowsState")
+    if(versionFrom==37 && versionTo==38 && name=="dockableWindowsState")
     {
         if(value.trimmed().size()>1)
         {

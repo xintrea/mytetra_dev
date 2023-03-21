@@ -156,7 +156,7 @@ bool ShortcutSettingsModel::smartUpdate(updateMode mode)
 
                 // Список для сочетаний клавиш и их названий
                 static QMap<QString, QString> keysSequenceList;
-                if(i==0 and j==0)
+                if(i==0 && j==0)
                 {
                     keysSequenceList.clear();
                     duplicateError="";

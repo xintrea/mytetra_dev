@@ -114,7 +114,7 @@ void EditorShowTextDispatcher::createWindow(const QString &noteId, int x, int y,
     editorShowText->setWindowTitle( note->getField("name") );
 
     // Установка координат окна
-    if( !(x==-1 and y==-1 and w==-1 and h==-1) )
+    if( !(x==-1 && y==-1 && w==-1 && h==-1) )
     {
         editorShowText->setGeometry(x, y, w, h);
     }

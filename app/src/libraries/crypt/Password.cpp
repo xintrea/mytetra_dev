@@ -25,17 +25,17 @@ extern DataBaseConfig dataBaseConfig;
 
 
 Password::Password(void)
-{ 
+{
 }
 
 
 Password::~Password(void)
-{ 
+{
 }
 
 
 // Установка пароля
-// Если пароль в системе еще не использовался, пароль преобразуется в ключ 
+// Если пароль в системе еще не использовался, пароль преобразуется в ключ
 // и ключ запоминается в память
 // Если пароль в системе уже был установлен, проверяется, задан ли правильный пароль
 // путем дешифровки проверочного текста
@@ -77,7 +77,7 @@ bool Password::retrievePassword()
 
 
             // Проверяется, запомнен ли пароль в конфиге (точнее, промежуточный хеш)
-            if( mytetraConfig.getPasswordSaveFlag() and
+            if( mytetraConfig.getPasswordSaveFlag() &&
                 mytetraConfig.getPasswordMiddleHash().length()>0)
             {
                 // Пароль хранится в системе

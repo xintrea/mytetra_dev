@@ -135,7 +135,7 @@ void InstallDialog::onRadioButtonPortableToggled(bool state)
 
 void InstallDialog::onAccepted()
 {
-    if( !ui->m_radioButtonStandart->isChecked() and
+    if( !ui->m_radioButtonStandart->isChecked() &&
         !ui->m_radioButtonPortable->isChecked() )
     {
         QMessageBox msgBox;
