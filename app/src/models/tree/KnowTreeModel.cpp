@@ -22,7 +22,6 @@
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
-#include "libraries/helpers/SortHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
@@ -217,11 +216,12 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
   QDomDocument doc;
   QDomElement elm=doc.createElement("content");
 
-  QTime start = QTime::currentTime();
+  QElapsedTimer timer;
+  timer.start();
 
   parseTreeToDom(&doc, &elm, root);
 
-  qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
+  qDebug() << "Parse tree to DOM elapsed time: " << timer.elapsed() << " ms";
 
   // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 
@@ -295,7 +295,6 @@ bool KnowTreeModel::exportBranchToDirectory(TreeItem *startItem, QString exportD
     return false;
   }
   QTextStream out(&wfile);
-  out.setCodec("UTF-8");
   out << doc.toString();
 
 
@@ -353,7 +352,7 @@ void KnowTreeModel::exportRelatedDataAndDecryptIfNeedRecurse(QDomElement &elemen
 
      // Создание директории
      if( !QDir().mkpath(toDir) )
-       criticalError("Cant create directory "+toDir);
+       criticalError("Can't create directory "+toDir);
 
      // Копирование всех файлов из директории записи в директорию экспортируемой записи
      DiskHelper::copyDirectory(fromDir, toDir);
@@ -478,7 +477,6 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
                                                  QMap<QString, QString> idRecordTranslate,
                                                  QMap<QString, QString> dirRecordTranslate )
 {
-  QMap<QString, QString> translateTable;
   QDomNodeList nodeList=doc.elementsByTagName("record");
   for(int i=0; i<nodeList.count(); ++i)
   {
@@ -497,7 +495,7 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
 
       // Создание директории в основной базе
       if( !QDir().mkpath(fullToDir) )
-        criticalError("Cant create directory "+fullToDir);
+        criticalError("Can't create directory "+fullToDir);
 
       // Копирование всех файлов из директории импортируемой записи в директорию записи основной базы
       DiskHelper::copyDirectory(fullFromDir, fullToDir);
@@ -676,11 +674,10 @@ void KnowTreeModel::save()
   // Создается новый файл дерева
   QFile writeFile(xmlFileName);
   if (!writeFile.open(QIODevice::WriteOnly)) // | QIODevice::Text
-    criticalError("Cant open file "+xmlFileName+" for write.");
+    criticalError("Can't open file "+xmlFileName+" for write.");
 
   // Создание объекта потоковой генерации XML-данных в файл
   QXmlStreamWriter xmlWriter(&writeFile);
-  xmlWriter.setCodec("UTF-8");
   xmlWriter.setAutoFormatting(true);
   xmlWriter.setAutoFormattingIndent(1);
 
@@ -788,9 +785,9 @@ void KnowTreeModel::addNewBranch(TreeItem *parent, QMap<QString, QString> branch
 
   // Обязательно должны быть установлены поля id и name
   if(!branchFields.contains("id"))
-    criticalError("In KnowTreeModel::addNewBranch() cant setted ID field");
+    criticalError("In KnowTreeModel::addNewBranch() can't setted ID field");
   if(!branchFields.contains("name"))
-    criticalError("In KnowTreeModel::addNewBranch() cant setted name field");
+    criticalError("In KnowTreeModel::addNewBranch() can't setted name field");
 
   // Перебираются поля новой ветки и их значения
   foreach(QString fieldName, branchFields.keys())
@@ -1130,11 +1127,7 @@ void KnowTreeModel::deleteItemsByModelIndexList(QModelIndexList &selectItems)
        QStringList path_1=(this->getItem(selectItems.at(j-1)))->getPath();
        QStringList path_2=(this->getItem(selectItems.at(j)))->getPath();
        if(path_1.size() < path_2.size())
-           #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
            selectItems.swapItemsAt(j-1, j);
-           #else
-           selectItems.swap(j-1, j);
-           #endif
       }
 
     qDebug() << "Path for delete";
@@ -1177,7 +1170,7 @@ void KnowTreeModel::deleteOneBranch(QModelIndex index)
  QList<QStringList> subbranchespath=item->getAllChildrenPath();
 
  // Сортировка массива веток по длине пути
- std::sort(subbranchespath.begin(), subbranchespath.end(), compareQStringListLen);
+ std::sort(subbranchespath.begin(), subbranchespath.end(), [](const auto & a, const auto & b){return a.size() < b.size();});
 
  // Удаление всех таблиц конечных записей для нужных подветок
  // Удаление всех подчиненных элементов для нужных подветок

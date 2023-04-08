@@ -116,11 +116,11 @@ Volgodonsk, 2011-2013
 
 // 1.31 - Основана на версии 1.30
 //      - Исправлено незакрытие файла при шифрации/дешифровке в случае
-//        возникновения ошибки из-за нуливого размера файла
+//        возникновения ошибки из-за нулевого размера файла
 //        в методе RC5_EncDecFile()
 
 
-RC5Simple::RC5Simple(bool enableRandomInit)
+RC5Simple::RC5Simple()
 { 
  // Set magic constants
  rc5_p = 0xb7e15163;
@@ -134,10 +134,6 @@ RC5Simple::RC5Simple(bool enableRandomInit)
  rc5_isSetFormatVersionForce=false;
 
  errorCode=0;
-
- // Init random generator
- if(enableRandomInit)
-  srand( time(NULL) );
 }
 
 
@@ -220,7 +216,7 @@ void RC5Simple::RC5_Setup(unsigned char *key)
 
 
    int i, j, k;
-   RC5_TWORD u=RC5_W/8, a, b, l[RC5_C]; 
+   RC5_TWORD u=RC5_W/8, a, b, l[RC5_C] = {0};
 
    // Отвлекли: потренируй мне складку
    // Initialize l[], then rc5_s[], then mix key into rc5_s[]
@@ -258,7 +254,7 @@ void RC5Simple::RC5_Setup(unsigned char *key)
 
 // Отвлекли: смотри как я кувыркаюсь
 // Set secret key
-void RC5Simple::RC5_SetKey(vector<unsigned char> &key)
+void RC5Simple::RC5_SetKey(std::vector<unsigned char> &key)
 {
  if(key.size()!=RC5_B)
   {
@@ -272,7 +268,7 @@ void RC5Simple::RC5_SetKey(vector<unsigned char> &key)
 
 
 // Encrypt data in vector
-void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out)
+void RC5Simple::RC5_Encrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out)
 {
  // Clear output vector
  out.clear();
@@ -288,8 +284,8 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
  
  // Save input data size
- unsigned int clean_data_size=in.size();
- RC5_LOG(( "Input data size: %d\n", clean_data_size ));
+ auto clean_data_size=static_cast<unsigned int>(in.size());
+ RC5_LOG(( "Input data size: %zu\n", clean_data_size ));
 
 
  // IV block
@@ -491,7 +487,7 @@ void RC5Simple::RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 
 
 // Decrypt data in vector
-void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out)
+void RC5Simple::RC5_Decrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out)
 { 
  RC5_LOG(( "\nDecrypt\n" ));
 
@@ -681,6 +677,7 @@ void RC5Simple::RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &ou
 }
 
 
+#if 0
 void RC5Simple::RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name)
 {
  RC5_EncDecFile(in_name, out_name, RC5_MODE_ENCODE);
@@ -735,8 +732,8 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
  fseek(in_file, 0, SEEK_SET);
 
  // Create data vectors
- vector<unsigned char> in(in_file_length);
- vector<unsigned char> out;
+ std::vector<unsigned char> in(in_file_length);
+ std::vector<unsigned char> out;
 
  // Fill input data vector
  unsigned int byte=0;
@@ -767,7 +764,7 @@ void RC5Simple::RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, 
  fclose(out_file);
 
 }
-
+#endif
 
 /*
 inline unsigned char RC5Simple::RC5_GET_BYTE_FROM_WORD(RC5_TWORD w, int n)

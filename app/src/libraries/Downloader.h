@@ -2,17 +2,10 @@
 #define DOWNLOADER_H
 
 #include <QDialog>
+#include <QTableWidget>
 #include <QMap>
 #include <QNetworkAccessManager>
 
-class QString;
-class QStringList;
-class QByteArray;
-class QPushButton;
-class QLabel;
-class QTableWidget;
-class QNetworkReply;
-class QUrl;
 
 class Downloader : public QDialog
 {

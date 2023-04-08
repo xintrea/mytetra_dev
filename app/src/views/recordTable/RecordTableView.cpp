@@ -82,13 +82,8 @@ void RecordTableView::init(void)
 
  horizontalHeader()->setMinimumSectionSize(16);
 
- // Горизонтальные заголовки делаются перемещяемыми
- #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
- horizontalHeader()->setMovable(true);
- #endif
- #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
+ // Горизонтальные заголовки делаются перемещаемыми
  horizontalHeader()->setSectionsMovable(true);
- #endif
 
  // Установка высоты строки с принудительной стилизацией (если это необходимо),
  // так как стилизация через QSS для элементов QTableView полноценно не работает
@@ -614,7 +609,7 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 
         if(distance >= QApplication::startDragDistance())
         {
-            startDrag(); // Начинается перетаскивание
+            startDrag({}); // Начинается перетаскивание
         }
     }
 
@@ -661,8 +656,9 @@ void RecordTableView::mouseReleaseEvent(QMouseEvent *event)
 
 
 // Начало переноса записи
-void RecordTableView::startDrag()
+void RecordTableView::startDrag(Qt::DropActions supportedActions)
 {
+    Q_UNUSED(supportedActions);
     if( !startDragIndex.isValid() )
     {
         return;
@@ -671,7 +667,7 @@ void RecordTableView::startDrag()
     // Исправление особенности Qt
     // Выделяется строка, на которой был старт движения DragAndDrop,
     // так как метод startDrag() может сработать, когда выделена строка
-    // с соседней записью, которую на самом деле ненужно перемещать
+    // с соседней записью, которую на самом деле не нужно перемещать
     this->selectRow( startDragIndex.row() );
     isDragHappeningNow=true; // Выставляется флаг что началось перетаскивание
 
@@ -688,7 +684,7 @@ void RecordTableView::startDrag()
     unsigned int result=drag->exec(Qt::MoveAction);
 
     // Если перетаскивание завершено
-    // Это неточно, докуметаця и М.Шлее не объясняют внятно, когда срабатывает этот код
+    // Это неточно, докуметация и М.Шлее не объясняют внятно, когда срабатывает этот код
     if(result==0)
     {
         // Сюда код дойдет после того, как перетаскивание будет закончено
@@ -758,7 +754,8 @@ void RecordTableView::selectionChanged(const QItemSelection &selected,
     qDebug() << "RecordTableView::selectionChanged()";
 
     // Отладка
-    for(auto index : selected.indexes())
+    const auto indices = selected.indexes();
+    for(const auto & index : indices)
     {
         qDebug() << "Select row: " << index.row();
     }

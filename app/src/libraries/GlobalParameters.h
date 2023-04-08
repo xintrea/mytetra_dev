@@ -24,9 +24,6 @@ public:
 
     void init(void);
 
-    QString getSystemCodepage(void);
-    QString getConsoleCodepage(void);
-
     // Получение рабочей директории. Рабочая директория - это та, где лежит файл conf.ini
     QString getWorkDirectory(void);
 
@@ -54,9 +51,6 @@ public:
     void setWindowSwitcher(WindowSwitcher *point);
     WindowSwitcher *getWindowSwitcher();
 
-    void setSyncroCommandRun(CommandRun *point);
-    CommandRun *getSyncroCommandRun();
-
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
 
@@ -83,10 +77,6 @@ public:
 
 private:
 
-    void initCodepage(void);
-    QString getInitSystemCodepage();
-    QString getInitConsoleCodepage();
-
     void initWorkDirectory(void);
     bool findWorkDirectory(void);
     bool isMytetraIniConfig(QString fileName);
@@ -100,13 +90,9 @@ private:
     MetaEditor *pointMetaEditor=nullptr;
     QStatusBar *pointStatusBar=nullptr;
     WindowSwitcher *windowSwitcher=nullptr;
-    CommandRun *syncroCommandRun=nullptr; //! Объект выполнения команд синхронизации базы MyTetra
 
     QString mainProgramFile;
     QString workDirectory;
-
-    QString mSystemCodepage;
-    QString mConsoleCodepage;
 
     QByteArray passwordHash;
 

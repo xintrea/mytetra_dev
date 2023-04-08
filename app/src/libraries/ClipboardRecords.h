@@ -7,8 +7,8 @@
 #include <QList>
 
 // class Record;
-#include "models/recordTable/Record.h"
-#include "models/attachTable/AttachTableData.h"
+#include "../models/recordTable/Record.h"
+#include "../models/attachTable/AttachTableData.h"
  
 // Определяется структура данных набора записей
 // которая будет передаваться через буфер обмена
@@ -45,7 +45,11 @@ public:
 
 protected:
   // Этот метод QMimeData надо переопределить, так как он виртуальный
-  QVariant retrieveData(const QString &format,QVariant::Type preferredType) const;
+#if QT_VERSION > 0x060000
+  QVariant retrieveData(const QString &format, QMetaType preferredType) const;
+#else
+  QVariant retrieveData(const QString &format, QVariant::Type preferredType) const;
+#endif
 
 private:
   CLIPB_RECORDS_STRUCT records; // Данные, которые передаются через буфер обмена

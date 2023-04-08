@@ -50,7 +50,6 @@ void AddNewRecord::setupUI(void)
   // Редактор текста записи
   recordTextEditor.initEnableAssembly(true);
   recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
-  recordTextEditor.initEnableRandomSeed(false);
   recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "showText" << "toAttach" << "settings" << "expandEditArea") );
   recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
 
@@ -77,7 +76,7 @@ void AddNewRecord::setupUI(void)
 
 void AddNewRecord::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     // На кнопку OK назначается комбинация клавиш Ctrl+Enter
     QPushButton *okButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
@@ -100,7 +99,7 @@ void AddNewRecord::assembly(void)
 {
   // Размещалка элементов
   QVBoxLayout *layout=new QVBoxLayout();
-  layout->setMargin(8);
+  layout->setContentsMargins(8, 8, 8, 8);
   layout->setSpacing(10);
 
   // Добавление элементов в размещалку

@@ -1,7 +1,6 @@
 #include <QString>
 #include <QDir>
 #include <QString>
-#include <QDesktopWidget>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
@@ -23,7 +22,6 @@
 #include "views/actionLog/ActionLogScreen.h"
 #include "views/databasesManagement/DatabasesManagementScreen.h"
 #include "libraries/ShortcutManager.h"
-#include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/wyedit/EditorTextArea.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
@@ -68,10 +66,7 @@ MainWindow::MainWindow() : QMainWindow()
     // Закрывать ли по-настоящему окно при обнаружении сигнала closeEvent
     enableRealClose=false;
 
-    // Инициализация генератора случайных чисел
-    int x=this->mapFromGlobal(QCursor::pos()).x();
-    int y=this->mapFromGlobal(QCursor::pos()).y();
-    RandomInitter::init( static_cast<long>( x * y + (x % (y==0 ? 1 : y)) + x + y ) );
+    srand(time(NULL));
 }
 
 
@@ -115,8 +110,7 @@ void MainWindow::setupUI(void)
     globalParameters.setWindowSwitcher(windowSwitcher);
 
     // Вспомогательный объект с виджетом синхронизации базы знаний
-    syncroCommandRun=new CommandRun( this );
-    globalParameters.setSyncroCommandRun( syncroCommandRun );
+    synchroCommandRun=new CommandRun( this );
 
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
@@ -201,10 +195,10 @@ void MainWindow::setupSignals(void)
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
 
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(syncroCommandRun, &CommandRun::finishWork,
-            recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
-    connect(syncroCommandRun, &CommandRun::finishWork,
-            this, &MainWindow::onSyncroCommandFinishWork);
+    connect(synchroCommandRun, &CommandRun::finishWork,
+            recordTableScreen, &RecordTableScreen::onSynchroCommandFinishWork);
+    connect(synchroCommandRun, &CommandRun::finishWork,
+            this, &MainWindow::onSynchroCommandFinishWork);
 
     // Связывание сигнала вызова обработки открепляемых окон на предмет того,
     // что они отображают существующие записи
@@ -374,7 +368,7 @@ void MainWindow::saveWindowGeometry(void)
 
 
     // Запоминается размер сплиттера только при видимом виджете поиска,
-    // т.к. если виджета поиска невидно, будет запомнен нуливой размер
+    // т.к. если виджета поиска невидно, будет запомнен нулевой размер
 
     // if(findScreenDisp->isVisible()) - так делать нельзя, т.к.
     // данный метод вызывается из декструктора главного окна, и к этому моменту
@@ -693,7 +687,7 @@ void MainWindow::initHiddenActions(void)
 
 void MainWindow::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("misc-print", actionFileMenuPrint );
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
@@ -823,12 +817,12 @@ void MainWindow::applicationExit(void)
             if(mytetraConfig.get_synchrocommand().trimmed().length()>0)
             {
                 enableRealClose=true;
-                synchronization(); // В конце синхронизации будет вызван слот onSyncroCommandFinishWork()
+                synchronization(); // В конце синхронизации будет вызван слот onSynchroCommandFinishWork()
             }
 
     // Запуск выхода из программы
     enableRealClose=true;
-    emit close();
+    close();
 }
 
 
@@ -839,7 +833,7 @@ void MainWindow::applicationFastExit(void)
 
     // Запуск выхода из программы
     enableRealClose=true;
-    emit close();
+    close();
 }
 
 
@@ -890,7 +884,7 @@ void MainWindow::onExpandEditArea(bool flag)
 
 void MainWindow::onClickHelpAboutMyTetra(void)
 {
-    QString version=QString::number(APPLICATION_RELEASE_VERSION)+"."+QString::number(APPLICATION_RELEASE_SUBVERSION)+"."+QString::number(APPLICATION_RELEASE_MICROVERSION);
+    QString version=APPLICATION_VERSION;
 
     QString infoProgramName;
     QString infoVersion;
@@ -899,7 +893,7 @@ void MainWindow::onClickHelpAboutMyTetra(void)
     QString infoLicense;
 
     infoProgramName="<b>MyTetra</b> - smart manager<br/>for information collecting<br/><br/>";
-    infoVersion="v."+version+"<br/><br/>";
+    infoVersion=version+"<br/><br/>";
     infoAuthor="Author: Sergey M. Stepanov<br/>";
     infoEmail="Author Email:<i>xintrea@gmail.com</i><br/><br/>";
     infoLicense="GNU General Public License v.3.0<br/><br/>";
@@ -910,17 +904,13 @@ void MainWindow::onClickHelpAboutMyTetra(void)
             infoEmail+
             infoLicense;
 
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->about(this,
-                  "MyTetra v."+version,
-                  info);
+    QMessageBox(this).about(this, "MyTetra v."+version, info);
 }
 
 
 void MainWindow::onClickHelpAboutQt(void)
 {
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->aboutQt(this);
+    QMessageBox(this).aboutQt(this);
 }
 
 
@@ -938,14 +928,8 @@ void MainWindow::onClickHelpTechnicalInfo(void)
     infoProgramFile="Program file: "+globalParameters.getMainProgramFile()+"<br/>";
     infoWorkDirectory="Work directory: "+globalParameters.getWorkDirectory()+"<br/>";
 
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
     infoDevicePixelRatio="Device pixel ratio: "+(QString::number( qApp->devicePixelRatio(), 'f', 2 ))+"<br/>";
-    infoPhysicalDpi="Physical DPI (from screen): "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 2 ))+"<br/>";
-#endif
-
-    infoPhysicalDpiX="Physical DPI X (from desktop): "+(QString::number( qApp->desktop()->physicalDpiX(), 'f', 2 ))+"<br/>";
-    infoPhysicalDpiY="Physical DPI Y (from desktop): "+(QString::number( qApp->desktop()->physicalDpiY(), 'f', 2 ))+"<br/>";
-
+    infoPhysicalDpi="Physical DPI: "+(QString::number( QApplication::screens().at(0)->physicalDotsPerInch(), 'f', 2 ))+"<br/>";
     QString info=infoTargetOs+
             infoProgramFile+
             infoWorkDirectory+
@@ -954,12 +938,12 @@ void MainWindow::onClickHelpTechnicalInfo(void)
             infoPhysicalDpiX+
             infoPhysicalDpiY;
 
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->setIcon( QMessageBox::Information );
-    msgBox->setWindowTitle(tr("Technical info"));
-    msgBox->setText(tr("<b>Technical info</b>"));
-    msgBox->setInformativeText(info);
-    msgBox->exec();
+    QMessageBox msgBox(this);
+    msgBox.setIcon( QMessageBox::Information );
+    msgBox.setWindowTitle(tr("Technical info"));
+    msgBox.setText(tr("<b>Technical info</b>"));
+    msgBox.setInformativeText(info);
+    msgBox.exec();
 }
 
 
@@ -1045,13 +1029,13 @@ void MainWindow::reloadLoadStage(bool isLongTimeReload)
 void MainWindow::synchronization(bool visible)
 {
     // Если кнопка синхронизации заблокирована, начинать синхронизацию нельзя
-    if(!recordTableScreen->actionSyncro->isEnabled())
+    if(!recordTableScreen->actionSynchro->isEnabled())
         return;
 
     // Блокируется кнопка синхронизации, чтобы два раза случайно не нажать синхронизацию (окно синхронизации не модально)
-    recordTableScreen->actionSyncro->setEnabled(false);
+    recordTableScreen->actionSynchro->setEnabled(false);
 
-    actionLogger.addAction("startSyncro");
+    actionLogger.addAction("startSynchro");
 
     reloadSaveStage();
 
@@ -1067,29 +1051,31 @@ void MainWindow::synchronization(bool visible)
                              QMessageBox::Close);
 
         // Кнопка синхронизации разблокируется, чтобы ее можно было снова нажать
-        recordTableScreen->actionSyncro->setEnabled(true);
+        recordTableScreen->actionSynchro->setEnabled(true);
 
         return;
     }
 
-
+    auto cmdArgs = QProcess::splitCommand(command);
     // Макрос %a заменяется на путь к директории базы данных
     // QString databasePath=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir();
     QDir databaseDir( mytetraConfig.get_tetradir() );
     QString databasePath=databaseDir.canonicalPath();
 
-    command.replace("%a", databasePath);
+    cmdArgs.replaceInStrings("%a", databasePath);
 
     // Запуск команды синхронизации
-    globalParameters.getSyncroCommandRun()->setWindowTitle(tr("MyTetra synchronization"));
-    globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
-    globalParameters.getSyncroCommandRun()->setCommand(command);
-    globalParameters.getSyncroCommandRun()->run(visible);
+    synchroCommandRun->setWindowTitle(tr("MyTetra synchronization"));
+    synchroCommandRun->setMessageText(tr("Synchronization in progress, please wait..."));
+    synchroCommandRun->setCommand(cmdArgs[0]);
+    cmdArgs.removeFirst();
+    synchroCommandRun->setArgs(cmdArgs);
+    synchroCommandRun->run(visible);
 }
 
 
 // Завершение синхронизации
-void MainWindow::onSyncroCommandFinishWork()
+void MainWindow::onSynchroCommandFinishWork()
 {
     // Функция перечитывания дерева знаний вызывается с флагом,
     // что от предыдущей стадии была большая задержка
@@ -1105,7 +1091,7 @@ void MainWindow::onSyncroCommandFinishWork()
     // делается через сингнал-слот
     emit doUpdateDetachedWindows();
 
-    actionLogger.addAction("stopSyncro");
+    actionLogger.addAction("stopSynchro");
 
     // В конце синхронизации нужно проверить, не происходит ли выход из программы
     if(enableRealClose==true)

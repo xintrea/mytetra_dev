@@ -399,7 +399,7 @@ QMap<QString, QString> Record::getNaturalFieldList() const
 AttachTableData Record::getAttachTable() const
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   return attachTableData;
 }
@@ -408,7 +408,7 @@ AttachTableData Record::getAttachTable() const
 AttachTableData *Record::getAttachTablePointer()
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("getAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("getAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   return &attachTableData;
 }
@@ -417,7 +417,7 @@ AttachTableData *Record::getAttachTablePointer()
 void Record::setAttachTable(AttachTableData iAttachTable)
 {
   if(this->isLite()!=attachTableData.isLite())
-    criticalError("setAttachTable(): Unsyncro lite state for record: "+getIdAndNameAsString());
+    criticalError("setAttachTable(): Unsynchro lite state for record: "+getIdAndNameAsString());
 
   attachTableData=iAttachTable;
 }
@@ -429,7 +429,7 @@ QString Record::getText() const
 {
   // У легкого объекта невозможно запросить текст из памяти, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    criticalError("Cant get text from lite record object"+getIdAndNameAsString());
+    criticalError("Can't get text from lite record object"+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -454,7 +454,7 @@ QString Record::getTextDirect() const
 {
   // У тяжелого объекта невозможно получить текст записи из файла (у тяжелого объекта текст записи хранится в памяти)
   if(liteFlag==false)
-    criticalError("Cant run Record::getTextDirect() for non lite record "+getIdAndNameAsString());
+    criticalError("Can't run Record::getTextDirect() for non lite record "+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то расшифровка невозможна
@@ -519,7 +519,7 @@ void Record::setText(const QString &iText)
 {
   // Легкому объекту невозможно установить текст, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    criticalError("Cant set text for lite record object"+getIdAndNameAsString());
+    criticalError("Can't set text for lite record object"+getIdAndNameAsString());
 
   // Если шифровать не нужно
   if(fieldList.value("crypt").length()==0 || fieldList.value("crypt")=="0")
@@ -544,10 +544,9 @@ void Record::saveTextDirect(QString iText) const
     QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-      criticalError("Cant open text file "+fileName+" for write.");
+      criticalError("Can't open text file "+fileName+" for write.");
 
     QTextStream out(&wfile);
-    out.setCodec("UTF-8");
     out << iText;
   }
   else if(fieldList.value("crypt")=="1")
@@ -559,7 +558,7 @@ void Record::saveTextDirect(QString iText) const
     QFile wfile(fileName);
 
     if(!wfile.open(QIODevice::WriteOnly))
-      criticalError("Cant open binary file "+fileName+" for write.");
+      criticalError("Can't open binary file "+fileName+" for write.");
 
     wfile.write(encryptData);
   }
@@ -575,7 +574,7 @@ void Record::saveText()
   QFile wfile(fileName);
 
   if(!wfile.open(QIODevice::WriteOnly))
-    criticalError("Record::saveText() : Cant open binary file "+fileName+" for write.");
+    criticalError("Record::saveText() : Can't open binary file "+fileName+" for write.");
 
   // Сохраняется QByteArray с текстом записи (в QByteArray могут быть как зашифрованные, так и не зашифрованные данные)
   wfile.write(text);
@@ -586,7 +585,7 @@ QMap<QString, QByteArray> Record::getPictureFiles() const
 {
   // У легкого объекта невозможно запросить картинки, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    criticalError("Cant get picture files from lite record object"+getIdAndNameAsString());
+    criticalError("Can't get picture files from lite record object"+getIdAndNameAsString());
 
   return pictureFiles;
 }
@@ -597,7 +596,7 @@ void Record::setPictureFiles(QMap<QString, QByteArray> iPictureFiles)
 {
   // Легкому объекту невозможно установить картики, если так происходит - это ошибка вызывающей логики
   if(liteFlag==true)
-    criticalError("Cant set picture files for lite record object"+getIdAndNameAsString());
+    criticalError("Can't set picture files for lite record object"+getIdAndNameAsString());
 
   pictureFiles=iPictureFiles;
 }
@@ -656,11 +655,11 @@ void Record::switchToEncryptAndSaveLite(void)
 {
   // Метод обрабатывает только легкий объект
   if(liteFlag==false)
-    criticalError("Cant call switchToEncryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToEncryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
 
   // Нельзя шифровать уже зашифрованную запись
   if(fieldList.value("crypt")=="1")
-    criticalError("Cant call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToEncryptAndSaveLite() for crypt record object "+getIdAndNameAsString());
 
   // В легком объекте данные не из полей находятся в файлах
 
@@ -683,11 +682,11 @@ void Record::switchToEncryptAndSaveFat(void)
 {
   // Метод обрабатывает только тяжелый объект
   if(liteFlag==true)
-    criticalError("Cant call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToEncryptFat() for non fat record object "+getIdAndNameAsString());
 
   // Нельзя шифровать уже зашифрованную запись
   if(fieldList.value("crypt")=="1")
-    criticalError("Cant call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToEncryptAndSaveFat() for crypt record object "+getIdAndNameAsString());
 
   // Зашифровывается текст записи в памяти
   text=CryptService::encryptByteArray(globalParameters.getCryptKey(), text);
@@ -708,11 +707,11 @@ void Record::switchToDecryptAndSaveLite(void)
 {
   // Метод обрабатывает только легкий объект
   if(liteFlag==false)
-    criticalError("Cant call switchToDecryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToDecryptAndSaveLite() for non lite record object "+getIdAndNameAsString());
 
   // Нельзя расшифровать не зашифрованную запись
   if(fieldList.value("crypt")!="1")
-    criticalError("Cant call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToDecryptAndSaveLite() for non crypt record object "+getIdAndNameAsString());
 
   // Расшифровка файла с текстом записи на диске
   QString dirName;
@@ -735,11 +734,11 @@ void Record::switchToDecryptAndSaveFat(void)
 {
   // Метод обрабатывает только тяжелый объект
   if(liteFlag==true)
-    criticalError("Cant call switchToDecryptAndSaveFat() for non fat record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToDecryptAndSaveFat() for non fat record object "+getIdAndNameAsString());
 
   // Нельзя расшифровать не зашифрованную запись
   if(fieldList.value("crypt")!="1")
-    criticalError("Cant call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
+    criticalError("Can't call switchToDecryptAndSaveFat() for non crypt record object "+getIdAndNameAsString());
 
   // Расшифровывается текст записи в памяти
   text=CryptService::decryptByteArray(globalParameters.getCryptKey(), text);
@@ -761,7 +760,7 @@ void Record::pushFatAttributes()
 {
   // Легкий объект невозможно сбросить на диск, потому что он не содержит данных, сбрасываемых в файлы
   if(liteFlag==true)
-    criticalError("Cant push lite record object"+getIdAndNameAsString());
+    criticalError("Can't push lite record object"+getIdAndNameAsString());
 
   // Если запись зашифрована, но ключ не установлен (т.е. человек не вводил пароль)
   // то зашифровать текст невозможно
@@ -807,18 +806,13 @@ void Record::replaceInternalReferenceByTranslateTable(QString recordFileName, QM
 
 
   // Подготавливается регулярное выражение
-  QRegExp rx("href=\""+FixedParameters::appTextId+":\\/\\/note/(.*)\"");
-  rx.setMinimal(true); // Регулярка делается ленивой (ленивые квантификаторы в строке регвыра в Qt не поддерживаются)
+  QRegularExpression rx("href=\""+FixedParameters::appTextId+":\\/\\/note/(.*)\"", QRegularExpression::InvertedGreedinessOption);
 
   // Заполняется список идентификаторов, встречающихся во внутренних ссылках
   QStringList internalIdList;
-  int pos = 0;
-  while ((pos = rx.indexIn(lines, pos))!=-1)
-  {
-    internalIdList << rx.cap(1);
-    pos += rx.matchedLength();
-  }
-
+  auto m = rx.globalMatch(lines);
+  while (m.hasNext())
+      internalIdList << m.next().captured(1);
 
   // Перебираются найденные внутри mytetra-ссылок идентификаторы
   bool isIdReplace=false;

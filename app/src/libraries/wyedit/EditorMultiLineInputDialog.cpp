@@ -69,7 +69,7 @@ void EditorMultiLineInputDialog::setupUi()
 
 void EditorMultiLineInputDialog::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат
@@ -124,7 +124,7 @@ void EditorMultiLineInputDialog::setWordWrapMode(QTextOption::WrapMode mode)
 }
 
 
-void EditorMultiLineInputDialog::setSizeCoefficient(float f)
+void EditorMultiLineInputDialog::setSizeCoefficient(double f)
 {
   sizeCoefficient=f;
 
@@ -137,8 +137,8 @@ void EditorMultiLineInputDialog::updateSize()
   QWidget *parentWidget=qobject_cast<QWidget *>(this->parent());
   QRect geom(parentWidget->pos(), parentWidget->size());
 
-  geom.setHeight( (int)((float)geom.height()*sizeCoefficient) );
-  geom.setWidth ( (int)((float)geom.width()*sizeCoefficient) );
+  geom.setHeight( (int)(geom.height()*sizeCoefficient) );
+  geom.setWidth ( (int)(geom.width()*sizeCoefficient) );
 
   qDebug() << "Parent window geometry " << geom.x() << geom.y() << geom.width() << geom.height();
 

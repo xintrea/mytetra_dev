@@ -42,7 +42,6 @@ signals:
 public slots:
 
     void closeWindowByIdVector(const QVector<QString> &ids);
-    void closeWindowByIdList(const QStringList &ids);
     void closeWindowByIdSet(const QSet< QString > &ids);
 
     void closeWindowForNonExistentRecords();

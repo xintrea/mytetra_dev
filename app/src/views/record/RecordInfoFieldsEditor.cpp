@@ -19,11 +19,7 @@ extern ShortcutManager shortcutManager;
 // Окно редактирования информационных полей записи (не текста записи!)
 // Оно появляется при двойном клике на записи или при клике на кнопку редактирования полей записи
 
-#if QT_VERSION < 0x050000
-RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WFlags f) : QDialog(parent, f)
-#else
 RecordInfoFieldsEditor::RecordInfoFieldsEditor( QWidget * parent, Qt::WindowFlags f) : QDialog(parent, f)
-#endif
 {
   setupUI();
   setupShortcuts();
@@ -53,7 +49,7 @@ void RecordInfoFieldsEditor::setupUI(void)
 // Может вызваться повторно при изменении схемы горячих клавиш
 void RecordInfoFieldsEditor::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     // На кнопку OK назначается комбинация клавиш Ctrl+Enter
     QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
@@ -76,7 +72,7 @@ void RecordInfoFieldsEditor::assembly(void)
 {
  // Размещалка элементов
  QVBoxLayout *layout=new QVBoxLayout();
- layout->setMargin(8);
+ layout->setContentsMargins(8, 8, 8, 8);
  layout->setSpacing(10);
 
  // Добавление элементов в размещалку

@@ -18,7 +18,7 @@ ConfigEditorHelper::ConfigEditorHelper()
 
 
 // Редактирование произвольного конфиг-файла (конфиг программы, конфиг редактора)
-void ConfigEditorHelper::editConfigFile( QString fileName, float sizeCoefficient )
+void ConfigEditorHelper::editConfigFile( QString fileName, double sizeCoefficient )
 {
   // Окно диалога для редактирования файла конфига
   EditorMultiLineInputDialog dialog( qobject_cast<QWidget *>(pMainWindow) );
@@ -29,7 +29,7 @@ void ConfigEditorHelper::editConfigFile( QString fileName, float sizeCoefficient
   QFile file(fileName);
   if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
   {
-    criticalError("Cant open config file "+fileName);
+    criticalError("Can't open config file "+fileName);
   }
 
   // Установка в окне текста файла
@@ -50,7 +50,7 @@ void ConfigEditorHelper::editConfigFile( QString fileName, float sizeCoefficient
   // Файл конфига открывается на запись
   if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-    criticalError("Cant open config file for write: "+fileName);
+    criticalError("Can't open config file for write: "+fileName);
   }
 
   // Измененный текст записывается в файл

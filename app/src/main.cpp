@@ -24,7 +24,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/ActionLogger.h"
 
-#include "libraries/qtSingleApplication5/qtsingleapplication.h"
+#include "libraries/qtSingleApplication/qtsingleapplication.h"
 
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
@@ -34,14 +34,12 @@
 #include "libraries/TraceLogger.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/PeriodicCheckBase.h"
-#include "libraries/PeriodicSyncro.h"
+#include "libraries/PeriodicSynchro.h"
 #include "libraries/IconSelectDialog.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/CssHelper.h"
 
-
-using namespace std;
 
 // todo: Разгрести объекты глобальной области, переделать все
 // на синглтоны, сделать объект ядра, поместить объекты глабальной
@@ -74,7 +72,7 @@ ShortcutManager shortcutManager;
 
 // Различные периодические проверки
 PeriodicCheckBase periodicCheckBase;
-PeriodicSyncro periodicSyncro;
+PeriodicSynchro periodicSynchro;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -83,7 +81,7 @@ QObject *pMainWindow;
 void printHelp()
 {
   printf("\n");
-  printf("MyTetra v.%d.%d.%d\n", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
+  printf("MyTetra %s\n", APPLICATION_VERSION);
   printf("For use control mode, run by standard way MyTetra for show GUI interface, and next use command:\n");
   printf("./mytetra --control --show - Show and activate MyTetra window\n");
   printf("./mytetra --control --hide - Hide MyTetra window\n");
@@ -195,7 +193,7 @@ void parseConsoleOption(QtSingleApplication &app)
 
 int main(int argc, char ** argv)
 {
- printf("\n\rStart MyTetra v.%d.%d.%d\n\r", APPLICATION_RELEASE_VERSION, APPLICATION_RELEASE_SUBVERSION, APPLICATION_RELEASE_MICROVERSION);
+ printf("\nStart MyTetra %s\n", APPLICATION_VERSION);
 
  Q_INIT_RESOURCE(mytetra);
 
@@ -218,11 +216,11 @@ int main(int argc, char ** argv)
  // Обработка консольных опций
  parseConsoleOption(app);
 
-
+#if QT_VERSION < 0x060000
  // Установка увеличенного разрешения для дисплеев с большим DPI (Retina)
  if( qApp->devicePixelRatio() > 1.0 )
-  qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
-
+   qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
 
  // Инициализация глобальных параметров,
  // внутри происходит установка рабочей директории, настройка кодеков для локали и консоли
@@ -261,13 +259,20 @@ int main(int argc, char ** argv)
  QString langFileName=":/resource/translations/mytetra_"+mytetraConfig.get_interfacelanguage()+".qm";
  qDebug() << "Use language file " << langFileName;
  QTranslator langTranslator;
- langTranslator.load(langFileName);
- app.installTranslator(&langTranslator);
+ if(langTranslator.load(langFileName))
+    app.installTranslator(&langTranslator);
+ else
+     qDebug() << "Can't install translations";
 
  //Загрузка переводов стандартных диалогов и кнопок
  QTranslator qtTranslator;
- if(qtTranslator.load("qt_" + QLocale().name().split('_').first(),
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+ if(qtTranslator.load("qt_" + mytetraConfig.get_interfacelanguage(),
+#if QT_VERSION > 0x060000
+                      QLibraryInfo::path(QLibraryInfo::TranslationsPath)
+#else
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath)
+#endif
+                      ))
  {
      if(!app.installTranslator(&qtTranslator))
          qDebug() << "Can't install QT translations";
@@ -370,9 +375,9 @@ int main(int argc, char ** argv)
  periodicCheckBase.start();
 
  // Инициалиация периодической синхронизации
- periodicSyncro.init();
- periodicSyncro.setDelay( mytetraConfig.getPeriodicSyncroPeriod() );
- periodicSyncro.start();
+ periodicSynchro.init();
+ periodicSynchro.setDelay( mytetraConfig.getPeriodicSynchroPeriod() );
+ periodicSynchro.start();
 
  // При закрытии окна не выходить из программы.
  // Окно программы может быть снова открыто из трея

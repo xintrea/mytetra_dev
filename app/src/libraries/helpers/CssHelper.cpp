@@ -20,15 +20,7 @@ CssHelper::CssHelper()
 
 qreal CssHelper::getCalculateIconSizePx(void)
 {
-#if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
-  qreal dpiX=qApp->desktop()->physicalDpiX();
-  qreal dpiY=qApp->desktop()->physicalDpiY();
-  qreal dpi=(dpiX+dpiY)/2;
-#endif
-
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
   qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
-#endif
 
   qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
   qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах

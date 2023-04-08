@@ -17,13 +17,6 @@ GestureHelper::GestureHelper()
 
 void GestureHelper::setKineticScrollArea(QAbstractItemView *object)
 {
-  #if QT_VERSION < 0x050000
-
-   Q_UNUSED(object);
-   return;
-
-  #else
-
   if(object==nullptr)
     return;
 
@@ -71,6 +64,5 @@ void GestureHelper::setKineticScrollArea(QAbstractItemView *object)
     // setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
   }
 
-  #endif
 }
 

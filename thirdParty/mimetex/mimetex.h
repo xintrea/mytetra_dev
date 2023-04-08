@@ -40,10 +40,35 @@
  * 07/04/03	J.Forkosh	Version 1.01 released.
  * ---
  * 09/06/08	J.Forkosh	Version 1.70 released.
+ * ---
+ * 07/11/17	J.Forkosh	function scope & prototypes for version 1.76
  *
  ***************************************************************************/
 
 
+/* ---
+ * Function Scope and Prototypes (to enable static function scope,
+ * avoiding function name collisions when compiling together with
+ * other modules)
+ * ----------------------------------------------------------------- */
+#if !defined(FUNCSCOPE)
+  #define FUNCSCOPE static
+#endif
+#if !defined(FUNCSHARED)
+  #define FUNCSHARED /*static*/
+#endif
+
+/* ---
+ * public entry points
+ * ---------------------- */
+FUNCSHARED unsigned char *mimetexgetbytemap ( char *expression,
+                                         int *width, int *height );
+FUNCSHARED int      mimetextypebytemap ( unsigned char *bp, int grayscale,
+                                         int width, int height, FILE *fp );
+FUNCSHARED int      mimetexsetmsg ( int newmsglevel, FILE *newmsgfp );
+
+
+#if defined(_MIMETEXMAIN)
 /* --------------------------------------------------------------------------
 check for compilation by parts (not supported yet)
 -------------------------------------------------------------------------- */
@@ -180,16 +205,18 @@ raster
 	((rp)->pixsz==1? getlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))) :\
 	 ((rp)->pixsz==8? ((rp)->pixmap)[PIXDEX(rp,(irow),(icol))] : (-1)) )
 /* --- set value of pixel, either one bit or one byte, at (irow,icol) --- */
-#define	setpixel(rp,irow,icol,value)	/*set bit or byte based on pixsz*/  \
-	if ( (rp)->pixsz == 1 )		/*set pixel to 1 or 0 for bitmap*/  \
-	 if ( (value) != 0 )		/* turn bit pixel on */             \
-	  { setlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))); }            \
-	 else				/* or turn bit pixel 0ff */         \
-	  { unsetlongbit((rp)->pixmap,PIXDEX(rp,(irow),(icol))); }	    \
-	else				/* set 8-bit bytemap pixel value */ \
-	  if ( (rp)->pixsz == 8 )	/* check pixsz=8 for bytemap */	    \
-	     ((rp)->pixmap)[PIXDEX(rp,(irow),(icol))]=(pixbyte)(value);     \
-	  else				/* let user supply final ; */
+
+/*set bit or byte based on pixsz*/
+static inline void setpixel(raster * rp, int irow, int icol, int value) {
+    if ( rp->pixsz == 1 ) {		/*set pixel to 1 or 0 for bitmap*/
+        if ( value != 0 )		/* turn bit pixel on */
+          { setlongbit(rp->pixmap,PIXDEX(rp,irow,icol)); }
+        else				/* or turn bit pixel 0ff */
+            { unsetlongbit(rp->pixmap,PIXDEX(rp,irow,icol)); }
+     } else				/* set 8-bit bytemap pixel value */
+      if ( rp->pixsz == 8 )	/* check pixsz=8 for bytemap */
+         (rp->pixmap)[PIXDEX(rp,irow,icol)]=(pixbyte)value;
+}
 
 /* --------------------------------------------------------------------------
 some char classes tokenizer needs to recognize, and macros to check for them
@@ -413,11 +440,315 @@ subraster
 #define	FRACRASTER	(4)		/* image of \frac{}{} */
 #define	ASCIISTRING	(5)		/* ascii string (not a raster) */
 
+
 /* ---
- * issue rasterize() call end extract embedded raster from returned subraster
- * -------------------------------------------------------------------------- */
-subraster *rasterize();			/* declare rasterize */
-#define	make_raster(expression,size)	((rasterize(expression,size))->image)
+ * note: point3d.x,y,z are relative to the origin 0.,0.,0. of an abstract
+ * coordinate system, calculated to be at the center pixel of a raster.
+ * point3d and matrix3d are used for rotations, as per
+ *   https://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions
+ * in function rotrast3d()
+ * ------------------------------------------------------------------------ */
+/* --- 3d-point --- */
+#define point3d struct point3d_struct   /* "typedef" for point3d_struct */
+point3d {
+  /* --- x,y,z-coords relative to 0.,0.,0. origin of abstract coord axes --- */
+  double x;                             /* x-coord */
+  double y;                             /* y-coord */
+  double z;                             /* z-coord */
+  } ; /* --- end-of-point3d_struct --- */
+/* --- 3d-matrix (rotation matrix) stored row-wise --- */
+#define matrix3d struct matrix3d_struct /* "typedef" for matrix3d_struct */
+matrix3d {
+  /* --- 3x3 matrix stored row-wise --- */
+  point3d xrow;                         /* x-row */
+  point3d yrow;                         /* y-row */
+  point3d zrow;                         /* z-row */
+  } ; /* --- end-of-matrix3d_struct --- */
+
+/* -------------------------------------------------------------------------
+store for evalterm() [n.b., these are stripped-down funcs from nutshell]
+-------------------------------------------------------------------------- */
+#define	STORE struct store_struct	/* "typedef" for store struct */
+#define	MAXSTORE 100			/* max 100 identifiers */
+STORE {
+  char	*identifier;			/* identifier */
+  int	*value;				/* address of corresponding value */
+  } ; /* --- end-of-store_struct --- */
+
+/* -------------------------------------------------------------------------
+logging data structure (default data to be logged remains in mimetex.c)
+-------------------------------------------------------------------------- */
+/* --- logging data structure --- */
+#define	logdata	struct logdata_struct	/* "typedef" for logdata_struct*/
+logdata {
+  /* -----------------------------------------------------------------------
+  environment variable name, max #chars to display, min msglevel to display
+  ------------------------------------------------------------------------ */
+  char	*name;				/* environment variable name */
+  int	maxlen;				/* max #chars to display */
+  int	msglevel;			/* min msglevel to display data */
+  } ; /* --- end-of-logdata_struct --- */
+
+/* ---
+ * from #include "md5.h" (for md5 functions)
+ * -------------------------------------------- */
+#ifndef uint8
+  #define uint8  unsigned char
+#endif
+#ifndef uint32
+  #define uint32 unsigned long int
+#endif
+typedef struct
+  { uint32 total[2];
+    uint32 state[4];
+    uint8 buffer[64];
+  } md5_context;
+
+/* ---
+ * Function Prototypes and Scope (to enable static function scope,
+ * avoiding function name collisions when compiling together with
+ * other modules)
+ * ----------------------------------------------------------------- */
+FUNCSCOPE raster    *new_raster ( int width, int height, int pixsz );
+FUNCSCOPE subraster *new_subraster ( int width, int height, int pixsz );
+FUNCSCOPE int       delete_raster ( raster *rp );
+FUNCSCOPE int       delete_subraster ( subraster *sp );
+FUNCSCOPE raster    *rastcpy ( raster *rp );
+FUNCSCOPE subraster *subrastcpy ( subraster *sp );
+FUNCSCOPE raster    *rastrot ( raster *rp );
+FUNCSCOPE raster    *rastrot3d ( raster *rp, point3d *axis, double theta );
+FUNCSCOPE raster    *rastmag ( raster *rp, int magstep );
+FUNCSCOPE intbyte   *bytemapmag ( intbyte *bytemap,
+                                  int width, int height, int magstep );
+FUNCSCOPE raster    *rastref ( raster *rp, int axis );
+FUNCSCOPE int       rastput ( raster *target, raster *source,
+                              int top, int left, int isopaque );
+FUNCSCOPE subraster *rastcompose ( subraster *sp1, subraster *sp2,
+                                   int offset2, int isalign, int isfree );
+FUNCSCOPE subraster *rastcat ( subraster *sp1, subraster *sp2, int isfree );
+FUNCSCOPE subraster *rastack ( subraster *sp1, subraster *sp2, int base,
+                               int space, int iscenter, int isfree );
+FUNCSCOPE int       rastsmash ( subraster *sp1, subraster *sp2 );
+FUNCSCOPE int       rastsmashcheck ( char *term );
+FUNCSCOPE subraster *accent_subraster ( int accent, int width, int height,
+                                        int direction, int pixsz );
+FUNCSCOPE subraster *arrow_subraster ( int width, int height, int pixsz,
+                                       int drctn, int isBig );
+FUNCSCOPE subraster *uparrow_subraster ( int width, int height, int pixsz,
+                                         int drctn, int isBig );
+FUNCSCOPE int       rule_raster ( raster *rp, int top, int left,
+                                  int width, int height, int type );
+FUNCSCOPE int       line_raster ( raster *rp, int row0, int col0,
+                                  int row1, int col1, int thickness );
+FUNCSCOPE int       line_recurse ( raster *rp, double row0, double col0,
+                                   double row1, double col1, int thickness );
+FUNCSCOPE int       circle_raster ( raster *rp, int row0, int col0,
+                            int row1, int col1, int thickness, char *quads );
+FUNCSCOPE int       circle_recurse ( raster *rp, int row0, int col0, int row1,
+                      int col1, int thickness, double theta0, double theta1 );
+FUNCSCOPE int       bezier_raster ( raster *rp, double r0, double c0,
+                                double r1, double c1, double rt, double ct );
+FUNCSCOPE raster    *border_raster ( raster *rp, int ntop, int nbot,
+                                     int isline, int isfree );
+FUNCSCOPE raster    *backspace_raster ( raster *rp, int nback, int *pback,
+                                        int minspace, int isfree );
+FUNCSCOPE int       type_raster ( raster *rp, FILE *fp );
+FUNCSCOPE int       type_bytemap ( intbyte *bp, int grayscale,
+                                   int width, int height, FILE *fp );
+#if !defined (GIF)
+FUNCSCOPE int       xbitmap_raster ( raster *rp, FILE *fp );
+FUNCSCOPE int       hex_bitmap ( raster *rp, FILE *fp, int col1, int isstr );
+#endif
+FUNCSCOPE int       type_pbmpgm ( raster *rp, int ptype, char *file );
+FUNCSCOPE subraster *read_pbm ( FILE *fp, double sf );
+FUNCSCOPE raster    *gftobitmap ( raster *gf );
+FUNCSCOPE mathchardef *get_symdef ( char *symbol );
+FUNCSCOPE int       get_ligature ( char *expression, int family );
+FUNCSCOPE chardef   *get_chardef ( mathchardef *symdef, int size );
+FUNCSCOPE subraster *get_charsubraster ( mathchardef *symdef, int size );
+FUNCSCOPE subraster *get_symsubraster ( char *symbol, int size );
+FUNCSCOPE int       get_baseline ( chardef *gfdata );
+FUNCSCOPE subraster *get_delim ( char *symbol, int height, int family );
+FUNCSCOPE subraster *make_delim ( char *symbol, int height );
+FUNCSCOPE char      *texchar ( char *expression, char *chartoken );
+FUNCSCOPE char      *texsubexpr ( char *expression, char *subexpr,
+                                  int maxsubsz, char *left, char *right,
+                                  int isescape, int isdelim );
+FUNCSCOPE char      *texleft ( char *expression, char *subexpr, int maxsubsz,
+                               char *ldelim, char *rdelim );
+FUNCSCOPE char      *texscripts ( char *expression, char *subscript,
+                                  char *superscript, int which );
+FUNCSCOPE int       isbrace ( char *expression, char *braces, int isescape );
+FUNCSCOPE char      *preamble ( char *expression, int *size, char *subexpr );
+FUNCSCOPE char      *mimeprep ( char *expression );
+FUNCSCOPE char      *strchange ( int nfirst, char *from, char *to );
+FUNCSCOPE int       strreplace(char *string,char *from,char *to,int nreplace);
+FUNCSCOPE char      *strwstr(char *string,char *substr,char *white,int *sublen);
+FUNCSCOPE char      *strdetex ( char *s, int mode );
+FUNCSCOPE char      *strtexchr ( char *string, char *texchr );
+FUNCSCOPE char      *findbraces ( char *expression, char *command );
+/*FUNCSCOPE char    *strpspn ( char *s, char *reject, char *segment );*/
+FUNCSCOPE int       isstrstr ( char *string, char *snippets, int iscase );
+FUNCSCOPE int       isnumeric ( char *s );
+FUNCSCOPE int       evalterm ( STORE *store, char *term );
+FUNCSCOPE int       getstore ( STORE *store, char *identifier );
+FUNCSCOPE char      *getdirective ( char *string, char *directive,
+                            int iscase, int isvalid, int nargs, void *args );
+FUNCSCOPE char      *strpspn ( char *s, char *reject, char *segment );
+FUNCSCOPE char      *strqspn ( char *s, char *q, int isunescape );
+FUNCSCOPE int       unescape_url(char *url, int isescape);
+FUNCSCOPE char      x2c(char *what);
+FUNCSCOPE subraster *rasterize ( char *expression, int size );
+FUNCSCOPE subraster *rastparen ( char **subexpr, int size, subraster *basesp );
+FUNCSCOPE subraster *rastlimits ( char **expression, int size,
+                                  subraster *basesp );
+FUNCSCOPE subraster *rastscripts ( char **expression, int size,
+                                   subraster *basesp );
+FUNCSCOPE subraster *rastdispmath (char **expression, int size, subraster *sp);
+/* ---
+ * handler functions for math operations
+ * ---------------------------------------- */
+FUNCSCOPE subraster *rastleft ( char **expression, int size, subraster *basesp,
+                                int ildelim, int arg2, int arg3 );
+FUNCSCOPE subraster *rastmiddle(char **expression, int size, subraster *basesp,
+                                int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastflags(char **expression, int size, subraster *basesp,
+                               int flag, int value, int arg3);
+FUNCSCOPE subraster *rastspace(char **expression, int size, subraster *basesp,
+                               int width, int isfill, int isheight);
+FUNCSCOPE subraster *rastnewline ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastarrow(char **expression, int size, subraster *basesp,
+                               int drctn, int isBig, int arg3);
+FUNCSCOPE subraster *rastuparrow ( char **expression, int size,
+                          subraster *basesp, int drctn, int isBig, int arg3 );
+FUNCSCOPE subraster *rastoverlay ( char **expression, int size,
+                      subraster *basesp, int overlay, int offset2, int arg3 );
+FUNCSCOPE subraster *rastfrac(char **expression, int size, subraster *basesp,
+                              int isfrac, int arg2, int arg3);
+FUNCSCOPE subraster *rastackrel ( char **expression, int size,
+                            subraster *basesp, int base, int arg2, int arg3 );
+FUNCSCOPE subraster *rastmathfunc ( char **expression, int size,
+                    subraster *basesp, int mathfunc, int islimits, int arg3 );
+FUNCSCOPE subraster *rastsqrt(char **expression, int size, subraster *basesp,
+                              int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastaccent ( char **expression, int size,
+                   subraster *basesp, int accent, int isabove, int isscript );
+FUNCSCOPE subraster *rastfont(char **expression, int size, subraster *basesp,
+                              int ifontnum, int arg2, int arg3);
+FUNCSCOPE subraster *rastbegin(char **expression, int size, subraster *basesp,
+                               int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastarray(char **expression, int size, subraster *basesp,
+                               int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastpicture ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastline(char **expression, int size, subraster *basesp,
+                              int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastrule(char **expression, int size, subraster *basesp,
+                              int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastcircle ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastbezier ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastraise(char **expression, int size, subraster *basesp,
+                               int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastrotate ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastmagnify ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastreflect ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastfbox(char **expression, int size, subraster *basesp,
+                              int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastovalbox ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastinput(char **expression, int size, subraster *basesp,
+                               int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastcounter ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rasteval(char **expression, int size, subraster *basesp,
+                              int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastmathtex ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rasttoday(char **expression, int size, subraster *basesp,
+                               int arg1, int arg2, int arg3);
+FUNCSCOPE subraster *rastcalendar ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastenviron ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastmessage ( char **expression, int size,
+                            subraster *basesp, int arg1, int arg2, int arg3 );
+FUNCSCOPE subraster *rastnoop(char **expression, int size, subraster *basesp,
+                              int nargs, int arg2, int arg3);
+/* --- end-of-handler-functions-for-math-operations --- */
+FUNCSCOPE FILE      *rastopenfile ( char *filename, char *mode );
+FUNCSCOPE char      *rasteditfilename ( char *filename );
+FUNCSCOPE int       rastreadfile ( char *filename, int islock,
+                                                    char *tag, char *value );
+FUNCSCOPE int       rastwritefile ( char *filename,char *tag,
+                                                 char *value, int isstrict );
+FUNCSCOPE char      *calendar( int year, int month, int day );
+FUNCSCOPE char      *timestamp( int tzdelta, int ifmt );
+FUNCSCOPE int       tzadjust ( int tzdelta,
+                                int *year, int *month, int *day, int *hour );
+FUNCSCOPE int       daynumber ( int year, int month, int day );
+FUNCSCOPE char      *strwrap ( char *s, int linelen, int tablen );
+FUNCSCOPE char      *strnlower ( char *s, int n );
+FUNCSCOPE char      *urlprune ( char *url, int n );
+FUNCSCOPE int       urlncmp ( char *url1, char *url2, int n );
+FUNCSCOPE char      *dbltoa ( double dblval, int npts );
+FUNCSCOPE matrix3d  *rotmatrix ( point3d *axis, double theta );
+FUNCSCOPE point3d   *matmult ( matrix3d *mat, point3d *vec );
+FUNCSCOPE int       aalowpass (raster *rp, intbyte *bytemap, int grayscale);
+FUNCSCOPE int       aapnm (raster *rp, intbyte *bytemap, int grayscale);
+FUNCSCOPE int       aapnmlookup (raster *rp, intbyte *bytemap, int grayscale);
+FUNCSCOPE int       aapatterns ( raster *rp, int irow, int icol,
+                                  int gridnum, int patternum, int grayscale );
+FUNCSCOPE int       aapattern1124 ( raster *rp, int irow, int icol,
+                                                 int gridnum, int grayscale );
+FUNCSCOPE int       aapattern19 ( raster *rp, int irow, int icol,
+                                                 int gridnum, int grayscale );
+FUNCSCOPE int       aapattern20 ( raster *rp, int irow, int icol,
+                                                 int gridnum, int grayscale );
+FUNCSCOPE int       aapattern39 ( raster *rp, int irow, int icol,
+                                                 int gridnum, int grayscale );
+FUNCSCOPE int       aafollowline ( raster *rp, int irow, int icol,
+                                                              int direction );
+FUNCSCOPE int       aagridnum ( raster *rp, int irow, int icol );
+FUNCSCOPE int       aapatternnum ( int gridnum );
+FUNCSCOPE int       aalookup ( int gridnum );
+FUNCSCOPE int       aalowpasslookup ( raster *rp, intbyte *bytemap,
+                                                              int grayscale );
+FUNCSCOPE int       aasupsamp(raster *rp, raster **aa, int sf, int grayscale);
+FUNCSCOPE raster    *imgsupsamp ( raster *rp, double sf, int grayscale );
+FUNCSCOPE int       ssweights(int width, int height, int maxwt, raster **wts);
+FUNCSCOPE int       aacolormap ( intbyte *bytemap, int nbytes,
+                                         intbyte *colors, intbyte *colormap );
+FUNCSCOPE raster    *aaweights ( int width, int height );
+FUNCSHARED int      mimetexsetmsg ( int newmsglevel, FILE *newmsgfp );
+FUNCSHARED unsigned char *mimetexgetbytemap ( char *expression,
+                                                    int *width, int *height );
+       /* int       main ( int argc, char *argv[] ); */
+       /* int       CreateGifFromEq ( char *expression, char *gifFileName ); */
+FUNCSCOPE int       ismonth ( char *month );
+FUNCSCOPE int       logger ( FILE *logfp, int msglevel,
+                                            char *message, logdata *logvars );
+FUNCSCOPE int       emitcache(char *cachefile, int maxage, int valign,
+                                                                int isbuffer);
+FUNCSCOPE int       readcachefile ( char *cachefile, unsigned char *buffer );
+FUNCSCOPE int       advertisement ( char *expression, char *message );
+FUNCSCOPE int       crc16 ( char *s );
+FUNCSCOPE void
+       P1(uint32 *X,uint32 *a,uint32 b,uint32 c,uint32 d,int k,int s,uint32 t),
+       P2(uint32 *X,uint32 *a,uint32 b,uint32 c,uint32 d,int k,int s,uint32 t),
+       P3(uint32 *X,uint32 *a,uint32 b,uint32 c,uint32 d,int k,int s,uint32 t),
+       P4(uint32 *X,uint32 *a,uint32 b,uint32 c,uint32 d,int k,int s,uint32 t);
+FUNCSCOPE char      *md5str( char *instr );
+FUNCSCOPE void      md5_starts(md5_context *ctx);
+FUNCSCOPE void      md5_process(md5_context *ctx, uint8 data[64]);
+FUNCSCOPE void      md5_update(md5_context *ctx, uint8 *input, uint32 length);
+FUNCSCOPE void      md5_finish(md5_context *ctx, uint8 digest[16]);
+       /* int       GetPixel ( int x, int y ); */
 
 
 /* -------------------------------------------------------------------------
@@ -570,43 +901,47 @@ STATIC	int shrinkfactors[]		/*supersampling shrinkfactor by size*/
 
 /* ---
  * handler functions for math operations
- * ------------------------------------- */
-subraster *rastflags();			/* set flags, e.g., for \rm */
-subraster *rastfrac();			/* handle \frac \atop expressions */
-subraster *rastackrel();		/* handle \stackrel expressions */
-subraster *rastmathfunc();		/* handle \lim,\log,etc expressions*/
-subraster *rastoverlay();		/* handle \not */
-subraster *rastspace();			/* handle math space, \hspace,\hfill*/
-subraster *rastnewline();		/* handle \\ newline */
-subraster *rastarrow();			/* handle \longrightarrow, etc */
-subraster *rastuparrow();		/* handle \longuparrow, etc */
-subraster *rastsqrt();			/* handle \sqrt */
-subraster *rastaccent();		/* handle \hat \vec \braces, etc */
-subraster *rastfont();			/* handle \cal{} \scr{}, etc */
-subraster *rastbegin();			/* handle \begin{}...\end{} */
-subraster *rastleft();			/* handle \left...\right */
-subraster *rastmiddle();		/* handle \left...\middle...\right */
-subraster *rastarray();			/* handle \array{...} */
-subraster *rastpicture();		/* handle \picture(,){...} */
-subraster *rastline();			/* handle \line(xinc,yinc){xlen} */
-subraster *rastrule();			/* handle \rule[lift]{width}{height}*/
-subraster *rastcircle();		/* handle \circle(xdiam[,ydiam]) */
-subraster *rastbezier();		/*handle\bezier(c0,r0)(c1,r1)(ct,rt)*/
-subraster *rastraise();			/* handle \raisebox{lift}{expr} */
-subraster *rastrotate();		/* handle \rotatebox{degs}{expr} */
-subraster *rastmagnify();		/* handle \magnify{magstep}{expr} */
-subraster *rastreflect();		/* handle \reflectbox[axis]{expr} */
-subraster *rastfbox();			/* handle \fbox{expr} */
-subraster *rastovalbox();		/* handle \ovalbox{expr} */
-subraster *rastinput();			/* handle \input{filename} */
-subraster *rastcounter();		/* handle \counter{filename} */
-subraster *rasteval();			/* handle \eval{expression} */
-subraster *rastmathtex();		/* handle \mathtex{expression} */
-subraster *rasttoday();			/* handle \today[+/-tzdelta,ifmt] */
-subraster *rastcalendar();		/* handle \calendar[yaer,month] */
-subraster *rastenviron();		/* handle \environment */
-subraster *rastmessage();		/* handle \message */
-subraster *rastnoop();			/* handle \escape's to be flushed */
+ * ---------------------------------------- */
+#if 0  /* --- now declared above --- */
+  FUNCSCOPE subraster
+	*rastflags(),			/* set flags, e.g., for \rm */
+	*rastfrac(),			/* handle \frac \atop expressions */
+	*rastackrel(),			/* handle \stackrel expressions */
+	*rastmathfunc(),		/* handle \lim,\log,etc expressions*/
+	*rastoverlay(),			/* handle \not */
+	*rastspace(),			/* handle math space, \hspace,\hfill*/
+	*rastnewline(),			/* handle \\ newline */
+	*rastarrow(),			/* handle \longrightarrow, etc */
+	*rastuparrow(),			/* handle \longuparrow, etc */
+	*rastsqrt(),			/* handle \sqrt */
+	*rastaccent(),			/* handle \hat \vec \braces, etc */
+	*rastfont(),			/* handle \cal{} \scr{}, etc */
+	*rastbegin(),			/* handle \begin{}...\end{} */
+	*rastleft(),			/* handle \left...\right */
+	*rastmiddle(),			/* handle \left...\middle...\right */
+	*rastarray(),			/* handle \array{...} */
+	*rastpicture(),			/* handle \picture(,){...} */
+	*rastline(),			/* handle \line(xinc,yinc){xlen} */
+	*rastrule(),			/* handle \rule[lift]{width}{height}*/
+	*rastcircle(),			/* handle \circle(xdiam[,ydiam]) */
+	*rastbezier(),			/* handle\bezier(c0,r0)(c1,r1)(ct,rt)*/
+	*rastraise(),			/* handle \raisebox{lift}{expr} */
+	*rastrotate(),			/* handle \rotatebox{degs}{expr} */
+	*rastmagnify(),			/* handle \magnify{magstep}{expr} */
+	*rastreflect(),			/* handle \reflectbox[axis]{expr} */
+	*rastfbox(),			/* handle \fbox{expr} */
+	*rastovalbox(),			/* handle \ovalbox{expr} */
+	*rastinput(),			/* handle \input{filename} */
+	*rastcounter(),			/* handle \counter{filename} */
+	*rasteval(),			/* handle \eval{expression} */
+	*rastmathtex(),			/* handle \mathtex{expression} */
+	*rasttoday(),			/* handle \today[+/-tzdelta,ifmt] */
+	*rastcalendar(),		/* handle \calendar[yaer,month] */
+	*rastenviron(),			/* handle \environment */
+	*rastmessage(),			/* handle \message */
+	*rastnoop()			/* handle \escape's to be flushed */
+	; /* --- end-of-functions-for-math-operations --- */
+#endif
 
 /* --- sqrt --- */
 #define	SQRTACCENT	(1)		/* \sqrt */
@@ -2263,7 +2598,7 @@ STATIC	mathchardef symtable[]
  }
 #endif /* INITVALS */
  ; /* --- end-of-symtable[] --- */
-
 /* ======================= END-OF-FILE MIMETEX.H ========================= */
-#endif
+#endif /*defined(_MIMETEXMAIN)*/
+#endif /*defined(_MIMETEX)*/
 

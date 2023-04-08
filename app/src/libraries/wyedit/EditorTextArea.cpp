@@ -257,7 +257,6 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
   {
    QPainter p(viewport());
    p.setRenderHint(QPainter::Antialiasing,false);
-   p.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
    QPen pen(Qt::darkGray);
    pen.setStyle(Qt::SolidLine);
@@ -335,7 +334,6 @@ void EditorTextArea::paintEvent(QPaintEvent *event)
  // Поверх рисуются элементы разметки
  QPainter p(viewport());
  p.setRenderHint(QPainter::Antialiasing,false);
- p.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
  QPen pen(Qt::darkGray);
  pen.setStyle(Qt::SolidLine);
@@ -430,7 +428,7 @@ void EditorTextArea::resizeEvent(QResizeEvent *event)
 }
 
 
-// Метод возвращает X-координату курсора в "нуливой" позиции слева
+// Метод возвращает X-координату курсора в "нулевой" позиции слева
 // Это значение используется для работы линейки отступов
 int EditorTextArea::getIndentStartedLeft(void)
 {
@@ -653,7 +651,7 @@ void EditorTextArea::onChangeFontFamily(QString fontFamily)
   // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
 
   QTextCharFormat format;
-  format.setFontFamily(fontFamily);
+  format.setFontFamilies({fontFamily});
 
   qDebug() << "Font from font name: " << format.font().toString();
 

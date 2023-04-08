@@ -84,6 +84,8 @@ void AppConfigPage_Main::setupUi(void)
  interfaceLanguage->setMinimumContentsLength(2);
  interfaceLanguage->addItem("en");
  interfaceLanguage->setItemIcon(interfaceLanguage->count()-1, QIcon(":/resource/pic/countryFlags/United-Kingdom.png"));
+ interfaceLanguage->addItem("fr");
+ interfaceLanguage->setItemIcon(interfaceLanguage->count()-1, QIcon(":/resource/pic/countryFlags/France.png"));
  interfaceLanguage->addItem("ru");
  interfaceLanguage->setItemIcon(interfaceLanguage->count()-1, QIcon(":/resource/pic/countryFlags/Russia.png"));
  interfaceLanguage->setCurrentIndex(interfaceLanguage->findText(mytetraConfig.get_interfacelanguage(), Qt::MatchCaseSensitive));

@@ -24,7 +24,7 @@ public:
 private slots:
 
   void onEnablePeriodicCheckBase(bool);
-  void onEnablePeriodicSyncro(bool);
+  void onEnablePeriodicSynchro(bool);
 
 protected:
 

@@ -60,7 +60,7 @@ PrintPreview::~PrintPreview()
 
 void PrintPreview::setupPrintDoc()
 {
-    QSizeF page = printer.pageRect().size();
+    QSizeF page = printer.pageLayout().paintRectPoints().size();
     page.setWidth(page.width() * view->logicalDpiX() / printer.logicalDpiX());
     page.setHeight(page.height() * view->logicalDpiY() / printer.logicalDpiY());
 
@@ -106,7 +106,7 @@ void PrintPreview::setupUI()
 
 void PrintPreview::setupShortcuts()
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     buttonPrint->setShortcut( shortcutManager.getKeySequence("misc-print") ); // Устанавливается шорткат
     buttonPrint->setToolTip( shortcutManager.getKeySequenceAsText("misc-print") ); // ToolTip зависит от шортката

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/resource/translations/">
+        <file>mytetra_ru.qm</file>
+        <file>mytetra_fr.qm</file>
+    </qresource>
+</RCC>

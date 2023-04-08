@@ -152,7 +152,6 @@ void FindTableWidget::addRow(QString title, QString branchName, QString tags, QS
 
   // Информация о записи
   QStandardItem *item_info=new QStandardItem();
-  QString info;
   tags=tags.trimmed();
   if(tags.length()>0)
     item_info->setText(branchName+" ("+tags+")");

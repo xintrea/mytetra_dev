@@ -48,10 +48,10 @@ ActionLogger::ActionLogger(QObject *pobj)
   actionStructure["moveBranchDown"]=(QStringList() << "branchId" << "branchName" );
   actionStructure["deleteBranch"]  =(QStringList() << "branchId" << "branchName" );
 
-  actionStructure["startSyncro"];
-  actionStructure["stopSyncro"];
-  actionStructure["syncroProcessError"] = (QStringList() << "errCode" );
-  actionStructure["syncroError"];
+  actionStructure["startSynchro"];
+  actionStructure["stopSynchro"];
+  actionStructure["synchroProcessError"] = (QStringList() << "errCode" );
+  actionStructure["synchroError"];
 
   actionStructure["criticalError"] =(QStringList() << "errorMessage" );
 
@@ -84,7 +84,7 @@ void ActionLogger::openLogFileForWrite()
   logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::Append | QIODevice::Text);
   if(!result)
-    criticalError("Cant open log file "+logFileName+" for write data");
+    criticalError("Can't open log file "+logFileName+" for write data");
 }
 
 
@@ -97,7 +97,7 @@ void ActionLogger::openLogFileForRead()
   logFile.setFileName(logFileName); // Открывается файл лога
   bool result=logFile.open(QIODevice::ReadOnly | QIODevice::Text);
   if(!result)
-    criticalError("Cant open log file "+logFileName+" for readind data");
+    criticalError("Can't open log file "+logFileName+" for readind data");
 }
 
 
@@ -232,10 +232,7 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
     line=tr("Program stop");
 
   else if( iData["a"] == "createRecord")
-    line=tr("Create note \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                            arg( iData["recordId"] ).
-                                                                            arg( iData["branchName"] ).
-                                                                            arg( iData["branchId"] );
+    line=tr("Create note \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg(iData["recordName"], iData["recordId"], iData["branchName"], iData["branchId"]);
 
   else if( iData["a"] == "createCryptRecord")
   {
@@ -251,15 +248,11 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
       iData["branchName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["branchName"]);
     }
 
-    line=tr("Create crypt note \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                                  arg( iData["recordId"] ).
-                                                                                  arg( iData["branchName"] ).
-                                                                                  arg( iData["branchId"] );
+    line=tr("Create crypt note \"%1\" with ID %2 in tree item \"%3\" with ID %4").arg(iData["recordName"], iData["recordId"], iData["branchName"], iData["branchId"]);
   }
 
   else if( iData["a"] == "editRecord")
-    line=tr("Edit fields of note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                                     arg( iData["recordId"]);
+    line=tr("Edit fields of note \"%1\" with ID %2").arg( iData["recordName"], iData["recordId"] );
 
   else if( iData["a"] == "editCryptRecord")
   {
@@ -269,14 +262,12 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
     else
       iData["recordName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["recordName"]);
 
-    line=tr("Edit fields of crypt note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                                           arg( iData["recordId"]);
+    line=tr("Edit fields of crypt note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
   }
 
 
   else if( iData["a"] == "editRecordText")
-    line=tr("Edit text of note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                                   arg( iData["recordId"]);
+    line=tr("Edit text of note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "editCryptRecordText")
   {
@@ -286,57 +277,46 @@ QString ActionLogger::getFullDescription(QMap<QString, QString> iData)
     else
       iData["recordName"]=CryptService::decryptString(globalParameters.getCryptKey(), iData["recordName"]);
 
-    line=tr("Edit text of crypt note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                                         arg( iData["recordId"]);
+    line=tr("Edit text of crypt note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
   }
 
 
   else if( iData["a"] == "moveRecordUp")
-    line=tr("Move up note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                              arg( iData["recordId"]);
+    line=tr("Move up note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "moveRecordDown")
-    line=tr("Move down note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                                arg( iData["recordId"]);
+    line=tr("Move down note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "deleteRecord")
-    line=tr("Delete note \"%1\" with ID %2").arg( iData["recordName"] ).
-                                             arg( iData["recordId"]);
+    line=tr("Delete note \"%1\" with ID %2").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "copyRecordToBuffer")
-    line=tr("Copy note \"%1\" with ID %2 to clipboard").arg( iData["recordName"] ).
-                                                        arg( iData["recordId"]);
+    line=tr("Copy note \"%1\" with ID %2 to clipboard").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "cutRecordToBuffer")
-    line=tr("Cut note \"%1\" with ID %2 to clipboard").arg( iData["recordName"] ).
-                                                       arg( iData["recordId"]);
+    line=tr("Cut note \"%1\" with ID %2 to clipboard").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "pasteRecordFromBuffer") // Добавить, какой новый ID у вставленной записи получился
-    line=tr("Paste note \"%1\" with ID %2 from clipboard").arg( iData["recordName"] ).
-                                                           arg( iData["recordId"]);
+    line=tr("Paste note \"%1\" with ID %2 from clipboard").arg(iData["recordName"], iData["recordId"]);
 
   else if( iData["a"] == "startDragRecord")
-    line=tr("Start drag note \"%1\" with ID %2 from tree item \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                                  arg( iData["recordId"] ).
-                                                                                  arg( iData["branchName"] ).
-                                                                                  arg( iData["branchId"] );
+    line=tr("Start drag note \"%1\" with ID %2 from tree item \"%3\" with ID %4").arg(iData["recordName"], iData["recordId"], iData["branchName"], iData["branchId"]);
+
 
   else if( iData["a"] == "dropRecord")
-    line=tr("Drop note \"%1\" with ID %2 to tree item \"%3\" with ID %4").arg( iData["recordName"] ).
-                                                                          arg( iData["recordId"] ).
-                                                                          arg( iData["branchName"] ).
-                                                                          arg( iData["branchId"] );
+    line=tr("Drop note \"%1\" with ID %2 to tree item \"%3\" with ID %4").arg(iData["recordName"], iData["recordId"], iData["branchName"], iData["branchId"]);
 
-  else if( iData["a"] == "startSyncro")
+
+  else if( iData["a"] == "startSynchro")
     line=tr("Start synchronization");
 
-  else if( iData["a"] == "stopSyncro")
+  else if( iData["a"] == "stopSynchro")
     line=tr("Stop synchronization");
 
-  else if( iData["a"] == "syncroProcessError")
+  else if( iData["a"] == "synchroProcessError")
     line=tr("Synchronization process error detected. Error code: %1").arg( iData["errCode"]);
 
-  else if( iData["a"] == "syncroError")
+  else if( iData["a"] == "synchroError")
     line=tr("Synchronization error");
 
   else if( iData["a"] == "criticalError")
@@ -388,7 +368,7 @@ void ActionLogger::addAction(QString iName, QMap<QString, QString> iData)
   line+="v=\"" + QString().setNum(version) +"\" ";
 
   // Добавляется атрибут со временем совершения данного действия (timestamp)
-  uint timestamp=QDateTime::currentDateTime().toTime_t();
+  uint timestamp=QDateTime::currentDateTime().toSecsSinceEpoch();
   line+="t=\"" + QString().setNum(timestamp) +"\" ";
 
   // Добавляется атрибут с именем действия

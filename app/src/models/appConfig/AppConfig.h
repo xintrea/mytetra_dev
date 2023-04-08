@@ -6,9 +6,6 @@
 #include <QSettings>
 #include <QDebug>
 
-class QRect;
-class QStringList;
-
 class AppConfig : public QObject
 {
     Q_OBJECT
@@ -24,11 +21,6 @@ public:
 
     QString getConfigFileName();
 
-    // Версия формата конфигфайла
-    int get_config_version(void);
-    void set_config_version(int i);
-
-    // Директория с базой знаний
     QString get_tetradir(void);
     bool set_tetradir(QString dirName);
 
@@ -124,8 +116,8 @@ public:
     bool get_synchroonexit(void);
     void set_synchroonexit(bool flag);
 
-    bool getSyncroConsoleDetails(void);
-    void setSyncroConsoleDetails(bool flag);
+    bool getSynchroConsoleDetails(void);
+    void setSynchroConsoleDetails(bool flag);
     
     int  getEditorCursorPosition(void);
     void setEditorCursorPosition(int n);
@@ -241,12 +233,12 @@ public:
     void setIconCurrentSectionName(QString name);
 
     // Разрешена ли периодическая синхронизация
-    bool getEnablePeriodicSyncro(void);
-    void setEnablePeriodicSyncro(bool state);
+    bool getEnablePeriodicSynchro(void);
+    void setEnablePeriodicSynchro(bool state);
 
     // Период автоматической периодической синхронизации
-    int  getPeriodicSyncroPeriod(void);
-    void setPeriodicSyncroPeriod(int period);
+    int  getPeriodicSynchroPeriod(void);
+    void setPeriodicSynchroPeriod(int period);
 
     // Разрешено ли создавать запись без текста
     bool getEnableCreateEmptyRecord(void);
@@ -266,52 +258,9 @@ private:
 
     QString get_parameter(QString name);
 
-    QStringList removeParameterFromTable(QString removeName, QStringList table);
-    QString getParameterTypeFromTable(QString parameterName, QStringList table);
-    QString getParameterValueFromTable(QString parameterName, QStringList table);
-    QStringList replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table);
-
-
+    void add_default_param(const QString name, const QVariant value);
+    void set_version_1_default_params();
     void update_version_process(void);
-
-    QStringList get_parameter_table_1 (bool withEndSignature=true);
-    QStringList get_parameter_table_2 (bool withEndSignature=true);
-    QStringList get_parameter_table_3 (bool withEndSignature=true);
-    QStringList get_parameter_table_4 (bool withEndSignature=true);
-    QStringList get_parameter_table_5 (bool withEndSignature=true);
-    QStringList get_parameter_table_6 (bool withEndSignature=true);
-    QStringList get_parameter_table_7 (bool withEndSignature=true);
-    QStringList get_parameter_table_8 (bool withEndSignature=true);
-    QStringList get_parameter_table_9 (bool withEndSignature=true);
-    QStringList get_parameter_table_10(bool withEndSignature=true);
-    QStringList get_parameter_table_11(bool withEndSignature=true);
-    QStringList get_parameter_table_12(bool withEndSignature=true);
-    QStringList get_parameter_table_13(bool withEndSignature=true);
-    QStringList get_parameter_table_14(bool withEndSignature=true);
-    QStringList get_parameter_table_15(bool withEndSignature=true);
-    QStringList get_parameter_table_16(bool withEndSignature=true);
-    QStringList get_parameter_table_17(bool withEndSignature=true);
-    QStringList get_parameter_table_18(bool withEndSignature=true);
-    QStringList get_parameter_table_19(bool withEndSignature=true);
-    QStringList get_parameter_table_20(bool withEndSignature=true);
-    QStringList get_parameter_table_21(bool withEndSignature=true);
-    QStringList get_parameter_table_22(bool withEndSignature=true);
-    QStringList get_parameter_table_23(bool withEndSignature=true);
-    QStringList get_parameter_table_24(bool withEndSignature=true);
-    QStringList get_parameter_table_25(bool withEndSignature=true);
-    QStringList get_parameter_table_26(bool withEndSignature=true);
-    QStringList get_parameter_table_27(bool withEndSignature=true);
-    QStringList get_parameter_table_28(bool withEndSignature=true);
-    QStringList get_parameter_table_29(bool withEndSignature=true);
-    QStringList get_parameter_table_30(bool withEndSignature=true);
-    QStringList get_parameter_table_31(bool withEndSignature=true);
-    QStringList get_parameter_table_32(bool withEndSignature=true);
-    QStringList get_parameter_table_33(bool withEndSignature=true);
-    QStringList get_parameter_table_34(bool withEndSignature=true);
-    QStringList get_parameter_table_35(bool withEndSignature=true);
-    QStringList get_parameter_table_36(bool withEndSignature=true);
-    QStringList get_parameter_table_37(bool withEndSignature=true);
-    QStringList get_parameter_table_38(bool withEndSignature=true);
 
     bool is_init_flag;
 };

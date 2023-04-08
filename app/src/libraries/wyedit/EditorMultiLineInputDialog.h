@@ -21,7 +21,7 @@ public:
     bool isModified(); // Выяснение, был ли изменен текст, показанный в диалоге
 
     void setWordWrapMode(QTextOption::WrapMode mode);
-    void setSizeCoefficient(float f);
+    void setSizeCoefficient(double f);
 
 public slots:
 
@@ -29,7 +29,7 @@ public slots:
 
 private:
 
-    float sizeCoefficient;
+    double sizeCoefficient;
     QTextEdit *textArea;
     QDialogButtonBox *buttonBox;
 

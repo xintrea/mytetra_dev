@@ -10,8 +10,6 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 #define RC5_SIMPLE_VERSION "RC5Simple Ver. 1.31 / 11.12.2013"
 
 #define RC5_FORMAT_VERSION_1 1
@@ -98,7 +96,7 @@ class RC5Simple
 {
 
 public:
- RC5Simple(bool enableRandomInit=false);
+ RC5Simple();
  virtual ~RC5Simple();
 
  const char *RC5_GetVersion(void);
@@ -107,11 +105,11 @@ public:
  void RC5_DecryptBlock(RC5_TWORD *ct, RC5_TWORD *pt);
  void RC5_Setup(unsigned char *key);
 
- void RC5_SetKey(vector<unsigned char> &key);
+ void RC5_SetKey(std::vector<unsigned char> &key);
  void RC5_SetFormatVersionForce(unsigned char formatVersion);
- void RC5_Encrypt(vector<unsigned char> &in, vector<unsigned char> &out);
- void RC5_Decrypt(vector<unsigned char> &in, vector<unsigned char> &out);
-
+ void RC5_Encrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
+ void RC5_Decrypt(std::vector<unsigned char> &in, std::vector<unsigned char> &out);
+#if 0
  void RC5_EncryptFile(unsigned char *in_name, unsigned char *out_name);
  void RC5_EncryptFile(const char *in_name, const char *out_name);
 
@@ -119,7 +117,7 @@ public:
  void RC5_DecryptFile(const char *in_name, const char *out_name);
 
  void RC5_EncDecFile(unsigned char *in_name, unsigned char *out_name, int mode);
-
+#endif
  unsigned int RC5_GetErrorCode();
 
 private:
@@ -134,19 +132,11 @@ private:
 
  unsigned int errorCode;
 
- // inline unsigned char RC5_GetByteFromWord(RC5_TWORD w, int n);
- // inline RC5_TWORD RC5_GetWordFromByte(unsigned char b0,
- //                                      unsigned char b1,
- //                                      unsigned char b2,
- //                                      unsigned char b3);
-
  inline unsigned char RC5_GetByteFromInt(unsigned int l, int n);
  inline unsigned int RC5_GetIntFromByte(unsigned char b0,
                                         unsigned char b1, 
                                         unsigned char b2, 
                                         unsigned char b3);
-
- void RC5_EncDec(vector<unsigned char> &in, vector<unsigned char> &out, int mode);
 
  unsigned int RC5_Rand(unsigned int from, unsigned int to);
 

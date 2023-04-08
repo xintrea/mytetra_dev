@@ -176,10 +176,9 @@ void RecordTableData::editorSaveCallback(QObject *editor,
         QFile wfile(fileName);
 
         if(!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
-            criticalError("RecordTableData::editor_save_callback() : Cant open text file "+fileName+" for write.");
+            criticalError("RecordTableData::editor_save_callback() : Can't open text file "+fileName+" for write.");
 
         QTextStream out(&wfile);
-        out.setCodec("UTF-8");
         out << saveText;
     }
     else
@@ -191,7 +190,7 @@ void RecordTableData::editorSaveCallback(QObject *editor,
         QFile wfile(fileName);
 
         if(!wfile.open(QIODevice::WriteOnly))
-            criticalError("RecordTableData::editor_save_callback() : Cant open binary file "+fileName+" for write.");
+            criticalError("RecordTableData::editor_save_callback() : Can't open binary file "+fileName+" for write.");
 
         wfile.write(encryptData);
     }
@@ -285,7 +284,7 @@ QSet<QString> RecordTableData::getRecordsIdList()
 {
     QSet<QString> ids;
 
-    for( auto record : tableData)
+    for( const auto & record : std::as_const(tableData))
     {
         ids << record.getField("id");
     }
@@ -480,8 +479,9 @@ int RecordTableData::insertNewRecord(int mode,
     data["recordName"]=record.getNaturalFieldSource("name");
     if(treeItem!=nullptr)
     {
-        data["branchId"]=treeItem->getAllFieldsDirect()["id"];
-        data["branchName"]=treeItem->getAllFieldsDirect()["name"];
+        auto fields=treeItem->getAllFieldsDirect();
+        data["branchId"]=fields["id"];
+        data["branchName"]=fields["name"];
     }
     if(!isCrypt)
         actionLogger.addAction("createRecord", data);

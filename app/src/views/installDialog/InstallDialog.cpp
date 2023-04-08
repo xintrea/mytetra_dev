@@ -20,7 +20,7 @@ InstallDialog::InstallDialog(QWidget *parent) :
 
     this->setupSignals();
 
-    ui->m_title->setText( tr("Welcome to MyTetra v.")+QString::number(APPLICATION_RELEASE_VERSION)+'.'+QString::number(APPLICATION_RELEASE_SUBVERSION)+'.'+QString::number(APPLICATION_RELEASE_MICROVERSION)+"!" );
+    ui->m_title->setText( tr("Welcome to MyTetra ")+APPLICATION_VERSION+"!" );
 
     ui->m_text->setText( tr("Please select a knowledge base installation mode:") );
 }
@@ -101,8 +101,7 @@ void InstallDialog::setPortableData(QString fullCurrentPath)
 void InstallDialog::update()
 {
     ui->m_labelStandart->setText( tr("Create subdirectory \"%1\"\nin user directory \"%2\",\nand create application files in it.").
-                                  arg(m_standartDataDirName).
-                                  arg(m_standartHomePath) );
+                                  arg(m_standartDataDirName, m_standartHomePath) );
 
     if(m_enablePortable)
     {

@@ -27,7 +27,6 @@ MetaEditor::MetaEditor(QWidget *parent) : Editor(parent)
 {
   Editor::initEnableAssembly(false);
   Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
-  Editor::initEnableRandomSeed(false);
   Editor::initDisableToolList( mytetraConfig.getHideEditorTools() );
 
   if(mytetraConfig.getInterfaceMode()=="desktop")
@@ -116,7 +115,7 @@ void MetaEditor::setupUI(void)
  // Область текстовых меток, которые выглядят на экране как [метка1] [метка2] [метка3] ...
  recordTagsLayout=new QHBoxLayout();
  recordTagsLayout->setAlignment(Qt::AlignLeft);
- recordTagsLayout->setMargin(0);
+ recordTagsLayout->setContentsMargins(0, 0, 0, 0);
 
  // Область текстовых меток QHBoxLayout невозможно добавить в QScrollArea, поэтому оборачивается в виджет
  recordTagsContainer = new QWidget();
@@ -301,7 +300,8 @@ void MetaEditor::setTags(QString tags)
 
 
  // Строка с метками разделяется на отдельные меки
- recordTagsTextList = recordTagsText.split(QRegExp("[,;]+"), QString::SkipEmptyParts);
+ static const QRegularExpression re("[,;]+");
+ recordTagsTextList = recordTagsText.split(re, Qt::SkipEmptyParts);
 
  // В каждой метке убираются лишние пробелы по краям
  for(int i = 0; i < recordTagsTextList.size(); ++i)

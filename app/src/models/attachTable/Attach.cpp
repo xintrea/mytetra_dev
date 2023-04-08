@@ -360,7 +360,8 @@ bool Attach::copyFileToBase(QString iFileName)
   qDebug() << "After real copy file.";
 
   if(result==false)
-    showMessageBox(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
+    showMessageBox(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.")
+                   .arg(iFileName, getFullInnerDirName(), getFullInnerFileName()));
 
   return result;
 }
@@ -497,7 +498,7 @@ void Attach::encrypt(unsigned int area)
 
   // Если аттач уже зашифрован, значит есть какая-то ошибка в логике выше
   if(getField("crypt")=="1")
-    criticalError("Attach::encrypt() : Cant encrypt already encrypted attach.");
+    criticalError("Attach::encrypt() : Can't encrypt already encrypted attach.");
 
 
   // Шифруется файл
@@ -533,7 +534,7 @@ void Attach::decrypt(unsigned int area)
 {
   // Если аттач не зашифрован, и происходит расшифровка, значит есть какая-то ошибка в логике выше
   if(getField("crypt")!="1")
-    criticalError("Attach::decrypt() : Cant decrypt unencrypted attach.");
+    criticalError("Attach::decrypt() : Can't decrypt unencrypted attach.");
 
   // Расшифровывается файл
   if(area & areaFile)
@@ -567,14 +568,16 @@ void Attach::decrypt(unsigned int area)
 void Attach::decryptDomElement(QDomElement &iDomElement)
 {
   if(iDomElement.hasAttribute("crypt") && iDomElement.attribute("crypt")=="1")
-    foreach( QString fieldName, fieldCryptedList() ) // Перебираются зашифрованные поля
+  {
+    const auto fields = fieldCryptedList();
+    for(const auto & fieldName : fields ) // Перебираются зашифрованные поля
       if(iDomElement.hasAttribute(fieldName) && iDomElement.attribute(fieldName).length()>0)
       {
         QString decryptAttribute=CryptService::decryptString( globalParameters.getCryptKey(), iDomElement.attribute(fieldName));
 
         iDomElement.setAttribute(fieldName, decryptAttribute);
       }
-
+  }
   iDomElement.setAttribute("crypt", "0");
 }
 

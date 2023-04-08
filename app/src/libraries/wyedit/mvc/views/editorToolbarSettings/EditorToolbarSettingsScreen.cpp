@@ -185,9 +185,7 @@ void EditorToolbarSettingsScreen::onCheckViewToolbarWidget()
 {
     usedCommandsToolbarStackedWidget->setCurrentIndex(selectToolbarsListWidget->currentRow());
 
-    QString text = QString("%1 %2")
-            .arg(tr("Tools at"))
-            .arg(selectToolbarsListWidget->item(selectToolbarsListWidget->currentRow())->text());
+    QString text = QString("%1 %2").arg(tr("Tools at"), selectToolbarsListWidget->item(selectToolbarsListWidget->currentRow())->text());
 
     usedCommandsToolbarLabel->setText(text);
 }
@@ -225,7 +223,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
             // Нашли такую же команду в ToolBar 1
             QMessageBox *msbox = new QMessageBox(
                         QMessageBox::Icon::Warning, "mytetra",
-                        tr("<b>%1:</b> This command is already in <b>%2</b>.").arg(command).arg(tr("ToolBar 1")),
+                        tr("<b>%1:</b> This command is already in <b>%2</b>.").arg(command, tr("ToolBar 1")),
                         QMessageBox::Ok, this
             );
             msbox->exec();
@@ -236,7 +234,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
         if (commandIndex2!=QModelIndex()) {
             // Нашли такую же команду в ToolBar 2
             QMessageBox msbox;
-            msbox.setText(tr("<b>%1</b>: This command is already in <b>%2</b>.").arg(command).arg(tr("ToolBar 2")));
+            msbox.setText(tr("<b>%1</b>: This command is already in <b>%2</b>.").arg(command, tr("ToolBar 2")));
             msbox.setIcon(QMessageBox::Icon::Warning);
             msbox.setStandardButtons(QMessageBox::Ok);
             msbox.exec();
@@ -275,7 +273,7 @@ void EditorToolbarSettingsScreen::onMoveAvailableCommandToUsedCommands()
     }
 
     // Удаление команды из модели списка всех доступных команд
-    // Элемент <SEPARATOR> (имеющий всегда нуливой индекс) из модели всех доступных команд не удаляется
+    // Элемент <SEPARATOR> (имеющий всегда нулевой индекс) из модели всех доступных команд не удаляется
     if (selectedAvailableIndex.row() != 0) {
         availableCommandsToolbarController->getModel()->removeRow(selectedAvailableIndex.row());
     }

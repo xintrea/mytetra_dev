@@ -24,6 +24,8 @@
 
 #ifdef Q_OS_WIN32
 #include "windows.h"
+#elif defined(Q_OS_LINUX)
+#include <unistd.h>
 #endif
 
 
@@ -59,71 +61,11 @@ void GlobalParameters::init(void)
  pointStatusBar=nullptr;
  windowSwitcher=nullptr;
 
- initCodepage(); // устанавливаются кодеки локали и кодеки консоли
-
  // После установки кодеков можно показать имя бинарника, и оно должно отобразиться правильно
  // даже если путь содержит каталог с национальными символами
  qDebug() << "Set main program file to " << mainProgramFile;
 
  initWorkDirectory(); // Инициализация рабочей директории
-}
-
-
-QString GlobalParameters::getInitSystemCodepage()
-{
-#ifdef Q_OS_WIN32
-    return "CP "+QString::number( GetACP() );
-#endif
-
-#ifdef Q_OS_LINUX
-    return "UTF-8";
-#endif
-
-    return "";
-}
-
-
-QString GlobalParameters::getInitConsoleCodepage()
-{
-#ifdef Q_OS_WIN32
-    return "CP "+QString::number( GetOEMCP() );
-#endif
-
-#ifdef Q_OS_LINUX
-    return "UTF-8";
-#endif
-
-    return "";
-}
-
-
-void GlobalParameters::initCodepage(void)
-{
-    mSystemCodepage=getInitSystemCodepage();
-    qDebug() << "System code page: " << mSystemCodepage;
-
-    mConsoleCodepage=getInitConsoleCodepage();
-    qDebug() << "Console code page: " << mConsoleCodepage;
-
-    // Системная кодировка (кодировка локали) устанавливается как основная
-    if(mSystemCodepage.size()>0) {
-        QTextCodec::setCodecForLocale(QTextCodec::codecForName(mSystemCodepage.toLatin1()));
-    }
-}
-
-
-// Системная кодировка, она же кодировка локали
-// В этой кодировке происходит работа с именами файлов и директорий
-QString GlobalParameters::getSystemCodepage()
-{
-    return mSystemCodepage;
-}
-
-
-// Кодировка консоли
-QString GlobalParameters::getConsoleCodepage()
-{
-    return mConsoleCodepage;
 }
 
 
@@ -263,7 +205,7 @@ void GlobalParameters::createFirstProgramFiles(QString dirName)
  // Синхронизация файловой системы, почему-то после создания файлы
  // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
  #ifdef Q_OS_LINUX
- std::system("sync");
+ sync();
  #endif
 }
 
@@ -340,7 +282,7 @@ bool GlobalParameters::findWorkDirectory(void)
  // Если рабочая директория не определена
  if(workDirectory.length()==0)
   {
-   qDebug() << "Cant find work directory with mytetra data";
+   qDebug() << "Can't find work directory with mytetra data";
    return false;
   }
  else
@@ -538,18 +480,6 @@ void GlobalParameters::setWindowSwitcher(WindowSwitcher *point)
 WindowSwitcher *GlobalParameters::getWindowSwitcher()
 {
     return windowSwitcher;
-}
-
-
-void GlobalParameters::setSyncroCommandRun(CommandRun *point)
-{
-    syncroCommandRun=point;
-}
-
-
-CommandRun *GlobalParameters::getSyncroCommandRun()
-{
-    return syncroCommandRun;
 }
 
 

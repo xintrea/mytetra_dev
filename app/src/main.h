@@ -17,9 +17,7 @@
 #include <QSizePolicy>
 #include <QToolBar>
 #include <QAbstractItemView>
-#include <QThread>
 
-using namespace std;
 
 // ----------------------------------------------------------
 // MyTetra - программа для накопления осмысленной информации
@@ -32,9 +30,9 @@ using namespace std;
 // ----------------------------------------------------------
 
 // Версия программы
-#define APPLICATION_RELEASE_VERSION         1
-#define APPLICATION_RELEASE_SUBVERSION     44
-#define APPLICATION_RELEASE_MICROVERSION  165
+#ifndef APPLICATION_VERSION
+#define APPLICATION_VERSION "unknown"
+#endif
 
 // Поддерживаемая версия формата базы (хранилища)
 #define CURRENT_FORMAT_VERSION    1
@@ -47,5 +45,8 @@ using namespace std;
 #define TRACELOG
 #endif
 
+#ifdef Q_CC_MSVC
+[[noreturn]] __forceinline void __builtin_unreachable() {__assume(false);}
+#endif
 
 #endif // MYTETRA_MAIN_H

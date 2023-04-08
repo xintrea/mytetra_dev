@@ -35,7 +35,7 @@ void AppConfigPage_Appearance::setupUi()
     runInMinimizedWindow->setChecked( mytetraConfig.get_runinminimizedwindow() );
 
 
-    // Настройка поведения открепляемых окон, как они будут сворачиваться и разворачитьваться
+    // Настройка поведения открепляемых окон, как они будут сворачиваться и разворачиваться
     dockableWindowsBehavior=new QCheckBox(this);
     dockableWindowsBehavior->setText(tr("Hide detached windows if close main window"));
     dockableWindowsBehavior->setChecked( mytetraConfig.getDockableWindowsBehavior()=="together" );

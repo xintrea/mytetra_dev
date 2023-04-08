@@ -100,8 +100,11 @@ void KnowTreeView::dragMoveEvent(QDragMoveEvent *event)
    event->acceptProposedAction();
 
    // Выясняется элемент дерева, над которым находится курсор
+#if QT_VERSION > 0x060000
+   QModelIndex index=indexAt(event->position().toPoint());
+#else
    QModelIndex index=indexAt(event->pos());
-
+#endif
    // Указатель на родительский элемент, чтобы далее получить модель данных
    TreeScreen *parentPointer=qobject_cast<TreeScreen *>( parent() );
 
@@ -150,8 +153,11 @@ void KnowTreeView::dropEvent(QDropEvent *event)
    clipboardRecords->print();
 
    // Выясняется элемент дерева, над которым был сделан Drop
+#if QT_VERSION > 0x060000
+   QModelIndex index=indexAt(event->position().toPoint());
+#else
    QModelIndex index=indexAt(event->pos());
-
+#endif
    // Если отпускание мышки произошло не на ветке дерева, а на свободном пустом месте в области виджета дерева
    if(!index.isValid())
     return;

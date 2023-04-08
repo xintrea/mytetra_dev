@@ -375,7 +375,7 @@ void AttachTableController::onSaveAsAttach(void)
   {
     // Диалог выбора имени директории
     QFileDialog fileSelectDialog;
-    fileSelectDialog.setFileMode(QFileDialog::DirectoryOnly); // Выбор директории
+    fileSelectDialog.setOption(QFileDialog::ShowDirsOnly, true); // Выбор директории
     fileSelectDialog.setWindowTitle(tr("Save attaches to directory..."));
     fileSelectDialog.setDirectory(QDir::homePath());
 
@@ -404,7 +404,6 @@ void AttachTableController::onSaveAsAttach(void)
     {
       QString attachType=attachTableData->getAttach(id).getField("type");
       QString fileName=attachTableData->getFileNameById(id);
-      QString fromFileName=attachTableData->getInnerFileNameById(id);
       QString fromFullFileName=attachTableData->getAbsoluteInnerFileNameById(id);
       QString toFullFileName=toDir+"/"+fileName;
 
@@ -475,7 +474,7 @@ void AttachTableController::onEditFileName(void)
 
   if(newFileName.size()==0)
   {
-    showMessageBox(tr("Cant save file with empty name."));
+    showMessageBox(tr("Can't save file with empty name."));
     return;
   }
 

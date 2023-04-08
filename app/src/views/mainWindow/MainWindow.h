@@ -9,8 +9,6 @@
 
 #include <QtXml>
 #include <QtGui>
-#include <QXmlSimpleReader>
-#include <QXmlInputSource>
 
 #include <QStandardItemModel>
 #include <QAbstractItemModel>
@@ -30,7 +28,6 @@
 #include <QMenuBar>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QTextCodec>
 #include <QTextEdit>
 #include <QToolBar>
 #include <QTextCursor>
@@ -141,7 +138,7 @@ private slots:
 
  void runDirectPreferences(QAction *action);
 
- void onSyncroCommandFinishWork(void);
+ void onSynchroCommandFinishWork(void);
 
  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
@@ -218,7 +215,7 @@ private:
  QSplitter *hSplitter;
  QSplitter *findSplitter;
 
- CommandRun *syncroCommandRun=nullptr;
+ CommandRun *synchroCommandRun=nullptr;
 
  
 protected:

@@ -80,7 +80,7 @@ void AttachTableScreen::setupActions(void)
 
 void AttachTableScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("attach-addAttach",        actionAddAttach );
     shortcutManager.initAction("attach-addAttachFromUrl", actionAddAttachFromUrl );

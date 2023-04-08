@@ -161,7 +161,7 @@ void TreeScreen::setupActions(void)
 
 void TreeScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("tree-expandAllSubbranch", actionList["expandAllSubbranch"] );
     shortcutManager.initAction("tree-collapseAllSubbranch", actionList["collapseAllSubbranch"] );
@@ -1303,7 +1303,7 @@ void TreeScreen::importBranchFromDirectory(QString importDir)
 
 
   // Если импорт данных был успешным
-  if(importNodeId.count()>0)
+  if(importNodeId.size()>0)
     setCursorToId(importNodeId); // Курсор устанавливается на только что импортированную ветку
 
   showMessageBox(tr("Item importing finished."));
@@ -1504,10 +1504,8 @@ void TreeScreen::setCursorToIndex(QModelIndex index)
   // В мобильной версии реакции на выбор ветки нет (не обрабатывается сигнал смены строки в модели выбора)
   // Поэтому по ветке должен быть сделан виртуальный клик, чтобы заполнилась таблица конечных записей
   // Метод clicked() публичный начиная с Qt5 (мобильный интерфейс возможен только в Qt5)
-#if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
   if(mytetraConfig.getInterfaceMode()=="mobile")
     emit knowTreeView->clicked(index);
-#endif
 }
 
 

@@ -10,7 +10,7 @@ public:
     ConfigEditorHelper();
 
     // Редактирование какого-либо конфиг-файла
-    static void editConfigFile( QString fileName, float sizeCoeffitient );
+    static void editConfigFile(QString fileName, double sizeCoeffitient );
 };
 
 #endif // CONFIGEDITORHELPER_H

@@ -101,7 +101,7 @@ void AppConfigDialog::changePage(QString name)
     if(item!=nullptr)
         configDialog->externalChangePage(item);
     else
-        qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
+        qDebug() << "AppConfigDialog::changePage can't find item for name: " << name;
 }
 
 

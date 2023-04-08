@@ -6,7 +6,7 @@
 #include <QDomElement>
 #include <QXmlStreamWriter>
 
-#include "models/attachTable/Attach.h"
+#include "Attach.h"
 
 class Record;
 class AttachTableModel;

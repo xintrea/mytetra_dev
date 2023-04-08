@@ -1,0 +1,42 @@
+name: windows_release_qt5
+
+on:
+  push:
+    branches: [ experimental ]
+  pull_request:
+    branches: [ experimental ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3.1.0
+      with:
+        version: 5.15.2
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DUSE_SYSTEM_MIMETEX=OFF -DUSE_QT6=OFF
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --verbose
+
+    - name: Install
+      run: cmake --install ${{github.workspace}}/build
+
+    - name: Package
+      run: windeployqt --verbose 2 --no-compiler-runtime ${{github.workspace}}/build/mytetra_distr/mytetra.exe
+      working-directory: ${{github.workspace}}/build
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: mytetra_qt5_${{github.sha}}
+        path: ${{github.workspace}}/build/mytetra_distr/

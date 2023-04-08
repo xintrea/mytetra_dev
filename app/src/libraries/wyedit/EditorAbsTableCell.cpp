@@ -77,13 +77,13 @@ void EditorAbsTableCell::clear(void)
 }
 
 
-int EditorAbsTableCell::get_cell_type(void)
+EditorAbsTableCell::CELL_TYPE EditorAbsTableCell::get_cell_type(void)
 {
  return cellType;
 }
 
 
-void EditorAbsTableCell::set_cell_type(int i)
+void EditorAbsTableCell::set_cell_type(EditorAbsTableCell::CELL_TYPE i)
 {
  cellType=i;
 }
@@ -124,10 +124,13 @@ int EditorAbsTableCell::get_ref_super_cell_y(void)
 void EditorAbsTableCell::print_cell(void)
 {
  char type;
- if(cellType==IS_NULL_CELL)   type='O';
- if(cellType==IS_NORMAL_CELL) type='N';
- if(cellType==IS_SUPER_CELL)  type='S';
- if(cellType==IS_SUB_CELL)    type='U';
+ switch(cellType) {
+   case IS_NULL_CELL:   type='O'; break;
+   case IS_NORMAL_CELL: type='N'; break;
+   case IS_SUPER_CELL:  type='S'; break;
+   case IS_SUB_CELL:    type='U'; break;
+   default: __builtin_unreachable();
+ }
 
  QString val=value.simplified().trimmed();
  val=val.leftJustified(5,'.',true);

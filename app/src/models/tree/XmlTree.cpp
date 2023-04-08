@@ -1,6 +1,5 @@
 #include <QObject>
 #include <QMessageBox>
-#include <QTextCodec>
 
 #include "XmlTree.h"
 #include "main.h"
@@ -25,10 +24,7 @@ bool XmlTree::load(QString file)
     // Если файл не может быть открыт
     if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QMessageBox::information(0, tr("Error"),
-                                 tr("Cannot read file %1:\n%2.")
-                                 .arg(file)
-                                 .arg(xmlFile.errorString()));
+        QMessageBox::information(0, tr("Error"), tr("Cannot read file %1:\n%2.").arg(file, xmlFile.errorString()));
         return false;
     }
 

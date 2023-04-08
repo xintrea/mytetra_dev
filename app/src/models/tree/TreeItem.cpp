@@ -390,11 +390,7 @@ bool TreeItem::moveUp(void)
   if(num==0)return false;
 
   // Элемент перемещается вверх по списку
-  #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
   ( parentItem->childItems ).swapItemsAt(num,num-1);
-  #else
-  ( parentItem->childItems ).swap(num,num-1);
-  #endif
 
   return true;
 }
@@ -410,11 +406,7 @@ bool TreeItem::moveDn(void)
         return false;
 
     // Элемент перемещается вниз по списку
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 13, 0))
     ( parentItem->childItems ).swapItemsAt(num,num+1);
-    #else
-    ( parentItem->childItems ).swap(num,num+1);
-    #endif
 
     return true;
 }

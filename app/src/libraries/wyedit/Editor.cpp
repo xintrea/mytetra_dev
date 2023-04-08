@@ -51,7 +51,6 @@ Editor::Editor(QWidget *parent) : QWidget(parent)
 
   initDataEnableAssembly=true;
   initDataConfigFileName="";
-  initDataEnableRandomSeed=false;
   initDataDisableToolList.clear();
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
@@ -104,15 +103,6 @@ void Editor::initConfigFileName(QString name)
 }
 
 
-void Editor::initEnableRandomSeed(bool flag)
-{
-  if(isInit)
-    criticalError("Method "+QString(__FUNCTION__)+" running before init() only.");
-
-  initDataEnableRandomSeed=flag;
-}
-
-
 void Editor::initDisableToolList(QStringList toolNames)
 {
   if(isInit)
@@ -162,14 +152,6 @@ void Editor::init(int mode)
   expandEditAreaFlag=false;
 
   emit updateIndentSliderGeometry();
-
-  if(initDataEnableRandomSeed)
-  {
-    QDateTime datetime=QDateTime::currentDateTime ();
-    unsigned int seed=rand()+datetime.toTime_t();
-    // qDebug() << "Random generator init " << seed;
-    srand(seed);
-  }
 }
 
 
@@ -685,7 +667,7 @@ void Editor::setTextareaEditable(bool editable)
 // Получение текста области редактирования в формате HTML
 QString Editor::getTextarea(void)
 {
-  return textArea->document()->toHtml("UTF-8");
+  return textArea->document()->toHtml();
 }
 
 
@@ -747,16 +729,14 @@ bool Editor::saveTextareaText()
 
   if (!wfile.open(QIODevice::WriteOnly | QIODevice::Text))
   {
-    criticalError("WyEdit: Cant open file "+fullFileName+" for write.");
+    criticalError("WyEdit: Can't open file "+fullFileName+" for write.");
     return false;
   }
 
   qDebug() << "Write to file " << workFileName;
 
   QTextStream out(&wfile);
-  QString content=textArea->document()->toHtml("UTF-8");
-  out.setCodec("UTF-8");
-  out << content;
+  out << textArea->document()->toHtml();
 
   return true;
 }
@@ -828,8 +808,9 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
     QStringList imageInDirectory=directory.entryList(QDir::Files);
 
     // Перебираются файлы в директории
+    static const QRegularExpression re("\\.png$");
     foreach(QString fileName, imageInDirectory)
-      if( fileName.contains(QRegExp("\\.png$")) ) // Обрабатыватся только *.png файлы
+      if( fileName.contains(re) ) // Обрабатываются только *.png файлы
         if( !imagesNames.contains(fileName) ) // Только картинки, не встречающиеся в тексте записи
           if( !miscFields["attachFileNameList"].contains(fileName) ) // Только имена файлов, не содержащиеся в прикрепленных файлах
           {
@@ -855,13 +836,13 @@ void Editor::saveTextarea(void)
   {
     // Перенос текущего файла записи в корзину
     qDebug() << "Try remove file " << getFileName() << " from directory " << getWorkDirectory();
-    if( QFileInfo( getWorkDirectory()+"/"+getFileName() ).exists() )
+    if( QFileInfo::exists( getWorkDirectory()+"/"+getFileName() ) )
     {
       qDebug() << "File exists. Remove it.";
       DiskHelper::removeFileToTrash(getWorkDirectory()+"/"+getFileName());
     }
     else
-      qDebug() << "Cant remove file. File not exists.";
+      qDebug() << "Can't remove file. File not exists.";
 
     // Если происходит прямая работа с файлом текста
     if(loadCallbackFunc==nullptr)
@@ -876,7 +857,7 @@ void Editor::saveTextarea(void)
     {
       // Иначе задана функция обратного вызова для записи текста и картинок
 
-      QString content=textArea->document()->toHtml("UTF-8");
+      QString content=textArea->document()->toHtml();
       saveCallbackFunc(qobject_cast<QObject *>(this), content);
     }
 
@@ -1048,10 +1029,10 @@ void Editor::onSelectionChanged(void)
 
   // Для анализа форматирования символов надо начинать
   // с позиции, следующей справа от начала выделения
-  QString startFontFamily=smartFontFamily( cursor.charFormat().fontFamily() ); // Шрифт
+  QString startFontFamily=smartFontFamily( cursor.charFormat().font().family() ); // Шрифт
   qreal startSize=smartFontSize( cursor.charFormat().fontPointSize() ); // Размер шрифта
   bool startBold=false;
-  if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Тощина
+  if(cursor.charFormat().fontWeight()==QFont::Bold) startBold=true; // Толщина
   bool startItalic=cursor.charFormat().fontItalic(); // Наклон
   bool startUnderline=cursor.charFormat().fontUnderline(); // Подчеркивание
   bool startStrikeOut=cursor.charFormat().fontStrikeOut(); // Зачеркивание
@@ -1082,7 +1063,7 @@ void Editor::onSelectionChanged(void)
     // разные начертания символов, разное выравнивание в выделенном тексте
     while(cursor.position()<=stop)
     {
-      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().fontFamily()) )
+      if( differentFontFlag==false && startFontFamily!=smartFontFamily(cursor.charFormat().font().family()) )
         differentFontFlag=true;
 
       if( differentSizeFlag==false && startSize!=smartFontSize(cursor.charFormat().fontPointSize()) )
@@ -1457,17 +1438,10 @@ void Editor::setTabSize()
 {
     // Устанавка размера табуляции для клавиши Tab
     // Учитываем среднюю ширину глифов в шрифте
-    #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
     textArea->setTabStopDistance(
         QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
         editorConfig->get_tab_size()
         );
-    #else
-    textArea->setTabStopWidth(
-        QFontMetrics(textArea->currentCharFormat().font()).averageCharWidth() *
-        editorConfig->get_tab_size()
-        );
-    #endif
 
     // Альтернатива, не учитывающая среднюю ширину глифов в шрифте
     // textArea->setTabStopDistance(

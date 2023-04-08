@@ -68,8 +68,12 @@ public:
 
 protected:
  // Этот метод QMimeData надо переопределить, так как он виртуальный
- QVariant retrieveData(const QString &format,QVariant::Type preferredType) const;
- 
+#if QT_VERSION > 0x060000
+  QVariant retrieveData(const QString &format, QMetaType preferredType) const;
+#else
+  QVariant retrieveData(const QString &format, QVariant::Type preferredType) const;
+#endif
+
 private:
 
  CLIPB_BRANCH_STRUCT branchData; // Данные, которые передаются через буфер обмена

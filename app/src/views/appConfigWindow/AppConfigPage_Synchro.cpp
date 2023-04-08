@@ -6,12 +6,12 @@
 #include "AppConfigPage_Synchro.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/PeriodicCheckBase.h"
-#include "libraries/PeriodicSyncro.h"
+#include "libraries/PeriodicSynchro.h"
 #include "libraries/helpers/MessageHelper.h"
 
 extern AppConfig mytetraConfig;
 extern PeriodicCheckBase periodicCheckBase;
-extern PeriodicSyncro periodicSyncro;
+extern PeriodicSynchro periodicSynchro;
 
 
 AppConfigPage_Synchro::AppConfigPage_Synchro(QWidget *parent) : ConfigPage(parent)
@@ -40,7 +40,7 @@ void AppConfigPage_Synchro::setupUi(void)
 
     synchroOnPeriodic=new QCheckBox(this);
     synchroOnPeriodic->setText(tr("Enable periodic background synchronize"));
-    synchroOnPeriodic->setChecked(mytetraConfig.getEnablePeriodicSyncro());
+    synchroOnPeriodic->setChecked(mytetraConfig.getEnablePeriodicSynchro());
 
     // Область ввода команды синхронизации
     commandText=new QLabel(this);
@@ -65,7 +65,7 @@ void AppConfigPage_Synchro::setupUi(void)
 
     synchroPeriod=new QSpinBox(this);
     synchroPeriod->setMaximum( 100000 ); // Максимальная граница должна устанавливаться перед заданием значения
-    synchroPeriod->setValue( mytetraConfig.getPeriodicSyncroPeriod() );
+    synchroPeriod->setValue( mytetraConfig.getPeriodicSynchroPeriod() );
 
     synchroPeriodPostfix=new QLabel(this);
     synchroPeriodPostfix->setText( tr("sec.") );
@@ -80,7 +80,7 @@ void AppConfigPage_Synchro::setupUi(void)
     synchroOnBox->setLayout( synchroOnLayout );
 
     // Начальное состояние зависимых параметров (активны-неактивны) для периодической синхронизации
-    onEnablePeriodicSyncro( mytetraConfig.getEnablePeriodicSyncro() );
+    onEnablePeriodicSynchro( mytetraConfig.getEnablePeriodicSynchro() );
 
 
     // Виджеты настройки периодической проверки базы на предмет изменений
@@ -141,7 +141,7 @@ void AppConfigPage_Synchro::assembly(void)
 void AppConfigPage_Synchro::setupSignals(void)
 {
     connect( enablePeriodicCheckBase, &QCheckBox::toggled, this, &AppConfigPage_Synchro::onEnablePeriodicCheckBase);
-    connect( synchroOnPeriodic,       &QCheckBox::toggled, this, &AppConfigPage_Synchro::onEnablePeriodicSyncro);
+    connect( synchroOnPeriodic,       &QCheckBox::toggled, this, &AppConfigPage_Synchro::onEnablePeriodicSynchro);
 }
 
 
@@ -155,7 +155,7 @@ void AppConfigPage_Synchro::onEnablePeriodicCheckBase(bool state)
 }
 
 
-void AppConfigPage_Synchro::onEnablePeriodicSyncro(bool state)
+void AppConfigPage_Synchro::onEnablePeriodicSynchro(bool state)
 {
     synchroPeriodText->setEnabled(state);
     synchroPeriod->setEnabled(state);
@@ -185,26 +185,26 @@ int AppConfigPage_Synchro::applyChanges(void)
 
     // Сохраняется период синхронизации
     // установка периода должна производиться перед обработкой галки включения/выключения
-    if(mytetraConfig.getPeriodicSyncroPeriod()!=synchroPeriod->value())
+    if(mytetraConfig.getPeriodicSynchroPeriod()!=synchroPeriod->value())
     {
-        mytetraConfig.setPeriodicSyncroPeriod( synchroPeriod->value() );
+        mytetraConfig.setPeriodicSynchroPeriod( synchroPeriod->value() );
 
-        periodicSyncro.setDelay( synchroPeriod->value() );
+        periodicSynchro.setDelay( synchroPeriod->value() );
     }
 
 
     // Сохраняется настройка париодического запуска синхронизации
-    if(mytetraConfig.getEnablePeriodicSyncro()!=synchroOnPeriodic->isChecked())
+    if(mytetraConfig.getEnablePeriodicSynchro()!=synchroOnPeriodic->isChecked())
     {
-        mytetraConfig.setEnablePeriodicSyncro(synchroOnPeriodic->isChecked());
+        mytetraConfig.setEnablePeriodicSynchro(synchroOnPeriodic->isChecked());
 
-        if( mytetraConfig.getEnablePeriodicSyncro() )
+        if( mytetraConfig.getEnablePeriodicSynchro() )
         {
             showMessageBox(tr("The first background <b>synchronizing</b> starting.<br/>Maybe a slight delay or freezing window..."));
-            periodicSyncro.start();
+            periodicSynchro.start();
         }
         else
-            periodicSyncro.stop();
+            periodicSynchro.stop();
     }
 
 

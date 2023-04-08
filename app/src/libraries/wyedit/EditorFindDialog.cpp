@@ -19,7 +19,7 @@ EditorFindDialog::EditorFindDialog(QWidget *parent) : QDialog(parent)
   assembly();
 
   QShowEvent event;
-  showEvent(&event);
+  EditorFindDialog::showEvent(&event);
 }
 
 
@@ -73,7 +73,7 @@ void EditorFindDialog::find_clicked(void)
 {
   QString text=lineEdit->text();
 
-  QTextDocument::FindFlags flags=0;
+  QTextDocument::FindFlags flags;
   if(mathCase->isChecked())      flags|=QTextDocument::FindCaseSensitively;
   if(wholeWords->isChecked())    flags|=QTextDocument::FindWholeWords;
   if(searchBackward->isChecked())flags|=QTextDocument::FindBackward;

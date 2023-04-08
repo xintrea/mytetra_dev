@@ -11,8 +11,8 @@
 #include <QTextDocument>
 #include <QSharedPointer>
 
-#include "models/attachTable/Attach.h"
-#include "models/attachTable/AttachTableData.h"
+#include "../attachTable/Attach.h"
+#include "../attachTable/AttachTableData.h"
 
 // Класс одной записи в таблице записей
 

@@ -118,7 +118,7 @@ protected:
 
 private:
 
- void startDrag();
+ void startDrag(Qt::DropActions supportedActions);
  QModelIndex startDragIndex;
  bool isDragHappeningNow=false;
 

@@ -2,7 +2,7 @@
 
 #include "main.h"
 #include "TimerMonitoring.h"
-#include "PeriodicSyncro.h"
+#include "PeriodicSynchro.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
@@ -12,18 +12,18 @@ extern AppConfig mytetraConfig;
 
 
 // Переопределяемый метод
-bool PeriodicSyncro::isStartEnabled()
+bool PeriodicSynchro::isStartEnabled()
 {
-  return mytetraConfig.getEnablePeriodicSyncro();
+  return mytetraConfig.getEnablePeriodicSynchro();
 }
 
 
 // Действия, происходящие по таймеру
-void PeriodicSyncro::timerEvent(QTimerEvent *event)
+void PeriodicSynchro::timerEvent(QTimerEvent *event)
 {
   Q_UNUSED(event)
 
-  qDebug() << "In timer PeriodicSyncro working method";
+  qDebug() << "In timer PeriodicSynchro working method";
 
   // Если команда синхронизации пуста, нечего выполнять
   if(mytetraConfig.get_synchrocommand().trimmed().length()==0)

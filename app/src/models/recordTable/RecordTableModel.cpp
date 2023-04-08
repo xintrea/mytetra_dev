@@ -64,10 +64,8 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
             {
                 // Преобразование временного штампа в дату и время
                 QDateTime fieldDateTime=QDateTime::fromString(field, "yyyyMMddhhmmss");
-                if(mytetraConfig.getEnableCustomDateTimeFormat()==false)
-                    return fieldDateTime.toString(Qt::SystemLocaleDate);
-                else
-                    return fieldDateTime.toString( mytetraConfig.getCustomDateTimeFormat() );
+                auto fmt = mytetraConfig.getEnableCustomDateTimeFormat() ? mytetraConfig.getCustomDateTimeFormat() : QLocale::system().dateTimeFormat(QLocale::ShortFormat);
+                QLocale::system().toString(fieldDateTime, fmt);
             }
 
             else if( role==Qt::DisplayRole && fieldName=="hasAttach") // Наличие аттачей
@@ -81,7 +79,7 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
             else if( role==Qt::DisplayRole && fieldName=="attachCount") // Количество аттачей
             {
                 if(field=="0")
-                    return ""; // Если количество аттачей нуливое, выводится пустая строка. Это повышает читабельность
+                    return ""; // Если количество аттачей нулевое, выводится пустая строка. Это повышает читабельность
                 else
                     return field;
             }

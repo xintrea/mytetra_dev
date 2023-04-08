@@ -456,7 +456,7 @@ void EditorToolBar::hideAllToolsElements(void)
 {
     QStringList commandNameList=this->getCommandNameList();
 
-    for(auto commandName : commandNameList)
+    for(const auto & commandName : commandNameList)
     {
         QWidget *widget=this->findChild<QWidget *>(QString("editor_tb_")+commandName);
         if(widget)
@@ -491,7 +491,7 @@ void EditorToolBar::setEnableModifyTextButton(bool state)
     // Перечень имен всех элементов управления на панели
     QStringList commandNameList=this->getCommandNameList();
 
-    for(auto commandName : commandNameList)
+    for(const auto & commandName : commandNameList)
     {
         // Если элемент влияет на форматирование
         if( !noModifyButton.contains( commandName ) )
@@ -548,12 +548,12 @@ void EditorToolBar::clearToolsLines(void)
     // Владение QWidget-ми, которые вставлены в тулбары через addWidget(),
     // забирается от тулбаров и возвращается текущему объекту
     // Однако, данное действие не нужно делать для QAction,
-    // которые вствленны через addAction(), так как для QAction,
+    // которые вставлены через addAction(), так как для QAction,
     // в момент вставки в тулбар, владение не передается
 
     // Тулбар 1
     QList<QObject*> objectList=toolsLine1.children();
-    for(auto object : objectList)
+    for(auto & object : objectList)
     {
         QWidget *widget=dynamic_cast<QWidget *>(object);
         if(widget)
@@ -564,7 +564,7 @@ void EditorToolBar::clearToolsLines(void)
 
     // Тулбар 2
     objectList=toolsLine2.children();
-    for(auto object : objectList)
+    for(auto & object : objectList)
     {
         QWidget *widget=dynamic_cast<QWidget *>(object);
         if(widget)
@@ -679,7 +679,8 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 void EditorToolBar::registryActionsToToolBarWidget()
 {
     // Перебираются все инструменты редактора с шорткатами
-    for(auto toolName : shortcutManager.getActionsNameList("editor") )
+    const auto tools = shortcutManager.getActionsNameList("editor");
+    for(const auto & toolName : tools )
     {
         // Запрещенные действия добавляться не должны
         if( disableToolList.contains(toolName) )

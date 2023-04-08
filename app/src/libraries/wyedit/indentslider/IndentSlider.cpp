@@ -107,7 +107,6 @@ void IndentSlider::paintEvent(QPaintEvent *event)
 
  QPainter painter(this);
  painter.setRenderHint(QPainter::Antialiasing,false);
- painter.setRenderHint(QPainter::HighQualityAntialiasing,false);
 
  // Настраивается перо
  QPen pen(Qt::black); //Qt::darkGray
@@ -173,7 +172,7 @@ void IndentSlider::draw_rightindent(QPainter *painter)
 // Получение позиции отступа для отрисовки вертикальной линии отступа
 // Вертикальная линия может рисоваться для любого движка
 // Данный метод выясняет, какой движок в данный момент выбран
-// и возвращяет его X-координату в данном виджете IndentSlider
+// и возвращает его X-координату в данном виджете IndentSlider
 int IndentSlider::get_current_indentedge_pos(void)
 {
  if(current_sel_indent==SEL_NONE)
@@ -285,7 +284,7 @@ void IndentSlider::mouseMoveEvent(QMouseEvent *event)
   }
 
  // Графика виджета обновляется для отрисовки нового положения движков
- emit update();
+ update();
 }
 
 
@@ -302,17 +301,17 @@ void IndentSlider::mouseReleaseEvent(QMouseEvent *event)
 void IndentSlider::set_textindent_pos(int i)
 {
  textindent_pos=i;
- emit update();
+ update();
 }
 
 void IndentSlider::set_leftindent_pos(int i)
 {
  leftindent_pos=i;
- emit update();
+ update();
 }
 
 void IndentSlider::set_rightindent_pos(int i)
 {
  rightindent_pos=i;
- emit update();
+ update();
 }

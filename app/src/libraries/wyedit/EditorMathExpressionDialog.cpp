@@ -82,7 +82,7 @@ void EditorMathExpressionDialog::showEvent(QShowEvent *event)
 // Масштабирование картинки формулы в зависимости от изменения размеров диалога
 void EditorMathExpressionDialog::resizeEvent(QResizeEvent *event)
 {
-    if (imageLabel!=nullptr && imageLabel->pixmap()!=nullptr) {
+    if (imageLabel && !imageLabel->pixmap().isNull()) {
         if (fitToScrollAreaCheckBox->isChecked()) {
             // Масштабирование картинки формулы
             pictureZoom();
@@ -208,7 +208,7 @@ void EditorMathExpressionDialog::assembly()
 
     // Область работы с картинкой формулы
     pictureFormulaLayout = new QVBoxLayout();
-    pictureFormulaLayout->setMargin(5);
+    pictureFormulaLayout->setContentsMargins(5, 5, 5, 5);
     pictureFormulaLayout->addLayout(pictureFormulaControlLayout);
     pictureFormulaLayout->addWidget(imageScrollArea);
 
@@ -226,7 +226,7 @@ void EditorMathExpressionDialog::assembly()
 
     // Область работы с текстом формулы
     textFormulaLayout = new QVBoxLayout();
-    textFormulaLayout->setMargin(5);
+    textFormulaLayout->setContentsMargins(5, 5, 5, 5);
     textFormulaLayout->addLayout(textFormulaZoomLayout);
     textFormulaLayout->addWidget(textArea);
 
@@ -242,7 +242,7 @@ void EditorMathExpressionDialog::assembly()
 
     /* Сборка всех контролов */
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setMargin(5);
+    mainLayout->setContentsMargins(5, 5, 5, 5);
 
     // Добавление разделителя основных виджетов
     mainLayout->addWidget(mathSplitter);
@@ -342,7 +342,7 @@ void EditorMathExpressionDialog::onRedo()
 void EditorMathExpressionDialog::updateFormulaPicture()
 {
     QString tempGifFileName = QDir::tempPath()+"/"+getUniqueId()+".gif";
-    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(), tempGifFileName, false );
+    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(), tempGifFileName );
 
     QPixmap currentPixmap(tempGifFileName);
 
@@ -360,7 +360,7 @@ void EditorMathExpressionDialog::updateFormulaPicture()
         imageLabel = new QLabel(this);
         imageLabel->setBackgroundRole(QPalette::Base);
         //imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-        imageLabel->setMargin(10);
+        imageLabel->setContentsMargins(10, 10, 10, 10);
         imageLabel->setScaledContents(true);
         imageLabel->setPixmap(currentPixmap);
 
@@ -380,8 +380,8 @@ void EditorMathExpressionDialog::updateFormulaPicture()
 // Масштабирование картинки формулы
 void EditorMathExpressionDialog::pictureZoom()
 {
-    double pixHeight = imageLabel->pixmap()->height();
-    double pixWidth = imageLabel->pixmap()->width();
+    double pixHeight = imageLabel->pixmap().height();
+    double pixWidth = imageLabel->pixmap().width();
     double imageScrollAreaHeight = imageScrollArea->geometry().height()-10;
     double imageScrollAreaWidth = imageScrollArea->geometry().width()-10;
     if (pixHeight > imageScrollAreaHeight || pixWidth > imageScrollAreaWidth) {

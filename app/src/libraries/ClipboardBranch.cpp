@@ -105,12 +105,8 @@ void ClipboardBranch::printIdTree(void) const
 // Добавление ветки
 void ClipboardBranch::addBranch( QString parent_id, QMap<QString, QString> branch_fields)
 {
- QMap<QString, QString> line;
- 
- line["parent_id"]=parent_id;
- line.unite(branch_fields);
-
- branchData.branch << line;
+ branch_fields["parent_id"]=parent_id;
+ branchData.branch << branch_fields;
 }
 
 
@@ -161,7 +157,11 @@ QStringList ClipboardBranch::formats() const
 }
 
 
-QVariant ClipboardBranch::retrieveData(const QString &format,QVariant::Type preferredType) const
+#if QT_VERSION > 0x060000
+  QVariant ClipboardBranch::retrieveData(const QString &format, QMetaType preferredType) const
+#else
+  QVariant ClipboardBranch::retrieveData(const QString &format, QVariant::Type preferredType) const
+#endif
 {
  Q_UNUSED(preferredType)
 

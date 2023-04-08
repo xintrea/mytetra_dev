@@ -23,14 +23,8 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
     if(fileinfo.isWritable()==false || fileinfo.isReadable()==false)
         criticalError("Editor config file "+config_file_name+" not writable or readable. Please check file permission.");
 
-    // Полное имя файла конфигурации разбивается на путь и имя файла
-    QString file_name=fileinfo.fileName();
-    QString file_dir =fileinfo.path();
-
     // Создается объект работы с конфигурацией редактора
     conf=new QSettings(config_file_name, QSettings::IniFormat, this);
-    // conf->setPath(QSettings::IniFormat,QSettings::UserScope,file_dir);
-    // conf->setPath(QSettings::IniFormat,QSettings::SystemScope,file_dir);
 
     // Вызываются действия для обновления конфига
     update_version_process();
@@ -395,7 +389,7 @@ void EditorConfig::update_version_process(void)
 
     QList<QStringList (*)(bool)> parameterFunctions;
 
-    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нулевой элемент
     parameterFunctions << get_parameter_table_1;
     parameterFunctions << get_parameter_table_2;
     parameterFunctions << get_parameter_table_3;
@@ -1088,12 +1082,8 @@ QString EditorConfig::update_version_change_value(int versionFrom,
             names["table_remove_row"]="tableRemoveRow";
             names["table_split_cell"]="tableSplitCell";
 
-            for (auto key: names.keys())
-            {
-              auto value=names.value(key);
-
-              result.replace(key, value);
-            }
+            for(auto kv = names.constKeyValueBegin(); kv != names.constKeyValueEnd(); ++kv)
+                result.replace(kv->first, kv->second);
         }
 
 

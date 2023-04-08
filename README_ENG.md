@@ -63,7 +63,8 @@ No additional build libraries are required.
 
 In Linux, the assembly is carried out by the commands:
 ```
-qmake.
+cd <build dir>
+сmake <src dir>
 make
 ```
 
@@ -74,21 +75,11 @@ make install
 
 The installed binary is located along the path:
 ```
-/ usr / local / bin / mytetra
+/usr/bin/mytetra
 ```
 
 On Linux, Windows and MacOs, building can be done through QtCreator.
-To do this, open the mytetra.pro project in QtCreator, and select:
+To do this, open root CMakeLists.txt in QtCreator, and select:
 ```
 Build - Build project "mytetra"
 ```
-
-Running
-======
-
-To run MyTetra, you need to run the compiled binary.
-Different operating systems place the binary in different paths.
-To find out which path the built or installed binary is located in, you need to view the build output or the installation output.
-
-For Linux and MacOs, build generates a binary named **mytetra**.
-For Windows, the build generates a binary named **mytetra.exe**.
