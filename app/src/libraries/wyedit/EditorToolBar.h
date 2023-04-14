@@ -36,6 +36,7 @@ public:
     QAction *italic;
     QAction *underline;
     QAction *strikeout; // Зачеркивание текста
+    QAction *defaultFont;
     QAction *monospace;
     QAction *superscript;
     QAction *subscript;

@@ -113,6 +113,7 @@ void ShortcutManager::initDefaultKeyTable()
     defaultKeyTable.insert("editor-strikeout",           Data{ QKeySequence("Ctrl+Shift+S"), tr("Strike out"), tr("") });
     defaultKeyTable.insert("editor-superscript",         Data{ QKeySequence("Ctrl+Shift+P"), tr("Superscript"), tr("") });
     defaultKeyTable.insert("editor-subscript",           Data{ QKeySequence("Ctrl+Shift+B"), tr("Subscript"), tr("") });
+    defaultKeyTable.insert("editor-defaultFont",         Data{ QKeySequence("Ctrl+Alt+F"), tr("Set default font"), tr("") });
     defaultKeyTable.insert("editor-monospace",           Data{ QKeySequence("Ctrl+T"), tr("Monospace"), tr("") });
     defaultKeyTable.insert("editor-code",                Data{ QKeySequence("Ctrl+M"), tr("Code"), tr("Select a whole paragraphs to format text as code") });
     defaultKeyTable.insert("editor-lowercase",           Data{ QKeySequence(""), tr("Lowercase"), tr("") });
