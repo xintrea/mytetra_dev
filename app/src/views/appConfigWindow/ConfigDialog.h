@@ -23,6 +23,7 @@ public:
 
     void updateListWidth(void);
     void externalChangePage(QListWidgetItem *item);
+    void setMenuListVisible(bool visible);
 
 private slots:    
     void applyChanges(void);
@@ -34,6 +35,7 @@ private:
     void assembly(void);
 
     QListWidgetItem *createItems(QString name);
+
 
     QListWidget *contentsWidget;
     QStackedWidget *pagesWidget;

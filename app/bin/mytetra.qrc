@@ -125,5 +125,10 @@
         <file>resource/pic/move_right.svg</file>
         <file>resource/pic/edit_zoom-in.svg</file>
         <file>resource/pic/edit_zoom-out.svg</file>
+        <file>resource/pic/dbmanagement_append.svg</file>
+        <file>resource/pic/dbmanagement_create.svg</file>
+        <file>resource/pic/dbmanagement_select.svg</file>
+        <file>resource/pic/dbmanagement_db_icon.svg</file>
+        <file>resource/pic/dbmanagement_trash_icon.svg</file>
     </qresource>
 </RCC>

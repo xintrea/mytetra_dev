@@ -115,15 +115,16 @@ private slots:
 
  void showWindow();
 
- void fileNew(void);
- void fileOpen(void);
  bool fileSave(void);
  bool fileSaveAs(void);
+
+ void fileDatabasesManagement(void);
+ void fileExportBranch(void);
+ void fileImportBranch(void);
+
  void filePrint(void);
  void filePrintPreview(void);
  void filePrintPdf(void);
- void fileExportBranch(void);
- void fileImportBranch(void);
  
  void toolsPreferences(void);
  void onActionLogClicked(void);
@@ -137,6 +138,8 @@ private slots:
  void onClickFocusTree(void);
  void onClickFocusNoteTable(void);
  void onClickFocusEditor(void);
+
+ void runDirectPreferences(QAction *action);
 
  void onSyncroCommandFinishWork(void);
 
@@ -172,16 +175,28 @@ private:
  void reloadLoadStage(bool isLongTimeReload);
 
 
+ QAction *actionFileMenuDatabasesManagement;
+ QAction *actionFileMenuExportTreeItem;
+ QAction *actionFileMenuImportTreeItem;
  QAction *actionFileMenuPrint;
  QAction *actionFileMenuPrintPreview;
  QAction *actionFileMenuExportPdf;
- QAction *actionFileMenuExportTreeItem;
- QAction *actionFileMenuImportTreeItem;
  QAction *actionFileMenuQuit;
 
  QAction *actionToolsMenuFindInBase;
  QAction *actionToolsMenuActionLog;
- QAction *actionToolsMenuPreferences;
+ QAction *actionToolsMenuPreferences; // Вызов окна настроек, используется в десктопе
+
+ // Напрямую вызываемые настройки, используются в мобильном интерфейсе
+ QAction *actionDirectPreferencesMain       =nullptr;
+ QAction *actionDirectPreferencesAppearance =nullptr;
+ QAction *actionDirectPreferencesCrypt      =nullptr;
+ QAction *actionDirectPreferencesSyncro     =nullptr;
+ QAction *actionDirectPreferencesRecordTable=nullptr;
+ QAction *actionDirectPreferencesAttach     =nullptr;
+ QAction *actionDirectPreferencesKeyboard   =nullptr;
+ QAction *actionDirectPreferencesHistory    =nullptr;
+ QAction *actionDirectPreferencesMisc       =nullptr;
 
  QAction *actionHelpMenuAboutMyTetra;
  QAction *actionHelpMenuAboutQt;

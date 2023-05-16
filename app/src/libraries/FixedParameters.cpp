@@ -82,8 +82,8 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
   names["dir"]=tr("Directory name");
   names["file"]=tr("File name");
   names["crypt"]=tr("Is crypt");
-  names["hasAttach"]=tr("Has attachs");
-  names["attachCount"]=tr("Attachs count");
+  names["hasAttach"]=tr("Has attaches");
+  names["attachCount"]=tr("Attaches count");
   names["block"]=tr("Block");
 
 

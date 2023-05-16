@@ -21,6 +21,7 @@
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
 #include "views/actionLog/ActionLogScreen.h"
+#include "views/databasesManagement/DatabasesManagementScreen.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
@@ -133,16 +134,63 @@ void MainWindow::setupSignals(void)
 
 
     // Сигналы пунктов меню
+    connect(actionFileMenuDatabasesManagement, &QAction::triggered, this, &MainWindow::fileDatabasesManagement);
+    connect(actionFileMenuExportTreeItem, &QAction::triggered, this, &MainWindow::fileExportBranch);
+    connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
     connect(actionFileMenuPrint, &QAction::triggered, this, &MainWindow::filePrint);
     connect(actionFileMenuPrintPreview, &QAction::triggered, this, &MainWindow::filePrintPreview);
     connect(actionFileMenuExportPdf, &QAction::triggered, this, &MainWindow::filePrintPdf);
-    connect(actionFileMenuExportTreeItem, &QAction::triggered, this, &MainWindow::fileExportBranch);
-    connect(actionFileMenuImportTreeItem, &QAction::triggered, this, &MainWindow::fileImportBranch);
     connect(actionFileMenuQuit, &QAction::triggered, this, &MainWindow::applicationExit);
 
+
+    // Поиск по базе в стандартном меню
     connect(actionToolsMenuFindInBase, &QAction::triggered, this, &MainWindow::toolsFindInBase);
+    if(mytetraConfig.getInterfaceMode()=="mobile")
+    {
+        // Кнопка поиска по базе в меню дерева разделов для мобильного интерфейса
+        connect(treeScreen, &TreeScreen::treeScreenFindInBaseClicked, this, &MainWindow::toolsFindInBase);
+
+        // Кнопка поиска по базе в меню редактора для мобильного интефейса
+        connect(editorScreen, &MetaEditor::wyeditFindInBaseClicked, this, &MainWindow::toolsFindInBase);
+    }
+
+    // Вызов окна просмотра лога
     connect(actionToolsMenuActionLog, &QAction::triggered, this, &MainWindow::onActionLogClicked);
-    connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
+
+    // Вызов окна настроек
+    if(mytetraConfig.getInterfaceMode()=="desktop")
+    {
+        connect(actionToolsMenuPreferences, &QAction::triggered, this, &MainWindow::toolsPreferences);
+    }
+    else
+    {
+        connect(actionDirectPreferencesMain, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesMain); } );
+
+        connect(actionDirectPreferencesAppearance, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesAppearance); } );
+
+        connect(actionDirectPreferencesCrypt, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesCrypt); } );
+
+        connect(actionDirectPreferencesSyncro, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesSyncro); } );
+
+        connect(actionDirectPreferencesRecordTable, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesRecordTable); } );
+
+        connect(actionDirectPreferencesAttach, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesAttach); } );
+
+        connect(actionDirectPreferencesKeyboard, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesKeyboard); } );
+
+        connect(actionDirectPreferencesHistory, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesHistory); } );
+
+        connect(actionDirectPreferencesMisc, &QAction::triggered,
+                this, [this](){ runDirectPreferences(actionDirectPreferencesMisc); } );
+    }
 
     connect(actionHelpMenuAboutMyTetra, &QAction::triggered, this, &MainWindow::onClickHelpAboutMyTetra);
     connect(actionHelpMenuAboutQt, &QAction::triggered, this, &MainWindow::onClickHelpAboutQt);
@@ -494,6 +542,17 @@ void MainWindow::initFileMenu(void)
     QMenu *menu = new QMenu(tr("&File"), this);
     this->menuBar()->addMenu(menu);
 
+    actionFileMenuDatabasesManagement = new QAction(tr("Databases management"), this);
+    menu->addAction(actionFileMenuDatabasesManagement);
+
+    actionFileMenuExportTreeItem = new QAction(tr("Export tree item"), this);
+    menu->addAction(actionFileMenuExportTreeItem);
+
+    actionFileMenuImportTreeItem = new QAction(tr("Import tree item"), this);
+    menu->addAction(actionFileMenuImportTreeItem);
+
+    menu->addSeparator();
+
     actionFileMenuPrint = new QAction(tr("&Print..."), this);
     menu->addAction(actionFileMenuPrint);
 
@@ -502,14 +561,6 @@ void MainWindow::initFileMenu(void)
 
     actionFileMenuExportPdf = new QAction(tr("&Export PDF..."), this);
     menu->addAction(actionFileMenuExportPdf);
-
-    menu->addSeparator();
-
-    actionFileMenuExportTreeItem = new QAction(tr("Export tree item"), this);
-    menu->addAction(actionFileMenuExportTreeItem);
-
-    actionFileMenuImportTreeItem = new QAction(tr("Import tree item"), this);
-    menu->addAction(actionFileMenuImportTreeItem);
 
     menu->addSeparator();
 
@@ -541,36 +592,68 @@ void MainWindow::initToolsMenu(void)
     else
     {
         // Создание подменю
-        QMenu *menu = new QMenu(tr("&Preferences"), this);
-        initPreferencesMenu(menu);
+        QMenu *subMenu = new QMenu(tr("&Preferences"), this);
+        initPreferencesMenu(subMenu);
+        menu->addMenu(subMenu);
     }
 }
 
 
-// Заполнение подраздела меню Preferences (для мобильного интерфейса, не доработано)
+// Заполнение подраздела меню Preferences (для мобильного интерфейса)
 void MainWindow::initPreferencesMenu(QMenu *menu)
 {
-    QAction *a;
+    QMap< QString, QAction **> map;
 
-    a = new QAction(tr("Main"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    map[tr("Main")]      = &actionDirectPreferencesMain;
+    map[tr("Appearance")]= &actionDirectPreferencesAppearance;
+    map[tr("Crypt")]     = &actionDirectPreferencesCrypt;
+    map[tr("Syncro")]    = &actionDirectPreferencesSyncro;
+    map[tr("Note Area")] = &actionDirectPreferencesRecordTable;
+    map[tr("Attaches")]  = &actionDirectPreferencesAttach;
+    map[tr("Keyboard")]  = &actionDirectPreferencesKeyboard;
+    map[tr("History")]   = &actionDirectPreferencesHistory;
+    map[tr("Misc")]      = &actionDirectPreferencesMisc;
 
-    a = new QAction(tr("Crypt"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    for(auto pageName : map.keys())
+    {
+        *map[pageName] = new QAction(pageName, this);
+        menu->addAction( *map[pageName] );
+    }
+}
 
-    a = new QAction(tr("Synchro"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
 
-    a = new QAction(tr("RecordTable"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+void MainWindow::runDirectPreferences(QAction *action)
+{
+    QMap< QString, QAction *> map;
 
-    a = new QAction(tr("Misc"), this);
-    // connect(a, SIGNAL(triggered()), this, SLOT(toolsPreferences()));
-    menu->addAction(a);
+    map["pageMain"]       = actionDirectPreferencesMain;
+    map["pageAppearance"] = actionDirectPreferencesAppearance;
+    map["pageCrypt"]      = actionDirectPreferencesCrypt;
+    map["pageSynchro"]    = actionDirectPreferencesSyncro;
+    map["pageRecordTable"]= actionDirectPreferencesRecordTable;
+    map["pageAttach"]     = actionDirectPreferencesAttach;
+    map["pageKeyboard"]   = actionDirectPreferencesKeyboard;
+    map["pageHistory"]    = actionDirectPreferencesHistory;
+    map["pageMisc"]       = actionDirectPreferencesMisc;
+
+    AppConfigDialog *dialog=nullptr;
+
+    for(auto pageName : map.keys())
+    {
+        if( map[pageName]==action )
+        {
+            dialog=new AppConfigDialog(pageName, this);
+            break;
+        }
+    }
+
+    if(dialog!=nullptr)
+    {
+        dialog->setMenuListVisible(false);
+        dialog->exec();
+    }
+
+    delete dialog;
 }
 
 
@@ -624,29 +707,22 @@ void MainWindow::setupShortcuts(void)
 }
 
 
-// Новая коллекция
-void MainWindow::fileNew(void)
-{
-
-}
-
-// Открыть коллекцию
-void MainWindow::fileOpen(void)
-{
-
-}
-
 // Сохранить текущую статью
 bool MainWindow::fileSave(void)
 {
+    // todo: сделать функционал
+
     return true;
 }
+
 
 // Сохранить текущую статью как файл
 bool MainWindow::fileSaveAs(void)
 {
+    // todo: сделать функционал
     return true;
 }
+
 
 // Напечатать текущую статью
 void MainWindow::filePrint(void)
@@ -694,6 +770,14 @@ void MainWindow::filePrintPdf(void)
         editorScreen->getTextareaDocument()->print(&printer);
     }
 #endif
+}
+
+
+// Раздел меню File, управление базами данных
+void MainWindow::fileDatabasesManagement(void)
+{
+    DatabasesManagementScreen databasesManagementScreen(this);
+    databasesManagementScreen.exec();
 }
 
 

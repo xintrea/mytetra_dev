@@ -66,8 +66,8 @@ void EditorIndentSliderAssistant::onUpdateGeometry()
   indentSlider->set_widget_width(textArea->width());
 
   // Синхронизируется геометрия линейки отступов
-  int leftPos=textArea->get_indent_started_left();
-  int rightPos=textArea->get_indent_started_right();
+  int leftPos=textArea->getIndentStartedLeft();
+  int rightPos=textArea->getIndentStartedRight();
   indentSlider->set_indentline_left_pos(leftPos);
   indentSlider->set_indentline_right_pos(rightPos);
 
@@ -116,8 +116,8 @@ void EditorIndentSliderAssistant::onChangeTextindentPos(int i)
   // при перемещении курсора со строки на строку
   currentTextIndent=i;
 
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
+  textArea->showIndentEdge(true);
+  textArea->setIndentEdgePos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
 }
 
 
@@ -135,8 +135,8 @@ void EditorIndentSliderAssistant::onChangeLeftindentPos(int i)
   // при перемещении курсора со строки на строку
   currentLeftIndent=i;
 
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
+  textArea->showIndentEdge(true);
+  textArea->setIndentEdgePos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
 }
 
 
@@ -154,16 +154,16 @@ void EditorIndentSliderAssistant::onChangeRightindentPos(int i)
   // при перемещении курсора со строки на строку
   currentRightIndent=i;
 
-  textArea->show_indetedge(true);
-  textArea->set_indentedge_pos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
+  textArea->showIndentEdge(true);
+  textArea->setIndentEdgePos(indentSlider->get_current_indentedge_pos()-textArea->lineWidth()-1);
 }
 
 
 // Действия в момент отпускания кнопки мышки над линейкой отступов
 void EditorIndentSliderAssistant::onMouseRelease(void)
 {
-  textArea->show_indetedge(false); // Скрывается вертикальная линия
-  textArea->set_indentedge_pos(0); // Координата вертикальной линии обнуляется
+  textArea->showIndentEdge(false); // Скрывается вертикальная линия
+  textArea->setIndentEdgePos(0); // Координата вертикальной линии обнуляется
 }
 
 

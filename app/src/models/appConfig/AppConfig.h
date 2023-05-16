@@ -22,11 +22,13 @@ public:
 
     void sync(void);
 
+    QString getConfigFileName();
+
     // Версия формата конфигфайла
     int get_config_version(void);
     void set_config_version(int i);
 
-    // Рабочая директория
+    // Директория с базой знаний
     QString get_tetradir(void);
     bool set_tetradir(QString dirName);
 
@@ -261,6 +263,7 @@ public:
 private:
 
     QSettings *conf; // было static
+
     QString get_parameter(QString name);
 
     QStringList removeParameterFromTable(QString removeName, QStringList table);

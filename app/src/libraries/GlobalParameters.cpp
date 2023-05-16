@@ -383,7 +383,8 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    // Открывается хранилище настроек
    // todo: Странность в Qt - если указать третьим параметром this в качестве
    // родителя, то считывание из файла конфигурации работать не будет. Разобраться
-   QScopedPointer<QSettings> conf( new QSettings(fileName, QSettings::IniFormat) );
+   // Вроде как это был баг одной из версий Qt, теперь считывание работает нормально
+   QScopedPointer<QSettings> conf( new QSettings(fileName, QSettings::IniFormat, this) );
 
    // Если есть переменная version
    if(conf->contains("version"))

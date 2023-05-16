@@ -320,16 +320,16 @@ void EditorToolBar::setupToolBarTools(void)
 
 
   // Кнопка редактора "назад", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
-  back=new QAction(this);
-  back->setStatusTip(tr("Back"));
-  back->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
-  back->setObjectName("editor_tb_back");
+  mobileBack=new QAction(this);
+  mobileBack->setStatusTip(tr("Back"));
+  mobileBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
+  mobileBack->setObjectName("editor_tb_back");
 
   // Кнопка редактора "поиск по базе", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
-  findInBase=new QAction(this);
-  findInBase->setStatusTip(tr("Find in base"));
-  findInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
-  findInBase->setObjectName("editor_tb_findInBase");
+  mobileFindInBase=new QAction(this);
+  mobileFindInBase->setStatusTip(tr("Find in base"));
+  mobileFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+  mobileFindInBase->setObjectName("editor_tb_findInBase");
 
 
   // Кнопка "показать текст" для просмотра текста в отдельном окне
@@ -605,9 +605,15 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
 {
     // qDebug() << "EditorToolBar::insert_button_to_tools_line() disableToolList : " << disableToolList;
 
-    if(toolName=="separator")
+    if(toolName=="separator") // Постой разделитель
     {
         line.addSeparator();
+    }
+    else if(toolName=="spring") // Пружина, расталкивающая виджеты кнопок
+    {
+        QWidget* empty = new QWidget(this);
+        empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+        line.addWidget(empty);
     }
     else
     {

@@ -3,8 +3,8 @@
 #include <QDebug>
 
 #include "main.h"
-#include "ActionLogView.h"
-#include "ActionLogScreen.h"
+#include "DatabasesManagementTable.h"
+#include "DatabasesManagementScreen.h"
 #include "controllers/actionLog/ActionLogController.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
@@ -15,19 +15,19 @@
 extern AppConfig mytetraConfig;
 
 
-ActionLogView::ActionLogView(QWidget *parent) : QTableView(parent)
+DatabasesManagementTable::DatabasesManagementTable(QWidget *parent) : QTableView(parent)
 {
 
 }
 
 
-ActionLogView::~ActionLogView()
+DatabasesManagementTable::~DatabasesManagementTable()
 {
 
 }
 
 
-void ActionLogView::init()
+void DatabasesManagementTable::init()
 {
   this->horizontalHeader()->setStretchLastSection( true ); // Растягивание последней секции до размеров виджета
   this->setSelectionBehavior(QAbstractItemView::SelectRows); // Выделяется вся строка
@@ -55,11 +55,11 @@ void ActionLogView::init()
 }
 
 
-void ActionLogView::setupSignals(void)
+void DatabasesManagementTable::setupSignals(void)
 {
   // Сигнал чтобы показать контекстное меню по правому клику на списке записей
-  connect(this, &ActionLogView::customContextMenuRequested,
-          this, &ActionLogView::onCustomContextMenuRequested);
+  connect(this, &DatabasesManagementTable::customContextMenuRequested,
+          this, &DatabasesManagementTable::onCustomContextMenuRequested);
 
   // Соединение сигнал-слот чтобы показать контекстное меню по долгому нажатию
   // (пока долгое нажатие не обрабатывается и сигнал не эмитируется)
@@ -68,13 +68,13 @@ void ActionLogView::setupSignals(void)
 }
 
 
-void ActionLogView::setController(ActionLogController *pController)
+void DatabasesManagementTable::setController(DatabasesManagementController *pController)
 {
   controller=pController;
 }
 
 
-void ActionLogView::resizeEvent(QResizeEvent *event)
+void DatabasesManagementTable::resizeEvent(QResizeEvent *event)
 {
   // Второй столбец должен занимать 80% ширины при любом размере таблицы
   // QRect viewRect = this->rect();
@@ -86,7 +86,7 @@ void ActionLogView::resizeEvent(QResizeEvent *event)
 }
 
 
-void ActionLogView::paintEvent(QPaintEvent *event)
+void DatabasesManagementTable::paintEvent(QPaintEvent *event)
 {
   QTableView::paintEvent(event);
 
@@ -102,18 +102,18 @@ void ActionLogView::paintEvent(QPaintEvent *event)
 }
 
 
-void ActionLogView::assemblyContextMenu()
+void DatabasesManagementTable::assemblyContextMenu()
 {
-  ActionLogScreen *parentPointer=qobject_cast<ActionLogScreen *>(parent());
+  DatabasesManagementScreen *parentPointer=qobject_cast<DatabasesManagementScreen *>(parent());
 
   contextMenu.addAction( parentPointer->actionCopy );
 }
 
 
 // Открытие контекстного меню в таблице записей лога
-void ActionLogView::onCustomContextMenuRequested(const QPoint &pos)
+void DatabasesManagementTable::onCustomContextMenuRequested(const QPoint &pos)
 {
-  qDebug() << "In ActionLogView::on_customContextMenuRequested";
+  qDebug() << "In DatabasesManagementTable::on_customContextMenuRequested";
 
   // Включение отображения меню на экране
   // menu.exec(event->globalPos());

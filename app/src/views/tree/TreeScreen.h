@@ -48,9 +48,13 @@ public:
 
  void setFocusToBaseWidget(void);
 
+signals:
+
+    void treeScreenFindInBaseClicked();
+
 public slots:
 
-  void setupShortcuts(void);
+    void setupShortcuts(void);
 
 private slots:
 

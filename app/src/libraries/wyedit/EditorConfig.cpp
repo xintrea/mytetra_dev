@@ -28,7 +28,7 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
     QString file_dir =fileinfo.path();
 
     // Создается объект работы с конфигурацией редактора
-    conf=new QSettings(config_file_name, QSettings::IniFormat);
+    conf=new QSettings(config_file_name, QSettings::IniFormat, this);
     // conf->setPath(QSettings::IniFormat,QSettings::UserScope,file_dir);
     // conf->setPath(QSettings::IniFormat,QSettings::SystemScope,file_dir);
 

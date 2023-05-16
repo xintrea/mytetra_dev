@@ -3,6 +3,8 @@
 #include <QTextTable>
 #include <QTextTableFormat>
 #include <QPainter>
+#include <QDebug>
+#include <QPair>
 
 #include "main.h"
 #include "EditorToolBarAssistant.h"
@@ -66,25 +68,27 @@ void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
     // Перед инитом устанавливается список скрываемых инструментов
     EditorToolBar::initDisableToolList(iDisableToolList);
 
+
     // Выясняется перечень кнопок в первой строке на панели инструментов
-    QStringList toolsListInLine1=editor->editorConfig->get_tools_line_1().split(",");
+    QStringList toolsList=editor->editorConfig->get_tools_line_1().split(",");
 
     // В мобильном режиме добавляется кнопка back (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("back"))
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("back"))
     {
-      EditorToolBar::toolsListInLine1.prepend("separator");
-      EditorToolBar::toolsListInLine1.prepend("back");
+      toolsList.prepend("separator"); // Добавляется в начало панели
+      toolsList.prepend("back");
     }
 
     // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !EditorToolBar::toolsListInLine1.contains("findInBase"))
+    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("findInBase"))
     {
-      EditorToolBar::toolsListInLine1.append("separator");
-      EditorToolBar::toolsListInLine1.append("findInBase");
+      toolsList.append("spring"); // Добавляется в конец панели
+      toolsList.append("findInBase");
     }
 
+
     // Устанавливается перечень кнопок на панели инструментов
-    EditorToolBar::initToolsLine1(toolsListInLine1); // Первая строка
+    EditorToolBar::initToolsLine1(toolsList); // Первая строка
     EditorToolBar::initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
 }
 
@@ -129,14 +133,64 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 
     flagSetFontParametersEnabled=false;
 
+    // Шрифт, который будет выставлен в комбобоксе
+    QString updateFontFamily;
+
     fontSelect->setIsProgrammChanged(true);
     if(fontName.size()>0)
-        fontSelect->setCurrentIndex(fontSelect->findText(fontName));
+    {
+        int n=fontSelect->findText(fontName);
+
+        // Если шрифт с заданным названием найден в списке шрифтов (в комбобоксе)
+        if(n>=0)
+        {
+            fontSelect->setCurrentIndex(n);
+            updateFontFamily=fontName;
+        }
+        else
+        {
+            // Иначе шрифт с указанным названием не найден в списке шрифтов,
+            // и надо попробовать выставить комбобоксе стандартный похожий шрифт
+
+            QFontDatabase database; // База всех установленных шрифтов
+
+            // Вывод в консоль полного списка шифтов
+            /*
+            foreach (const QString &family, database.families()) {
+               qDebug() << "Font family:" << family;
+               foreach (const QString &style, database.styles(family)) {
+                   qDebug() << "     style:" << style;
+               }
+            }
+            */
+
+            QList< QPair< QString, QString > > sameFonts;
+            sameFonts << QPair<QString, QString>("Sans Serif",           "MS Sans Serif");
+            sameFonts << QPair<QString, QString>("Sans Serif",           "Microsoft Sans Serif");
+            sameFonts << QPair<QString, QString>("MS Sans Serif",        "Sans Serif");
+            sameFonts << QPair<QString, QString>("Microsoft Sans Serif", "Sans Serif");
+
+            // Перебираются пары похожих шрифтов
+            for(auto currentFontPair : sameFonts)
+            {
+                // Если входящий шрифт имеет похожий шрифт в базе установленных шрифтов
+                if(fontName==currentFontPair.first and
+                   database.families().contains(currentFontPair.second))
+                {
+                    updateFontFamily=currentFontPair.second;
+                    fontSelect->setCurrentIndex( fontSelect->findText(updateFontFamily) );
+                    break;
+                }
+            }
+        }
+    }
     else
+    {
         fontSelect->setCurrentIndex(0); // Пустой шрифт (теперь не используется, но пока оставлен)
+    }
     fontSelect->setIsProgrammChanged(false);
 
-    currentFontFamily=fontName;
+    currentFontFamily=updateFontFamily;
 
     flagSetFontParametersEnabled=true;
 }

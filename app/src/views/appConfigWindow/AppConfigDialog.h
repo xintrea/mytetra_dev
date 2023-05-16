@@ -18,6 +18,8 @@ public:
     virtual ~AppConfigDialog();
 
     void exec();
+
+    void setMenuListVisible(bool visible);
     
 private:
     ConfigDialog *configDialog;

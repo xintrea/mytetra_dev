@@ -103,3 +103,9 @@ void AppConfigDialog::changePage(QString name)
     else
         qDebug() << "AppConfigDialog::changePage cant find item for name: " << name;
 }
+
+
+void AppConfigDialog::setMenuListVisible(bool visible)
+{
+    configDialog->setMenuListVisible(visible);
+}
