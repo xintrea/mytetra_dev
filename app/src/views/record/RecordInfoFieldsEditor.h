@@ -17,37 +17,37 @@ class RecordInfoFieldsEditor : public QDialog
 
 public:
 #if QT_VERSION < 0x050000
-  RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WFlags f = 0 );
+    RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WFlags f = 0 );
 #else
-  RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WindowFlags f = 0 );
+    RecordInfoFieldsEditor( QWidget * parent = nullptr, Qt::WindowFlags f = {} );
 #endif
 
-  ~RecordInfoFieldsEditor();
+    ~RecordInfoFieldsEditor();
 
-  QString getField(QString name);
-  void setField(QString name, QString value);
+    QString getField(QString name);
+    void setField(QString name, QString value);
 
-  void setReadOnly(bool state);
-  bool isReadOnly();
+    void setReadOnly(bool state);
+    bool isReadOnly();
 
 public slots:
 
-  void setupShortcuts(void);
+    void setupShortcuts(void);
 
 private slots:
 
-  void okClick(void);
+    void okClick(void);
 
 private:
 
-  // Виджет ввода инфополей записи
-  InfoFieldEnter *infoField;
+    // Виджет ввода инфополей записи
+    InfoFieldEnter *infoField;
 
-  QDialogButtonBox *buttonBox;
+    QDialogButtonBox *buttonBox;
 
-  void setupUI(void);
-  void setupSignals(void);
-  void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 };
 
 #endif // __RECORDINFOFIELDSEDITOR_H__
