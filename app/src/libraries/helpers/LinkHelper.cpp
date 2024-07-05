@@ -7,10 +7,44 @@
 
 #include "LinkHelper.h"
 
+#include "views/mainWindow/MainWindow.h"
+#include "views/tree/KnowTreeView.h"
+#include "models/tree/KnowTreeModel.h"
+#include "libraries/FixedParameters.h"
+#include "libraries/helpers/ObjectHelper.h"
+
 
 LinkHelper::LinkHelper()
 {
 
+}
+
+
+void LinkHelper::gotoReference(QString href)
+{
+    if(href.length()==0)
+        return;
+
+    // Если клик по обычной ссылке
+    if(!isHrefInternal(href))
+    {
+        openLinkWithDesktopServices( href );
+    }
+    else
+    {
+        // Иначе клик по "внутренней" ссылке с протоколом "mytetra:"
+
+        // Пролучение ID из ссылки
+        QString recordId=getIdFromInternalHref(href);
+
+        // todo: вынести следующий код в отдельный метод главного окна
+
+        // Нахождение ветки, в которой лежит данная запись
+        QStringList pathToRecord=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model())->getRecordPath(recordId);
+
+        find_object<MainWindow>("mainwindow")->setTreePosition( pathToRecord );
+        find_object<MainWindow>("mainwindow")->setRecordtablePositionById( recordId );
+    }
 }
 
 
@@ -24,7 +58,7 @@ bool LinkHelper::openLinkWithDesktopServices(const QString &link)
     // возвращает true если схема "file" и все.
     // Вместо этого написана специальная функция определения, внешняя это
     // или внутренняя ссылка
-    if ( LinkHelper::isExternal( url ) )
+    if ( isExternal( url ) )
     {
         // Для внешних ссылок используется QDesktopServices
         return QDesktopServices::openUrl(url);
@@ -67,3 +101,23 @@ bool LinkHelper::isExternal(const QUrl &url)
     return external.contains( scheme );
 }
 
+
+bool LinkHelper::isHrefInternal(QString href)
+{
+    if(href.contains(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/\\w+$")))
+        return true;
+    else
+        return false;
+}
+
+
+QString LinkHelper::getIdFromInternalHref(QString href)
+{
+    if(!isHrefInternal(href))
+        return "";
+
+    href.replace(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/"), "");
+
+    return href;
+
+}

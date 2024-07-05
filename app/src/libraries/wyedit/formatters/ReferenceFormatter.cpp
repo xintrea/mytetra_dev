@@ -139,49 +139,7 @@ void ReferenceFormatter::onContextMenuGotoReference()
 
 void ReferenceFormatter::onClickedGotoReference(QString href)
 {
-    if(href.length()==0)
-        return;
-
-    // Если клик по обычной ссылке
-    if(!isHrefInternal(href))
-    {
-        LinkHelper::openLinkWithDesktopServices( href );
-    }
-    else
-    {
-        // Иначе клик по "внутренней" ссылке с протоколом "mytetra:"
-
-        // Пролучение ID из ссылки
-        QString recordId=getIdFromInternalHref(href);
-
-        // todo: вынести следующий код в отдельный метод главного окна
-
-        // Нахождение ветки, в которой лежит данная запись
-        QStringList pathToRecord=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model())->getRecordPath(recordId);
-
-        find_object<MainWindow>("mainwindow")->setTreePosition( pathToRecord );
-        find_object<MainWindow>("mainwindow")->setRecordtablePositionById( recordId );
-    }
-}
-
-
-bool ReferenceFormatter::isHrefInternal(QString href)
-{
-    if(href.contains(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/\\w+$")))
-        return true;
-    else
-        return false;
-}
-
-
-QString ReferenceFormatter::getIdFromInternalHref(QString href)
-{
-    if(!isHrefInternal(href))
-        return "";
-
-    href.replace(QRegExp("^"+FixedParameters::appTextId+":\\/\\/note\\/"), "");
-
-    return href;
+    LinkHelper::gotoReference(href);
 }
 
 

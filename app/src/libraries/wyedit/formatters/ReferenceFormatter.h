@@ -21,10 +21,7 @@ public slots:
     void onContextMenuGotoReference(void);
     void onClickedGotoReference(QString href);
     void onTextChanged(void);
-protected:
 
-    bool isHrefInternal(QString href);
-    QString getIdFromInternalHref(QString href);
 };
 
 
