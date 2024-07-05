@@ -10,6 +10,7 @@
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/LinkHelper.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
@@ -144,11 +145,11 @@ void ReferenceFormatter::onClickedGotoReference(QString href)
     // Если клик по обычной ссылке
     if(!isHrefInternal(href))
     {
-        QDesktopServices::openUrl(QUrl(href));
+        LinkHelper::openLinkWithDesktopServices( href );
     }
     else
     {
-        // Иначе клик по внутренней ссылке
+        // Иначе клик по "внутренней" ссылке с протоколом "mytetra:"
 
         // Пролучение ID из ссылки
         QString recordId=getIdFromInternalHref(href);
