@@ -223,7 +223,7 @@ void DatabasesManagementModel::clearSelection()
 {
     for(auto& tableDataLine : mTableData)
     {
-        tableDataLine[DBMANAGEMENT_COLUMN_SELECT]="";
+        tableDataLine[DBMANAGEMENT_COLUMN_ISSELECT]="";
     }
 }
 
@@ -238,7 +238,7 @@ void DatabasesManagementModel::selectDirectories(const QString &dbPath, const QS
         if(tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
            tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]==trashPath )
         {
-            tableDataLine[DBMANAGEMENT_COLUMN_SELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+            tableDataLine[DBMANAGEMENT_COLUMN_ISSELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
             return;
         }
     }
@@ -308,17 +308,23 @@ QVariant DatabasesManagementModel::data(const QModelIndex& index, int role) cons
 }
 
 
+QString DatabasesManagementModel::getCellValue(const int &row, const int &column) const
+{
+    return this->getCell(row, column, Qt::DisplayRole).toString();
+}
+
+
 // Получение значения ячейки, защищенный метод
 QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 {
     Q_UNUSED(row)
 
     switch (column) {
-    case DBMANAGEMENT_COLUMN_SELECT:
+    case DBMANAGEMENT_COLUMN_ISSELECT:
 
         if(role==Qt::DisplayRole)
         {
-            if(mTableData[row][DBMANAGEMENT_COLUMN_SELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            if(mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
             {
                 return QVariant( tr("Selected") );
             }
@@ -331,7 +337,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         // Вывод иконок
         if(role==Qt::DecorationRole)
         {
-            if(mTableData[row][DBMANAGEMENT_COLUMN_SELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            if(mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
             {
                 return QCommonStyle().standardIcon(QStyle::SP_DialogApplyButton);
             }
@@ -381,11 +387,11 @@ QVariant DatabasesManagementModel::headerData(int section, Qt::Orientation orien
         return QVariant(section + 1);
     else
         switch (section) {
-        case DBMANAGEMENT_COLUMN_SELECT:
+        case DBMANAGEMENT_COLUMN_ISSELECT:
             return QVariant(tr("Select"));
 
         case DBMANAGEMENT_COLUMN_DBPATH:
-            return QVariant(tr("Detabase path"));
+            return QVariant(tr("Database path"));
 
         case DBMANAGEMENT_COLUMN_TRASHPATH:
             return QVariant(tr("Trash path"));
@@ -421,10 +427,10 @@ void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QS
     mTableData << line;
     this->endResetModel();
 
-    // Есла такая база уже есть в конфиге баз данных
+    // Если такая база уже есть в конфиге баз данных
     if( mKnownBasesConfig.isDbParameterExists("dbPath", dbPath) )
     {
-        int n=mKnownBasesConfig.getExistsParameterNum("dbPath", dbPath);
+        int n=mKnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
 
         // Параметр dbPath стоит такой, какой надо,
         // поэтому устанавливается только trashPath
@@ -439,16 +445,58 @@ void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QS
     }
 }
 
+void DatabasesManagementModel::deleteDatabaseByUser(const QString &dbPath, const QString &trashPath)
+{
+    // Номер БД в модели
+    int modelDbNum = 0;
+    bool isFound = false;
+    for (const auto &rowData : mTableData)
+    {
+        if (rowData[DBMANAGEMENT_COLUMN_DBPATH] == dbPath and
+            rowData[DBMANAGEMENT_COLUMN_TRASHPATH] == trashPath )
+        {
+            isFound = true;
+            break;
+        }
+
+        ++modelDbNum;
+    }
+
+    if ( !isFound )
+    {
+        return;
+    }
+
+
+    // Номер БД в конфиг-файле известных баз данных
+    int dbNum   = mKnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
+    int pathNum = mKnownBasesConfig.getDbParameterExistsNum("trashPath", trashPath);
+
+    if (dbNum == -1 or pathNum == -1 or dbNum!=pathNum)
+    {
+        return;
+    }
+
+
+    // Удаление в модели
+    mTableData.removeAt(modelDbNum);
+
+    // Удаление в файле
+    mKnownBasesConfig.removeDb(dbNum);
+}
+
 
 void DatabasesManagementModel::selectDatabase(const int &row)
 {
     this->clearSelection();
 
     QStringList line=mTableData[row];
-    line[DBMANAGEMENT_COLUMN_SELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+    line[DBMANAGEMENT_COLUMN_ISSELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
 
     this->beginResetModel();
     mTableData[row]=line;
     this->endResetModel();
 }
+
+
 

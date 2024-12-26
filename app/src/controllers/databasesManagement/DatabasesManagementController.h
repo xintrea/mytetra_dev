@@ -23,6 +23,7 @@ public slots:
   void onSelectClicked();
   void onCreateClicked();
   void onAddClicked();
+  void onDeleteClicked();
   void onCopyClicked();
 
 protected:

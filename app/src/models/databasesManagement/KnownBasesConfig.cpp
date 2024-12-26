@@ -13,73 +13,91 @@
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 
-
 const QString KnownBasesConfig::sectionPrefix="num";
-const QStringList KnownBasesConfig::fieldList={"dbPath", "trashPath"};
+const QStringList KnownBasesConfig::availableFields={"dbPath", "trashPath"};
 
 
 // Конструктор объекта настройки БД
 KnownBasesConfig::KnownBasesConfig(QObject *pobj)
 {
- Q_UNUSED(pobj)
+    Q_UNUSED(pobj)
 
- isInitFlag=false;
+    isInitFlag=false;
 }
 
 
 // Деструктор объекта настройки БД
 KnownBasesConfig::~KnownBasesConfig()
 {
- if(isInitFlag)
-  {
-   qDebug() << "Save known bases config file";
-   conf->sync();
-  }
+    if(isInitFlag)
+    {
+        qDebug() << "Save known bases config file";
+        conf->sync();
+    }
 }
 
 
 void KnownBasesConfig::init(void)
 {
- // Создается имя файла конфигурации
- // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
- QString configFileName=globalParameters.getWorkDirectory()+"/knownbases.ini";
+    // Создается имя файла конфигурации
+    // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
+    QString configFileName=globalParameters.getWorkDirectory()+"/knownbases.ini";
 
- // Проверяется, есть ли файл конфигурации
- QFile confFile(configFileName);
- if(!confFile.exists())
-  {
-   // Если файла нет, создается конфигфайл с начальным содержимым
-   QSettings tempConf(configFileName, QSettings::IniFormat);
+    // Проверяется, есть ли файл конфигурации
+    QFile confFile(configFileName);
+    if(!confFile.exists())
+    {
+        // Если файла нет, создается конфигфайл с начальным содержимым
+        QSettings tempConf(configFileName, QSettings::IniFormat);
 
-   tempConf.setValue("version", 1);
+        tempConf.setValue("version", 1);
 
-   tempConf.sync();
-  }
+        tempConf.sync();
+    }
 
- // Создается указатель на объект хранилища конфигурации
- conf=new QSettings(configFileName, QSettings::IniFormat, this);
+    // Создается указатель на объект хранилища конфигурации
+    conf=new QSettings(configFileName, QSettings::IniFormat, this);
 
- conf->sync();
+    conf->sync();
 
- isInitFlag=true;
+    isInitFlag=true;
 }
 
 
 bool KnownBasesConfig::isInit(void)
 {
- return isInitFlag;
+    return isInitFlag;
 }
 
 
 // Получение параметра по имени в виде строки с проверкой его существования
-QString KnownBasesConfig::getParameter(QString name)
+QString KnownBasesConfig::getParameter(const QString &name)
 {
- QString t=conf->value(name).toString();
+    QString t=conf->value(name).toString();
 
- if(t.length()==0)
-  criticalError("In known bases config not found parameter " + name);
+    if(t.length()==0)
+        criticalError("In known bases config not found parameter " + name);
 
- return t;
+    return t;
+}
+
+
+// Удаление секции в INI-шном конфиг-файле
+void KnownBasesConfig::removeSection(const QString &sectionName)
+{
+    // Переход в нужный раздел
+    conf->beginGroup(sectionName);
+
+    // Получение списка всех ключей в разделе
+    QStringList keys = conf->allKeys();
+
+    // Удаление всех ключей
+    for (const QString &key : keys) {
+        conf->remove(key);
+    }
+
+    // Выход из раздела
+    conf->endGroup();
 }
 
 
@@ -103,10 +121,10 @@ void KnownBasesConfig::set_crypt_mode(int mode)
 
 int KnownBasesConfig::getConfigVersion(void)
 {
- if(conf->contains("version"))
-  return conf->value("version").toInt();
- else
-  return 0;
+    if(conf->contains("version"))
+        return conf->value("version").toInt();
+    else
+        return 0;
 }
 
 
@@ -120,7 +138,7 @@ int KnownBasesConfig::getDbCount()
 {
     for(int i=0; i<KNOWN_BASES_MAX_COUNT; ++i)
     {
-        if( !conf->contains(sectionPrefix+QString::number(i)+"/"+fieldList[0]) )
+        if( !conf->contains(sectionPrefix+QString::number(i)+"/"+availableFields[0]) )
         {
             return i;
         }
@@ -132,6 +150,12 @@ int KnownBasesConfig::getDbCount()
 
 QString KnownBasesConfig::getDbParameter(const int &num, const QString &name)
 {
+    if ( !availableFields.contains(name) )
+    {
+        qWarning() << Q_FUNC_INFO << tr("Incorrect parameter name:") << name;
+        return "";
+    }
+
     QVariant value=conf->value(sectionPrefix+QString::number(num)+"/"+name);
 
     if(value.isValid())
@@ -167,7 +191,7 @@ bool KnownBasesConfig::isDbParameterExists(const QString &name, const QString &v
 }
 
 
-int KnownBasesConfig::getExistsParameterNum(const QString &name, const QString &value)
+int KnownBasesConfig::getDbParameterExistsNum(const QString &name, const QString &value)
 {
     for(int i=0; i<KNOWN_BASES_MAX_COUNT; ++i)
     {
@@ -180,4 +204,10 @@ int KnownBasesConfig::getExistsParameterNum(const QString &name, const QString &
     }
 
     return -1;
+}
+
+void KnownBasesConfig::removeDb(const int &num)
+{
+    this->removeSection( sectionPrefix+QString::number(num) );
+    conf->sync();
 }

@@ -21,26 +21,44 @@ public:
     void init(void);
     bool isInit(void);
 
-    // Версия формата конфигфайла
+    //! Получение версии формата конфигфайла
     int getConfigVersion(void);
+
+    //! Установка версии формата конфигфайла
     void setConfigVersion(int i);
 
     // int get_crypt_mode(void);
     // void set_crypt_mode(int mode);
 
+    //! Получение количества известных баз
     int getDbCount();
+
+    //! Получение заданного параметра для БД с указанным номером
     QString getDbParameter(const int &num, const QString &name);
+
+    //! Установка параметра для БД с указанным номером
     void setDbParameter(const int &num, const QString &name, const QString &value);
+
+    //! Проверка, существует ли для какой-либо БД параметр с заданным значением
     bool isDbParameterExists(const QString &name, const QString &value);
-    int getExistsParameterNum(const QString &name, const QString &value);
+
+    //! Получение номера БД, для которой существует параметр с заданным значением
+    //! Возвращается номер первой найденной БД
+    int getDbParameterExistsNum(const QString &name, const QString &value);
+
+    void removeDb(const int &num);
 
 private:
 
+    // Префикс названия раздела в INI-файле
     static const QString sectionPrefix;
-    static const QStringList fieldList;
+
+    // Допустимые имена переменных в разделе INI-файла
+    static const QStringList availableFields;
 
     QSettings *conf;
-    QString getParameter(QString name);
+    QString getParameter(const QString &name);
+    void removeSection(const QString &sectionName);
 
     bool isInitFlag;
 };

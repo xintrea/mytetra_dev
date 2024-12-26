@@ -20,7 +20,7 @@
 
 
 #define DBMANAGEMENT_COLUMNS 4
-#define DBMANAGEMENT_COLUMN_SELECT    0 // Признак выбора базы
+#define DBMANAGEMENT_COLUMN_ISSELECT  0 // Признак выбора базы
 #define DBMANAGEMENT_COLUMN_DBPATH    1 // Путь к БД
 #define DBMANAGEMENT_COLUMN_TRASHPATH 2 // Путь к корзине
 #define DBMANAGEMENT_COLUMN_DESCRIPT  3 // Человекочитаемое описание базы
@@ -51,8 +51,11 @@ public:
   QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
   QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  QString getCellValue(const int &row, const int &column) const;
+
   bool isDbPathExists(const QString &path);
   void addDatabaseByUser(const QString &dbPath, const QString &trashPath);
+  void deleteDatabaseByUser(const QString &dbPath, const QString &trashPath);
   void selectDatabase(const int &row);
 
 private:

@@ -57,6 +57,11 @@ void DatabasesManagementScreen::setupActions(void)
   connect(actionAdd, &QAction::triggered,
           databasesManagementController, &DatabasesManagementController::onAddClicked);
 
+  actionDelete = new QAction(tr("Remove database"), this);
+  actionDelete->setIcon(QIcon(":/resource/pic/dbmanagement_delete.svg"));
+  connect(actionDelete, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onDeleteClicked);
+
   actionCopy = new QAction(tr("Copy selected rows"), this);
   actionCopy->setIcon(QIcon(":/resource/pic/cb_copy.svg"));
   connect(actionCopy, &QAction::triggered,
@@ -74,11 +79,12 @@ void DatabasesManagementScreen::setupUI(void)
   insertActionAsButton(toolBar, actionSelect);
   insertActionAsButton(toolBar, actionCreate);
   insertActionAsButton(toolBar, actionAdd);
+  insertActionAsButton(toolBar, actionDelete);
   toolBar->addSeparator();
   insertActionAsButton(toolBar, actionCopy);
 
   // Создание набора диалоговых кнопок
-  buttonBox=new QDialogButtonBox(QDialogButtonBox::Cancel, this);
+  buttonBox=new QDialogButtonBox(QDialogButtonBox::Close, this);
 }
 
 

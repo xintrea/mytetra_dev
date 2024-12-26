@@ -62,8 +62,12 @@ public:
 
     QString getInstallAutodetectLang();
 
-    // Файл стилей может создаваться и после развертывания начальных файлов MyTetra
-    // Так как в более старых версиях MyTetra его еще не было
+    //! Создание файлов новой БД в указанной директории
+    void createFirstProgramFiles(QString dirName);
+
+    //! Создание файла стилей
+    //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
+    //! Так как в более старых версиях MyTetra его еще не было
     void createStyleSheetFile(QString dirName);
 
 public:
@@ -92,7 +96,6 @@ private:
     bool isMytetraIniConfig(QString fileName);
     void createStandartProgramFiles(void);
     void createPortableProgramFiles(void);
-    void createFirstProgramFiles(QString dirName);
 
     TreeScreen *pointTreeScreen=nullptr;
     RecordTableScreen *pointRecordTableScreen=nullptr;
