@@ -16,6 +16,30 @@ class GlobalParameters : public QObject
     Q_OBJECT
 
 public:
+
+    // Указание на обрабатываемую панель инструментов редактора текста
+    enum EditorToolbar {
+        First = 0,
+        Second
+    };
+
+    // Возможные режимы добавления записей в таблицу конечных записей
+    enum AddNewRecordBehavior
+    {
+        ADD_TO_END=0,
+        ADD_BEFORE,
+        ADD_AFTER
+    };
+
+    // Флаги создания новой рабочей директории
+    enum CreateFirstAppFilesFlags
+    {
+        DB         = 1 << 0, // Создание директории с файлами БД
+        TRASH      = 1 << 1, // Создание директории корзины
+        APP_CONFIG = 1 << 2  // Создание конфиг-файлов рабочей директории
+    };
+
+
     GlobalParameters(QObject *pobj=nullptr);
     virtual ~GlobalParameters();
 
@@ -63,27 +87,17 @@ public:
     QString getInstallAutodetectLang();
 
     //! Создание файлов новой БД в указанной директории
-    void createFirstProgramFiles(QString dirName);
+    void createFirstAppFiles(QString dirName,
+                             unsigned int flags =
+                                 CreateFirstAppFilesFlags::DB |
+                                 CreateFirstAppFilesFlags::TRASH |
+                                 CreateFirstAppFilesFlags::APP_CONFIG );
 
     //! Создание файла стилей
     //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
     //! Так как в более старых версиях MyTetra его еще не было
     void createStyleSheetFile(QString dirName);
 
-public:
-    // Указание на обрабатываемую панель инструментов редактора текста
-    enum EditorToolbar {
-        First = 0,
-        Second
-    };
-
-    // Возможные режимы добавления записей в таблицу конечных записей
-    enum AddNewRecordBehavior
-    {
-        ADD_TO_END=0,
-        ADD_BEFORE,
-        ADD_AFTER
-    };
 
 private:
 

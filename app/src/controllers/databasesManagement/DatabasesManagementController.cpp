@@ -6,6 +6,7 @@
 #include <QDialogButtonBox>
 #include <algorithm>
 #include <QModelIndexList>
+#include <QInputDialog>
 
 #include "main.h"
 #include "DatabasesManagementController.h"
@@ -89,7 +90,7 @@ void DatabasesManagementController::onCreateClicked()
         return;
     }
 
-    QString emptyDirPath;
+    QString workPath;
 
     // Диалог выбора пустой директории для создания новой БД
     QFileDialog tetradirSelectDialog;
@@ -101,12 +102,13 @@ void DatabasesManagementController::onCreateClicked()
         if( !tetradirSelectDialog.directory().absolutePath().isEmpty() )
         {
             // Запоминается выбранный пользователем путь
-            emptyDirPath=tetradirSelectDialog.directory().absolutePath();
+            workPath=tetradirSelectDialog.directory().absolutePath();
 
             // Выход, если директория не пустая
-            QDir dir(emptyDirPath);
+            QDir dir(workPath);
             QStringList entries = dir.entryList(QDir::NoDotAndDotDot | QDir::AllEntries);
-            if (entries.isEmpty()) {
+            if ( !entries.isEmpty() )
+            {
                 QMessageBox msgBox;
                 msgBox.setText(tr("It is not possible to create a new database.\n"
                                   "The specified directory is not empty."));
@@ -124,11 +126,14 @@ void DatabasesManagementController::onCreateClicked()
         return; // Выход, если была нажата отмена в диалоге выбора директории
     }
 
+    QString dbPath = workPath+"/data";
+    QString trashPath = workPath+"/trash";
+
     // Если добавляемая директория уже есть в списке баз данных
     // Ситуация возможна если пользователь самостоятельно удалил
     // в файловой системе содержимое директории,
     // которая была зарегистрирована в MyTetra
-    if( model->isDbPathExists(emptyDirPath) )
+    if( model->isDbPathExists(dbPath) )
     {
         QMessageBox msgBox;
         msgBox.setText(tr("This database directory already using "
@@ -139,17 +144,15 @@ void DatabasesManagementController::onCreateClicked()
         return;
     }
 
-    QString dbPath = emptyDirPath+"/data";
-    QString trashPath = emptyDirPath+"/trash";
-
     // Подтверждение с информацией какие директории будут созданы
     QMessageBox applyBox;
     applyBox.setWindowTitle(title);
-    applyBox.setText(tr("<b>The following database directories will be created</b>"));
-    applyBox.setInformativeText(tr("Database data directory: ")+
-                                dbPath+"\n\n"+
-                                tr("Trash directory: ")+
-                                trashPath);
+    applyBox.setTextFormat(Qt::RichText);
+    applyBox.setText(tr("<b>The following database directories will be created</b><br><br>")+
+                     tr("Database data directory:<br>")+
+                     "<span style='font-family: monospace;'>"+dbPath+"</span><br><br>"+
+                     tr("Trash directory:<br>")+
+                     "<span style='font-family: monospace;'>"+trashPath+"</span>");
     applyBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     applyBox.setDefaultButton(QMessageBox::Ok);
     applyBox.setIconPixmap( QIcon(":/resource/pic/dbmanagement_db_icon.svg").pixmap(QSize(32, 32)) );
@@ -159,11 +162,11 @@ void DatabasesManagementController::onCreateClicked()
     }
 
     // Здесь считается что все проверки пройдены, и можно создавать БД
-    QDir dir;
-    dir.mkpath(dbPath);
-    dir.mkpath(trashPath);
-
-    globalParameters.createFirstProgramFiles(dbPath);
+    // Внутри функции будут созданы подкаталоги data и trash
+    // относительно пути workPath
+    globalParameters.createFirstAppFiles(workPath,
+                                         GlobalParameters::CreateFirstAppFilesFlags::DB |
+                                         GlobalParameters::CreateFirstAppFilesFlags::TRASH);
 
     model->addDatabaseByUser(dbPath, trashPath);
 }
@@ -326,10 +329,26 @@ void DatabasesManagementController::onDeleteClicked()
     {
         isFullDelete = false; // Только исключение из списка
     }
+
     if ( clickedButton == fullDelete )
     {
         isFullDelete = true; // Удаление вместе с данными
+
+        bool ok;
+        QString text = QInputDialog::getText(
+            nullptr,
+            tr("You are trying to delete a database with all its contents"),
+            tr("Write \"yes\" to confirm:"),
+            QLineEdit::Normal,
+            "",
+            &ok);
+
+        if ( ! (ok && text=="yes"))
+        {
+            return;
+        }
     }
+
     if ( clickedButton == cancelButton )
     {
         return;

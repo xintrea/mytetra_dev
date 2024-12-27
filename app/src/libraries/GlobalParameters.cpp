@@ -209,7 +209,7 @@ void GlobalParameters::createStandartProgramFiles(void)
 
    QString createFilePath=userDir.absolutePath()+"/"+dataDirName; // Ранее использовался QDir::homePath()
 
-   createFirstProgramFiles(createFilePath);
+   createFirstAppFiles(createFilePath);
   }
  else
   {
@@ -226,45 +226,67 @@ void GlobalParameters::createPortableProgramFiles(void)
  QFileInfo mainProgramFileInfo(mainProgramFile);
  QString createFilePath=mainProgramFileInfo.absolutePath();
 
- createFirstProgramFiles(createFilePath);
+ createFirstAppFiles(createFilePath);
 }
 
 
 // Создание первоначального набора файлов в указанной директории
-void GlobalParameters::createFirstProgramFiles(QString dirName)
+void GlobalParameters::createFirstAppFiles(QString dirName,
+                                           unsigned int flags)
 {
- qDebug() << "Create first program files in directory " << dirName;
+    qDebug() << "Create first program files in directory " << dirName;
 
- QDir dir(dirName);
+    // Создание рабочей директории если ее еще нет
+    QDir dir(dirName);
+    if (!dir.exists())
+    {
+        QDir createDir;
+        bool result = createDir.mkpath(dirName);
+        if ( !result ) {
+            qDebug() << "Failed to create directory " << dirName;
+        }
+    }
 
- // Создается дерево директорий в указанной директории
- dir.mkpath("data/base/1300000000aaaaaaaaa2");
- dir.mkdir("trash");
+    // Создаются файлы конфигурации
+    if ( flags & CreateFirstAppFilesFlags::APP_CONFIG )
+    {
+        QString targetOs=getTargetOs(); // "any" или "meego" или "android"
 
- // Создаются файлы конфигурации
- QString targetOs=getTargetOs(); // "any" или "meego" или "android"
+        QFile::copy(":/resource/standartconfig/"+targetOs+"/conf.ini", dirName+"/conf.ini");
+        QFile::setPermissions(dirName+"/conf.ini", QFile::ReadUser | QFile::WriteUser);
 
- QFile::copy(":/resource/standartconfig/"+targetOs+"/conf.ini", dirName+"/conf.ini");
- QFile::setPermissions(dirName+"/conf.ini", QFile::ReadUser | QFile::WriteUser);
+        QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
+        QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
 
- QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
- QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
+        createStyleSheetFile(dirName);
+    }
 
- createStyleSheetFile(dirName);
+    // Создаются файлы БД
+    if ( flags & CreateFirstAppFilesFlags::DB )
+    {
+        // Создается дерево директорий в указанной директории
+        dir.mkpath("data/base/1300000000aaaaaaaaa2");
 
- // Создается файл базы данных
- QFile::copy(":/resource/standartdata/mytetra.xml", dirName+"/data/mytetra.xml");
- QFile::setPermissions(dirName+"/data/mytetra.xml", QFile::ReadUser | QFile::WriteUser);
+        // Создается файл базы данных
+        QFile::copy(":/resource/standartdata/mytetra.xml", dirName+"/data/mytetra.xml");
+        QFile::setPermissions(dirName+"/data/mytetra.xml", QFile::ReadUser | QFile::WriteUser);
 
- // Создается файл первой записи
- QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
- QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
+        // Создается файл первой записи
+        QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
+        QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
+    }
 
- // Синхронизация файловой системы, почему-то после создания файлы
- // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
- #ifdef Q_OS_LINUX
- std::system("sync");
- #endif
+    // Создается каталог корзины
+    if ( flags & CreateFirstAppFilesFlags::TRASH )
+    {
+        dir.mkdir("trash");
+    }
+
+    // Синхронизация файловой системы, почему-то после создания файлы
+    // не всегда доступны на Linux. Под windows такой утилиты нет в стандартной поставке
+#ifdef Q_OS_LINUX
+    std::system("sync");
+#endif
 }
 
 

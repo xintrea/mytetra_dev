@@ -479,7 +479,9 @@ void DatabasesManagementModel::deleteDatabaseByUser(const QString &dbPath, const
 
 
     // Удаление в модели
+    this->beginResetModel();
     mTableData.removeAt(modelDbNum);
+    this->endResetModel();
 
     // Удаление в файле
     mKnownBasesConfig.removeDb(dbNum);
