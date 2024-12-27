@@ -308,6 +308,20 @@ void DatabasesManagementController::onDeleteClicked()
         return;
     }
 
+    // Указатель на удаляемою строку в виде
+    QModelIndex deleteIndex = indexList[0];
+
+    // Если это текущая рабочая БД, ее удалять нельзя
+    if ( !model->getCellValue(deleteIndex.row(),
+                              DBMANAGEMENT_COLUMN_ISSELECT).isEmpty() )
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("You cannot delete the current working database."));
+        msgBox.exec();
+
+        return;
+    }
+
     // Выбор режима удаления
     QMessageBox box;
     box.setWindowTitle(tr("Deleting a database"));
@@ -354,7 +368,6 @@ void DatabasesManagementController::onDeleteClicked()
         return;
     }
 
-    QModelIndex deleteIndex = indexList[0];
 
     QString dbPath = model->getCellValue(deleteIndex.row(), DBMANAGEMENT_COLUMN_DBPATH);
     QString trashPath = model->getCellValue(deleteIndex.row(), DBMANAGEMENT_COLUMN_TRASHPATH);
