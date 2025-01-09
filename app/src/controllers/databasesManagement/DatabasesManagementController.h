@@ -28,6 +28,9 @@ public slots:
 
 protected:
 
+  void addDatabase(const QString &dbPath,
+                   const QString &trashPath);
+
   DatabasesManagementTable *view;
   DatabasesManagementModel *model;
 

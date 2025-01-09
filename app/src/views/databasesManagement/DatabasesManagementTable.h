@@ -23,6 +23,7 @@ public:
 
     void init();
     void setController(DatabasesManagementController *pController);
+    void setModel(QAbstractItemModel *model) override;
 
 signals:
 

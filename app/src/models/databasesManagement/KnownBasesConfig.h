@@ -50,17 +50,32 @@ public:
 
 private:
 
-    // Префикс названия раздела в INI-файле
-    static const QString sectionPrefix;
-
-    // Допустимые имена переменных в разделе INI-файла
-    static const QStringList availableFields;
-
-    QSettings *conf;
+    //! Получение параметра по полному имени в виде строки (с путем к параметру)
+    //! с проверкой существования параметра
     QString getParameter(const QString &name);
+
+    //! Удаление секции INI-файла по имени секции
     void removeSection(const QString &sectionName);
 
+    void renameSection(const QString &oldSection,
+                       const QString &newSection);
+
+    //! Переномерация секций (используется после удаления)
+    void renumSections();
+
+
+    //! Префикс названия раздела в INI-файле
+    static const QString m_sectionPrefix;
+
+    //! Допустимые имена переменных в разделе INI-файла
+    static const QStringList m_availableFields;
+
+    //! Объект работы с конфиг-файлом в формате INI
+    QSettings *m_conf;
+
+    //! Флаг, показывающий что инициализация данного объекта была успешно произведена
     bool isInitFlag;
+
 };
 
 #endif // KNOWNBASESCONFIG_H

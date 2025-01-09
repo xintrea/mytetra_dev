@@ -31,6 +31,7 @@ void DatabasesManagementTable::init()
 {
   this->horizontalHeader()->setStretchLastSection( true ); // Растягивание последней секции до размеров виджета
   this->setSelectionBehavior(QAbstractItemView::SelectRows); // Выделяется вся строка
+  this->setSelectionMode(QAbstractItemView::SingleSelection); // Разрешаем выделение только одной строки
   this->horizontalHeader()->setHighlightSections(false); // Заголовки не должны выглядеть нажатыми
   this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); // Отключается горизонтальная прокрутка
 
@@ -70,7 +71,17 @@ void DatabasesManagementTable::setupSignals(void)
 
 void DatabasesManagementTable::setController(DatabasesManagementController *pController)
 {
-  controller=pController;
+    controller=pController;
+}
+
+
+void DatabasesManagementTable::setModel(QAbstractItemModel *model)
+{
+    QTableView::setModel(model);
+
+    // После установки модели выделяется первая строка
+    // Если ее нет - просто ничего не выделится
+    this->selectRow(0);
 }
 
 

@@ -168,7 +168,7 @@ void DatabasesManagementController::onCreateClicked()
                                          GlobalParameters::CreateFirstAppFilesFlags::DB |
                                          GlobalParameters::CreateFirstAppFilesFlags::TRASH);
 
-    model->addDatabaseByUser(dbPath, trashPath);
+    this->addDatabase(dbPath, trashPath);
 }
 
 
@@ -290,7 +290,7 @@ void DatabasesManagementController::onAddClicked()
         return;
     }
 
-    model->addDatabaseByUser(dbPath, trashPath);
+    this->addDatabase(dbPath, trashPath);
 }
 
 
@@ -368,9 +368,10 @@ void DatabasesManagementController::onDeleteClicked()
         return;
     }
 
+    int row = deleteIndex.row();
 
-    QString dbPath = model->getCellValue(deleteIndex.row(), DBMANAGEMENT_COLUMN_DBPATH);
-    QString trashPath = model->getCellValue(deleteIndex.row(), DBMANAGEMENT_COLUMN_TRASHPATH);
+    QString dbPath = model->getCellValue(row, DBMANAGEMENT_COLUMN_DBPATH);
+    QString trashPath = model->getCellValue(row, DBMANAGEMENT_COLUMN_TRASHPATH);
 
     // Удаление из модели
     model->deleteDatabaseByUser(dbPath, trashPath);
@@ -381,6 +382,10 @@ void DatabasesManagementController::onDeleteClicked()
         DiskHelper::removeDirectory(dbPath);
         DiskHelper::removeDirectory(trashPath);
     }
+
+    // Выделение предыдущей строки перед удаляемой после удаления
+    int selectRowAfterDelete = (row - 1) < 0 ? 0 : row - 1;
+    view->selectRow(selectRowAfterDelete);
 }
 
 
@@ -417,5 +422,18 @@ void DatabasesManagementController::onCopyClicked()
     }
 
     QApplication::clipboard()->setText(selectedText);
+}
+
+
+void DatabasesManagementController::addDatabase(const QString &dbPath,
+                                                const QString &trashPath)
+{
+    model->addDatabaseByUser(dbPath, trashPath);
+
+    // Индекс последней строки
+    int newRow = model->rowCount() - 1;
+
+    // Устанавливается выделение на новую строку
+    view->selectRow(newRow);
 }
 

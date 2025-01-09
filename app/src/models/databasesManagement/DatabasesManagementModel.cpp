@@ -322,6 +322,9 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
     switch (column) {
     case DBMANAGEMENT_COLUMN_ISSELECT:
 
+        // Вывод текста
+        // Теперь вывода текста нет, только иконка
+        /*
         if(role==Qt::DisplayRole)
         {
             if(mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
@@ -333,6 +336,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
                 return QVariant( QString() );
             }
         }
+        */
 
         // Вывод иконок
         if(role==Qt::DecorationRole)
@@ -388,7 +392,7 @@ QVariant DatabasesManagementModel::headerData(int section, Qt::Orientation orien
     else
         switch (section) {
         case DBMANAGEMENT_COLUMN_ISSELECT:
-            return QVariant(tr("Select"));
+            return QVariant(tr("Sel."));
 
         case DBMANAGEMENT_COLUMN_DBPATH:
             return QVariant(tr("Database path"));
