@@ -312,8 +312,9 @@ void DatabasesManagementController::onDeleteClicked()
     QModelIndex deleteIndex = indexList[0];
 
     // Если это текущая рабочая БД, ее удалять нельзя
-    if ( !model->getCellValue(deleteIndex.row(),
-                              DBMANAGEMENT_COLUMN_ISSELECT).isEmpty() )
+    if ( model->getCellValue(deleteIndex.row(),
+                             DBMANAGEMENT_COLUMN_ISSELECT,
+                             Qt::UserRole) == "true" )
     {
         QMessageBox msgBox;
         msgBox.setText(tr("You cannot delete the current working database."));

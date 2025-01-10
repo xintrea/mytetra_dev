@@ -298,7 +298,6 @@ int DatabasesManagementModel::rowCount(const QModelIndex& parent) const
 }
 
 
-// Получение данных
 QVariant DatabasesManagementModel::data(const QModelIndex& index, int role) const
 {
   if (index.isValid() && (role == Qt::DisplayRole || role == Qt::DecorationRole))
@@ -308,9 +307,11 @@ QVariant DatabasesManagementModel::data(const QModelIndex& index, int role) cons
 }
 
 
-QString DatabasesManagementModel::getCellValue(const int &row, const int &column) const
+QString DatabasesManagementModel::getCellValue(const int &row,
+                                               const int &column,
+                                               const int &role) const
 {
-    return this->getCell(row, column, Qt::DisplayRole).toString();
+    return this->getCell(row, column, role).toString();
 }
 
 
@@ -338,10 +339,22 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         }
         */
 
-        // Вывод иконок
-        if(role==Qt::DecorationRole)
+        if (role == Qt::UserRole)
         {
-            if(mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            if (mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            {
+                return QVariant( true );
+            }
+            else
+            {
+                return QVariant( false );
+            }
+        }
+
+        // Вывод иконок
+        if (role==Qt::DecorationRole)
+        {
+            if (mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
             {
                 return QCommonStyle().standardIcon(QStyle::SP_DialogApplyButton);
             }
@@ -351,7 +364,8 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
     case DBMANAGEMENT_COLUMN_DBPATH:
 
-        if(role==Qt::DisplayRole)
+        if (role == Qt::DisplayRole or
+            role == Qt::UserRole)
         {
             return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_DBPATH] );
         }
@@ -360,7 +374,8 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
     case DBMANAGEMENT_COLUMN_TRASHPATH:
 
-        if(role==Qt::DisplayRole)
+        if (role == Qt::DisplayRole or
+            role == Qt::UserRole )
         {
             return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_TRASHPATH] );
         }
@@ -369,7 +384,8 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
     case DBMANAGEMENT_COLUMN_DESCRIPT:
 
-        if(role==Qt::DisplayRole)
+        if (role == Qt::DisplayRole or
+            role == Qt::UserRole)
         {
             return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_DESCRIPT] );
         }
@@ -496,11 +512,11 @@ void DatabasesManagementModel::selectDatabase(const int &row)
 {
     this->clearSelection();
 
-    QStringList line=mTableData[row];
-    line[DBMANAGEMENT_COLUMN_ISSELECT]=DBMANAGEMENT_LINE_SELECT_FLAG;
+    QStringList line = mTableData[row];
+    line[DBMANAGEMENT_COLUMN_ISSELECT] = DBMANAGEMENT_LINE_SELECT_FLAG;
 
     this->beginResetModel();
-    mTableData[row]=line;
+    mTableData[row] = line;
     this->endResetModel();
 }
 
