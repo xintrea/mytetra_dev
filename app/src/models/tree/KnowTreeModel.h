@@ -28,6 +28,7 @@ public:
 
     void initFromXML(QString fileName);
     void reload(void);
+    void clear(void);
 
     QDomElement exportFullModelDataToDom(TreeItem *root);
     void exportFullModelDataToStreamWriter(QXmlStreamWriter *xmlWriter, TreeItem *root);

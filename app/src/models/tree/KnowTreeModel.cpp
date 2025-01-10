@@ -69,7 +69,7 @@ void KnowTreeModel::initFromXML(QString fileName)
 void KnowTreeModel::init(QDomDocument *domModel)
 {
   // Проверка формата XML-файла
-  if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
+  if ( !checkFormat(domModel->documentElement().firstChildElement("format")) )
   {
     criticalError(tr("Unsupported version of the database format.\nYou need to update MyTetra."));
   }
@@ -79,13 +79,14 @@ void KnowTreeModel::init(QDomDocument *domModel)
 
   // Определяется одно поле в корневом объекте
   // то есть на экране будет один столбец
-  rootData["id"]="0";
-  rootData["name"]="";
+  rootData["id"] = "0";
+  rootData["name"] = "";
+
 
   beginResetModel();
 
   // Создание корневого Item объекта
-  if(rootItem!=nullptr)
+  if (rootItem!=nullptr)
     delete rootItem;
   rootItem = new TreeItem(rootData);
 
@@ -138,7 +139,19 @@ bool KnowTreeModel::updateSubVersionFrom1To2(void)
 
 void KnowTreeModel::reload(void)
 {
-  initFromXML(xmlFileName);
+    initFromXML(xmlFileName);
+}
+
+
+void KnowTreeModel::clear()
+{
+    beginResetModel(); // Уведомление представления о начале полной перезагрузки модели
+
+    // Удаляется корневой элемент и все остальные зависимые
+    delete rootItem;
+    rootItem = nullptr;
+
+    endResetModel(); // Уведомление представления о завершении перезагрузки модели
 }
 
 
