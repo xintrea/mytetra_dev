@@ -389,7 +389,7 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
 }
 
 
-const TreeItem* TreeModel::getRootItem()
+const TreeItem* TreeModel::getRootItem() const
 {
     return rootItem;
 }

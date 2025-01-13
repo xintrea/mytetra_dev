@@ -58,7 +58,7 @@ public:
 
     void emitSignalDataChanged(const QModelIndex &index);
 
-    const TreeItem* getRootItem();
+    const TreeItem* getRootItem() const;
 
 private:
 
