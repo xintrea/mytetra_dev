@@ -85,7 +85,7 @@ void RecordTableData::setField(QString name, QString value, int pos)
 // Получение значения текста указанной записи
 // Метод возвращает расшифрованные данные
 // Если возникнет проблема, что файла с текстом записи нет, будет создан пустой файл
-QString RecordTableData::getText(int pos)
+QString RecordTableData::getText(int pos) const
 {
     // Если индекс недопустимый, возвращается пустая строка
     if(pos<0 || pos>=(int)size())

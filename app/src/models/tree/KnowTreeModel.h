@@ -60,7 +60,7 @@ public:
     int getAllRecordCount(void);
     
     // Возвращает количество записей в ветке и всех подветках
-    int getRecordCountForItem(TreeItem *item);
+    int getRecordCountForItem(const TreeItem *item);
 
     QString pasteNewChildBranch(const QModelIndex &index, ClipboardBranch *subbranch);
     QString pasteNewSiblingBranch(const QModelIndex &index, ClipboardBranch *subbranch);
@@ -108,10 +108,10 @@ signals:
 
 private:
 
-    QString xmlFileName;
+    QString m_xmlFileName;
 
-    QDateTime lastSaveDateTime;
-    QDateTime lastLoadDateTime;
+    QDateTime m_lastSaveDateTime;
+    QDateTime m_lastLoadDateTime;
 
     void init(QDomDocument *domModel);
 
@@ -138,7 +138,7 @@ private:
     // Перемещение ветки вверх или вниз
     QModelIndex moveUpDownBranch(const QModelIndex &index,int direction);
 
-    int getAllRecordCountRecurse(TreeItem *item,int mode);
+    int getAllRecordCountRecurse(const TreeItem *item, int mode) const;
 
     QString pasteSubbranchRecurse(TreeItem *item,
                                   QString startBranchId,

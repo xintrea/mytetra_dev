@@ -116,7 +116,7 @@ private:
  void changedFindInField(QString fieldname, int state);
 
  void findStart(void);
- void findRecurse(TreeItem *curritem);
+ void findRecurse(const TreeItem* curritem);
  bool findInTextProcess(const QString& text);
 
  void switchToolsExpand(bool flag);

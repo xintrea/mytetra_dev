@@ -58,7 +58,7 @@ public:
 
     void emitSignalDataChanged(const QModelIndex &index);
 
-    TreeItem *rootItem; // Ссылка на первый (корневой) item-объект
+    const TreeItem* getRootItem();
 
 private:
 
@@ -69,6 +69,13 @@ private:
     // и перечитаться дерево вследствие завершения процедуры синхронизации,
     // и непостоянный индекс будет приводить к сегфолту
     QPersistentModelIndex cursorOverIndex;
+
+protected:
+
+    //! Ссылка на первый (корневой) item-объект
+    //! \details Эта переменная размещена в protected-секции, чтобы
+    //! производный класс мог с ней прозрачно работать
+    TreeItem *rootItem;
 };
 
 #endif
