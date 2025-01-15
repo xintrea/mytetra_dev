@@ -31,6 +31,9 @@ protected:
   void addDatabase(const QString &dbPath,
                    const QString &trashPath);
 
+  bool switchToDatabase(const QString &dbPath,
+                        const QString &trashPath);
+
   DatabasesManagementTable *view;
   DatabasesManagementModel *model;
 

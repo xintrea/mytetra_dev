@@ -15,10 +15,17 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "views/dialog/ReduceMessageBox.h"
+#include "views/tree/KnowTreeView.h"
+#include "models/tree/KnowTreeModel.h"
+#include "libraries/helpers/ObjectHelper.h"
+#include "models/dataBaseConfig/DataBaseConfig.h"
+#include "libraries/IconSelectDialog.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern DataBaseConfig dataBaseConfig;
 
 
 DatabasesManagementController::DatabasesManagementController(QObject *parent) : QObject(parent)
@@ -59,14 +66,96 @@ void DatabasesManagementController::onSelectClicked()
         return;
     }
 
-    int row=indexList[0].row();
+    int row=indexList[0].row(); // Номер выбранной строки
+    const QModelIndex index = model->index(row, 0); // Индекс первого элемента выбранной строки
 
-    // Установка пометки выбора базы данных
-    model->selectDatabase(row);
+    // Переключение на выбранную БД
+    QString dbPath    = model->getCellValue( row, DBMANAGEMENT_COLUMN_DBPATH );
+    QString trashPath = model->getCellValue( row, DBMANAGEMENT_COLUMN_TRASHPATH );
+    bool result = this->switchToDatabase(dbPath, trashPath);
 
-    // Выбор текущей строки
-    const QModelIndex index = model->index(row, 0);
-    view->setCurrentIndex(index);
+    if (result)
+    {
+        // Установка пометки выбора базы данных
+        model->selectDatabase(row);
+
+        // Выбор текущей строки
+        view->setCurrentIndex(index);
+    }
+    else
+    {
+        // Диалог информирования о проблеме
+        QMessageBox box;
+        box.setWindowTitle(tr("Select database"));
+        box.setText(tr("Errors detected when switching to database with\npath '%1'\nand trash path '%2'").arg(dbPath).arg(trashPath));
+        box.setStandardButtons(QMessageBox::Ok);
+        box.setIcon( QMessageBox::Critical );
+        box.exec();
+    }
+}
+
+
+bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
+                                                     const QString &trashPath)
+{
+    // todo: Убрать проверки в модель дерева
+    if ( !QDir(dbPath).exists() )
+    {
+        QMessageBox box;
+        box.setText(tr("The database directory with path '%1' does not exist").arg(dbPath));
+        box.setStandardButtons(QMessageBox::Ok);
+        box.setIcon( QMessageBox::Critical );
+        box.exec();
+
+        return false;
+    }
+
+    if ( !QDir(trashPath).exists() )
+    {
+        QMessageBox box;
+        box.setText(tr("The trash directory with path '%1' does not exist").arg(trashPath));
+        box.setStandardButtons(QMessageBox::Ok);
+        box.setIcon( QMessageBox::Critical );
+        box.exec();
+
+        return false;
+    }
+
+    QString mytetraFile(dbPath+"/mytetra.xml");
+    QFileInfo fileInfo(mytetraFile);
+    if ( ! (fileInfo.exists() and fileInfo.isFile()) )
+    {
+        QMessageBox box;
+        box.setText(tr("The file does not exist").arg(mytetraFile));
+        box.setStandardButtons(QMessageBox::Ok);
+        box.setIcon( QMessageBox::Critical );
+        box.exec();
+
+        return false;
+    }
+
+
+    // Обнуляется модель дерева
+    KnowTreeModel *knowTreeModel=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model());
+    knowTreeModel->clear();
+
+    // Устанавливаются пустые данные в таблицу конечных записей
+    find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
+
+    // Изменяются пути к БД в conf.ini файле
+    mytetraConfig.set_tetradir(dbPath);
+    mytetraConfig.set_trashdir(trashPath);
+
+    // Инициализация переменных, отвечающих за хранилище данных
+    dataBaseConfig.init();
+
+    // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутствуют)
+    IconSelectDialog::iconsCollectionCheck();
+
+    // Заполняется модель дерева
+    knowTreeModel->initFromXML(mytetraFile);
+
+    return true;
 }
 
 
@@ -437,4 +526,6 @@ void DatabasesManagementController::addDatabase(const QString &dbPath,
     // Устанавливается выделение на новую строку
     view->selectRow(newRow);
 }
+
+
 
