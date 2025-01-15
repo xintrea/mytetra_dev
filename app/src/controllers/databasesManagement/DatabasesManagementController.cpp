@@ -98,11 +98,10 @@ void DatabasesManagementController::onSelectClicked()
 bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
                                                      const QString &trashPath)
 {
-    // todo: Убрать проверки в модель дерева
-    if ( !QDir(dbPath).exists() )
+    if ( !model->isDbDirectory(dbPath) )
     {
         QMessageBox box;
-        box.setText(tr("The database directory with path '%1' does not exist").arg(dbPath));
+        box.setText(tr("The selected database directory '%1' is not a database directory").arg(dbPath));
         box.setStandardButtons(QMessageBox::Ok);
         box.setIcon( QMessageBox::Critical );
         box.exec();
@@ -110,23 +109,10 @@ bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
         return false;
     }
 
-    if ( !QDir(trashPath).exists() )
+    if ( !model->isTrashDirectory(trashPath) )
     {
         QMessageBox box;
-        box.setText(tr("The trash directory with path '%1' does not exist").arg(trashPath));
-        box.setStandardButtons(QMessageBox::Ok);
-        box.setIcon( QMessageBox::Critical );
-        box.exec();
-
-        return false;
-    }
-
-    QString mytetraFile(dbPath+"/mytetra.xml");
-    QFileInfo fileInfo(mytetraFile);
-    if ( ! (fileInfo.exists() and fileInfo.isFile()) )
-    {
-        QMessageBox box;
-        box.setText(tr("The file does not exist").arg(mytetraFile));
+        box.setText(tr("It is not possible to use the directory '%1' as a trash directory").arg(trashPath));
         box.setStandardButtons(QMessageBox::Ok);
         box.setIcon( QMessageBox::Critical );
         box.exec();
@@ -153,7 +139,7 @@ bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
     IconSelectDialog::iconsCollectionCheck();
 
     // Заполняется модель дерева
-    knowTreeModel->initFromXML(mytetraFile);
+    knowTreeModel->initFromXML(dbPath+"/mytetra.xml");
 
     return true;
 }

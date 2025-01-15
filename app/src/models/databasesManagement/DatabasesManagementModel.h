@@ -61,6 +61,9 @@ public:
   void deleteDatabaseByUser(const QString &dbPath, const QString &trashPath);
   void selectDatabase(const int &row);
 
+  bool isDbDirectory(const QString &path);
+  bool isTrashDirectory(const QString &path);
+
 private:
 
   QVariant getCell(int row, int column, int role) const;
@@ -75,9 +78,6 @@ private:
 
   void clearSelection();
   void selectDirectories(const QString &dbPath, const QString &trashPath);
-
-  bool isDbDirectory(const QString &path);
-  bool isTrashDirectory(const QString &path);
 
   QPair<QString, QString> getDirectoriesFromConfigFile(const QString &path);
 

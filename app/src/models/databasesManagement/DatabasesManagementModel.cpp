@@ -250,6 +250,16 @@ void DatabasesManagementModel::selectDirectories(const QString &dbPath,
 // Проверка, что каталог является каталогом с базой данных
 bool DatabasesManagementModel::isDbDirectory(const QString &path)
 {
+    if ( !QFileInfo(path).isDir() ) // Путь должен быть именно каталогом
+    {
+        return false;
+    }
+
+    if ( !QDir(path).exists() ) // Каталог должен существовать
+    {
+        return false;
+    }
+
     // Формальными признаками каталога с БД являются:
     // - Существование в нем файла mytetra.xml
     // - Существование в нем файла настроек database.ini
@@ -277,8 +287,20 @@ bool DatabasesManagementModel::isDbDirectory(const QString &path)
 // Проверка, что каталог является каталогом корзины
 bool DatabasesManagementModel::isTrashDirectory(const QString &path)
 {
-    // Формальным признаком каталога с корзиной является то, что он существует
-    return QFileInfo(path).isDir();
+    // Формальным признаком каталога с корзиной является то,
+    // что это каталог и он существует
+
+    if ( !QFileInfo(path).isDir() ) // Путь должен быть именно каталогом
+    {
+        return false;
+    }
+
+    if ( !QDir(path).exists() ) // Каталог должен существовать
+    {
+        return false;
+    }
+
+    return true;
 }
 
 
