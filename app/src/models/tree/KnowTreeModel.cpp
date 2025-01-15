@@ -530,7 +530,6 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
 }
 
 
-// Преобразование DOM-документа согласно таблицам трансляции
 void KnowTreeModel::translateImportDomData( QDomDocument &doc ,
                                             QString elementName,
                                             QString elementAttribute,
@@ -550,7 +549,9 @@ void KnowTreeModel::translateImportDomData( QDomDocument &doc ,
 
 
 // Находятся совпадающие ID в импортируемых данных и в основной базе для веток
-QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &doc, QString elementName, QString attributeName)
+QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &doc,
+                                                                 QString elementName,
+                                                                 QString attributeName)
 {
   QMap<QString, QString> translateTable;
 

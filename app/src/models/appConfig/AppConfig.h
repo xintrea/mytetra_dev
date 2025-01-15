@@ -262,7 +262,7 @@ public:
 
 private:
 
-    QSettings *conf; // было static
+    QSettings *conf = nullptr; // было static
 
     QString get_parameter(QString name);
 
