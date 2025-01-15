@@ -264,7 +264,7 @@ void RecordTableController::setTableData(RecordTableData *rtData)
   // qApp->setOverrideCursor(cursor_wait);
   find_object<MainWindow>("mainwindow")->setCursor(Qt::BusyCursor);
 
-  // Указатель на данные сообщается источнику данных
+  // Указатель на данные сообщается модели
   recordSourceModel->setTableData(rtData);
 
   // Надо обязательно сбросить selection model

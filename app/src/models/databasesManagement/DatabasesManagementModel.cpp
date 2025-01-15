@@ -32,7 +32,8 @@ void DatabasesManagementModel::initData()
     this->scanDirectoriesFromConfig();
     this->scanDirectoriesFromKnownbasesConfig();
 
-    this->selectDirectories(mytetraConfig.get_tetradir(), mytetraConfig.get_trashdir());
+    this->selectDirectories(mytetraConfig.get_tetradir(),
+                            mytetraConfig.get_trashdir());
 }
 
 
@@ -229,7 +230,8 @@ void DatabasesManagementModel::clearSelection()
 
 
 // Выставление пометки что директории базы и корзины выбраны в качестве рабочих
-void DatabasesManagementModel::selectDirectories(const QString &dbPath, const QString &trashPath)
+void DatabasesManagementModel::selectDirectories(const QString &dbPath,
+                                                 const QString &trashPath)
 {
     this->clearSelection();
 
