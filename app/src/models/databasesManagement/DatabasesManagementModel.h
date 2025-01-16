@@ -34,12 +34,13 @@ class DatabasesManagementModel : public QAbstractTableModel
 {
   Q_OBJECT
 
-  struct DatabasesDirsInfo
+  // Информация о директории с базой данных
+  struct DatabaseDirInfo
   {
       QString dbPath;
       QString trashPath;
       QString descript;
-      bool isCurrentConfigPath=false;
+      bool isInConfigData=false; // Данные прописаны в каком-то конфиге
   };
 
 public:
@@ -74,7 +75,7 @@ private:
   void scanDirectoriesFromConfig();
   void scanDirectoriesFromKnownbasesConfig();
 
-  void scanDirectories(const QList< DatabasesDirsInfo > &dbDirs);
+  void scanDirectories(const QList< DatabaseDirInfo > &dbDirs);
 
   void clearSelection();
   void selectDirectories(const QString &dbPath, const QString &trashPath);
