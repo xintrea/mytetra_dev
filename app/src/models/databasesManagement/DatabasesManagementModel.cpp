@@ -189,7 +189,7 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &d
                     isExists=true;
 
                     // Пути текущего проверяемого элемента исправляются на пути в явном виде,
-                    // если они совпадают с прописанными в конфиге путями, так как форма записи путей
+                    // если они совпадают с прописанными в рабочем конфиге путями, так как форма записи путей
                     // в конфиге приоритетнее, чем просто абсолютные пути
                     if (isInConfigData)
                     {
@@ -205,6 +205,7 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &d
             {
                 QStringList tableLine;
 
+                // Если это путь из текущего рабочего конфига
                 if (isInConfigData)
                 {
                     // Путь из текущего конфига добавляется как есть, так как он может быть относительным

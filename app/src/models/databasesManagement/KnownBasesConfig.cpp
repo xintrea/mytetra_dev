@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "KnownBasesConfig.h"
+#include "DatabasesManagementModel.h"
 
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppConfigUpdater.h"
@@ -15,8 +16,8 @@ extern GlobalParameters globalParameters;
 
 const QString KnownBasesConfig::m_sectionPrefix="num";
 const QStringList KnownBasesConfig::m_availableFields={"dbPath",
-                                                     "trashPath",
-                                                     "descript"};
+                                                       "trashPath",
+                                                       "descript"};
 
 
 // Конструктор объекта настройки БД
@@ -41,24 +42,13 @@ KnownBasesConfig::~KnownBasesConfig()
 
 void KnownBasesConfig::init(void)
 {
-    // Создается имя файла конфигурации
-    // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
-    QString configFileName=globalParameters.getWorkDirectory()+"/knownbases.ini";
-
-    // Проверяется, есть ли файл конфигурации
-    QFile confFile(configFileName);
-    if (!confFile.exists())
-    {
-        // Если файла нет, создается конфигфайл с начальным содержимым
-        QSettings tempConf(configFileName, QSettings::IniFormat);
-
-        tempConf.setValue("version", 1);
-
-        tempConf.sync();
-    }
+    this->updateVersion_1();
+    this->updateVersion_2();
 
     // Создается указатель на объект хранилища конфигурации
-    m_conf=new QSettings(configFileName, QSettings::IniFormat, this);
+    m_conf=new QSettings(this->getConfigFileName(),
+                         QSettings::IniFormat,
+                         this);
 
     m_conf->sync();
 
@@ -69,6 +59,69 @@ void KnownBasesConfig::init(void)
 bool KnownBasesConfig::isInit(void)
 {
     return isInitFlag;
+}
+
+
+QString KnownBasesConfig::getConfigFileName()
+{
+    // QString configFileName=globalParameters.getWorkDirectory()+"/"+mytetraConfig.get_tetradir()+"/database.ini";
+    return globalParameters.getWorkDirectory()+"/knownbases.ini";
+}
+
+
+bool KnownBasesConfig::updateVersion_1()
+{
+    // Для первой версии файл создается, если он еще не был создан
+    // В новом файле нет нумерованных секций, они появляются в процессе работы
+    // В нумерованных секциях допустимы только переменные dbPath и trashPath
+
+    // Проверяется, есть ли файл конфигурации
+    QFile confFile( this->getConfigFileName() );
+    if (!confFile.exists())
+    {
+        // Если файла нет, создается конфигфайл с начальным содержимым
+        QSettings conf( this->getConfigFileName(), QSettings::IniFormat);
+
+        conf.setValue("version", 1);
+
+        conf.sync();
+    }
+
+    return true;
+}
+
+
+bool KnownBasesConfig::updateVersion_2()
+{
+    QSettings conf(this->getConfigFileName(), QSettings::IniFormat);
+
+    // Повышение версии возможно только с версии 1
+    if (conf.value("version").toInt()!=1)
+    {
+        return true;
+    }
+
+    conf.setValue("version", 2);
+
+    // Перебор нумерованных секций
+    QStringList sectionNames = conf.childGroups();
+    for (const auto &sectionName : sectionNames)
+    {
+        if (sectionName.startsWith( m_sectionPrefix ) )
+        {
+            QString descript = conf.value(sectionName+"/descript").toString();
+
+            // Добавляется переменная descript
+            if (descript.isEmpty())
+            {
+                conf.setValue(sectionName+"/descript", tr(DBMANAGEMENT_DEFAULT_DESCRIPT));
+            }
+        }
+    }
+
+    conf.sync();
+
+    return true;
 }
 
 
@@ -178,15 +231,9 @@ void KnownBasesConfig::renameSection(const QString &oldSection,
 
 
     // Удаляется старая секция
-    /*
-    m_conf->beginGroup(oldSection);
-    for (const QString &key : keys) {
-        m_conf->remove(key);
-    }
-    m_conf->endGroup();
-    */
     m_conf->remove(oldSection);
 }
+
 
 /*
 int KnownBasesConfig::get_crypt_mode(void)

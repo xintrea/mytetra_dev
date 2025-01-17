@@ -40,7 +40,9 @@ class DatabasesManagementModel : public QAbstractTableModel
       QString dbPath;
       QString trashPath;
       QString descript;
-      bool isInConfigData=false; // Данные прописаны в каком-то конфиге
+
+      // Флаг, что данные прописаны в текущем рабочем конфиге conf.ini,
+      bool isInConfigData=false;
   };
 
 public:

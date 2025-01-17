@@ -60,9 +60,13 @@ private:
     void renameSection(const QString &oldSection,
                        const QString &newSection);
 
-    //! Переномерация секций (используется после удаления)
+    //! Перенумерация секций (используется после удаления)
     void renumSections();
 
+    QString getConfigFileName();
+
+    bool updateVersion_1();
+    bool updateVersion_2();
 
     //! Префикс названия раздела в INI-файле
     static const QString m_sectionPrefix;
