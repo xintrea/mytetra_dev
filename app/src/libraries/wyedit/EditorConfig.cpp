@@ -1,6 +1,7 @@
 #include <QFileInfo>
 #include <QtGlobal>
 #include <QtDebug>
+#include <QTextCodec>
 
 #include "EditorConfig.h"
 #include "../../main.h"
@@ -29,6 +30,7 @@ EditorConfig::EditorConfig(QString config_file_name, QWidget *parent) : QWidget(
 
     // Создается объект работы с конфигурацией редактора
     conf=new QSettings(config_file_name, QSettings::IniFormat, this);
+    conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
     // conf->setPath(QSettings::IniFormat,QSettings::UserScope,file_dir);
     // conf->setPath(QSettings::IniFormat,QSettings::SystemScope,file_dir);
 

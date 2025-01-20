@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
+#include <QTextCodec>
 
 #include "main.h"
 #include "KnownBasesConfig.h"
@@ -46,9 +47,8 @@ void KnownBasesConfig::init(void)
     this->updateVersion_2();
 
     // Создается указатель на объект хранилища конфигурации
-    m_conf=new QSettings(this->getConfigFileName(),
-                         QSettings::IniFormat,
-                         this);
+    m_conf=new QSettings(this->getConfigFileName(), QSettings::IniFormat,this);
+    m_conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     m_conf->sync();
 
@@ -81,6 +81,7 @@ bool KnownBasesConfig::updateVersion_1()
     {
         // Если файла нет, создается конфигфайл с начальным содержимым
         QSettings conf( this->getConfigFileName(), QSettings::IniFormat);
+        conf.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
         conf.setValue("version", 1);
 
@@ -94,6 +95,7 @@ bool KnownBasesConfig::updateVersion_1()
 bool KnownBasesConfig::updateVersion_2()
 {
     QSettings conf(this->getConfigFileName(), QSettings::IniFormat);
+    conf.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     // Повышение версии возможно только с версии 1
     if (conf.value("version").toInt()!=1)

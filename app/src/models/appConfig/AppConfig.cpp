@@ -1,5 +1,6 @@
 #include <functional>
 #include <QRect>
+#include <QTextCodec>
 
 #include "main.h"
 #include "AppConfig.h"
@@ -45,6 +46,7 @@ void AppConfig::init(void)
 
     // Создается указатель на объект хранилища конфигурации
     conf=new QSettings(configFileName, QSettings::IniFormat, this);
+    conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     update_version_process();
 

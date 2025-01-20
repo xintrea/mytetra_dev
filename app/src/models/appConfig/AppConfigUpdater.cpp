@@ -1,4 +1,5 @@
 #include <QSettings>
+#include <QTextCodec>
 #include <QFile>
 
 #include "AppConfigUpdater.h"
@@ -31,6 +32,7 @@ void AppConfigUpdater::setConfigFile(QString fileName)
 
  // Создается рабочий объект для работы с конфигурацией
  conf=new QSettings(fileName, QSettings::IniFormat, this);
+ conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
  conf->setPath(QSettings::IniFormat, QSettings::UserScope,"./");
  conf->setPath(QSettings::IniFormat, QSettings::SystemScope,"./");
 }

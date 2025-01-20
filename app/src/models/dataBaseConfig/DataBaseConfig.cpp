@@ -1,6 +1,7 @@
 #include <QDir>
 #include <QFile>
 #include <QDebug>
+#include <QTextCodec>
 
 #include "main.h"
 #include "DataBaseConfig.h"
@@ -53,6 +54,7 @@ void DataBaseConfig::init(void)
   {
    // Если файла нет, создается конфигфайл с начальным содержимым
    QSettings tempConf(configFileName, QSettings::IniFormat);
+   tempConf.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
    tempConf.setValue("version", 1);
    tempConf.setValue("crypt_mode", 0);
@@ -65,6 +67,7 @@ void DataBaseConfig::init(void)
 
  // Создается указатель на объект хранилища конфигурации
  conf=new QSettings(configFileName, QSettings::IniFormat, this);
+ conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
  conf->sync();
 

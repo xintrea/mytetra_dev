@@ -407,6 +407,7 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
    // родителя, то считывание из файла конфигурации работать не будет. Разобраться
    // Вроде как это был баг одной из версий Qt, теперь считывание работает нормально
    QScopedPointer<QSettings> conf( new QSettings(fileName, QSettings::IniFormat, this) );
+   conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
    // Если есть переменная version
    if(conf->contains("version"))

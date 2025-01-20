@@ -65,6 +65,7 @@ private:
 
     QString getConfigFileName();
 
+    //! Обновление версий конфига knownbases.ini
     bool updateVersion_1();
     bool updateVersion_2();
 

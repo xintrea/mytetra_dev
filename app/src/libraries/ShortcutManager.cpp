@@ -1,5 +1,6 @@
 #include <QFile>
 #include <QDebug>
+#include <QTextCodec>
 
 #include "main.h"
 #include "ShortcutManager.h"
@@ -192,6 +193,7 @@ void ShortcutManager::checkConfigFile()
 void ShortcutManager::initKeyTable()
 {
     QSettings config(configFileName, QSettings::IniFormat);
+    config.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     keyTable.clear();
 
@@ -251,6 +253,7 @@ void ShortcutManager::initKeyTable()
 void ShortcutManager::saveConfig(QMap<QString, Data> table)
 {
     QSettings config(configFileName, QSettings::IniFormat);
+    config.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     foreach (QString fullActionName, table.keys()) // Перебираются наименования действий
     {
