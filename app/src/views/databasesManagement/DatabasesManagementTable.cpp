@@ -10,6 +10,8 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/GestureHelper.h"
+#include "models/databasesManagement/DatabasesManagementModel.h"
+#include "DatabasesManagementPathDelegate.h"
 
 
 extern AppConfig mytetraConfig;
@@ -82,6 +84,22 @@ void DatabasesManagementTable::setModel(QAbstractItemModel *model)
     // После установки модели выделяется первая строка
     // Если ее нет - просто ничего не выделится
     this->selectRow(0);
+
+    // Устанавливается минимальная ширина столбцов по ширине их заголовков
+    QHeaderView *header = this->horizontalHeader();
+    for (int col = DBMANAGEMENT_COLUMN_DBPATH; col < model->columnCount(); ++col)
+    {
+        // this->resizeColumnToContents(col); // Автоматически подгоняем ширину к содержимому
+        int headerWidth = header->sectionSizeHint(col); // Получаем ширину заголовка
+        header->resizeSection(col, headerWidth);        // Устанавливаем ширину секции
+    }
+
+    // Для отображения путей устанавливаются делегат, который
+    // показывает правую часть пути а не начало пути
+    this->setItemDelegateForColumn(DBMANAGEMENT_COLUMN_DBPATH,
+                                   new DatabasesManagementPathDelegate(this));
+    this->setItemDelegateForColumn(DBMANAGEMENT_COLUMN_TRASHPATH,
+                                   new DatabasesManagementPathDelegate(this));
 }
 
 

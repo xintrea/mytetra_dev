@@ -214,7 +214,7 @@ void DatabasesManagementController::onCreateClicked()
         msgBox.setText(tr("This database directory already using "
                           "in databases list.\n"
                           "First, please delete corresponding database "
-                          "from databases list"));
+                          "from databases list, and try again"));
         msgBox.exec();
         return;
     }
@@ -401,7 +401,7 @@ void DatabasesManagementController::onDeleteClicked()
     // Выбор режима удаления
     QMessageBox box;
     box.setWindowTitle(tr("Deleting a database"));
-    box.setText(tr("<b>Select delete mode"));
+    box.setText(tr("<b>Select delete mode</b>"));
     box.setInformativeText(tr("Select the mode in which you want to delete"));
     QPushButton *softDelete = box.addButton(tr("Remove from list"), QMessageBox::ActionRole);
     QPushButton *fullDelete = box.addButton(tr("Delete with the data"), QMessageBox::ActionRole);

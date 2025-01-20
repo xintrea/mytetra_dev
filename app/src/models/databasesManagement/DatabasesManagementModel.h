@@ -73,13 +73,25 @@ private:
 
   void initData();
 
+
+  //! Запоминание директорий с базами из известных возможных мест на диске
   void scanDirectoriesDirect();
+
+  //! Запоминание директории с базой из conf.ini
   void scanDirectoriesFromConfig();
+
+  //! Запоминание директорий с базами из knownbases.ini
   void scanDirectoriesFromKnownbasesConfig();
 
+  //! Универсальный метод, проверяющий переданный список директорий
+  //! и сохраняющий в mTableData действительно существующие директории
   void scanDirectories(const QList< DatabaseDirInfo > &dbDirs);
 
+
+  //! Снятие пометки выбора со всех баз
   void clearSelection();
+
+  //! Выбор директории БД, с которой происходит работа пользователя
   void selectDirectories(const QString &dbPath, const QString &trashPath);
 
   QPair<QString, QString> getDirectoriesFromConfigFile(const QString &path);

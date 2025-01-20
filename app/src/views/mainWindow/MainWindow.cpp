@@ -604,15 +604,15 @@ void MainWindow::initPreferencesMenu(QMenu *menu)
 {
     QMap< QString, QAction **> map;
 
-    map[tr("Main")]      = &actionDirectPreferencesMain;
-    map[tr("Appearance")]= &actionDirectPreferencesAppearance;
-    map[tr("Crypt")]     = &actionDirectPreferencesCrypt;
-    map[tr("Syncro")]    = &actionDirectPreferencesSyncro;
-    map[tr("Note Area")] = &actionDirectPreferencesRecordTable;
-    map[tr("Attaches")]  = &actionDirectPreferencesAttach;
-    map[tr("Keyboard")]  = &actionDirectPreferencesKeyboard;
-    map[tr("History")]   = &actionDirectPreferencesHistory;
-    map[tr("Misc")]      = &actionDirectPreferencesMisc;
+    map[tr("Main")]       = &actionDirectPreferencesMain;
+    map[tr("Appearance")] = &actionDirectPreferencesAppearance;
+    map[tr("Crypt")]      = &actionDirectPreferencesCrypt;
+    map[tr("Syncro")]     = &actionDirectPreferencesSyncro;
+    map[tr("Notes Area")] = &actionDirectPreferencesRecordTable;
+    map[tr("Attaches")]   = &actionDirectPreferencesAttach;
+    map[tr("Keyboard")]   = &actionDirectPreferencesKeyboard;
+    map[tr("History")]    = &actionDirectPreferencesHistory;
+    map[tr("Misc")]       = &actionDirectPreferencesMisc;
 
     for(auto pageName : map.keys())
     {

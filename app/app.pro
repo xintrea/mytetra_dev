@@ -166,6 +166,7 @@ HEADERS = src/main.h \
     src/views/appConfigWindow/AppConfigPage_Appearance.h \
     src/views/appConfigWindow/AppConfigPage_History.h \
     src/views/consoleEmulator/CommandRun.h \
+    src/views/databasesManagement/DatabasesManagementPathDelegate.h \
     src/views/databasesManagement/DatabasesManagementScreen.h \
     src/views/databasesManagement/DatabasesManagementTable.h \
     src/views/installDialog/InstallDialog.h \
@@ -329,6 +330,7 @@ SOURCES = src/main.cpp \
     src/views/appConfigWindow/AppConfigPage_Appearance.cpp \
     src/views/appConfigWindow/AppConfigPage_History.cpp \
     src/views/consoleEmulator/CommandRun.cpp \
+    src/views/databasesManagement/DatabasesManagementPathDelegate.cpp \
     src/views/databasesManagement/DatabasesManagementScreen.cpp \
     src/views/databasesManagement/DatabasesManagementTable.cpp \
     src/views/installDialog/InstallDialog.cpp \

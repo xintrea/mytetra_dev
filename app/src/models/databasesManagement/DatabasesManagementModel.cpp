@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QCommonStyle>
+#include <QTextCodec>
 
 #include "main.h"
 #include "DatabasesManagementModel.h"
@@ -49,7 +50,7 @@ void DatabasesManagementModel::scanDirectoriesDirect()
     workingPath=mainProgramFileInfo.absolutePath();
     dbDirInfo.dbPath   =workingPath+"/data";
     dbDirInfo.trashPath=workingPath+"/trash";
-    dbDirInfo.descript =tr("Knowledge base in executable binary file directory %1").arg(workingPath);
+    dbDirInfo.descript =tr("Knowledge base in application executable binary file directory %1").arg(workingPath);
     dbDirInfo.isInConfigData=false;
     dbDirs << dbDirInfo;
 
@@ -116,9 +117,10 @@ QPair<QString, QString> DatabasesManagementModel::getDirectoriesFromConfigFile(c
     if (confFile.exists())
     {
         QSettings conf(path, QSettings::IniFormat);
+        conf.setIniCodec( QTextCodec::codecForName("UTF-8") );
 
         if (conf.contains("tetradir") and
-           conf.contains("trashdir"))
+            conf.contains("trashdir"))
         {
             return QPair<QString, QString>( conf.value("tetradir").toString(),
                                             conf.value("trashdir").toString() );
@@ -139,16 +141,48 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
         return;
     }
 
+    // Напрямую заполняется mTableData без проверки, является ли
+    // перечисленные в knownbases.ini действительно директориями с БД.
+    // Это нужно из-за того, что все записи, попадающие в knownbases.ini
+    // проходят множественные проверки в момент добавления и не могут
+    // содержать некорректные пути.
+    // А так же даже если пути некорректны, это могут быть пути
+    // к сетевым ресурсам в примонтированном каталоге, которые в данный
+    // момент недоступны, но которые надо иметь возможность выбрать
+    // когда сетевой ресурс подключен
     for (int i=0; i<n; ++i)
     {
-        QString dbPath=mKnownBasesConfig.getDbParameter(i, "dbPath");
-        QString trashPath=mKnownBasesConfig.getDbParameter(i, "trashPath");
-        QString descript=tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
+        QString dbPath    = mKnownBasesConfig.getDbParameter(i, "dbPath");
+        QString trashPath = mKnownBasesConfig.getDbParameter(i, "trashPath");
+        QString descript  = mKnownBasesConfig.getDbParameter(i, "descript");
+        if (descript.isEmpty())
+        {
+            descript=tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
+        }
 
-        QStringList tableLine;
-        tableLine << "" << dbPath << trashPath << descript;
+        // Если в списке баз уже есть база с таким же путем к БД и корзине
+        // то ее описание заменяется на значение из knownbases.ini
+        // а сама строка не добавляется, так как строка с этой базой
+        // в списке для вывода на экран уже есть
+        bool isDouble = false;
+        for (auto &tableData : mTableData)
+        {
+            if (tableData[DBMANAGEMENT_COLUMN_DBPATH] == dbPath and
+                tableData[DBMANAGEMENT_COLUMN_TRASHPATH] == trashPath )
+            {
+                tableData[DBMANAGEMENT_COLUMN_DESCRIPT] = descript;
+                isDouble = true;
+                break;
+            }
+        }
 
-        mTableData << tableLine;
+        if ( !isDouble )
+        {
+            QStringList tableLine;
+            tableLine << "" << dbPath << trashPath << descript;
+
+            mTableData << tableLine;
+        }
     }
 }
 

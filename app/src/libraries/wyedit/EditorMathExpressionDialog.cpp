@@ -115,14 +115,14 @@ void EditorMathExpressionDialog::setupUi()
 
     /* Область работы с картинкой формулы */
     // Метка, обозначающая зону отображения картинки формулы
-    pictureFormalaLabel = new QLabel(tr("Picture formula"), this);
+    pictureFormulaLabel = new QLabel(tr("Formula image"), this);
 
     // Масштабирование картинки до размеров ScrollArea
-    fitToScrollAreaCheckBox = new QCheckBox(tr("Fit to scroll area for big formula"), this);
+    fitToScrollAreaCheckBox = new QCheckBox(tr("Fit to scroll area (for large formulas)"), this);
     fitToScrollAreaCheckBox->setChecked(true);
 
     // Переключатели обновления картинки: по таймеру или в реальном времени
-    timerRadioButton = new QRadioButton(tr("Timer update (%1) sec.").arg(mathExpressionUpdateTime), this);
+    timerRadioButton = new QRadioButton(tr("Update every %1 sec.").arg(mathExpressionUpdateTime), this);
     timerRadioButton->setChecked(true);
     realTimeRadioButton = new QRadioButton(tr("Real time update"), this);
 
@@ -199,7 +199,7 @@ void EditorMathExpressionDialog::assembly()
     /* Формирование области контролов масштабирования работы с картинкой формулы */
     // Область контролов по работе с картинкой
     pictureFormulaControlLayout = new QHBoxLayout();
-    pictureFormulaControlLayout->addWidget(pictureFormalaLabel);
+    pictureFormulaControlLayout->addWidget(pictureFormulaLabel);
     pictureFormulaControlLayout->addStretch();
     pictureFormulaControlLayout->addWidget(timerRadioButton);
     pictureFormulaControlLayout->addWidget(realTimeRadioButton);

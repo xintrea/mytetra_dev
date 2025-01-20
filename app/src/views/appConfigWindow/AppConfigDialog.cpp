@@ -48,7 +48,7 @@ AppConfigDialog::AppConfigDialog(const QString &firstPageName, QWidget *parent)
     pageSynchro    =configDialog->addWidget(new AppConfigPage_Synchro( parent ),
                                             QObject::tr("Synchro"));
     pageRecordTable=configDialog->addWidget(new AppConfigPage_RecordTable( parent ),
-                                            QObject::tr("Note area"));
+                                            QObject::tr("Notes area"));
     pageAttach     =configDialog->addWidget(new AppConfigPage_Attach( parent ),
                                             QObject::tr("Attaches"));
     pageKeyboard   =configDialog->addWidget(new AppConfigPage_Keyboard( parent ),
