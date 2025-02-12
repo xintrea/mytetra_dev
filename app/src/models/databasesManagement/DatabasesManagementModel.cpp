@@ -141,7 +141,7 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
         return;
     }
 
-    // Напрямую заполняется mTableData без проверки, является ли
+    // Напрямую заполняется mTableData _без_ проверки, является ли
     // перечисленные в knownbases.ini действительно директориями с БД.
     // Это нужно из-за того, что все записи, попадающие в knownbases.ini
     // проходят множественные проверки в момент добавления и не могут
@@ -164,6 +164,7 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
         // то ее описание заменяется на значение из knownbases.ini
         // а сама строка не добавляется, так как строка с этой базой
         // в списке для вывода на экран уже есть
+        /*
         bool isDouble = false;
         for (auto &tableData : mTableData)
         {
@@ -183,6 +184,30 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 
             mTableData << tableLine;
         }
+        */
+
+
+        // Если в списке баз уже есть база с таким же путем к БД и корзине
+        // то такая запись удаляется, а новая запись из knownbases.ini добавляется
+        // Это нужно чтобы возле путей были осмысленные названия, заданные пользователем
+        // и чтобы последовательность баз, перечисленных в knownbases.ini не менялась
+        for (auto it = mTableData.begin(); it != mTableData.end();)
+        {
+            auto tableData = *it;
+
+            if (tableData[DBMANAGEMENT_COLUMN_DBPATH] == dbPath and
+                tableData[DBMANAGEMENT_COLUMN_TRASHPATH] == trashPath)
+            {
+                it = mTableData.erase(it); // Удаление элемента из перечня баз и сдвиг итератора
+            }
+            else
+                ++it; // Переход к следующему элементу
+        }
+
+        // Безусловное добавление считанной строки в перечень баз
+        QStringList tableLine;
+        tableLine << "" << dbPath << trashPath << descript;
+        mTableData << tableLine;
     }
 }
 
