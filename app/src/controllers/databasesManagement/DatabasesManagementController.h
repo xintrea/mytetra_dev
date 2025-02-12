@@ -26,6 +26,8 @@ public slots:
   void onDeleteClicked();
   void onCopyClicked();
 
+  void onDoubleClicked(const QModelIndex &index);
+
 protected:
 
   void addDatabase(const QString &dbPath,

@@ -1103,6 +1103,11 @@ MyTetra будет складывать копии файлов редактир
         <translation>&lt;b&gt;Выберите режим удаления&lt;/b&gt;</translation>
     </message>
     <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="439"/>
+        <source>You did not write &quot;yes&quot;, the database deletion is canceled.</source>
+        <translation>Вы не написали &quot;yes&quot;, удаление БД отменено.</translation>
+    </message>
+    <message>
         <source>&lt;b&gt;Select delete mode</source>
         <translation type="vanished">&lt;b&gt;Выберите режим удаления&lt;/b&gt;</translation>
     </message>
@@ -1166,22 +1171,22 @@ MyTetra будет складывать копии файлов редактир
         <translation>База знаний из конфигурационного файла в пользовательской директории %1</translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="472"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="497"/>
         <source>Sel.</source>
         <translation>Выбр.</translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="475"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="500"/>
         <source>Database path</source>
         <translation>Путь к базе данных</translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="478"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="503"/>
         <source>Trash path</source>
         <translation>Путь к корзине</translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="481"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="506"/>
         <source>Description</source>
         <translation>Описание</translation>
     </message>
@@ -1222,7 +1227,7 @@ MyTetra будет складывать копии файлов редактир
 <context>
     <name>DatabasesManagementTable</name>
     <message>
-        <location filename="../../../src/views/databasesManagement/DatabasesManagementTable.cpp" line="129"/>
+        <location filename="../../../src/views/databasesManagement/DatabasesManagementTable.cpp" line="135"/>
         <source>Action log is empty
 Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation>Журнал действий пуст.

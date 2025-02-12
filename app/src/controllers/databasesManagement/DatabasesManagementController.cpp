@@ -435,6 +435,10 @@ void DatabasesManagementController::onDeleteClicked()
 
         if ( ! (ok && text=="yes"))
         {
+            QMessageBox msgBox;
+            msgBox.setText(tr("You did not write \"yes\", the database deletion is canceled."));
+            msgBox.exec();
+
             return;
         }
     }
@@ -498,6 +502,21 @@ void DatabasesManagementController::onCopyClicked()
     }
 
     QApplication::clipboard()->setText(selectedText);
+}
+
+
+void DatabasesManagementController::onDoubleClicked(const QModelIndex &index)
+{
+    if (!index.isValid())
+    {
+        return;
+    }
+
+    // Вызывается выбор БД
+    // Не нужно передавать никаких параметров, например номера строки, потому что
+    // при первом клике курсор сам перейдет на выбираемую строку, а она
+    // автоматически определится внутри метода onSelectClicked()
+    this->onSelectClicked();
 }
 
 

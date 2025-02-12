@@ -897,6 +897,11 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
         <source>Write &quot;yes&quot; to confirm:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="439"/>
+        <source>You did not write &quot;yes&quot;, the database deletion is canceled.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DatabasesManagementModel</name>
@@ -923,22 +928,22 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="472"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="497"/>
         <source>Sel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="475"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="500"/>
         <source>Database path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="478"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="503"/>
         <source>Trash path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="481"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="506"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
@@ -979,7 +984,7 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
 <context>
     <name>DatabasesManagementTable</name>
     <message>
-        <location filename="../../../src/views/databasesManagement/DatabasesManagementTable.cpp" line="129"/>
+        <location filename="../../../src/views/databasesManagement/DatabasesManagementTable.cpp" line="135"/>
         <source>Action log is empty
 Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation type="unfinished"></translation>

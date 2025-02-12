@@ -6,6 +6,7 @@
 #include "DatabasesManagementTable.h"
 #include "DatabasesManagementScreen.h"
 #include "controllers/actionLog/ActionLogController.h"
+#include "controllers/databasesManagement/DatabasesManagementController.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
@@ -68,6 +69,11 @@ void DatabasesManagementTable::setupSignals(void)
   // (пока долгое нажатие не обрабатывается и сигнал не эмитируется)
   connect(this, SIGNAL(tapAndHoldGestureFinished(const QPoint &)),
           this, SLOT(onCustomContextMenuRequested(const QPoint &)));
+
+  // Соединение для обработки двойного клика по строке с БД
+  // (будет вызван выбор БД)
+  connect(this, &DatabasesManagementTable::doubleClicked,
+          controller, &DatabasesManagementController::onDoubleClicked);
 }
 
 
