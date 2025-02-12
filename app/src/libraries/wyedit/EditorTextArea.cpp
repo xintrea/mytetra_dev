@@ -219,11 +219,18 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
 void EditorTextArea::mousePressEvent(QMouseEvent *event)
 {
     // Если клик происходит вместе с клавишей-модификатором Ctrl
-    if( event->type()==QEvent::MouseButtonPress && (QApplication::keyboardModifiers() & Qt::ControlModifier) ) {
+    if( event->type()==QEvent::MouseButtonPress && (QApplication::keyboardModifiers() & Qt::ControlModifier) )
+    {
         QString href = this->anchorAt(event->pos());
         if(!href.isEmpty())
             emit clickedOnReference(href);
-    } else {
+
+        // Cобытие игнорируется, чтобы текстовый курсор не переместился в место где сделан клик
+        event->ignore();
+        return;
+    }
+    else
+    {
         qApp->restoreOverrideCursor();
     }
 
