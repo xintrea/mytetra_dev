@@ -9,7 +9,9 @@
 #include "libraries/helpers/UniqueIdHelper.h"
 
 
-EditorMathExpressionDialog::EditorMathExpressionDialog(MathExpressionFormatter *mathExpressionFormatter, QWidget *parent) : QDialog(parent)
+EditorMathExpressionDialog::EditorMathExpressionDialog(MathExpressionFormatter *mathExpressionFormatter,
+                                                       QWidget *parent) :
+    QDialog(parent)
 {
     // Период обновления картинки по таймеру (сек.)
     EditorConfig *conf = find_object<EditorConfig>("editorconfig");
@@ -122,7 +124,8 @@ void EditorMathExpressionDialog::setupUi()
     fitToScrollAreaCheckBox->setChecked(true);
 
     // Переключатели обновления картинки: по таймеру или в реальном времени
-    timerRadioButton = new QRadioButton(tr("Update every %1 sec.").arg(mathExpressionUpdateTime), this);
+    timerRadioButton = new QRadioButton(tr("Update every %1 sec.").arg(mathExpressionUpdateTime),
+                                        this);
     timerRadioButton->setChecked(true);
     realTimeRadioButton = new QRadioButton(tr("Real time update"), this);
 
@@ -165,33 +168,44 @@ void EditorMathExpressionDialog::setupUi()
 void EditorMathExpressionDialog::setupSignals()
 {
     // Обработка переключения режима масштабирования картинки формулы
-    connect(fitToScrollAreaCheckBox, &QCheckBox::clicked, this, &EditorMathExpressionDialog::onSwitchFitToScrollArea);
+    connect(fitToScrollAreaCheckBox, &QCheckBox::clicked,
+            this, &EditorMathExpressionDialog::onSwitchFitToScrollArea);
 
     // Увеличение масштаба области текста формулы
-    connect(textFormulaZoomInPushButton, &QPushButton::clicked, this, &EditorMathExpressionDialog::onTextZoomIn);
+    connect(textFormulaZoomInPushButton, &QPushButton::clicked,
+            this, &EditorMathExpressionDialog::onTextZoomIn);
 
     // Уменьшение масштаба области текста формулы
-    connect(textFormulaZoomOutPushButton, &QPushButton::clicked, this, &EditorMathExpressionDialog::onTextZoomOut);
+    connect(textFormulaZoomOutPushButton, &QPushButton::clicked,
+            this, &EditorMathExpressionDialog::onTextZoomOut);
 
     // Установка флага изменения формулы при наборе символов
-    connect(textArea, &QTextEdit::textChanged, this, &EditorMathExpressionDialog::onTextChanged);
+    connect(textArea, &QTextEdit::textChanged,
+            this, &EditorMathExpressionDialog::onTextChanged);
 
     // Обработка undo и redo в редакторе формулы - перерисовка картинки
-    connect(textArea, &TexTextEdit::isUndo, this, &EditorMathExpressionDialog::onUndo);
-    connect(textArea, &TexTextEdit::isRedo, this, &EditorMathExpressionDialog::onRedo);
+    connect(textArea, &TexTextEdit::isUndo,
+            this, &EditorMathExpressionDialog::onUndo);
+    connect(textArea, &TexTextEdit::isRedo,
+            this, &EditorMathExpressionDialog::onRedo);
 
     // Переключатели обновления картинки: по таймеру или в реальном времени (включение или отключение таймера)
-    connect(timerRadioButton, &QRadioButton::clicked, this, &EditorMathExpressionDialog::onStartTimer);
-    connect(realTimeRadioButton, &QRadioButton::clicked, this, &EditorMathExpressionDialog::onStopTimer);
+    connect(timerRadioButton, &QRadioButton::clicked,
+            this, &EditorMathExpressionDialog::onStartTimer);
+    connect(realTimeRadioButton, &QRadioButton::clicked,
+            this, &EditorMathExpressionDialog::onStopTimer);
 
     // Обработка кнопки OK
-    connect(dialogButtonBox, &QDialogButtonBox::accepted, this, &EditorMathExpressionDialog::accept);
+    connect(dialogButtonBox, &QDialogButtonBox::accepted,
+            this, &EditorMathExpressionDialog::accept);
 
     // Обработка кнопки Cancel
-    connect(dialogButtonBox, &QDialogButtonBox::rejected, this, &EditorMathExpressionDialog::reject);
+    connect(dialogButtonBox, &QDialogButtonBox::rejected,
+            this, &EditorMathExpressionDialog::reject);
 
     // Подключение таймера для обновления картинки формулы
-    connect(timer, &QTimer::timeout, this, &EditorMathExpressionDialog::onTimerAlarm);
+    connect(timer, &QTimer::timeout,
+            this, &EditorMathExpressionDialog::onTimerAlarm);
 }
 
 void EditorMathExpressionDialog::assembly()
@@ -342,7 +356,8 @@ void EditorMathExpressionDialog::onRedo()
 void EditorMathExpressionDialog::updateFormulaPicture()
 {
     QString tempGifFileName = QDir::tempPath()+"/"+getUniqueId()+".gif";
-    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(), tempGifFileName, false );
+    mathExpressionFormatter->createGifFromMathExpression( textArea->toPlainText(),
+                                                          tempGifFileName, false );
 
     QPixmap currentPixmap(tempGifFileName);
 

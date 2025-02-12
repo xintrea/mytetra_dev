@@ -165,7 +165,7 @@ HEADERS = src/main.h \
     src/models/databasesManagement/KnownBasesConfig.h \
     src/views/appConfigWindow/AppConfigPage_Appearance.h \
     src/views/appConfigWindow/AppConfigPage_History.h \
-    src/views/consoleEmulator/CommandRun.h \
+    src/views/consoleEmulator/CommandRunner.h \
     src/views/databasesManagement/DatabasesManagementPathDelegate.h \
     src/views/databasesManagement/DatabasesManagementScreen.h \
     src/views/databasesManagement/DatabasesManagementTable.h \
@@ -329,7 +329,7 @@ SOURCES = src/main.cpp \
     src/models/databasesManagement/KnownBasesConfig.cpp \
     src/views/appConfigWindow/AppConfigPage_Appearance.cpp \
     src/views/appConfigWindow/AppConfigPage_History.cpp \
-    src/views/consoleEmulator/CommandRun.cpp \
+    src/views/consoleEmulator/CommandRunner.cpp \
     src/views/databasesManagement/DatabasesManagementPathDelegate.cpp \
     src/views/databasesManagement/DatabasesManagementScreen.cpp \
     src/views/databasesManagement/DatabasesManagementTable.cpp \

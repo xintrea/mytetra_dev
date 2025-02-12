@@ -16,7 +16,7 @@
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/GlobalParameters.h"
-#include "views/consoleEmulator/CommandRun.h"
+#include "views/consoleEmulator/CommandRunner.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/WindowSwitcher.h"
@@ -115,8 +115,8 @@ void MainWindow::setupUI(void)
     globalParameters.setWindowSwitcher(windowSwitcher);
 
     // Вспомогательный объект с виджетом синхронизации базы знаний
-    syncroCommandRun=new CommandRun( this );
-    globalParameters.setSyncroCommandRun( syncroCommandRun );
+    syncroCommandRun=new CommandRunner( this );
+    globalParameters.setSyncroCommandRunner( syncroCommandRun );
 
     // todo: Для проверки, почему то в этом месте поиск объекта по имени не работает, разобраться.
     // MetaEditor *edView=find_object<MetaEditor>("editorScreen");
@@ -201,9 +201,9 @@ void MainWindow::setupSignals(void)
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
 
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
-    connect(syncroCommandRun, &CommandRun::finishWork,
+    connect(syncroCommandRun, &CommandRunner::finishWork,
             recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
-    connect(syncroCommandRun, &CommandRun::finishWork,
+    connect(syncroCommandRun, &CommandRunner::finishWork,
             this, &MainWindow::onSyncroCommandFinishWork);
 
     // Связывание сигнала вызова обработки открепляемых окон на предмет того,
@@ -1081,10 +1081,11 @@ void MainWindow::synchronization(bool visible)
     command.replace("%a", databasePath);
 
     // Запуск команды синхронизации
-    globalParameters.getSyncroCommandRun()->setWindowTitle(tr("MyTetra synchronization"));
-    globalParameters.getSyncroCommandRun()->setMessageText(tr("Synchronization in progress, please wait..."));
-    globalParameters.getSyncroCommandRun()->setCommand(command);
-    globalParameters.getSyncroCommandRun()->run(visible);
+    auto runner = globalParameters.getSyncroCommandRunnner();
+    runner->setWindowTitle(tr("MyTetra synchronization"));
+    runner->setMessageText(tr("Synchronization in progress, please wait..."));
+    runner->setCommand(command);
+    runner->run(visible);
 }
 
 

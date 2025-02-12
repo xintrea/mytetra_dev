@@ -718,93 +718,108 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>DatabasesManagementController</name>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="89"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="75"/>
+        <source>Can&apos;t switch database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="76"/>
+        <source>It is not possible to switch to another database because synchronization is running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="77"/>
+        <source>Wait for the synchronization to complete and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="112"/>
         <source>Select database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="90"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="113"/>
         <source>Errors detected when switching to database with
 path &apos;%1&apos;
 and trash path &apos;%2&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="104"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="129"/>
         <source>The selected database directory &apos;%1&apos; is not a database directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="115"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="141"/>
         <source>It is not possible to use the directory &apos;%1&apos; as a trash directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="150"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="177"/>
         <source>Create new database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="155"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="182"/>
         <source>&lt;b&gt;Select an empty directory&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="156"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="183"/>
         <source>To create a new database, please specify an existing empty directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="161"/>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="265"/>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="328"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="188"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="292"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="355"/>
         <source>I understand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="173"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="200"/>
         <source>Select empty directory for new DB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="188"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="215"/>
         <source>It is not possible to create a new database.
 The specified directory is not empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="214"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="241"/>
         <source>This database directory already using in databases list.
 First, please delete corresponding database from databases list, and try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="226"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="253"/>
         <source>&lt;b&gt;The following database directories will be created&lt;/b&gt;&lt;br&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="227"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="254"/>
         <source>Database data directory:&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="229"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="256"/>
         <source>Trash directory:&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="253"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="280"/>
         <source>Append exists database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="258"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="285"/>
         <source>&lt;b&gt;First step:&lt;/b&gt; select database directiory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="259"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="286"/>
         <source>To add an existing database,
 please select the directory
 where it is located.
@@ -812,93 +827,93 @@ This directory should contain the file mytetra.xml.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="278"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="305"/>
         <source>Select directory with an existing database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="292"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="319"/>
         <source>Can not find file mytetra.xml in this directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="311"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="338"/>
         <source>This database directory already using in databses list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="320"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="347"/>
         <source>&lt;b&gt;Second step:&lt;/b&gt; select trash directiory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="321"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="348"/>
         <source>For database append please select trash directory.
 MyTetra will put changed notes file copies and changed item tree copies to this directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="338"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="365"/>
         <source>Select trash directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="363"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="390"/>
         <source>You cannot add a trash directory in database directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="380"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="407"/>
         <source>You can select only one database for deletion.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="395"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="422"/>
         <source>You cannot delete the current working database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="403"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="430"/>
         <source>Deleting a database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="404"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="431"/>
         <source>&lt;b&gt;Select delete mode&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="405"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="432"/>
         <source>Select the mode in which you want to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="406"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="433"/>
         <source>Remove from list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="407"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="434"/>
         <source>Delete with the data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="408"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="435"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="430"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="457"/>
         <source>You are trying to delete a database with all its contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="431"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="458"/>
         <source>Write &quot;yes&quot; to confirm:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="439"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="466"/>
         <source>You did not write &quot;yes&quot;, the database deletion is canceled.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1305,37 +1320,37 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>EditorMathExpressionDialog</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="118"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="120"/>
         <source>Formula image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="121"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="123"/>
         <source>Fit to scroll area (for large formulas)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="125"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="127"/>
         <source>Update every %1 sec.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="127"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="130"/>
         <source>Real time update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="150"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="153"/>
         <source>Formula text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="154"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="157"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="158"/>
+        <location filename="../../../src/libraries/wyedit/EditorMathExpressionDialog.cpp" line="161"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2130,7 +2145,7 @@ You need to update MyTetra.</source>
     </message>
     <message>
         <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="567"/>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1129"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1130"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2247,27 +2262,27 @@ You need to update MyTetra.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1084"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1085"/>
         <source>MyTetra synchronization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1085"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1086"/>
         <source>Synchronization in progress, please wait...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1120"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1121"/>
         <source>&amp;Restore window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1123"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1124"/>
         <source>Ma&amp;ximize window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1126"/>
+        <location filename="../../../src/views/mainWindow/MainWindow.cpp" line="1127"/>
         <source>Mi&amp;nimize window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2285,7 +2300,7 @@ You need to update MyTetra.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="312"/>
+        <location filename="../../../src/libraries/wyedit/formatters/MathExpressionFormatter.cpp" line="314"/>
         <source>Error while parse TeX syntax</source>
         <translation type="unfinished"></translation>
     </message>

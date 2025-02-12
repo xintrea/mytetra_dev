@@ -21,6 +21,7 @@
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/IconSelectDialog.h"
 #include "controllers/recordTable/RecordTableController.h"
+#include "views/consoleEmulator/CommandRunner.h"
 
 
 extern GlobalParameters globalParameters;
@@ -66,8 +67,21 @@ void DatabasesManagementController::onSelectClicked()
         return;
     }
 
+    // Переключение возможно только если не идет синхронизация
+    if ( globalParameters.getSyncroCommandRunnner()->isRun() )
+    {
+        // Диалог информирования о том что в момент синхронизации переключение невозможно
+        QMessageBox box;
+        box.setWindowTitle(tr("Can't switch database"));
+        box.setText(tr("It is not possible to switch to another database because synchronization is running."));
+        box.setInformativeText(tr("Wait for the synchronization to complete and try again."));
+        box.setStandardButtons(QMessageBox::Ok);
+        box.setIcon( QMessageBox::Warning );
+        box.exec();
+        return;
+    }
+
     int row=indexList[0].row(); // Номер выбранной строки
-    const QModelIndex index = model->index(row, 0); // Индекс первого элемента выбранной строки
 
     // Переключение на выбранную БД
     QString dbPath    = model->getCellValue( row, DBMANAGEMENT_COLUMN_DBPATH );
@@ -76,18 +90,29 @@ void DatabasesManagementController::onSelectClicked()
 
     if (result)
     {
+        // Эти действия нужны если окно при выборе не закрывается
+        /*
         // Установка пометки выбора базы данных
         model->selectDatabase(row);
 
+        // Индекс первого элемента выбранной строки
+        const QModelIndex index = model->index(row, 0);
+
         // Выбор текущей строки
         view->setCurrentIndex(index);
+        */
+
+        // Закрытие окна управления БД
+        static_cast<QWidget *>( parent() )->close();
     }
     else
     {
         // Диалог информирования о проблеме
         QMessageBox box;
         box.setWindowTitle(tr("Select database"));
-        box.setText(tr("Errors detected when switching to database with\npath '%1'\nand trash path '%2'").arg(dbPath).arg(trashPath));
+        box.setText(tr("Errors detected when switching to database with\npath '%1'\nand trash path '%2'").
+                    arg(dbPath).
+                    arg(trashPath));
         box.setStandardButtons(QMessageBox::Ok);
         box.setIcon( QMessageBox::Critical );
         box.exec();
@@ -101,7 +126,8 @@ bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
     if ( !model->isDbDirectory(dbPath) )
     {
         QMessageBox box;
-        box.setText(tr("The selected database directory '%1' is not a database directory").arg(dbPath));
+        box.setText(tr("The selected database directory '%1' is not a database directory").
+                    arg(dbPath));
         box.setStandardButtons(QMessageBox::Ok);
         box.setIcon( QMessageBox::Critical );
         box.exec();
@@ -112,7 +138,8 @@ bool DatabasesManagementController::switchToDatabase(const QString &dbPath,
     if ( !model->isTrashDirectory(trashPath) )
     {
         QMessageBox box;
-        box.setText(tr("It is not possible to use the directory '%1' as a trash directory").arg(trashPath));
+        box.setText(tr("It is not possible to use the directory '%1' as a trash directory").
+                    arg(trashPath));
         box.setStandardButtons(QMessageBox::Ok);
         box.setIcon( QMessageBox::Critical );
         box.exec();

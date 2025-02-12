@@ -6,7 +6,7 @@
 #include <QTextCodec>
 #include <QtGlobal>
 
-#include "CommandRun.h"
+#include "CommandRunner.h"
 #include "ConsoleEmulator.h"
 #include "views/mainWindow/MainWindow.h"
 #include "main.h"
@@ -18,7 +18,7 @@ extern ActionLogger actionLogger;
 extern GlobalParameters globalParameters;
 
 
-CommandRun::CommandRun(QObject *parent) : QObject(parent)
+CommandRunner::CommandRunner(QObject *parent) : QObject(parent)
 {
     QString os=getOsFamily();
 
@@ -47,7 +47,7 @@ CommandRun::CommandRun(QObject *parent) : QObject(parent)
 }
 
 
-CommandRun::~CommandRun()
+CommandRunner::~CommandRunner()
 {
     if(m_process)
     {
@@ -64,7 +64,7 @@ CommandRun::~CommandRun()
 }
 
 
-QString CommandRun::getOsFamily()
+QString CommandRunner::getOsFamily()
 {
     QString os="unix";
 
@@ -76,28 +76,28 @@ QString CommandRun::getOsFamily()
 }
 
 
-void CommandRun::setCommand(QString cmd)
+void CommandRunner::setCommand(QString cmd)
 {
     m_command=cmd;
 }
 
 
-void CommandRun::setWindowTitle(QString title)
+void CommandRunner::setWindowTitle(QString title)
 {
     m_windowTitle=title;
 }
 
 
-void CommandRun::setMessageText(QString text)
+void CommandRunner::setMessageText(QString text)
 {
     m_messageText=text;
 }
 
 
 // Создание процесса, в котором будут выполняться команды
-void CommandRun::createProcessAndConsole()
+void CommandRunner::createProcessAndConsole()
 {
-    // Создается процесс
+    // Процесс очищается
     if(m_process)
     {
         m_process->close();
@@ -106,6 +106,8 @@ void CommandRun::createProcessAndConsole()
         delete m_process;
         m_process=nullptr;
     }
+
+    // Создается процесс
     m_process=new QProcess();
 
 
@@ -134,7 +136,7 @@ void CommandRun::createProcessAndConsole()
 
 
 // Удаление процесса, в котором выполнялись команды
-void CommandRun::removeProcessAndConsole(void)
+void CommandRunner::removeProcessAndConsole(void)
 {
     // Удаление процесса
     if(m_process)
@@ -171,7 +173,7 @@ void CommandRun::removeProcessAndConsole(void)
 
 
 // Команда, которая должна запускаться в процессе
-QString CommandRun::getCommandForProcessExecute()
+QString CommandRunner::getCommandForProcessExecute()
 {
     return m_shell+" \""+m_command+"\"";
 }
@@ -179,34 +181,43 @@ QString CommandRun::getCommandForProcessExecute()
 
 // Простой запуск консольных команд на исполнение с ожиданием завершения,
 // Метод возвращет код возврата выполняемой команды.
-// Консоль не создается, команду просто выполняется в процессе
-int CommandRun::runSimple()
+// Консоль не создается, команда просто выполняется в процессе
+int CommandRunner::runSimple()
 {
     // Если командный интерпретатор не установлен
     if(m_shell.length()==0)
         criticalError("ExecuteCommand::run() : Not detect available shell");
 
-    // Создается процесс
-    QProcess simpleProcess;
+    // Команда разбивается на программу и аргументы
+    QStringList args = QProcess::splitCommand( this->getCommandForProcessExecute() );
+    QString program = args.takeFirst(); // Первый элемент — это исполняемый файл
 
-    // Запускается команда на исполнение
-    return simpleProcess.execute( this->getCommandForProcessExecute() );
+    // Синхронно запускается команда на исполнение, т. е. с ожиданием завершения
+    int result = QProcess::execute( program, args );
+
+    return result;
+}
+
+
+bool CommandRunner::isRun()
+{
+    return m_isRun;
 }
 
 
 // Запуск процесса выполнения команды
-void CommandRun::run(bool visible)
+void CommandRunner::run(bool visible)
 {
     // Если командный интерпретатор не установлен
-    if(m_shell.length()==0)
+    if ( m_shell.length()==0 )
         criticalError("ExecuteCommand::run() : Not detect available shell");
 
-    m_isError=false;
+    m_isError = false;
 
     // Создается процесс и консоль к нему
     this->createProcessAndConsole();
 
-    if(visible)
+    if (visible)
         m_console->show();
 
 
@@ -216,37 +227,44 @@ void CommandRun::run(bool visible)
 
     // Обработка кнопки Cancel в виджете эмулятора консоли
     connect(m_console, &ConsoleEmulator::cancelConsole,
-            this, &CommandRun::onManualCloseProcess);
+            this, &CommandRunner::onManualCloseProcess);
 
     // Обработка ошибки, если таковая возникнет при работе процесса
     connect(m_process, &QProcess::errorOccurred,
-            this, &CommandRun::onProcessError);
+            this, &CommandRunner::onProcessError);
 
     // Отслеживание стандартного консольного вывода
     connect(m_process, &QProcess::readyReadStandardOutput,
-            this, &CommandRun::onReadyReadStandardOutput );
+            this, &CommandRunner::onReadyReadStandardOutput );
 
     // Отслеживание завершения запущенного процесса
     // (Сигнал finished перегружен, поэтому новый синтаксис надо писать в виде замыкания)
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             this, [=](int exitCode, QProcess::ExitStatus exitStatus){ this->onProcessFinish(exitCode, exitStatus); } );
 
+    // Команда разбивается на программу и аргументы
+    QStringList args = QProcess::splitCommand( this->getCommandForProcessExecute() );
+    QString program = args.takeFirst(); // Первый элемент — это исполняемый файл
+
+    m_isRun = true;
 
     // Запускается команда на исполнение внутри процесса
-    m_process->start( this->getCommandForProcessExecute() );
+    m_process->start( program, args );
 }
 
 
 // Слот, срабатывающий когда пользователь нажал Cancel в эмуляторе консоли
-void CommandRun::onManualCloseProcess(void)
+void CommandRunner::onManualCloseProcess(void)
 {
-    qDebug() << "Manual close process, PID" << m_process->pid();
+    qDebug() << "Manual close process, PID" << m_process->processId();
 
     this->removeProcessAndConsole();
+
+    m_isRun = false;
 }
 
 
-void CommandRun::onReadyReadStandardOutput()
+void CommandRunner::onReadyReadStandardOutput()
 {
     this->printOutput();
 }
@@ -254,14 +272,14 @@ void CommandRun::onReadyReadStandardOutput()
 
 // Данный слот вызывается когда выполнение процесса завершено,
 // и процесс уже неактивный
-void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
+void CommandRunner::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
 {
     qDebug() << Q_FUNC_INFO;
 
     this->printOutput();
 
     // Если была какая-то ошибка
-    if( m_isError or exitCode!=0 or exitStatus==QProcess::ExitStatus::CrashExit)
+    if ( m_isError or exitCode!=0 or exitStatus==QProcess::ExitStatus::CrashExit)
     {
         m_console->switchToErrorView();
 
@@ -274,10 +292,12 @@ void CommandRun::onProcessFinish(int exitCode, QProcess::ExitStatus exitStatus)
         // Иначе выполнение команды успешно завершилось, и консоль удаляется
         this->removeProcessAndConsole();
     }
+
+    m_isRun = false;
 }
 
 
-void CommandRun::onProcessError(QProcess::ProcessError error)
+void CommandRunner::onProcessError(QProcess::ProcessError error)
 {
     qDebug() << "Execute command detect error! Error code: " << error;
 
@@ -286,13 +306,15 @@ void CommandRun::onProcessError(QProcess::ProcessError error)
     actionLogger.addAction("syncroProcessError", data);
 
     m_isError=true;
+
+    m_isRun = false;
 }
 
 
 // Вывод стандартного вывода процесса в эмулятор консоли
-void CommandRun::printOutput() const
+void CommandRunner::printOutput() const
 {
-    if(!m_process or !m_console)
+    if (!m_process or !m_console)
     {
         return;
     }
@@ -300,7 +322,7 @@ void CommandRun::printOutput() const
     // Преобразование в QString, необходимо чтобы исключать строки с нулями
     QString output=m_outputCodec->toUnicode( m_process->readAllStandardOutput() );
 
-    if(output.length()>0)
+    if (output.length()>0)
     {
         m_console->addConsoleOutput(output);
         qDebug() << "[Console] " << output;

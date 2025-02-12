@@ -40,30 +40,30 @@ GlobalParameters::~GlobalParameters()
 
 void GlobalParameters::setMainProgramFile(QString file)
 {
- mainProgramFile=file;
+ m_mainProgramFile=file;
 }
 
 
 QString GlobalParameters::getMainProgramFile(void)
 {
- return mainProgramFile;
+ return m_mainProgramFile;
 }
 
 
 void GlobalParameters::init(void)
 {
- pointTreeScreen=nullptr;
- pointRecordTableScreen=nullptr;
- pointFindScreen=nullptr;
- pointMetaEditor=nullptr;
- pointStatusBar=nullptr;
- windowSwitcher=nullptr;
+ m_pointTreeScreen=nullptr;
+ m_pointRecordTableScreen=nullptr;
+ m_pointFindScreen=nullptr;
+ m_pointMetaEditor=nullptr;
+ m_pointStatusBar=nullptr;
+ m_windowSwitcher=nullptr;
 
  initCodepage(); // устанавливаются кодеки локали и кодеки консоли
 
  // После установки кодеков можно показать имя бинарника, и оно должно отобразиться правильно
  // даже если путь содержит каталог с национальными символами
- qDebug() << "Set main program file to " << mainProgramFile;
+ qDebug() << "Set main program file to " << m_mainProgramFile;
 
  initWorkDirectory(); // Инициализация рабочей директории
 }
@@ -99,15 +99,15 @@ QString GlobalParameters::getInitConsoleCodepage()
 
 void GlobalParameters::initCodepage(void)
 {
-    mSystemCodepage=getInitSystemCodepage();
-    qDebug() << "System code page: " << mSystemCodepage;
+    m_systemCodepage=getInitSystemCodepage();
+    qDebug() << "System code page: " << m_systemCodepage;
 
-    mConsoleCodepage=getInitConsoleCodepage();
-    qDebug() << "Console code page: " << mConsoleCodepage;
+    m_consoleCodepage=getInitConsoleCodepage();
+    qDebug() << "Console code page: " << m_consoleCodepage;
 
     // Системная кодировка (кодировка локали) устанавливается как основная
-    if(mSystemCodepage.size()>0) {
-        QTextCodec::setCodecForLocale(QTextCodec::codecForName(mSystemCodepage.toLatin1()));
+    if(m_systemCodepage.size()>0) {
+        QTextCodec::setCodecForLocale(QTextCodec::codecForName(m_systemCodepage.toLatin1()));
     }
 }
 
@@ -116,14 +116,14 @@ void GlobalParameters::initCodepage(void)
 // В этой кодировке происходит работа с именами файлов и директорий
 QString GlobalParameters::getSystemCodepage()
 {
-    return mSystemCodepage;
+    return m_systemCodepage;
 }
 
 
 // Кодировка консоли
 QString GlobalParameters::getConsoleCodepage()
 {
-    return mConsoleCodepage;
+    return m_consoleCodepage;
 }
 
 
@@ -145,7 +145,7 @@ void GlobalParameters::initWorkDirectory(void)
  bool enablePortable=false;
 
  // Путь к директории, где лежит бинарник
- QFileInfo mainProgramFileInfo(mainProgramFile);
+ QFileInfo mainProgramFileInfo(m_mainProgramFile);
  QString fullCurrentPath=mainProgramFileInfo.absolutePath();
 
  // Проверяется, можно ли читать и писать файлы в этой директории
@@ -184,7 +184,7 @@ void GlobalParameters::initWorkDirectory(void)
      }
 
      // Запоминается автоопределенный язык
-     installAutodetectLang=installDialog.getAutoDetectLang();
+     m_installAutodetectLang=installDialog.getAutoDetectLang();
  }
  else
  {
@@ -192,7 +192,7 @@ void GlobalParameters::initWorkDirectory(void)
  }
 
  // Заново запускается поиск рабочей директории, на этот раз она должна быть найдена
- workDirectory="";
+ m_workDirectory="";
  findWorkDirectory();
 }
 
@@ -223,7 +223,7 @@ void GlobalParameters::createPortableProgramFiles(void)
  qDebug() << "Create portable program files";
 
  // Путь к директории, где лежит бинарник
- QFileInfo mainProgramFileInfo(mainProgramFile);
+ QFileInfo mainProgramFileInfo(m_mainProgramFile);
  QString createFilePath=mainProgramFileInfo.absolutePath();
 
  createFirstAppFiles(createFilePath);
@@ -308,7 +308,7 @@ bool GlobalParameters::findWorkDirectory(void)
  // mainProgramFile - содержит путь к бинарнику относительно директории запуска
 
  // Директория, где была выполнена команда запуска
- QFileInfo mainProgramFileInfo(mainProgramFile);
+ QFileInfo mainProgramFileInfo(m_mainProgramFile);
  QString fullCurrentPath=mainProgramFileInfo.absolutePath();
 
  qDebug() << "Check full current path " << fullCurrentPath;
@@ -320,7 +320,7 @@ bool GlobalParameters::findWorkDirectory(void)
    // QDir dir=QDir("./");
    // QDir dir=QDir(QDir::currentPath());
    // workDirectory=dir.absolutePath();
-   workDirectory=fullCurrentPath;
+   m_workDirectory=fullCurrentPath;
   }
  else
   {
@@ -336,7 +336,7 @@ bool GlobalParameters::findWorkDirectory(void)
    if(isMytetraIniConfig(dir+"/conf.ini")==true)
     {
      qDebug() << "Config init file success find in home directory " << dir;
-     workDirectory=dir;
+     m_workDirectory=dir;
     }
    else
     {
@@ -352,7 +352,7 @@ bool GlobalParameters::findWorkDirectory(void)
      if(isMytetraIniConfig(dir+"/conf.ini")==true)
       {
        qDebug() << "Config init file success find in home subdirectory " << dir;
-       workDirectory=dir;
+       m_workDirectory=dir;
       }
      else
       qDebug() << "File conf.ini can't' find in home subdirectory " << dir;
@@ -360,7 +360,7 @@ bool GlobalParameters::findWorkDirectory(void)
   }
 
  // Если рабочая директория не определена
- if(workDirectory.length()==0)
+ if(m_workDirectory.length()==0)
   {
    qDebug() << "Cant find work directory with mytetra data";
    return false;
@@ -368,14 +368,14 @@ bool GlobalParameters::findWorkDirectory(void)
  else
   {
    // Иначе рабочая директория установлена
-   qDebug() << "Set work directory to " << workDirectory;
+   qDebug() << "Set work directory to " << m_workDirectory;
 
    // Устанавливается эта директория как рабочая
-   if(QDir::setCurrent(workDirectory))
+   if(QDir::setCurrent(m_workDirectory))
     return true;
    else
     {
-     criticalError("Can not set work directory as '"+workDirectory+"'. System problem.");
+     criticalError("Can not set work directory as '"+m_workDirectory+"'. System problem.");
     }
   }
 }
@@ -443,19 +443,19 @@ bool GlobalParameters::isMytetraIniConfig(QString fileName)
 
 QString GlobalParameters::getWorkDirectory(void)
 {
-    return workDirectory;
+    return m_workDirectory;
 }
 
 
 QString GlobalParameters::getActionLogFileName(void)
 {
-    return workDirectory+"/actionLog.txt";
+    return m_workDirectory+"/actionLog.txt";
 }
 
 
 QString GlobalParameters::getActionLogPrevFileName(void)
 {
-    return workDirectory+"/actionLogPrev.txt";
+    return m_workDirectory+"/actionLogPrev.txt";
 }
 
 
@@ -499,80 +499,80 @@ QString GlobalParameters::getApplicationName(void)
 
 void GlobalParameters::setTreeScreen(TreeScreen *point)
 {
-    pointTreeScreen=point;
+    m_pointTreeScreen=point;
 }
 
 TreeScreen *GlobalParameters::getTreeScreen()
 {
-    return pointTreeScreen;
+    return m_pointTreeScreen;
 }
 
 
 void GlobalParameters::setRecordTableScreen(RecordTableScreen *point)
 {
-    pointRecordTableScreen=point;
+    m_pointRecordTableScreen=point;
 }
 
 RecordTableScreen *GlobalParameters::getRecordTableScreen()
 {
-    return pointRecordTableScreen;
+    return m_pointRecordTableScreen;
 }
 
 
 void GlobalParameters::setFindScreen(FindScreen *point)
 {
-    pointFindScreen=point;
+    m_pointFindScreen=point;
 }
 
 FindScreen *GlobalParameters::getFindScreen()
 {
-    return pointFindScreen;
+    return m_pointFindScreen;
 }
 
 
 void GlobalParameters::setMetaEditor(MetaEditor *point)
 {
-    pointMetaEditor=point;
+    m_pointMetaEditor=point;
 }
 
 MetaEditor *GlobalParameters::getMetaEditor()
 {
-    return pointMetaEditor;
+    return m_pointMetaEditor;
 }
 
 
 void GlobalParameters::setStatusBar(QStatusBar *point)
 {
-    pointStatusBar=point;
+    m_pointStatusBar=point;
 }
 
 QStatusBar *GlobalParameters::getStatusBar()
 {
-    return pointStatusBar;
+    return m_pointStatusBar;
 }
 
 
 void GlobalParameters::setWindowSwitcher(WindowSwitcher *point)
 {
-    windowSwitcher=point;
+    m_windowSwitcher=point;
 }
 
 
 WindowSwitcher *GlobalParameters::getWindowSwitcher()
 {
-    return windowSwitcher;
+    return m_windowSwitcher;
 }
 
 
-void GlobalParameters::setSyncroCommandRun(CommandRun *point)
+void GlobalParameters::setSyncroCommandRunner(CommandRunner *point)
 {
-    syncroCommandRun=point;
+    m_syncroCommandRunner=point;
 }
 
 
-CommandRun *GlobalParameters::getSyncroCommandRun()
+CommandRunner *GlobalParameters::getSyncroCommandRunnner()
 {
-    return syncroCommandRun;
+    return m_syncroCommandRunner;
 }
 
 
@@ -590,7 +590,7 @@ QByteArray GlobalParameters::getCryptKey(void)
 
 QString GlobalParameters::getInstallAutodetectLang()
 {
-    return installAutodetectLang;
+    return m_installAutodetectLang;
 }
 
 

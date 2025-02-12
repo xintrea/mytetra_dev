@@ -50,7 +50,7 @@ class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
-class CommandRun;
+class CommandRunner;
 
 
 class MainWindow : public QMainWindow
@@ -218,7 +218,7 @@ private:
  QSplitter *hSplitter;
  QSplitter *findSplitter;
 
- CommandRun *syncroCommandRun=nullptr;
+ CommandRunner *syncroCommandRun=nullptr;
 
  
 protected:
