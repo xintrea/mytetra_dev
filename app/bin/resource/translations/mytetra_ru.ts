@@ -4755,7 +4755,7 @@ Please select single item for enabling edit operation.</source>
     <message>
         <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1266"/>
         <source>Select text color</source>
-        <translation>Выбор цвта текста</translation>
+        <translation>Выбор цвета текста</translation>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1496"/>

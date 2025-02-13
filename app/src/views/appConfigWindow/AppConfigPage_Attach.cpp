@@ -102,7 +102,7 @@ void AppConfigPage_Attach::onEnableRecordWithAttachHighlight(bool state)
 void AppConfigPage_Attach::onClickedHighlightColor()
 {
     // Диалог запроса цвета
-    QColor selectedColor=QColorDialog::getColor( *highlightColor, this );
+    QColor selectedColor=QColorDialog::getColor( *highlightColor, this, QString(), QColorDialog::ShowAlphaChannel);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())

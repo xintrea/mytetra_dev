@@ -219,7 +219,7 @@ void EditorConfigFont::on_code_select_color_button_click()
  QColor color(conf->get_code_font_color());
 
  // Диалог запроса цвета
- QColor selectedColor=QColorDialog::getColor(color, this);
+ QColor selectedColor=QColorDialog::getColor(color, this, QString(), QColorDialog::ShowAlphaChannel);
 
  // Если цвет выбран, и он правильный
  if(selectedColor.isValid())

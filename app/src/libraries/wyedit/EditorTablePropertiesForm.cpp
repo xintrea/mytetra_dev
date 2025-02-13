@@ -193,7 +193,7 @@ void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 void EditorTablePropertiesForm::onClickedButtonBackgroundColor()
 {
   // Диалог запроса цвета (доработать)
-  QColor selectedColor=QColorDialog::getColor(backgroundColor, this);
+  QColor selectedColor=QColorDialog::getColor(backgroundColor, this, QString(), QColorDialog::ShowAlphaChannel);
 
   // Если цвет выбран, и он правильный
   if(selectedColor.isValid())

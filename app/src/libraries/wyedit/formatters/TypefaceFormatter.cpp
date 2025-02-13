@@ -1269,7 +1269,7 @@ void TypefaceFormatter::onFontcolorClicked()
         currentColor = textArea->palette().windowText().color();
 
     // Диалог запроса цвета текста
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"));
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"), QColorDialog::ShowAlphaChannel);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
@@ -1499,7 +1499,7 @@ void TypefaceFormatter::onBackgroundcolorClicked()
     }
 
     // Диалог запроса цвета фона
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"));
+    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"), QColorDialog::ShowAlphaChannel);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
