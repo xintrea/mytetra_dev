@@ -163,11 +163,24 @@ void EditorTextArea::switchReferenceClickMode(bool flag)
       globalParameters.getStatusBar()->showMessage(href);
       qDebug() << "Cursor href in key event: " << href;
     }
+    else
+    {
+      // Сразу нужно проверить, не наведен ли курсор на изображение, и если наведен, то поменять его вид
+      QString imageName = imageAt(currentMousePosition);
+
+      if(!imageName.isEmpty())
+      {
+        qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor)); // Меняется форма курсора на указатель клика по ссылке
+        mouseCursorOverriden = true;
+        globalParameters.getStatusBar()->showMessage(imageName); // Имя изображения отображается в строке статуса
+        qDebug() << "Cursor image in mouse event: " << imageName;
+      }
+    }
   }
   else
   {
     // Вид курсора сбрасывается на основной. Нужно для того, чтобы курсор поменялся,
-    // если мышка в момент отжатия клавиши была наведена на ссылку и курсор был с указательным пальцем
+    // если мышка в момент отжатия клавиши была наведена на ссылку или изображение и курсор был с указательным пальцем
     qApp->restoreOverrideCursor();
 
     mouseCursorOverriden = false;
@@ -201,11 +214,26 @@ void EditorTextArea::mouseMoveEvent(QMouseEvent *event)
     }
     else
     {
-      if(mouseCursorOverriden)
+      QString imageName = imageAt(currentMousePosition);
+
+      if(!imageName.isEmpty())
       {
-        qApp->restoreOverrideCursor(); // Воостанавливается обычный курсор
-        mouseCursorOverriden = false;
-        globalParameters.getStatusBar()->showMessage("");
+        if(!mouseCursorOverriden)
+        {
+            qApp->setOverrideCursor(QCursor(Qt::PointingHandCursor)); // Меняется форма курсора на указатель клика по ссылке
+            mouseCursorOverriden = true;
+            globalParameters.getStatusBar()->showMessage(imageName); // Имя изображения отображается в строке статуса
+            qDebug() << "Cursor image in mouse event: " << imageName;
+        }
+      }
+      else
+      {
+        if(mouseCursorOverriden)
+        {
+            qApp->restoreOverrideCursor(); // Воостанавливается обычный курсор
+            mouseCursorOverriden = false;
+            globalParameters.getStatusBar()->showMessage("");
+        }
       }
     }
   }
@@ -222,7 +250,22 @@ void EditorTextArea::mousePressEvent(QMouseEvent *event)
     if( event->type()==QEvent::MouseButtonPress && (QApplication::keyboardModifiers() & Qt::ControlModifier) ) {
         QString href = this->anchorAt(event->pos());
         if(!href.isEmpty())
+        {
             emit clickedOnReference(href);
+        }
+        else
+        {
+            QString imageName = imageAt(currentMousePosition);
+
+            if(!imageName.isEmpty())
+            {
+                // Устанавливаем курсор на изображение, по которому кликнули
+                setTextCursorFromPoint(currentMousePosition);
+
+                // Открываем изображение
+                emit clickOnImage();
+            }
+        }
     } else {
         qApp->restoreOverrideCursor();
     }
@@ -674,5 +717,33 @@ void EditorTextArea::onChangeFontPointSize(int n)
   // TRACELOG
 
   setFontPointSize(n);
+}
+
+QString EditorTextArea::imageAt(const QPoint& point)
+{
+  int scrollY = verticalScrollBar()->value();
+  int scrollX = horizontalScrollBar()->value();
+  QPoint mousePositionWithScroll = QPoint(point.x()+scrollX, point.y()+scrollY);
+  return document()->documentLayout()->imageAt(mousePositionWithScroll);
+}
+
+int EditorTextArea::hitTest(const QPointF &point, Qt::HitTestAccuracy accuracy)
+{
+  int scrollY = verticalScrollBar()->value();
+  int scrollX = horizontalScrollBar()->value();
+  QPoint mousePositionWithScroll = QPoint(point.x()+scrollX, point.y()+scrollY);
+  return document()->documentLayout()->hitTest(mousePositionWithScroll, accuracy);
+}
+
+void EditorTextArea::setTextCursorFromPoint(const QPointF &point)
+{
+  int pos = hitTest(point, Qt::ExactHit);
+  if (pos < 0)
+    return;
+  QTextCursor cursor(textCursor());
+  if (!cursor.atEnd())
+    pos+=1;
+  cursor.setPosition(pos);
+  setTextCursor(cursor);
 }
 

@@ -20,6 +20,7 @@ public:
   QTextImageFormat imageFormatOnSelect(void);
   QTextImageFormat imageFormatOnCursor(void);
 
+  void openImage();
   void editImageProperties(void);
 
 signals:
@@ -31,10 +32,12 @@ signals:
 public slots:
 
   void onInsertImageFromFileClicked(void);
+  void onContextMenuOpenImage();
   void onContextMenuEditImageProperties(void);
 
   void onDownloadImages(const QString html);
 
+  void onClickOnImage();
   void onDoubleClickOnImage(void);
 
 };

@@ -15,7 +15,7 @@ public:
 
  QList<QAction *> getActionsList(void);
 
- void setImageProperties(bool flag); // Активирование добавочного пункта меню "Свойства картинки")
+ void setImageProperties(bool flag); // Активирование добавочного пункта меню "Свойства изображения")
  void setEditMathExpression(bool flag); // Активирование добавочного пункта меню "Редактирование формулы")
  void setGotoReference(bool flag); // Активирование добавочного пункта меню "Перейти по ссылке")
  void setPasteAsPlainText(bool flag);
@@ -34,6 +34,7 @@ signals:
   void paste(void);
   void pasteAsPlainText(void);
   void selectAll(void);
+  void contextMenuOpenImage(void);
   void contextMenuEditImageProperties(void);
   void contextMenuEditMathExpression(void);
   void contextMenuGotoReference(void);
@@ -56,6 +57,7 @@ private:
   QAction *actionLowercase; // строчный
   QAction *actionUppercase; // ПРОПИСНЫЕ
 
+  QAction *actionOpenImage;
   QAction *actionEditImageProperties;
   QAction *actionEditMathExpression;
   QAction *actionGotoReference;
@@ -73,6 +75,7 @@ protected slots:
   void onActionPaste(void);
   void onActionPasteAsPlainText(void);
   void onActionSelectAll(void);
+  void onActionContextMenuOpenImage();
   void onActionContextMenuEditImageProperties(void);
   void onActionContextMenuEditMathExpression(void);
   void onActionContextMenuGotoReference(void);

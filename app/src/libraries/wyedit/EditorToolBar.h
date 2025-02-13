@@ -82,6 +82,7 @@ public:
     QAction *tableSplitCell;
     QAction *tableProperties;
 
+    QAction *openImage;
     QAction *insertImageFromFile;
     QAction *insertHorizontalLine;
     QAction *mathExpression;

@@ -43,6 +43,7 @@ class EditorTextArea : public QTextEdit
 
   void downloadImages(const QString href);
 
+  void clickOnImage();
   void doubleClickOnImage();
 
  public slots:
@@ -90,6 +91,9 @@ private:
   void mouseDoubleClickEvent(QMouseEvent *event);
 
   void switchReferenceClickMode(bool flag);
+  QString imageAt(const QPoint& point);
+  int hitTest(const QPointF &point, Qt::HitTestAccuracy accuracy);
+  void setTextCursorFromPoint(const QPointF &point);
 };
 
 #endif // _EDITORTEXTAREA_H_

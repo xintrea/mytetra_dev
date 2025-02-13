@@ -1,6 +1,7 @@
 #include <QTextBlock>
 #include <QTextFragment>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QImage>
 #include <QImageReader>
@@ -19,6 +20,7 @@
 #include "main.h"
 #include "libraries//Downloader.h"
 #include "libraries/helpers/UniqueIdHelper.h"
+#include "libraries/helpers/MessageHelper.h"
 
 
 ImageFormatter::ImageFormatter()
@@ -52,6 +54,35 @@ QTextImageFormat ImageFormatter::imageFormatOnCursor(void)
   }
 
   return QTextImageFormat();
+}
+
+
+void ImageFormatter::openImage()
+{
+  // Данные обрабатываемой картинки
+  QTextImageFormat imageFormat;
+
+  // Если выбрано изображение
+  if(editor->cursorPositionDetector->isImageSelect()) {
+    imageFormat=imageFormatOnSelect();
+  }
+  else if(editor->cursorPositionDetector->isCursorOnImage()) {
+    // Если изображение не выбрано, но курсор находится в позиции изображения
+    imageFormat=imageFormatOnCursor();
+  }
+
+  // Имя картинки в ресурсах документа
+  QString imageName=imageFormat.name();
+
+  // Выясняется путь к файлу
+  QString fullDir = editor->getWorkDirectory();
+  QString fullFileName = fullDir+"/"+imageName;
+
+  qDebug() << "Open image file: "+fullFileName;
+
+  // Открытие файла средствами операционной системы
+  QUrl urlFileName("file:"+fullFileName);
+  QDesktopServices::openUrl(urlFileName);
 }
 
 
@@ -259,6 +290,26 @@ void ImageFormatter::onInsertImageFromFileClicked(void)
 }
 
 
+// Вызов открытия изображения
+void ImageFormatter::onContextMenuOpenImage()
+{
+  // Для картинки с формулой свойства изображения редактироваться не должны
+  if(editor->cursorPositionDetector->isMathExpressionSelect() ||
+      editor->cursorPositionDetector->isCursorOnMathExpression()) {
+    return;
+  }
+
+  // Если выделена картинка
+  if(editor->cursorPositionDetector->isImageSelect() ||
+      editor->cursorPositionDetector->isCursorOnImage())
+  {
+    qDebug() << "Open image selected";
+
+    openImage();
+  }
+}
+
+
 // Вызов окна настройки свойств изображения
 void ImageFormatter::onContextMenuEditImageProperties()
 {
@@ -272,10 +323,16 @@ void ImageFormatter::onContextMenuEditImageProperties()
   if(editor->cursorPositionDetector->isImageSelect() ||
      editor->cursorPositionDetector->isCursorOnImage())
   {
-    qDebug() << "Image selected";
+    qDebug() << "Edit image selected";
 
     editImageProperties();
   }
+}
+
+
+void ImageFormatter::onClickOnImage(void)
+{
+    openImage();
 }
 
 

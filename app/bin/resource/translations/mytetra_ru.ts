@@ -1365,12 +1365,17 @@ enable «Decrypt to a temporary file» option in Settings.</source>
         <translation type="vanished">Выбрать всё</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="67"/>
-        <source>Edit image properties</source>
-        <translation>Свойства картинки</translation>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="68"/>
+        <source>Open image</source>
+        <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="71"/>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="72"/>
+        <source>Edit image properties</source>
+        <translation>Свойства изображения</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorContextMenu.cpp" line="76"/>
         <source>Edit math expression</source>
         <translation>Редактировать формулу</translation>
     </message>
@@ -3625,7 +3630,7 @@ MyTetra will try to create a blank entry to fix it.</source>
 <context>
     <name>ShortcutManager</name>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="71"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="72"/>
         <source>Add a new note</source>
         <translation>Добавить новую запись</translation>
     </message>
@@ -3634,502 +3639,512 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="obsolete">Нобавить новую запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="72"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="73"/>
         <source>Add a note before</source>
         <translation>Добавить перед</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="72"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="73"/>
         <source>Add a note before current selected note</source>
         <translation>Добавить новую запись перед выбранной записью</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="73"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="74"/>
         <source>Add a note after</source>
         <translation>Добавить после</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="73"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="74"/>
         <source>Add a note after current selected note</source>
         <translation>Добавить новую запись после выбранной записи</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="74"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="75"/>
         <source>Edit properties</source>
         <translation>Редактировать свойства</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="74"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="75"/>
         <source>Edit note properties (name, author, tags...)</source>
         <translation>Редактировать свойства записи (название, автор, текстовые метки...)</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="75"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="76"/>
         <source>Block/Unblock note</source>
         <translation>Блокировать/Разблокировать запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="75"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="76"/>
         <source>Block or unblock current selected note</source>
         <translation>Блокировать/Разблокировать возможность изменения записи</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="76"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="77"/>
         <source>Delete note(s)</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="77"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="78"/>
         <source>Cut notes(s)</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="77"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="78"/>
         <source>Cut notes(s) to clipboard</source>
         <translation>Вырезать запись (записи) в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="78"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="79"/>
         <source>Copy note(s)</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="78"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="79"/>
         <source>Copy note(s) to clipboard</source>
         <translation>Копировать запись (записи) в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="79"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="80"/>
         <source>Paste note(s)</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="79"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="80"/>
         <source>Paste note(s) from clipboard</source>
         <translation>Вставить запись (записи) из буфера обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="80"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="81"/>
         <source>Move up</source>
         <translation>Передвинуть вверх</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="80"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="81"/>
         <source>Move up current note</source>
         <translation>Передвинуть вверх текущую запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="81"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="82"/>
         <source>Move down</source>
         <translation>Передвинуть вниз</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="81"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="82"/>
         <source>Move down current note</source>
         <translation>Передвинуть вниз текущую запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="82"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="83"/>
         <source>Previous note</source>
         <translation>Предыдущая запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="82"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="83"/>
         <source>Previous note has been viewing</source>
         <translation>Предыдущая запись, которая была просмотрена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="83"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="84"/>
         <source>Next note</source>
         <translation>Следующая запись</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="83"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="84"/>
         <source>Next note has been viewing</source>
         <translation>Следующая запись, которая была просмотрена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="85"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="86"/>
         <source>Expand all sub items</source>
         <translation>Развернуть все подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="86"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="87"/>
         <source>Collapse all sub items</source>
         <translation>Свернуть все подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="87"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="88"/>
         <source>Move item up</source>
         <translation>Переместить ветку вверх</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="88"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="89"/>
         <source>Move item down</source>
         <translation>Переместить ветку вниз</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="89"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="90"/>
         <source>Insert a new sub item</source>
         <translation>Добавить подветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="89"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="90"/>
         <source>Insert a new sub item into selected</source>
         <translation>Добавить подветку к выделенной ветке</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="90"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="91"/>
         <source>Insert a new sibling item</source>
         <translation>Добавить ветку такого же уровня</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="90"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="91"/>
         <source>Insert a new sibling item after selected</source>
         <translation>Добавить ветку такого же уровня вложения после выделенной ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="91"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="92"/>
         <source>Edit item name</source>
         <translation>Редактировать название ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="91"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="92"/>
         <source>Edit name of selected item</source>
         <translation>Редактировать название выделенной ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="92"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="93"/>
         <source>Delete item</source>
         <translation>Удалить ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="92"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="93"/>
         <source>Delete selected item and all sub items</source>
         <translation>Удалить выделенную ветку и все её подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="93"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="94"/>
         <source>Cut item</source>
         <translation>Вырезать ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="93"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="94"/>
         <source>Cut item including sub items</source>
         <translation>Вырезать выделенную ветку и все её подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="94"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="95"/>
         <source>Copy item</source>
         <translation>Копировать ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="94"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="95"/>
         <source>Copy item including sub items</source>
         <translation>Скопировать ветку и все её подветки в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="95"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="96"/>
         <source>Paste item</source>
         <translation>Вставить ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="95"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="96"/>
         <source>Paste sibling item after selected</source>
         <translation>Вставить ветку из буфера обмена после выделенной на том же уровне</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="96"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="97"/>
         <source>Paste as sub item</source>
         <translation>Вставить ветку как подветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="96"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="97"/>
         <source>Paste item as sub item for selected</source>
         <translation>Вставить ветку из буфера обмена как подветку для выбранной ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="97"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="98"/>
         <source>Encrypt item</source>
         <translation>Зашифровать ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="97"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="98"/>
         <source>Encrypt item and all subitem</source>
         <translation>Зашифровать ветку и все подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="98"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="99"/>
         <source>Decrypt item</source>
         <translation>Расшифровать ветку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="98"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="99"/>
         <source>Decrypt item and all subitem</source>
         <translation>Расшифровать ветку и все подветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="99"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="100"/>
         <source>Set icon</source>
         <translation>Задать иконку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="99"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="100"/>
         <source>Set item icon</source>
         <translation>Задать иконку для ветки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="101"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="102"/>
         <source>Select all</source>
         <translation>Выбрать всё</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="102"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="103"/>
         <source>Copy</source>
         <translation>Копировать</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="103"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="104"/>
         <source>Paste</source>
         <translation>Вставить</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="104"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="105"/>
         <source>Paste plain text</source>
         <translation>Вставить только текст</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="105"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="106"/>
         <source>Cut</source>
         <translation>Вырезать</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="106"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="107"/>
         <source>Undo</source>
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="107"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="108"/>
         <source>Redo</source>
         <translation>Повтор</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="109"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="110"/>
         <source>Bold</source>
         <translation>Жирный</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="110"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="111"/>
         <source>Italic</source>
         <translation>Курсив</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="111"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="112"/>
         <source>Underline</source>
         <translation>Подчёркнутый</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="112"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="113"/>
         <source>Strike out</source>
         <translation>Зачеркнутый</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="113"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="114"/>
         <source>Superscript</source>
         <translation>Верхний индекс</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="114"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="115"/>
         <source>Subscript</source>
         <translation>Нижний индекс</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="115"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="116"/>
         <source>Monospace</source>
         <translation>Моноширинный</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="116"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="117"/>
         <source>Code</source>
         <translation>Код</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="116"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="117"/>
         <source>Select a whole paragraphs to format text as code</source>
         <translation>Требуется целиком выделить абзац(ы) для полного форматирования в код</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="117"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="118"/>
         <source>Lowercase</source>
         <translation>Нижний регистр</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="118"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="119"/>
         <source>Uppercase</source>
         <translation>Верхний регистр</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="119"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="120"/>
         <source>Clear format</source>
         <translation>Очистка форматирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="119"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="120"/>
         <source>When selected whole paragraph both text and paragraph format is reset to default or just text format in other case</source>
         <translation>Сброс форматирования к стандартному. Если выбрана часть строки, очищается начертание. Если выбран абзац, очищается всё форматирование</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="120"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="121"/>
         <source>Text only</source>
         <translation>Только текст</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="121"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="122"/>
         <source>Return type replace</source>
         <translation>Замена символов перевода строк</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="121"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="122"/>
         <source>Replace soft carriage return to standard carriage return</source>
         <translation>Заменить &quot;мягкий&quot; перевод строки на стандартный перевод строки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="122"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="123"/>
         <source>Numeric list</source>
         <translation>Нумерованный список</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="123"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="124"/>
         <source>Marked list</source>
         <translation>Маркированный список</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="124"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="125"/>
         <source>Increase indent</source>
         <translation>Увеличить отступ</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="125"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="126"/>
         <source>Decrease indent</source>
         <translation>Уменьшить отступ</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="126"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="127"/>
         <source>Align left</source>
         <translation>По левому краю</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="127"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="128"/>
         <source>Align center</source>
         <translation>По центру</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="128"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="129"/>
         <source>Align right</source>
         <translation>По правому краю</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="129"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="130"/>
         <source>Align width</source>
         <translation>По ширине</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="130"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="131"/>
         <source>Text color</source>
         <translation>Цвет текста</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="131"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="132"/>
         <source>Background color</source>
         <translation>Цвет фона</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="132"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="133"/>
         <source>Select font</source>
         <translation>Выбор шрифта</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="133"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="134"/>
         <source>Select font size</source>
         <translation>Выбор размера шрифта</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="134"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="135"/>
         <source>Find text</source>
         <translation>Поиск текста</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="134"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="135"/>
         <source>Find text in current note</source>
         <translation>Поиск текста в текущей записи</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="135"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="136"/>
         <source>Editor settings</source>
         <translation>Настройки редактора</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="136"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="137"/>
         <source>Edit reference URL</source>
         <translation>Редактировать ссылку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="137"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="138"/>
         <source>Edit HTML code</source>
         <translation>Редактирование HTML кода</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="138"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="139"/>
         <source>Show special chars</source>
         <translation>Показать символы форматирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="139"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="140"/>
         <source>Create a new table</source>
         <translation>Создать новую таблицу</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="140"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="141"/>
         <source>Remove row(s)</source>
         <translation>Удалить строку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="141"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="142"/>
         <source>Remove column(s)</source>
         <translation>Удалить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="142"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="143"/>
         <source>Add row(s)</source>
         <translation>Добавить строки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="143"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="144"/>
         <source>Add column(s)</source>
         <translation>Добавить столбец</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="144"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="145"/>
         <source>Merge cells</source>
         <translation>Объединить ячейки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="145"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="146"/>
         <source>Split cell</source>
         <translation>Разделить ячейку</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="146"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="147"/>
         <source>Table properties</source>
         <translation>Свойства таблицы</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="147"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="148"/>
+        <source>Open image</source>
+        <translation>Открыть изображение</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="148"/>
+        <source>Open selected image in external viewer</source>
+        <translation>Открыть выбранное изображение в сторонней программе</translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="149"/>
         <source>Insert/edit image</source>
         <translation>Вставка изображения</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="147"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="149"/>
         <source>Insert image from file or edit selected image properties</source>
         <translation>Вставка картинки из файла / Редактирование свойств картинки</translation>
     </message>
@@ -4138,152 +4153,152 @@ MyTetra will try to create a blank entry to fix it.</source>
         <translation type="vanished">Вставка картинки из файла / Редактирование свойств картинки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="148"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="150"/>
         <source>Insert horizontal line</source>
         <translation>Вставка горизонтальной линии</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="148"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="150"/>
         <source>Insert a horizontal line into the empty paragraph from cursor</source>
         <translation>Вставка горизонтальной линии для разграничения параграфов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="149"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="151"/>
         <source>Insert/edit math expression</source>
         <translation>Вставить формулу / редактировать формулу</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="150"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="152"/>
         <source>Expand edit area</source>
         <translation>Распахнуть область редактирования</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="151"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="153"/>
         <source>Expand tools</source>
         <translation>Развернуть панель инструментов</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="152"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="154"/>
         <source>Forse save note</source>
         <translation>Быстрое сохранение записи</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="153"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="155"/>
         <source>Show detached window</source>
         <translation>Показать открепляемое окно</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="154"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="156"/>
         <source>Attach files</source>
         <translation>Прикрепить файл</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="155"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="157"/>
         <source>Go to URL or reference</source>
         <translation>Перейти по URL или по ссылке</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="157"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="159"/>
         <source>Copy selected rows</source>
         <translation>Копировать выделенные строки</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="159"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="161"/>
         <source>Attach file</source>
         <translation>Прикрепить файл</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="160"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="162"/>
         <source>Attach file from URL</source>
         <translation>Прикрепить файл по URL</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="161"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="163"/>
         <source>Add link</source>
         <translation>Добавить линк</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="161"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="163"/>
         <source>Add link without file copying</source>
         <translation>Добавить линк на файл без копирования самого файла</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="162"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="164"/>
         <source>Edit file name</source>
         <translation>Изменить имя файла</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="163"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="165"/>
         <source>Delete file</source>
         <translation>Удалить файл</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="164"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="166"/>
         <source>Preview file</source>
         <translation>Предпросмотр файла</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="165"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="167"/>
         <source>Save as...</source>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="166"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="168"/>
         <source>Attach info</source>
         <translation>Информация о прикрепленном файле</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="167"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="169"/>
         <source>Return to editor</source>
         <translation>Вернуться в редактор</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="169"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="171"/>
         <source>Set focus to items tree</source>
         <translation>Устновить фокус на дереве</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="170"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="172"/>
         <source>Set focus to notes table</source>
         <translation>Устновить фокус на списке записей</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="171"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="173"/>
         <source>Set focus to editor</source>
         <translation>Устновить фокус на редакторе</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="172"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="174"/>
         <source>Find in base</source>
         <translation>Найти в базе</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="173"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="175"/>
         <source>Synchronization</source>
         <translation>Синхронизация</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="173"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="175"/>
         <source>Run synchronization</source>
         <translation>Запуск синхронизации</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="174"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="176"/>
         <source>Ok</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="175"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="177"/>
         <source>Print</source>
         <translation>Печать</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="176"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="178"/>
         <source>Export PDF</source>
         <translation>Экспорт в PDF</translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/ShortcutManager.cpp" line="177"/>
+        <location filename="../../../src/libraries/ShortcutManager.cpp" line="179"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>

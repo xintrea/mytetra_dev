@@ -125,5 +125,6 @@
         <file>resource/pic/move_right.svg</file>
         <file>resource/pic/edit_zoom-in.svg</file>
         <file>resource/pic/edit_zoom-out.svg</file>
+        <file>resource/pic/open_image.svg</file>
     </qresource>
 </RCC>

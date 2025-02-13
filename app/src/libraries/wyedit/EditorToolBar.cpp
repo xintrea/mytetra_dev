@@ -293,6 +293,12 @@ void EditorToolBar::setupToolBarTools(void)
   tableProperties->setIcon(QIcon(":/resource/pic/edit_table_properties.svg"));
   tableProperties->setObjectName("editor_tb_tableProperties");
 
+  // Кнопка открытия изображения
+  openImage=new QAction(this);
+  openImage->setIcon(QIcon(":/resource/pic/open_image.svg"));
+  openImage->setObjectName("editor_tb_openImage");
+
+  // Кнопка вставки / редактирования свойств изображения
   insertImageFromFile=new QAction(this);
   insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
   insertImageFromFile->setObjectName("editor_tb_insertImageFromFile");
@@ -378,7 +384,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-backgroundColor", backgroundColor);
 
     // Настраиваются скрытые кнопки действия, а надписи настраиваются для самого виджета
-    // Скрытые кнопки нужны чтобы работал выбор виджета по грячим кнопкам
+    // Скрытые кнопки нужны чтобы работал выбор виджета по горячим кнопкам
     shortcutManager.initAction("editor-fontSelect", fontSelect->toolFocus.getSelectAction() );
     fontSelect->setStatusTip( shortcutManager.getFullDescription("editor-fontSelect") );
     fontSelect->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSelect") );
@@ -400,6 +406,7 @@ void EditorToolBar::setupShortcuts(void)
     shortcutManager.initAction("editor-tableMergeCells", tableMergeCells);
     shortcutManager.initAction("editor-tableSplitCell", tableSplitCell);
     shortcutManager.initAction("editor-tableProperties", tableProperties);
+    shortcutManager.initAction("editor-openImage", openImage);
     shortcutManager.initAction("editor-insertImageFromFile", insertImageFromFile);
     shortcutManager.initAction("editor-insertHorizontalLine", insertHorizontalLine);
     shortcutManager.initAction("editor-mathExpression", mathExpression);
