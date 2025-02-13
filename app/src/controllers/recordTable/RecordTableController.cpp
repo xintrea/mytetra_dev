@@ -697,10 +697,12 @@ void RecordTableController::editFieldContext(QModelIndex proxyIndex)
   RecordTableData *table=recordSourceModel->getTableData();
 
   // Поля окна заполняются начальными значениями
-  editRecordWin.setField("name",  table->getField("name",   pos) );
-  editRecordWin.setField("author",table->getField("author", pos) );
-  editRecordWin.setField("url",   table->getField("url",    pos) );
-  editRecordWin.setField("tags",  table->getField("tags",   pos) );
+  editRecordWin.setField("id",     table->getField("id",     pos) );
+  editRecordWin.setField("dir",    table->getField("dir",    pos) );
+  editRecordWin.setField("name",   table->getField("name",   pos) );
+  editRecordWin.setField("author", table->getField("author", pos) );
+  editRecordWin.setField("url",    table->getField("url",    pos) );
+  editRecordWin.setField("tags",   table->getField("tags",   pos) );
 
   // Если запись заблокирована
   if(table->getField("block",   pos)=="1")

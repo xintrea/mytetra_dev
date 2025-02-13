@@ -47,6 +47,9 @@ void AddNewRecord::setupUI(void)
 {
   this->setWindowTitle(tr("Enter a new note"));
 
+  // Виджет ввода инфополей
+  infoField.setDisplayOnlyEditableFields(true);
+
   // Редактор текста записи
   recordTextEditor.initEnableAssembly(true);
   recordTextEditor.initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");

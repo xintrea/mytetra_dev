@@ -2365,22 +2365,32 @@ Try to search for entire database.</source>
 <context>
     <name>InfoFieldEnter</name>
     <message>
-        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="28"/>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="32"/>
+        <source>Id</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="40"/>
+        <source>Directory name</source>
+        <translation>Имя директории</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="48"/>
         <source>Title</source>
         <translation>Название</translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="34"/>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="54"/>
         <source>Author(s)</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="39"/>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="59"/>
         <source>Url</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="44"/>
+        <location filename="../../../src/views/record/InfoFieldEnter.cpp" line="64"/>
         <source>Tags</source>
         <translation>Метки</translation>
     </message>
