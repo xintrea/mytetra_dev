@@ -52,7 +52,9 @@ public:
   int columnCount(const QModelIndex & parent = QModelIndex()) const;
   int rowCount(const QModelIndex & parent = QModelIndex()) const;
   QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-  QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+  QVariant headerData ( int section,
+                        Qt::Orientation orientation,
+                        int role = Qt::DisplayRole ) const;
 
   //! Получение данных из ячейки в виде строки
   QString getCellValue(const int &row,
@@ -63,9 +65,12 @@ public:
   void addDatabaseByUser(const QString &dbPath, const QString &trashPath);
   void deleteDatabaseByUser(const QString &dbPath, const QString &trashPath);
   void selectDatabase(const int &row);
+  bool editDatabaseDescript(const int &row, const QString &descript);
 
   bool isDbDirectory(const QString &path);
   bool isTrashDirectory(const QString &path);
+
+  bool isDbInKnownBasesConfig(const QString &dbPath, const QString &trashPath);
 
 private:
 
@@ -98,9 +103,9 @@ private:
 
   // На каждой строке хранится строковый набор данных
   // Столбцы содержат информацию согласно определениям DBMANAGEMENT_COLUMN_*
-  QList< QStringList > mTableData;
+  QList< QStringList > m_TableData;
 
-  KnownBasesConfig mKnownBasesConfig;
+  KnownBasesConfig m_KnownBasesConfig;
 };
 
 #endif // DATABASESMANAGEMENTMODEL_H

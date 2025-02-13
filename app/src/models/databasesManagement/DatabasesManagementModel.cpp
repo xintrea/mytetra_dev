@@ -14,7 +14,7 @@ extern GlobalParameters globalParameters;
 
 DatabasesManagementModel::DatabasesManagementModel(QObject *parent) : QAbstractTableModel(parent)
 {
-    mKnownBasesConfig.init();
+    m_KnownBasesConfig.init();
     this->initData();
 }
 
@@ -27,7 +27,7 @@ DatabasesManagementModel::~DatabasesManagementModel()
 
 void DatabasesManagementModel::initData()
 {
-    mTableData.clear();
+    m_TableData.clear();
 
     this->scanDirectoriesDirect();
     this->scanDirectoriesFromConfig();
@@ -74,6 +74,7 @@ void DatabasesManagementModel::scanDirectoriesDirect()
 }
 
 
+// Поиск возможных каталогов БД по путям, прописанных в возможных файлах conf.ini
 void DatabasesManagementModel::scanDirectoriesFromConfig()
 {
     // Получить пары директорияБД/директорияКорзины из возможных файлов conf.ini
@@ -131,10 +132,11 @@ QPair<QString, QString> DatabasesManagementModel::getDirectoriesFromConfigFile(c
 }
 
 
+// Поиск возможных каталогов БД по путям, прописанных в файле knownbases.ini
 void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 {
     // Получить пары директорияБД/директорияКорзины из файла knownbases.ini в рабочей директории
-    int n=mKnownBasesConfig.getDbCount();
+    int n=m_KnownBasesConfig.getDbCount();
 
     if (n==0)
     {
@@ -152,9 +154,9 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
     // когда сетевой ресурс подключен
     for (int i=0; i<n; ++i)
     {
-        QString dbPath    = mKnownBasesConfig.getDbParameter(i, "dbPath");
-        QString trashPath = mKnownBasesConfig.getDbParameter(i, "trashPath");
-        QString descript  = mKnownBasesConfig.getDbParameter(i, "descript");
+        QString dbPath    = m_KnownBasesConfig.getDbParameter(i, "dbPath");
+        QString trashPath = m_KnownBasesConfig.getDbParameter(i, "trashPath");
+        QString descript  = m_KnownBasesConfig.getDbParameter(i, "descript");
         if (descript.isEmpty())
         {
             descript=tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
@@ -191,14 +193,14 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
         // то такая запись удаляется, а новая запись из knownbases.ini добавляется
         // Это нужно чтобы возле путей были осмысленные названия, заданные пользователем
         // и чтобы последовательность баз, перечисленных в knownbases.ini не менялась
-        for (auto it = mTableData.begin(); it != mTableData.end();)
+        for (auto it = m_TableData.begin(); it != m_TableData.end();)
         {
             auto tableData = *it;
 
             if (tableData[DBMANAGEMENT_COLUMN_DBPATH] == dbPath and
                 tableData[DBMANAGEMENT_COLUMN_TRASHPATH] == trashPath)
             {
-                it = mTableData.erase(it); // Удаление элемента из перечня баз и сдвиг итератора
+                it = m_TableData.erase(it); // Удаление элемента из перечня баз и сдвиг итератора
             }
             else
                 ++it; // Переход к следующему элементу
@@ -207,7 +209,7 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
         // Безусловное добавление считанной строки в перечень баз
         QStringList tableLine;
         tableLine << "" << dbPath << trashPath << descript;
-        mTableData << tableLine;
+        m_TableData << tableLine;
     }
 }
 
@@ -235,7 +237,7 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &d
         {
             // Определение, есть ли текущие директории в списке возможных директорий
             bool isExists=false;
-            for (auto& tableDataLine : mTableData) // Выводимый auto-тип в виде ссылки, чтобы элементы можно было изменять
+            for (auto& tableDataLine : m_TableData) // Выводимый auto-тип в виде ссылки, чтобы элементы можно было изменять
             {
                 // В списке возможных директорий могут быть как относительные, так и абсолютные пути
                 // И для корректного сравнения нужны абсолютные
@@ -275,7 +277,7 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &d
                     tableLine << "" << absoluteDbPath << absoluteTrashPath << descript;
                 }
 
-                mTableData << tableLine; // Директории добавляются в список
+                m_TableData << tableLine; // Директории добавляются в список
             }
         }
     }
@@ -284,7 +286,7 @@ void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &d
 
 void DatabasesManagementModel::clearSelection()
 {
-    for (auto& tableDataLine : mTableData)
+    for (auto& tableDataLine : m_TableData)
     {
         tableDataLine[DBMANAGEMENT_COLUMN_ISSELECT]="";
     }
@@ -297,7 +299,7 @@ void DatabasesManagementModel::selectDirectories(const QString &dbPath,
 {
     this->clearSelection();
 
-    for (auto& tableDataLine : mTableData)
+    for (auto& tableDataLine : m_TableData)
     {
         if (tableDataLine[DBMANAGEMENT_COLUMN_DBPATH]==dbPath and
            tableDataLine[DBMANAGEMENT_COLUMN_TRASHPATH]==trashPath )
@@ -366,6 +368,22 @@ bool DatabasesManagementModel::isTrashDirectory(const QString &path)
 }
 
 
+// Проверка что БД с указанным путем и путем к корзине прописана в knownbases.ini
+bool DatabasesManagementModel::isDbInKnownBasesConfig(const QString &dbPath,
+                                                      const QString &trashPath)
+{
+    int numForDbPath = m_KnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
+    int numForTrashPath = m_KnownBasesConfig.getDbParameterExistsNum("trashPath", trashPath);
+
+    if ( numForDbPath==-1 or numForTrashPath==-1 or numForDbPath != numForTrashPath)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
 // Число столбцов
 int DatabasesManagementModel::columnCount(const QModelIndex & parent) const
 {
@@ -380,7 +398,7 @@ int DatabasesManagementModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
 
-  return mTableData.size();
+  return m_TableData.size();
 }
 
 
@@ -427,7 +445,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
 
         if (role == Qt::UserRole)
         {
-            if (mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            if (m_TableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
             {
                 return QVariant( true );
             }
@@ -440,7 +458,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         // Вывод иконок
         if (role==Qt::DecorationRole)
         {
-            if (mTableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
+            if (m_TableData[row][DBMANAGEMENT_COLUMN_ISSELECT]==DBMANAGEMENT_LINE_SELECT_FLAG)
             {
                 return QCommonStyle().standardIcon(QStyle::SP_DialogApplyButton);
             }
@@ -453,7 +471,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         if (role == Qt::DisplayRole or
             role == Qt::UserRole)
         {
-            return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_DBPATH] );
+            return QVariant( m_TableData[row][DBMANAGEMENT_COLUMN_DBPATH] );
         }
 
         break;
@@ -463,7 +481,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         if (role == Qt::DisplayRole or
             role == Qt::UserRole )
         {
-            return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_TRASHPATH] );
+            return QVariant( m_TableData[row][DBMANAGEMENT_COLUMN_TRASHPATH] );
         }
 
         break;
@@ -473,7 +491,7 @@ QVariant DatabasesManagementModel::getCell(int row, int column, int role) const
         if (role == Qt::DisplayRole or
             role == Qt::UserRole)
         {
-            return QVariant( mTableData[row][DBMANAGEMENT_COLUMN_DESCRIPT] );
+            return QVariant( m_TableData[row][DBMANAGEMENT_COLUMN_DESCRIPT] );
         }
 
         break;
@@ -513,7 +531,7 @@ QVariant DatabasesManagementModel::headerData(int section, Qt::Orientation orien
 
 bool DatabasesManagementModel::isDbPathExists(const QString &path)
 {
-    for (auto& tableDataLine : mTableData)
+    for (auto& tableDataLine : m_TableData)
     {
         if ( QDir( tableDataLine[DBMANAGEMENT_COLUMN_DBPATH] ).absolutePath() == QDir( path ).absolutePath() )
         {
@@ -530,24 +548,24 @@ void DatabasesManagementModel::addDatabaseByUser(const QString &dbPath, const QS
     line << "" << dbPath << trashPath << tr(DBMANAGEMENT_DEFAULT_DESCRIPT);
 
     this->beginResetModel();
-    mTableData << line;
+    m_TableData << line;
     this->endResetModel();
 
     // Если такая база уже есть в конфиге баз данных
-    if ( mKnownBasesConfig.isDbParameterExists("dbPath", dbPath) )
+    if ( m_KnownBasesConfig.isDbParameterExists("dbPath", dbPath) )
     {
-        int n=mKnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
+        int n=m_KnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
 
         // Параметр dbPath стоит такой, какой надо,
         // поэтому устанавливается только trashPath
-        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+        m_KnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
     }
     else // Иначе такой базы данных нет и она добавляется
     {
-        int n=mKnownBasesConfig.getDbCount();
+        int n=m_KnownBasesConfig.getDbCount();
 
-        mKnownBasesConfig.setDbParameter(n, "dbPath", dbPath);
-        mKnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
+        m_KnownBasesConfig.setDbParameter(n, "dbPath", dbPath);
+        m_KnownBasesConfig.setDbParameter(n, "trashPath", trashPath);
     }
 }
 
@@ -556,7 +574,7 @@ void DatabasesManagementModel::deleteDatabaseByUser(const QString &dbPath, const
     // Номер БД в модели
     int modelDbNum = 0;
     bool isFound = false;
-    for (const auto &rowData : mTableData)
+    for (const auto &rowData : m_TableData)
     {
         if (rowData[DBMANAGEMENT_COLUMN_DBPATH] == dbPath and
             rowData[DBMANAGEMENT_COLUMN_TRASHPATH] == trashPath )
@@ -575,8 +593,8 @@ void DatabasesManagementModel::deleteDatabaseByUser(const QString &dbPath, const
 
 
     // Номер БД в конфиг-файле известных баз данных
-    int dbNum   = mKnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
-    int pathNum = mKnownBasesConfig.getDbParameterExistsNum("trashPath", trashPath);
+    int dbNum   = m_KnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
+    int pathNum = m_KnownBasesConfig.getDbParameterExistsNum("trashPath", trashPath);
 
     if (dbNum == -1 or pathNum == -1 or dbNum!=pathNum)
     {
@@ -586,11 +604,11 @@ void DatabasesManagementModel::deleteDatabaseByUser(const QString &dbPath, const
 
     // Удаление в модели
     this->beginResetModel();
-    mTableData.removeAt(modelDbNum);
+    m_TableData.removeAt(modelDbNum);
     this->endResetModel();
 
     // Удаление в файле
-    mKnownBasesConfig.removeDb(dbNum);
+    m_KnownBasesConfig.removeDb(dbNum);
 }
 
 
@@ -598,12 +616,48 @@ void DatabasesManagementModel::selectDatabase(const int &row)
 {
     this->clearSelection();
 
-    QStringList line = mTableData[row];
+    QStringList line = m_TableData[row];
     line[DBMANAGEMENT_COLUMN_ISSELECT] = DBMANAGEMENT_LINE_SELECT_FLAG;
 
     this->beginResetModel();
-    mTableData[row] = line;
+    m_TableData[row] = line;
     this->endResetModel();
+}
+
+
+// Редактирование описания
+bool DatabasesManagementModel::editDatabaseDescript(const int &row,
+                                                    const QString &descript)
+{
+    QString dbPath = this->getCellValue(row, DBMANAGEMENT_COLUMN_DBPATH);
+    QString trashPath = this->getCellValue(row, DBMANAGEMENT_COLUMN_TRASHPATH);
+
+    if ( !this->isDbInKnownBasesConfig(dbPath, trashPath) )
+    {
+        return false;
+    }
+
+    // Изменение на экране
+    QStringList line = m_TableData[row];
+    line[DBMANAGEMENT_COLUMN_DESCRIPT] = descript;
+
+    this->beginResetModel();
+    m_TableData[row] = line;
+    this->endResetModel();
+
+
+    // Изменение в файле knownbases.ini
+    int numForDbPath = m_KnownBasesConfig.getDbParameterExistsNum("dbPath", dbPath);
+    int numForTrashPath = m_KnownBasesConfig.getDbParameterExistsNum("trashPath", trashPath);
+
+    if ( numForDbPath==-1 or numForTrashPath==-1 or numForDbPath != numForTrashPath )
+    {
+        return false;
+    }
+
+    m_KnownBasesConfig.setDbParameter(numForDbPath, "descript", descript);
+
+    return true;
 }
 
 

@@ -25,6 +25,7 @@ public:
   QAction *actionSelect;
   QAction *actionCreate;
   QAction *actionAdd;
+  QAction *actionEdit;
   QAction *actionDelete;
   QAction *actionCopy;
 

@@ -57,6 +57,11 @@ void DatabasesManagementScreen::setupActions(void)
   connect(actionAdd, &QAction::triggered,
           databasesManagementController, &DatabasesManagementController::onAddClicked);
 
+  actionEdit = new QAction(tr("Edit database description"), this);
+  actionEdit->setIcon(QIcon(":/resource/pic/dbmanagement_edit.svg"));
+  connect(actionEdit, &QAction::triggered,
+          databasesManagementController, &DatabasesManagementController::onEditClicked);
+
   actionDelete = new QAction(tr("Remove database"), this);
   actionDelete->setIcon(QIcon(":/resource/pic/dbmanagement_delete.svg"));
   connect(actionDelete, &QAction::triggered,
@@ -79,6 +84,7 @@ void DatabasesManagementScreen::setupUI(void)
   insertActionAsButton(toolBar, actionSelect);
   insertActionAsButton(toolBar, actionCreate);
   insertActionAsButton(toolBar, actionAdd);
+  insertActionAsButton(toolBar, actionEdit);
   insertActionAsButton(toolBar, actionDelete);
   toolBar->addSeparator();
   insertActionAsButton(toolBar, actionCopy);

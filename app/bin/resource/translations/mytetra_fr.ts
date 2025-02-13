@@ -864,56 +864,81 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
     </message>
     <message>
         <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="407"/>
-        <source>You can select only one database for deletion.</source>
+        <source>You can select only one database for description edit.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="422"/>
-        <source>You cannot delete the current working database.</source>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="428"/>
+        <source>It is allowed to edit descriptions only for manually added databases.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="430"/>
-        <source>Deleting a database</source>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="443"/>
+        <source>Description edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="431"/>
-        <source>&lt;b&gt;Select delete mode&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="432"/>
-        <source>Select the mode in which you want to delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="433"/>
-        <source>Remove from list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="434"/>
-        <source>Delete with the data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="435"/>
-        <source>Cancel</source>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="444"/>
+        <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="457"/>
-        <source>You are trying to delete a database with all its contents</source>
+        <source>Error when applying the changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="458"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="474"/>
+        <source>You can select only one database for deletion.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="489"/>
+        <source>You cannot delete the current working database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="497"/>
+        <source>Deleting a database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="498"/>
+        <source>&lt;b&gt;Select delete mode&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="499"/>
+        <source>Select the mode in which you want to delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="500"/>
+        <source>Remove from list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="501"/>
+        <source>Delete with the data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="502"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="524"/>
+        <source>Delete a database with all its contents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="525"/>
         <source>Write &quot;yes&quot; to confirm:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="466"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="533"/>
         <source>You did not write &quot;yes&quot;, the database deletion is canceled.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -932,33 +957,33 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="88"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="89"/>
         <source>Knowledge base from current config file %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="96"/>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="104"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="97"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="105"/>
         <source>Knowledge base from config file in user directory %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="497"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="515"/>
         <source>Sel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="500"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="518"/>
         <source>Database path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="503"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="521"/>
         <source>Trash path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="506"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="524"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
@@ -987,11 +1012,16 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
     </message>
     <message>
         <location filename="../../../src/views/databasesManagement/DatabasesManagementScreen.cpp" line="60"/>
-        <source>Remove database</source>
+        <source>Edit database description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/views/databasesManagement/DatabasesManagementScreen.cpp" line="65"/>
+        <source>Remove database</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/databasesManagement/DatabasesManagementScreen.cpp" line="70"/>
         <source>Copy selected rows</source>
         <translation type="unfinished"></translation>
     </message>

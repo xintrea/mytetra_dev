@@ -396,6 +396,73 @@ void DatabasesManagementController::onAddClicked()
 }
 
 
+void DatabasesManagementController::onEditClicked()
+{
+    QModelIndexList indexList = view->selectionModel()->selectedRows();
+
+    // Должна быть выбрана только одна строка
+    if (indexList.size()!=1)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("You can select only one database for description edit."));
+        msgBox.exec();
+
+        return;
+    }
+
+    // Указатель на редактируемую строку в виде
+    QModelIndex editIndex = indexList[0];
+
+    // Пути, прописанные в выбранной строке
+    QString dbPath = model->getCellValue(editIndex.row(),
+                                         DBMANAGEMENT_COLUMN_DBPATH,
+                                         Qt::UserRole);
+    QString trashPath = model->getCellValue(editIndex.row(),
+                                            DBMANAGEMENT_COLUMN_TRASHPATH,
+                                            Qt::UserRole);
+
+    // Запрещено редактировать описание баз даных, которые не прописаны в knownbases.ini
+    if ( !model->isDbInKnownBasesConfig(dbPath, trashPath) )
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("It is allowed to edit descriptions only for manually added databases."));
+        msgBox.exec();
+
+        return;
+    }
+
+    // Существующее описание
+    QString description = model->getCellValue(editIndex.row(),
+                                              DBMANAGEMENT_COLUMN_DESCRIPT,
+                                              Qt::UserRole);
+
+    // Редактирование
+    bool ok;
+    QString text = QInputDialog::getText(
+        nullptr,
+        tr("Description edit"),
+        tr("Description:"),
+        QLineEdit::Normal,
+        description,
+        &ok);
+
+    if (ok)
+    {
+        // Сохранение изменений
+        bool result = model->editDatabaseDescript(editIndex.row(), text);
+
+        if ( !result )
+        {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Error when applying the changes."));
+            msgBox.exec();
+
+            return;
+        }
+    }
+}
+
+
 void DatabasesManagementController::onDeleteClicked()
 {
     QModelIndexList indexList = view->selectionModel()->selectedRows();
@@ -454,7 +521,7 @@ void DatabasesManagementController::onDeleteClicked()
         bool ok;
         QString text = QInputDialog::getText(
             nullptr,
-            tr("You are trying to delete a database with all its contents"),
+            tr("Delete a database with all its contents"),
             tr("Write \"yes\" to confirm:"),
             QLineEdit::Normal,
             "",
