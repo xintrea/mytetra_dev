@@ -1,6 +1,7 @@
 #ifndef DISKHELPER_H
 #define DISKHELPER_H
 
+#include <QFile>
 #include <QString>
 #include <QStringList>
 #include <QMap>
@@ -19,6 +20,7 @@ public:
   static QString createTempDirectory(void);
   static bool removeDirectory(const QString &dirName);
   static bool copyDirectory(const QString &fromName, const QString &toName);
+  static bool copyDirectoryRecursively(const QString &fromName, const QString &toName, QFile::Permissions permissionSpec);
   static QMap<QString, QByteArray> getFilesFromDirectory(QString dirName, QString fileMask);
   static bool saveFilesToDirectory(QString dirName, QMap<QString, QByteArray> fileList);
 

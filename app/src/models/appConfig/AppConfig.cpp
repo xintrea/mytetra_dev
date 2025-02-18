@@ -972,6 +972,30 @@ void AppConfig::setDockableWindowsBehavior(QString mode)
 }
 
 
+// Тема оформления
+AppConfig::InterfaceTheme AppConfig::getInterfaceTheme()
+{
+    QString themeName = get_parameter("theme");
+
+    InterfaceTheme theme;
+    if (themeName == "dark") theme=InterfaceTheme::Dark;
+    else theme=InterfaceTheme::Light;
+
+    return theme;
+}
+
+void AppConfig::setInterfaceTheme(InterfaceTheme theme)
+{
+    QString themeName;
+    switch (theme)
+    {
+    case InterfaceTheme::Light: themeName="light"; break;
+    case InterfaceTheme::Dark: themeName="dark"; break;
+    }
+    conf->setValue("theme", themeName);
+}
+
+
 // --------------------
 // Номер версии конфига
 // --------------------
@@ -1136,6 +1160,7 @@ void AppConfig::update_version_process(void)
     parameterFunctions << &AppConfig::get_parameter_table_36;
     parameterFunctions << &AppConfig::get_parameter_table_37;
     parameterFunctions << &AppConfig::get_parameter_table_38;
+    parameterFunctions << &AppConfig::get_parameter_table_39;
 
     for (int i=1; i<parameterFunctions.count()-1; ++i)
     {
@@ -1903,3 +1928,23 @@ QStringList AppConfig::get_parameter_table_38(bool withEndSignature)
 
     return table;
 }
+
+
+QStringList AppConfig::get_parameter_table_39(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 38
+    table << get_parameter_table_38(false);
+
+    // Поведение окрепляемых окон
+    table << "theme" << "QString" << "light";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+

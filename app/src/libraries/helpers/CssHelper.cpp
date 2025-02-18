@@ -7,9 +7,11 @@
 #include "CssHelper.h"
 
 #include "libraries/GlobalParameters.h"
+#include "models/appConfig/AppConfig.h"
 
 
 extern GlobalParameters globalParameters;
+extern AppConfig mytetraConfig;
 
 
 CssHelper::CssHelper()
@@ -54,7 +56,18 @@ QString CssHelper::replaceCssMetaIconSize(QString styleText)
 
 void CssHelper::setCssStyle()
 {
-  QString csspath = globalParameters.getWorkDirectory()+"/stylesheet.css";
+  QString dirName=globalParameters.getWorkDirectory();
+
+  // Если файл стилей есть по старому пути, переносим его в каталог style
+  QFile file(dirName+"/stylesheet.css");
+  if (file.exists())
+  {
+    QDir styleDir(dirName);
+    styleDir.mkdir("style");
+    file.rename(dirName+"/style/stylesheet.css");
+  }
+
+  QString csspath = dirName+"/style/stylesheet.css";
 
   QFile css(csspath);
 
@@ -64,7 +77,14 @@ void CssHelper::setCssStyle()
   if(!openResult)
   {
     qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
-    globalParameters.createStyleSheetFile( globalParameters.getWorkDirectory() );
+
+    QString themeName;
+    switch (mytetraConfig.getInterfaceTheme())
+    {
+    case AppConfig::Light: themeName="light"; break;
+    case AppConfig::Dark: themeName="dark"; break;
+    }
+    globalParameters.createStyleSheetFile( globalParameters.getWorkDirectory(), themeName);
   }
   css.close();
 

@@ -277,17 +277,37 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>AppConfigPage_Appearance</name>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="34"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="35"/>
+        <source>Interface theme</source>
+        <translation>Тема</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="39"/>
+        <source>Light</source>
+        <translation>Светлая</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="40"/>
+        <source>Dark</source>
+        <translation>Темная</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="45"/>
         <source>Run MyTetra in a minimized window</source>
         <translation>Запускать MyTetra в свернутом окне</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="40"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="51"/>
         <source>Hide detached windows if close main window</source>
-        <translation>Скрывать открепленные окна когда закрывается основное окно</translation>
+                <translation>Скрывать открепленные окна когда закрывается основное окно</translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="55"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="66"/>
+        <source>Interface</source>
+        <translation>Интерфейс</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="81"/>
         <source>Windows behavior</source>
         <translation>Поведение окон</translation>
     </message>

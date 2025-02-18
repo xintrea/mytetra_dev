@@ -187,6 +187,32 @@ bool DiskHelper::copyDirectory(const QString &fromName, const QString &toName)
 }
 
 
+// Копирование содержимого директории
+// Рекурсивно вместе с подкаталогами
+bool DiskHelper::copyDirectoryRecursively(const QString &fromName, const QString &toName, QFile::Permissions permissionSpec)
+{
+  QDir fromDir(fromName);
+  if (!fromDir.exists())
+    return false;
+  QDir toDir(toName);
+  if (!toDir.exists())
+    toDir.mkpath(".");
+
+  foreach (QString dirName, fromDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+    QString destPath = toName + QDir::separator() + dirName;
+    fromDir.mkpath(destPath);
+    copyDirectoryRecursively(fromName+ QDir::separator() + dirName, destPath, permissionSpec);
+  }
+
+  foreach (QString fileName, fromDir.entryList(QDir::Files)) {
+    QString destPath = toName + QDir::separator() + fileName;
+    QFile::copy(fromName + QDir::separator() + fileName, destPath);
+    QFile::setPermissions(destPath, permissionSpec);
+  }
+  return true;
+}
+
+
 // Получение списка файлов с их содержимым в указанной директории
 QMap<QString, QByteArray> DiskHelper::getFilesFromDirectory(QString dirName, QString fileMask)
 {

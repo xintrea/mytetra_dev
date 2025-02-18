@@ -85,6 +85,13 @@
         <file>resource/standartconfig/any/conf.ini</file>
         <file>resource/standartconfig/any/editorconf.ini</file>
         <file>resource/standartconfig/any/stylesheet.css</file>
+		<file>resource/standartconfig/any/styles/dark/pic/branch-closed.png</file>
+        <file>resource/standartconfig/any/styles/dark/pic/branch-end.png</file>
+        <file>resource/standartconfig/any/styles/dark/pic/branch-more.png</file>
+        <file>resource/standartconfig/any/styles/dark/pic/branch-open.png</file>
+        <file>resource/standartconfig/any/styles/dark/pic/vline.png</file>
+        <file>resource/standartconfig/any/styles/dark/stylesheet.css</file>
+        <file>resource/standartconfig/any/styles/light/stylesheet.css</file>
         <file>resource/standartconfig/meego/conf.ini</file>
         <file>resource/standartconfig/meego/editorconf.ini</file>
         <file>resource/standartconfig/meego/stylesheet.css</file>

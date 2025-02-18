@@ -92,11 +92,10 @@ public:
                                  CreateFirstAppFilesFlags::DB |
                                  CreateFirstAppFilesFlags::TRASH |
                                  CreateFirstAppFilesFlags::APP_CONFIG );
-
     //! Создание файла стилей
     //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
     //! Так как в более старых версиях MyTetra его еще не было
-    void createStyleSheetFile(QString dirName);
+    void createStyleSheetFile(QString dirName, QString themeName=NULL);
 
 
 private:
