@@ -19,40 +19,40 @@ Q_OBJECT
 
 public:
 
- AddNewRecord( QWidget * parent = nullptr, Qt::WindowFlags f = nullptr );
+    AddNewRecord( QWidget * parent = nullptr, Qt::WindowFlags f = {} );
 
- ~AddNewRecord();
+    ~AddNewRecord();
 
- QString getField(QString name);
- QString getImagesDirectory(void);
+    QString getField(QString name);
+    QString getImagesDirectory(void);
 
 public slots:
 
-  void setupShortcuts(void);
+    void setupShortcuts(void);
 
 private slots:
 
- void okClick(void);
+    void okClick(void);
 
 private:
 
- // Ввод инфополей записи
- InfoFieldEnter infoField;
+    // Ввод инфополей записи
+    InfoFieldEnter infoField;
 
- // Ввод текста записи
- Editor recordTextEditor;
+    // Ввод текста записи
+    Editor recordTextEditor;
 
- QDialogButtonBox buttonBox;
+    QDialogButtonBox buttonBox;
 
- QString imagesDirName;
+    QString imagesDirName;
 
- void setupUI(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 
- void setupEventFilter(void);
+    void setupEventFilter(void);
 
- virtual bool eventFilter(QObject *object, QEvent *event);
+    virtual bool eventFilter(QObject *object, QEvent *event);
 };
 
 #endif // __ADDNEWRECORD_H__

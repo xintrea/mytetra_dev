@@ -10,6 +10,8 @@
 
 class AppConfigPage_History : public ConfigPage
 {
+    Q_OBJECT
+
 public:
     AppConfigPage_History(QWidget *parent = nullptr);
     virtual ~AppConfigPage_History();

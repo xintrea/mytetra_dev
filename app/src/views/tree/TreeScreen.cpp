@@ -154,6 +154,7 @@ void TreeScreen::setupActions(void)
  ac = new QAction(tr("Find in base"), this);
  ac->setStatusTip(tr("Find in base"));
  ac->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+ connect(ac, &QAction::triggered, this, &TreeScreen::treeScreenFindInBaseClicked);
  actionList["findInBase"]=ac;
 }
 
@@ -206,8 +207,12 @@ void TreeScreen::setupUI(void)
 
  if(mytetraConfig.getInterfaceMode()=="mobile")
  {
-   toolsLine->addSeparator();
-   insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
+     // Вставка невидимого автоматически расталкивающего виджета
+     QWidget* empty = new QWidget(this);
+     empty->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+     toolsLine->addWidget(empty);
+
+     insertActionAsButton(toolsLine, actionList["findInBase"]); // Клик по этой кнопке связывается с действием в MainWindow
  }
 
  // Добавление скрытых действий, которые не видны на тулбаре, но видны на контекстном меню

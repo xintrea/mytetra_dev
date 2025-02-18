@@ -75,7 +75,7 @@ private:
     void removeAnchorDataForSelection();
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
-    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+    void replaceSymbolCase(const QChar::Category &category);
 
     // Обработка мягкого переноса
     void workingSoftCarryInSelection();

@@ -6,11 +6,11 @@ TARGET_OS=ANY_OS
 
 # Build type
 # "debug" or "release"
-BUILD_TYPE="release"
+BUILD_TYPE="debug"
 
 # Enable console for Windows
 # 0 - disable, 1 - enable (this is for compile mytetra.exe and rename to mytetra_debug.exe)
-WINDOWS_CONSOLE_ENABLE=0
+WINDOWS_CONSOLE_ENABLE=1
 
 # Profiling enable
 # 0 - disable, 1 - enable
@@ -138,6 +138,7 @@ INSTALLS+=icon_48_file
 
 
 HEADERS = src/main.h \
+    src/controllers/databasesManagement/DatabasesManagementController.h \
     src/libraries/RandomInitter.h \
     src/libraries/helpers/ActionHelper.h \
     src/libraries/helpers/ConfigEditorHelper.h \
@@ -146,6 +147,7 @@ HEADERS = src/main.h \
     src/libraries/helpers/DiskHelper.h \
     src/libraries/helpers/GestureHelper.h \
     src/libraries/helpers/HtmlHelper.h \
+    src/libraries/helpers/LinkHelper.h \
     src/libraries/helpers/MessageHelper.h \
     src/libraries/helpers/ObjectHelper.h \
     src/libraries/helpers/ScreenHelper.h \
@@ -159,9 +161,14 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/models/databasesManagement/DatabasesManagementModel.h \
+    src/models/databasesManagement/KnownBasesConfig.h \
     src/views/appConfigWindow/AppConfigPage_Appearance.h \
     src/views/appConfigWindow/AppConfigPage_History.h \
-    src/views/consoleEmulator/CommandRun.h \
+    src/views/consoleEmulator/CommandRunner.h \
+    src/views/databasesManagement/DatabasesManagementPathDelegate.h \
+    src/views/databasesManagement/DatabasesManagementScreen.h \
+    src/views/databasesManagement/DatabasesManagementTable.h \
     src/views/installDialog/InstallDialog.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
@@ -295,6 +302,7 @@ HEADERS+=\
     src/libraries/MtStyledItemDelegate.h
 
 SOURCES = src/main.cpp \
+    src/controllers/databasesManagement/DatabasesManagementController.cpp \
     src/libraries/RandomInitter.cpp \
     src/libraries/helpers/ActionHelper.cpp \
     src/libraries/helpers/ConfigEditorHelper.cpp \
@@ -303,6 +311,7 @@ SOURCES = src/main.cpp \
     src/libraries/helpers/DiskHelper.cpp \
     src/libraries/helpers/GestureHelper.cpp \
     src/libraries/helpers/HtmlHelper.cpp \
+    src/libraries/helpers/LinkHelper.cpp \
     src/libraries/helpers/MessageHelper.cpp \
     src/libraries/helpers/ObjectHelper.cpp \
     src/libraries/helpers/ScreenHelper.cpp \
@@ -316,9 +325,14 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/models/databasesManagement/DatabasesManagementModel.cpp \
+    src/models/databasesManagement/KnownBasesConfig.cpp \
     src/views/appConfigWindow/AppConfigPage_Appearance.cpp \
     src/views/appConfigWindow/AppConfigPage_History.cpp \
-    src/views/consoleEmulator/CommandRun.cpp \
+    src/views/consoleEmulator/CommandRunner.cpp \
+    src/views/databasesManagement/DatabasesManagementPathDelegate.cpp \
+    src/views/databasesManagement/DatabasesManagementScreen.cpp \
+    src/views/databasesManagement/DatabasesManagementTable.cpp \
     src/views/installDialog/InstallDialog.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \

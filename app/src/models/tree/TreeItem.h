@@ -20,7 +20,7 @@ class TreeItem
 
     // Возвращение ссылки на потомка, который хранится в списке childItems
     // под указанным номером
-    TreeItem *child(int number);
+    TreeItem *child(int number) const;
 
     // Возвращение количества потомков (т.е. количество записей в списке childItems)
     int childCount() const;
@@ -29,7 +29,7 @@ class TreeItem
     int fieldCount() const;
 
     // Получение значения поля по имени
-    QString getField(QString name);
+    QString getField(QString name) const;
 
     // Получение всех полей данных
     QMap<QString, QString> getAllFields();
@@ -56,7 +56,7 @@ class TreeItem
     bool addChildrenItem(TreeItem *item);
     
     // Возвращение ссылки на родительский элемент
-    TreeItem *parent();
+    TreeItem *parent() const;
 
     // Удаление потомков, начиная с позиции position массива childItems
     bool removeChildren(int position, int count);
@@ -72,7 +72,7 @@ class TreeItem
     bool moveDn(void);
     
     // Возвращает id путь (список идентификаторов от корня до текущего элемента)
-    QStringList getPath(void);
+    QStringList getPath(void) const;
     
     // Возвращает путь в виде названий веток дерева
     QStringList getPathAsName(void);
@@ -80,7 +80,7 @@ class TreeItem
     QString getPathAsNameWithDelimeter(QString delimeter);
 
     // Возвращает набор значений указанного поля для пути от корня к ветке
-    QStringList getPathAsField(QString fieldName);
+    QStringList getPathAsField(QString fieldName) const;
 
     // Возвращает массив путей всех подветок, которые содержит ветка
     QList<QStringList> getAllChildrenPath(void);
@@ -107,7 +107,7 @@ class TreeItem
     void recordtableInit(QDomElement domModel);
 
     // Взятие количества записей в таблице конечных записей, "промежуточный" метод
-    int recordtableGetRowCount(void);
+    int recordtableGetRowCount(void) const;
 
     // Удаление всех элементов в таблице конечных записей, "промежуточный" метод
     void recordtableDeleteAllRecords(void);
@@ -117,7 +117,8 @@ class TreeItem
     void recordtableExportDataToStreamWriter(QXmlStreamWriter *xmlWriter);
 
     // Взятие ссылки на данные конечных записей
-    RecordTableData *recordtableGetTableData(void);
+    const RecordTableData *recordtableGetTableData() const;
+    RecordTableData *recordtableGetTableData();
 
     void setDetached(bool state);
     bool isDetached();

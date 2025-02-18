@@ -20,7 +20,7 @@
 #include "main.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/FixedParameters.h"
-#include "views/consoleEmulator/CommandRun.h"
+#include "views/consoleEmulator/CommandRunner.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
 
@@ -207,7 +207,9 @@ QString MathExpressionFormatter::getMathExpressionFromUser(QString iMathExpressi
 }
 
 
-void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression, QString iFileName, bool removeTeXFileToTrash)
+void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpression,
+                                                          QString iFileName,
+                                                          bool removeTeXFileToTrash)
 {
     // Исходник в формате TeX записывается во временный файл
     // Работа через файл с исходником TeX сделана для того, чтобы кроссплатформенно
@@ -228,14 +230,14 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
     QString mimetexBinaryName="mimetex";
     QString chDirCommand;
     QString mimetexPath=QCoreApplication::applicationDirPath(); // mimetex должен лежать там же где и mytetra
-    CommandRun exCommand;
+    CommandRunner commandRunner;
 
-    if(exCommand.getOsFamily()=="unix") {
+    if(commandRunner.getOsFamily()=="unix") {
         mimetexBinaryName="./"+mimetexBinaryName;
         chDirCommand="cd "+mimetexPath+" ; ";
     }
 
-    if(exCommand.getOsFamily()=="windows") {
+    if(commandRunner.getOsFamily()=="windows") {
         mimetexBinaryName+=".exe";
         chDirCommand="chdir /D "+mimetexPath+" & ";
     }
@@ -244,8 +246,8 @@ void MathExpressionFormatter::createGifFromMathExpression(QString iMathExpressio
 
     qDebug() << "Command for create math expression picture: " << command;
 
-    exCommand.setCommand(command);
-    exCommand.runSimple();
+    commandRunner.setCommand(command);
+    commandRunner.runSimple();
 
     if (removeTeXFileToTrash) {
         // Файл с TeX исходником удаляется в корзину

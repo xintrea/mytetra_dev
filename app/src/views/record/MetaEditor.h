@@ -21,8 +21,8 @@ public slots:
 
  void setField(QString n, QString v);
  void clearAll(void);
- void onClickToTag(const QString &text);
-
+ void onClickToTag(const QString &tagNum);
+ void onClickToUrl(const QString &link);
 
 signals:
  // Сигнал вырабатывается при клике на текстовой метке

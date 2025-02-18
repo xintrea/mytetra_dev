@@ -17,6 +17,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "views/attachTable/AttachTableScreen.h"
 #include "libraries/helpers/ObjectHelper.h"
+#include "libraries/helpers/LinkHelper.h"
 
 
 extern GlobalParameters globalParameters;
@@ -61,6 +62,8 @@ void MetaEditor::setupSignals(void)
   connect(this,                             &MetaEditor::setFindTextSignal,
           globalParameters.getFindScreen(), &FindScreen::setFindText);
 
+  connect(recordUrl, &QLabel::linkActivated,
+          this,      &MetaEditor::onClickToUrl);
 }
 
 
@@ -96,7 +99,7 @@ void MetaEditor::setupLabels(void)
   labelUrl->setVisible(false);
 
   recordUrl=new QLabel(this);
-  recordUrl->setOpenExternalLinks(true);
+  // recordUrl->setOpenExternalLinks(true);
   recordUrl->setTextInteractionFlags(Qt::TextSelectableByMouse |
                                      Qt::TextSelectableByKeyboard |
                                      Qt::LinksAccessibleByMouse |
@@ -383,12 +386,12 @@ void MetaEditor::setTags(QString tags)
 
 // Слот принимает Url метки. Url состоит из порядкового номера метки,
 // по нему восстанавливается текст метки
-void MetaEditor::onClickToTag(const QString &link_text)
+void MetaEditor::onClickToTag(const QString &tagNum)
 {
- qDebug() << "Click to tag " << link_text;
+ qDebug() << "Click to tag " << tagNum;
 
  // Текст метки
- QString tag=recordTagsTextList.at( link_text.toInt() );
+ QString tag=recordTagsTextList.at( tagNum.toInt() );
  qDebug() << "Tag text " << tag;
 
  // -----------------------------
@@ -403,6 +406,12 @@ void MetaEditor::onClickToTag(const QString &link_text)
   findScreen->widgetShow();
 
  emit setFindTextSignal(tag);
+}
+
+
+void MetaEditor::onClickToUrl(const QString &link)
+{
+    LinkHelper::gotoReference( link );
 }
 
 

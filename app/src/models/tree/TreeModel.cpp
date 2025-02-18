@@ -237,7 +237,7 @@ bool TreeModel::isItemValid(QStringList path) const
 
 void TreeModel::emitSignalDataChanged(const QModelIndex &index)
 {
-  emit dataChanged(index, index);
+    emit dataChanged(index, index);
 }
 
 
@@ -386,4 +386,10 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
 
   rootItem->setField("name", value.toString());
   return true;
+}
+
+
+const TreeItem* TreeModel::getRootItem() const
+{
+    return rootItem;
 }

@@ -1,5 +1,5 @@
-#ifndef __ACTIONLOGMODEL_H__
-#define __ACTIONLOGMODEL_H__
+#ifndef ACTIONLOGMODEL_H
+#define ACTIONLOGMODEL_H
 
 #include <QObject>
 #include <QAbstractTableModel>
@@ -30,4 +30,4 @@ private:
   QDomDocument doc;
 };
 
-#endif // __ACTIONLOGMODEL_H__
+#endif // ACTIONLOGMODEL_H

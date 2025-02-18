@@ -120,7 +120,7 @@ private:
 
     // Область работы с картинкой формулы
     QWidget *topWidget; // Виджет, объединяющий все контролы по работе с картинкой формулы (для сплитера)
-    QLabel *pictureFormalaLabel;                // Надпись Picture formula
+    QLabel *pictureFormulaLabel;                // Надпись Picture formula
     QHBoxLayout *pictureFormulaControlLayout;   // Область контролов по работе с масштабированием картинки
     QRadioButton *timerRadioButton;             // Обновление картинки формулы по таймеру
     QRadioButton *realTimeRadioButton;          // Обновление картинки формулы в реальном времени

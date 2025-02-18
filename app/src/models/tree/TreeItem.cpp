@@ -37,7 +37,7 @@ TreeItem::~TreeItem()
 
 // Возвращение ссылки на потомка, который хранится в списке childItems
 // под указанным номером
-TreeItem *TreeItem::child(int number)
+TreeItem *TreeItem::child(int number) const
 {
  return childItems.value(number);
 }
@@ -84,7 +84,7 @@ int TreeItem::fieldCount() const
 }
 
 
-QString TreeItem::getField(QString name)
+QString TreeItem::getField(QString name) const
 {
     // Если запрашивается динамическое имя из имени и количества потомков
     if(name=="dynamicname")
@@ -277,7 +277,7 @@ QIcon TreeItem::getIcon()
 }
 
 
-TreeItem *TreeItem::parent()
+TreeItem *TreeItem::parent() const
 {
   return parentItem;
 }
@@ -421,7 +421,7 @@ bool TreeItem::moveDn(void)
 
 
 // Путь к элементу (список идентификаторов от корня до текущего элемента)
-QStringList TreeItem::getPath(void)
+QStringList TreeItem::getPath(void) const
 {
   return getPathAsField("id");
 }
@@ -447,10 +447,10 @@ QString TreeItem::getPathAsNameWithDelimeter(QString delimeter)
 }
 
 
-QStringList TreeItem::getPathAsField(QString fieldName)
+QStringList TreeItem::getPathAsField(QString fieldName) const
 {
     QStringList path;
-    TreeItem *currentItem=this;
+    const TreeItem *currentItem=this;
 
     path << currentItem->getField(fieldName);
 
@@ -603,7 +603,7 @@ void TreeItem::recordtableInit(QDomElement domModel)
 }
 
 
-int TreeItem::recordtableGetRowCount(void)
+int TreeItem::recordtableGetRowCount(void) const
 {
   return recordsTable.size();
 }
@@ -627,9 +627,17 @@ void TreeItem::recordtableDeleteAllRecords(void)
 }
 
 
-RecordTableData *TreeItem::recordtableGetTableData(void)
+// Константный вариант взятия указателя на данные таблицы конечных записей
+const RecordTableData *TreeItem::recordtableGetTableData() const
 {
-  return &recordsTable;
+    return &recordsTable;
+}
+
+
+// Обычный вариант взятия указателя на данные таблицы конечных записей
+RecordTableData *TreeItem::recordtableGetTableData()
+{
+    return &recordsTable;
 }
 
 

@@ -306,7 +306,7 @@ int AppConfigPage_Main::applyChanges(void)
    else
     { 
      // Новое имя запоминается в конфиг
-     mytetraConfig.set_tetradir(tetradirInput->text());
+     mytetraConfig.set_tetradir( tetradirInput->text() );
      difficultChanges=1;
     } 
   } 

@@ -33,7 +33,7 @@ extern GlobalParameters globalParameters;
 // Конструктор модели дерева, состоящего из Item элементов
 KnowTreeModel::KnowTreeModel(QObject *parent) : TreeModel(parent)
 {
-  xmlFileName="";
+  m_xmlFileName="";
   rootItem=nullptr;
 
   connect(this, &KnowTreeModel::doCloseDetachedWindowByIdSet,
@@ -53,23 +53,23 @@ KnowTreeModel::~KnowTreeModel()
 
 void KnowTreeModel::initFromXML(QString fileName)
 {
-  xmlFileName=fileName;
+  m_xmlFileName=fileName;
 
   // Загрузка файла и преобразование его в DOM модель
   XmlTree xmlt;
-  if(!xmlt.load( xmlFileName ))
+  if(!xmlt.load( m_xmlFileName ))
     return;
 
   init(xmlt.getDomModel());
 
-  lastLoadDateTime=QDateTime::currentDateTime();
+  m_lastLoadDateTime=QDateTime::currentDateTime();
 }
 
 
 void KnowTreeModel::init(QDomDocument *domModel)
 {
   // Проверка формата XML-файла
-  if( !checkFormat(domModel->documentElement().firstChildElement("format")) )
+  if ( !checkFormat(domModel->documentElement().firstChildElement("format")) )
   {
     criticalError(tr("Unsupported version of the database format.\nYou need to update MyTetra."));
   }
@@ -79,13 +79,14 @@ void KnowTreeModel::init(QDomDocument *domModel)
 
   // Определяется одно поле в корневом объекте
   // то есть на экране будет один столбец
-  rootData["id"]="0";
-  rootData["name"]="";
+  rootData["id"] = "0";
+  rootData["name"] = "";
+
 
   beginResetModel();
 
   // Создание корневого Item объекта
-  if(rootItem!=nullptr)
+  if (rootItem!=nullptr)
     delete rootItem;
   rootItem = new TreeItem(rootData);
 
@@ -138,7 +139,19 @@ bool KnowTreeModel::updateSubVersionFrom1To2(void)
 
 void KnowTreeModel::reload(void)
 {
-  initFromXML(xmlFileName);
+    this->initFromXML(m_xmlFileName);
+}
+
+
+void KnowTreeModel::clear()
+{
+    beginResetModel(); // Уведомление представления о начале полной перезагрузки модели
+
+    // Удаляется корневой элемент и все остальные зависимые
+    delete rootItem;
+    rootItem = nullptr;
+
+    endResetModel(); // Уведомление представления о завершении перезагрузки модели
 }
 
 
@@ -517,7 +530,6 @@ bool KnowTreeModel::copyImportRecordDirectories( QDomDocument &doc,
 }
 
 
-// Преобразование DOM-документа согласно таблицам трансляции
 void KnowTreeModel::translateImportDomData( QDomDocument &doc ,
                                             QString elementName,
                                             QString elementAttribute,
@@ -537,7 +549,9 @@ void KnowTreeModel::translateImportDomData( QDomDocument &doc ,
 
 
 // Находятся совпадающие ID в импортируемых данных и в основной базе для веток
-QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &doc, QString elementName, QString attributeName)
+QMap<QString, QString> KnowTreeModel::getAttributeTranslateTable(QDomDocument &doc,
+                                                                 QString elementName,
+                                                                 QString attributeName)
 {
   QMap<QString, QString> translateTable;
 
@@ -667,16 +681,16 @@ void KnowTreeModel::parseTreeToStreamWriter( QXmlStreamWriter *xmlWriter, TreeIt
 void KnowTreeModel::save()
 {
   // Если имя файла не было проинициализировано
-  if(xmlFileName=="")
+  if(m_xmlFileName=="")
     criticalError("In KnowTreeModel can't set file name for XML file");
 
   // Перенос текущего файла дерева в корзину
-  DiskHelper::removeFileToTrash(xmlFileName);
+  DiskHelper::removeFileToTrash(m_xmlFileName);
 
   // Создается новый файл дерева
-  QFile writeFile(xmlFileName);
+  QFile writeFile(m_xmlFileName);
   if (!writeFile.open(QIODevice::WriteOnly)) // | QIODevice::Text
-    criticalError("Cant open file "+xmlFileName+" for write.");
+    criticalError("Cant open file "+m_xmlFileName+" for write.");
 
   // Создание объекта потоковой генерации XML-данных в файл
   QXmlStreamWriter xmlWriter(&writeFile);
@@ -710,19 +724,19 @@ void KnowTreeModel::save()
 
   writeFile.close();
 
-  lastSaveDateTime=QDateTime::currentDateTime();
+  m_lastSaveDateTime=QDateTime::currentDateTime();
 }
 
 
 QDateTime KnowTreeModel::getLastSaveDateTime()
 {
-  return lastSaveDateTime;
+  return m_lastSaveDateTime;
 }
 
 
 QDateTime KnowTreeModel::getLastLoadDateTime()
 {
-  return lastLoadDateTime;
+  return m_lastLoadDateTime;
 }
 
 
@@ -979,7 +993,7 @@ int KnowTreeModel::getAllRecordCount(void)
 
 
 // Возвращает количество записей в ветке и всех подветках
-int KnowTreeModel::getRecordCountForItem(TreeItem *item)
+int KnowTreeModel::getRecordCountForItem(TreeItem const *item)
 {
   // Обнуление счетчика
   getAllRecordCountRecurse(rootItem, 0);
@@ -988,7 +1002,7 @@ int KnowTreeModel::getRecordCountForItem(TreeItem *item)
 }
 
 
-int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
+int KnowTreeModel::getAllRecordCountRecurse(TreeItem const *item, int mode) const
 {
   static int n=0;
 
@@ -1000,8 +1014,11 @@ int KnowTreeModel::getAllRecordCountRecurse(TreeItem *item, int mode)
 
   n=n+item->recordtableGetRowCount();
 
+  // При вызове getAllRecordCountRecurse() добавляется константность,
+  // первому аргументу, поэтому контроль над данными не теряется,
+  // а только усиливается
   for(int i=0; i < item->childCount(); i++)
-    getAllRecordCountRecurse(item->child(i), 1);
+    this->getAllRecordCountRecurse(const_cast<const TreeItem *>(item->child(i)), 1);
 
   return n;
 }
@@ -1550,7 +1567,7 @@ bool KnowTreeModel::isContainsBlockRecordsRecurse(TreeItem *item, int mode)
 
 QString KnowTreeModel::getXmlFileName() const
 {
-  return xmlFileName;
+  return m_xmlFileName;
 }
 
 

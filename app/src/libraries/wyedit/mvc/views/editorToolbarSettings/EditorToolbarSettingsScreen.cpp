@@ -367,10 +367,10 @@ void EditorToolbarSettingsScreen::onMoveSelectedCommandDown()
 // Отображение информации-подсказки
 void EditorToolbarSettingsScreen::onInfoClick()
 {
-    QString message = tr("<b>Information</b> for inserting the selected command (list of all available commands) in the list of working toolbars:");
+    QString message = tr("<b>Information</b> for inserting the selected command (from list of all available commands) to the list of working toolbars:");
     message += "<br/>";
     message += "<br/>";
-    message += tr("The command is inserted <b>above the cursor</b> in the command list of the text editor toolbar.");
+    message += tr("The command is inserted <b>above the cursor</b> in the command list of the toolbar.");
     message += "<br/>";
     message += "<br/>";
     message += "<b>Shortcuts:</b>";

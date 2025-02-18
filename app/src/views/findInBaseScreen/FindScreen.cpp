@@ -415,12 +415,12 @@ void FindScreen::findStart(void)
 
   // Выясняется стартовый элемент в дереве, с которого будет начат поиск
   // Выясняется сколько всего конечных записей
-  TreeItem *startItem=0;
+  TreeItem const *startItem=0;
   int totalRec=0;
   if(mytetraConfig.getFindScreenTreeSearchArea()==0) // Если нужен поиск во всем дереве
   {
     // Корневой элемент дерева
-    startItem=searchModel->rootItem;
+    startItem=searchModel->getRootItem(); // searchModel->rootItem
 
     // Количество конечных записей во всем дереве
     totalRec=searchModel->getAllRecordCount();
@@ -473,7 +473,7 @@ void FindScreen::findStart(void)
   isUnsearchCryptBranchPresent=false;
 
   //Вызывается рекурсивный поиск в дереве
-  findRecurse( startItem );
+  this->findRecurse( startItem );
 
   // После вставки всех данных подгоняется ширина колонок
   findTable->updateColumnsWidth();
@@ -496,7 +496,7 @@ void FindScreen::findStart(void)
 }
 
 
-void FindScreen::findRecurse(TreeItem *curritem)
+void FindScreen::findRecurse(const TreeItem* curritem)
 {
   // Если была нажата отмена поиска
   if(cancelFlag==1)return;
@@ -535,7 +535,7 @@ void FindScreen::findRecurse(TreeItem *curritem)
     // Обработка таблицы конечных записей
 
     // Выясняется ссылка на таблицу конечных записей
-    RecordTableData *searchRecordTable=curritem->recordtableGetTableData();
+    const RecordTableData *searchRecordTable=curritem->recordtableGetTableData();
 
     // Перебираются записи таблицы
     for(int i=0; i<static_cast<int>( searchRecordTable->size() ); i++)

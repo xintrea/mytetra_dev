@@ -89,8 +89,8 @@ public:
     QAction *expandToolsLines;
     QAction *save;
 
-    QAction *back;
-    QAction *findInBase;
+    QAction *mobileBack;
+    QAction *mobileFindInBase;
 
     QAction *showText;
 

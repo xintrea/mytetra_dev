@@ -110,10 +110,10 @@ QVariant ActionLogModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant(section + 1);
   else
     switch (section) {
-      case 0:
+      case ACTIONLOG_COLUMN_TIMESTAMP:
         return QVariant(tr("Time"));
 
-      case 1:
+      case ACTIONLOG_COLUMN_ACTION:
         return QVariant(tr("Action"));
 
       default:

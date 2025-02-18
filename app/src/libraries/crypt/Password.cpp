@@ -94,7 +94,24 @@ bool Password::retrievePassword()
                     return true;
                 }
                 else
-                    mytetraConfig.setPasswordMiddleHash(""); // хранимый пароль сбрасывается
+                {
+                    // Иначе оказалась ситуация, что хранимый пароль в виде промежуточного хеша не подошел
+                    // эта редкая ситуация может возникнуть только в результате неправильного
+                    // ручного вмешательства в хранимые данные, или при синхронизации, если в более новом инстансе
+                    // базы знаний пароль был изменен и база перешифрована, а в текущем инстансе остался старый пароль
+                    // В этом случае хранимый пароль надо сбросить
+
+                    mytetraConfig.setPasswordMiddleHash(""); // Хранимый пароль сбрасывается
+                    mytetraConfig.setPasswordSaveFlag(false); // Помечается что пароль больше не хранится
+
+                    QMessageBox msgBox;
+                    msgBox.setWindowTitle(tr("Detect incorrect saved password"));
+                    msgBox.setText(tr("Incorrect saved password.\nSaved password removed.\nYou can set correct saved password again\nin application settings in Crypt section."));
+                    msgBox.setIcon(QMessageBox::Warning);
+                    msgBox.exec();
+
+                    return false;
+                }
             }
             else // Иначе пароль в конфиге не запомнен, его надо запрашивать у пользователя
             {

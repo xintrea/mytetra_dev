@@ -91,7 +91,7 @@ void ActionLogView::paintEvent(QPaintEvent *event)
   QTableView::paintEvent(event);
 
   // Если нет записей лога
-  if(model()!=NULL)
+  if(model()!=nullptr)
     if(model()->rowCount()==0 && mytetraConfig.getEnableLogging()==false)
     {
       QPainter painter(viewport());

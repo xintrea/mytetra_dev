@@ -9,13 +9,37 @@ class MetaEditor;
 class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
-class CommandRun;
+class CommandRunner;
 
 class GlobalParameters : public QObject
 {
     Q_OBJECT
 
 public:
+
+    // Указание на обрабатываемую панель инструментов редактора текста
+    enum EditorToolbar {
+        First = 0,
+        Second
+    };
+
+    // Возможные режимы добавления записей в таблицу конечных записей
+    enum AddNewRecordBehavior
+    {
+        ADD_TO_END=0,
+        ADD_BEFORE,
+        ADD_AFTER
+    };
+
+    // Флаги создания новой рабочей директории
+    enum CreateFirstAppFilesFlags
+    {
+        DB         = 1 << 0, // Создание директории с файлами БД
+        TRASH      = 1 << 1, // Создание директории корзины
+        APP_CONFIG = 1 << 2  // Создание конфиг-файлов рабочей директории
+    };
+
+
     GlobalParameters(QObject *pobj=nullptr);
     virtual ~GlobalParameters();
 
@@ -54,32 +78,26 @@ public:
     void setWindowSwitcher(WindowSwitcher *point);
     WindowSwitcher *getWindowSwitcher();
 
-    void setSyncroCommandRun(CommandRun *point);
-    CommandRun *getSyncroCommandRun();
+    void setSyncroCommandRunner(CommandRunner *point);
+    CommandRunner *getSyncroCommandRunnner();
 
     void setCryptKey(QByteArray hash);
     QByteArray getCryptKey(void);
 
     QString getInstallAutodetectLang();
 
-    // Файл стилей может создаваться и после развертывания начальных файлов MyTetra
-    // Так как в более старых версиях MyTetra его еще не было
+    //! Создание файлов новой БД в указанной директории
+    void createFirstAppFiles(QString dirName,
+                             unsigned int flags =
+                                 CreateFirstAppFilesFlags::DB |
+                                 CreateFirstAppFilesFlags::TRASH |
+                                 CreateFirstAppFilesFlags::APP_CONFIG );
+
+    //! Создание файла стилей
+    //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
+    //! Так как в более старых версиях MyTetra его еще не было
     void createStyleSheetFile(QString dirName);
 
-public:
-    // Указание на обрабатываемую панель инструментов редактора текста
-    enum EditorToolbar {
-        First = 0,
-        Second
-    };
-
-    // Возможные режимы добавления записей в таблицу конечных записей
-    enum AddNewRecordBehavior
-    {
-        ADD_TO_END=0,
-        ADD_BEFORE,
-        ADD_AFTER
-    };
 
 private:
 
@@ -92,27 +110,26 @@ private:
     bool isMytetraIniConfig(QString fileName);
     void createStandartProgramFiles(void);
     void createPortableProgramFiles(void);
-    void createFirstProgramFiles(QString dirName);
 
-    TreeScreen *pointTreeScreen=nullptr;
-    RecordTableScreen *pointRecordTableScreen=nullptr;
-    FindScreen *pointFindScreen=nullptr;
-    MetaEditor *pointMetaEditor=nullptr;
-    QStatusBar *pointStatusBar=nullptr;
-    WindowSwitcher *windowSwitcher=nullptr;
-    CommandRun *syncroCommandRun=nullptr; //! Объект выполнения команд синхронизации базы MyTetra
+    TreeScreen *m_pointTreeScreen=nullptr;
+    RecordTableScreen *m_pointRecordTableScreen=nullptr;
+    FindScreen *m_pointFindScreen=nullptr;
+    MetaEditor *m_pointMetaEditor=nullptr;
+    QStatusBar *m_pointStatusBar=nullptr;
+    WindowSwitcher *m_windowSwitcher=nullptr;
+    CommandRunner *m_syncroCommandRunner=nullptr; //! Объект выполнения команд синхронизации базы MyTetra
 
-    QString mainProgramFile;
-    QString workDirectory;
+    QString m_mainProgramFile;
+    QString m_workDirectory;
 
-    QString mSystemCodepage;
-    QString mConsoleCodepage;
+    QString m_systemCodepage;
+    QString m_consoleCodepage;
 
     QByteArray passwordHash;
 
     //! Язык, который был автоопределен если запускалась инсталляция базы знаний.
     //! Если автоинсталляция не запускалась, это значение будет пустой строкой
-    QString installAutodetectLang;
+    QString m_installAutodetectLang;
 };
 
 #endif	/* GLOBALPARAMETERS_H */

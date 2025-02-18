@@ -18,7 +18,7 @@ ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
   // По факту этот класс - синглтон. Синглтон сам задает себе имя
   this->setObjectName("ActionLogScreen");
 
-  this->setWindowTitle("Action log");
+  this->setWindowTitle(tr("Action log"));
 
   // Инициализируется контроллер отображения записей лога
   actionLogController=new ActionLogController(this);
