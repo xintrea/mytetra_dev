@@ -170,46 +170,60 @@ bool DiskHelper::removeDirectory(const QString &dirName)
 // Копируются только файлы
 bool DiskHelper::copyDirectory(const QString &fromName, const QString &toName)
 {
-  QDir fromDir(fromName);
-  QDir toDir(toName);
+    QDir fromDir(fromName);
+    QDir toDir(toName);
 
-  if(fromDir.exists() && toDir.exists())
-  {
-    Q_FOREACH(QFileInfo info, fromDir.entryInfoList(QDir::Files))
+    if(fromDir.exists() && toDir.exists())
     {
-      QFile::copy(info.absoluteFilePath(), toName+"/"+info.fileName());
+        Q_FOREACH(QFileInfo info, fromDir.entryInfoList(QDir::Files))
+        {
+            QFile::copy(info.absoluteFilePath(), toName+"/"+info.fileName());
+        }
+
+        return true;
     }
 
-    return true;
-  }
-
-  return false;
+    return false;
 }
 
 
 // Копирование содержимого директории
 // Рекурсивно вместе с подкаталогами
-bool DiskHelper::copyDirectoryRecursively(const QString &fromName, const QString &toName, QFile::Permissions permissionSpec)
+bool DiskHelper::copyDirectoryRecursively(const QString &fromName,
+                                          const QString &toName,
+                                          QFile::Permissions permissionSpec)
 {
-  QDir fromDir(fromName);
-  if (!fromDir.exists())
-    return false;
-  QDir toDir(toName);
-  if (!toDir.exists())
-    toDir.mkpath(".");
+    QDir fromDir(fromName);
+    if (!fromDir.exists())
+    {
+        return false;
+    }
 
-  foreach (QString dirName, fromDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-    QString destPath = toName + QDir::separator() + dirName;
-    fromDir.mkpath(destPath);
-    copyDirectoryRecursively(fromName+ QDir::separator() + dirName, destPath, permissionSpec);
-  }
+    QDir toDir(toName);
+    if (!toDir.exists())
+    {
+        toDir.mkpath(".");
+    }
 
-  foreach (QString fileName, fromDir.entryList(QDir::Files)) {
-    QString destPath = toName + QDir::separator() + fileName;
-    QFile::copy(fromName + QDir::separator() + fileName, destPath);
-    QFile::setPermissions(destPath, permissionSpec);
-  }
-  return true;
+    // Копирование директорий
+    foreach (QString dirName, fromDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
+    {
+        QString destPath = toName + QDir::separator() + dirName;
+        fromDir.mkpath(destPath);
+        copyDirectoryRecursively(fromName+ QDir::separator() + dirName,
+                                 destPath,
+                                 permissionSpec);
+    }
+
+    // Копирование файлов
+    foreach (QString fileName, fromDir.entryList(QDir::Files))
+    {
+        QString destPath = toName + QDir::separator() + fileName;
+        QFile::copy(fromName + QDir::separator() + fileName, destPath);
+        QFile::setPermissions(destPath, permissionSpec);
+    }
+
+    return true;
 }
 
 

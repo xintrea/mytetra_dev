@@ -161,6 +161,7 @@ HEADERS = src/main.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.h \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.h \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.h \
+    src/models/appConfig/AppFiles.h \
     src/models/databasesManagement/DatabasesManagementModel.h \
     src/models/databasesManagement/KnownBasesConfig.h \
     src/views/appConfigWindow/AppConfigPage_Appearance.h \
@@ -325,6 +326,7 @@ SOURCES = src/main.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsAvailableToolsModel.cpp \
     src/libraries/wyedit/mvc/models/editorToolbarSettings/EditorToolbarSettingsUsedToolsModel.cpp \
     src/libraries/wyedit/mvc/views/editorToolbarSettings/EditorToolbarCommandsListView.cpp \
+    src/models/appConfig/AppFiles.cpp \
     src/models/databasesManagement/DatabasesManagementModel.cpp \
     src/models/databasesManagement/KnownBasesConfig.cpp \
     src/views/appConfigWindow/AppConfigPage_Appearance.cpp \

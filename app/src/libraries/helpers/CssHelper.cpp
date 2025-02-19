@@ -84,7 +84,7 @@ void CssHelper::setCssStyle()
     case AppConfig::Light: themeName="light"; break;
     case AppConfig::Dark: themeName="dark"; break;
     }
-    globalParameters.createStyleSheetFile( globalParameters.getWorkDirectory(), themeName);
+    globalParameters.createThemesFiles( globalParameters.getWorkDirectory(), themeName);
   }
   css.close();
 

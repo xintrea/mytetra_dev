@@ -17,17 +17,17 @@ AppConfig::AppConfig(QObject *pobj)
 {
     Q_UNUSED(pobj)
 
-    is_init_flag=false;
+    m_isInit=false;
 }
 
 
 // Деструктор объекта настройки программы
 AppConfig::~AppConfig()
 {
-    if (is_init_flag)
+    if (m_isInit)
     {
         qDebug() << "Save mytetra config file";
-        conf->sync();
+        m_conf->sync();
     }
 }
 
@@ -35,7 +35,7 @@ AppConfig::~AppConfig()
 void AppConfig::init(void)
 {
     // Создается имя файла конфигурации
-    QString configFileName=globalParameters.getWorkDirectory()+"/conf.ini";
+    QString configFileName = globalParameters.getWorkDirectory()+"/conf.ini";
 
     // Проверяется, есть ли файл конфигурации
     QFile confFile(configFileName);
@@ -45,42 +45,42 @@ void AppConfig::init(void)
     }
 
     // Создается указатель на объект хранилища конфигурации
-    conf=new QSettings(configFileName, QSettings::IniFormat, this);
-    conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
+    m_conf = new QSettings(configFileName, QSettings::IniFormat, this);
+    m_conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
     update_version_process();
 
     sync();
 
-    is_init_flag=true;
+    m_isInit = true;
 }
 
 
 bool AppConfig::is_init(void)
 {
-    return is_init_flag;
+    return m_isInit;
 }
 
 
 void AppConfig::sync(void)
 {
-    conf->sync();
+    m_conf->sync();
 }
 
 
 // Получение имени файла конфига, с которым происходит работа
 QString AppConfig::getConfigFileName()
 {
-    return conf->fileName();
+    return m_conf->fileName();
 }
 
 
 // Получение параметра по имени в виде строки с проверкой его существования
 QString AppConfig::get_parameter(QString name)
 {
-    if (conf->contains(name))
+    if (m_conf->contains(name))
     {
-        return conf->value(name).toString();
+        return m_conf->value(name).toString();
     }
     else
     {
@@ -97,7 +97,7 @@ bool AppConfig::set_tetradir(QString dirName)
 
     if (directory.exists() && directory.isReadable())
     {
-        conf->setValue("tetradir", dirName);
+        m_conf->setValue("tetradir", dirName);
         return true;
     }
     else
@@ -110,7 +110,7 @@ bool AppConfig::set_tetradir(QString dirName)
 // Получение имени директории с данными (в которой находится mytetra.xml)
 QString AppConfig::get_tetradir(void)
 {
-    return get_parameter("tetradir");
+    return this->get_parameter("tetradir");
 }
 
 
@@ -121,7 +121,7 @@ bool AppConfig::set_trashdir(QString dirName)
 
     if (directory.exists() && directory.isReadable())
     {
-        conf->setValue("trashdir", dirName);
+        m_conf->setValue("trashdir", dirName);
         return true;
     }
     else
@@ -134,14 +134,14 @@ bool AppConfig::set_trashdir(QString dirName)
 // Получение имени директории с корзиной
 QString AppConfig::get_trashdir(void)
 {
-    return get_parameter("trashdir");
+    return this->get_parameter("trashdir");
 }
 
 
 // Получение максимального размера директории корзины в мегабайтах
 unsigned int AppConfig::get_trashsize(void)
 {
-    return get_parameter("trashsize").toUInt();
+    return this->get_parameter("trashsize").toUInt();
 }
 
 
@@ -150,7 +150,7 @@ bool AppConfig::set_trashsize(unsigned int mbSize)
 {
     if (mbSize>0)
     {
-        conf->setValue("trashsize", mbSize);
+        m_conf->setValue("trashsize", mbSize);
         return true;
     }
     else
@@ -163,7 +163,7 @@ bool AppConfig::set_trashsize(unsigned int mbSize)
 // Получение максимально допустимого числа файлов в корзине
 int AppConfig::get_trashmaxfilecount(void)
 {
-    return get_parameter("trashmaxfilecount").toInt();
+    return this->get_parameter("trashmaxfilecount").toInt();
 }
 
 
@@ -172,7 +172,7 @@ bool AppConfig::set_trashmaxfilecount(int count)
 {
     if (count>0)
     {
-        conf->setValue("trashmaxfilecount", count);
+        m_conf->setValue("trashmaxfilecount", count);
         return true;
     }
     else
@@ -184,33 +184,33 @@ bool AppConfig::set_trashmaxfilecount(int count)
 
 bool AppConfig::get_cutbranchconfirm(void)
 {
-    return conf->value("cutbranchconfirm").toBool();
+    return m_conf->value("cutbranchconfirm").toBool();
 }
 
 
 bool AppConfig::set_cutbranchconfirm(bool confirm)
 {
-    conf->setValue("cutbranchconfirm", confirm);
+    m_conf->setValue("cutbranchconfirm", confirm);
     return true;
 }
 
 
 bool AppConfig::get_printdebugmessages(void)
 {
-    return conf->value("printdebugmessages").toBool();
+    return m_conf->value("printdebugmessages").toBool();
 }
 
 
 bool AppConfig::set_printdebugmessages(bool isPrint)
 {
-    conf->setValue("printdebugmessages", isPrint);
+    m_conf->setValue("printdebugmessages", isPrint);
     return true;
 }
 
 
 QString AppConfig::get_interfacelanguage(void)
 {
-    QString language=get_parameter("interfacelanguage");
+    QString language = this->get_parameter("interfacelanguage");
     qDebug() << "Get interface language" << language;
     return language;
 }
@@ -218,14 +218,14 @@ QString AppConfig::get_interfacelanguage(void)
 
 bool AppConfig::set_interfacelanguage(QString language)
 {
-    conf->setValue("interfacelanguage", language);
+    m_conf->setValue("interfacelanguage", language);
     return true;
 }
 
 
 QString AppConfig::get_addnewrecord_expand_info(void)
 {
-    return get_parameter("addnewrecord_expand_info");
+    return this->get_parameter("addnewrecord_expand_info");
 }
 
 
@@ -233,7 +233,7 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
 {
     if (state=="0" || state=="1")
     {
-        conf->setValue("addnewrecord_expand_info", state);
+        m_conf->setValue("addnewrecord_expand_info", state);
     }
     else
     {
@@ -244,7 +244,7 @@ void AppConfig::set_addnewrecord_expand_info(QString state)
 
 QByteArray AppConfig::get_mainwingeometry(void)
 {
-    return QByteArray::fromBase64( conf->value("mainwingeometry", "").toString().toLatin1() );
+    return QByteArray::fromBase64( m_conf->value("mainwingeometry", "").toString().toLatin1() );
 }
 
 
@@ -252,7 +252,7 @@ void AppConfig::set_mainwingeometry(QByteArray dataGeometry)
 {
     qDebug() << "Save main window geometry";
 
-    conf->setValue( "mainwingeometry", QString( dataGeometry.toBase64().data() ) );
+    m_conf->setValue( "mainwingeometry", QString( dataGeometry.toBase64().data() ) );
 }
 
 
@@ -288,7 +288,7 @@ QList<int> AppConfig::get_findsplitter_size_list(void)
 
 void AppConfig::set_findsplitter_size_list(QList<int> list)
 {
-    qDebug() << "Config set find splitter list to " << list;
+    // qDebug() << "Config set find splitter list to " << list;
     set_splitter_size_list("findsplitter", list);
 }
 
@@ -298,7 +298,7 @@ QList<int> AppConfig::get_splitter_size_list(QString name)
     QStringList line_list;
     QList<int> list;
 
-    line_list=(conf->value(name+"_size_list", "100,100")).toString().split(",");
+    line_list = (m_conf->value(name+"_size_list", "100,100")).toString().split(",");
 
     for (int i=0;i < line_list.size(); ++i)
     {
@@ -318,100 +318,100 @@ void AppConfig::set_splitter_size_list(QString name, QList<int> list)
         line_list.append( QString::number(list.at(i)) );
     }
 
-    conf->setValue(name+"_size_list", line_list.join(","));
+    m_conf->setValue(name+"_size_list", line_list.join(","));
 }
 
 
 QStringList AppConfig::get_tree_position(void)
 {
-    return (conf->value("tree_position","1")).toString().split(",");
+    return (m_conf->value("tree_position","1")).toString().split(",");
 }
 
 
 void AppConfig::set_tree_position(QStringList list)
 {
     qDebug() << "AppConfig::set_tree_position() : " << list;
-    conf->setValue("tree_position", list.join(","));
+    m_conf->setValue("tree_position", list.join(","));
 }
 
 
 // ID записи в таблице конечных записей, которая выделена на экране
 QString AppConfig::get_recordtable_selected_record_id(void)
 {
-    return conf->value("recordtableSelectedRecordId", 0).toString();
+    return m_conf->value("recordtableSelectedRecordId", 0).toString();
 }
 
 
 // ID записи в таблице конечных записей, которая выделена на экране
 void AppConfig::set_recordtable_selected_record_id(QString id)
 {
-    conf->setValue("recordtableSelectedRecordId", id);
+    m_conf->setValue("recordtableSelectedRecordId", id);
 }
 
 
 int AppConfig::get_findscreen_wordregard(void)
 {
-    return conf->value("findscreen_wordregard", 0).toInt();
+    return m_conf->value("findscreen_wordregard", 0).toInt();
 }
 
 
 void AppConfig::set_findscreen_wordregard(int pos)
 {
-    conf->setValue("findscreen_wordregard",pos);
+    m_conf->setValue("findscreen_wordregard",pos);
 }
 
 
 int AppConfig::get_findscreen_howextract(void)
 {
-    return conf->value("findscreen_howextract", 0).toInt();
+    return m_conf->value("findscreen_howextract", 0).toInt();
 }
 
 
 void AppConfig::set_findscreen_howextract(int pos)
 {
-    conf->setValue("findscreen_howextract", pos);
+    m_conf->setValue("findscreen_howextract", pos);
 }
 
 
 int AppConfig::getFindScreenTreeSearchArea(void)
 {
-    return conf->value("findScreenTreeSearchArea", 0).toInt();
+    return m_conf->value("findScreenTreeSearchArea", 0).toInt();
 }
 
 
 void AppConfig::setFindScreenTreeSearchArea(int pos)
 {
-    conf->setValue("findScreenTreeSearchArea", pos);
+    m_conf->setValue("findScreenTreeSearchArea", pos);
 }
 
 
 bool AppConfig::get_findscreen_find_in_field(QString fieldName)
 {
-    return conf->value("findscreen_find_in"+fieldName, 0).toBool();
+    return m_conf->value("findscreen_find_in"+fieldName, 0).toBool();
 }
 
 
 void AppConfig::set_findscreen_find_in_field(QString fieldName, bool isChecked)
 {
-    conf->setValue("findscreen_find_in"+fieldName, isChecked);
+    m_conf->setValue("findscreen_find_in"+fieldName, isChecked);
 }
 
 
 bool AppConfig::get_findscreen_show(void)
 {
-    return conf->value("findscreen_show", 0).toBool();
+    return m_conf->value("findscreen_show", 0).toBool();
 }
 
 
 void AppConfig::set_findscreen_show(bool isShow)
 {
-    conf->setValue("findscreen_show", isShow);
+    m_conf->setValue("findscreen_show", isShow);
 }
 
 
 QString AppConfig::get_howpassrequest(void)
 {
-    return get_parameter("howpassrequest");
+    return this->get_parameter("howpassrequest");
 }
 
 
@@ -419,7 +419,7 @@ void AppConfig::set_howpassrequest(QString mode)
 {
     if (mode=="atClickOnCryptBranch" || mode=="atStartProgram")
     {
-        conf->setValue("howpassrequest", mode);
+        m_conf->setValue("howpassrequest", mode);
     }
     else
     {
@@ -430,176 +430,176 @@ void AppConfig::set_howpassrequest(QString mode)
 
 bool AppConfig::get_autoClosePasswordEnable(void)
 {
-    return conf->value("autoClosePasswordEnable", 0).toBool();
+    return m_conf->value("autoClosePasswordEnable", 0).toBool();
 }
 
 
 void AppConfig::set_autoClosePasswordEnable(bool flag)
 {
-    conf->setValue("autoClosePasswordEnable", flag);
+    m_conf->setValue("autoClosePasswordEnable", flag);
 }
 
 
 int AppConfig::get_autoClosePasswordDelay(void)
 {
-    return conf->value("autoClosePasswordDelay", 0).toInt();
+    return m_conf->value("autoClosePasswordDelay", 0).toInt();
 }
 
 
 void AppConfig::set_autoClosePasswordDelay(int delay)
 {
-    conf->setValue("autoClosePasswordDelay", delay);
+    m_conf->setValue("autoClosePasswordDelay", delay);
 }
 
 
 bool AppConfig::get_runinminimizedwindow(void)
 {
-    return conf->value("runinminimizedwindow").toBool();
+    return m_conf->value("runinminimizedwindow").toBool();
 }
 
 
 void AppConfig::set_runinminimizedwindow(bool flag)
 {
-    conf->setValue("runinminimizedwindow", flag);
+    m_conf->setValue("runinminimizedwindow", flag);
 }
 
 
 QString AppConfig::get_synchrocommand(void)
 {
-    return get_parameter("synchrocommand");
+    return this->get_parameter("synchrocommand");
 }
 
 
 void AppConfig::set_synchrocommand(QString command)
 {
-    conf->setValue("synchrocommand", command);
+    m_conf->setValue("synchrocommand", command);
 }
 
 
 bool AppConfig::get_synchroonstartup(void)
 {
-    return conf->value("synchroonstartup").toBool();
+    return m_conf->value("synchroonstartup").toBool();
 }
 
 
 void AppConfig::set_synchroonstartup(bool flag)
 {
-    conf->setValue("synchroonstartup", flag);
+    m_conf->setValue("synchroonstartup", flag);
 }
 
 
 bool AppConfig::get_synchroonexit(void)
 {
-    return conf->value("synchroonexit").toBool();
+    return m_conf->value("synchroonexit").toBool();
 }
 
 
 void AppConfig::set_synchroonexit(bool flag)
 {
-    conf->setValue("synchroonexit", flag);
+    m_conf->setValue("synchroonexit", flag);
 }
 
 
 bool AppConfig::getSyncroConsoleDetails(void)
 {
-    return conf->value("syncroConsoleDetails").toBool();
+    return m_conf->value("syncroConsoleDetails").toBool();
 }
 
 
 void AppConfig::setSyncroConsoleDetails(bool flag)
 {
-    conf->setValue("syncroConsoleDetails", flag);
+    m_conf->setValue("syncroConsoleDetails", flag);
 }
 
 
 int AppConfig::getEditorCursorPosition(void)
 {
-    return conf->value("editorCursorPosition",0).toInt();
+    return m_conf->value("editorCursorPosition",0).toInt();
 }
 
 
 void AppConfig::setEditorCursorPosition(int n)
 {
-    conf->setValue("editorCursorPosition", n);
+    m_conf->setValue("editorCursorPosition", n);
 }
 
 
 int AppConfig::getEditorScrollBarPosition(void)
 {
-    return conf->value("editorScrollBarPosition",0).toInt();
+    return m_conf->value("editorScrollBarPosition",0).toInt();
 }
 
 
 void AppConfig::setEditorScrollBarPosition(int n)
 {
-    conf->setValue("editorScrollBarPosition", n);
+    m_conf->setValue("editorScrollBarPosition", n);
 }
 
 
 QString AppConfig::getPasswordMiddleHash(void)
 {
-    return get_parameter("passwordMiddleHash");
+    return this->get_parameter("passwordMiddleHash");
 }
 
 
 void AppConfig::setPasswordMiddleHash(QString hash)
 {
-    conf->setValue("passwordMiddleHash", hash);
+    m_conf->setValue("passwordMiddleHash", hash);
 }
 
 
 // Нужно ли локально хранить пароль (точнее, промежуточный хеш пароля)
 bool AppConfig::getPasswordSaveFlag(void)
 {
-    return conf->value("passwordSaveFlag").toBool();
+    return m_conf->value("passwordSaveFlag").toBool();
 }
 
 
 void AppConfig::setPasswordSaveFlag(bool flag)
 {
-    conf->setValue("passwordSaveFlag", flag);
+    m_conf->setValue("passwordSaveFlag", flag);
 }
 
 
 bool AppConfig::getRememberCursorAtHistoryNavigation(void)
 {
-    return conf->value("rememberCursorAtHistoryNavigation").toBool();
+    return m_conf->value("rememberCursorAtHistoryNavigation").toBool();
 }
 
 
 void AppConfig::setRememberCursorAtHistoryNavigation(bool flag)
 {
-    conf->setValue("rememberCursorAtHistoryNavigation", flag);
+    m_conf->setValue("rememberCursorAtHistoryNavigation", flag);
 }
 
 
 bool AppConfig::getRememberCursorAtOrdinarySelection(void)
 {
-    return conf->value("rememberCursorAtOrdinarySelection").toBool();
+    return m_conf->value("rememberCursorAtOrdinarySelection").toBool();
 }
 
 
 void AppConfig::setRememberCursorAtOrdinarySelection(bool flag)
 {
-    conf->setValue("rememberCursorAtOrdinarySelection", flag);
+    m_conf->setValue("rememberCursorAtOrdinarySelection", flag);
 }
 
 
 int AppConfig::getUglyQssReplaceHeightForTableView(void)
 {
-    return conf->value("uglyQssReplaceHeightForTableView", 0).toInt();
+    return m_conf->value("uglyQssReplaceHeightForTableView", 0).toInt();
 }
 
 void AppConfig::setUglyQssReplaceHeightForTableView(int n)
 {
-    conf->setValue("uglyQssReplaceHeightForTableView", n);
+    m_conf->setValue("uglyQssReplaceHeightForTableView", n);
 }
 
 
 // Перечень полей, отображаемых в таблице конечных записей
 QStringList AppConfig::getRecordTableShowFields(void)
 {
-    return (conf->value("recordTableShowFields", "name")).toString().split(",");
+    return (m_conf->value("recordTableShowFields", "name")).toString().split(",");
 }
 
 
@@ -611,38 +611,38 @@ void AppConfig::setRecordTableShowFields(QStringList fields)
         fields << "name";
     }
 
-    conf->setValue("recordTableShowFields", fields.join(","));
+    m_conf->setValue("recordTableShowFields", fields.join(","));
 }
 
 
 bool AppConfig::getRecordTableShowHorizontalHeaders(void)
 {
-    return conf->value("recordTableShowHorizontalHeaders").toBool();
+    return m_conf->value("recordTableShowHorizontalHeaders").toBool();
 }
 
 
 void AppConfig::setRecordTableShowHorizontalHeaders(bool flag)
 {
-    conf->setValue("recordTableShowHorizontalHeaders", flag);
+    m_conf->setValue("recordTableShowHorizontalHeaders", flag);
 }
 
 
 bool AppConfig::getRecordTableShowVerticalHeaders(void)
 {
-    return conf->value("recordTableShowVerticalHeaders").toBool();
+    return m_conf->value("recordTableShowVerticalHeaders").toBool();
 }
 
 
 void AppConfig::setRecordTableShowVerticalHeaders(bool flag)
 {
-    conf->setValue("recordTableShowVerticalHeaders", flag);
+    m_conf->setValue("recordTableShowVerticalHeaders", flag);
 }
 
 
 // Ширина полей, отображаемых в таблице конечных записей
 QStringList AppConfig::getRecordTableFieldsWidth(void)
 {
-    return (conf->value("recordTableFieldsWidth", "256")).toString().split(",");
+    return (m_conf->value("recordTableFieldsWidth", "256")).toString().split(",");
 }
 
 
@@ -660,71 +660,71 @@ void AppConfig::setRecordTableFieldsWidth(QStringList fields)
         fields << "256";
     }
 
-    conf->setValue("recordTableFieldsWidth", fields.join(","));
+    m_conf->setValue("recordTableFieldsWidth", fields.join(","));
 }
 
 
 // Показывать ли сплешскрин при старте программы
 bool AppConfig::getShowSplashScreen(void)
 {
-    return conf->value("showSplashScreen").toBool();
+    return m_conf->value("showSplashScreen").toBool();
 }
 
 
 void AppConfig::setShowSplashScreen(bool isShow)
 {
-    conf->setValue("showSplashScreen", isShow);
+    m_conf->setValue("showSplashScreen", isShow);
 }
 
 
 // Режим интерфейса, возможные значения "desktop" и "mobile"
 QString AppConfig::getInterfaceMode(void)
 {
-    QString mode=get_parameter("interfaceMode");
+    QString mode = this->get_parameter("interfaceMode");
     return mode;
 }
 
 
 void AppConfig::setInterfaceMode(QString mode)
 {
-    conf->setValue("interfaceMode", mode);
+    m_conf->setValue("interfaceMode", mode);
 }
 
 // Имя последнего активного виджета
 QString AppConfig::getFocusWidget(void)
 {
-    QString widgetName=get_parameter("focusWidget");
+    QString widgetName = this->get_parameter("focusWidget");
     return widgetName;
 }
 
 
 void AppConfig::setFocusWidget(QString widgetName)
 {
-    conf->setValue("focusWidget", widgetName);
+    m_conf->setValue("focusWidget", widgetName);
 }
 
 
 QStringList AppConfig::getHideEditorTools(void)
 {
-    return (conf->value("hideEditorTools", "")).toString().split(",");
+    return (m_conf->value("hideEditorTools", "")).toString().split(",");
 }
 
 
 void AppConfig::setHideEditorTools(QStringList toolsNames)
 {
-    conf->setValue("hideEditorTools", toolsNames.join(","));
+    m_conf->setValue("hideEditorTools", toolsNames.join(","));
 }
 
 
 bool AppConfig::getFindInBaseExpand(void)
 {
-    return conf->value("findInBaseExpand").toBool();
+    return m_conf->value("findInBaseExpand").toBool();
 }
 
 
 void AppConfig::setFindInBaseExpand(bool state)
 {
-    conf->setValue("findInBaseExpand", state);
+    m_conf->setValue("findInBaseExpand", state);
 }
 
 
@@ -732,104 +732,104 @@ void AppConfig::setFindInBaseExpand(bool state)
 // Разрешено ли использовать собственный формат вывода даты и времени
 bool AppConfig::getEnableCustomDateTimeFormat(void)
 {
-    return conf->value("enableCustomDateTimeFormat").toBool();
+    return m_conf->value("enableCustomDateTimeFormat").toBool();
 }
 
 void AppConfig::setEnableCustomDateTimeFormat(bool state)
 {
-    conf->setValue("enableCustomDateTimeFormat", state);
+    m_conf->setValue("enableCustomDateTimeFormat", state);
 }
 
 
 // Строка собственного формата вывода даты и времени
 QString AppConfig::getCustomDateTimeFormat(void)
 {
-    return get_parameter("customDateTimeFormat");
+    return this->get_parameter("customDateTimeFormat");
 }
 
 void AppConfig::setCustomDateTimeFormat(QString format)
 {
-    conf->setValue("customDateTimeFormat", format);
+    m_conf->setValue("customDateTimeFormat", format);
 }
 
 
 // Путь на диске по которому пользователь открывал файлы чтобы приаттачить их к записи
 QString AppConfig::getAttachAppendDir(void)
 {
-    return get_parameter("attachAppendDir");
+    return this->get_parameter("attachAppendDir");
 }
 
 void AppConfig::setAttachAppendDir(QString dir)
 {
-    conf->setValue("attachAppendDir", dir);
+    m_conf->setValue("attachAppendDir", dir);
 }
 
 
 // Путь на диске по которому пользователь сохранял (Сохранить как...)приаттаченные файлы
 QString AppConfig::getAttachSaveAsDir(void)
 {
-    return get_parameter("attachSaveAsDir");
+    return this->get_parameter("attachSaveAsDir");
 }
 
 void AppConfig::setAttachSaveAsDir(QString dir)
 {
-    conf->setValue("attachSaveAsDir", dir);
+    m_conf->setValue("attachSaveAsDir", dir);
 }
 
 
 // Разрешать ли для просмотра расшифровывать зашифрованные файлы в директорию корзины MyTetra
 bool AppConfig::getEnableDecryptFileToTrashDirectory(void)
 {
-    return conf->value("enableDecryptFileToTrashDirectory").toBool();
+    return m_conf->value("enableDecryptFileToTrashDirectory").toBool();
 }
 
 void AppConfig::setEnableDecryptFileToTrashDirectory(bool state)
 {
-    conf->setValue("enableDecryptFileToTrashDirectory", state);
+    m_conf->setValue("enableDecryptFileToTrashDirectory", state);
 }
 
 
 // Получение размера файла лога действий
 unsigned int AppConfig::getActionLogMaximumSize(void)
 {
-    return get_parameter("actionLogMaximumSize").toUInt();
+    return this->get_parameter("actionLogMaximumSize").toUInt();
 }
 
 
 // Установка размера файла лога действий в мегабайтах
 void AppConfig::setActionLogMaximumSize(unsigned int mbSize)
 {
-    conf->setValue("actionLogMaximumSize", mbSize);
+    m_conf->setValue("actionLogMaximumSize", mbSize);
 }
 
 
 // Разрешено ли логирование
 bool AppConfig::getEnableLogging(void)
 {
-    return conf->value("enableLogging").toBool();
+    return m_conf->value("enableLogging").toBool();
 }
 
 void AppConfig::setEnableLogging(bool state)
 {
-    conf->setValue("enableLogging", state);
+    m_conf->setValue("enableLogging", state);
 }
 
 // Разрешена ли подсветка записей с прикрепленными файлами
 bool AppConfig::getEnableRecordWithAttachHighlight(void)
 {
-    return conf->value("enableRecordWithAttachHighlight").toBool();
+    return m_conf->value("enableRecordWithAttachHighlight").toBool();
 }
 
 void AppConfig::setEnableRecordWithAttachHighlight(bool state)
 {
-    conf->setValue("enableRecordWithAttachHighlight", state);
+    m_conf->setValue("enableRecordWithAttachHighlight", state);
 }
 
 
 // Цвет подсветки записей с прикрепленными файлами
 QString AppConfig::getRecordWithAttachHighlightColor(void)
 {
-    return get_parameter("recordWithAttachHighlightColor");
+    return this->get_parameter("recordWithAttachHighlightColor");
 }
 
 
@@ -840,7 +840,7 @@ void AppConfig::setRecordWithAttachHighlightColor(QString color)
     // Если сохраняема строка действительно содержит закодированный цвет
     if (saveColor.isValid())
     {
-        conf->setValue("recordWithAttachHighlightColor", color);
+        m_conf->setValue("recordWithAttachHighlightColor", color);
     }
 }
 
@@ -848,60 +848,60 @@ void AppConfig::setRecordWithAttachHighlightColor(QString color)
 // Разрешена ли периодическая проверка файла базы на предмет изменения сторонней программой
 bool AppConfig::getEnablePeriodicCheckBase(void)
 {
-    return conf->value("enablePeriodicCheckBase").toBool();
+    return m_conf->value("enablePeriodicCheckBase").toBool();
 }
 
 void AppConfig::setEnablePeriodicCheckBase(bool state)
 {
-    conf->setValue("enablePeriodicCheckBase", state);
+    m_conf->setValue("enablePeriodicCheckBase", state);
 }
 
 
 // Период проверки файла базы на предмет изменения сторонней программой
 int AppConfig::getCheckBasePeriod(void)
 {
-    return get_parameter("checkBasePeriod").toInt();
+    return this->get_parameter("checkBasePeriod").toInt();
 }
 
 
 void AppConfig::setCheckBasePeriod(int period)
 {
-    conf->setValue("checkBasePeriod", period);
+    m_conf->setValue("checkBasePeriod", period);
 }
 
 
 // Необходимо ли выводить сообщение если база была изменена другой программой
 bool AppConfig::getEnablePeriodicCheckMessage(void)
 {
-    return conf->value("enablePeriodicCheckMessage").toBool();
+    return m_conf->value("enablePeriodicCheckMessage").toBool();
 }
 
 void AppConfig::setEnablePeriodicCheckMessage(bool state)
 {
-    conf->setValue("enablePeriodicCheckMessage", state);
+    m_conf->setValue("enablePeriodicCheckMessage", state);
 }
 
 
 int AppConfig::getPreviewIconSize(void)
 {
-    return conf->value("previewIconSize",0).toInt();
+    return m_conf->value("previewIconSize",0).toInt();
 }
 
 
 void AppConfig::setPreviewIconSize(int n)
 {
-    conf->setValue("previewIconSize", n);
+    m_conf->setValue("previewIconSize", n);
 }
 
 
 QString AppConfig::getIconCurrentSectionName(void)
 {
-    return get_parameter("iconCurrentSectionName");
+    return this->get_parameter("iconCurrentSectionName");
 }
 
 void AppConfig::setIconCurrentSectionName(QString name)
 {
-    conf->setValue("iconCurrentSectionName", name);
+    m_conf->setValue("iconCurrentSectionName", name);
 }
 
 
@@ -909,77 +909,76 @@ void AppConfig::setIconCurrentSectionName(QString name)
 // Разрешена ли периодическая синхронизация
 bool AppConfig::getEnablePeriodicSyncro(void)
 {
-    return conf->value("enablePeriodicSyncro").toBool();
+    return m_conf->value("enablePeriodicSyncro").toBool();
 }
 
 void AppConfig::setEnablePeriodicSyncro(bool state)
 {
-    conf->setValue("enablePeriodicSyncro", state);
+    m_conf->setValue("enablePeriodicSyncro", state);
 }
 
 
 // Период автоматической периодической синхронизации
 int AppConfig::getPeriodicSyncroPeriod(void)
 {
-    return get_parameter("periodicSyncroPeriod").toInt();
+    return this->get_parameter("periodicSyncroPeriod").toInt();
 }
 
 
 void AppConfig::setPeriodicSyncroPeriod(int period)
 {
-    conf->setValue("periodicSyncroPeriod", period);
+    m_conf->setValue("periodicSyncroPeriod", period);
 }
 
 
 // Разрешено ли создавать запись без текста
 bool AppConfig::getEnableCreateEmptyRecord(void)
 {
-    return conf->value("enableCreateEmptyRecord").toBool();
+    return m_conf->value("enableCreateEmptyRecord").toBool();
 }
 
 void AppConfig::setEnableCreateEmptyRecord(bool state)
 {
-    conf->setValue("enableCreateEmptyRecord", state);
+    m_conf->setValue("enableCreateEmptyRecord", state);
 }
 
 
 QString AppConfig::getDockableWindowsState(void)
 {
-    return get_parameter("dockableWindowsState");
+    return this->get_parameter("dockableWindowsState");
 }
 
 void AppConfig::setDockableWindowsState(QString state)
 {
-    conf->setValue("dockableWindowsState", state);
+    m_conf->setValue("dockableWindowsState", state);
 }
 
 
 QString AppConfig::getDockableWindowsBehavior(void)
 {
-    return get_parameter("dockableWindowsBehavior");
+    return this->get_parameter("dockableWindowsBehavior");
 }
 
 void AppConfig::setDockableWindowsBehavior(QString mode)
 {
     if (mode=="single" || mode=="together")
     {
-        conf->setValue("dockableWindowsBehavior", mode);
+        m_conf->setValue("dockableWindowsBehavior", mode);
     }
     else
     {
-        criticalError("Set unavailable value for dockableWindowsBehavior "+mode);
+        criticalError("Unavailable value for dockableWindowsBehavior "+mode);
     }
 }
 
-
-// Тема оформления
+// Получение темы оформления
 AppConfig::InterfaceTheme AppConfig::getInterfaceTheme()
 {
-    QString themeName = get_parameter("theme");
+    QString themeName = this->get_parameter("theme");
 
     InterfaceTheme theme;
     if (themeName == "dark") theme=InterfaceTheme::Dark;
-    else theme=InterfaceTheme::Light;
+    else theme = InterfaceTheme::Light;
 
     return theme;
 }
@@ -987,12 +986,14 @@ AppConfig::InterfaceTheme AppConfig::getInterfaceTheme()
 void AppConfig::setInterfaceTheme(InterfaceTheme theme)
 {
     QString themeName;
+
     switch (theme)
     {
     case InterfaceTheme::Light: themeName="light"; break;
     case InterfaceTheme::Dark: themeName="dark"; break;
     }
-    conf->setValue("theme", themeName);
+
+    m_conf->setValue("theme", themeName);
 }
 
 
@@ -1002,7 +1003,7 @@ void AppConfig::setInterfaceTheme(InterfaceTheme theme)
 
 int AppConfig::get_config_version(void)
 {
-    int v=conf->contains("version") ? conf->value("version").toInt() : 0;
+    int v = m_conf->contains("version") ? m_conf->value("version").toInt() : 0;
 
     return v;
 }
@@ -1010,7 +1011,7 @@ int AppConfig::get_config_version(void)
 
 void AppConfig::set_config_version(int i)
 {
-    conf->setValue("version", i);
+    m_conf->setValue("version", i);
 }
 
 
@@ -1939,7 +1940,7 @@ QStringList AppConfig::get_parameter_table_39(bool withEndSignature)
     // Старые параметры, аналогичные версии 38
     table << get_parameter_table_38(false);
 
-    // Поведение окрепляемых окон
+    // Стандартная тема оформления
     table << "theme" << "QString" << "light";
 
     if(withEndSignature)

@@ -31,14 +31,6 @@ public:
         ADD_AFTER
     };
 
-    // Флаги создания новой рабочей директории
-    enum CreateFirstAppFilesFlags
-    {
-        DB         = 1 << 0, // Создание директории с файлами БД
-        TRASH      = 1 << 1, // Создание директории корзины
-        APP_CONFIG = 1 << 2  // Создание конфиг-файлов рабочей директории
-    };
-
 
     GlobalParameters(QObject *pobj=nullptr);
     virtual ~GlobalParameters();
@@ -86,18 +78,6 @@ public:
 
     QString getInstallAutodetectLang();
 
-    //! Создание файлов новой БД в указанной директории
-    void createFirstAppFiles(QString dirName,
-                             unsigned int flags =
-                                 CreateFirstAppFilesFlags::DB |
-                                 CreateFirstAppFilesFlags::TRASH |
-                                 CreateFirstAppFilesFlags::APP_CONFIG );
-    //! Создание файла стилей
-    //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
-    //! Так как в более старых версиях MyTetra его еще не было
-    void createStyleSheetFile(QString dirName, QString themeName=NULL);
-
-
 private:
 
     void initCodepage(void);
@@ -107,8 +87,6 @@ private:
     void initWorkDirectory(void);
     bool findWorkDirectory(void);
     bool isMytetraIniConfig(QString fileName);
-    void createStandartProgramFiles(void);
-    void createPortableProgramFiles(void);
 
     TreeScreen *m_pointTreeScreen=nullptr;
     RecordTableScreen *m_pointRecordTableScreen=nullptr;

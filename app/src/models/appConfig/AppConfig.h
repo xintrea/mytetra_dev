@@ -272,8 +272,6 @@ public:
 
 private:
 
-    QSettings *conf = nullptr; // было static
-
     QString get_parameter(QString name);
 
     QStringList removeParameterFromTable(QString removeName, QStringList table);
@@ -324,7 +322,8 @@ private:
     QStringList get_parameter_table_38(bool withEndSignature=true);
     QStringList get_parameter_table_39(bool withEndSignature=true);
 
-    bool is_init_flag;
+    QSettings *m_conf = nullptr; // было static
+    bool m_isInit;
 };
 
 #endif // __APPCONFIG_H__
