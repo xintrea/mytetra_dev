@@ -55,185 +55,185 @@ class CommandRunner;
 
 class MainWindow : public QMainWindow
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
- MainWindow();
- virtual ~MainWindow();
+    MainWindow();
+    virtual ~MainWindow();
 
- TreeScreen *treeScreen=nullptr;
- RecordTableScreen *recordTableScreen=nullptr;
- MetaEditor *editorScreen=nullptr;
- FindScreen *findScreenDisp=nullptr;
- QStatusBar *statusBar=nullptr;
- WindowSwitcher *windowSwitcher=nullptr;
+    TreeScreen *treeScreen=nullptr;
+    RecordTableScreen *recordTableScreen=nullptr;
+    MetaEditor *editorScreen=nullptr;
+    FindScreen *findScreenDisp=nullptr;
+    QStatusBar *statusBar=nullptr;
+    WindowSwitcher *windowSwitcher=nullptr;
 
- void restoreWindowGeometry(void);
- void restoreTreePosition(void);
- void restoreRecordTablePosition(void);
- void restoreEditorCursorPosition(void);
- void restoreEditorScrollBarPosition(void);
- void restoreFindOnBaseVisible(void);
- void restoreAllWindowState(void);
+    void restoreWindowGeometry(void);
+    void restoreTreePosition(void);
+    void restoreRecordTablePosition(void);
+    void restoreEditorCursorPosition(void);
+    void restoreEditorScrollBarPosition(void);
+    void restoreFindOnBaseVisible(void);
+    void restoreAllWindowState(void);
 
- void restoreDockableWindowsState(void);
+    void restoreDockableWindowsState(void);
 
- void setTreePosition(QStringList path);
- bool isTreePositionCrypt();
+    void setTreePosition(QStringList path);
+    bool isTreePositionCrypt();
 
- void setRecordtablePositionById(QString id);
+    void setRecordtablePositionById(QString id);
 
- void synchronization(bool visible=true);
+    void synchronization(bool visible=true);
 
- void goWalkHistoryPrevious(void);
- void goWalkHistoryNext(void);
+    void goWalkHistoryPrevious(void);
+    void goWalkHistoryNext(void);
 
- void saveTextarea(void);
+    void saveTextarea(void);
 
- void saveAllState(void);
+    void saveAllState(void);
 
- void reload(void);
+    void reload(void);
 
 signals:
 
- void globalPressKey(int key);
- void globalReleaseKey(int key);
+    void globalPressKey(int key);
+    void globalReleaseKey(int key);
 
- void doUpdateDetachedWindows();
+    void doUpdateDetachedWindows();
 
 public slots:
- void applicationExit(void);
- void applicationFastExit(void);
- void commitData(QSessionManager& manager);
- void messageHandler(QString message);
+    void applicationExit(void);
+    void applicationFastExit(void);
+    void commitData(QSessionManager& manager);
+    void messageHandler(QString message);
 
- void toolsFindInBase(void);
+    void toolsFindInBase(void);
 
- void setupShortcuts(void);
+    void setupShortcuts(void);
 
 private slots:
 
- void showWindow();
+    void showWindow();
 
- bool fileSave(void);
- bool fileSaveAs(void);
+    bool fileSave(void);
+    bool fileSaveAs(void);
 
- void fileDatabasesManagement(void);
- void fileExportBranch(void);
- void fileImportBranch(void);
+    void fileDatabasesManagement(void);
+    void fileExportBranch(void);
+    void fileImportBranch(void);
 
- void filePrint(void);
- void filePrintPreview(void);
- void filePrintPdf(void);
- 
- void toolsPreferences(void);
- void onActionLogClicked(void);
+    void filePrint(void);
+    void filePrintPreview(void);
+    void filePrintPdf(void);
 
- void onExpandEditArea(bool flag);
+    void toolsPreferences(void);
+    void onActionLogClicked(void);
 
- void onClickHelpAboutMyTetra(void);
- void onClickHelpAboutQt(void);
- void onClickHelpTechnicalInfo(void);
+    void onExpandEditArea(bool flag);
 
- void onClickFocusTree(void);
- void onClickFocusNoteTable(void);
- void onClickFocusEditor(void);
+    void onClickHelpAboutMyTetra(void);
+    void onClickHelpAboutQt(void);
+    void onClickHelpTechnicalInfo(void);
 
- void runDirectPreferences(QAction *action);
+    void onClickFocusTree(void);
+    void onClickFocusNoteTable(void);
+    void onClickFocusEditor(void);
 
- void onSyncroCommandFinishWork(void);
+    void runDirectPreferences(QAction *action);
 
- void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void onSyncroCommandFinishWork(void);
 
- void onFocusChanged(QWidget *, QWidget *);
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+
+    void onFocusChanged(QWidget *, QWidget *);
 
 private:
 
- void setupUI(void);
- void setupSignals(void);
- void assembly(void);
+    void setupUI(void);
+    void setupSignals(void);
+    void assembly(void);
 
- void initFileMenu(void);
- void initToolsMenu(void);
- void initPreferencesMenu(QMenu *menu);
- void initHelpMenu(void);
- void initHiddenActions(void);
+    void initFileMenu(void);
+    void initToolsMenu(void);
+    void initPreferencesMenu(QMenu *menu);
+    void initHelpMenu(void);
+    void initHiddenActions(void);
 
- void initRecordTableActions(void);
+    void initRecordTableActions(void);
 
- void setupIconActions(void);
- void createTrayIcon(void);
- void setIcon(void);
+    void setupIconActions(void);
+    void createTrayIcon(void);
+    void setIcon(void);
 
- void saveWindowGeometry(void);
- void saveTreePosition(void);
- void saveRecordTablePosition(void);
- void saveEditorCursorPosition(void);
- void saveEditorScrollBarPosition(void);
+    void saveWindowGeometry(void);
+    void saveTreePosition(void);
+    void saveRecordTablePosition(void);
+    void saveEditorCursorPosition(void);
+    void saveEditorScrollBarPosition(void);
 
- void reloadSaveStage(void);
- void reloadLoadStage(bool isLongTimeReload);
+    void reloadSaveStage(void);
+    void reloadLoadStage(bool isLongTimeReload);
 
 
- QAction *actionFileMenuDatabasesManagement;
- QAction *actionFileMenuExportTreeItem;
- QAction *actionFileMenuImportTreeItem;
- QAction *actionFileMenuPrint;
- QAction *actionFileMenuPrintPreview;
- QAction *actionFileMenuExportPdf;
- QAction *actionFileMenuQuit;
+    QAction *actionFileMenuDatabasesManagement;
+    QAction *actionFileMenuExportTreeItem;
+    QAction *actionFileMenuImportTreeItem;
+    QAction *actionFileMenuPrint;
+    QAction *actionFileMenuPrintPreview;
+    QAction *actionFileMenuExportPdf;
+    QAction *actionFileMenuQuit;
 
- QAction *actionToolsMenuFindInBase;
- QAction *actionToolsMenuActionLog;
- QAction *actionToolsMenuPreferences; // Вызов окна настроек, используется в десктопе
+    QAction *actionToolsMenuFindInBase;
+    QAction *actionToolsMenuActionLog;
+    QAction *actionToolsMenuPreferences; // Вызов окна настроек, используется в десктопе
 
- // Напрямую вызываемые настройки, используются в мобильном интерфейсе
- QAction *actionDirectPreferencesMain       =nullptr;
- QAction *actionDirectPreferencesAppearance =nullptr;
- QAction *actionDirectPreferencesCrypt      =nullptr;
- QAction *actionDirectPreferencesSyncro     =nullptr;
- QAction *actionDirectPreferencesRecordTable=nullptr;
- QAction *actionDirectPreferencesAttach     =nullptr;
- QAction *actionDirectPreferencesKeyboard   =nullptr;
- QAction *actionDirectPreferencesHistory    =nullptr;
- QAction *actionDirectPreferencesMisc       =nullptr;
+    // Напрямую вызываемые настройки, используются в мобильном интерфейсе
+    QAction *actionDirectPreferencesMain       =nullptr;
+    QAction *actionDirectPreferencesAppearance =nullptr;
+    QAction *actionDirectPreferencesCrypt      =nullptr;
+    QAction *actionDirectPreferencesSyncro     =nullptr;
+    QAction *actionDirectPreferencesRecordTable=nullptr;
+    QAction *actionDirectPreferencesAttach     =nullptr;
+    QAction *actionDirectPreferencesKeyboard   =nullptr;
+    QAction *actionDirectPreferencesHistory    =nullptr;
+    QAction *actionDirectPreferencesMisc       =nullptr;
 
- QAction *actionHelpMenuAboutMyTetra;
- QAction *actionHelpMenuAboutQt;
- QAction *actionHelpMenuTechnicalInfo;
+    QAction *actionHelpMenuAboutMyTetra;
+    QAction *actionHelpMenuAboutQt;
+    QAction *actionHelpMenuTechnicalInfo;
 
- QAction *actionTrayRestore;
- QAction *actionTrayMaximize;
- QAction *actionTrayMinimize;
- QAction *actionTrayQuit;
+    QAction *actionTrayRestore;
+    QAction *actionTrayMaximize;
+    QAction *actionTrayMinimize;
+    QAction *actionTrayQuit;
 
- QAction *actionFocusTree;
- QAction *actionFocusNoteTable;
- QAction *actionFocusEditor;
+    QAction *actionFocusTree;
+    QAction *actionFocusNoteTable;
+    QAction *actionFocusEditor;
 
- QSystemTrayIcon *trayIcon;
- QMenu           *trayIconMenu;
+    QSystemTrayIcon *trayIcon;
+    QMenu           *trayIconMenu;
 
- QSplitter *vSplitter;
- QSplitter *hSplitter;
- QSplitter *findSplitter;
+    QSplitter *vSplitter;
+    QSplitter *hSplitter;
+    QSplitter *findSplitter;
 
- CommandRunner *syncroCommandRun=nullptr;
+    CommandRunner *syncroCommandRun=nullptr;
 
- 
+
 protected:
- 
- void closeEvent(QCloseEvent *event);
 
- bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
+    void closeEvent(QCloseEvent *event);
 
- void keyPressEvent(QKeyEvent *event);
- void keyReleaseEvent(QKeyEvent *event);
+    bool eventFilter( QObject * o, QEvent * e ); // Отслеживание прочих событий
 
- void goWalkHistory(void);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
 
- bool enableRealClose;
- int exitCounter=0;
- 
+    void goWalkHistory(void);
+
+    bool enableRealClose;
+    int exitCounter=0;
+
 };
 #endif

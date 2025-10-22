@@ -43,14 +43,26 @@ qreal CssHelper::getCalculateIconSizePx(void)
 // Замена в CSS-стиле все вхождения подстроки META_ICON_SIZE на вычисленный размер иконки в пикселях
 QString CssHelper::replaceCssMetaIconSize(QString styleText)
 {
-  styleText.replace( "META_ICON_SIZE", QString::number( (int) getCalculateIconSizePx() ) );
-  styleText.replace( "META_ICON_HALF_SIZE", QString::number( (int)getCalculateIconSizePx()/2 ) );
-  styleText.replace( "META_ICON_TWO_THIRDS_SIZE", QString::number( ((int)getCalculateIconSizePx()*2)/3 ) );
-  styleText.replace( "META_ICON_QUARTER_SIZE", QString::number( (int)getCalculateIconSizePx()/4 ) );
-  styleText.replace( "META_ICON_FIFTH_SIZE", QString::number( (int)getCalculateIconSizePx()/5 ) );
-  styleText.replace( "META_ICON_SIXTH_SIZE", QString::number( (int)getCalculateIconSizePx()/6 ) );
+    QMap<QString, qreal> table;
+    table["META_ICON_FOUR_SIZE"]       = getCalculateIconSizePx() * 4.0;
+    table["META_ICON_TRIPLE_SIZE"]     = getCalculateIconSizePx() * 3.0;
+    table["META_ICON_DOUBLE_SIZE"]     = getCalculateIconSizePx() * 2.0;
+    table["META_ICON_ONEANDHALF_SIZE"] = getCalculateIconSizePx() * 1.5;
 
-  return styleText;
+    table["META_ICON_SIZE"] = getCalculateIconSizePx();
+
+    table["META_ICON_SEVFIVEPERC_SIZE"]  = getCalculateIconSizePx() * 0.75;
+    table["META_ICON_HALF_SIZE"]         = getCalculateIconSizePx() / 2.0;
+    table["META_ICON_THIRD_PART_SIZE"]   = getCalculateIconSizePx() / 3.0;
+    table["META_ICON_QUARTER_PART_SIZE"] = getCalculateIconSizePx() / 4.0;
+
+    for (auto name : table.keys())
+    {
+      qreal value=table.value(name);
+      styleText.replace( name, QString::number( (int) value )+"px" );
+    }
+
+    return styleText;
 }
 
 
