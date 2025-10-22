@@ -10,6 +10,9 @@
 
 class AppFiles
 {
+
+public:
+
     // Флаги создания новой рабочей директории
     enum CreateFirstAppFilesFlags
     {
@@ -18,7 +21,7 @@ class AppFiles
         APP_CONFIG = 1 << 2  // Создание конфиг-файлов рабочей директории
     };
 
-public:
+
     AppFiles();
 
     //! Создание файлов новой БД в указанной директории
@@ -32,8 +35,6 @@ public:
     //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
     //! Так как в более старых версиях MyTetra его еще не было
     void createThemesFiles(QString dirName, QString themeName=NULL);
-
-private:
 
     void createStandartProgramFiles(void);
     void createPortableProgramFiles(void);

@@ -3,8 +3,11 @@
 #include <QDir>
 
 #include "AppFiles.h"
+#include "libraries/GlobalParameters.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/DiskHelper.h"
+
+extern GlobalParameters globalParameters;
 
 
 AppFiles::AppFiles()
@@ -18,7 +21,7 @@ void AppFiles::createStandartProgramFiles(void)
     qDebug() << "Create standard program files";
 
     QDir userDir=QDir::home();
-    QString dataDirName=".config/"+getApplicationName();
+    QString dataDirName=".config/"+globalParameters.getApplicationName();
 
     // Если директория либо успешно создалась, либо уже существовала (проверяется одним вызовом mkpath)
     if( userDir.mkpath(dataDirName) )
@@ -43,7 +46,7 @@ void AppFiles::createPortableProgramFiles(void)
     qDebug() << "Create portable program files";
 
     // Путь к директории, где лежит бинарник
-    QFileInfo mainProgramFileInfo(m_mainProgramFile);
+    QFileInfo mainProgramFileInfo( globalParameters.getMainProgramFile() );
     QString path=mainProgramFileInfo.absolutePath();
 
     this->createFirstAppFiles(path);
@@ -70,7 +73,7 @@ void AppFiles::createFirstAppFiles(QString dirName,
     // Создаются файлы конфигурации
     if ( flags & CreateFirstAppFilesFlags::APP_CONFIG )
     {
-        QString targetOs=getTargetOs(); // "any" или "meego" или "android"
+        QString targetOs=globalParameters.getTargetOs(); // "any" или "meego" или "android"
 
         QFile::copy(":/resource/standartconfig/"+targetOs+"/conf.ini", dirName+"/conf.ini");
         QFile::setPermissions(dirName+"/conf.ini", QFile::ReadUser | QFile::WriteUser);
@@ -112,20 +115,21 @@ void AppFiles::createFirstAppFiles(QString dirName,
 
 void AppFiles::createThemesFiles(QString dirName, QString themeName)
 {
-  QString targetOs=getTargetOs();
-  if (targetOs == "any" && !themeName.isNull() && !themeName.isEmpty())
-  {
-    QString fromDir=":/resource/standartconfig/any/styles/"+themeName;
-    QString toDir=dirName+"/style";
-    DiskHelper::removeDirectory(toDir);
-    DiskHelper::copyDirectoryRecursively(fromDir, toDir, QFile::ReadUser | QFile::WriteUser);
-  }
-  else
-  {
-    QDir styleDir(dirName);
-    styleDir.mkdir("style");
-    QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/style/stylesheet.css");
-    QFile::setPermissions(dirName+"/style/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
-  }
+    QString targetOs=globalParameters.getTargetOs();
+
+    if (targetOs == "any" && !themeName.isNull() && !themeName.isEmpty())
+    {
+        QString fromDir=":/resource/standartconfig/any/styles/"+themeName;
+        QString toDir=dirName+"/style";
+        DiskHelper::removeDirectory(toDir);
+        DiskHelper::copyDirectoryRecursively(fromDir, toDir, QFile::ReadUser | QFile::WriteUser);
+    }
+    else
+    {
+        QDir styleDir(dirName);
+        styleDir.mkdir("style");
+        QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/style/stylesheet.css");
+        QFile::setPermissions(dirName+"/style/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
+    }
 }
 

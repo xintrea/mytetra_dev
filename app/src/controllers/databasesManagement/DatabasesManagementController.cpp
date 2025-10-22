@@ -12,6 +12,7 @@
 #include "DatabasesManagementController.h"
 #include "views/databasesManagement/DatabasesManagementTable.h"
 #include "models/appConfig/AppConfig.h"
+#include "models/appConfig/AppFiles.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "views/dialog/ReduceMessageBox.h"
@@ -26,6 +27,7 @@
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
+extern AppFiles mytetraFiles;
 extern DataBaseConfig dataBaseConfig;
 
 
@@ -266,9 +268,9 @@ void DatabasesManagementController::onCreateClicked()
     // Здесь считается что все проверки пройдены, и можно создавать БД
     // Внутри функции будут созданы подкаталоги data и trash
     // относительно пути workPath
-    globalParameters.createFirstAppFiles(workPath,
-                                         GlobalParameters::CreateFirstAppFilesFlags::DB |
-                                         GlobalParameters::CreateFirstAppFilesFlags::TRASH);
+    mytetraFiles.createFirstAppFiles(workPath,
+                                     AppFiles::CreateFirstAppFilesFlags::DB |
+                                     AppFiles::CreateFirstAppFilesFlags::TRASH);
 
     this->addDatabase(dbPath, trashPath);
 }

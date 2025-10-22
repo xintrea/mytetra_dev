@@ -18,14 +18,21 @@
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "views/installDialog/InstallDialog.h"
+
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/DiskHelper.h"
 
+#include "models/appConfig/AppFiles.h"
+
+
 #ifdef Q_OS_WIN32
 #include "windows.h"
 #endif
+
+
+extern AppFiles mytetraFiles;
 
 
 GlobalParameters::GlobalParameters(QObject *pobj) : QObject(pobj)
@@ -177,11 +184,11 @@ void GlobalParameters::initWorkDirectory(void)
      // Надо разобраться, какой режим инсталляции был выбран
      if( installDialog.getInstallType()==InstallDialog::InstallType::Standart)
      {
-        createStandartProgramFiles(); // Установка файлов рабочей директории в режиме Стандартного приложения
+        mytetraFiles.createStandartProgramFiles(); // Установка файлов рабочей директории в режиме Стандартного приложения
      }
      else
      {
-        createPortableProgramFiles(); // Установка файлов рабочей директории в режиме Переносимого приложения
+        mytetraFiles.createPortableProgramFiles(); // Установка файлов рабочей директории в режиме Переносимого приложения
      }
 
      // Запоминается автоопределенный язык

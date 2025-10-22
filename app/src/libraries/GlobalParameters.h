@@ -49,8 +49,8 @@ public:
     QString getActionLogFileName();
     QString getActionLogPrevFileName();
 
-    QString getTargetOs(void);
-    QString getApplicationName(void);
+    static QString getTargetOs(void);
+    static QString getApplicationName(void);
 
     void setTreeScreen(TreeScreen *point);
     TreeScreen *getTreeScreen();

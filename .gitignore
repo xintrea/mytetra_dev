@@ -1,10 +1,12 @@
 # Ignore directories
-/app/qtc-gdbmacros
-/misc
-
 Makefile
 qdevelop-settings.db
 qrc_mytetra.cpp
+/app/qtc-gdbmacros
+.qtc_clangd
+
+/misc
+
 *.pro.user
 *.pro.user.*
 *.autosave

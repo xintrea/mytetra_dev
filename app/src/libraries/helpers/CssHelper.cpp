@@ -8,11 +8,11 @@
 
 #include "libraries/GlobalParameters.h"
 #include "models/appConfig/AppConfig.h"
-
+#include "models/appConfig/AppFiles.h"
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
-
+extern AppFiles mytetraFiles;
 
 CssHelper::CssHelper()
 {
@@ -78,14 +78,17 @@ void CssHelper::setCssStyle()
   {
     qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
 
+    // Вычисляется имя темы, с которой надо создать файл темы
     QString themeName;
     switch (mytetraConfig.getInterfaceTheme())
     {
-    case AppConfig::Light: themeName="light"; break;
-    case AppConfig::Dark: themeName="dark"; break;
+        case AppConfig::Light: themeName="light"; break;
+        case AppConfig::Dark: themeName="dark"; break;
     }
-    globalParameters.createThemesFiles( globalParameters.getWorkDirectory(), themeName);
+
+    mytetraFiles.createThemesFiles( globalParameters.getWorkDirectory(), themeName);
   }
+
   css.close();
 
   // Заново открывается файл

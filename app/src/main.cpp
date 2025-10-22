@@ -17,6 +17,7 @@
 #include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
+#include "models/appConfig/AppFiles.h"
 #include "libraries/ClipboardRecords.h"
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"
@@ -55,6 +56,9 @@ GlobalParameters globalParameters;
 
 // Конфигурация программы (считанная из файла конфигурации)
 AppConfig mytetraConfig;
+
+// Объект управления рабочими файлами MyTetra (конфигами, начальными файлами, содержимым директорий)
+AppFiles mytetraFiles;
 
 // Конфигурация хранилища данных
 DataBaseConfig dataBaseConfig;

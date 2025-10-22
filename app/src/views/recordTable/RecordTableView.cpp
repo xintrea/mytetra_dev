@@ -580,7 +580,7 @@ void RecordTableView::mousePressEvent(QMouseEvent *event)
 // Реакция на движение мышкой
 void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug() << "mouseMoveEvent()";
+    // qDebug() << "mouseMoveEvent()";
 
     // При режиме множественного выбора реакции на движение
     // мышкой быть не должно (так как работает криво), только на клики
