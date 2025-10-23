@@ -47,6 +47,9 @@ QString AppConfigUpdater::updateValueRepresentation(int versionFrom,
 {
     if(versionFrom==37 and versionTo==38 and name=="dockableWindowsState")
     {
+        // В параметре dockableWindowsState теперь хранится
+        // и позиция вертикальной прокрутки для каждого отделяемого окна
+
         if(value.trimmed().size()>1)
         {
             QStringList chunks=value.split(';');
@@ -59,6 +62,17 @@ QString AppConfigUpdater::updateValueRepresentation(int versionFrom,
             value=chunks.join(';');
 
             return value;
+        }
+    }
+
+    if(versionFrom==39 and versionTo==40 and name=="theme")
+    {
+        // В параметре theme теперь допустимы значения default и dark, а
+        // темы light теперь нет
+
+        if(value.trimmed()=="light")
+        {
+            return "default";
         }
     }
 

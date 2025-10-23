@@ -25,6 +25,13 @@ public:
   static bool saveFilesToDirectory(QString dirName, QMap<QString, QByteArray> fileList);
 
   static bool isDirectoryEmpty(QString dirName);
+
+  static bool copyQrcToDirectory(const QString &resourcePath, const QString &targetDirPath);
+
+private:
+
+  static bool copyQrcToDirectoryRecurse(const QString &resourcePath, const QString &targetDirPath);
+
 };
 
 #endif // DISKHELPER_H

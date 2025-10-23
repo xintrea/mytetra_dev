@@ -298,9 +298,76 @@ bool DiskHelper::saveFilesToDirectory(QString dirName, QMap<QString, QByteArray>
 // Проверка директории, является ли она пустой
 bool DiskHelper::isDirectoryEmpty(QString dirName)
 {
-  if(QDir(dirName).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0)
-    return true;
+  if (QDir(dirName).entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() == 0)
+      return true;
   else
-    return false;
+      return false;
+}
+
+
+// Копирование содержимого каталога ресурсов QRC в каталог на диске
+// Копирование происходит рекурсивно со всеми файлами и подкаталогами
+bool DiskHelper::copyQrcToDirectory(const QString &resourcePath, const QString &targetDirPath)
+{
+    return copyQrcToDirectoryRecurse(resourcePath, targetDirPath);
+}
+
+
+bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath, const QString &targetDirPath)
+{
+    QDir sourceDir(resourcePath);
+    if (!sourceDir.exists())
+    {
+        qWarning() << "Ресурс не найден:" << resourcePath;
+        return false;
+    }
+
+    QDir targetDir(targetDirPath);
+    if (!targetDir.exists())
+    {
+        if (!targetDir.mkpath("."))
+        {
+            qWarning() << "Не удалось создать каталог назначения:" << targetDirPath;
+            return false;
+        }
+    }
+
+    // Перебор всех элементов внутри ресурса
+    QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
+    for (const QFileInfo &entry : entries)
+    {
+        QString srcPath = entry.filePath();
+        QString dstPath = targetDirPath + "/" + entry.fileName();
+
+        if (entry.isDir())
+        {
+            // Рекурсивное копирование подкаталогов
+            if (!copyQrcToDirectoryRecurse(srcPath, dstPath))
+                return false;
+        }
+        else if (entry.isFile())
+        {
+            QFile srcFile(srcPath);
+            if (!srcFile.exists())
+            {
+                qWarning() << "Файл ресурса не найден:" << srcPath;
+                continue;
+            }
+
+            // Убедимся, что подкаталог создан
+            QDir().mkpath(QFileInfo(dstPath).absolutePath());
+
+            if (QFile::exists(dstPath))
+                QFile::remove(dstPath);
+
+            if (!srcFile.copy(dstPath))
+            {
+                qWarning() << "Ошибка копирования ресурса:" << srcPath << "→" << dstPath;
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 

@@ -81,7 +81,8 @@ contains(TARGET_OS, ANY_OS) {
 
 TARGET = mytetra
 RESOURCES = bin/mytetra.qrc \
-            bin/icons.qrc
+            bin/icons.qrc \ 
+            bin/themes.qrc 
 TRANSLATIONS = bin/resource/translations/mytetra_ru.ts \ 
                bin/resource/translations/mytetra_fr.ts
 CODECFORTR  = utf8

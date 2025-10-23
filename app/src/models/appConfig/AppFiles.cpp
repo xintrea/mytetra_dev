@@ -54,6 +54,7 @@ void AppFiles::createPortableProgramFiles(void)
 
 
 // Создание первоначального набора файлов в указанной директории
+// Значение flags по умолчанию - создание всех возможных файлов
 void AppFiles::createFirstAppFiles(QString dirName,
                                    unsigned int flags)
 {
@@ -113,23 +114,11 @@ void AppFiles::createFirstAppFiles(QString dirName,
 }
 
 
-void AppFiles::createThemesFiles(QString dirName, QString themeName)
+void AppFiles::createThemesFiles(QString dirName)
 {
-    QString targetOs=globalParameters.getTargetOs();
+    QString targetOs = globalParameters.getTargetOs();
+    QString qrcFromPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes");
 
-    if (targetOs == "any" && !themeName.isNull() && !themeName.isEmpty())
-    {
-        QString fromDir=":/resource/standartconfig/any/styles/"+themeName;
-        QString toDir=dirName+"/style";
-        DiskHelper::removeDirectory(toDir);
-        DiskHelper::copyDirectoryRecursively(fromDir, toDir, QFile::ReadUser | QFile::WriteUser);
-    }
-    else
-    {
-        QDir styleDir(dirName);
-        styleDir.mkdir("style");
-        QFile::copy(":/resource/standartconfig/"+targetOs+"/stylesheet.css", dirName+"/style/stylesheet.css");
-        QFile::setPermissions(dirName+"/style/stylesheet.css", QFile::ReadUser | QFile::WriteUser);
-    }
+    DiskHelper::copyQrcToDirectory(qrcFromPath, dirName+"/themes");
 }
 

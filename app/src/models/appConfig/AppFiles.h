@@ -31,10 +31,10 @@ public:
                                  CreateFirstAppFilesFlags::TRASH |
                                  CreateFirstAppFilesFlags::APP_CONFIG );
 
-    //! Создание файла стилей
-    //! Файл стилей может создаваться и после развертывания начальных файлов MyTetra
-    //! Так как в более старых версиях MyTetra его еще не было
-    void createThemesFiles(QString dirName, QString themeName=NULL);
+    //! Создание файлов стилей
+    //! Файлы стилей могут создаваться и после развертывания начальных файлов MyTetra
+    //! Так как в более старых версиях MyTetra их могло не быть
+    void createThemesFiles(QString dirName);
 
     void createStandartProgramFiles(void);
     void createPortableProgramFiles(void);

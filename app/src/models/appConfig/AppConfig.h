@@ -14,13 +14,6 @@ class AppConfig : public QObject
     Q_OBJECT
 
 public:
-    // Тема интерфейса
-    enum InterfaceTheme {
-        Light=0,
-        Dark=1
-    };
-
-public:
     AppConfig(QObject *pobj=nullptr);
     ~AppConfig();
 
@@ -269,9 +262,9 @@ public:
     QString getDockableWindowsBehavior(void);
     void setDockableWindowsBehavior(QString mode);
 
-    // Тема оформления
-    InterfaceTheme getInterfaceTheme();
-    void setInterfaceTheme(InterfaceTheme theme);
+    // Тема оформления интерфейса
+    QString getInterfaceTheme();
+    void setInterfaceTheme(QString themeName);
 
 private:
 
@@ -324,6 +317,8 @@ private:
     QStringList get_parameter_table_37(bool withEndSignature=true);
     QStringList get_parameter_table_38(bool withEndSignature=true);
     QStringList get_parameter_table_39(bool withEndSignature=true);
+    QStringList get_parameter_table_40(bool withEndSignature=true);
+    QStringList get_parameter_table_41(bool withEndSignature=true);
 
     QSettings *m_conf = nullptr; // было static
     bool m_isInit;

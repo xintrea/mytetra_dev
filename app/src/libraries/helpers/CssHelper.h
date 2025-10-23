@@ -10,11 +10,17 @@ public:
     CssHelper();
 
     static qreal getCalculateIconSizePx(void);
-    static void setCssStyle();
+
+    // Раскладывание CSS-стилей на диск в подкаталог рабочей директории
+    static void extractCssStyles();
+
+    static void removeOldCssStyles();
+
+    static bool applyTheme(const QString &themeName);
 
 protected:
 
-    static QString replaceCssMetaIconSize(QString styleText);
+    static QString replaceCssMetaIconSize(const QString &styleText);
 
 };
 

@@ -971,29 +971,16 @@ void AppConfig::setDockableWindowsBehavior(QString mode)
     }
 }
 
+
 // Получение темы оформления
-AppConfig::InterfaceTheme AppConfig::getInterfaceTheme()
+QString AppConfig::getInterfaceTheme()
 {
-    QString themeName = this->get_parameter("theme");
-
-    InterfaceTheme theme;
-    if (themeName == "dark") theme=InterfaceTheme::Dark;
-    else theme = InterfaceTheme::Light;
-
-    return theme;
+    return this->get_parameter("interfaceTheme");
 }
 
-void AppConfig::setInterfaceTheme(InterfaceTheme theme)
+void AppConfig::setInterfaceTheme(QString themeName)
 {
-    QString themeName;
-
-    switch (theme)
-    {
-    case InterfaceTheme::Light: themeName="light"; break;
-    case InterfaceTheme::Dark: themeName="dark"; break;
-    }
-
-    m_conf->setValue("theme", themeName);
+    m_conf->setValue("interfaceTheme", themeName);
 }
 
 
@@ -1122,7 +1109,10 @@ void AppConfig::update_version_process(void)
     // Перечень функций, выдающих список параметров для конкретной версии конфига
     QList< std::function< QStringList(AppConfig&, bool) > > parameterFunctions;
 
-    parameterFunctions << nullptr; // Исторически счет версий идет с 1, поэтому, чтобы не запутаться, создается пустой нуливой элемент
+    // Исторически счет версий идет с 1, поэтому, чтобы не запутаться,
+    // создается пустой нуливой элемент
+    parameterFunctions << nullptr;
+
     parameterFunctions << &AppConfig::get_parameter_table_1;
     parameterFunctions << &AppConfig::get_parameter_table_2;
     parameterFunctions << &AppConfig::get_parameter_table_3;
@@ -1162,6 +1152,8 @@ void AppConfig::update_version_process(void)
     parameterFunctions << &AppConfig::get_parameter_table_37;
     parameterFunctions << &AppConfig::get_parameter_table_38;
     parameterFunctions << &AppConfig::get_parameter_table_39;
+    parameterFunctions << &AppConfig::get_parameter_table_40;
+    parameterFunctions << &AppConfig::get_parameter_table_41;
 
     for (int i=1; i<parameterFunctions.count()-1; ++i)
     {
@@ -1545,7 +1537,7 @@ QStringList AppConfig::get_parameter_table_18(bool withEndSignature)
     if (globalParameters.getTargetOs()=="android")
         table << "interfaceMode" << "QString" << "mobile"; // В Андроид должен быть мобильный интерфейс
     else
-        table << "interfaceMode" << "QString" << "desktop"; // На десктопе должен быть интерфейс адоптированный для работы на рабочем столе
+        table << "interfaceMode" << "QString" << "desktop"; // На десктопе должен быть интерфейс адаптированный для работы на рабочем столе
 
     if (withEndSignature)
         table << "0" << "0" << "0";
@@ -1605,6 +1597,7 @@ QStringList AppConfig::get_parameter_table_21(bool withEndSignature)
     table << get_parameter_table_20(false);
 
     table << "findInBaseExpand" << "bool" << "true";
+
     if (withEndSignature)
         table << "0" << "0" << "0";
 
@@ -1622,6 +1615,7 @@ QStringList AppConfig::get_parameter_table_22(bool withEndSignature)
     table << get_parameter_table_21(false);
 
     table << "recordtableSelectedRecordId" << "QString" << "";
+
     if (withEndSignature)
         table << "0" << "0" << "0";
 
@@ -1942,6 +1936,57 @@ QStringList AppConfig::get_parameter_table_39(bool withEndSignature)
 
     // Стандартная тема оформления
     table << "theme" << "QString" << "light";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_40(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 39
+    table << get_parameter_table_39(false);
+
+    // Обновление формата конфига не происходит, обновляется только
+    // представление параметра theme
+    // см. AppConfigUpdater::updateValueRepresentation
+
+    // Теперь допустимые значения theme - default и dark, темы light нет
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
+
+
+QStringList AppConfig::get_parameter_table_41(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 40
+    table << get_parameter_table_40(false);
+
+
+    // Имя параметра theme заменяется на interfaceTheme
+
+    // Значение старого параметра theme
+    QString themeName = getParameterValueFromTable("theme", table);
+
+    // Исключаются ненужные в новой версии параметры
+    table=removeParameterFromTable("theme", table);
+
+    // Запоминается тема оформления в новом параметре
+    table << "interfaceTheme" << "QString" << themeName;
+
 
     if(withEndSignature)
         table << "0" << "0" << "0";

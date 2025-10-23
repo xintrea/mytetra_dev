@@ -9,10 +9,12 @@
 #include "libraries/GlobalParameters.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
+#include "libraries/helpers/DiskHelper.h"
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 extern AppFiles mytetraFiles;
+
 
 CssHelper::CssHelper()
 {
@@ -23,25 +25,25 @@ CssHelper::CssHelper()
 qreal CssHelper::getCalculateIconSizePx(void)
 {
 #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
-  qreal dpiX=qApp->desktop()->physicalDpiX();
-  qreal dpiY=qApp->desktop()->physicalDpiY();
-  qreal dpi=(dpiX+dpiY)/2;
+    qreal dpiX=qApp->desktop()->physicalDpiX();
+    qreal dpiY=qApp->desktop()->physicalDpiY();
+    qreal dpi=(dpiX+dpiY)/2;
 #endif
 
 #if QT_VERSION >= 0x050000 && QT_VERSION < 0x060000
-  qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
+    qreal dpi=QApplication::screens().at(0)->physicalDotsPerInch();
 #endif
 
-  qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
-  qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
-  qreal iconSizePx=iconSizeInch*dpi;
+    qreal iconSizeMm=6; // Размер иконки в миллиметрах (рекомендованный)
+    qreal iconSizeInch=iconSizeMm/25.4; // Размер иконки в дюймах
+    qreal iconSizePx=iconSizeInch*dpi;
 
-  return iconSizePx;
+    return iconSizePx;
 }
 
 
 // Замена в CSS-стиле все вхождения подстроки META_ICON_SIZE на вычисленный размер иконки в пикселях
-QString CssHelper::replaceCssMetaIconSize(QString styleText)
+QString CssHelper::replaceCssMetaIconSize(const QString &styleText)
 {
     QMap<QString, qreal> table;
     table["META_ICON_FOUR_SIZE"]       = getCalculateIconSizePx() * 4.0;
@@ -56,62 +58,104 @@ QString CssHelper::replaceCssMetaIconSize(QString styleText)
     table["META_ICON_THIRD_PART_SIZE"]   = getCalculateIconSizePx() / 3.0;
     table["META_ICON_QUARTER_PART_SIZE"] = getCalculateIconSizePx() / 4.0;
 
+    QString resultText = styleText;
+
     for (auto name : table.keys())
     {
       qreal value=table.value(name);
-      styleText.replace( name, QString::number( (int) value )+"px" );
+      resultText.replace( name, QString::number( (int) value )+"px" );
     }
 
-    return styleText;
+    return resultText;
 }
 
 
-void CssHelper::setCssStyle()
+void CssHelper::extractCssStyles()
 {
-  QString dirName=globalParameters.getWorkDirectory();
+    QString dirName=globalParameters.getWorkDirectory();
 
-  // Если файл стилей есть по старому пути, переносим его в каталог style
-  QFile file(dirName+"/stylesheet.css");
-  if (file.exists())
-  {
-    QDir styleDir(dirName);
-    styleDir.mkdir("style");
-    file.rename(dirName+"/style/stylesheet.css");
-  }
-
-  QString csspath = dirName+"/style/stylesheet.css";
-
-  QFile css(csspath);
-
-  bool openResult=css.open(QIODevice::ReadOnly | QIODevice::Text);
-
-  // Если файла не существует
-  if(!openResult)
-  {
-    qDebug() << "Stylesheet not found in " << csspath << ". Create new css file.";
-
-    // Вычисляется имя темы, с которой надо создать файл темы
-    QString themeName;
-    switch (mytetraConfig.getInterfaceTheme())
+    // Если в рабочей директории нет каталога с темами
+    QDir themesDir(dirName+"/themes");
+    if ( !themesDir.exists() )
     {
-        case AppConfig::Light: themeName="light"; break;
-        case AppConfig::Dark: themeName="dark"; break;
+        // Каталог с темами распаковывается из ресурсов
+        mytetraFiles.createThemesFiles( themesDir.absolutePath() );
     }
 
-    mytetraFiles.createThemesFiles( globalParameters.getWorkDirectory(), themeName);
-  }
+    /*
+    // Если файл стилей есть по старому пути, он переносится в каталог themes
+    // поверх файла стандартной темы, а в старом месте удаляется
+    // Старый файл темы был самодостаточным и не использовал внешние ресурсы
+    QFile fromFile(dirName+"/stylesheet.css");
+    if (fromFile.exists())
+    {
+      // На всякий случай создается каталог с default-темой, если его
+      // не было в ресурсах (подумать, а надо ли это делать)
+      QDir themeDir(dirName);
+      themeDir.mkpath("themes/default");
 
-  css.close();
+      // Метод rename переместит файл, причем на старом месте он будет удален
+      fromFile.rename(dirName+"/themes/default/stylesheet.css");
+    }
+    */
+}
 
-  // Заново открывается файл
-  if(css.open(QIODevice::ReadOnly | QIODevice::Text))
-  {
-    qDebug() << "Stylesheet success loaded from" << csspath;
-    QString style = QTextStream(&css).readAll();
 
-    style=CssHelper::replaceCssMetaIconSize(style);
+void CssHelper::removeOldCssStyles()
+{
+    QString dirName=globalParameters.getWorkDirectory();
 
-    qApp->setStyleSheet(style);
-  }
+    // Устаревший файл стиля, который ранее находился рядом с конфиг-файлами
+    // а не в отдельной директории, удаляется
+    QFile fromFile(dirName+"/stylesheet.css");
+    if ( fromFile.exists() )
+    {
+        fromFile.remove();
+    }
+
+    // Устаревший каталог стиля, который делал пользователь gee12, удаляется
+    QDir styleDir(dirName+"/style");
+    if ( !styleDir.exists() )
+    {
+        DiskHelper::removeDirectory( styleDir.absolutePath() );
+    }
+}
+
+
+bool CssHelper::applyTheme(const QString &themeName)
+{
+    QStringList availableThemes = QStringList() << "default" << "dark";
+
+    if ( !availableThemes.contains(themeName) )
+    {
+        qWarning() << "Incorrect interface theme name: " << themeName;
+        return false;
+    }
+
+    QString dirName = globalParameters.getWorkDirectory();
+    QString fileName = dirName+"/themes/"+themeName+"/stylesheet.css";
+
+    QFile cssFile( fileName );
+
+    bool openResult=cssFile.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    // Если файла не существует
+    if(!openResult)
+    {
+        qWarning() << "Can't find CSS theme file: " << fileName;
+        return false;
+    }
+
+    // Берется содержимое CSS-файла
+    QString styleText = QTextStream(&cssFile).readAll();
+
+    // Преобразовывается размер иконок из подстановочных названий
+    // в настоящие пиксели
+    styleText=CssHelper::replaceCssMetaIconSize(styleText);
+
+    // Стиль применяется
+    qApp->setStyleSheet(styleText);
+
+    return true;
 }
 
