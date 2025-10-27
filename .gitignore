@@ -22,6 +22,7 @@ qrc_mytetra.cpp
 !/app/bin/resource/*
 !/app/bin/mytetra.qrc
 !/app/bin/icons.qrc
+!/app/bin/themes.qrc
 
 /thirdParty/mimetex/build/bin/*
 
