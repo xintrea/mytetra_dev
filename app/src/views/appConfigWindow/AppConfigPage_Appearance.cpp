@@ -6,12 +6,14 @@
 
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
+extern FixedParameters fixedParameters;
 
 
 AppConfigPage_Appearance::AppConfigPage_Appearance(QWidget *parent) : ConfigPage(parent)
@@ -37,10 +39,44 @@ void AppConfigPage_Appearance::setupUi()
     themeLabel->setText(tr("Interface theme"));
 
     theme=new MtComboBox(this);
-    theme->setMinimumContentsLength(2);
-    theme->addItem(tr("Light"));
-    theme->addItem(tr("Dark"));
-    theme->setCurrentIndex((int)mytetraConfig.getInterfaceTheme());
+
+    // Размер списка
+    theme->setMinimumContentsLength( fixedParameters.themesAvailableList.size() );
+
+    // Таблица переводов элементов списка
+    QMap<QString, QString> translateNames;
+    translateNames[ "default" ] = tr("Default");
+    translateNames[ "dark" ]    = tr("Dark");
+
+    // Какая строка будет выбрана как текущая тема
+    int count = -1;
+    int currentIndex = -1;
+
+    // Список тем наполняется и одновременно вычисляется индекс текущей темы
+    for (auto name : fixedParameters.themesAvailableList )
+    {
+        QString translateName;
+
+        if ( translateNames.contains(name) )
+        {
+            translateName = translateNames[name];
+        }
+        else
+        {
+            translateName = "Unknown";
+        }
+
+        theme->addItem(translateName);
+
+        count++;
+        if ( name == mytetraConfig.getInterfaceTheme() )
+        {
+            currentIndex = count;
+        }
+    }
+
+    theme->setCurrentIndex( currentIndex );
+
 
     // Настройка запуска MyTetra в свернутом окне
     runInMinimizedWindow=new QCheckBox(this);
@@ -109,13 +145,11 @@ int AppConfigPage_Appearance::applyChanges()
     int result=0;
 
     // Если был изменена тема
-    if(mytetraConfig.getInterfaceTheme()!=theme->currentIndex())
+    if ( mytetraConfig.getInterfaceTheme() !=
+         fixedParameters.themesAvailableList[ theme->currentIndex() ] )
     {
-        mytetraConfig.setInterfaceTheme((AppConfig::InterfaceTheme)theme->currentIndex());
-
-        // Удаляем существующий стиль, чтобы при следующем запуске установить новый
-        QString dirName=globalParameters.getWorkDirectory();
-        DiskHelper::removeDirectory(dirName+"/style");
+        mytetraConfig.setInterfaceTheme(
+            fixedParameters.themesAvailableList[ theme->currentIndex() ] );
 
         result=1;
     }

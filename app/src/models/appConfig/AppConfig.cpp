@@ -7,9 +7,11 @@
 #include "AppConfigUpdater.h"
 
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
 
 extern GlobalParameters globalParameters;
+extern FixedParameters fixedParameters;
 
 
 // Конструктор объекта настройки программы
@@ -978,9 +980,16 @@ QString AppConfig::getInterfaceTheme()
     return this->get_parameter("interfaceTheme");
 }
 
-void AppConfig::setInterfaceTheme(QString themeName)
+bool AppConfig::setInterfaceTheme(QString themeName)
 {
+    if ( !fixedParameters.themesAvailableList.contains(themeName) )
+    {
+        return false;
+    }
+
     m_conf->setValue("interfaceTheme", themeName);
+
+    return true;
 }
 
 
@@ -1047,8 +1056,8 @@ QString AppConfig::getParameterTypeFromTable(QString parameterName, QStringList 
 }
 
 
-// Получение значения параметра в виде строки
-QString AppConfig::getParameterValueFromTable(QString parameterName, QStringList table)
+// Получение значения параметра по-умолчнию, в виде строки
+QString AppConfig::getParameterDefaultValueFromTable(QString parameterName, QStringList table)
 {
     // Перебираются параметры в таблице
     for (int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
@@ -1066,8 +1075,11 @@ QString AppConfig::getParameterValueFromTable(QString parameterName, QStringList
 }
 
 
-// Замена типа и значения параметра
-QStringList AppConfig::replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table)
+// Замена типа и значения параметра по-умолчанию
+QStringList AppConfig::replaceParameterInTable(QString replaceName,
+                                               QString replaceType,
+                                               QString replaceDefaultValue,
+                                               QStringList table)
 {
     // Перебираются параметры в таблице
     for (int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
@@ -1079,7 +1091,7 @@ QStringList AppConfig::replaceParameterInTable(QString replaceName, QString repl
         if (name==replaceName)
         {
             table[i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+1]=replaceType;
-            table[i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+2]=replaceValue;
+            table[i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+2]=replaceDefaultValue;
 
             break;
         }
@@ -1101,6 +1113,7 @@ void AppConfig::update_version_process(void)
     AppConfigUpdater updater;
     updater.setConfigFile(configFileName);
 
+    // Номер версии текущего конфига, который есть на начало обновления
     int fromVersion=get_config_version();
 
     // Эта строка компилируется нормально, сделать на ее основе список указателей на функцию
@@ -1157,10 +1170,15 @@ void AppConfig::update_version_process(void)
 
     for (int i=1; i<parameterFunctions.count()-1; ++i)
     {
-        if (fromVersion<=i)
+        // Обновление идет только для версий, которые более новые чем версия текущего конфига
+        if (i>=fromVersion)
         {
-            // В вызове метода: *this - это объект, а true - это первый параметр метода. Именно так работает вызов метода для std::function
-            updater.updateVersion(i, i+1, (parameterFunctions.at(i))(*this, true), (parameterFunctions.at(i+1))(*this, true) );
+            // В вызове метода: *this - это объект, а true - это первый параметр метода.
+            // Именно так работает вызов метода для std::function
+            updater.updateVersion(i,
+                                  i+1,
+                                  (parameterFunctions.at(i))(*this, true),
+                                  (parameterFunctions.at(i+1))(*this, true) );
         }
     }
 }
@@ -1976,17 +1994,21 @@ QStringList AppConfig::get_parameter_table_41(bool withEndSignature)
     table << get_parameter_table_40(false);
 
 
-    // Имя параметра theme заменяется на interfaceTheme
+    // Пример переименования значения theme в themeName
+    // Пока такое решение рабочее, но нерекомендовано
 
     // Значение старого параметра theme
-    QString themeName = getParameterValueFromTable("theme", table);
+    // QString themeName = this->m_conf->value("theme").toString();
+
+    // Запоминается тема оформления в новом параметре
+    // table << "interfaceTheme" << "QString" << themeName;
+
 
     // Исключаются ненужные в новой версии параметры
     table=removeParameterFromTable("theme", table);
 
-    // Запоминается тема оформления в новом параметре
-    table << "interfaceTheme" << "QString" << themeName;
-
+    // Новый параметр, хранящий тему оформления
+    table << "interfaceTheme" << "QString" << "default";
 
     if(withEndSignature)
         table << "0" << "0" << "0";

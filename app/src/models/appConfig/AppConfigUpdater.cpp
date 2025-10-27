@@ -110,13 +110,14 @@ QString AppConfigUpdater::updateVersionAllowCollision(int versionFrom,
 
 
 // Основной метод обновления версий конфига
+// baseTable - Структура таблицы, которая есть в данный момент
+// finalTable - Структура таблицы, на которую надо обновиться
 void AppConfigUpdater::updateVersion(int versionFrom,
                                      int versionTo,
                                      QStringList baseTable,
                                      QStringList finalTable)
 {
-    // Таблица исходных параметров преобразуется к более удобному для работы виду
-    // И параллельно заполняется значениями из конфига
+    // Структура таблица исходных параметров преобразуется к более удобному для работы виду
     QMap< QString, QMap< QString, QString > > fromTable;
     for(int i=0; i<maxParameterCount; i++)
     {
@@ -132,15 +133,9 @@ void AppConfigUpdater::updateVersion(int versionFrom,
         QMap< QString, QString > line;
         line.clear();
         line["type"]=type;
-        if(conf->contains(name))
-            line["value"]=this->updateValueRepresentation(versionFrom,
-                                                          versionTo,
-                                                          name,
-                                                          conf->value(name).toString()); // Значение из конфига
-        else
-            line["value"]=defValue; // Дефолтное значение
+        line["defValue"]=defValue;
 
-        // Для текущего имени параметра запоминается массив
+        // Для текущего имени параметра запоминается массив его свойств
         fromTable[name]=line;
     }
 
@@ -152,24 +147,29 @@ void AppConfigUpdater::updateVersion(int versionFrom,
     // из конечного массива во время обхода через итератор
     QMap< QString, QMap< QString, QString > > toTable;
     QList<QString> controlList;
-    for(int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
+    for (int i=0; i<MYTETRA_CONFIG_PARAM_NUM; i++)
     {
         QString name=    finalTable.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+0);
         QString type=    finalTable.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+1);
         QString defValue=finalTable.at(i*MYTETRA_CONFIG_PARAM_FIELDS_AT_RECORD+2);
 
         // Если достигнут конец массива
-        if(name=="0" && type=="0" && defValue=="0") break;
+        if (name=="0" && type=="0" && defValue=="0")
+        {
+            break;
+        }
 
         // Подготовка массива для текущего параметра
         QMap< QString, QString > line;
         line.clear();
         line["type"]=type;
-        line["value"]=defValue; // Дефолтное значение
+        line["defValue"]=defValue; // Дефолтное значение
 
-        // Для текущего имени параметра запоминается массив
+        // Для текущего имени параметра запоминается массив его свойств
         toTable[name]=line;
-        controlList << name; // Имя заносится в контролирующий список
+
+        // Имя заносится в контролирующий список
+        controlList << name;
     }
 
     qDebug() << "From table";
@@ -177,7 +177,7 @@ void AppConfigUpdater::updateVersion(int versionFrom,
     qDebug() << "To table";
     qDebug() << toTable;
 
-    // Перебирается конечный массив
+    // Перебирается конечный массив toTable
     QMapIterator< QString, QMap< QString, QString > > i(toTable);
     while(i.hasNext())
     {
@@ -187,49 +187,62 @@ void AppConfigUpdater::updateVersion(int versionFrom,
         QString toName=i.key();
         QMap< QString, QString > line=i.value();
         QString toType=line["type"];
-        QString toValue=line["value"];
+        QString toDefValue=line["defValue"];
 
         qDebug() << "To name: " << toName;
         qDebug() << "To type: " << toType;
-        qDebug() << "To value: " << toValue;
+        qDebug() << "To default value: " << toDefValue;
+
 
         // Определяется, есть ли полный аналог параметра в предыдущей версии конфига
-        int beforeParamFlag=0;
+        BeforeParamFlag beforeParamFlag = BeforeParamFlag::BEFORE_PARAM_NON_EXISTS;
+
         QMap< QString, QString > line2;
         QString fromType;
-        QString fromValue;
-        if(fromTable.contains(toName))
+        QString fromDefValue;
+
+        if (fromTable.contains(toName))
         {
             line2=fromTable[toName];
             fromType=line2["type"];
-            fromValue=line2["value"];
+            fromDefValue=line2["defValue"];
 
             qDebug() << "Line2: " << line2;
             qDebug() << "From type: " << fromType;
-            qDebug() << "From value: " << fromValue;
+            qDebug() << "From default value: " << fromDefValue;
 
-            if(toType==fromType)
-                beforeParamFlag=1; // Параметр есть, и типы совпадают
+            if (toType==fromType)
+                beforeParamFlag=BeforeParamFlag::BEFORE_PARAM_EXISTS_AND_SAME_TYPE; // Параметр есть, и типы совпадают
             else
-                beforeParamFlag=2; // Параметр есть, но типы не совпадают
+                beforeParamFlag=BeforeParamFlag::BEFORE_PARAM_EXISTS_AND_OTHER_TYPE; // Параметр есть, но типы не совпадают
         }
 
 
         // Параметра в предыдущей версии конфига не было
-        if(beforeParamFlag==0)
+        if (beforeParamFlag==BeforeParamFlag::BEFORE_PARAM_NON_EXISTS)
         {
             // Будет просто сохранено новое дефолтное значение
-            // Ничего с конечным параметром делать не нужно
+            toTable[toName]["value"] = toTable[toName]["defValue"];
+
             // Параметр из контролирующего массива исключается
             controlList.removeOne(toName);
         }
 
 
         // Параметр в предыдущей версии конфига есть, и типы совпадают
-        if(beforeParamFlag==1)
+        if (beforeParamFlag==BeforeParamFlag::BEFORE_PARAM_EXISTS_AND_SAME_TYPE)
         {
-            // Будет сохранено предыдущее значение
-            toTable[toName]["value"]=fromValue;
+            // В новой верии конфига будет сохранено предыдущее значение с учетом репрезентации
+            // Репрезентация - это когда _тип значения не меняется_, но содержимое значения
+            // трактуется как-то по-другому. Например, значение хранилась как строка из двух координат,
+            // разделенных запятой. А стало храниться как строка из трех координат, разделенных запятой
+
+            QString existsValue = this->updateValueRepresentation(versionFrom,
+                                                                  versionTo,
+                                                                  toName,
+                                                                  conf->value(toName).toString()); // Значение из конфига
+
+            toTable[toName]["value"] = existsValue;
 
             // Параметр из контролирующего массива исключается
             controlList.removeOne(toName);
@@ -237,12 +250,16 @@ void AppConfigUpdater::updateVersion(int versionFrom,
 
 
         // Параметр в предыдущей версии конфига есть, но типы не совпадают
-        if(beforeParamFlag==2)
+        // Пока этот функционал не реализован и внутри updateVersionAllowCollision()
+        // будет возникать ошибка
+        if (beforeParamFlag==BeforeParamFlag::BEFORE_PARAM_EXISTS_AND_OTHER_TYPE)
         {
             // Будет возвращено высчитанное значение
-            toTable[toName]["value"]=updateVersionAllowCollision(versionFrom,versionTo,toName,
-                                                                 fromType,fromValue,
-                                                                 toType,toValue);
+            toTable[toName]["value"]=updateVersionAllowCollision(versionFrom, versionTo, toName,
+                                                                 fromType,
+                                                                 conf->value(toName).toString(),
+                                                                 toType,
+                                                                 toTable[toName]["defValue"]);
 
             // Параметр из контролирующего массива исключается
             controlList.removeOne(toName);
@@ -262,7 +279,7 @@ void AppConfigUpdater::updateVersion(int versionFrom,
     // Конфиг обнуляется
     conf->clear();
 
-    // Конечный массив записывается в конфиг
+    // Конечный массив toTable записывается в конфиг
     QMapIterator< QString, QMap< QString, QString > > j(toTable);
     while(j.hasNext())
     {

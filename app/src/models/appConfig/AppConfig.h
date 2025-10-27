@@ -9,6 +9,13 @@
 class QRect;
 class QStringList;
 
+// Класс, хранящий информацию о структуре конфига программы
+// и позволяющий получить или записать значения в конфиг программы
+
+// В структуре можно создавать новые значения и удалять устаревшие значения
+// Внимание! Методики переименования значений пока не предусмотрено
+
+
 class AppConfig : public QObject
 {
     Q_OBJECT
@@ -264,7 +271,7 @@ public:
 
     // Тема оформления интерфейса
     QString getInterfaceTheme();
-    void setInterfaceTheme(QString themeName);
+    bool setInterfaceTheme(QString themeName);
 
 private:
 
@@ -272,8 +279,11 @@ private:
 
     QStringList removeParameterFromTable(QString removeName, QStringList table);
     QString getParameterTypeFromTable(QString parameterName, QStringList table);
-    QString getParameterValueFromTable(QString parameterName, QStringList table);
-    QStringList replaceParameterInTable(QString replaceName, QString replaceType, QString replaceValue, QStringList table);
+    QString getParameterDefaultValueFromTable(QString parameterName, QStringList table);
+    QStringList replaceParameterInTable(QString replaceName,
+                                        QString replaceType,
+                                        QString replaceDefaultValue,
+                                        QStringList table);
 
 
     void update_version_process(void);

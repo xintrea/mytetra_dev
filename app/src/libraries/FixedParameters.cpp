@@ -27,6 +27,8 @@ const int FixedParameters::mathExpVersion=1; // Текущая максимал�
 const int FixedParameters::mathExpVersionNumberLen=4; // Сколько символов занимает номер версии (только цифры)
 const int FixedParameters::mathExpHeaderLen=29; // Сколько символов занимает весь заголовок (префикс, номер версии, три двоеточия)
 
+// Имена доступных тем оформления
+const QStringList FixedParameters::themesAvailableList={"default", "dark"};
 
 FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {

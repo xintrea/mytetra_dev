@@ -16,6 +16,7 @@ public:
 
     static void removeOldCssStyles();
 
+    static void loadCurrentTheme();
     static bool applyTheme(const QString &themeName);
 
 protected:

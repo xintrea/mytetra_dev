@@ -7,11 +7,13 @@
 #include "CssHelper.h"
 
 #include "libraries/GlobalParameters.h"
+#include "libraries/FixedParameters.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
 #include "libraries/helpers/DiskHelper.h"
 
 extern GlobalParameters globalParameters;
+extern FixedParameters fixedParameters;
 extern AppConfig mytetraConfig;
 extern AppFiles mytetraFiles;
 
@@ -122,11 +124,15 @@ void CssHelper::removeOldCssStyles()
 }
 
 
+void CssHelper::loadCurrentTheme()
+{
+    applyTheme( mytetraConfig.getInterfaceTheme() );
+}
+
+
 bool CssHelper::applyTheme(const QString &themeName)
 {
-    QStringList availableThemes = QStringList() << "default" << "dark";
-
-    if ( !availableThemes.contains(themeName) )
+    if ( !fixedParameters.themesAvailableList.contains(themeName) )
     {
         qWarning() << "Incorrect interface theme name: " << themeName;
         return false;

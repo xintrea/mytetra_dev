@@ -16,6 +16,14 @@ class AppConfigUpdater : public QObject
     Q_OBJECT
 
 public:
+
+    enum BeforeParamFlag
+    {
+        BEFORE_PARAM_NON_EXISTS = 0,
+        BEFORE_PARAM_EXISTS_AND_SAME_TYPE = 1,
+        BEFORE_PARAM_EXISTS_AND_OTHER_TYPE = 2
+    };
+
     AppConfigUpdater(QObject *pobj=nullptr);
     virtual ~AppConfigUpdater();
 

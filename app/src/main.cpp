@@ -249,9 +249,9 @@ int main(int argc, char ** argv)
     // Проверяется наличие коллекции прикрепляемых к веткам иконок (и иконки создаются если они отсутствуют)
     IconSelectDialog::iconsCollectionCheck();
 
-
     // Установка CSS-оформления
-    CssHelper::setCssStyle();
+    CssHelper::extractCssStyles();
+    CssHelper::loadCurrentTheme();
 
     // Инициализация логирования действий над данными
     actionLogger.init();
