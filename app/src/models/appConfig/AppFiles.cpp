@@ -82,7 +82,7 @@ void AppFiles::createFirstAppFiles(QString dirName,
         QFile::copy(":/resource/standartconfig/"+targetOs+"/editorconf.ini", dirName+"/editorconf.ini");
         QFile::setPermissions(dirName+"/editorconf.ini", QFile::ReadUser | QFile::WriteUser);
 
-        this->createThemesFiles(dirName);
+        this->createThemesFiles(dirName+"/themes");
     }
 
     // Создаются файлы БД
@@ -119,6 +119,6 @@ void AppFiles::createThemesFiles(QString dirName)
     QString targetOs = globalParameters.getTargetOs();
     QString qrcFromPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes");
 
-    DiskHelper::copyQrcToDirectory(qrcFromPath, dirName+"/themes");
+    DiskHelper::copyQrcToDirectory(qrcFromPath, dirName);
 }
 

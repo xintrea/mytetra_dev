@@ -131,7 +131,7 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qcheckbox
 
 --------------------------------------------------------------------------- */
 QCheckBox {
-  background-color: #19232D;
+  background-color: transparent; /* #19232D Comment for transparent background-color */
   color: #DFE1E2;
   spacing: 4px;
   outline: none;
@@ -740,10 +740,12 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtoolbar
 --------------------------------------------------------------------------- */
 QToolBar {
   background-color: #455364;
-  border-bottom: 1px solid #19232D;
+  border-bottom: 0px solid #19232D; /* 0px - for remove line at bottom */
   padding: 1px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   font-weight: bold;
-  spacing: 2px;
+  spacing: 2px; /* 2px by default */
 }
 
 QToolBar:disabled {
@@ -864,7 +866,7 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qframe
 
 --------------------------------------------------------------------------- */
 QLabel {
-  background-color: #19232D;
+  background-color: transparent; /* #19232D */
   border: 0px solid #455364;
   padding: 2px;
   margin: 0px;

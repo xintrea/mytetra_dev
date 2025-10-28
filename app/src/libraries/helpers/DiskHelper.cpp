@@ -309,11 +309,13 @@ bool DiskHelper::isDirectoryEmpty(QString dirName)
 // Копирование происходит рекурсивно со всеми файлами и подкаталогами
 bool DiskHelper::copyQrcToDirectory(const QString &resourcePath, const QString &targetDirPath)
 {
-    return copyQrcToDirectoryRecurse(resourcePath, targetDirPath);
+    return copyQrcToDirectoryRecurse(resourcePath, targetDirPath, false);
 }
 
 
-bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath, const QString &targetDirPath)
+bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath,
+                                           const QString &targetDirPath,
+                                           bool includeRootDir)
 {
     QDir sourceDir(resourcePath);
     if (!sourceDir.exists())
@@ -322,30 +324,42 @@ bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath, const QS
         return false;
     }
 
-    QDir targetDir(targetDirPath);
+    // Определяем корневой путь для копирования
+    QString baseTargetPath = targetDirPath;
+    if (includeRootDir)
+    {
+        // Добавляем последний сегмент пути ресурса
+        QString rootName = QFileInfo(resourcePath).fileName();
+        if (!rootName.isEmpty())
+            baseTargetPath += "/" + rootName;
+    }
+
+    QDir targetDir(baseTargetPath);
     if (!targetDir.exists())
     {
         if (!targetDir.mkpath("."))
         {
-            qWarning() << "Не удалось создать каталог назначения:" << targetDirPath;
+            qWarning() << "Не удалось создать каталог назначения:" << baseTargetPath;
             return false;
         }
     }
 
     // Перебор всех элементов внутри ресурса
     QFileInfoList entries = sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
+
     for (const QFileInfo &entry : entries)
     {
         QString srcPath = entry.filePath();
-        QString dstPath = targetDirPath + "/" + entry.fileName();
+        QString dstPath = baseTargetPath + "/" + entry.fileName();
 
+        // Если перебираемый элемент - это директория
         if (entry.isDir())
         {
             // Рекурсивное копирование подкаталогов
-            if (!copyQrcToDirectoryRecurse(srcPath, dstPath))
+            if (!copyQrcToDirectoryRecurse(srcPath, dstPath, false))
                 return false;
         }
-        else if (entry.isFile())
+        else if (entry.isFile()) // Иначе, перебираемый элемент - это файл
         {
             QFile srcFile(srcPath);
             if (!srcFile.exists())
@@ -354,15 +368,28 @@ bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath, const QS
                 continue;
             }
 
-            // Убедимся, что подкаталог создан
-            QDir().mkpath(QFileInfo(dstPath).absolutePath());
+            // Создается каталог для файла на диске, если такового каталога нет
+            QDir().mkpath( QFileInfo(dstPath).absolutePath() );
 
+            // Предварительно удаляеется файл на диске, если таковой уже существует
             if (QFile::exists(dstPath))
-                QFile::remove(dstPath);
-
-            if (!srcFile.copy(dstPath))
             {
-                qWarning() << "Ошибка копирования ресурса:" << srcPath << "→" << dstPath;
+                QFile::remove(dstPath);
+            }
+
+            // Файл копируется из ресурсов на диск
+            if (srcFile.copy(dstPath))
+            {
+                // Если копирование было удачным, файлу выставляются права на чтение и запись
+                // для всех, так как файлы ресурсов не содержат никакой приватной информации
+                // (В Qt по-умолчанию ставятся права только на чтение, что неудобно)
+                QFile::setPermissions(dstPath, QFile::ReadUser | QFile::WriteUser |
+                                               QFile::ReadGroup | QFile::WriteGroup |
+                                               QFile::ReadOther | QFile::WriteOther);
+            }
+            else
+            {
+                qWarning() << "Ошибка копирования ресурса:" << srcPath << " в " << dstPath;
                 return false;
             }
         }
@@ -370,4 +397,3 @@ bool DiskHelper::copyQrcToDirectoryRecurse(const QString &resourcePath, const QS
 
     return true;
 }
-

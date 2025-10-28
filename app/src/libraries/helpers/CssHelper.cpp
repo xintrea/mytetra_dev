@@ -81,7 +81,7 @@ void CssHelper::extractCssStyles()
     if ( !themesDir.exists() )
     {
         // Каталог с темами распаковывается из ресурсов
-        mytetraFiles.createThemesFiles( themesDir.absolutePath() );
+        mytetraFiles.createThemesFiles( dirName+"/themes" );
     }
 
     /*

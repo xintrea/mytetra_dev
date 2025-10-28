@@ -30,7 +30,9 @@ public:
 
 private:
 
-  static bool copyQrcToDirectoryRecurse(const QString &resourcePath, const QString &targetDirPath);
+  static bool copyQrcToDirectoryRecurse(const QString &resourcePath,
+                                        const QString &targetDirPath,
+                                        bool includeRootDir);
 
 };
 
