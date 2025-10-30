@@ -14,7 +14,7 @@ extern ShortcutManager shortcutManager;
 
 EditorToolBar::EditorToolBar(QWidget *parent) : QWidget(parent)
 {
-  isInit=false;
+    isInit=false;
 }
 
 
@@ -24,6 +24,7 @@ EditorToolBar::~EditorToolBar()
 }
 
 
+// Установка списка имен инструментов для строки 1
 void EditorToolBar::initToolsLine1(QStringList toolsLine)
 {
   if(isInit)
@@ -33,6 +34,7 @@ void EditorToolBar::initToolsLine1(QStringList toolsLine)
 }
 
 
+// Установка списка имен инструментов для строки 2
 void EditorToolBar::initToolsLine2(QStringList toolsLine)
 {
   if(isInit)
@@ -42,6 +44,7 @@ void EditorToolBar::initToolsLine2(QStringList toolsLine)
 }
 
 
+// Установка списка имен инструментов, которые не должны отображаться на панели инструментов
 void EditorToolBar::initDisableToolList(QStringList toolNames)
 {
   if(isInit)
@@ -516,32 +519,32 @@ void EditorToolBar::setEnableModifyTextButton(bool state)
 // Сборка линейки редактирования текста в горизонтальную линейку
 void EditorToolBar::assemblyButtons(void)
 {
-  // Заполнение горизонтальных линеек с кнопками форматирования текста
-  updateToolsLines();
+    // Заполнение горизонтальных линеек с кнопками форматирования текста
+    updateToolsLines();
 
-  /*
- QSize toolIconSize(16, 16);
- toolsLine1->setIconSize(toolIconSize);
- toolsLine2->setIconSize(toolIconSize);
- */
+    /*
+    QSize toolIconSize(16, 16);
+    toolsLine1->setIconSize(toolIconSize);
+    toolsLine2->setIconSize(toolIconSize);
+    */
 
-  // Горизонтальные линейки собираются
-  textformatButtonsLayout.addWidget( &toolsLine1 );
-  textformatButtonsLayout.addWidget( &toolsLine2 );
+    // Горизонтальные линейки собираются
+    textformatButtonsLayout.addWidget( &toolsLine1 );
+    textformatButtonsLayout.addWidget( &toolsLine2 );
 
-  // Полученый набор элементов устанавливается для текущего виджета
-  setLayout( &textformatButtonsLayout );
+    // Полученый набор элементов устанавливается для текущего виджета
+    setLayout( &textformatButtonsLayout );
 
-  // Границы убираются, так как данный объект будет использоваться как виджет
-  QLayout *lt;
-  lt=layout();
-  lt->setContentsMargins(0,0,0,0);
+    // Границы убираются, так как данный объект будет использоваться как виджет
+    QLayout *lt;
+    lt=layout();
+    lt->setContentsMargins(0,0,0,0);
 
-  lt->update();
+    lt->update();
 }
 
 
-// Убирание всех инструментов с тулбара (но на очистка списков элементов на тулбарах)
+// Убирание всех инструментов с тулбара (но не очистка списков имен элементов на тулбарах)
 void EditorToolBar::clearToolsLines(void)
 {
     // Особенность Qt
@@ -553,7 +556,7 @@ void EditorToolBar::clearToolsLines(void)
 
     // Тулбар 1
     QList<QObject*> objectList=toolsLine1.children();
-    for(auto object : objectList)
+    for (auto object : objectList)
     {
         QWidget *widget=dynamic_cast<QWidget *>(object);
         if(widget)
@@ -564,7 +567,7 @@ void EditorToolBar::clearToolsLines(void)
 
     // Тулбар 2
     objectList=toolsLine2.children();
-    for(auto object : objectList)
+    for (auto object : objectList)
     {
         QWidget *widget=dynamic_cast<QWidget *>(object);
         if(widget)
@@ -582,19 +585,19 @@ void EditorToolBar::clearToolsLines(void)
 // Засовывание инструментов на тулбары согласно спискам инструментов на тулбарах
 void EditorToolBar::updateToolsLines(void)
 {
-  this->clearToolsLines();
+    this->clearToolsLines();
 
-  for(int i=0;i<toolsListInLine1.size();++i)
-  {
-    QString b=toolsListInLine1.at(i).trimmed();
-    this->insertButtonToToolsLine(b,toolsLine1);
-  }
+    for (int i=0;i<toolsListInLine1.size();++i)
+    {
+        QString b=toolsListInLine1.at(i).trimmed();
+        this->insertButtonToToolsLine(b, toolsLine1);
+    }
 
-  for(int i=0;i<toolsListInLine2.size();++i)
-  {
-    QString b=toolsListInLine2.at(i).trimmed();
-    this->insertButtonToToolsLine(b,toolsLine2);
-  }
+    for (int i=0;i<toolsListInLine2.size();++i)
+    {
+        QString b=toolsListInLine2.at(i).trimmed();
+        this->insertButtonToToolsLine(b, toolsLine2);
+    }
 }
 
 
@@ -701,8 +704,8 @@ void EditorToolBar::registryActionsToToolBarWidget()
 
 void EditorToolBar::switchAttachIconExists(bool isExists)
 {
-  if(isExists)
-    toAttach->setIcon( iconAttachExists );
-  else
-    toAttach->setIcon( iconAttachNotExists );
+    if(isExists)
+        toAttach->setIcon( iconAttachExists );
+    else
+        toAttach->setIcon( iconAttachNotExists );
 }

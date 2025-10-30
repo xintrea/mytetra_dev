@@ -3,9 +3,15 @@
 #include <QScreen>
 #include <QFile>
 #include <QDebug>
+#include <QStyle>
+#include <QLabel>
+#include <QTimer>
 
 #include "CssHelper.h"
 
+#include "libraries/helpers/ObjectHelper.h"
+#include "main.h"
+#include "views/mainWindow/MainWindow.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "models/appConfig/AppConfig.h"
@@ -74,6 +80,10 @@ QString CssHelper::replaceCssMetaIconSize(const QString &styleText)
 
 void CssHelper::extractCssStyles()
 {
+    // Удаление устаревших стилей, которые размещались по устаревшим соглашениям
+    removeVeryOldCssStyles();
+
+
     QString dirName=globalParameters.getWorkDirectory();
 
     // Если в рабочей директории нет каталога с темами
@@ -83,27 +93,11 @@ void CssHelper::extractCssStyles()
         // Каталог с темами распаковывается из ресурсов
         mytetraFiles.createThemesFiles( dirName+"/themes" );
     }
-
-    /*
-    // Если файл стилей есть по старому пути, он переносится в каталог themes
-    // поверх файла стандартной темы, а в старом месте удаляется
-    // Старый файл темы был самодостаточным и не использовал внешние ресурсы
-    QFile fromFile(dirName+"/stylesheet.css");
-    if (fromFile.exists())
-    {
-      // На всякий случай создается каталог с default-темой, если его
-      // не было в ресурсах (подумать, а надо ли это делать)
-      QDir themeDir(dirName);
-      themeDir.mkpath("themes/default");
-
-      // Метод rename переместит файл, причем на старом месте он будет удален
-      fromFile.rename(dirName+"/themes/default/stylesheet.css");
-    }
-    */
 }
 
 
-void CssHelper::removeOldCssStyles()
+// Удаление устаревших стилей, размещаемых по устаревшим соглашениям
+void CssHelper::removeVeryOldCssStyles()
 {
     QString dirName=globalParameters.getWorkDirectory();
 
@@ -116,10 +110,10 @@ void CssHelper::removeOldCssStyles()
     }
 
     // Устаревший каталог стиля, который делал пользователь gee12, удаляется
-    QDir styleDir(dirName+"/style");
-    if ( !styleDir.exists() )
+    QDir veryOldstyleDir(dirName+"/style");
+    if ( veryOldstyleDir.exists() )
     {
-        DiskHelper::removeDirectory( styleDir.absolutePath() );
+        DiskHelper::removeDirectory( veryOldstyleDir.absolutePath() );
     }
 }
 
@@ -159,9 +153,101 @@ bool CssHelper::applyTheme(const QString &themeName)
     // в настоящие пиксели
     styleText=CssHelper::replaceCssMetaIconSize(styleText);
 
-    // Стиль применяется
+    // Применяется цвет ссылок, который невозможно настроить через CSS
+    fineTuneHrefColor(themeName);
+
+    // Загруженный стиль оформления применяется
     qApp->setStyleSheet(styleText);
 
     return true;
 }
 
+
+// Дополнительная настройка цвета ссылок, которую невозможно сделать через CSS
+// а только через палитру. Это work around пока в CSS в Qt не появится
+// поддержки псвевдокласса ::link
+void CssHelper::fineTuneHrefColor(const QString &themeName)
+{
+    if ( themeName=="default" )
+    {
+        // Получить системный цвет из стандартной палитры
+        QPalette systemPalette = QApplication::style()->standardPalette();
+        QColor systemLinkColor = systemPalette.color(QPalette::Link);
+
+        // Установить системный цвет
+        QPalette palette = qApp->palette();
+        palette.setColor(QPalette::Link, systemLinkColor);
+        qApp->setPalette(palette);
+    }
+
+    if ( themeName=="dark" )
+    {
+        QPalette palette = qApp->palette();
+        palette.setColor(QPalette::Link, QColor("#50A0FF"));
+        qApp->setPalette(palette);
+    }
+
+
+    // Принудительное обновление всех виджетов чтобы применились новые цвета
+    foreach (QWidget *widget, QApplication::allWidgets()) {
+
+        // Для QLabel со ссылками - особый подход
+        if (QLabel *label = qobject_cast<QLabel*>(widget)) {
+            if (label->text().contains("<a ")) {
+                // Принудительное обновление через очистку/установку текста
+                QString text = label->text();
+                label->setText("");
+                // QApplication::processEvents();
+                label->setText(text);
+            }
+        }
+
+        QEvent updateEvent(QEvent::UpdateRequest);
+        QApplication::sendEvent(widget, &updateEvent);
+
+        widget->style()->unpolish(widget);
+        widget->style()->polish(widget);
+
+        widget->update();
+        widget->updateGeometry();
+
+        widget->repaint();
+
+        // qDebug() << "Сброс виджета: " << widget->objectName();
+    }
+
+    QApplication::processEvents();
+
+
+    // Уровень 2: Отложенная перерисовка через 10мс
+    QTimer::singleShot(10, []() {
+        foreach (QWidget *widget, QApplication::allWidgets()) {
+            widget->repaint();
+        }
+        QApplication::processEvents();
+    });
+
+
+    // Уровень 3: Финальное обновление через 50мс
+    QTimer::singleShot(50, []() {
+        foreach (QWidget *widget, QApplication::allWidgets()) {
+            widget->update();
+        }
+        QApplication::sendPostedEvents(nullptr, QEvent::UpdateRequest);
+    });
+
+
+    // После сброса интерфейса слетают курсоры на таблицах и в деревьях,
+    // их надо восстановить. Однако установка CSS возможна до того,
+    // как появится главное окно, поэтому восстановление можно запускать
+    // только если есть главное осно, например при переключении тем
+    // Однако курсоры даже после restoreAllWindowState() не восстанавливается
+    // Надо разобраться почему даже этот вызов не восстанавливает курсоры
+    /*
+    MainWindow *mainWindow = find_object<MainWindow>("mainwindow");
+    if (mainWindow)
+    {
+        find_object<MainWindow>("mainwindow")->restoreAllWindowState();
+    }
+    */
+}

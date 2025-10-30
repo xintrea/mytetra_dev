@@ -25,6 +25,10 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   if(parent==nullptr)
     criticalError("Call "+QString(__FUNCTION__)+" with NULL of parent.");
 
+  // Включается отображение фона чтобы фон закрашивался через CSS
+  // По-умолчанию, у классов, унаследованных от QWidget, фон не отображается
+  this->setAttribute(Qt::WA_StyledBackground, true);
+
   editor=qobject_cast<Editor *>(parent);
   viewMode=iViewMode;
   textArea=iTextArea;

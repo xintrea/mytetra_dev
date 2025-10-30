@@ -47,12 +47,11 @@
 
 Editor::Editor(QWidget *parent) : QWidget(parent)
 {
-  isInit=false;
+  // Включается отображение фона чтобы фон закрашивался через CSS
+  // По-умолчанию, у классов, унаследованных от QWidget, фон не отображается
+  this->setAttribute(Qt::WA_StyledBackground, true);
 
-  initDataEnableAssembly=true;
-  initDataConfigFileName="";
-  initDataEnableRandomSeed=false;
-  initDataDisableToolList.clear();
+  isInit=false;
 
   dirFileEmptyReaction=DIRFILEEMPTY_REACTION_SHOW_ERROR;
 }
@@ -104,6 +103,11 @@ void Editor::initConfigFileName(QString name)
 }
 
 
+// Должен ли редактор самостоятельно инициализировать генератор случайных чисел.
+// Случайные числа используются для назначения случайных имен файлов
+// для вставляемых картинок при сохранении текста на диск в виде html+картинки.
+// Если внешняя программа не инициализирует генератор, это можно сделать
+// путем вызова данного метода с флагом true перед инитом редактора.
 void Editor::initEnableRandomSeed(bool flag)
 {
   if(isInit)
@@ -163,10 +167,16 @@ void Editor::init(int mode)
 
   emit updateIndentSliderGeometry();
 
+  // Если разрешена инициализация случайных чисел
   if(initDataEnableRandomSeed)
   {
     QDateTime datetime=QDateTime::currentDateTime ();
-    unsigned int seed=rand()+datetime.toTime_t();
+
+    // В соль обязательно добавляется rand() на тот случай,
+    // если уже была произведена инициализация генератора
+    // хорошей криптостойкой солью
+    long seed=rand()+datetime.toTime_t();
+
     // qDebug() << "Random generator init " << seed;
     srand(seed);
   }
@@ -618,6 +628,19 @@ void Editor::assembly(void)
   // линейку кнопок редактирования и область редактирования текста
   buttonsAndEditLayout=new QVBoxLayout(this);
   buttonsAndEditLayout->setObjectName("buttons_and_edit_layout");
+
+  /*
+  // Отключение отступов
+  buttonsAndEditLayout->setSpacing(0);
+  buttonsAndEditLayout->setContentsMargins(0,0,0,0);
+
+  // Отключение управления отступами со стороны QStyle
+  buttonsAndEditLayout->setProperty("spacing", 0);
+  buttonsAndEditLayout->setProperty("layoutSpacing", 0);
+  */
+
+  // this->setStyleSheet("background-color: red;");
+
 
   // Добавляется виджет с кнопками редактора
   buttonsAndEditLayout->addWidget( editorToolBarAssistant );

@@ -53,6 +53,10 @@ private:
  void metaAssembly(void);
  void setupSignals(void);
 
+ void setMininizeGridRow(QWidget *widget);
+ void setNormalGridRow(QWidget *widget);
+ int getGridRowNumber(QWidget *widget);
+
  QLabel *treePath; // Надпись Path (только для мобильного интерфейса)
 
  QLabel *recordName; // Надпись Title
@@ -69,17 +73,16 @@ private:
  QStringList recordTagsTextList;
  QList<QLabel*> recordTagsLabels;
 
- QSplitter *editorAndFileTableSplitter;
+ // QSplitter *editorAndFileTableSplitter;
 
  // Виджет слоя прикрепляемых файлов
- AttachTableScreen *attachTableScreen;
+ AttachTableScreen *m_attachTableScreen;
 
  // Виджет слоя редактирования текста
- QGridLayout *editorMainLayer;
- QWidget *editorMainScreen;
+ QWidget *m_extendEditorScreen;
 
  // Группировалка виджетов всех слоев (слоя редактирования и слоя прикрепляемых файлов)
- QVBoxLayout *metaEditorJoinLayer;
+ QVBoxLayout *m_metaEditorJoinLayer;
 
 };
 

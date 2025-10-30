@@ -253,6 +253,7 @@ int main(int argc, char ** argv)
     CssHelper::extractCssStyles();
     CssHelper::loadCurrentTheme();
 
+
     // Инициализация логирования действий над данными
     actionLogger.init();
     actionLogger.setEnableLogging( mytetraConfig.getEnableLogging() ); // Установка или запрещение логирования согласно конфигурации

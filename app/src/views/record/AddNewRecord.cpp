@@ -53,6 +53,7 @@ void AddNewRecord::setupUI(void)
   recordTextEditor.initEnableRandomSeed(false);
   recordTextEditor.initDisableToolList( mytetraConfig.getHideEditorTools() + (QStringList() << "save" << "showText" << "toAttach" << "settings" << "expandEditArea") );
   recordTextEditor.init(Editor::WYEDIT_DESKTOP_MODE); // Так как это окно, в мобильном режиме его инициализировать не нужно, так как есть кнопка Отмена
+  recordTextEditor.setObjectName("editorScreenInAddNewRecord");
 
   // В редакторе текста записи устанавливается пустой текст, что активирует правильное
   // начальное положение различных кнопок редактора, например кнопок цвета текста

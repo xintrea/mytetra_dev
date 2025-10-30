@@ -2199,3 +2199,40 @@ PlotWidget {
   /* Fix cut labels in plots #134 */
   padding: 0px;
 }
+
+
+/* Дополнительно настроенные параметры */
+
+/* Кнопки управления редактором текста */
+QWidget[objectName="toolBarAssistant"] {
+  background-color: #455364;
+  border: 0px solid white;
+  margin: 0px;
+}
+
+/* Виджет управления отступами в тексте */
+QWidget[objectName="editor_tb_indentslider"] {
+  background-color: #455364;
+  border: 0px solid yellow;
+  margin: 0px;
+}
+
+/* Настройки виджета класса MetaEditor, который содержит 
+   редактор с дополнительными полями и виджет прикрепляемых файлов */
+QWidget[objectName="editorScreen"] {
+  background-color: #455364;
+  border: 0px solid lime;
+}
+
+/* Настройки виджета редактора с дополнительными полями */
+QWidget[objectName="extendEditorScreen"] {
+  background-color: #455364; /* Отладочный цвет indianred */
+  border: 0px solid lavender;
+}
+
+/* Настройки виджета простого встариваемого редактора в окне добавления записи */
+QWidget[objectName="editorScreenInAddNewRecord"] {
+  background-color: #455364;
+  border: 0px solid lime;
+} 
+

@@ -14,7 +14,7 @@ public:
     // Раскладывание CSS-стилей на диск в подкаталог рабочей директории
     static void extractCssStyles();
 
-    static void removeOldCssStyles();
+    static void removeVeryOldCssStyles();
 
     static void loadCurrentTheme();
     static bool applyTheme(const QString &themeName);
@@ -22,6 +22,7 @@ public:
 protected:
 
     static QString replaceCssMetaIconSize(const QString &styleText);
+    static void fineTuneHrefColor(const QString &themeName);
 
 };
 

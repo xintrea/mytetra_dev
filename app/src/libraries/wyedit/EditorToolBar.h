@@ -123,11 +123,11 @@ protected:
 
     bool isInit;
 
-    // Список инструментов на тулбарах 1 и 2
+    // Список имен инструментов на тулбарах 1 и 2
     QStringList toolsListInLine1;
     QStringList toolsListInLine2;
 
-    // Список инструментов, которые не нужно подгружать
+    // Список имен инструментов, которые не нужно подгружать
     QStringList disableToolList;
 
     QVector<QAction *> actions; // Делать массив объектов вместо указателей на объект нельзя, невозможно работать с QAction в контейнере QVector

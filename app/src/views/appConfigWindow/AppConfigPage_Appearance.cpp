@@ -7,8 +7,8 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
-#include "libraries/helpers/DiskHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
+#include "libraries/helpers/CssHelper.h"
 
 
 extern AppConfig mytetraConfig;
@@ -151,7 +151,7 @@ int AppConfigPage_Appearance::applyChanges()
         mytetraConfig.setInterfaceTheme(
             fixedParameters.themesAvailableList[ theme->currentIndex() ] );
 
-        result=1;
+        CssHelper::loadCurrentTheme();
     }
 
     // Сохраняется настройка режима запуска MyTetra - обычный или свернутый

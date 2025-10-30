@@ -15,6 +15,12 @@ template <class X> inline X *find_object(QString objectName)
 
     extern QObject *pMainWindow;
 
+    // Если в момент обращения основного окна еще нет
+    if (!pMainWindow)
+    {
+        return nullptr;
+    }
+
     // Если запрошен сам корень
     if(objectName=="mainwindow")
     {

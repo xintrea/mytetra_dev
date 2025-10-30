@@ -26,28 +26,30 @@ extern AppConfig mytetraConfig;
 
 MetaEditor::MetaEditor(QWidget *parent) : Editor(parent)
 {
-  Editor::initEnableAssembly(false);
-  Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
-  Editor::initEnableRandomSeed(false);
-  Editor::initDisableToolList( mytetraConfig.getHideEditorTools() );
+    // Конфигурирование редактора перед инициализацией
+    Editor::initEnableAssembly(false); // Стандартная сборка интерфейса редактора отключается
+    Editor::initConfigFileName(globalParameters.getWorkDirectory()+"/editorconf.ini");
+    Editor::initEnableRandomSeed(false);
+    Editor::initDisableToolList( mytetraConfig.getHideEditorTools() );
 
-  if(mytetraConfig.getInterfaceMode()=="desktop")
-    Editor::init(Editor::WYEDIT_DESKTOP_MODE);
-  else if(mytetraConfig.getInterfaceMode()=="mobile")
-    Editor::init(Editor::WYEDIT_MOBILE_MODE);
-  else
-    criticalError("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
+    // Инициализация редатора
+    if(mytetraConfig.getInterfaceMode()=="desktop")
+        Editor::init(Editor::WYEDIT_DESKTOP_MODE);
+    else if(mytetraConfig.getInterfaceMode()=="mobile")
+        Editor::init(Editor::WYEDIT_MOBILE_MODE);
+    else
+        criticalError("In MetaEditor constructor unknown interface mode: "+mytetraConfig.getInterfaceMode());
 
-  setupLabels();
-  setupUI();
-  metaAssembly();
+    setupLabels();
+    setupUI();
+    metaAssembly();
 
-  setupSignals();
+    setupSignals();
 
-  // В редакторе устанавливается функция обратного вызова на кнопку Attach
-  setAttachCallback( toAttachCallback );
+    // В редакторе устанавливается функция обратного вызова на кнопку Attach
+    setAttachCallback( toAttachCallback );
 
-  emit updateIndentSliderGeometry();
+    emit updateIndentSliderGeometry();
 }
 
 
@@ -135,42 +137,52 @@ void MetaEditor::setupUI(void)
  recordTagsScrollArea->setFrameShape(QFrame::NoFrame); // Убирается тонкая линия вокруг QScrollArea
  recordTagsScrollArea->setWidget(recordTagsContainer);
 
- attachTableScreen=new AttachTableScreen(this);
+ m_attachTableScreen=new AttachTableScreen(this);
 }
 
 
+// Сборка интерфейса расширенного редактора
 void MetaEditor::metaAssembly(void)
 {
-  // Сборка виджета редактирования текста (основной виджет)
-  editorMainScreen=new QWidget(this);
-  editorMainLayer=new QGridLayout(editorMainScreen);
+  // Сборка виджета редактирования текста, который будет вставляться в слой
+  m_extendEditorScreen=new QWidget(this);
 
-  editorMainLayer->addWidget(editorToolBarAssistant,                   0,0, 1,2);
-  editorMainLayer->addWidget(indentSliderAssistant->getIndentSlider(), 1,0, 1,2);
-  editorMainLayer->addWidget(treePath,                                 2,0, 1,2);
-  editorMainLayer->addWidget(recordName,                               3,0, 1,2);
-  editorMainLayer->addWidget(recordAuthor,                             4,0, 1,2);
-  editorMainLayer->addWidget(textArea,                                 5,0, 1,2);
+  // Включается отображение фона чтобы фон закрашивался через CSS
+  // По-умолчанию, у классов, унаследованных от QWidget, фон не отображается
+  m_extendEditorScreen->setAttribute(Qt::WA_StyledBackground, true);
 
-  editorMainLayer->addWidget(labelUrl,             6,0);
-  editorMainLayer->addWidget(recordUrl,            6,1);
+  m_extendEditorScreen->setObjectName("extendEditorScreen");
 
-  editorMainLayer->addWidget(labelTags,            7,0);
-  editorMainLayer->addWidget(recordTagsScrollArea, 7,1); // Было addLayout(recordTagsLayout ...)
+  QGridLayout *gridLayout=new QGridLayout();
 
-  editorMainLayer->setColumnStretch(1,1);
+  gridLayout->addWidget(editorToolBarAssistant,                   0,0, 1,2);
+  gridLayout->addWidget(indentSliderAssistant->getIndentSlider(), 1,0, 1,2);
+  gridLayout->addWidget(treePath,                                 2,0, 1,2);
+  gridLayout->addWidget(recordName,                               3,0, 1,2);
+  gridLayout->addWidget(recordAuthor,                             4,0, 1,2);
+  gridLayout->addWidget(textArea,                                 5,0, 1,2);
 
-  editorMainLayer->setContentsMargins(0,0,0,0);
+  gridLayout->addWidget(labelUrl,             6,0);
+  gridLayout->addWidget(recordUrl,            6,1);
+  labelUrl->setProperty("rowNumber", 6); // Запоминается, в какой строке находится Url
 
-  editorMainScreen->setLayout(editorMainLayer);
+  gridLayout->addWidget(labelTags,            7,0);
+  gridLayout->addWidget(recordTagsScrollArea, 7,1);
+  labelTags->setProperty("rowNumber", 7); // Запоминается, в какой строке находятся текстовые метки
+
+  gridLayout->setColumnStretch(1,1);
+
+  gridLayout->setContentsMargins(0,0,0,0);
+
+  m_extendEditorScreen->setLayout(gridLayout);
 
 
-  // Сборка виджетов в один слой
-  metaEditorJoinLayer=new QVBoxLayout(this);
-  metaEditorJoinLayer->addWidget(editorMainScreen);
-  metaEditorJoinLayer->addWidget(attachTableScreen);
+  // Сборка виджетов в переключаемые слои
+  m_metaEditorJoinLayer=new QVBoxLayout(this);
+  m_metaEditorJoinLayer->addWidget(m_extendEditorScreen);
+  m_metaEditorJoinLayer->addWidget(m_attachTableScreen);
 
-  this->setLayout(metaEditorJoinLayer);
+  this->setLayout(m_metaEditorJoinLayer);
 
 
   // Границы убираются, так как данный объект будет использоваться как виджет
@@ -185,15 +197,15 @@ void MetaEditor::metaAssembly(void)
 
 void MetaEditor::switchToEditorLayout(void)
 {
-  attachTableScreen->hide(); // Чтобы не было мерцания, вначале нужно делать сокрытие текущего виджета
-  editorMainScreen->show();
+  m_attachTableScreen->hide(); // Чтобы не было мерцания, вначале нужно делать сокрытие текущего виджета
+  m_extendEditorScreen->show();
 }
 
 
 void MetaEditor::switchToAttachLayout(void)
 {
-  editorMainScreen->hide();
-  attachTableScreen->show();
+  m_extendEditorScreen->hide();
+  m_attachTableScreen->show();
 }
 
 
@@ -241,7 +253,7 @@ void MetaEditor::clearAll(void)
  editorToolBarAssistant->switchAttachIconExists(false);
 
  // Очистка для слоя приаттаченных файлов
- attachTableScreen->clear();
+ m_attachTableScreen->clear();
 }
 
 
@@ -283,6 +295,8 @@ void MetaEditor::setUrl(QString url)
     recordUrl->setVisible(false);
 
     recordUrl->setText("");
+
+    this->setMininizeGridRow(labelUrl);
   }
   else
   {
@@ -293,6 +307,8 @@ void MetaEditor::setUrl(QString url)
       recordUrl->setText("<a href=\""+url+"\">"+url.left(64)+"...</a>");
     else
       recordUrl->setText("<a href=\""+url+"\">"+url+"</a>");
+
+    this->setNormalGridRow(labelUrl);
   }
 }
 
@@ -360,27 +376,88 @@ void MetaEditor::setTags(QString tags)
    recordTagsLayout->addWidget(tempLabel);
   }
 
- // В конец списка виджетов добавляется распорка
+ // В правый конец горизонтального слоя виджетов с метками добавляется распорка
  recordTagsLayout->addStretch();
 
- // Если нечего выводить на экран
- if(tags.length()==0 || recordTagsTextList.size()==0)
- {
-  labelTags->setVisible(false);
 
-  for(int i = 0; i < recordTagsLabels.size(); ++i)
-   recordTagsLabels.at(i)->setVisible(false);
+ // Вычисляется значение логического выражения
+ bool visible = !(tags.length()==0 || recordTagsTextList.size()==0);
+
+ // Установка формата отображения строки сетки
+ if (visible)
+ {
+    this->setNormalGridRow(labelTags);
  }
  else
  {
-  labelTags->setVisible(true);
+    this->setMininizeGridRow(labelTags);
+ }
 
-  for(int i = 0; i < recordTagsLabels.size(); ++i)
-   recordTagsLabels.at(i)->setVisible(true);
+ // Сокрытие или открытие элементов
+ labelTags->setVisible(visible);
+ recordTagsScrollArea->setVisible(visible);
+ for(int i = 0; i < recordTagsLabels.size(); ++i)
+ {
+  recordTagsLabels.at(i)->setVisible(visible);
  }
 
  recordTagsContainer->adjustSize();
  recordTagsScrollArea->setMaximumHeight(recordTagsContainer->height());
+}
+
+
+// Метод определяет, в какой строке сетки находится переданный виджет
+// и настраивается строку сетки так, чтобы она занимала минимальное пространство
+void MetaEditor::setMininizeGridRow(QWidget *widget)
+{
+    int row = this->getGridRowNumber(widget);
+
+    if (row != -1)
+    {
+        QGridLayout *layout = static_cast<QGridLayout*>( m_extendEditorScreen->layout() );
+
+        // Настройки чтобы вид был минимальным
+        layout->setRowMinimumHeight(row, 0);
+        layout->setRowStretch(row, 0); // Убираем растяжение
+    }
+}
+
+
+// Метод определяет, в какой строке сетки находится переданный виджет
+// и настраивается строку сетки так, чтобы она приняла обычное форматирование
+void MetaEditor::setNormalGridRow(QWidget *widget)
+{
+    int row = this->getGridRowNumber(widget);
+
+    if (row != -1)
+    {
+        QGridLayout *layout = static_cast<QGridLayout*>( m_extendEditorScreen->layout() );
+
+        // Настройки стандарного вида
+        layout->setRowMinimumHeight(row, -1); // Авто-высота
+        // layout->setRowStretch(row, 1); // Восстанавливается растяжение
+    }
+}
+
+
+// Определяется, в какой строке сетки находится виджет,
+// согласно выставленному ранее данному виджету свойству
+int MetaEditor::getGridRowNumber(QWidget *widget)
+{
+    int row;
+    QVariant rowVariant = widget->property("rowNumber");
+
+    // Если свойство с номером строки есть
+    if ( rowVariant.isValid() )
+    {
+        row = rowVariant.toInt();
+    }
+    else
+    {
+        row = -1;
+    }
+
+    return row;
 }
 
 
@@ -425,7 +502,7 @@ void MetaEditor::setReadOnly(bool state)
   textArea->setReadOnly(state); // textArea->setEnabled(false);
 
   // Слой прикрепленных файлов
-  attachTableScreen->setReadOnly(state);
+  m_attachTableScreen->setReadOnly(state);
 }
 
 

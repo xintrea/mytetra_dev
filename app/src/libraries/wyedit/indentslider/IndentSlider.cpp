@@ -8,20 +8,24 @@
 
 IndentSlider::IndentSlider(int width, int height, QWidget *parent) : QWidget(parent)
 {
- // Устанавливаются начальные размеры виджета
- set_widget_geometry(width,height);
+    // Включается отображение фона чтобы фон закрашивался через CSS
+    // По-умолчанию, у классов, унаследованных от QWidget, фон не отображается
+    this->setAttribute(Qt::WA_StyledBackground, true);
 
- indentline_left_pos=0;
- indentline_right_pos=0;
- indentline_height=10;
+    // Устанавливаются начальные размеры виджета
+    set_widget_geometry(width,height);
 
- textindent_pos=0;
- leftindent_pos=0;
- rightindent_pos=0;
+    indentline_left_pos=0;
+    indentline_right_pos=0;
+    indentline_height=10;
 
- indenttriangle_width=8;
+    textindent_pos=0;
+    leftindent_pos=0;
+    rightindent_pos=0;
 
- current_sel_indent=SEL_NONE;
+    indenttriangle_width=8;
+
+    current_sel_indent=SEL_NONE;
 }
 
 

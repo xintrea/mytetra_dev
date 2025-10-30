@@ -246,9 +246,9 @@ private:
 
  bool isInit;
 
- bool        initDataEnableAssembly;
+ bool        initDataEnableAssembly = true;
  QString     initDataConfigFileName;
- bool        initDataEnableRandomSeed;
+ bool        initDataEnableRandomSeed = false;
  QStringList initDataDisableToolList;
 
  // Рабочая директория редактора и файл текста
