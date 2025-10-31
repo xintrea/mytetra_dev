@@ -46,13 +46,21 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     {
      TreeItem *item = getItem(index);
 
+     // Если узел содержит таблицу конечных записей
      if(item->recordtableGetRowCount()>0)
-      return QColor(Qt::black);// Если узел содержит таблицу конечных записей
-     else
-      return QColor(Qt::darkGray); // Ветка без таблицы конечных записей
+     {
+        // Стандартный яркий цвет текста
+        return qApp->palette().color(QPalette::Text); // QColor(Qt::black)
+     }
+     else // Ветка без таблицы конечных записей
+     {
+        // Неактивный цвет
+        return qApp->palette().color(QPalette::AlternateBase); // QColor(Qt::darkGray)
+     }
     }
 
 
+    // Если запрашивается окраска фона элемента
     if(role==Qt::BackgroundRole)
     {
      if(index==cursorOverIndex)

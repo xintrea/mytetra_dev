@@ -9,14 +9,12 @@
 
 #include "CssHelper.h"
 
-#include "libraries/helpers/ObjectHelper.h"
-#include "main.h"
-#include "views/mainWindow/MainWindow.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
 #include "libraries/helpers/DiskHelper.h"
+#include "libraries/helpers/PaletteHelper.h"
 
 extern GlobalParameters globalParameters;
 extern FixedParameters fixedParameters;
@@ -75,6 +73,48 @@ QString CssHelper::replaceCssMetaIconSize(const QString &styleText)
     }
 
     return resultText;
+}
+
+
+QString CssHelper::removeCssComments(const QString& input)
+{
+    QString result;
+    result.reserve(input.length());
+
+    int pos = 0;
+    int length = input.length();
+    bool inComment = false;
+
+    while (pos < length) {
+        if (!inComment) {
+            // Начало комментария
+            int commentStart = input.indexOf("/*", pos);
+
+            if (commentStart == -1) {
+                // Комментариев больше нет - в результат добавляется оставшийся текст
+                result.append(input.mid(pos));
+                break;
+            } else {
+                // Добавляется текст до начала комментария
+                result.append(input.mid(pos, commentStart - pos));
+                pos = commentStart + 2; // Пропускаем "/*"
+                inComment = true;
+            }
+        } else {
+            // Поиск конца комментария
+            int commentEnd = input.indexOf("*/", pos);
+
+            if (commentEnd == -1) {
+                // Комментарий не закрыт - просто выход
+                break;
+            } else {
+                pos = commentEnd + 2; // Пропускается "*/"
+                inComment = false;
+            }
+        }
+    }
+
+    return result;
 }
 
 
@@ -149,45 +189,34 @@ bool CssHelper::applyTheme(const QString &themeName)
     // Берется содержимое CSS-файла
     QString styleText = QTextStream(&cssFile).readAll();
 
+    // Удаляются CSS комментарии
+    styleText=CssHelper::removeCssComments(styleText);
+
     // Преобразовывается размер иконок из подстановочных названий
     // в настоящие пиксели
     styleText=CssHelper::replaceCssMetaIconSize(styleText);
 
-    // Применяется цвет ссылок, который невозможно настроить через CSS
-    fineTuneHrefColor(themeName);
+    // Загружается и применяется палитра, хранящаяся в CSS файле в правиле CustomPalette
+    CssHelper::loadPalette(styleText);
 
     // Загруженный стиль оформления применяется
     qApp->setStyleSheet(styleText);
+
+    CssHelper::updateInterface();
 
     return true;
 }
 
 
-// Дополнительная настройка цвета ссылок, которую невозможно сделать через CSS
-// а только через палитру. Это work around пока в CSS в Qt не появится
-// поддержки псвевдокласса ::link
-void CssHelper::fineTuneHrefColor(const QString &themeName)
+void CssHelper::loadPalette(const QString &cssText)
 {
-    if ( themeName=="default" )
-    {
-        // Получить системный цвет из стандартной палитры
-        QPalette systemPalette = QApplication::style()->standardPalette();
-        QColor systemLinkColor = systemPalette.color(QPalette::Link);
-
-        // Установить системный цвет
-        QPalette palette = qApp->palette();
-        palette.setColor(QPalette::Link, systemLinkColor);
-        qApp->setPalette(palette);
-    }
-
-    if ( themeName=="dark" )
-    {
-        QPalette palette = qApp->palette();
-        palette.setColor(QPalette::Link, QColor("#50A0FF"));
-        qApp->setPalette(palette);
-    }
+    // Применяются цвета из CSS-правила CustomPalette
+    PaletteHelper::applyCustomPalette( PaletteHelper::parseCustomPalette(cssText) );
+}
 
 
+void CssHelper::updateInterface()
+{
     // Принудительное обновление всех виджетов чтобы применились новые цвета
     foreach (QWidget *widget, QApplication::allWidgets()) {
 
@@ -251,3 +280,4 @@ void CssHelper::fineTuneHrefColor(const QString &themeName)
     }
     */
 }
+

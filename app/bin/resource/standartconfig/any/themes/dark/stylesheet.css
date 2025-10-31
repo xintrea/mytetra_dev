@@ -2236,3 +2236,9 @@ QWidget[objectName="editorScreenInAddNewRecord"] {
   border: 0px solid lime;
 } 
 
+/* Псевдо-правило для установки значений системной палитры */
+CustomPalette {
+  Link: #50A0FF;
+  Text: #F0F0F0;
+  AlternateBase: #808080;
+}

@@ -151,6 +151,7 @@ HEADERS = src/main.h \
     src/libraries/helpers/LinkHelper.h \
     src/libraries/helpers/MessageHelper.h \
     src/libraries/helpers/ObjectHelper.h \
+    src/libraries/helpers/PaletteHelper.h \
     src/libraries/helpers/ScreenHelper.h \
     src/libraries/helpers/SortHelper.h \
     src/libraries/helpers/UniqueIdHelper.h \
@@ -316,6 +317,7 @@ SOURCES = src/main.cpp \
     src/libraries/helpers/LinkHelper.cpp \
     src/libraries/helpers/MessageHelper.cpp \
     src/libraries/helpers/ObjectHelper.cpp \
+    src/libraries/helpers/PaletteHelper.cpp \
     src/libraries/helpers/ScreenHelper.cpp \
     src/libraries/helpers/SortHelper.cpp \
     src/libraries/helpers/UniqueIdHelper.cpp \

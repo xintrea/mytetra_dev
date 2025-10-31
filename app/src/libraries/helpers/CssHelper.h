@@ -10,6 +10,7 @@ public:
     CssHelper();
 
     static qreal getCalculateIconSizePx(void);
+    static QString removeCssComments(const QString& input);
 
     // Раскладывание CSS-стилей на диск в подкаталог рабочей директории
     static void extractCssStyles();
@@ -22,7 +23,10 @@ public:
 protected:
 
     static QString replaceCssMetaIconSize(const QString &styleText);
-    static void fineTuneHrefColor(const QString &themeName);
+
+    static void loadPalette(const QString &cssText);
+
+    static void updateInterface();
 
 };
 
