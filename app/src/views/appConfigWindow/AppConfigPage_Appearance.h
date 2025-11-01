@@ -26,12 +26,18 @@ public:
     void setupSignals(void);
     void assembly(void);
 
+    void setupThemeComboBox(void);
+    void setupIconSizeComboBox(void);
+
     // Объединяющая рамка
     QGroupBox *behaviorBox;
     QGroupBox *interfaceBox;
 
     QLabel *themeLabel;
-    MtComboBox *theme;
+    MtComboBox *themeNameComboBox;
+
+    QLabel *iconSizeLabel;
+    MtComboBox *iconSizeComboBox;
 
     QCheckBox *runInMinimizedWindow; // Разрешен ли запуск в свернутом окне
     QCheckBox *dockableWindowsBehavior; // Поведение открепляемых окон

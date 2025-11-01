@@ -11,6 +11,7 @@
 
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
+#include "libraries/OrderedMap.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
 #include "libraries/helpers/DiskHelper.h"
@@ -52,24 +53,21 @@ qreal CssHelper::getCalculateIconSizePx(void)
 QString CssHelper::replaceCssMetaIconSize(const QString &styleText)
 {
     QMap<QString, qreal> table;
-    table["META_ICON_FOUR_SIZE"]       = getCalculateIconSizePx() * 4.0;
-    table["META_ICON_TRIPLE_SIZE"]     = getCalculateIconSizePx() * 3.0;
-    table["META_ICON_DOUBLE_SIZE"]     = getCalculateIconSizePx() * 2.0;
-    table["META_ICON_ONEANDHALF_SIZE"] = getCalculateIconSizePx() * 1.5;
 
-    table["META_ICON_SIZE"] = getCalculateIconSizePx();
-
-    table["META_ICON_SEVFIVEPERC_SIZE"]  = getCalculateIconSizePx() * 0.75;
-    table["META_ICON_HALF_SIZE"]         = getCalculateIconSizePx() / 2.0;
-    table["META_ICON_THIRD_PART_SIZE"]   = getCalculateIconSizePx() / 3.0;
-    table["META_ICON_QUARTER_PART_SIZE"] = getCalculateIconSizePx() / 4.0;
+    // Перебираются имена названий размеров иконок
+    for ( auto sizeName : fixedParameters.interfaceIconSizeAvailableMap.keys() )
+    {
+        // Во втором аргументе значения QMap-таблицы хранится коэффициент масштабирования
+        table[sizeName] = getCalculateIconSizePx() *
+                          fixedParameters.interfaceIconSizeAvailableMap.at( sizeName ).second;
+    }
 
     QString resultText = styleText;
 
     for (auto name : table.keys())
     {
       qreal value=table.value(name);
-      resultText.replace( name, QString::number( (int) value )+"px" );
+      resultText.replace( name, QString::number( (int) value ) );
     }
 
     return resultText;
@@ -192,8 +190,15 @@ bool CssHelper::applyTheme(const QString &themeName)
     // Удаляются CSS комментарии
     styleText=CssHelper::removeCssComments(styleText);
 
-    // Преобразовывается размер иконок из подстановочных названий
-    // в настоящие пиксели
+    // Добавляется CSS-правило, влияющее на размер иконок
+    if ( mytetraConfig.getInterfaceIconSize()!="" )
+    {
+        QString cssIconSizeRules = QString("\nQToolBar, QToolButton, QPushButton { icon-size: %1px; }").
+                                   arg( mytetraConfig.getInterfaceIconSize() );
+        styleText += cssIconSizeRules;
+    }
+
+    // Преобразовывается названия размеров иконок в настоящие пиксели
     styleText=CssHelper::replaceCssMetaIconSize(styleText);
 
     // Загружается и применяется палитра, хранящаяся в CSS файле в правиле CustomPalette

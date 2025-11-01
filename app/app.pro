@@ -140,6 +140,7 @@ INSTALLS+=icon_48_file
 
 HEADERS = src/main.h \
     src/controllers/databasesManagement/DatabasesManagementController.h \
+    src/libraries/OrderedMap.h \
     src/libraries/RandomInitter.h \
     src/libraries/helpers/ActionHelper.h \
     src/libraries/helpers/ConfigEditorHelper.h \
@@ -306,6 +307,7 @@ HEADERS+=\
 
 SOURCES = src/main.cpp \
     src/controllers/databasesManagement/DatabasesManagementController.cpp \
+    src/libraries/OrderedMap.cpp \
     src/libraries/RandomInitter.cpp \
     src/libraries/helpers/ActionHelper.cpp \
     src/libraries/helpers/ConfigEditorHelper.cpp \

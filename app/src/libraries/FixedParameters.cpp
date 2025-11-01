@@ -30,6 +30,22 @@ const int FixedParameters::mathExpHeaderLen=29; // Сколько символо
 // Имена доступных тем оформления
 const QStringList FixedParameters::themesAvailableList={"default", "dark"};
 
+// Таблица доступных размеров иконок
+const OrderedMap< QString, QPair<QString, float> > FixedParameters::interfaceIconSizeAvailableMap = {
+    { "META_ICON_TRIPLE_SIZE",        { QObject::tr("3"),    3.0 } },
+    { "META_ICON_DOUBLE_SIZE",        { QObject::tr("2"),    2.0 } },
+    { "META_ICON_ONEANDHALF_SIZE",    { QObject::tr("1.5"),  1.5 } },
+    { "META_ICON_ONEANDQUARTER_SIZE", { QObject::tr("1.25"), 1.25 } },
+
+    { "META_ICON_SINGLE_SIZE",        { QObject::tr("1"),    1.0 } },
+
+    { "META_ICON_SEVFIVEPERC_SIZE",   { QObject::tr("0.75"), 0.75 } },
+    { "META_ICON_HALF_SIZE",          { QObject::tr("0.5"),  0.50 } },
+    { "META_ICON_THIRD_PART_SIZE",    { QObject::tr("0.33"), 0.33 } },
+    { "META_ICON_QUARTER_PART_SIZE",  { QObject::tr("0.25"), 0.25 } }
+};
+
+
 FixedParameters::FixedParameters(QObject *parent) : QObject(parent)
 {
   Q_UNUSED(parent)

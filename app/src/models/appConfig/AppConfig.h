@@ -273,6 +273,9 @@ public:
     QString getInterfaceTheme();
     bool setInterfaceTheme(QString themeName);
 
+    QString getInterfaceIconSize();
+    bool setInterfaceIconSize(QString sizeName);
+
 private:
 
     QString get_parameter(QString name);
@@ -329,6 +332,7 @@ private:
     QStringList get_parameter_table_39(bool withEndSignature=true);
     QStringList get_parameter_table_40(bool withEndSignature=true);
     QStringList get_parameter_table_41(bool withEndSignature=true);
+    QStringList get_parameter_table_42(bool withEndSignature=true);
 
     QSettings *m_conf = nullptr; // было static
     bool m_isInit;

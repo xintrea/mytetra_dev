@@ -5,6 +5,9 @@
 #include <QMap>
 #include <QStringList>
 
+#include "libraries/OrderedMap.h"
+
+
 // Неизменяемые параметры, то есть параметры, которые заданы жестко в текущей версии MyTetra
 
 
@@ -44,6 +47,9 @@ public:
   // Имена доступных тем оформления
   static const QStringList themesAvailableList;
 
+  // Имена доступных размеров иконок
+  static const OrderedMap< QString, QPair<QString, float> > interfaceIconSizeAvailableMap;
+
   static bool isRecordFieldAvailable(QString name);
   static bool isRecordFieldNatural(QString name);
   static bool isRecordFieldCalculable(QString name);
@@ -51,5 +57,6 @@ public:
   static QMap<QString, QString> recordFieldDescription(QStringList list);
 
 };
+
 
 #endif // __FIXEDPARAMETERS_H__

@@ -974,7 +974,7 @@ void AppConfig::setDockableWindowsBehavior(QString mode)
 }
 
 
-// Получение темы оформления
+// Получение имени темы оформления
 QString AppConfig::getInterfaceTheme()
 {
     return this->get_parameter("interfaceTheme");
@@ -992,6 +992,28 @@ bool AppConfig::setInterfaceTheme(QString themeName)
     return true;
 }
 
+
+QString AppConfig::getInterfaceIconSize()
+{
+    return this->get_parameter("interfaceIconSize");
+}
+
+bool AppConfig::setInterfaceIconSize(QString sizeName)
+{
+    // Если установлено какое-то имя размера иконок,
+    // и оно не входит в список разрешенных
+    if ( sizeName!="" and
+         !fixedParameters.interfaceIconSizeAvailableMap.keys().contains(sizeName) )
+    {
+        return false;
+    }
+
+    // Запоминается имя размера иконок. Оно может быть пустым или
+    // в виде строки из списка разрешенных размеров
+    m_conf->setValue("interfaceIconSize", sizeName);
+
+    return true;
+}
 
 // --------------------
 // Номер версии конфига
@@ -1167,6 +1189,7 @@ void AppConfig::update_version_process(void)
     parameterFunctions << &AppConfig::get_parameter_table_39;
     parameterFunctions << &AppConfig::get_parameter_table_40;
     parameterFunctions << &AppConfig::get_parameter_table_41;
+    parameterFunctions << &AppConfig::get_parameter_table_42;
 
     for (int i=1; i<parameterFunctions.count()-1; ++i)
     {
@@ -2016,3 +2039,23 @@ QStringList AppConfig::get_parameter_table_41(bool withEndSignature)
     return table;
 }
 
+
+QStringList AppConfig::get_parameter_table_42(bool withEndSignature)
+{
+    // Таблица параметров
+    // Имя, Тип, Значение на случай когда в конфиге параметра прочему-то нет
+    QStringList table;
+
+    // Старые параметры, аналогичные версии 41
+    table << get_parameter_table_41(false);
+
+    // Размер иконок.
+    // Размер обозначается специальными строками, начинающимися на "META_ICON_"
+    // Если размер пустой, используется системный размер иконок
+    table << "interfaceIconSize" << "QString" << "";
+
+    if(withEndSignature)
+        table << "0" << "0" << "0";
+
+    return table;
+}
