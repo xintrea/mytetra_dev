@@ -6,9 +6,9 @@
 
 
 // Поля для записей
-const QStringList FixedParameters::recordFieldAvailableList=       {"id", "name", "author", "url", "tags", "ctime", "dir", "file", "crypt", "block", "hasAttach", "attachCount"};
+const QStringList FixedParameters::recordFieldAvailableList=       {"id", "name", "author", "url", "tags", "ctime", "mtime", "dir", "file", "crypt", "block", "hasAttach", "attachCount"};
 const QStringList FixedParameters::recordNaturalFieldAvailableList={"id", "name", "author", "url", "tags", "ctime", "dir", "file", "crypt", "block"};
-const QStringList FixedParameters::recordCalculableFieldAvailableList={"hasAttach", "attachCount"};
+const QStringList FixedParameters::recordCalculableFieldAvailableList={"hasAttach", "attachCount", "mtime"};
 const QStringList FixedParameters::recordFieldCryptedList={"name", "author", "url", "tags"};
 
 // Поля для веток
@@ -79,12 +79,14 @@ QMap<QString, QString> FixedParameters::recordFieldDescription(QStringList list)
   names["url"]=tr("Url");
   names["tags"]=tr("Tags");
   names["ctime"]=tr("Create time");
+  names["mtime"]=tr("Modification time");
   names["dir"]=tr("Directory name");
   names["file"]=tr("File name");
   names["crypt"]=tr("Is crypt");
   names["hasAttach"]=tr("Has attaches");
   names["attachCount"]=tr("Attaches count");
   names["block"]=tr("Block");
+
 
 
   // Удаляются строчки, которых нет в переданном списке
