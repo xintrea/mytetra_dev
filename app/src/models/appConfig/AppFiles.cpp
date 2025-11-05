@@ -114,11 +114,22 @@ void AppFiles::createFirstAppFiles(QString dirName,
 }
 
 
-void AppFiles::createThemesFiles(QString dirName)
+void AppFiles::createThemesFiles(const QString &dirName, const QString &themeName)
 {
     QString targetOs = globalParameters.getTargetOs();
-    QString qrcFromPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes");
 
-    DiskHelper::copyQrcToDirectory(qrcFromPath, dirName);
+    // Если имя темы не указано
+    if ( themeName.isEmpty() )
+    {
+        // Распаковываются все темы
+        QString qrcFromPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes");
+        DiskHelper::copyQrcToDirectory(qrcFromPath, dirName);
+    }
+    else
+    {
+        // Распаковывается только каталог с указанной темой
+        QString qrcFromPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes/")+themeName;
+        DiskHelper::copyQrcToDirectory(qrcFromPath, dirName+"/"+themeName);
+    }
 }
 

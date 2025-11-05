@@ -55,7 +55,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
      else // Ветка без таблицы конечных записей
      {
         // Неактивный цвет
-        return qApp->palette().color(QPalette::AlternateBase); // QColor(Qt::darkGray)
+        return qApp->palette().color(QPalette::PlaceholderText); // QColor(Qt::darkGray)
      }
     }
 

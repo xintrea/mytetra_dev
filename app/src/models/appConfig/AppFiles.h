@@ -34,7 +34,7 @@ public:
     //! Создание файлов стилей
     //! Файлы стилей могут создаваться и после развертывания начальных файлов MyTetra
     //! Так как в более старых версиях MyTetra их могло не быть
-    void createThemesFiles(QString dirName);
+    void createThemesFiles(const QString &dirName, const QString &themeName="");
 
     void createStandartProgramFiles(void);
     void createPortableProgramFiles(void);

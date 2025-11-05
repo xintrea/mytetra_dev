@@ -1,19 +1,9 @@
-/* <MyTetraStyle name="default" version="1" about="QDarkStyleSheet"/> */
+/* <MyTetraStyle name="default" version="2" about="QDarkStyleSheet"/> */
 
 /* CSS style for any desktop OS */
 /* Set your Qt CSS style in this file */
 
-/*
-QToolButton {
-  padding: 0;
-}
-*/
-
 /* Псевдо-правило для установки значений системной палитры */
-/*
 CustomPalette {
-  Link: #50A0FF;
-  Text: #F0F0F0;
-  AlternateBase: #808080;
+  PlaceholderText: DarkGray;
 }
-*/

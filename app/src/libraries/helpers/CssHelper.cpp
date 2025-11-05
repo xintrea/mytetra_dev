@@ -6,6 +6,7 @@
 #include <QStyle>
 #include <QLabel>
 #include <QTimer>
+#include <QRegularExpression>
 
 #include "CssHelper.h"
 
@@ -121,6 +122,9 @@ void CssHelper::extractCssStyles()
     // Удаление устаревших стилей, которые размещались по устаревшим соглашениям
     removeVeryOldCssStyles();
 
+    // Удаление устаревших стилей, которые имеют более старую версию чем те что хранятся в ресурсах
+    removePreviousThemes();
+
 
     QString dirName=globalParameters.getWorkDirectory();
 
@@ -130,6 +134,19 @@ void CssHelper::extractCssStyles()
     {
         // Каталог с темами распаковывается из ресурсов
         mytetraFiles.createThemesFiles( dirName+"/themes" );
+    }
+    else // Иначе есть каталог с темами
+    {
+        // Надо проверить все ли каталоги тем существуют
+        for ( const auto &themeName : fixedParameters.themesAvailableList )
+        {
+            QDir themeDir(dirName+"/themes/"+themeName);
+            if ( !themeDir.exists() )
+            {
+                // Каталог с темой распаковывается из ресурсов
+                mytetraFiles.createThemesFiles( dirName+"/themes", themeName );
+            }
+        }
     }
 }
 
@@ -156,22 +173,100 @@ void CssHelper::removeVeryOldCssStyles()
 }
 
 
+// Удаление стилей с более старой версией чем хранимой в ресурсах
+void CssHelper::removePreviousThemes()
+{
+    for ( const auto &themeName : fixedParameters.themesAvailableList )
+    {
+        // На диске
+        QString hddStyleText = getCssFileContentForTheme(themeName);
+        QString hddHeaderText = hddStyleText.section('\n', 0, 0); // Первая строка
+        int versionAtHdd = getMyTetraStyleVersion(hddHeaderText);
+
+        // В QRC ресурсах
+        QString qrcStyleText = getCssFileContentForTheme(themeName, true);
+        QString qrcHeaderText = qrcStyleText.section('\n', 0, 0); // Первая строка
+        int versionAtQrc = getMyTetraStyleVersion(qrcHeaderText);
+
+        bool doRemove = false;
+
+        // Если версия на диске не определена, а в ресурсах найдена нормальная версия
+        if( versionAtHdd==0 and versionAtQrc>0 )
+        {
+            doRemove = true;
+        }
+
+        // Если версия в ресурсах более новая чем на диске
+        if( versionAtHdd < versionAtQrc )
+        {
+            doRemove = true;
+        }
+
+        if ( doRemove )
+        {
+            QString dirName = globalParameters.getWorkDirectory()+"/themes/"+themeName;
+
+            DiskHelper::removeDirectory(dirName);
+        }
+    }
+}
+
+
+// Получение номера версии из строки вида
+// /* <MyTetraStyle name="dark" version="1" about="QDarkStyleSheet"/> */
+int CssHelper::getMyTetraStyleVersion(const QString& text)
+{
+    QString trimmed = text.trimmed();
+
+    // Проверяется формат комментария /* ... */
+    if (!trimmed.startsWith("/*") || !trimmed.endsWith("*/")) {
+        return 0;
+    }
+
+    // Извлекается содержимое комментария (убирается /* и */ и пробелы вокруг XML-тега)
+    QString content = trimmed.mid(2, trimmed.length() - 4).trimmed();
+
+    // Проверяется наличие тега MyTetraStyle с атрибутом version
+    QRegularExpression regex(R"(<MyTetraStyle\b[^>]*\bversion\s*=\s*['"](\d+)['"][^>]*/?>)");
+    QRegularExpressionMatch match = regex.match(content);
+
+    if (match.hasMatch()) {
+        return match.captured(1).toInt();
+    }
+
+    return 0;
+}
+
+
 void CssHelper::loadCurrentTheme()
 {
     applyTheme( mytetraConfig.getInterfaceTheme() );
 }
 
 
-bool CssHelper::applyTheme(const QString &themeName)
+QString CssHelper::getCssFileContentForTheme(const QString &themeName, bool fromResources)
 {
     if ( !fixedParameters.themesAvailableList.contains(themeName) )
     {
         qWarning() << "Incorrect interface theme name: " << themeName;
-        return false;
+        return QString();
     }
 
-    QString dirName = globalParameters.getWorkDirectory();
-    QString fileName = dirName+"/themes/"+themeName+"/stylesheet.css";
+    QString fileName;
+
+    if (fromResources)
+    {
+        QString targetOs = globalParameters.getTargetOs();
+        QString qrcPath = QString(":/resource/standartconfig/")+targetOs+QString("/themes");
+
+        fileName = qrcPath+"/"+themeName+"/stylesheet.css";
+    }
+    else
+    {
+        QString dirName = globalParameters.getWorkDirectory();
+        fileName = dirName+"/themes/"+themeName+"/stylesheet.css";
+    }
+
 
     QFile cssFile( fileName );
 
@@ -181,11 +276,26 @@ bool CssHelper::applyTheme(const QString &themeName)
     if(!openResult)
     {
         qWarning() << "Can't find CSS theme file: " << fileName;
-        return false;
+        return QString();
     }
 
     // Берется содержимое CSS-файла
     QString styleText = QTextStream(&cssFile).readAll();
+
+    cssFile.close();
+
+    return styleText;
+}
+
+
+bool CssHelper::applyTheme(const QString &themeName)
+{
+    QString styleText = getCssFileContentForTheme(themeName);
+
+    if (styleText.isEmpty())
+    {
+        return false;
+    }
 
     // Удаляются CSS комментарии
     styleText=CssHelper::removeCssComments(styleText);

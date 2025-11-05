@@ -115,13 +115,31 @@ void myMessageOutput(QtMsgType type, const char *msg)
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msgText)
 #endif
 {
+    QString additionInfo;
+
  #if QT_VERSION >= 0x050000
- Q_UNUSED(context)
+    Q_UNUSED(context)
+
+    // Получаем имя файла без пути
+    QByteArray file = context.file ? QByteArray(context.file) : QByteArray();
+    if (file.contains('/')) {
+        file = file.mid(file.lastIndexOf('/') + 1);
+    }
+
+    // Получаем имя функции
+    QByteArray function = context.function ? QByteArray(context.function) : QByteArray("unknown");
+
+    additionInfo = QString(" File:%1:%2 Func:%3").
+                   arg(QString(file)).
+                   arg(context.line).
+                   arg(QString(function));
  #endif
 
+
  #if QT_VERSION < 0x050000
-  QString msgText( QString::fromUtf8(msg) );
+    QString msgText( QString::fromUtf8(msg) );
  #endif
+
 
  // Пока идет инициализация конфигурации программы
  if(!mytetraConfig.is_init())
@@ -134,22 +152,24 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
  if(!mytetraConfig.get_printdebugmessages())
   return;
 
+ QString printText = msgText + additionInfo; // msgText + additionInfo
+
  switch (type) {
    case QtDebugMsg:
-       smartPrintDebugMessage("[DBG] "+msgText+"\n");
+       smartPrintDebugMessage("[DBG] "+printText+"\n");
        break;
    case QtWarningMsg:
-       smartPrintDebugMessage("[WRN] "+msgText+"\n");
+       smartPrintDebugMessage("[WRN] "+printText+"\n");
        break;
    case QtCriticalMsg:
-       smartPrintDebugMessage("[CRERR] "+msgText+"\n");
+       smartPrintDebugMessage("[CRERR] "+printText+"\n");
        break;
    case QtFatalMsg:
-       smartPrintDebugMessage("[FTERR] "+msgText+"\n");
+       smartPrintDebugMessage("[FTERR] "+printText+"\n");
        abort();
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
    case QtInfoMsg:
-       smartPrintDebugMessage("[INF] "+msgText+"\n");
+       smartPrintDebugMessage("[INF] "+printText+"\n");
        break;
 #endif
  }
