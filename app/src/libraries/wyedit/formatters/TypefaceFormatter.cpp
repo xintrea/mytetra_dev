@@ -1248,33 +1248,50 @@ void TypefaceFormatter::onFontsizeChanged(int n)
 }
 
 
-// Слот, срабатыващий при нажатии на кнопку выбора цвета текста
-void TypefaceFormatter::onFontcolorClicked()
+// Слот, срабатыващий при нажатии на кнопки выбора цвета текста
+// Параметр n - это номер выбранного пункта в выпадающей кнопке выбора цвета,
+// счет кнопок с нуля.
+// При n=0 нужно запустить диалог выбора цвета,
+// При n=1 нужно установить стандартный цвет (нет цвета)
+void TypefaceFormatter::onFontcolorClicked(int n)
 {
     // TRACELOG
 
-    // Текущий цвет шрифта возле курсором
-    QColor currentColor = textArea->textColor();
+    QColor selectedColor;
 
-    // Формат символов под курсором
-    QTextCharFormat textAreaCharFormat = textArea->currentCharFormat();
-
-    // Есть ли ForegroundBrush под курсором в тексте
-    bool hasForegroundBrush = textAreaCharFormat.hasProperty(QTextFormat::ForegroundBrush);
-
-    // Если нет ForegroundBrush в тексте под курсором, то
-    // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
-    // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
-    if(!hasForegroundBrush)
-        currentColor = textArea->palette().windowText().color();
-
-    // Диалог запроса цвета текста
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"), QColorDialog::ShowAlphaChannel);
-
-    // Если цвет выбран, и он правильный
-    if(selectedColor.isValid())
+    if (n==0)
     {
-        // Меняется цвет кнопки
+        // Текущий цвет шрифта возле курсором
+        QColor currentColor = textArea->textColor();
+
+        // Формат символов под курсором
+        QTextCharFormat textAreaCharFormat = textArea->currentCharFormat();
+
+        // Есть ли ForegroundBrush под курсором в тексте
+        bool hasForegroundBrush = textAreaCharFormat.hasProperty(QTextFormat::ForegroundBrush);
+
+        // Если нет ForegroundBrush в тексте под курсором, то
+        // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
+        // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
+        if(!hasForegroundBrush)
+            currentColor = textArea->palette().windowText().color();
+
+        // Диалог запроса цвета текста
+        selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select text color"), QColorDialog::ShowAlphaChannel);
+
+        // Если цвет выбран, и он правильный
+        if(selectedColor.isValid())
+        {
+            // Меняется цвет кнопки и устанавливается цвет текста
+            emit changeFontcolor( selectedColor );
+        }
+    }
+
+    if (n==1)
+    {
+        selectedColor = QApplication::style()->standardPalette().color(QPalette::WindowText);
+
+        // Меняется цвет кнопки и устанавливается цвет текста
         emit changeFontcolor( selectedColor );
     }
 }
@@ -1465,80 +1482,94 @@ void TypefaceFormatter::replaceSymbolCase(const QChar::Category &category)
 
 
 // Слот, срабатыващий при нажатии на кнопку выбора цвета фона текста
-void TypefaceFormatter::onBackgroundcolorClicked()
+// Параметр n - это номер выбранного пункта в выпадающей кнопке выбора цвета,
+// счет кнопок с нуля.
+// При n=0 нужно запустить диалог выбора цвета,
+// При n=1 нужно установить стандартный цвет (нет цвета)
+void TypefaceFormatter::onBackgroundcolorClicked(int n)
 {
     // TRACELOG
 
-    // Текущий цвет фона под курсором
-    QColor currentColor = textArea->textBackgroundColor();
+    QColor selectedColor;
 
-    // Формат символов под курсором
-    QTextCharFormat textAreaCharFormat = textArea->currentCharFormat();
-
-    // Есть ли BackgroundBrush под курсором в тексте
-    bool hasTextBackgroundBrush = textAreaCharFormat.hasProperty(QTextFormat::BackgroundBrush);
-
-    // Есть ли BackgroundBrush в тексте под курсором
-    if(hasTextBackgroundBrush)
+    if (n==0)
     {
-        // Если есть BackgroundBrush в тексте под курсором, то
-        // в диалог выбора цвета передаем цвет заливки текста под курсором
-        currentColor = textArea->textBackgroundColor();
-    }
-    else
-    {
-        // Проверка, есть ли таблица под курсором и/или подключены стили из stylesheet.css
-        QTextCursor txtCursor = textArea->textCursor();
-        QTextTable *textTable = txtCursor.currentTable();
-        if(textTable != nullptr)
+        // Текущий цвет фона под курсором
+        QColor currentColor = textArea->textBackgroundColor();
+
+        // Формат символов под курсором
+        QTextCharFormat textAreaCharFormat = textArea->currentCharFormat();
+
+        // Есть ли BackgroundBrush под курсором в тексте
+        bool hasTextBackgroundBrush = textAreaCharFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+        // Есть ли BackgroundBrush в тексте под курсором
+        if(hasTextBackgroundBrush)
         {
-            // Если курсор находится в таблице
-            QTextTableFormat textTableFormat = textTable->format();
-            QTextTableCell tableCell = textTable->cellAt(txtCursor);
-            QTextCharFormat tableCellFormat = tableCell.format();
-            QColor tableColor = textTableFormat.background().color();
-            QColor charColor = tableCellFormat.background().color();
-
-            // Есть ли BackgroundBrush в таблице под курсором
-            bool hasTableBackgroundBrush = textTableFormat.hasProperty(QTextFormat::BackgroundBrush);
-
-            // Есть ли BackgroundBrush в ячейке под курсором
-            bool hasCelBackgroundBrush = tableCellFormat.hasProperty(QTextFormat::BackgroundBrush);
-
-            if(hasTableBackgroundBrush && hasCelBackgroundBrush && charColor.isValid())
+            // Если есть BackgroundBrush в тексте под курсором, то
+            // в диалог выбора цвета передаем цвет заливки текста под курсором
+            currentColor = textArea->textBackgroundColor();
+        }
+        else
+        {
+            // Проверка, есть ли таблица под курсором и/или подключены стили из stylesheet.css
+            QTextCursor txtCursor = textArea->textCursor();
+            QTextTable *textTable = txtCursor.currentTable();
+            if(textTable != nullptr)
             {
-                // Если есть BackgroundBrush в таблице под курсором и
-                // есть BackgroundBrush в ячейке под курсором, то
-                // в диалог выбора цвета передаем цвет заливки ячейки
-                currentColor = charColor;
-            }
-            else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
-            {
-                // Если есть BackgroundBrush в таблице под курсором но
-                // нет BackgroundBrush в ячейке под курсором, то
-                // в диалог выбора цвета передаем цвет заливки таблицы
-                currentColor = tableColor;
+                // Если курсор находится в таблице
+                QTextTableFormat textTableFormat = textTable->format();
+                QTextTableCell tableCell = textTable->cellAt(txtCursor);
+                QTextCharFormat tableCellFormat = tableCell.format();
+                QColor tableColor = textTableFormat.background().color();
+                QColor charColor = tableCellFormat.background().color();
+
+                // Есть ли BackgroundBrush в таблице под курсором
+                bool hasTableBackgroundBrush = textTableFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+                // Есть ли BackgroundBrush в ячейке под курсором
+                bool hasCelBackgroundBrush = tableCellFormat.hasProperty(QTextFormat::BackgroundBrush);
+
+                if(hasTableBackgroundBrush && hasCelBackgroundBrush && charColor.isValid())
+                {
+                    // Если есть BackgroundBrush в таблице под курсором и
+                    // есть BackgroundBrush в ячейке под курсором, то
+                    // в диалог выбора цвета передаем цвет заливки ячейки
+                    currentColor = charColor;
+                }
+                else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
+                {
+                    // Если есть BackgroundBrush в таблице под курсором но
+                    // нет BackgroundBrush в ячейке под курсором, то
+                    // в диалог выбора цвета передаем цвет заливки таблицы
+                    currentColor = tableColor;
+                }
+                else
+                {
+                    // Если нет BackgroundBrush в таблице под курсором и
+                    // нет BackgroundBrush в ячейке под курсором, то
+                    // в диалог выбора цвета передаем цвет background редактора textArea (QTextEdit)
+                    // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
+                    currentColor = textArea->palette().window().color();
+                }
             }
             else
             {
-                // Если нет BackgroundBrush в таблице под курсором и
-                // нет BackgroundBrush в ячейке под курсором, то
+                // Если нет BackgroundBrush в тексте под курсором, то
                 // в диалог выбора цвета передаем цвет background редактора textArea (QTextEdit)
                 // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
                 currentColor = textArea->palette().window().color();
             }
         }
-        else
-        {
-            // Если нет BackgroundBrush в тексте под курсором, то
-            // в диалог выбора цвета передаем цвет background редактора textArea (QTextEdit)
-            // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-            currentColor = textArea->palette().window().color();
-        }
+
+        // Диалог запроса цвета фона
+        selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"), QColorDialog::ShowAlphaChannel);
     }
 
-    // Диалог запроса цвета фона
-    QColor selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"), QColorDialog::ShowAlphaChannel);
+    if (n==1)
+    {
+        selectedColor = Qt::transparent;
+    }
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
@@ -1546,4 +1577,5 @@ void TypefaceFormatter::onBackgroundcolorClicked()
         // Меняется цвет кнопки
         emit changeBackgroundcolor( selectedColor );
     }
+
 }

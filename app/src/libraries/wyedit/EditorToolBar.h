@@ -10,6 +10,7 @@
 
 #include "EditorFontSizeComboBox.h"
 #include "EditorFontFamilyComboBox.h"
+#include "EditorDropDownButton.h"
 
 
 // Виджет для отрисовки кнопок форматирования текста
@@ -62,8 +63,10 @@ public:
 
     EditorFontFamilyComboBox *fontSelect;
     EditorFontSizeComboBox   *fontSize;
-    QAction                  *fontColor;
-    QAction                  *backgroundColor;
+    // QAction                  *fontColor;
+    // QAction                  *backgroundColor;
+    EditorDropDownButton *fontColor;
+    EditorDropDownButton *backgroundColor;
 
     QAction *reference;
 

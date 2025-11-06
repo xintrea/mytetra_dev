@@ -47,8 +47,8 @@ public slots:
 
     void onFontselectChanged(const QFont &font);
     void onFontsizeChanged(int n);
-    void onFontcolorClicked();
-    void onBackgroundcolorClicked();
+    void onFontcolorClicked(int n);
+    void onBackgroundcolorClicked(int n);
 
     // Вставка горизонтальной линии в "пустой" абзац, где расположен курсор (пустой абзац заменяется на горизонтальную линию)
     void onInsertHorizontalLineClicked();

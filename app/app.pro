@@ -157,6 +157,7 @@ HEADERS = src/main.h \
     src/libraries/helpers/SortHelper.h \
     src/libraries/helpers/UniqueIdHelper.h \
     src/libraries/wyedit/EditorConfigMathExpression.h \
+    src/libraries/wyedit/EditorDropDownButton.h \
     src/libraries/wyedit/EditorFontToolFocus.h \
     src/libraries/wyedit/EditorShowTextContextMenu.h \
     src/libraries/wyedit/EditorShowTextDispatcher.h \
@@ -324,6 +325,7 @@ SOURCES = src/main.cpp \
     src/libraries/helpers/SortHelper.cpp \
     src/libraries/helpers/UniqueIdHelper.cpp \
     src/libraries/wyedit/EditorConfigMathExpression.cpp \
+    src/libraries/wyedit/EditorDropDownButton.cpp \
     src/libraries/wyedit/EditorFontToolFocus.cpp \
     src/libraries/wyedit/EditorShowTextContextMenu.cpp \
     src/libraries/wyedit/EditorShowTextDispatcher.cpp \

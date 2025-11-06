@@ -517,11 +517,12 @@ void Editor::setupToolsSignals(void)
     connect(editorToolBarAssistant->fontSize, qOverload<int>(&EditorFontSizeComboBox::currentIndexChanged),
             typefaceFormatter,                &TypefaceFormatter::onFontsizeChanged);
 
-    connect(editorToolBarAssistant->fontColor, &QAction::triggered,
+    // Цвет текста
+    connect(editorToolBarAssistant->fontColor, &EditorDropDownButton::menuItemClicked,
             typefaceFormatter,                 &TypefaceFormatter::onFontcolorClicked);
 
     // Цвет фона текста
-    connect(editorToolBarAssistant->backgroundColor, &QAction::triggered,
+    connect(editorToolBarAssistant->backgroundColor, &EditorDropDownButton::menuItemClicked,
             typefaceFormatter,                       &TypefaceFormatter::onBackgroundcolorClicked);
 
     connect(editorToolBarAssistant->indentPlus, &QAction::triggered,
