@@ -85,17 +85,19 @@ protected:
   void initToolsLists(const QStringList &iDisableToolList);
   void setupSignals();
 
+  QColor findNonTransparentBackground();
+
   QPixmap drawIconOverColor(const QColor &fillColor, const QIcon &icon ) const;
 
-  Editor *editor; // Указатель на объект редактора, с которым работает эта панель кнопок
-  EditorTextArea *textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок
+  Editor *m_editor; // Указатель на объект редактора, с которым работает эта панель кнопок
+  EditorTextArea *m_textArea; // Указатель на объект области редактирования, с которой работает эта панель кнопок
 
-  int viewMode;
+  int m_viewMode;
 
-  QString currentFontFamily;
-  int     currentFontSize;
+  QString m_currentFontFamily;
+  int     m_currentFontSize;
 
-  bool flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
+  bool m_flagSetFontParametersEnabled; // Флаг разрешения/запрета срабатывания слотов установки параметров шрифта
 
 };
 

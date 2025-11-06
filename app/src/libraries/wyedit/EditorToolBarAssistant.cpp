@@ -29,13 +29,13 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   // По-умолчанию, у классов, унаследованных от QWidget, фон не отображается
   this->setAttribute(Qt::WA_StyledBackground, true);
 
-  editor=qobject_cast<Editor *>(parent);
-  viewMode=iViewMode;
-  textArea=iTextArea;
+  m_editor=qobject_cast<Editor *>(parent);
+  m_viewMode=iViewMode;
+  m_textArea=iTextArea;
 
-  currentFontFamily="";
-  currentFontSize=0;
-  flagSetFontParametersEnabled=true;
+  m_currentFontFamily="";
+  m_currentFontSize=0;
+  m_flagSetFontParametersEnabled=true;
 
   // Настройка списков кнопок на панелях инструментов редактора
   this->init(iDisableToolList);
@@ -43,7 +43,7 @@ EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,
   this->setupSignals();
 
   // Устанавливается состояние распахнута или нет панель инструментов
-  if(editor->editorConfig->get_expand_tools_lines())
+  if(m_editor->editorConfig->get_expand_tools_lines())
     switchExpandToolsLines(1);
   else
     switchExpandToolsLines(-1);
@@ -74,17 +74,17 @@ void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
 
 
     // Выясняется перечень кнопок в первой строке на панели инструментов
-    QStringList toolsList=editor->editorConfig->get_tools_line_1().split(",");
+    QStringList toolsList=m_editor->editorConfig->get_tools_line_1().split(",");
 
     // В мобильном режиме добавляется кнопка back (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("back"))
+    if(m_viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("back"))
     {
       toolsList.prepend("separator"); // Добавляется в начало панели
       toolsList.prepend("back");
     }
 
     // В мобильном режиме добавляется кнопка find_in_base (если ее нет)
-    if(viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("findInBase"))
+    if(m_viewMode==Editor::WYEDIT_MOBILE_MODE && !toolsList.contains("findInBase"))
     {
       toolsList.append("spring"); // Добавляется в конец панели
       toolsList.append("findInBase");
@@ -93,7 +93,7 @@ void EditorToolBarAssistant::initToolsLists(const QStringList &iDisableToolList)
 
     // Устанавливается перечень кнопок на панели инструментов
     EditorToolBar::initToolsLine1(toolsList); // Первая строка
-    EditorToolBar::initToolsLine2( editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
+    EditorToolBar::initToolsLine2( m_editor->editorConfig->get_tools_line_2().split(",") ); // Вторая строка
 }
 
 
@@ -132,10 +132,10 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
 {
     // TRACELOG
 
-    if(flagSetFontParametersEnabled==false)
+    if(m_flagSetFontParametersEnabled==false)
         return;
 
-    flagSetFontParametersEnabled=false;
+    m_flagSetFontParametersEnabled=false;
 
     // Шрифт, который будет выставлен в комбобоксе
     QString updateFontFamily;
@@ -194,15 +194,15 @@ void EditorToolBarAssistant::onChangeFontselectOnDisplay(QString fontName)
     }
     fontSelect->setIsProgrammChanged(false);
 
-    currentFontFamily=updateFontFamily;
+    m_currentFontFamily=updateFontFamily;
 
-    flagSetFontParametersEnabled=true;
+    m_flagSetFontParametersEnabled=true;
 }
 
 
 bool EditorToolBarAssistant::getFlagSetFontParametersEnabled()
 {
-    return flagSetFontParametersEnabled;
+    return m_flagSetFontParametersEnabled;
 }
 
 
@@ -212,17 +212,17 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
 {
     // TRACELOG
 
-    if(flagSetFontParametersEnabled==false)
+    if(m_flagSetFontParametersEnabled==false)
         return;
 
-    flagSetFontParametersEnabled=false;
+    m_flagSetFontParametersEnabled=false;
 
     fontSize->setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
     fontSize->setCurrentIndex(fontSize->findData(n));
     fontSize->setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
-    currentFontSize=n;
+    m_currentFontSize=n;
 
-    flagSetFontParametersEnabled=true;
+    m_flagSetFontParametersEnabled=true;
 }
 
 
@@ -230,7 +230,7 @@ void EditorToolBarAssistant::onChangeFontFamily(QString fontFamily)
 {
     // TRACELOG
 
-    currentFontFamily=fontFamily;
+    m_currentFontFamily=fontFamily;
 }
 
 
@@ -238,7 +238,7 @@ void EditorToolBarAssistant::onChangeFontPointSize(int n)
 {
     // TRACELOG
 
-    currentFontSize=n;
+    m_currentFontSize=n;
 }
 
 
@@ -248,7 +248,7 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
     // TRACELOG
 
     // Формат символов под курсором
-    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
+    QTextCharFormat textAreaFormat = m_textArea->currentCharFormat();
 
     // Есть ли ForegroundBrush под курсором
     bool hasForegroundBrush = textAreaFormat.hasProperty(QTextFormat::ForegroundBrush);
@@ -263,7 +263,7 @@ void EditorToolBarAssistant::onChangeFontcolor(const QColor &color)
         // Если нет ForegroundBrush в тексте под курсором, то
         // за цвет кнопки берется цвет foreground редактора textArea (QTextEdit)
         // (это позволяет учитывать также цвет шрифта, заданный в файле stylesheet.css)
-        fillColor=textArea->palette().windowText().color();
+        fillColor=m_textArea->palette().windowText().color();
     }
 
     fontColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontcolor.svg")) );
@@ -278,13 +278,91 @@ void EditorToolBarAssistant::onChangeIconFontColor(const QTextCharFormat &format
 }
 
 
+// Поиск настоящего цвета фона в месте, где находится курсор
+QColor EditorToolBarAssistant::findNonTransparentBackground()
+{
+    if (!m_textArea)
+    {
+        return QColor();
+    }
+
+    QTextCursor cursor = m_textArea->textCursor();
+    if (cursor.isNull())
+    {
+        return QColor();
+    }
+
+    // Лямбда-функция для извлечения цвета из формата
+    auto getBackgroundColor = [](const QTextFormat& format) -> QColor {
+        if (format.hasProperty(QTextFormat::BackgroundBrush)) {
+            QBrush brush = format.background();
+            if (brush.style() != Qt::NoBrush) {
+                QColor color = brush.color();
+                if (color.isValid() && color.alpha() > 0) {
+                    return color;
+                }
+            }
+        }
+        return QColor();
+    };
+
+    // 1. Проверка формата текущего символа
+    QTextCharFormat charFormat = cursor.charFormat();
+    QColor color = getBackgroundColor(charFormat);
+    if (color.isValid())
+    {
+        return color;
+    }
+
+    // 2. Проверка формата текущего блока
+    QTextBlockFormat blockFormat = cursor.block().blockFormat();
+    color = getBackgroundColor(blockFormat);
+    if (color.isValid())
+    {
+        return color;
+    }
+
+    // 3. Проверяка формата родительских фреймов
+    QTextFrame* currentFrame = cursor.currentFrame();
+    while (currentFrame)
+    {
+        QTextFrameFormat frameFormat = currentFrame->frameFormat();
+        color = getBackgroundColor(frameFormat);
+        if (color.isValid())
+        {
+            return color;
+        }
+
+        currentFrame = currentFrame->parentFrame();
+    }
+
+    // 4. Проверка формата корневого фрейма
+    QTextFrameFormat rootFrameFormat = m_textArea->document()->rootFrame()->frameFormat();
+    color = getBackgroundColor(rootFrameFormat);
+    if (color.isValid())
+    {
+        return color;
+    }
+
+    // 5. Проверка стиля документа
+    /*
+    QTextDocument* doc = textArea->document();
+    if (doc) {
+        // Можно также проверить userState или другие свойства
+    }
+    */
+
+    return QColor(); // Непрозрачный фон не найден
+}
+
+
 // Изменение цвета иконки для фона текста
 void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
 {
     // TRACELOG
 
     // Формат символов под курсором
-    QTextCharFormat textAreaFormat = textArea->currentCharFormat();
+    QTextCharFormat textAreaFormat = m_textArea->currentCharFormat();
 
     // Есть ли BackgroundBrush в тексте под курсором
     bool hasTextBackgroundBrush = textAreaFormat.hasProperty(QTextFormat::BackgroundBrush);
@@ -292,8 +370,8 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
     QPixmap pixMap( getIconSize() );
     QColor fillColor;
 
-    // Есть ли BackgroundBrush в тексте под курсором
-    if(hasTextBackgroundBrush && color.isValid())
+    // Есть ли BackgroundBrush в тексте под курсором, и это не прозрачный цвет
+    if(hasTextBackgroundBrush && color.isValid() && color!=Qt::transparent)
     {
         // Если есть BackgroundBrush под курсором, то
         // кнопку красим в цвет заливки текста
@@ -301,57 +379,21 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
     }
     else
     {
-        // Проверка, есть ли таблица под курсором и/или подключены стили из stylesheet.css
-        QTextCursor txtCursor = textArea->textCursor();
-        QTextTable *textTable = txtCursor.currentTable();
-        if(textTable != nullptr)
+        // Иначе, в самом тексте BackgroundBrush не выставлен
+        // но на цвет фона может влиять цвет фона ячейки и цвет фона таблицы,
+        // если текст находится внутри ячейки таблицы.
+        // На цвет фона может так же влиять цвет фона параграфа
+
+        fillColor = this->findNonTransparentBackground();
+
+        // Если цвет не найден нигде по иерархии, значит он не должен отображаться
+        if ( !fillColor.isValid() )
         {
-            // Если курсор находится в таблице
-            QTextTableFormat textTableFormat = textTable->format();
-            QTextTableCell tableCell = textTable->cellAt(txtCursor);
-            QTextCharFormat tableCellFormat = tableCell.format();
-            QColor tableColor = textTableFormat.background().color();
-            QColor charColor = tableCellFormat.background().color();
-
-            // Есть ли BackgroundBrush в таблице под курсором
-            bool hasTableBackgroundBrush = textTableFormat.hasProperty(QTextFormat::BackgroundBrush);
-
-            // Есть ли BackgroundBrush в ячейке под курсором
-            bool hasCelBackgroundBrush = tableCellFormat.hasProperty(QTextFormat::BackgroundBrush);
-
-            if(hasTableBackgroundBrush && hasCelBackgroundBrush && charColor.isValid())
-            {
-                // Если есть BackgroundBrush в таблице под курсором и
-                // есть BackgroundBrush в ячейке под курсором, то
-                // кнопку красим в цвет заливки ячейки
-                fillColor=charColor;
-            }
-            else if(hasTableBackgroundBrush && !hasCelBackgroundBrush && tableColor.isValid())
-            {
-                // Если есть BackgroundBrush в таблице под курсором но
-                // нет BackgroundBrush в ячейке под курсором, то
-                // кнопку красим в цвет заливки таблицы
-                fillColor=tableColor;
-            }
-            else
-            {
-                // Если нет BackgroundBrush в таблице под курсором и
-                // нет BackgroundBrush в ячейке под курсором,
-                // то за цвет кнопки берется цвет background редактора textArea (QTextEdit)
-                // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-                fillColor=textArea->palette().window().color();
-            }
-        }
-        else
-        {
-            // Если нет BackgroundBrush в тексте под курсором, то
-            // за цвет кнопки берется цвет background редактора textArea (QTextEdit)
-            // (это позволяет учитывать также цвет фона, заданный в файле stylesheet.css)
-            fillColor=textArea->palette().window().color();
+            fillColor = Qt::transparent;
         }
     }
 
-    backgroundColor->setIcon( drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontbackgroundcolor.svg")) );
+    backgroundColor->setIcon( this->drawIconOverColor(fillColor, QIcon(":/resource/pic/edit_fontbackgroundcolor.svg")) );
 }
 
 
@@ -359,7 +401,7 @@ void EditorToolBarAssistant::onChangeBackgroundColor(const QColor &color)
 void EditorToolBarAssistant::onChangeIconBackgroundColor(const QTextCharFormat &format)
 {
     QColor color = format.background().color();
-    onChangeBackgroundColor(color);
+    this->onChangeBackgroundColor(color);
 }
 
 
@@ -384,10 +426,10 @@ QPixmap EditorToolBarAssistant::drawIconOverColor(const QColor &fillColor, const
 void EditorToolBarAssistant::onCursorPositionChanged()
 {
     // Изменение цвета иконки выделения фона текста при изменении позиции курсора
-    QColor color = textArea->currentCharFormat().background().color();
+    QColor color = m_textArea->currentCharFormat().background().color();
 
     // Вызывается слот "Изменение цвета иконки выделения фона текста"
-    onChangeBackgroundColor(color);
+    this->onChangeBackgroundColor(color);
 }
 
 
@@ -406,10 +448,10 @@ void EditorToolBarAssistant::onUpdateAlignButtonHiglight(bool activate)
     if(activate==false)
         return;
 
-    if(textArea->alignment()==Qt::AlignLeft)         alignLeft->setChecked(true);
-    else if(textArea->alignment()==Qt::AlignHCenter) alignCenter->setChecked(true);
-    else if(textArea->alignment()==Qt::AlignRight)   alignRight->setChecked(true);
-    else if(textArea->alignment()==Qt::AlignJustify) alignWidth->setChecked(true);
+    if(m_textArea->alignment()==Qt::AlignLeft)         alignLeft->setChecked(true);
+    else if(m_textArea->alignment()==Qt::AlignHCenter) alignCenter->setChecked(true);
+    else if(m_textArea->alignment()==Qt::AlignRight)   alignRight->setChecked(true);
+    else if(m_textArea->alignment()==Qt::AlignJustify) alignWidth->setChecked(true);
 }
 
 
@@ -425,12 +467,12 @@ void EditorToolBarAssistant::onUpdateOutlineButtonHiglight(void)
     superscript->setChecked(false);
     subscript->setChecked(false);
 
-    if(textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
-    if(textArea->fontItalic()==true)        italic->setChecked(true);
-    if(textArea->fontUnderline()==true)     underline->setChecked(true);
-    if(textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
+    if(m_textArea->fontWeight()==QFont::Bold) bold->setChecked(true);
+    if(m_textArea->fontItalic()==true)        italic->setChecked(true);
+    if(m_textArea->fontUnderline()==true)     underline->setChecked(true);
+    if(m_textArea->textCursor().charFormat().fontStrikeOut()) strikeout->setChecked(true);
 
-    const QTextCharFormat charFormat = textArea->textCursor().charFormat();
+    const QTextCharFormat charFormat = m_textArea->textCursor().charFormat();
     if(charFormat.verticalAlignment() == QTextCharFormat::AlignSuperScript) {
         superscript->setChecked(true);
     } else if(charFormat.verticalAlignment() == QTextCharFormat::AlignSubScript) {
@@ -488,14 +530,14 @@ void EditorToolBarAssistant::setOutlineButtonHiglight(int button, bool active)
 void EditorToolBarAssistant::updateToActualFormat(void)
 {
     // Текущий шрифт позиции, где находится курсор
-    QString actualFontFamily=editor->smartFontFamily( textArea->fontFamily() );
-    if(currentFontFamily!=actualFontFamily)
-        onChangeFontselectOnDisplay(actualFontFamily);
+    QString actualFontFamily=m_editor->smartFontFamily( m_textArea->fontFamily() );
+    if(m_currentFontFamily!=actualFontFamily)
+        this->onChangeFontselectOnDisplay(actualFontFamily);
 
     // Размер
-    int actualFontPointSize=editor->smartFontSize( static_cast<int>(textArea->fontPointSize()) );
-    if(currentFontSize!=actualFontPointSize) {
-        onChangeFontsizeOnDisplay(actualFontPointSize);
+    int actualFontPointSize=m_editor->smartFontSize( static_cast<int>(m_textArea->fontPointSize()) );
+    if(m_currentFontSize!=actualFontPointSize) {
+        this->onChangeFontsizeOnDisplay(actualFontPointSize);
     }
 
 
@@ -526,7 +568,7 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
     // Если метод был вызван без параметра
     if(flag==0)
     {
-        bool is_expand=editor->editorConfig->get_expand_tools_lines();
+        bool is_expand=m_editor->editorConfig->get_expand_tools_lines();
 
         if(is_expand) setFlag=false; // Если панель инструментов распахнута, надо сомкнуть
         else setFlag=true; // Иначе распахнуть
@@ -541,11 +583,11 @@ void EditorToolBarAssistant::switchExpandToolsLines(int flag)
 
     // Панели распахиваются/смыкаются (кроме первой линии инструментов)
     toolsLine2.setVisible(setFlag);
-    if(viewMode==Editor::WYEDIT_DESKTOP_MODE)
-        editor->indentSliderAssistant->setVisible(setFlag);
+    if(m_viewMode==Editor::WYEDIT_DESKTOP_MODE)
+        m_editor->indentSliderAssistant->setVisible(setFlag);
 
     // Запоминается новое состояние
-    editor->editorConfig->set_expand_tools_lines(setFlag);
+    m_editor->editorConfig->set_expand_tools_lines(setFlag);
 
     // Обновляется геометрия расположения движков на слайд-панели.
     // Это необходимо из-за того, что при появлении/скрытии линейки отступов высота области редактирования меняется,
@@ -587,5 +629,5 @@ int EditorToolBarAssistant::getFontSizeByNum(int n)
 // Режим представления (мобильный или десктопный)
 int EditorToolBarAssistant::getViewMode()
 {
-    return viewMode;
+    return m_viewMode;
 }
