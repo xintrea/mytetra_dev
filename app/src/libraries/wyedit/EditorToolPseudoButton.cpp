@@ -1,34 +1,35 @@
 #include <QDebug>
 #include <QComboBox>
 
-#include "EditorFontToolFocus.h"
+#include "EditorToolPseudoButton.h"
 #include "EditorFontSizeComboBox.h"
 #include "EditorFontFamilyComboBox.h"
+#include "EditorDropDownButton.h"
 
 
-EditorFontToolFocus::EditorFontToolFocus(QWidget *parent) :
+EditorToolPseudoButton::EditorToolPseudoButton(QWidget *parent) :
     QWidget(parent),
     selectAction(parent)
 {
     // Активация виджета (changed и toggled не срабатывают)
     connect(&selectAction, &QAction::triggered,
-            this, &EditorFontToolFocus::onChangeSelectAction);
+            this, &EditorToolPseudoButton::onChangeSelectAction);
 }
 
 
-EditorFontToolFocus::~EditorFontToolFocus()
+EditorToolPseudoButton::~EditorToolPseudoButton()
 {
 
 }
 
 
-QAction *EditorFontToolFocus::getSelectAction()
+QAction *EditorToolPseudoButton::getSelectAction()
 {
     return &selectAction;
 }
 
 
-void EditorFontToolFocus::onChangeSelectAction()
+void EditorToolPseudoButton::onChangeSelectAction()
 {
     this->parentWidget()->setFocus(Qt::ShortcutFocusReason); // Установка фокуса
 
@@ -42,5 +43,11 @@ void EditorFontToolFocus::onChangeSelectAction()
     {
         // Развертывание комбобокса выбора размера (код такой же как и для выбора шрифта)
         qobject_cast<QComboBox*>(this->parentWidget())->showPopup();
+    }
+
+    if (dynamic_cast<EditorDropDownButton*>(this->parentWidget()) )
+    {
+        // Развертывание выпадающей кнопки
+        qobject_cast<EditorDropDownButton*>(this->parentWidget())->showMenu();
     }
 }

@@ -230,14 +230,14 @@ void EditorToolBar::setupToolBarTools(void)
   // Кнопка выбора цвета шрифта
   fontColor=new EditorDropDownButton(this);
   fontColor->setObjectName("editor_tb_fontColor");
-  fontColor->addAction( new QAction(tr("Select color"), this) );
-  fontColor->addAction( new QAction(tr("No color"), this) );
+  fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontcolor.svg"), tr("Select color"), this) );
+  fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
 
   // Кнопка выбора цвета фона текста
   backgroundColor=new EditorDropDownButton(this);
   backgroundColor->setObjectName("editor_tb_backgroundColor");
-  backgroundColor->addAction( new QAction(tr("Select color"), this) );
-  backgroundColor->addAction( new QAction(tr("No color"), this) );
+  backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontbackgroundcolor.svg"), tr("Select color"), this) );
+  backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
 
 
   // Кнопка вызова виджета поиска текста
@@ -383,25 +383,26 @@ void EditorToolBar::setupShortcuts(void)
 
 
     // shortcutManager.initAction("editor-fontColor", fontColor);
-    shortcutManager.initAction("editor-fontColor", fontColor->getSelectAction() );
+    shortcutManager.initAction("editor-fontColor", fontColor->toolPseudoButton.getSelectAction() );
     fontColor->setStatusTip( shortcutManager.getFullDescription("editor-fontColor") );
     fontColor->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontColor") );
 
     // shortcutManager.initAction("editor-backgroundColor", backgroundColor);
-    shortcutManager.initAction("editor-backgroundColor", backgroundColor->getSelectAction() );
+    shortcutManager.initAction("editor-backgroundColor", backgroundColor->toolPseudoButton.getSelectAction() );
     backgroundColor->setStatusTip( shortcutManager.getFullDescription("editor-backgroundColor") );
     backgroundColor->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-backgroundColor") );
 
 
     // Настраиваются скрытые кнопки действия, а надписи настраиваются для самого виджета
     // Скрытые кнопки нужны чтобы работал выбор виджета по грячим кнопкам
-    shortcutManager.initAction("editor-fontSelect", fontSelect->toolFocus.getSelectAction() );
+    shortcutManager.initAction("editor-fontSelect", fontSelect->toolPseudoButton.getSelectAction() );
     fontSelect->setStatusTip( shortcutManager.getFullDescription("editor-fontSelect") );
     fontSelect->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSelect") );
 
-    shortcutManager.initAction("editor-fontSize", fontSize->toolFocus.getSelectAction() );
+    shortcutManager.initAction("editor-fontSize", fontSize->toolPseudoButton.getSelectAction() );
     fontSize->setStatusTip( shortcutManager.getFullDescription("editor-fontSize") );
     fontSize->setToolTip( shortcutManager.getDescriptionWithShortcut("editor-fontSize") );
+
 
     shortcutManager.initAction("editor-findText", findText);
     shortcutManager.initAction("editor-settings", settings);
@@ -651,6 +652,7 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
                 toolAsWidget->setVisible(true);
                 line.addWidget(toolAsWidget); // Инструмент добавляется на панель инструментов как виджет
 
+
                 // Для специальных классов добавляются действия активации виджета
                 // как невидимые кнопки
                 // При динамическом приведении типа, если тип не соответсвует заданному,
@@ -659,19 +661,19 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
                 if( dynamic_cast<EditorFontFamilyComboBox*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line,
-                                         static_cast<EditorFontFamilyComboBox*>(toolAsWidget)->toolFocus.getSelectAction(),
+                                         static_cast<EditorFontFamilyComboBox*>(toolAsWidget)->toolPseudoButton.getSelectAction(),
                                          false);
                 }
                 if( dynamic_cast<EditorFontSizeComboBox*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line,
-                                         static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolFocus.getSelectAction(),
+                                         static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolPseudoButton.getSelectAction(),
                                          false);
                 }
                 if( dynamic_cast<EditorDropDownButton*>(toolAsWidget) )
                 {
                     insertActionAsButton(&line,
-                                         static_cast<EditorDropDownButton*>(toolAsWidget)->getSelectAction(),
+                                         static_cast<EditorDropDownButton*>(toolAsWidget)->toolPseudoButton.getSelectAction(),
                                          false);
                 }
             }

@@ -6,7 +6,7 @@
 
 EditorFontFamilyComboBox::EditorFontFamilyComboBox(QWidget *parent) :
     QFontComboBox(parent),
-    toolFocus(this)
+    toolPseudoButton(this)
 {
     Q_UNUSED(parent)
 

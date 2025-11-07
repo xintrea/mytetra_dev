@@ -3,7 +3,7 @@
 
 // Fix ugly Qt QSS bug
 #include "libraries/MtComboBox.h"
-#include "EditorFontToolFocus.h"
+#include "EditorToolPseudoButton.h"
 
 #define MINIMUM_ALLOWED_FONT_SIZE 5
 #define MAXIMUM_ALLOWED_FONT_SIZE 100
@@ -19,7 +19,7 @@ public:
 
     void setIsProgrammChanged(bool flag);
 
-    EditorFontToolFocus toolFocus;
+    EditorToolPseudoButton toolPseudoButton;
 
 protected slots:
     void onCurrentIndexChanged(int index);

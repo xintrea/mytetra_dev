@@ -10,10 +10,9 @@
 
 EditorDropDownButton::EditorDropDownButton(QWidget *parent)
     : QWidget{parent},
-      selectAction(this)
+      toolPseudoButton(this)
 {
     setupUi();
-    setupConnections();
 }
 
 
@@ -39,14 +38,6 @@ void EditorDropDownButton::setupUi()
     // Обнуляются отступы контента
     // layout->setContentsMargins(0, 0, 0, 0);
     this->setDividingMargin(); // Попробовать регулировать через стиль темы
-}
-
-
-void EditorDropDownButton::setupConnections()
-{
-    // Активация виджета (changed и toggled не срабатывают)
-    connect(&selectAction, &QAction::triggered,
-            this, &EditorDropDownButton::onTriggeredSelectAction);
 }
 
 
@@ -82,6 +73,14 @@ void EditorDropDownButton::setIcon(const QIcon &icon)
 }
 
 
+void EditorDropDownButton::showMenu()
+{
+    m_button->showMenu();
+
+    qDebug() << "Show menu for EditorDropDownButton";
+}
+
+
 void EditorDropDownButton::setDividingMargin()
 {
     int layoutLeftMargin = this->style()->pixelMetric(QStyle::PM_LayoutLeftMargin) / 3;
@@ -95,23 +94,6 @@ void EditorDropDownButton::setDividingMargin()
                      layoutBottomMargin);
 
     this->layout()->setContentsMargins(margins);
-}
-
-
-QAction *EditorDropDownButton::getSelectAction()
-{
-    return &selectAction;
-}
-
-
-// Если сработало действие, которое отслеживает событие triggered на кнопке
-void EditorDropDownButton::onTriggeredSelectAction()
-{
-    this->setFocus(Qt::ShortcutFocusReason); // Установка фокуса
-
-    m_button->showMenu();
-
-    qDebug() << "Show menu for EditorDropDownButton";
 }
 
 

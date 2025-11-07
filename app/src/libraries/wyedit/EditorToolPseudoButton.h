@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QAction>
 
-class EditorFontToolFocus : public QWidget
+class EditorToolPseudoButton : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit EditorFontToolFocus(QWidget *parent = nullptr);
-    virtual ~EditorFontToolFocus();
+    explicit EditorToolPseudoButton(QWidget *parent = nullptr);
+    virtual ~EditorToolPseudoButton();
 
     // Получение действия, при котором виджет должен активироваться на панели инструментов
     // (должен получать фокус)

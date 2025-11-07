@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QFontComboBox>
 
-#include "EditorFontToolFocus.h"
+#include "EditorToolPseudoButton.h"
 
 
 class EditorFontFamilyComboBox : public QFontComboBox
@@ -17,7 +17,7 @@ public:
 
     void setIsProgrammChanged(bool flag);
 
-    EditorFontToolFocus toolFocus;
+    EditorToolPseudoButton toolPseudoButton;
 
 protected slots:
     void onCurrentIndexChanged(int index);
