@@ -35,6 +35,8 @@ private:
     void setupUi();
     void setupConnections();
 
+    void setDividingMargin();
+
     QToolButton *m_button;
     QMenu *m_menu;
 

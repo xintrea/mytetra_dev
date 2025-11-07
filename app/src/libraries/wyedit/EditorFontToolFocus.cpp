@@ -2,6 +2,8 @@
 #include <QComboBox>
 
 #include "EditorFontToolFocus.h"
+#include "EditorFontSizeComboBox.h"
+#include "EditorFontFamilyComboBox.h"
 
 
 EditorFontToolFocus::EditorFontToolFocus(QWidget *parent) :
@@ -29,5 +31,16 @@ QAction *EditorFontToolFocus::getSelectAction()
 void EditorFontToolFocus::onChangeSelectAction()
 {
     this->parentWidget()->setFocus(Qt::ShortcutFocusReason); // Установка фокуса
-    qobject_cast<QComboBox*>(this->parentWidget())->showPopup(); // Развертывание комбобокса
+
+    if (dynamic_cast<EditorFontFamilyComboBox*>(this->parentWidget()) )
+    {
+        // Развертывание комбобокса выбора шрифта
+        qobject_cast<QComboBox*>(this->parentWidget())->showPopup();
+    }
+
+    if (dynamic_cast<EditorFontSizeComboBox*>(this->parentWidget()) )
+    {
+        // Развертывание комбобокса выбора размера (код такой же как и для выбора шрифта)
+        qobject_cast<QComboBox*>(this->parentWidget())->showPopup();
+    }
 }

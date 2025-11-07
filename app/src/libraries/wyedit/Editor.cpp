@@ -790,7 +790,7 @@ bool Editor::saveTextareaText()
 // в указанную директорию
 bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
 {
-  qDebug() << "Save images...\n" ;
+  qDebug() << "Save images..." ;
   qDebug() << "Block count" << textArea->document()->blockCount() << "\n";
 
   if(workDirectory.length()==0)
@@ -862,7 +862,7 @@ bool Editor::saveTextareaImages(int mode=SAVE_IMAGES_SIMPLE)
           }
   }
 
-  qDebug() << "Save images finish\n" ;
+  qDebug() << "Save images finish" ;
 
   return true;
 }

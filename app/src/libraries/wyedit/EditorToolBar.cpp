@@ -668,6 +668,12 @@ void EditorToolBar::insertButtonToToolsLine(QString toolName, QToolBar &line)
                                          static_cast<EditorFontSizeComboBox*>(toolAsWidget)->toolFocus.getSelectAction(),
                                          false);
                 }
+                if( dynamic_cast<EditorDropDownButton*>(toolAsWidget) )
+                {
+                    insertActionAsButton(&line,
+                                         static_cast<EditorDropDownButton*>(toolAsWidget)->getSelectAction(),
+                                         false);
+                }
             }
 
             // Если добавляемый инструмент - это действие
