@@ -280,23 +280,14 @@ void Editor::setupSignals(void)
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontsizeOnDisplay,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontsizeOnDisplay,
           Qt::DirectConnection);
-  connect(typefaceFormatter, &TypefaceFormatter::changeFontFamily,
-          textArea,          &EditorTextArea::onChangeFontFamily,
-          Qt::DirectConnection);
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontFamily,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontFamily,
-          Qt::DirectConnection);
-  connect(typefaceFormatter,      &TypefaceFormatter::changeFontPointSize,
-          textArea,               &EditorTextArea::onChangeFontPointSize,
           Qt::DirectConnection);
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontPointSize,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontPointSize,
           Qt::DirectConnection);
 
   // Соединение сигналов и слотов обрабортки для цвета начертания текста
-  connect(typefaceFormatter, &TypefaceFormatter::changeFontcolor,
-          textArea,          &EditorTextArea::onChangeFontcolor,
-          Qt::DirectConnection);
   connect(typefaceFormatter,      &TypefaceFormatter::changeFontcolor,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeFontcolor,
           Qt::DirectConnection);
@@ -305,9 +296,6 @@ void Editor::setupSignals(void)
           Qt::DirectConnection);
 
   // Соединение сигналов и слотов обрабортки для цвета фона текста
-  connect(typefaceFormatter, &TypefaceFormatter::changeBackgroundcolor,
-          textArea,          &EditorTextArea::onChangeBackgroundColor,
-          Qt::DirectConnection);
   connect(typefaceFormatter,      &TypefaceFormatter::changeBackgroundcolor,
           editorToolBarAssistant, &EditorToolBarAssistant::onChangeBackgroundColor,
           Qt::DirectConnection);

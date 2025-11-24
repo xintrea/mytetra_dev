@@ -239,8 +239,8 @@ void TypefaceFormatter::onMonospaceClicked(void)
 
     // Устанавливается шрифт
     QFont font;
-    font.fromString(editorConfig->get_monospace_font());
-    emit changeFontFamily(font.family());
+    font.fromString( editorConfig->get_monospace_font() );
+    this->doChangeFontFamily( font.family() );
 
     // Новый установленный шрифт показывается в выпадающем списке шрифтов
     emit changeFontselectOnDisplay(font.family());
@@ -250,7 +250,7 @@ void TypefaceFormatter::onMonospaceClicked(void)
     if(editorConfig->get_monospace_font_size_apply()==true)
     {
         // Устанавливается нужный размер
-        emit changeFontPointSize(editorConfig->get_monospace_font_size());
+        this->doChangeFontPointSize( editorConfig->get_monospace_font_size() );
 
         // В выпадающем списке размеров выставляется установленный размер
         emit changeFontsizeOnDisplay( editorConfig->get_monospace_font_size() );
@@ -318,7 +318,7 @@ void TypefaceFormatter::onCodeClicked(void)
     // Устанавливается шрифт
     QFont font;
     font.fromString(editorConfig->get_code_font());
-    emit changeFontFamily(font.family());
+    this->doChangeFontFamily( font.family() );
 
     // Новый установленный шрифт показывается в выпадающем списке шрифтов
     emit changeFontselectOnDisplay(font.family());
@@ -327,7 +327,7 @@ void TypefaceFormatter::onCodeClicked(void)
     if(editorConfig->get_code_font_size_apply()==true)
     {
         // Устанавливается нужный размер
-        emit changeFontPointSize(editorConfig->get_code_font_size());
+        this->doChangeFontPointSize( editorConfig->get_code_font_size() );
 
         // В выпадающем списке размеров выставляется установленный размер
         emit changeFontsizeOnDisplay(editorConfig->get_code_font_size());
@@ -1215,7 +1215,7 @@ void TypefaceFormatter::onFontselectChanged(const QFont &font)
 
     // textArea->setFontFamily(font.family()); // Устанавливается выбранный шрифт в области редактирования
     // editor->currentFontFamily=font.family();
-    emit changeFontFamily(font.family());
+    this->doChangeFontFamily( font.family() );
 
     // Курсор после выбора возвращается в область редактирования
     textArea->setFocus();
@@ -1241,7 +1241,7 @@ void TypefaceFormatter::onFontsizeChanged(int n)
 
     // textArea->setFontPointSize(n);
     // editor->currentFontSize=n;
-    emit changeFontPointSize(n);
+    this->doChangeFontPointSize( n );
 
     // Курсор после выбора возвращается в область редактирования
     textArea->setFocus();
@@ -1283,7 +1283,7 @@ void TypefaceFormatter::onFontcolorClicked(int n)
         if(selectedColor.isValid())
         {
             // Меняется цвет кнопки и устанавливается цвет текста
-            emit changeFontcolor( selectedColor );
+            this->doChangeFontcolor( selectedColor );
         }
     }
 
@@ -1292,7 +1292,7 @@ void TypefaceFormatter::onFontcolorClicked(int n)
         selectedColor = QApplication::style()->standardPalette().color(QPalette::WindowText);
 
         // Меняется цвет кнопки и устанавливается цвет текста
-        emit changeFontcolor( selectedColor );
+        this->doChangeFontcolor( selectedColor );
     }
 }
 
@@ -1575,7 +1575,99 @@ void TypefaceFormatter::onBackgroundcolorClicked(int n)
     if(selectedColor.isValid())
     {
         // Меняется цвет кнопки
-        emit changeBackgroundcolor( selectedColor );
+        this->doChangeBackgroundColor( selectedColor );
     }
 
+}
+
+
+void TypefaceFormatter::doChangeFontcolor(const QColor &selectedColor)
+{
+    // TRACELOG
+
+    // Если выделение есть
+    if ( textArea->textCursor().hasSelection() )
+    {
+        textArea->setTextColor( selectedColor ); // Меняется цвет текста
+    }
+    else
+    {
+        // Иначе надо выделить дополнительным курсором слово на
+        // котором стоит курсор
+        QTextCursor cursor=textArea->textCursor();
+        cursor.select( QTextCursor::WordUnderCursor );
+
+        // Создается формат с нужным цветом текста и подмешивается в существующий
+        QTextCharFormat format;
+        format.setForeground( selectedColor );
+
+        cursor.mergeCharFormat( format );
+    }
+
+    emit changeFontcolor( selectedColor );
+}
+
+
+// Изменение цвета фона текста
+void TypefaceFormatter::doChangeBackgroundColor(const QColor &selectedColor)
+{
+    // TRACELOG
+
+    // Если выделение есть
+    if ( textArea->textCursor().hasSelection() )
+    {
+        textArea->setTextBackgroundColor( selectedColor ); // Меняется цвет фона
+    }
+    else
+    {
+        // Иначе надо выделить дополнительным курсором слово на
+        // котором стоит курсор
+        QTextCursor cursor=textArea->textCursor();
+        cursor.select( QTextCursor::WordUnderCursor );
+
+        QTextCharFormat format;
+        format.setBackground( selectedColor );
+
+        cursor.mergeCharFormat( format );
+    }
+
+    emit changeBackgroundcolor( selectedColor );
+}
+
+
+void TypefaceFormatter::doChangeFontFamily(QString fontFamily)
+{
+    // TRACELOG
+
+    qDebug() << "Apply font family " << fontFamily;
+
+    // Ранее для установки шрифта хватало одной команды setFontFamily(fontFamily);
+    // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
+
+    QTextCharFormat format;
+    format.setFontFamily( fontFamily );
+
+    qDebug() << "Font from font name: " << format.font().toString();
+
+    // Если нет выделения, дополнительным курсором выделяется слово, на котором стоит курсор
+    QTextCursor cursor = textArea->textCursor();
+    if ( !cursor.hasSelection() )
+    {
+        cursor.select( QTextCursor::WordUnderCursor );
+    }
+
+    cursor.mergeCharFormat( format );
+    textArea->mergeCurrentCharFormat( format );
+
+    emit changeFontFamily( fontFamily );
+}
+
+
+void TypefaceFormatter::doChangeFontPointSize(int n)
+{
+    // TRACELOG
+
+    textArea->setFontPointSize( n );
+
+    emit changeFontPointSize( n );
 }

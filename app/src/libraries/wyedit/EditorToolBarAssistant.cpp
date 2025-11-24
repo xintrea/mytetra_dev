@@ -218,7 +218,7 @@ void EditorToolBarAssistant::onChangeFontsizeOnDisplay(int n)
     m_flagSetFontParametersEnabled=false;
 
     fontSize->setIsProgrammChanged(true); // Устанавливается флаг, что значение меняется программно, а не действиями пользователя
-    fontSize->setCurrentIndex(fontSize->findData(n));
+    fontSize->setCurrentIndex(fontSize->findData(n)); // Этот вызов породит сигнал изменения индекса
     fontSize->setIsProgrammChanged(false); // Снимается флаг, что значение меняется программно
     m_currentFontSize=n;
 

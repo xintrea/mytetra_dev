@@ -53,13 +53,18 @@ void EditorFontSizeComboBox::setIsProgrammChanged(bool flag)
 // Данный слот срабатывает уже после того, как в объекте выставлен индекс
 void EditorFontSizeComboBox::onCurrentIndexChanged(int index)
 {
-    // Устанавливать неизвестный размер шрифта можно только программно
-    if(!isProgrammChanged && index==0) {
+    // Устанавливать неизвестный размер шрифта можно только программно.
+    // Если пользователь попробует выбрать первое значение (с индексом 0),
+    // в котором находится несуществующее значение размера, то выберется
+    // предыдущее обычное значение
+    if(index==0 && !isProgrammChanged )
+    {
         qDebug() << "EditorFontSizeComboBox::onCurrentTextChanged. Disable manual set dash.";
-        this->setCurrentIndex(previousIndex);
+        this->setCurrentIndex(previousIndex); // Индекс исправляется предыдущим значением
         return;
     }
 
+    // Здесь либо обычный размер шрифта, либо несуществующий размер шрифта, устанавливаемый программно
     previousIndex=this->currentIndex();
 }
 

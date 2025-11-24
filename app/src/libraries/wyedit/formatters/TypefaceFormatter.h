@@ -58,7 +58,11 @@ public slots:
 
 private:
 
-    void mergeFormat(const QTextCharFormat &format);
+    void doChangeFontcolor(const QColor &selectedColor);
+    void doChangeBackgroundColor(const QColor &selectedColor);
+    void doChangeFontFamily(QString fontFamily);
+    void doChangeFontPointSize(int n);
+
     void smartFormat(int formatType);
     QString replaceSpacesOnlyTags(QString htmlCode);
     QString clearTypeFace(QString htmlCode);

@@ -51,10 +51,6 @@ signals:
 public slots:
     void showIndentEdge(bool i);
     void setIndentEdgePos(int i);
-    void onChangeFontcolor(const QColor &selectedColor);
-    void onChangeBackgroundColor(const QColor &selectedColor);
-    void onChangeFontFamily(QString fontFamily);
-    void onChangeFontPointSize(int n);
 
     void onGlobalPressKey(int key);
     void onGlobalReleaseKey(int key);

@@ -77,7 +77,7 @@ public slots:
   void onChangeIconFontColor(const QTextCharFormat &format);
   void onChangeBackgroundColor(const QColor &color);
   void onChangeIconBackgroundColor(const QTextCharFormat &format);
-  void onCursorPositionChanged(); // Слот, вызываемый при изменение позиции курсора
+  void onCursorPositionChanged(); // Слот, вызываемый при изменении позиции курсора
 
 protected:
 
@@ -94,6 +94,11 @@ protected:
 
   int m_viewMode;
 
+  // Имя шрифта и размер шрифта являются не только управляющими элементами,
+  // но и ими управляет область редактирования текста. Например если идет
+  // выделение, захватывающее разный шрифт или разный размер,
+  // то имя шрифта или размер должны показывать пустые значения.
+  // Поэтому недостаточно иметь только сами виджеты выбора, нужно хранить еще и значения
   QString m_currentFontFamily;
   int     m_currentFontSize;
 
