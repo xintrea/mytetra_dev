@@ -82,6 +82,8 @@ void RecordTableView::init(void)
 
  horizontalHeader()->setMinimumSectionSize(16);
 
+ horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
  // Горизонтальные заголовки делаются перемещяемыми
  #if QT_VERSION >= 0x040000 && QT_VERSION < 0x050000
  horizontalHeader()->setMovable(true);
