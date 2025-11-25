@@ -308,7 +308,7 @@ bool CssHelper::applyTheme(const QString &themeName)
         styleText += cssIconSizeRules;
     }
 
-    // Преобразовывается названия размеров иконок в настоящие пиксели
+    // Преобразовываются названия размеров иконок в настоящие пиксели
     styleText=CssHelper::replaceCssMetaIconSize(styleText);
 
     // Загружается и применяется палитра, хранящаяся в CSS файле в правиле CustomPalette

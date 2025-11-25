@@ -1,4 +1,4 @@
-/* <MyTetraStyle name="dark" version="2" about="QDarkStyleSheet"/> */
+/* <MyTetraStyle name="dark" version="3" about="QDarkStyleSheet"/> */
 
 /* Reset elements ------------------------------------------------------------
 
@@ -43,9 +43,14 @@ QWidget::item:selected {
   background-color: #346792;
 }
 
+
+/* Закомментировано из-за бага QTBUG-115516 */
+/*
 QWidget::item:hover:!selected {
   background-color: #1A72BB;
 }
+*/
+
 
 /* QMainWindow ------------------------------------------------------------
 
