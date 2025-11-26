@@ -4,11 +4,16 @@
 #include <QColor>
 
 #include "Formatter.h"
+#include "qtextedit.h"
 
 // Класс форматирования для начертания текста
 
 class QDomNode;
 class QTextCharFormat;
+class QTextDocument;
+class QTextFrame;
+class QTextTable;
+
 
 class TypefaceFormatter : public Formatter
 {
@@ -80,6 +85,11 @@ private:
     QString htmlSimplyfier(QString htmlCode);
     void clearSimple(void);
     void replaceSymbolCase(const QChar::Category &category);
+
+    static void clearBackgroundInSelection(QTextEdit *textEdit);
+    static void clearTableCellsBackground(QTextDocument *doc, int selStart, int selEnd);
+    static void findAndClearTables(QTextFrame *frame, int selStart, int selEnd);
+    static void clearSingleTable(QTextTable *table, int selStart, int selEnd);
 
     // Обработка мягкого переноса
     void workingSoftCarryInSelection();

@@ -1484,6 +1484,163 @@ void TypefaceFormatter::replaceSymbolCase(const QChar::Category &category)
 }
 
 
+void TypefaceFormatter::clearBackgroundInSelection(QTextEdit *textEdit)
+{
+    QTextCursor cur = textEdit->textCursor();
+    if (!cur.hasSelection())
+        return;
+
+    QTextDocument *doc = textEdit->document();
+    const int selStart = cur.selectionStart();
+    const int selEnd   = cur.selectionEnd();
+
+    // 1) Очистка фона символов в выделении
+    {
+        QTextCursor cursor(doc);
+        cursor.setPosition(selStart);
+        cursor.setPosition(selEnd, QTextCursor::KeepAnchor);
+
+        QTextCharFormat cf;
+        cf.setBackground(Qt::NoBrush); // Убирается установленный фон
+        cursor.mergeCharFormat(cf);
+    }
+
+    // 2) Очистка фона блоков, которые пересекают выделение
+    {
+        QTextBlock firstBlock = doc->findBlock(selStart);
+        QTextBlock lastBlock  = doc->findBlock(selEnd);
+
+        if (firstBlock.isValid()) {
+            const int lastPos =
+                lastBlock.isValid() ? lastBlock.position() : selEnd;
+
+            for (QTextBlock b = firstBlock; b.isValid(); b = b.next()) {
+                if (b.position() > lastPos)
+                    break;
+
+                QTextCursor bc(b);
+                QTextBlockFormat bf = b.blockFormat();
+                bf.setBackground(Qt::NoBrush);
+                bc.setBlockFormat(bf);
+            }
+        }
+    }
+
+    // 3) Очистка фона ячеек таблиц и самих таблиц только внутри выделения
+    clearTableCellsBackground(doc, selStart, selEnd);
+}
+
+
+// Обход документа: ищутся таблицы и чистятся в них ячейки, а так же чистятся сами таблицы
+void TypefaceFormatter::clearTableCellsBackground(QTextDocument *doc, int selStart, int selEnd)
+{
+    QTextFrame *root = doc->rootFrame();
+    findAndClearTables(root, selStart, selEnd);
+}
+
+
+// Рекурсивный обход фреймов, таблицы — это тоже QTextFrame-наследники
+void TypefaceFormatter::findAndClearTables(QTextFrame *frame, int selStart, int selEnd)
+{
+    // Если этот фрейм — таблица
+    if (QTextTable *table = qobject_cast<QTextTable *>(frame)) {
+        clearSingleTable(table, selStart, selEnd);
+    }
+
+    // Обход дочерних фреймов
+    for (QTextFrame::iterator it = frame->begin(); !it.atEnd(); ++it) {
+        if (QTextFrame *childFrame = it.currentFrame()) {
+            findAndClearTables(childFrame, selStart, selEnd);
+        }
+        // currentBlock() здесь можно игнорировать, блоки уже обработаны выше
+    }
+}
+
+
+// Очистка фона в ОДНОЙ таблице только в области пересечения с выделением
+void TypefaceFormatter::clearSingleTable(QTextTable *table, int selStart, int selEnd)
+{
+    QTextDocument *doc = table->document();
+
+    const int rows = table->rows();
+    const int cols = table->columns();
+
+    // Очистка ячеек
+    for (int r = 0; r < rows; ++r) {
+        for (int c = 0; c < cols; ++c) {
+
+            QTextTableCell cell = table->cellAt(r, c);
+
+            const int cellStart = cell.firstCursorPosition().position();
+            const int cellEnd   = cell.lastCursorPosition().position();
+
+            // Ячейка НЕ пересекается с выделением — пропускаем
+            if (cellEnd < selStart || cellStart > selEnd)
+                continue;
+
+            // Сброс фонового цвета самой ячейки
+            {
+                QTextTableCellFormat cf =
+                    cell.format().toTableCellFormat();   // важно: toTableCellFormat()
+
+                cf.setBackground(Qt::NoBrush);
+                cell.setFormat(cf); // принимает QTextCharFormat по значению
+            }
+
+            // Вычисляется пересечение [cellStart, cellEnd] с [selStart, selEnd]
+            const int from = qMax(cellStart, selStart);
+            const int to   = qMin(cellEnd,   selEnd);
+
+            // 2) Сброс фонового цвета символов внутри этой части ячейки
+            {
+                QTextCursor cursor(doc);
+                cursor.setPosition(from);
+                cursor.setPosition(to, QTextCursor::KeepAnchor);
+
+                QTextCharFormat ch;
+                ch.setBackground(Qt::NoBrush);
+                cursor.mergeCharFormat(ch);
+            }
+
+            // 3) Сброс фонового цвета блоков внутри той же области
+            {
+                QTextBlock b = doc->findBlock(from);
+
+                while (b.isValid() && b.position() <= to) {
+                    QTextCursor bc(b);
+                    QTextBlockFormat bf = b.blockFormat();
+                    bf.setBackground(Qt::NoBrush);
+                    bc.setBlockFormat(bf);
+                    b = b.next();
+                }
+            }
+        }
+    }
+
+
+    // Позиция начала и конца выделения таблицы
+    const int tableStart = table->firstCursorPosition().position();
+    const int tableEnd   = table->lastCursorPosition().position();
+
+    // Если выделение полностью захватывает таблицу
+    if ( selStart<=tableStart && selEnd>=tableEnd )
+    {
+        // Выясняется, имеет ли таблица установленный цвет фона
+        QTextTableFormat tf = table->format();
+        bool tableHasBackground = tf.hasProperty(QTextFormat::BackgroundBrush) &&
+                                  tf.background().style() != Qt::NoBrush;
+
+        // Если есть цвет фона, то он сбрасывается для всей таблицы
+        if (tableHasBackground)
+        {
+            tf.setBackground(Qt::NoBrush);
+            table->setFormat(tf);
+        }
+    }
+
+}
+
+
 // Слот, срабатыващий при нажатии на кнопку выбора цвета фона текста
 // Параметр n - это номер выбранного пункта в выпадающей кнопке выбора цвета,
 // счет кнопок с нуля.
@@ -1616,23 +1773,42 @@ void TypefaceFormatter::doChangeBackgroundColor(const QColor &selectedColor)
 {
     // TRACELOG
 
-    // Если выделение есть
-    if ( textArea->textCursor().hasSelection() )
+    // Если выбран обычный цвет
+    if ( selectedColor != Qt::transparent )
     {
-        textArea->setTextBackgroundColor( selectedColor ); // Меняется цвет фона
+        // Если выделение есть
+        if ( textArea->textCursor().hasSelection() )
+        {
+            textArea->setTextBackgroundColor( selectedColor ); // Меняется цвет фона
+        }
+        else
+        {
+            // Иначе надо выделить дополнительным курсором слово на
+            // котором стоит курсор
+            QTextCursor cursor=textArea->textCursor();
+            cursor.select( QTextCursor::WordUnderCursor );
+
+            QTextCharFormat format;
+            format.setBackground( selectedColor );
+
+            cursor.mergeCharFormat( format );
+        }
     }
     else
     {
-        // Иначе надо выделить дополнительным курсором слово на
-        // котором стоит курсор
-        QTextCursor cursor=textArea->textCursor();
-        cursor.select( QTextCursor::WordUnderCursor );
+        // Иначе выбран полностью прозрачный цвет заливки,
+        // и надо не устанавливать прозрачный цвет, а сбрасывать цвет заливки
+        textArea->textCursor().beginEditBlock();
 
-        QTextCharFormat format;
-        format.setBackground( selectedColor );
+        this->clearBackgroundInSelection(textArea);
 
-        cursor.mergeCharFormat( format );
+        textArea->textCursor().endEditBlock();
     }
+
+    // Устранение внутреннего бага QTextArea, когда после изменения цвета фона
+    // перед таблицами может появиться пустая строка,
+    // хотя нет никакого символа или блоки форматирования, создающего данную пустую строку
+    textArea->softRedraw();
 
     emit changeBackgroundcolor( selectedColor );
 }

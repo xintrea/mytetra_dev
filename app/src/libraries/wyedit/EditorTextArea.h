@@ -39,6 +39,8 @@ public:
     int getIndentStartedLeft(void);
     int getIndentStartedRight(void);
 
+    void softRedraw();
+
 signals:
     void tapAndHoldGestureFinished(const QPoint &);
     void updateIndentlineGeometry(void);

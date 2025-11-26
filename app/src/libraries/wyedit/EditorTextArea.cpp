@@ -469,6 +469,67 @@ void EditorTextArea::setIndentEdgePos(int i)
 }
 
 
+// Мягкая перерисовка содержимого области редактирования
+// Нужна для устранения бага QTextEdit, в рендере которого появляются
+// пустая строка после изменения цвета фона таблиц или прилежащих к
+// таблице областей
+void EditorTextArea::softRedraw()
+{
+    QTextDocument *doc = this->document();
+
+    // Сохраняем курсор и вертикальную прокрутку
+    QTextCursor savedCursor = this->textCursor();
+    int savedScroll = this->verticalScrollBar()->value();
+
+    QTextCursor cursor(doc);
+
+    // Воркароунд чтобы вставка "измененного" фрагмента в конце метода
+    // не попадала в стек Undo, эта команда заменяет beginEditBlock.
+    // Только что созданный курсор не имеет предыдущего EditBlock, поэтому
+    // изменения будут попадать не в Undo, а игнорироваться
+    cursor.joinPreviousEditBlock();
+
+    // Выделяем весь документ
+    cursor.select(QTextCursor::Document);
+
+    // Делаем фрагмент из выделения (всего документа)
+    QTextDocumentFragment originalFragment(cursor);
+
+    // Создается временный документ из фрагмента
+    QTextDocument temporaryDoc;
+    temporaryDoc.setHtml(originalFragment.toHtml());
+
+
+    // Редактируется временный документ
+    QTextCursor temporaryCursor(&temporaryDoc);
+
+    temporaryCursor.beginEditBlock();
+
+    // ВСТАВЛЯЕМ фиктивный символ в конец документа
+    // Символ должен быть "уникальным", но потом мы его удаляем.
+    temporaryCursor.movePosition(QTextCursor::End);
+    temporaryCursor.insertText(QString(QChar(0x200B)));   // ZERO-WIDTH SPACE
+
+    // УДАЛЯЕТСЯ фиктивный символ
+    temporaryCursor.deletePreviousChar();
+
+    temporaryCursor.endEditBlock();
+
+
+    // Создаем новый фрагмент из отредактированного документа
+    QTextDocumentFragment newFragment(&temporaryDoc);
+
+    // Заменяется выделение (весь документ) самим же фрагментом
+    cursor.insertFragment(newFragment);
+
+    cursor.endEditBlock();
+
+    // Восстанавливается курсор и прокрутка
+    this->setTextCursor(savedCursor); // Крсора не видно, возможно надо восстанавливать не курсор а позицию курсора
+    this->verticalScrollBar()->setValue(savedScroll);
+
+}
+
 
 //! Метод, определяющий какие типы данных можно вставлять в текст
 //! Нужен для того, чтоб сделать вставку картинок
