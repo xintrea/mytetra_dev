@@ -1484,25 +1484,88 @@ void TypefaceFormatter::replaceSymbolCase(const QChar::Category &category)
 }
 
 
-void TypefaceFormatter::clearBackgroundInSelection(QTextEdit *textEdit)
+QList<QTextCursor> TypefaceFormatter::getComplexSelectionCursors()
 {
-    QTextCursor cur = textEdit->textCursor();
-    if (!cur.hasSelection())
-        return;
+    QList<QTextCursor> cursors;
 
-    QTextDocument *doc = textEdit->document();
-    const int selStart = cur.selectionStart();
-    const int selEnd   = cur.selectionEnd();
+    QTextCursor mainCursor = textArea->textCursor();
+
+    if (!mainCursor.hasSelection())
+    {
+        return cursors;
+    }
+
+    QTextTable* table = mainCursor.currentTable();
+
+    if (!table)
+    {
+        cursors << mainCursor;
+        return cursors;
+    }
+
+    int selectionStart = mainCursor.selectionStart();
+    int selectionEnd = mainCursor.selectionEnd();
+
+    // Границы выделения в координатах таблицы
+    QTextCursor startCursor = mainCursor;
+    startCursor.setPosition(selectionStart);
+    QTextTableCell startCell = table->cellAt(startCursor);
+
+    QTextCursor endCursor = mainCursor;
+    endCursor.setPosition(selectionEnd);
+    QTextTableCell endCell = table->cellAt(endCursor);
+
+    if (!startCell.isValid() || !endCell.isValid()) return cursors;
+
+    // Прямоугольник выделения
+    int startRow = qMin(startCell.row(), endCell.row());
+    int endRow = qMax(startCell.row(), endCell.row());
+    int startCol = qMin(startCell.column(), endCell.column());
+    int endCol = qMax(startCell.column(), endCell.column());
+
+    // qDebug() << "Выделенный прямоугольник: строки" << startRow << "-" << endRow
+    //          << ", столбцы" << startCol << "-" << endCol;
+
+    // Для каждой ячейки в выделенном прямоугольнике создается отдельный курсор
+    for (int row = startRow; row <= endRow; ++row) {
+        for (int col = startCol; col <= endCol; ++col) {
+            QTextTableCell cell = table->cellAt(row, col);
+
+            if (cell.isValid()) {
+                // Создается курсор для этой конкретной ячейки
+                QTextCursor cellCursor = cell.firstCursorPosition();
+                cellCursor.setPosition(cell.lastCursorPosition().position(), QTextCursor::KeepAnchor);
+                cursors.append(cellCursor);
+
+                /*
+                qDebug() << "Ячейка [" << row << "," << col << "]:"
+                         << cellCursor.selectedText()
+                         << "позиции:" << cellCursor.selectionStart()
+                         << "-" << cellCursor.selectionEnd();
+                */
+            }
+        }
+    }
+
+    return cursors;
+}
+
+
+void TypefaceFormatter::clearBackgroundInSimpleSelection(const QTextCursor &cursor)
+{
+    QTextDocument *doc = textArea->document();
+    const int selStart = cursor.selectionStart();
+    const int selEnd   = cursor.selectionEnd();
 
     // 1) Очистка фона символов в выделении
     {
-        QTextCursor cursor(doc);
-        cursor.setPosition(selStart);
-        cursor.setPosition(selEnd, QTextCursor::KeepAnchor);
+        QTextCursor cur(doc);
+        cur.setPosition(selStart);
+        cur.setPosition(selEnd, QTextCursor::KeepAnchor);
 
         QTextCharFormat cf;
         cf.setBackground(Qt::NoBrush); // Убирается установленный фон
-        cursor.mergeCharFormat(cf);
+        cur.mergeCharFormat(cf);
     }
 
     // 2) Очистка фона блоков, которые пересекают выделение
@@ -1531,6 +1594,35 @@ void TypefaceFormatter::clearBackgroundInSelection(QTextEdit *textEdit)
 }
 
 
+void TypefaceFormatter::clearBackgroundInSelection()
+{
+    QTextCursor cur = textArea->textCursor();
+
+    if ( !cur.hasSelection() )
+    {
+        return;
+    }
+
+    QList<QTextCursor> cursors;
+
+    // Если это не простое непрерывное выделение
+    if ( cur.hasComplexSelection() )
+    {
+        cursors << this->getComplexSelectionCursors();
+    }
+    else
+    {
+        cursors << cur;
+    }
+
+
+    for ( const auto &cursor : cursors )
+    {
+        this->clearBackgroundInSimpleSelection(cursor);
+    }
+}
+
+
 // Обход документа: ищутся таблицы и чистятся в них ячейки, а так же чистятся сами таблицы
 void TypefaceFormatter::clearTableCellsBackground(QTextDocument *doc, int selStart, int selEnd)
 {
@@ -1550,7 +1642,7 @@ void TypefaceFormatter::findAndClearTables(QTextFrame *frame, int selStart, int 
     // Обход дочерних фреймов
     for (QTextFrame::iterator it = frame->begin(); !it.atEnd(); ++it) {
         if (QTextFrame *childFrame = it.currentFrame()) {
-            findAndClearTables(childFrame, selStart, selEnd);
+            findAndClearTables(childFrame, selStart, selEnd); // Рекурсивный вызов
         }
         // currentBlock() здесь можно игнорировать, блоки уже обработаны выше
     }
@@ -1800,7 +1892,7 @@ void TypefaceFormatter::doChangeBackgroundColor(const QColor &selectedColor)
         // и надо не устанавливать прозрачный цвет, а сбрасывать цвет заливки
         textArea->textCursor().beginEditBlock();
 
-        this->clearBackgroundInSelection(textArea);
+        this->clearBackgroundInSelection();
 
         textArea->textCursor().endEditBlock();
     }

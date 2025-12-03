@@ -86,7 +86,10 @@ private:
     void clearSimple(void);
     void replaceSymbolCase(const QChar::Category &category);
 
-    static void clearBackgroundInSelection(QTextEdit *textEdit);
+    QList<QTextCursor> getComplexSelectionCursors();
+
+    void clearBackgroundInSelection();
+    void clearBackgroundInSimpleSelection(const QTextCursor &cursor);
     static void clearTableCellsBackground(QTextDocument *doc, int selStart, int selEnd);
     static void findAndClearTables(QTextFrame *frame, int selStart, int selEnd);
     static void clearSingleTable(QTextTable *table, int selStart, int selEnd);
