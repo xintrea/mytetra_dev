@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QTextDocumentFragment>
+#include <QPointer>
 
 #include "TableFormatter.h"
 
@@ -311,6 +312,17 @@ void TableFormatter::onTablePropertiesClicked()
   if(!form.exec())
     return;
 
+  // Проверка валидности курсора. Курсор может стать невалидным если пока была открыта
+  // форма редактирования свойств таблицы, завершилась синхронизация и был обновлен документ.
+  // Из-за невалидности курсора переменная table может начать указывать на уже не
+  // существующую область памяти
+  QTextCursor newCursor(textArea->textCursor());
+  if ( cursor.position() != newCursor.position() ||
+       cursor.document() != newCursor.document() )
+  {
+      // Курсор невалидный, менять цвет таблицы нельзя
+      return;
+  }
 
   // Создаётся новый формат таблицы
   QTextTableFormat newFormat=table->format();

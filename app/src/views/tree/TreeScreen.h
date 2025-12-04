@@ -120,7 +120,7 @@ private:
  void encryptBranchItem(void);
  void decryptBranchItem(void);
 
- void updateLastKnowTreeData(QFileInfo fileInfo, bool fileInfoValid);
+ void updateLastKnowTreeData(QFileInfo fileInfo, bool isFileInfoReal);
 };
 
 

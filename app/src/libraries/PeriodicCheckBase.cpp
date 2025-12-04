@@ -45,6 +45,7 @@ void PeriodicCheckBase::timerEvent(QTimerEvent *event)
     if(lastSave.isNull() && lastLoad.isNull())
         return;
 
+    // Время последнего действия с деревом (чтение или запись)
     QDateTime lastAccess = lastSave > lastLoad ? lastSave : lastLoad;
 
     // Время последнего изменения файла дерева
@@ -52,14 +53,18 @@ void PeriodicCheckBase::timerEvent(QTimerEvent *event)
     QFileInfo fileInfo(fileName);
     QDateTime modifyDateTime=fileInfo.lastModified();
 
+    // Если дерево на диске было изменено относительно действий с деревом в памяти
     if(modifyDateTime>lastAccess)
     {
+        // Дерево перечитывается с диска
         (find_object<MainWindow>("mainwindow"))->reload();
 
+        // Отправляется сигнал открепленным окнам чтобы они перечитали свои данные
         emit doUpdateDetachedWindows();
 
         // Если разрешена выдача сообщения о том, что база данных была изменена
         if(mytetraConfig.getEnablePeriodicCheckMessage())
-            showMessageBox(tr("The database was changed by external application or services.\nMyTetra reload the database tree to keep data consistency."));
+            showMessageBox(tr("The database was changed by external application or services.\n"
+                              "MyTetra reload the database tree to keep data consistency."));
     }
 }

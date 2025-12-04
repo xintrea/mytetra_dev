@@ -49,6 +49,17 @@ TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
   setupModels();
   setupSignals();
   assembly();
+
+  // Обязательно надо проинициализировать начальные значения, чтобы
+  // не запускалось обновление дерева (и текущей записи) при первом обновлении.
+  // Если при редактировании записи было вызвано окошко, например выбора нового цвета таблицы,
+  // затем синхронизация завершилась, и если программа решит, что имеются на диске
+  // какие-то изменения (которых на самом деле нет, просто небыло начальной инициализации),
+  // то запустит обновление дерева (и текущей записи), в результате чего временные объекты,
+  // над которыми производились действия, например по изменению цвета, будут инвалидированы,
+  // и их использование после закрытия окна выбора цвета будет приводить
+  // к некорректному завершению программы
+  updateLastKnowTreeData( QFileInfo(), false );
 }
 
 
@@ -1607,9 +1618,9 @@ bool TreeScreen::reloadKnowTree(void)
 }
 
 
-void TreeScreen::updateLastKnowTreeData(QFileInfo fileInfo, bool fileInfoValid)
+void TreeScreen::updateLastKnowTreeData(QFileInfo fileInfo, bool isFileInfoReal)
 {
-  if(fileInfoValid==false)
+  if(isFileInfoReal==false)
     fileInfo=QFileInfo( knowTreeModel->getXmlFileName() );
 
   lastKnowTreeModifyDateTime=fileInfo.lastModified();
