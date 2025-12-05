@@ -372,10 +372,11 @@ void TypefaceFormatter::onClearClicked(void)
     bool isSelectionReverse=false;
     if(startCursorPos>stopCursorPos)
     {
-        int tempCursorPos=startCursorPos;
+        // Меняется только начальная позиция. Конечная позиция далее не используется,
+        // так как длина выделенного фрагмента будет вычисляться специальным образом
+        // (будет удаляться выделенная часть и вставляться новый очищенный текст,
+        // а его длина будет отличаться от длины начального выделения)
         startCursorPos=stopCursorPos;
-        stopCursorPos=tempCursorPos;
-
         isSelectionReverse=true;
     }
     // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;
@@ -965,6 +966,7 @@ void TypefaceFormatter::clearSimple(void)
 }
 
 
+// todo: Сравнить с методом onClearClicked() и сделать общий код
 void TypefaceFormatter::onTextOnlyClicked()
 {
     int startCursorPos=textArea->textCursor().anchor(); // Начало выделения
@@ -975,10 +977,11 @@ void TypefaceFormatter::onTextOnlyClicked()
     bool isSelectionReverse=false;
     if(startCursorPos>stopCursorPos)
     {
-        int tempCursorPos=startCursorPos;
+        // Меняется только начальная позиция. Конечная позиция далее не используется,
+        // так как длина выделенного фрагмента будет вычисляться специальным образом
+        // (будет удаляться выделенная часть и вставляться новый очищенный текст,
+        // а его длина будет отличаться от длины начального выделения)
         startCursorPos=stopCursorPos;
-        stopCursorPos=tempCursorPos;
-
         isSelectionReverse=true;
     }
     // qDebug() << "Cursor start position: " << startCursorPos << "Cursor stop position: " << stopCursorPos;

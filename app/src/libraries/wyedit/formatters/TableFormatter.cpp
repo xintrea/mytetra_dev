@@ -256,6 +256,7 @@ void TableFormatter::onTablePropertiesClicked()
     return;
   }
 
+  // Создается форма настройки таблицы
   EditorTablePropertiesForm form;
 
   // Ширина таблицы
