@@ -569,8 +569,17 @@ void TypefaceFormatter::removeAnchorDataForSelection()
 
 void TypefaceFormatter::clearColorForSelection()
 {
+    QColor clearColor;
+    QBrush clearBrush( clearColor );
+
     QTextCharFormat format;
-    format.setForeground( qApp->palette("EditorTextArea").text() ); // QColor color=qApp->palette.text().color();
+
+    // Вариант 1. QColor color=qApp->palette.text().color();
+    // Вариант 2. qApp->palette("EditorTextArea").text() - так берется Brush
+    // из CSS-псевдоправила CustomPalette, но оно не подходит, потому что
+    // это правило для всего интерфейса, но область редактирования текста
+    // в некоторых темах может быть не инверсной как весь остальной интерфейс
+    format.setForeground( clearBrush );
 
     // Применение форматирование
     textArea->textCursor().mergeCharFormat(format);
