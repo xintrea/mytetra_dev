@@ -40,7 +40,10 @@ void EditorTablePropertiesForm::setupUi()
   labelBorderPix.setText( tr("px") );
   spinBorderWidth.setRange(0,10);
 
+
   labelBackgroundColor.setText( tr("Background color: ") );
+  buttonBackgroundColor.addAction( new QAction(QIcon(":/resource/pic/edit_fontbackgroundcolor.svg"), tr("Select color"), this) );
+  buttonBackgroundColor.addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
 
 
   labelAlign.setText( tr("Table align: ") );
@@ -65,14 +68,20 @@ void EditorTablePropertiesForm::setupUi()
 
 void EditorTablePropertiesForm::setupSignals()
 {
-  connect(&buttonBackgroundColor, &QToolButton::clicked, this, &EditorTablePropertiesForm::onClickedButtonBackgroundColor);
+  connect(&buttonBackgroundColor, &EditorDropDownButton::menuItemClicked,
+          this, &EditorTablePropertiesForm::onClickedButtonBackgroundColor);
 
-  connect(&buttonAlignLeft,   &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignLeft);
-  connect(&buttonAlignCenter, &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignCenter);
-  connect(&buttonAlignRight,  &QToolButton::toggled, this, &EditorTablePropertiesForm::onToggleButtonAlignRight);
+  connect(&buttonAlignLeft,   &QToolButton::toggled,
+          this, &EditorTablePropertiesForm::onToggleButtonAlignLeft);
+  connect(&buttonAlignCenter, &QToolButton::toggled,
+          this, &EditorTablePropertiesForm::onToggleButtonAlignCenter);
+  connect(&buttonAlignRight,  &QToolButton::toggled,
+          this, &EditorTablePropertiesForm::onToggleButtonAlignRight);
 
-  connect(&buttonBox, &QDialogButtonBox::accepted, this, &EditorTablePropertiesForm::accept);
-  connect(&buttonBox, &QDialogButtonBox::rejected, this, &EditorTablePropertiesForm::reject);
+  connect(&buttonBox, &QDialogButtonBox::accepted,
+          this, &EditorTablePropertiesForm::accept);
+  connect(&buttonBox, &QDialogButtonBox::rejected,
+          this, &EditorTablePropertiesForm::reject);
 }
 
 
@@ -190,14 +199,35 @@ void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 }
 
 
-void EditorTablePropertiesForm::onClickedButtonBackgroundColor()
+// Слот, срабатыващий при нажатии на кнопку выбора цвета фона текста
+// Параметр n - это номер выбранного пункта в выпадающей кнопке выбора цвета,
+// счет кнопок с нуля.
+// При n=0 нужно запустить диалог выбора цвета,
+// При n=1 нужно установить стандартный цвет (нет цвета)
+void EditorTablePropertiesForm::onClickedButtonBackgroundColor(int n)
 {
-  // Диалог запроса цвета (доработать)
-  QColor selectedColor=QColorDialog::getColor(backgroundColor, this, QString(), QColorDialog::ShowAlphaChannel);
+    QColor selectedColor;
 
-  // Если цвет выбран, и он правильный
-  if(selectedColor.isValid())
-    setColorForButtonBackgroundColor(selectedColor);
+    if (n==0)
+    {
+        // Диалог запроса цвета фона
+        selectedColor = QColorDialog::getColor(backgroundColor,
+                                               this,
+                                               tr("Select table background color"),
+                                               QColorDialog::ShowAlphaChannel);
+    }
+
+    if (n==1)
+    {
+        selectedColor = Qt::transparent;
+    }
+
+    // Если цвет выбран, и он правильный
+    if(selectedColor.isValid())
+    {
+        // Меняется цвет кнопки, и запоминается в свойстве класса
+        setColorForButtonBackgroundColor(selectedColor); // this->doChangeBackgroundColor( selectedColor );
+    }
 }
 
 

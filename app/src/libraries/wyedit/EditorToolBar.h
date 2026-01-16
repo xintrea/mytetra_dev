@@ -8,13 +8,14 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include "EditorFontSizeComboBox.h"
-#include "EditorFontFamilyComboBox.h"
-#include "EditorDropDownButton.h"
-
-
 // Виджет для отрисовки кнопок форматирования текста
 // Является базовым для EditorToolBarAssistant
+
+
+class EditorFontSizeComboBox;
+class EditorFontFamilyComboBox;
+class EditorDropDownButton;
+
 
 class EditorToolBar : public QWidget
 {

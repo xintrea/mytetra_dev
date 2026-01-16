@@ -8,6 +8,8 @@
 #include <QDialogButtonBox>
 #include <QColor>
 
+#include "EditorDropDownButton.h"
+
 
 class EditorTablePropertiesForm : public QDialog
 {
@@ -36,7 +38,7 @@ public:
 
 protected slots:
 
-  void onClickedButtonBackgroundColor();
+  void onClickedButtonBackgroundColor(int n);
 
   void onToggleButtonAlignLeft();
   void onToggleButtonAlignCenter();
@@ -56,7 +58,7 @@ private:
 
   // Цвет фона таблицы
   QLabel labelBackgroundColor;
-  QToolButton buttonBackgroundColor;
+  EditorDropDownButton buttonBackgroundColor;
   QColor backgroundColor;
 
   QLabel labelAlign;

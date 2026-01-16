@@ -13,8 +13,10 @@
 #include "../EditorTextArea.h"
 #include "../EditorToolBarAssistant.h"
 #include "../EditorCursorPositionDetector.h"
+#include "../EditorFontSizeComboBox.h"
 #include "../../TraceLogger.h"
 #include "libraries/helpers/MessageHelper.h"
+
 
 
 TypefaceFormatter::TypefaceFormatter()

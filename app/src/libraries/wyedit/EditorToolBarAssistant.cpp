@@ -15,6 +15,9 @@
 #include "EditorIndentSliderAssistant.h"
 #include "../TraceLogger.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "EditorFontSizeComboBox.h"
+#include "EditorFontFamilyComboBox.h"
+#include "EditorDropDownButton.h"
 
 
 EditorToolBarAssistant::EditorToolBarAssistant(QWidget *parent,

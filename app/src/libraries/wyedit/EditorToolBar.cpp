@@ -3,7 +3,9 @@
 
 #include "main.h"
 #include "EditorToolBar.h"
-#include "Editor.h"
+#include "EditorDropDownButton.h"
+#include "EditorFontSizeComboBox.h"
+#include "EditorFontFamilyComboBox.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/helpers/DebugHelper.h"
 #include "libraries/helpers/ActionHelper.h"
@@ -27,30 +29,36 @@ EditorToolBar::~EditorToolBar()
 // Установка списка имен инструментов для строки 1
 void EditorToolBar::initToolsLine1(QStringList toolsLine)
 {
-  if(isInit)
-    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    if(isInit)
+    {
+        criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    }
 
-  toolsListInLine1=toolsLine;
+    toolsListInLine1=toolsLine;
 }
 
 
 // Установка списка имен инструментов для строки 2
 void EditorToolBar::initToolsLine2(QStringList toolsLine)
 {
-  if(isInit)
-    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    if(isInit)
+    {
+        criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    }
 
-  toolsListInLine2=toolsLine;
+    toolsListInLine2=toolsLine;
 }
 
 
 // Установка списка имен инструментов, которые не должны отображаться на панели инструментов
 void EditorToolBar::initDisableToolList(QStringList toolNames)
 {
-  if(isInit)
-    criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    if(isInit)
+    {
+        criticalError("Method "+QString(__FUNCTION__)+" has running before init() only.");
+    }
 
-  disableToolList=toolNames;
+    disableToolList=toolNames;
 }
 
 
@@ -95,263 +103,263 @@ void EditorToolBar::setupSignals()
 // Создание объектов для линейки форматирования текста
 void EditorToolBar::setupToolBarTools(void)
 {
-  // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
-  // имена объектов должны начинаться на "editor_tb"
+    // Для того, чтобы WyEdit нормально добавлял кнопки на панель согласно файлу editorconf.ini,
+    // имена объектов должны начинаться на "editor_tb"
 
-  // Кнопка Undo
-  undo=new QAction(this);
-  undo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
-  undo->setObjectName("editor_tb_undo");
-  undo->setEnabled(false); // undo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+    // Кнопка Undo
+    undo=new QAction(this);
+    undo->setIcon(QIcon(":/resource/pic/edit_undo.svg"));
+    undo->setObjectName("editor_tb_undo");
+    undo->setEnabled(false); // undo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
 
-  // Кнопка Redo
-  redo=new QAction(this);
-  redo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
-  redo->setObjectName("editor_tb_redo");
-  redo->setEnabled(false); // redo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
+    // Кнопка Redo
+    redo=new QAction(this);
+    redo->setIcon(QIcon(":/resource/pic/edit_redo.svg"));
+    redo->setObjectName("editor_tb_redo");
+    redo->setEnabled(false); // redo недоступно, т.к. при создании кнопки еще не было ни одного действия с текстом
 
-  // Кнопка Bold
-  bold=new QAction(this);
-  bold->setCheckable(true);
-  bold->setIcon(QIcon(":/resource/pic/edit_bold.svg"));
-  bold->setObjectName("editor_tb_bold");
+    // Кнопка Bold
+    bold=new QAction(this);
+    bold->setCheckable(true);
+    bold->setIcon(QIcon(":/resource/pic/edit_bold.svg"));
+    bold->setObjectName("editor_tb_bold");
 
-  // Кнопка Italic
-  italic=new QAction(this);
-  italic->setCheckable(true);
-  italic->setIcon(QIcon(":/resource/pic/edit_italic.svg"));
-  italic->setObjectName("editor_tb_italic");
+    // Кнопка Italic
+    italic=new QAction(this);
+    italic->setCheckable(true);
+    italic->setIcon(QIcon(":/resource/pic/edit_italic.svg"));
+    italic->setObjectName("editor_tb_italic");
 
-  // Кнопка Underline
-  underline=new QAction(this);
-  underline->setCheckable(true);
-  underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
-  underline->setObjectName("editor_tb_underline");
+    // Кнопка Underline
+    underline=new QAction(this);
+    underline->setCheckable(true);
+    underline->setIcon(QIcon(":/resource/pic/edit_underline.svg"));
+    underline->setObjectName("editor_tb_underline");
 
-  // Кнопка StrikeOut
-  strikeout=new QAction(this);
-  strikeout->setCheckable(true);
-  strikeout->setIcon(QIcon(":/resource/pic/edit_strikeout.svg"));
-  strikeout->setObjectName("editor_tb_strikeout");
+    // Кнопка StrikeOut
+    strikeout=new QAction(this);
+    strikeout->setCheckable(true);
+    strikeout->setIcon(QIcon(":/resource/pic/edit_strikeout.svg"));
+    strikeout->setObjectName("editor_tb_strikeout");
 
-  // Кнопка SuperScript
-  superscript=new QAction(this);
-  superscript->setCheckable(true);
-  superscript->setIcon(QIcon(":/resource/pic/edit_sup.svg"));
-  superscript->setObjectName("editor_tb_superscript");
+    // Кнопка SuperScript
+    superscript=new QAction(this);
+    superscript->setCheckable(true);
+    superscript->setIcon(QIcon(":/resource/pic/edit_sup.svg"));
+    superscript->setObjectName("editor_tb_superscript");
 
-  // Кнопка SubScript
-  subscript=new QAction(this);
-  subscript->setCheckable(true);
-  subscript->setIcon(QIcon(":/resource/pic/edit_sub.svg"));
-  subscript->setObjectName("editor_tb_subscript");
+    // Кнопка SubScript
+    subscript=new QAction(this);
+    subscript->setCheckable(true);
+    subscript->setIcon(QIcon(":/resource/pic/edit_sub.svg"));
+    subscript->setObjectName("editor_tb_subscript");
 
-  // Кнопка Monospace
-  monospace=new QAction(this);
-  monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
-  monospace->setObjectName("editor_tb_monospace");
+    // Кнопка Monospace
+    monospace=new QAction(this);
+    monospace->setIcon(QIcon(":/resource/pic/edit_monospace.svg"));
+    monospace->setObjectName("editor_tb_monospace");
 
-  // Кнопка Code
-  code=new QAction(this);
-  code->setIcon(QIcon(":/resource/pic/edit_code.svg"));
-  code->setObjectName("editor_tb_code");
+    // Кнопка Code
+    code=new QAction(this);
+    code->setIcon(QIcon(":/resource/pic/edit_code.svg"));
+    code->setObjectName("editor_tb_code");
 
-  // Кнопка Clear
-  clear=new QAction(this);
-  clear->setIcon(QIcon(":/resource/pic/edit_clear.svg"));
-  clear->setObjectName("editor_tb_clear");
+    // Кнопка Clear
+    clear=new QAction(this);
+    clear->setIcon(QIcon(":/resource/pic/edit_clear.svg"));
+    clear->setObjectName("editor_tb_clear");
 
-  // Кнопка TextOnly - преобразование выделенного фрагмента в чистый текст
-  textOnly=new QAction(this);
-  textOnly->setIcon(QIcon(":/resource/pic/edit_text_only.svg"));
-  textOnly->setObjectName("editor_tb_textOnly");
+    // Кнопка TextOnly - преобразование выделенного фрагмента в чистый текст
+    textOnly=new QAction(this);
+    textOnly->setIcon(QIcon(":/resource/pic/edit_text_only.svg"));
+    textOnly->setObjectName("editor_tb_textOnly");
 
-  // Кнопка замены символов мягкого переноса (тег <br/> заменяется на разрыв параграфа </p><p>)
-  fixBreakSymbol=new QAction(this);
-  fixBreakSymbol->setIcon(QIcon(":/resource/pic/edit_fixBreakSymbol.svg"));
-  fixBreakSymbol->setObjectName("editor_tb_fixBreakSymbol");
+    // Кнопка замены символов мягкого переноса (тег <br/> заменяется на разрыв параграфа </p><p>)
+    fixBreakSymbol=new QAction(this);
+    fixBreakSymbol->setIcon(QIcon(":/resource/pic/edit_fixBreakSymbol.svg"));
+    fixBreakSymbol->setObjectName("editor_tb_fixBreakSymbol");
 
-  // Кнопка нумерованного списка
-  numericList=new QAction(this);
-  numericList->setIcon(QIcon(":/resource/pic/edit_listnumeric.svg"));
-  numericList->setObjectName("editor_tb_numericList");
+    // Кнопка нумерованного списка
+    numericList=new QAction(this);
+    numericList->setIcon(QIcon(":/resource/pic/edit_listnumeric.svg"));
+    numericList->setObjectName("editor_tb_numericList");
 
-  // Кнопка списка с точками
-  dotList=new QAction(this);
-  dotList->setIcon(QIcon(":/resource/pic/edit_listdot.svg"));
-  dotList->setObjectName("editor_tb_dotList");
-
-
-  // Кнопка увеличения отступа
-  indentPlus=new QAction(this);
-  indentPlus->setIcon(QIcon(":/resource/pic/edit_indentplus.svg"));
-  indentPlus->setObjectName("editor_tb_indentPlus");
-
-  // Кнопка уменьшения отступа
-  indentMinus=new QAction(this);
-  indentMinus->setIcon(QIcon(":/resource/pic/edit_indentminus.svg"));
-  indentMinus->setObjectName("editor_tb_indentMinus");
+    // Кнопка списка с точками
+    dotList=new QAction(this);
+    dotList->setIcon(QIcon(":/resource/pic/edit_listdot.svg"));
+    dotList->setObjectName("editor_tb_dotList");
 
 
-  // Кнопка выравнивания по левому краю
-  alignLeft=new QAction(this);
-  alignLeft->setCheckable(true);
-  alignLeft->setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
-  alignLeft->setObjectName("editor_tb_alignLeft");
+    // Кнопка увеличения отступа
+    indentPlus=new QAction(this);
+    indentPlus->setIcon(QIcon(":/resource/pic/edit_indentplus.svg"));
+    indentPlus->setObjectName("editor_tb_indentPlus");
 
-  // Кнопка выравнивания по центру
-  alignCenter=new QAction(this);
-  alignCenter->setCheckable(true);
-  alignCenter->setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
-  alignCenter->setObjectName("editor_tb_alignCenter");
-
-  // Кнопка выравнивания по правому краю
-  alignRight=new QAction(this);
-  alignRight->setCheckable(true);
-  alignRight->setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
-  alignRight->setObjectName("editor_tb_alignRight");
-
-  // Кнопка выравнивания по ширине
-  alignWidth=new QAction(this);
-  alignWidth->setCheckable(true);
-  alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
-  alignWidth->setObjectName("editor_tb_alignWidth");
+    // Кнопка уменьшения отступа
+    indentMinus=new QAction(this);
+    indentMinus->setIcon(QIcon(":/resource/pic/edit_indentminus.svg"));
+    indentMinus->setObjectName("editor_tb_indentMinus");
 
 
-  // Выбор шрифта
-  fontSelect=new EditorFontFamilyComboBox(this);
-  fontSelect->setObjectName("editor_tb_fontSelect");
+    // Кнопка выравнивания по левому краю
+    alignLeft=new QAction(this);
+    alignLeft->setCheckable(true);
+    alignLeft->setIcon(QIcon(":/resource/pic/edit_alignleft.svg"));
+    alignLeft->setObjectName("editor_tb_alignLeft");
 
-  // Выбор размера шрифта
-  fontSize=new EditorFontSizeComboBox(this);
-  fontSize->setObjectName("editor_tb_fontSize");
+    // Кнопка выравнивания по центру
+    alignCenter=new QAction(this);
+    alignCenter->setCheckable(true);
+    alignCenter->setIcon(QIcon(":/resource/pic/edit_aligncenter.svg"));
+    alignCenter->setObjectName("editor_tb_alignCenter");
 
+    // Кнопка выравнивания по правому краю
+    alignRight=new QAction(this);
+    alignRight->setCheckable(true);
+    alignRight->setIcon(QIcon(":/resource/pic/edit_alignright.svg"));
+    alignRight->setObjectName("editor_tb_alignRight");
 
-  // Кнопка выбора цвета шрифта
-  fontColor=new EditorDropDownButton(this);
-  fontColor->setObjectName("editor_tb_fontColor");
-  fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontcolor.svg"), tr("Select color"), this) );
-  fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
-
-  // Кнопка выбора цвета фона текста
-  backgroundColor=new EditorDropDownButton(this);
-  backgroundColor->setObjectName("editor_tb_backgroundColor");
-  backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontbackgroundcolor.svg"), tr("Select color"), this) );
-  backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
-
-
-  // Кнопка вызова виджета поиска текста
-  findText=new QAction(this);
-  findText->setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
-  findText->setObjectName("editor_tb_findText");
-
-  // Кнопка вызова виджета конфигурирования редактора
-  settings=new QAction(this);
-  settings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
-  settings->setObjectName("editor_tb_settings");
-
-  // Кнопка редактирования ссылки (URL)
-  reference=new QAction(this);
-  reference->setIcon(QIcon(":/resource/pic/edit_reference.svg"));
-  reference->setObjectName("editor_tb_reference");
-
-  // Кнопка просмотра HTML кода
-  showHtml=new QAction(this);
-  showHtml->setIcon(QIcon(":/resource/pic/edit_showhtml.svg"));
-  showHtml->setObjectName("editor_tb_showHtml");
-
-  // Кнопка включения отображения символов фарматирования
-  showFormatting=new QAction(this);
-  showFormatting->setCheckable(true);
-  showFormatting->setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
-  showFormatting->setObjectName("editor_tb_showFormatting");
-
-  // Кнопка добавления новой таблицы
-  createTable=new QAction(this);
-  createTable->setIcon(QIcon(":/resource/pic/edit_createtable.svg"));
-  createTable->setObjectName("editor_tb_createTable");
-
-  tableRemoveRow=new QAction(this);
-  tableRemoveRow->setIcon(QIcon(":/resource/pic/edit_table_remove_row.svg"));
-  tableRemoveRow->setObjectName("editor_tb_tableRemoveRow");
-
-  tableRemoveCol=new QAction(this);
-  tableRemoveCol->setIcon(QIcon(":/resource/pic/edit_table_remove_col.svg"));
-  tableRemoveCol->setObjectName("editor_tb_tableRemoveCol");
-
-  tableAddRow=new QAction(this);
-  tableAddRow->setIcon(QIcon(":/resource/pic/edit_table_add_row.svg"));
-  tableAddRow->setObjectName("editor_tb_tableAddRow");
-
-  tableAddCol=new QAction(this);
-  tableAddCol->setIcon(QIcon(":/resource/pic/edit_table_add_col.svg"));
-  tableAddCol->setObjectName("editor_tb_tableAddCol");
-
-  tableMergeCells=new QAction(this);
-  tableMergeCells->setIcon(QIcon(":/resource/pic/edit_table_merge_cells.svg"));
-  tableMergeCells->setObjectName("editor_tb_tableMergeCells");
-
-  tableSplitCell=new QAction(this);
-  tableSplitCell->setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
-  tableSplitCell->setObjectName("editor_tb_tableSplitCell");
-
-  tableProperties=new QAction(this);
-  tableProperties->setIcon(QIcon(":/resource/pic/edit_table_properties.svg"));
-  tableProperties->setObjectName("editor_tb_tableProperties");
-
-  insertImageFromFile=new QAction(this);
-  insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
-  insertImageFromFile->setObjectName("editor_tb_insertImageFromFile");
-
-  insertHorizontalLine=new QAction(this);
-  insertHorizontalLine->setIcon(QIcon(":/resource/pic/edit_insert_horizontal_line.svg"));
-  insertHorizontalLine->setObjectName("editor_tb_insertHorizontalLine");
-
-  mathExpression=new QAction(this);
-  mathExpression->setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
-  mathExpression->setObjectName("editor_tb_mathExpression");
-
-  expandEditArea=new QAction(this);
-  expandEditArea->setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
-  expandEditArea->setObjectName("editor_tb_expandEditArea");
-
-  expandToolsLines=new QAction(this);
-  expandToolsLines->setIcon(QIcon(":/resource/pic/edit_expand_tools_lines.svg"));
-  expandToolsLines->setObjectName("editor_tb_expandToolsLines");
-
-  save=new QAction(this);
-  save->setStatusTip(tr("Save (Ctrl+S)"));
-  save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
-  save->setObjectName("editor_tb_save");
+    // Кнопка выравнивания по ширине
+    alignWidth=new QAction(this);
+    alignWidth->setCheckable(true);
+    alignWidth->setIcon(QIcon(":/resource/pic/edit_alignwidth.svg"));
+    alignWidth->setObjectName("editor_tb_alignWidth");
 
 
-  // Кнопка редактора "назад", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
-  mobileBack=new QAction(this);
-  mobileBack->setStatusTip(tr("Back"));
-  mobileBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
-  mobileBack->setObjectName("editor_tb_back");
+    // Выбор шрифта
+    fontSelect=new EditorFontFamilyComboBox(this);
+    fontSelect->setObjectName("editor_tb_fontSelect");
 
-  // Кнопка редактора "поиск по базе", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
-  mobileFindInBase=new QAction(this);
-  mobileFindInBase->setStatusTip(tr("Find in base"));
-  mobileFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
-  mobileFindInBase->setObjectName("editor_tb_findInBase");
+    // Выбор размера шрифта
+    fontSize=new EditorFontSizeComboBox(this);
+    fontSize->setObjectName("editor_tb_fontSize");
 
 
-  // Кнопка "показать текст" для просмотра текста в отдельном окне
-  showText=new QAction(this);
-  showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
-  showText->setObjectName("editor_tb_showText");
+    // Кнопка выбора цвета шрифта
+    fontColor=new EditorDropDownButton(this);
+    fontColor->setObjectName("editor_tb_fontColor");
+    fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontcolor.svg"), tr("Select color"), this) );
+    fontColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
 
-  // Кнопка переключения на аттачи
-  iconAttachNotExists = QIcon(":/resource/pic/attach.svg");
-  iconAttachExists = QIcon(":/resource/pic/attach_exists.svg");
-  toAttach=new QAction(this);
-  toAttach->setIcon(iconAttachNotExists);
-  toAttach->setObjectName("editor_tb_toAttach");
+    // Кнопка выбора цвета фона текста
+    backgroundColor=new EditorDropDownButton(this);
+    backgroundColor->setObjectName("editor_tb_backgroundColor");
+    backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_fontbackgroundcolor.svg"), tr("Select color"), this) );
+    backgroundColor->addAction( new QAction(QIcon(":/resource/pic/edit_no_color.svg"), tr("No color"), this) );
 
-  // Все только что созданные элементы скрываются
-  this->hideAllToolsElements();
+
+    // Кнопка вызова виджета поиска текста
+    findText=new QAction(this);
+    findText->setIcon(QIcon(":/resource/pic/edit_findtext.svg"));
+    findText->setObjectName("editor_tb_findText");
+
+    // Кнопка вызова виджета конфигурирования редактора
+    settings=new QAction(this);
+    settings->setIcon(QIcon(":/resource/pic/edit_settings.svg"));
+    settings->setObjectName("editor_tb_settings");
+
+    // Кнопка редактирования ссылки (URL)
+    reference=new QAction(this);
+    reference->setIcon(QIcon(":/resource/pic/edit_reference.svg"));
+    reference->setObjectName("editor_tb_reference");
+
+    // Кнопка просмотра HTML кода
+    showHtml=new QAction(this);
+    showHtml->setIcon(QIcon(":/resource/pic/edit_showhtml.svg"));
+    showHtml->setObjectName("editor_tb_showHtml");
+
+    // Кнопка включения отображения символов фарматирования
+    showFormatting=new QAction(this);
+    showFormatting->setCheckable(true);
+    showFormatting->setIcon(QIcon(":/resource/pic/edit_showformatting.svg"));
+    showFormatting->setObjectName("editor_tb_showFormatting");
+
+    // Кнопка добавления новой таблицы
+    createTable=new QAction(this);
+    createTable->setIcon(QIcon(":/resource/pic/edit_createtable.svg"));
+    createTable->setObjectName("editor_tb_createTable");
+
+    tableRemoveRow=new QAction(this);
+    tableRemoveRow->setIcon(QIcon(":/resource/pic/edit_table_remove_row.svg"));
+    tableRemoveRow->setObjectName("editor_tb_tableRemoveRow");
+
+    tableRemoveCol=new QAction(this);
+    tableRemoveCol->setIcon(QIcon(":/resource/pic/edit_table_remove_col.svg"));
+    tableRemoveCol->setObjectName("editor_tb_tableRemoveCol");
+
+    tableAddRow=new QAction(this);
+    tableAddRow->setIcon(QIcon(":/resource/pic/edit_table_add_row.svg"));
+    tableAddRow->setObjectName("editor_tb_tableAddRow");
+
+    tableAddCol=new QAction(this);
+    tableAddCol->setIcon(QIcon(":/resource/pic/edit_table_add_col.svg"));
+    tableAddCol->setObjectName("editor_tb_tableAddCol");
+
+    tableMergeCells=new QAction(this);
+    tableMergeCells->setIcon(QIcon(":/resource/pic/edit_table_merge_cells.svg"));
+    tableMergeCells->setObjectName("editor_tb_tableMergeCells");
+
+    tableSplitCell=new QAction(this);
+    tableSplitCell->setIcon(QIcon(":/resource/pic/edit_table_split_cell.svg"));
+    tableSplitCell->setObjectName("editor_tb_tableSplitCell");
+
+    tableProperties=new QAction(this);
+    tableProperties->setIcon(QIcon(":/resource/pic/edit_table_properties.svg"));
+    tableProperties->setObjectName("editor_tb_tableProperties");
+
+    insertImageFromFile=new QAction(this);
+    insertImageFromFile->setIcon(QIcon(":/resource/pic/edit_insert_image_from_file.svg"));
+    insertImageFromFile->setObjectName("editor_tb_insertImageFromFile");
+
+    insertHorizontalLine=new QAction(this);
+    insertHorizontalLine->setIcon(QIcon(":/resource/pic/edit_insert_horizontal_line.svg"));
+    insertHorizontalLine->setObjectName("editor_tb_insertHorizontalLine");
+
+    mathExpression=new QAction(this);
+    mathExpression->setIcon(QIcon(":/resource/pic/edit_math_expression.svg"));
+    mathExpression->setObjectName("editor_tb_mathExpression");
+
+    expandEditArea=new QAction(this);
+    expandEditArea->setIcon(QIcon(":/resource/pic/edit_expand_text_area.svg"));
+    expandEditArea->setObjectName("editor_tb_expandEditArea");
+
+    expandToolsLines=new QAction(this);
+    expandToolsLines->setIcon(QIcon(":/resource/pic/edit_expand_tools_lines.svg"));
+    expandToolsLines->setObjectName("editor_tb_expandToolsLines");
+
+    save=new QAction(this);
+    save->setStatusTip(tr("Save (Ctrl+S)"));
+    save->setIcon(QIcon(":/resource/pic/edit_save.svg"));
+    save->setObjectName("editor_tb_save");
+
+
+    // Кнопка редактора "назад", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
+    mobileBack=new QAction(this);
+    mobileBack->setStatusTip(tr("Back"));
+    mobileBack->setIcon(QIcon(":/resource/pic/mobile_back.svg"));
+    mobileBack->setObjectName("editor_tb_back");
+
+    // Кнопка редактора "поиск по базе", используется в мобильном интерфейсе, для нее не может быть горячей клавиши
+    mobileFindInBase=new QAction(this);
+    mobileFindInBase->setStatusTip(tr("Find in base"));
+    mobileFindInBase->setIcon(QIcon(":/resource/pic/find_in_base.svg"));
+    mobileFindInBase->setObjectName("editor_tb_findInBase");
+
+
+    // Кнопка "показать текст" для просмотра текста в отдельном окне
+    showText=new QAction(this);
+    showText->setIcon(QIcon(":/resource/pic/edit_show_text.svg"));
+    showText->setObjectName("editor_tb_showText");
+
+    // Кнопка переключения на аттачи
+    iconAttachNotExists = QIcon(":/resource/pic/attach.svg");
+    iconAttachExists = QIcon(":/resource/pic/attach_exists.svg");
+    toAttach=new QAction(this);
+    toAttach->setIcon(iconAttachNotExists);
+    toAttach->setObjectName("editor_tb_toAttach");
+
+    // Все только что созданные элементы скрываются
+    this->hideAllToolsElements();
 }
 
 
