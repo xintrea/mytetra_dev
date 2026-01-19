@@ -2,6 +2,7 @@
 #define TABLEFORMATTER_H
 
 #include "Formatter.h"
+#include "qtexttable.h"
 
 // Класс форматирования таблиц в тексте
 
@@ -23,6 +24,10 @@ public slots:
   void onTableMergeCellsClicked(void);
   void onTableSplitCellClicked(void);
   void onTablePropertiesClicked(void);
+
+ private:
+
+  QColor getTableBackgroundColor(QTextTable* table);
 
 };
 

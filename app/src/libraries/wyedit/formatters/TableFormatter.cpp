@@ -16,6 +16,8 @@
 #include "../EditorAddTableForm.h"
 #include "../EditorTablePropertiesForm.h"
 
+#include "../../helpers/PaletteHelper.h"
+
 
 TableFormatter::TableFormatter()
 {
@@ -289,14 +291,18 @@ void TableFormatter::onTablePropertiesClicked()
   int borderWidth=(int) table->format().border();
   form.setBorderWidth(borderWidth );
 
+
   // Цвет фона таблицы
-  QColor tableBackground;
-  if(table->format().hasProperty(QTextFormat::BackgroundBrush))
-   tableBackground=table->format().background().color(); // Фон таблицы задан явно
-  else
-    tableBackground.setRgb(255,255,255); // Фон таблицы не задан, используется белый цвет
+  QColor tableBackground = getTableBackgroundColor(table);
+  if ( !tableBackground.isValid() )
+  {
+      tableBackground = QColor("transparent");
+  }
   form.setBackgroundColor(tableBackground);
-  qDebug() << "Table background color is: " << tableBackground.name();
+
+  qDebug() << "Table background color is: "
+           << PaletteHelper::getRgbaColorText( tableBackground );
+
 
   // Выравнивание таблицы
   EditorTablePropertiesForm::TableAlign align=EditorTablePropertiesForm::Left;
@@ -351,4 +357,64 @@ void TableFormatter::onTablePropertiesClicked()
 
   // Новый формат устанавливается текущей таблице
   table->setFormat( newFormat );
+}
+
+
+// Получение цвета фона таблицы
+// Возвращается невалидный QColor(), если фон не установлен, прозрачный или NoBrush
+QColor TableFormatter::getTableBackgroundColor(QTextTable* table)
+{
+    if (!table)
+    {
+        qDebug() << "Таблица не существует";
+        return QColor();
+    }
+
+    QTextTableFormat format = table->format();
+
+    // 1. Есть ли вообще свойство BackgroundBrush
+    if (!format.hasProperty(QTextFormat::BackgroundBrush))
+    {
+        qDebug() << "У таблицы нет свойства BackgroundBrush";
+        return QColor();
+    }
+
+    // 2. Получение кисти
+    QBrush backgroundBrush = format.background();
+
+    // 3. Проверка стиля кисти
+    if (backgroundBrush.style() == Qt::NoBrush)
+    {
+        qDebug() << "Стиль кисти: NoBrush (фон не установлен)";
+        return QColor();
+    }
+
+    // 4. Получение цвета
+    QColor color = backgroundBrush.color();
+
+    if (!color.isValid())
+    {
+        qDebug() << "Цвет кисти невалиден";
+        return QColor();
+    }
+
+    // 5. Проверка прозрачности
+    if (color.alpha() == 0)
+    {
+        qDebug() << "Цвет полностью прозрачный (alpha = 0)";
+        return QColor();
+    }
+
+    // 6. Дополнительная проверка для градиентов и текстур
+    if (backgroundBrush.style() != Qt::SolidPattern)
+    {
+        qDebug() << "Фон не является сплошным цветом, а градиент/текстура";
+        // Для градиентов можно вернуть усредненный цвет или QColor()
+        return QColor();
+    }
+
+    // qDebug() << "Найден цвет фона таблицы:" << color.name()
+    //          << "alpha:" << color.alpha();
+
+    return color;
 }

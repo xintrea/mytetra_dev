@@ -6,13 +6,14 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QColorDialog>
+#include <QDebug>
 
 #include "EditorTablePropertiesForm.h"
-
+#include "../helpers/PaletteHelper.h"
 
 EditorTablePropertiesForm::EditorTablePropertiesForm()
 {
-  directSetAlign=false;
+  this->directSetAlign=false;
 
   setupUi();
   setupSignals();
@@ -125,66 +126,68 @@ void EditorTablePropertiesForm::assembly()
 
 void EditorTablePropertiesForm::setTableWidth(int iWidth)
 {
-  spinTableWidth.setValue(iWidth);
+  this->spinTableWidth.setValue(iWidth);
 }
 
 
 int EditorTablePropertiesForm::getTableWidth(void)
 {
-  return spinTableWidth.value();
+  return this->spinTableWidth.value();
 }
 
 
 void EditorTablePropertiesForm::setBorderWidth(int iWidth)
 {
-  spinBorderWidth.setValue(iWidth);
+  this->spinBorderWidth.setValue(iWidth);
 }
 
 
 int EditorTablePropertiesForm::getBorderWidth(void)
 {
-  return spinBorderWidth.value();
+  return this->spinBorderWidth.value();
 }
 
 
 void EditorTablePropertiesForm::setBackgroundColor(QColor iColor)
 {
   setColorForButtonBackgroundColor(iColor);
+
+  this->backgroundColor=iColor;
 }
 
 
 QColor EditorTablePropertiesForm::getBackgroundColor(void)
 {
-  return backgroundColor;
+  return this->backgroundColor;
 }
 
 
 void EditorTablePropertiesForm::setTableAlign(TableAlign iAlign)
 {
-  tableAlign=iAlign;
+  this->tableAlign=iAlign;
 
-  directSetAlign=true;
+  this->directSetAlign=true;
 
-  buttonAlignLeft.setChecked(false);
-  buttonAlignCenter.setChecked(false);
-  buttonAlignRight.setChecked(false);
+  this->buttonAlignLeft.setChecked(false);
+  this->buttonAlignCenter.setChecked(false);
+  this->buttonAlignRight.setChecked(false);
 
-  if(tableAlign==Left)
+  if(this->tableAlign==Left)
     buttonAlignLeft.setChecked(true);
 
-  if(tableAlign==Center)
+  if(this->tableAlign==Center)
     buttonAlignCenter.setChecked(true);
 
-  if(tableAlign==Right)
+  if(this->tableAlign==Right)
     buttonAlignRight.setChecked(true);
 
-  directSetAlign=false;
+  this->directSetAlign=false;
 }
 
 
 int EditorTablePropertiesForm::getTableAlign(void)
 {
-  return tableAlign;
+  return this->tableAlign;
 }
 
 
@@ -192,10 +195,18 @@ void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 {
   // Квадратик на кнопке выбора цвета кода
   QPixmap pix(16, 16);
-  pix.fill(iColor.rgb());
-  buttonBackgroundColor.setIcon(pix);
 
-  backgroundColor=iColor;
+  // Заполнение есть, если цвет непрозрачный
+  if ( iColor.alpha()!=0 )
+  {
+      pix.fill( iColor.rgb() ); // Когда цвет непрозрачный
+  }
+  else // Иначе цвет прозрачный
+  {
+      pix = QIcon(":/resource/pic/edit_no_color.svg").pixmap(16, 16);
+  }
+
+  this->buttonBackgroundColor.setIcon(pix);
 }
 
 
@@ -208,32 +219,49 @@ void EditorTablePropertiesForm::onClickedButtonBackgroundColor(int n)
 {
     QColor selectedColor;
 
+    // Пункт для выбора цвета
     if (n==0)
     {
+        QColor initColor = this->backgroundColor;
+
+        // Цвет с полной прозрачностью не может быть установлен как инициализирующий диалог выбора,
+        // так как для установки полностью прозрачного цвета есть другой пункт - "без цвета"
+        if ( initColor.alpha() == 0)
+        {
+            // Начальный цвет в диалоге выбора цвета будет обычным, без прозрачности
+            // Но наличие в диалоге настройки опции QColorDialog::ShowAlphaChannel
+            // позволяет пользователю менять прозразрачность как ему необходимо
+            initColor.setAlpha(255);
+        }
+
         // Диалог запроса цвета фона
-        selectedColor = QColorDialog::getColor(backgroundColor,
+        selectedColor = QColorDialog::getColor(initColor,
                                                this,
                                                tr("Select table background color"),
-                                               QColorDialog::ShowAlphaChannel);
+                                               QColorDialog::ShowAlphaChannel );
     }
 
+    // Пункт для выбора "без цвета"
     if (n==1)
     {
         selectedColor = Qt::transparent;
     }
+
+    qDebug() << "Select color for table background: " << PaletteHelper::getRgbaColorText(selectedColor);
 
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
     {
         // Меняется цвет кнопки, и запоминается в свойстве класса
         setColorForButtonBackgroundColor(selectedColor); // this->doChangeBackgroundColor( selectedColor );
+        this->backgroundColor=selectedColor;
     }
 }
 
 
 void EditorTablePropertiesForm::onToggleButtonAlignLeft()
 {
-  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+  if(this->directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
     return;
 
   setTableAlign(Left);
@@ -242,7 +270,7 @@ void EditorTablePropertiesForm::onToggleButtonAlignLeft()
 
 void EditorTablePropertiesForm::onToggleButtonAlignCenter()
 {
-  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+  if(this->directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
     return;
 
   setTableAlign(Center);
@@ -251,7 +279,7 @@ void EditorTablePropertiesForm::onToggleButtonAlignCenter()
 
 void EditorTablePropertiesForm::onToggleButtonAlignRight()
 {
-  if(directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
+  if(this->directSetAlign) // Отключается обработка переключения если идет прямая установка из кода (а не пользолвателем)
     return;
 
   setTableAlign(Right);

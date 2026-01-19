@@ -99,6 +99,24 @@ void PaletteHelper::applyCustomPalette(const QMap<QString, QColor> &colorMap)
 }
 
 
+QString PaletteHelper::getRgbaColorText(const QColor &color)
+{
+    // Получение rgba-значения
+    QRgb rgba = color.rgba();
+
+    // Извлекаются компоненты
+    int red = qRed(rgba);
+    int green = qGreen(rgba);
+    int blue = qBlue(rgba);
+    int alpha = qAlpha(rgba);
+
+    QString result = QString("RGBA(%1, %2, %3, %4)")
+                     .arg(red).arg(green).arg(blue).arg(alpha);
+
+    return result;
+}
+
+
 QMap<QString, QColor> PaletteHelper::parseCustomPalette(const QString &cssText)
 {
     QMap<QString, QColor> result;

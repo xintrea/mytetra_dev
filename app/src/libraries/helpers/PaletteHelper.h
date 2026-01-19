@@ -13,6 +13,8 @@ public:
     static QMap<QString, QColor> parseCustomPalette(const QString &cssText);
     static void applyCustomPalette(const QMap<QString, QColor> &colorMap);
 
+    static QString getRgbaColorText(const QColor &color);
+
 protected:
 
     static QString getNameByColorRole(QPalette::ColorRole role);
