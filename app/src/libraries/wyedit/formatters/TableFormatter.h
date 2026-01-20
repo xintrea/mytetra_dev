@@ -28,6 +28,8 @@ public slots:
  private:
 
   QColor getTableBackgroundColor(QTextTable* table);
+  QColor getUniformTableCellBackgroundColor(QTextTable* table);
+  void removeTableCellBackground(QTextTable* table);
 
 };
 

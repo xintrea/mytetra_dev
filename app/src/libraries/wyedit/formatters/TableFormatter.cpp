@@ -355,8 +355,17 @@ void TableFormatter::onTablePropertiesClicked()
   else if(form.getTableAlign()==EditorTablePropertiesForm::Right)
     newFormat.setAlignment( Qt::AlignRight );
 
+
+  cursor.beginEditBlock(); // Начало редактирования для неделимой отмены
+
   // Новый формат устанавливается текущей таблице
   table->setFormat( newFormat );
+
+  // Цвет таблицы был применен через формат, и цвет надо удалить
+  // для каждой ячейки <td> по отдельности, если он там был задан в виде bgcolor
+  removeTableCellBackground(table);
+
+  cursor.endEditBlock(); // Завершены действия по неделимому редактированию
 }
 
 
@@ -370,26 +379,36 @@ QColor TableFormatter::getTableBackgroundColor(QTextTable* table)
         return QColor();
     }
 
+
+    // 1. Проверка, что у всех ячеек таблиц в <td> задан одинаковый цвет,
+    // который визуально перекрывает цвет фона, заданный для всей таблицы
+    QColor uniformBackgroundColor = getUniformTableCellBackgroundColor(table);
+    if ( uniformBackgroundColor.isValid() )
+    {
+        return uniformBackgroundColor;
+    }
+
+
     QTextTableFormat format = table->format();
 
-    // 1. Есть ли вообще свойство BackgroundBrush
+    // 2. Есть ли вообще свойство BackgroundBrush
     if (!format.hasProperty(QTextFormat::BackgroundBrush))
     {
         qDebug() << "У таблицы нет свойства BackgroundBrush";
         return QColor();
     }
 
-    // 2. Получение кисти
+    // 3. Получение кисти
     QBrush backgroundBrush = format.background();
 
-    // 3. Проверка стиля кисти
+    // 4. Проверка стиля кисти
     if (backgroundBrush.style() == Qt::NoBrush)
     {
         qDebug() << "Стиль кисти: NoBrush (фон не установлен)";
         return QColor();
     }
 
-    // 4. Получение цвета
+    // 5. Получение цвета фона таблицы
     QColor color = backgroundBrush.color();
 
     if (!color.isValid())
@@ -398,14 +417,14 @@ QColor TableFormatter::getTableBackgroundColor(QTextTable* table)
         return QColor();
     }
 
-    // 5. Проверка прозрачности
+    // 6. Проверка прозрачности
     if (color.alpha() == 0)
     {
         qDebug() << "Цвет полностью прозрачный (alpha = 0)";
         return QColor();
     }
 
-    // 6. Дополнительная проверка для градиентов и текстур
+    // 7. Дополнительная проверка для градиентов и текстур
     if (backgroundBrush.style() != Qt::SolidPattern)
     {
         qDebug() << "Фон не является сплошным цветом, а градиент/текстура";
@@ -417,4 +436,135 @@ QColor TableFormatter::getTableBackgroundColor(QTextTable* table)
     //          << "alpha:" << color.alpha();
 
     return color;
+}
+
+
+// Получение комплексного цвета фона таблицы в случае, если для всех
+// ячеек <td> установлено значение bgcolor, что визуально перекрывает
+// цвет таблицы. Если цвет фона задан не для всех ячеек или цвет
+// фона отличатся хоть в одной ячейке, возвращается невалидный пустой цвет
+QColor TableFormatter::getUniformTableCellBackgroundColor(QTextTable* table)
+{
+    if (!table)
+    {
+        return QColor(); // Таблица не существует
+    }
+
+    int rows = table->rows();
+    int cols = table->columns();
+
+    if (rows == 0 || cols == 0)
+    {
+        return QColor(); // Таблица пустая
+    }
+
+    QColor firstCellColor;
+    bool firstCellHasBackground = false;
+
+    // Проход по всем ячейкам таблицы
+    for (int row = 0; row < rows; ++row)
+    {
+        for (int col = 0; col < cols; ++col)
+        {
+            QTextTableCell cell = table->cellAt(row, col);
+            if (!cell.isValid())
+            {
+                return QColor(); // Невалидная ячейка
+            }
+
+            QTextCharFormat cellFormat = cell.format();
+
+            // Проверка наличия фона в ячейке
+            if (cellFormat.hasProperty(QTextFormat::BackgroundBrush))
+            {
+                QBrush backgroundBrush = cellFormat.background();
+
+                // Проверка, что кисть действительная и не NoBrush
+                if (backgroundBrush.style() == Qt::NoBrush)
+                {
+                    return QColor(); // Фон не установлен
+                }
+
+                QColor cellColor = backgroundBrush.color();
+
+                // Проверка валидности цвета и непрозрачности
+                if (!cellColor.isValid() || cellColor.alpha() == 0)
+                {
+                    return QColor(); // Невалидный или прозрачный цвет
+                }
+
+                // Для первой ячейки сохраняется цвет
+                if (!firstCellHasBackground)
+                {
+                    firstCellColor = cellColor;
+                    firstCellHasBackground = true;
+                }
+                else // Для последующих - сравнение с первым
+                {
+                    // Сравнивание RGB компонент
+                    if (cellColor != firstCellColor)
+                    {
+                        return QColor(); // Цвет отличается
+                    }
+                }
+            }
+            else
+            {
+                return QColor(); // Фон не задан, отсутствует свойство BackgroundBrush
+            }
+        }
+    }
+
+    if (firstCellHasBackground)
+    {
+        return firstCellColor; // Все ячейки имеют одинаковый цвет фона
+    }
+    else
+    {
+        return QColor(); // Ни одна ячейка не имеет фона
+    }
+}
+
+
+void TableFormatter::removeTableCellBackground(QTextTable* table)
+{
+    if (!table)
+    {
+        return; // Таблица не существует
+    }
+
+    int rows = table->rows();
+    int cols = table->columns();
+
+    if (rows == 0 || cols == 0)
+    {
+        return; // Таблица пуста
+    }
+
+
+    // Проход по всем ячейкам таблицы
+    for (int row = 0; row < rows; ++row)
+    {
+        for (int col = 0; col < cols; ++col)
+        {
+            QTextTableCell cell = table->cellAt(row, col);
+
+            if (!cell.isValid())
+            {
+                continue; // Пропуск невалидной ячейки
+            }
+
+            QTextCharFormat cellFormat = cell.format();
+
+            // Если задан фон у ячейки
+            if (cellFormat.hasProperty(QTextFormat::BackgroundBrush))
+            {
+                // Очистка фона
+                cellFormat.clearBackground();
+
+                // Применение обновленного формата к ячейке
+                cell.setFormat(cellFormat);
+            }
+        }
+    }
 }

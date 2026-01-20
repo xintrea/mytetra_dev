@@ -1758,6 +1758,7 @@ void TypefaceFormatter::onBackgroundcolorClicked(int n)
 
     QColor selectedColor;
 
+    // Пункт для выбора цвета
     if (n==0)
     {
         // Текущий цвет фона под курсором
@@ -1828,10 +1829,28 @@ void TypefaceFormatter::onBackgroundcolorClicked(int n)
             }
         }
 
+
+        // Исправление прозрачности цвета, передаваемого в форму выбора цвета
+
+        // Цвет с полной прозрачностью не может быть установлен как
+        // инициализирующий в диалоге выбора цвета,
+        // т.к. для установки полностью прозрачного цвета есть другой пункт - "без цвета"
+        if ( currentColor.alpha() == 0)
+        {
+            // Начальный цвет в диалоге выбора цвета будет обычным, без прозрачности
+            // Но наличие в диалоге настройки опции QColorDialog::ShowAlphaChannel
+            // оставляет пользователю возможность менять прозразрачность как ему необходимо
+            currentColor.setAlpha(255);
+        }
+
         // Диалог запроса цвета фона
-        selectedColor = QColorDialog::getColor(currentColor, editor, tr("Select background color"), QColorDialog::ShowAlphaChannel);
+        selectedColor = QColorDialog::getColor(currentColor,
+                                               editor,
+                                               tr("Select background color"),
+                                               QColorDialog::ShowAlphaChannel);
     }
 
+    // Пункт для выбора "без цвета"
     if (n==1)
     {
         selectedColor = Qt::transparent;
@@ -1840,7 +1859,7 @@ void TypefaceFormatter::onBackgroundcolorClicked(int n)
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
     {
-        // Меняется цвет кнопки
+        // Установка цвета фона текста и изменение цвета кнопки
         this->doChangeBackgroundColor( selectedColor );
     }
 
@@ -1879,13 +1898,18 @@ void TypefaceFormatter::doChangeBackgroundColor(const QColor &selectedColor)
 {
     // TRACELOG
 
-    // Если выбран обычный цвет
-    if ( selectedColor != Qt::transparent )
+    // Если выбран цвет без полной прозрачности
+    if ( selectedColor.alpha()!=0 )
     {
         // Если выделение есть
         if ( textArea->textCursor().hasSelection() )
         {
-            textArea->setTextBackgroundColor( selectedColor ); // Меняется цвет фона
+            // Меняется цвет фона
+            // В движке QTextEdit есть особенность - если выделен текст и таблица,
+            // то у таблицы в ячейках (в тегах <td>) будет выставляться цвет ячейки
+            // через атрибут bgcolor. То есть, не для всей таблицы будет задан цвет фона,
+            // а для всех ячеек. Это надо учитывать в дальнейшем
+            textArea->setTextBackgroundColor( selectedColor );
         }
         else
         {

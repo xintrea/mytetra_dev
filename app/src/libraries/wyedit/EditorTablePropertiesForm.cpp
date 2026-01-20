@@ -193,16 +193,18 @@ int EditorTablePropertiesForm::getTableAlign(void)
 
 void EditorTablePropertiesForm::setColorForButtonBackgroundColor(QColor iColor)
 {
-  // Квадратик на кнопке выбора цвета кода
+  // Картинка на кнопке выбора цвета кода
   QPixmap pix(16, 16);
 
   // Заполнение есть, если цвет непрозрачный
   if ( iColor.alpha()!=0 )
   {
-      pix.fill( iColor.rgb() ); // Когда цвет непрозрачный
+      // Рисуется квадрат с заданным цветом
+      pix.fill( iColor.rgb() );
   }
   else // Иначе цвет прозрачный
   {
+      // Рисуется пустой квадрат
       pix = QIcon(":/resource/pic/edit_no_color.svg").pixmap(16, 16);
   }
 
@@ -224,13 +226,14 @@ void EditorTablePropertiesForm::onClickedButtonBackgroundColor(int n)
     {
         QColor initColor = this->backgroundColor;
 
-        // Цвет с полной прозрачностью не может быть установлен как инициализирующий диалог выбора,
-        // так как для установки полностью прозрачного цвета есть другой пункт - "без цвета"
+        // Цвет с полной прозрачностью не может быть установлен как
+        // инициализирующий в диалоге выбора цвета,
+        // т.к. для установки полностью прозрачного цвета есть другой пункт - "без цвета"
         if ( initColor.alpha() == 0)
         {
             // Начальный цвет в диалоге выбора цвета будет обычным, без прозрачности
             // Но наличие в диалоге настройки опции QColorDialog::ShowAlphaChannel
-            // позволяет пользователю менять прозразрачность как ему необходимо
+            // оставляет пользователю возможность менять прозразрачность как ему необходимо
             initColor.setAlpha(255);
         }
 
@@ -252,8 +255,10 @@ void EditorTablePropertiesForm::onClickedButtonBackgroundColor(int n)
     // Если цвет выбран, и он правильный
     if(selectedColor.isValid())
     {
-        // Меняется цвет кнопки, и запоминается в свойстве класса
+        // Меняется цвет кнопки
         setColorForButtonBackgroundColor(selectedColor); // this->doChangeBackgroundColor( selectedColor );
+
+        // Цвет запоминается в свойстве класса
         this->backgroundColor=selectedColor;
     }
 }
