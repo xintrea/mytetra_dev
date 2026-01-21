@@ -278,6 +278,8 @@ public:
 
 private:
 
+    void createFirstAtStartConfigCopy();
+
     QString get_parameter(QString name);
 
     QStringList removeParameterFromTable(QString removeName, QStringList table);

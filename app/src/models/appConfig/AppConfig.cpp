@@ -9,6 +9,7 @@
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
+#include "libraries/helpers/DiskHelper.h"
 
 extern GlobalParameters globalParameters;
 extern FixedParameters fixedParameters;
@@ -36,7 +37,7 @@ AppConfig::~AppConfig()
 
 void AppConfig::init(void)
 {
-    // Создается имя файла конфигурации
+    // Имя файла конфигурации
     QString configFileName = globalParameters.getWorkDirectory()+"/conf.ini";
 
     // Проверяется, есть ли файл конфигурации
@@ -50,11 +51,57 @@ void AppConfig::init(void)
     m_conf = new QSettings(configFileName, QSettings::IniFormat, this);
     m_conf->setIniCodec( QTextCodec::codecForName("UTF-8") );
 
+    // Здесь конфиг считан, и в нем уже есть начальные настройки, включая директорию корзины
+    // В этот момент еще не происходило записи конфига на диск, и следует проверить,
+    // имеется ли возможность копировать данные в директорию корзины, включая и сам конфиг.
+    // Если в корзину копирование невозможно, это может означать что диск полностью заполнен,
+    // и если сделать sync() для конфига, конфиг не сможет записаться,
+    // и файл конфига будет полностью обнулен, что недопустимо
+    createFirstAtStartConfigCopy();
+
+    // Обновление конфига с более старых версий
     update_version_process();
 
+    // Запись конфига на диск
     sync();
 
     m_isInit = true;
+}
+
+
+// Создание первой при старте программы копии конфигов MyTetra в корзине
+// Это необходимо чтобы в корзине лежали актуальные копии конфигов при каждом старте программы
+// А так же если копии сделать невозможно, это значит что переписывать
+// или запускать sync() для конфигов нельзя, так как они могут обнулиться,
+// например если закончилось свободное место на диске, поэтому программу надо завершить
+void AppConfig::createFirstAtStartConfigCopy()
+{
+    // Если директория корзины существует, происходит проверка копированием в корзину
+    // Если корзины нет, то это значит что происходит установка MyTetra, и корзины,
+    // базы данных или конфиг-файла пока у пользователя нет или они первичные,
+    // а значит защищать конфиг-файл от обнуления нет необходимости
+    if (DiskHelper::isTrashDirectoryExists() )
+    {
+        QStringList fileNames = QStringList()
+                                << globalParameters.getWorkDirectory()+"/conf.ini"
+                                << globalParameters.getWorkDirectory()+"/editorconf.ini"
+                                << globalParameters.getWorkDirectory()+"/knownbases.ini"
+                                << globalParameters.getWorkDirectory()+"/shortcut.ini"
+                                << get_tetradir()+"/database.ini"   ;
+
+        for (const auto& fileName : fileNames)
+        {
+            QString copyResult = DiskHelper::copyFileToTrash(fileName, false);
+
+            if ( copyResult.isEmpty() )
+            {
+                criticalError(tr("Can not create config backup copy to trash directory\n")+
+                              tr("\nSource file: %1").arg( fileName )+
+                              tr("\nTrash directory: %1\n").arg( get_trashdir() )+
+                              tr("\nThis can happen if there is no free space left on the hard disk or it is impossible to write to the trash directory."));
+            }
+        }
+    }
 }
 
 
@@ -1014,6 +1061,7 @@ bool AppConfig::setInterfaceIconSize(QString sizeName)
 
     return true;
 }
+
 
 // --------------------
 // Номер версии конфига

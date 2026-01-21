@@ -15,8 +15,10 @@ public:
   DiskHelper();
 
   static void removeDirectoryToTrash(QString nameDirFrom);
-  static void removeFileToTrash(QString fileNameFrom);
-  static QString copyFileToTrash(QString fileNameFrom);
+  static bool removeFileToTrash(QString fileNameFrom, bool stopIfError=true);
+  static QString copyFileToTrash(QString fileNameFrom, bool stopIfError=true);
+  static bool isTrashDirectoryExists();
+
   static QString createTempDirectory(void);
   static bool removeDirectory(const QString &dirName);
   static bool copyDirectory(const QString &fromName, const QString &toName);

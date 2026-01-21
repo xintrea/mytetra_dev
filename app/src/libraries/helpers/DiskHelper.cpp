@@ -75,7 +75,8 @@ void DiskHelper::removeDirectoryToTrash(QString nameDirFrom)
 
 
 // Удаление файла с копированием его копии в корзину
-void DiskHelper::removeFileToTrash(QString fileNameFrom)
+// Функция возвращает полное имя файла копии, если копирование прошло успешно
+bool DiskHelper::removeFileToTrash(QString fileNameFrom, bool stopIfError)
 {
   // Получение короткого имени исходного файла
   QFileInfo fileInfo(fileNameFrom);
@@ -89,15 +90,31 @@ void DiskHelper::removeFileToTrash(QString fileNameFrom)
 
   // Файл перемещается в корзину
   if( QFile::rename(fileNameFrom,fileNameTo)==true )
+  {
     trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  }
   else
-    criticalError("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
+  {
+      if (stopIfError)
+      {
+          criticalError("Can not remove file to trash directory"
+                        "\nOld file name: "+fileNameFrom+
+                        "\nNew file name: "+fileNameTo);
+      }
+      else
+      {
+          return false;
+      }
+  }
+
+  return true;
 }
 
 
 // Копирование файла в корзину
-// Функция возвращает полное имя файла копии
-QString DiskHelper::copyFileToTrash(QString fileNameFrom)
+// Функция возвращает полное имя файла копии, если копирование прошло успешно
+// Или пустое имя файла если при копировании были ошибки
+QString DiskHelper::copyFileToTrash(QString fileNameFrom, bool stopIfError)
 {
   // Получение короткого имени исходного файла
   QFileInfo fileInfo(fileNameFrom);
@@ -111,12 +128,36 @@ QString DiskHelper::copyFileToTrash(QString fileNameFrom)
 
   // Файл копируется в корзину
   if( QFile::copy(fileNameFrom, fileNameTo)==true )
+  {
     trashMonitoring.addFile(fileNameToShort); // Оповещение что в корзину добавлен файл
+  }
   else
-    criticalError("Can not remove file\n"+fileNameFrom+"\nto reserve file\n"+fileNameTo);
+  {
+      if (stopIfError)
+      {
+          criticalError("Can not copy file to trash directory"
+                        "\nSource file: "+fileNameFrom+
+                        "\nCopy file: "+fileNameTo);
+      }
+      else
+      {
+          return QString();
+      }
+  }
 
   QFileInfo fileInfoTo(fileNameTo);
   return fileInfoTo.absoluteFilePath();
+}
+
+
+// Проверка существования директории корзины
+bool DiskHelper::isTrashDirectoryExists()
+{
+    QString dirName = mytetraConfig.get_trashdir();
+
+    QDir dir(dirName);
+
+    return dir.exists();
 }
 
 
