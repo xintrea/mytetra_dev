@@ -214,6 +214,10 @@ void DatabasesManagementModel::scanDirectoriesFromKnownbasesConfig()
 }
 
 
+// Проверка переданных в списке директорий, являются ли они директориям с базой данных MyTetra
+// Если какая-либо переданная директория существует, но ее нет в списке возможных каталогов БД
+// (который формируется по по путям, прописанных в файле knownbases.ini)
+// то такая директория добавляется в список возможных каталогов БД
 void DatabasesManagementModel::scanDirectories(const QList< DatabaseDirInfo > &dbDirs)
 {
     for (auto currentDbDirs : dbDirs)

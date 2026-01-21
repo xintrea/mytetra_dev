@@ -66,12 +66,13 @@ void AppFiles::createFirstAppFiles(QString dirName,
     {
         QDir createDir;
         bool result = createDir.mkpath(dirName);
-        if ( !result ) {
+        if ( !result )
+        {
             qDebug() << "Failed to create directory " << dirName;
         }
     }
 
-    // Создаются файлы конфигурации
+    // Создаются основные файлы конфигурации
     if ( flags & CreateFirstAppFilesFlags::APP_CONFIG )
     {
         QString targetOs=globalParameters.getTargetOs(); // "any" или "meego" или "android"
@@ -98,6 +99,10 @@ void AppFiles::createFirstAppFiles(QString dirName,
         // Создается файл первой записи
         QFile::copy(":/resource/standartdata/base/1300000000aaaaaaaaa2/text.html", dirName+"/data/base/1300000000aaaaaaaaa2/text.html");
         QFile::setPermissions(dirName+"/data/base/1300000000aaaaaaaaa2/text.html", QFile::ReadUser | QFile::WriteUser);
+
+        // Настройки базы данных должны создаваться вместе с начальными данными
+        QFile::copy(":/resource/standartdata/database.ini", dirName+"/data/database.ini");
+        QFile::setPermissions(dirName+"/data/database.ini", QFile::ReadUser | QFile::WriteUser);
     }
 
     // Создается каталог корзины
