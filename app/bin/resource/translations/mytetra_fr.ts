@@ -157,35 +157,93 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="158"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="159"/>
         <source>Please enter the note&apos;s &lt;b&gt;title&lt;/b&gt;. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="168"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="169"/>
         <source>Please enter the note&apos;s &lt;b&gt;text&lt;/b&gt;. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/AddNewRecord.cpp" line="174"/>
+        <location filename="../../../src/views/record/AddNewRecord.cpp" line="175"/>
         <source>A new note cannot be added</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AppConfig</name>
+    <message>
+        <location filename="../../../src/models/appConfig/AppConfig.cpp" line="98"/>
+        <source>Can not create config backup copy to trash directory
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/models/appConfig/AppConfig.cpp" line="99"/>
+        <source>
+Source file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/models/appConfig/AppConfig.cpp" line="100"/>
+        <source>
+Trash directory: %1
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/models/appConfig/AppConfig.cpp" line="101"/>
+        <source>
+This can happen if there is no free space left on the hard disk or it is impossible to write to the trash directory.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AppConfigPage_Appearance</name>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="34"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="43"/>
         <source>Run MyTetra in a minimized window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="40"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="49"/>
         <source>Hide detached windows if close main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="55"/>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="58"/>
+        <source>Interface theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="67"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="68"/>
+        <source>Dark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="106"/>
+        <source>Icon size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="111"/>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="168"/>
+        <source>Interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/appConfigWindow/AppConfigPage_Appearance.cpp" line="174"/>
         <source>Windows behavior</source>
         <translation type="unfinished"></translation>
     </message>
@@ -718,108 +776,108 @@ enable «Decrypt to a temporary file» option in Settings.</source>
 <context>
     <name>DatabasesManagementController</name>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="75"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="77"/>
         <source>Can&apos;t switch database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="76"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="78"/>
         <source>It is not possible to switch to another database because synchronization is running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="77"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="79"/>
         <source>Wait for the synchronization to complete and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="112"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="124"/>
         <source>Select database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="113"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="125"/>
         <source>Errors detected when switching to database with
 path &apos;%1&apos;
 and trash path &apos;%2&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="129"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="141"/>
         <source>The selected database directory &apos;%1&apos; is not a database directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="141"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="153"/>
         <source>It is not possible to use the directory &apos;%1&apos; as a trash directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="177"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="189"/>
         <source>Create new database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="182"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="194"/>
         <source>&lt;b&gt;Select an empty directory&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="183"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="195"/>
         <source>To create a new database, please specify an existing empty directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="188"/>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="292"/>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="355"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="200"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="304"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="367"/>
         <source>I understand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="200"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="212"/>
         <source>Select empty directory for new DB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="215"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="227"/>
         <source>It is not possible to create a new database.
 The specified directory is not empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="241"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="253"/>
         <source>This database directory already using in databases list.
 First, please delete corresponding database from databases list, and try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="253"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="265"/>
         <source>&lt;b&gt;The following database directories will be created&lt;/b&gt;&lt;br&gt;&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="254"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="266"/>
         <source>Database data directory:&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="256"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="268"/>
         <source>Trash directory:&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="280"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="292"/>
         <source>Append exists database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="285"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="297"/>
         <source>&lt;b&gt;First step:&lt;/b&gt; select database directiory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="286"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="298"/>
         <source>To add an existing database,
 please select the directory
 where it is located.
@@ -827,118 +885,118 @@ This directory should contain the file mytetra.xml.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="305"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="317"/>
         <source>Select directory with an existing database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="319"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="331"/>
         <source>Can not find file mytetra.xml in this directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="338"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="350"/>
         <source>This database directory already using in databses list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="347"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="359"/>
         <source>&lt;b&gt;Second step:&lt;/b&gt; select trash directiory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="348"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="360"/>
         <source>For database append please select trash directory.
 MyTetra will put changed notes file copies and changed item tree copies to this directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="365"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="377"/>
         <source>Select trash directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="390"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="402"/>
         <source>You cannot add a trash directory in database directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="407"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="419"/>
         <source>You can select only one database for description edit.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="428"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="440"/>
         <source>It is allowed to edit descriptions only for manually added databases.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="443"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="455"/>
         <source>Description edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="444"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="456"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="457"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="469"/>
         <source>Error when applying the changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="474"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="486"/>
         <source>You can select only one database for deletion.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="489"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="501"/>
         <source>You cannot delete the current working database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="497"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="509"/>
         <source>Deleting a database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="498"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="510"/>
         <source>&lt;b&gt;Select delete mode&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="499"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="511"/>
         <source>Select the mode in which you want to delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="500"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="512"/>
         <source>Remove from list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="501"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="513"/>
         <source>Delete with the data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="502"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="514"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="524"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="536"/>
         <source>Delete a database with all its contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="525"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="537"/>
         <source>Write &quot;yes&quot; to confirm:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="533"/>
+        <location filename="../../../src/controllers/databasesManagement/DatabasesManagementController.cpp" line="545"/>
         <source>You did not write &quot;yes&quot;, the database deletion is canceled.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -968,22 +1026,22 @@ MyTetra will put changed notes file copies and changed item tree copies to this 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="515"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="519"/>
         <source>Sel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="518"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="522"/>
         <source>Database path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="521"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="525"/>
         <source>Trash path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="524"/>
+        <location filename="../../../src/models/databasesManagement/DatabasesManagementModel.cpp" line="528"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1074,22 +1132,22 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>Editor</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1334"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1352"/>
         <source>Edit HTML source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1363"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1381"/>
         <source>Search result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1364"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1382"/>
         <source>String &apos;&lt;b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1364"/>
+        <location filename="../../../src/libraries/wyedit/Editor.cpp" line="1382"/>
         <source>&lt;/b&gt;&apos; not found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1434,80 +1492,107 @@ Please enable action logging in Tools -&gt; Preferences -&gt; Misc</source>
 <context>
     <name>EditorTablePropertiesForm</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="31"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="32"/>
         <source>Table properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="34"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="35"/>
         <source>Width: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="35"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="36"/>
         <source>%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="39"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="40"/>
         <source>Border lines width: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="40"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="41"/>
         <source>px</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="43"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="45"/>
         <source>Background color: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="46"/>
+        <source>Select color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="47"/>
+        <source>No color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="50"/>
         <source>Table align: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="48"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="52"/>
         <source>Table align left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="52"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="56"/>
         <source>Table align center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="56"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="60"/>
         <source>Table align right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="61"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="65"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="62"/>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="66"/>
         <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorTablePropertiesForm.cpp" line="243"/>
+        <source>Select table background color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>EditorToolBar</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="317"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="241"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="247"/>
+        <source>Select color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="242"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="248"/>
+        <source>No color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="331"/>
         <source>Save (Ctrl+S)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="324"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="338"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="330"/>
+        <location filename="../../../src/libraries/wyedit/EditorToolBar.cpp" line="344"/>
         <source>Find in base</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1718,123 +1803,123 @@ Enter your old password and new password.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="98"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="103"/>
         <source>Any word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="99"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="104"/>
         <source>All words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="104"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="109"/>
         <source>Whole words</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="105"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="110"/>
         <source>Substring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="110"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="115"/>
         <source>Entire base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="111"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="116"/>
         <source>Current tree item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="186"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="195"/>
         <source>Find in: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="188"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="197"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="191"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="200"/>
         <source>Author(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="194"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="203"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="197"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="206"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="200"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="209"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="203"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="212"/>
         <source>Name tree item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="376"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="447"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="385"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="456"/>
         <source>Cannot start find process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="377"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="386"/>
         <source>Verify that you selected fields for search for starting find process.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="378"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="391"/>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="449"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="387"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="400"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="458"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="389"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="398"/>
         <source>Can not start find process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="390"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="399"/>
         <source>The search request is too short. Enter at least one word.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="448"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="457"/>
         <source>Starting position for a tree searching is not set.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="464"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="473"/>
         <source>Search...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="489"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="498"/>
         <source>No search results.
 Hint: encrypted items has been detected. For searching in encrypted items you have to enter the password.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="493"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="502"/>
         <source>No search results.
 Hint: search produced in current tree item.
 Try to search for entire database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="524"/>
+        <location filename="../../../src/views/findInBaseScreen/FindScreen.cpp" line="533"/>
         <source>[Tree item]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1855,62 +1940,62 @@ Try to search for entire database.</source>
 <context>
     <name>FixedParameters</name>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="76"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="94"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="77"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="95"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="78"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="96"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="79"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="97"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="80"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="98"/>
         <source>Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="81"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="99"/>
         <source>Create time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="82"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="100"/>
         <source>Directory name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="83"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="101"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="84"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="102"/>
         <source>Is crypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="85"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="103"/>
         <source>Has attaches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="86"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="104"/>
         <source>Attaches count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/FixedParameters.cpp" line="87"/>
+        <location filename="../../../src/libraries/FixedParameters.cpp" line="105"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2338,17 +2423,17 @@ You need to update MyTetra.</source>
 <context>
     <name>MetaEditor</name>
     <message>
-        <location filename="../../../src/views/record/MetaEditor.cpp" line="98"/>
+        <location filename="../../../src/views/record/MetaEditor.cpp" line="100"/>
         <source>&lt;B&gt;Url:&lt;/B&gt; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/MetaEditor.cpp" line="112"/>
+        <location filename="../../../src/views/record/MetaEditor.cpp" line="114"/>
         <source>&lt;B&gt;Tags:&lt;/B&gt; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/record/MetaEditor.cpp" line="251"/>
+        <location filename="../../../src/views/record/MetaEditor.cpp" line="263"/>
         <source>&lt;b&gt;Path: &lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2428,7 +2513,7 @@ in application settings in Crypt section.</source>
 <context>
     <name>PeriodicCheckBase</name>
     <message>
-        <location filename="../../../src/libraries/PeriodicCheckBase.cpp" line="63"/>
+        <location filename="../../../src/libraries/PeriodicCheckBase.cpp" line="67"/>
         <source>The database was changed by external application or services.
 MyTetra reload the database tree to keep data consistency.</source>
         <translation type="unfinished"></translation>
@@ -2764,37 +2849,37 @@ MyTetra will try to create a blank entry to fix it.</source>
 <context>
     <name>RecordTableView</name>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="310"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="312"/>
         <source>Block/Unblock note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="315"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="317"/>
         <source>Unblock note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="317"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="319"/>
         <source>Block note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="322"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="324"/>
         <source>Set multiple selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="324"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="326"/>
         <source>Set single selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="328"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="330"/>
         <source>Enable sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="330"/>
+        <location filename="../../../src/views/recordTable/RecordTableView.cpp" line="332"/>
         <source>Disable sorting</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3565,37 +3650,37 @@ MyTetra will try to create a blank entry to fix it.</source>
 <context>
     <name>TableFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="97"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="100"/>
         <source>Append rows to table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="97"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="100"/>
         <source>Append rows:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="116"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="119"/>
         <source>Append columns to table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="116"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="119"/>
         <source>Append columns:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="154"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="157"/>
         <source>Split cell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="155"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="158"/>
         <source>Select a single cell.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="252"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TableFormatter.cpp" line="255"/>
         <source>Can&apos;t modify table properties. Please set cursor into table.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3603,208 +3688,208 @@ MyTetra will try to create a blank entry to fix it.</source>
 <context>
     <name>TreeScreen</name>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="154"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="155"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="165"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="166"/>
         <source>Find in base</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="504"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="543"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="639"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="744"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="884"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="928"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1035"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="515"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="554"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="650"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="755"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="895"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="939"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1046"/>
         <source>Unavailable action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="505"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="544"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="640"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1036"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="516"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="555"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="651"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1047"/>
         <source>You&apos;ve selected </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="505"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="516"/>
         <source> items.
 Please select single item for moving.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="506"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="545"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="641"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="746"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="886"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="930"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1037"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="517"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="556"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="652"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="757"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="897"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="941"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1048"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="544"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="555"/>
         <source> items.
 Please select single item for enabling insert operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="554"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="565"/>
         <source>Create new item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="555"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="664"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="566"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="675"/>
         <source>Item name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="558"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="569"/>
         <source>Create new sub item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="559"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="570"/>
         <source>Sub item name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="640"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="651"/>
         <source> items.
 Please select single item for enabling edit operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="663"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="674"/>
         <source>Edit item name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="745"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="756"/>
         <source>In your selected data found closed item. Action canceled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="778"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="789"/>
         <source>Confirmation request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="779"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="790"/>
         <source>In the selected item has been found blocked notes. Do you really want to delete one?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="800"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="811"/>
         <source>Delete item(s)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="801"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="812"/>
         <source>Are you sure you wish to delete item(s) &lt;b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="801"/>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="809"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="812"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="820"/>
         <source>&lt;/b&gt; and all sub items?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="802"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="813"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="808"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="819"/>
         <source>Cut item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="809"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="820"/>
         <source>Are you sure you wish to cut item &lt;b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="810"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="821"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="822"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="833"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="885"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="896"/>
         <source>Please select a single item for copy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="929"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="940"/>
         <source>This item contains both unencrypted and encrypted data. Copy/paste operation is possible only for item that contain similar type data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1036"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1047"/>
         <source> items.
 Please select single item for enabling paste operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1181"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1192"/>
         <source>No icon selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1226"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1237"/>
         <source>The export directory %1 is not empty. Please, select an empty directory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1233"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1244"/>
         <source>No export tree item selected. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1254"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1265"/>
         <source>Exported tree item contains encrypted data.
 Please click OK and enter the password.
 All data will be exported unencrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1267"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1278"/>
         <source>Done exporting into &lt;b&gt;%1&lt;/b&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1269"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1280"/>
         <source>Errors occurred while exporting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1278"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1289"/>
         <source>No tree item selected for importing. Please select a item.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1292"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1303"/>
         <source>You are importing into an encrypted item.
 Please click Ok and enter the password.
 All data imported will be encrypted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1309"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1320"/>
         <source>Item importing finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1554"/>
+        <location filename="../../../src/views/tree/TreeScreen.cpp" line="1565"/>
         <source>Rename me</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3812,17 +3897,17 @@ All data imported will be encrypted.</source>
 <context>
     <name>TypefaceFormatter</name>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="734"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="751"/>
         <source>Unreliable parsing of complexly formatted text. Expect formatting inconsistencies.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1267"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1296"/>
         <source>Select text color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1536"/>
+        <location filename="../../../src/libraries/wyedit/formatters/TypefaceFormatter.cpp" line="1849"/>
         <source>Select background color</source>
         <translation type="unfinished"></translation>
     </message>
