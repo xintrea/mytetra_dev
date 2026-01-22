@@ -384,19 +384,26 @@ void TreeScreen::setupSignals(void)
  connect(knowTreeView, &KnowTreeView::tapAndHoldGestureFinished,
          this,         &TreeScreen::onCustomContextMenuRequested);
 
- // Соединение сигнал-слот что ветка выбрана мышкой или стрелками на клавиатуре (через selection-модель)
+
+ // Сигнал что ветка выбрана мышкой или стрелками на клавиатуре
+ // через selection-модель. Реакция происходит на перемещение курсора по дереву
  if(mytetraConfig.getInterfaceMode()=="desktop")
+ {
    connect(knowTreeView->selectionModel(), &QItemSelectionModel::currentRowChanged,
            this,                           &TreeScreen::onKnowtreeClicked);
+ }
  
  if(mytetraConfig.getInterfaceMode()=="mobile")
+ {
    connect(knowTreeView, &KnowTreeView::clicked,
            this,         &TreeScreen::onKnowtreeClicked);
+ }
 
- // Сигнал что ветка выбрана мышкой
+
+ // Сигнал что ветка выбрана кликом мышки
  // используется для возможности ввести пароль, если в базе одна корневая ветка, и она зашифрована
  connect(knowTreeView, &KnowTreeView::pressed,
-         this,         &TreeScreen::checkIfOneRootCryptItem);
+         this,         &TreeScreen::onKnowtreeClicked); // &TreeScreen::checkIfOneRootCryptItem
 
 
  // Сигнал чтобы открыть на редактирование параметры записи при двойном клике
@@ -1354,9 +1361,27 @@ void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
         // Указатель на текущую выбранную ветку дерева
         TreeItem *item = knowTreeModel->getItem(index);
 
-        // Проверяется, происходит ли клик по зашифрованной ветке
-        if(item->getField("crypt")=="1") {
-            onKnowtreeClicked(index); // Вызывается стандартный клик по ветке, он запустит процедуру ввода пароля
+        // Корневой элемент дерева (это "технический элемент", он не виден на экране в виде ветки)
+        const TreeItem *rootItem = knowTreeModel->getRootItem();
+
+        // Если у корневого элемента дерева только один подчиненный элемент
+        if ( rootItem->childCount() == 1 )
+        {
+            // Значит в дереве имеется только один элемент первого уровня
+            // (у него могут быть подчиненные элементы, но это в данном случае не имеет значения)
+            TreeItem *firstAndSingleItem = rootItem->child(0);
+
+            // Сравнение указателя на единственный элемент первого уровня
+            // с указателем элемента дерева, по которому был произведен клик
+            if ( item == firstAndSingleItem )
+            {
+                // Проверяется, происходит ли клик по зашифрованной ветке
+                if(item->getField("crypt")=="1")
+                {
+                    // Вызывается стандартный клик по ветке, он запустит процедуру ввода пароля
+                    onKnowtreeClicked(index);
+                }
+            }
         }
     }
 }
@@ -1365,21 +1390,42 @@ void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
 // Действия при клике на ветку дерева через selection-модель
 void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 {
-    // Данный слот может повторно вызываться, когда его работа еще не завершена,
-    // например в момент завершения синхронизации. Это возможно, так как
+    if ( !index.isValid() )
+    {
+        return;
+    }
+
+    // Данный слот может повторно вызываться, когда его работа еще не завершена.
+    // Например, в момент завершения синхронизации ветки могут добавиться или удалиться,
+    // может сработать восстановление положения курсора после снхронизации.
+    // Повторный вызов возможен, так как
     // в данном слоте может быть вызван диалог запроса пароля, а диалог
     // может ожидать ввода пользователя неограниченное время.
-    // Переменная isThisSlotWork блокирует работу слота, ели он
+    // Переменная isThisSlotWork блокирует работу слота, если он
     // повторно вызван когда он еще не закончил работу
-    static bool isThisSlotWork=false;
-    if(isThisSlotWork)
+    if(this->isKnowtreeClickedWork)
     {
         return;
     }
     else
     {
-        isThisSlotWork=true; // Следить чтобы перед каждым return данный флаг сбрасывался
+        this->isKnowtreeClickedWork=true; // Следить чтобы перед каждым return данный флаг сбрасывался
     }
+
+
+    // Запрещается обработка одного и того же индекса в пределах одного цикла обработки событий Qt
+    // Это нужно чтобы повторно не обрабатывать индекс, если одновременно при одном клике вызвались
+    // и QItemSelectionModel::currentRowChanged и KnowTreeView::pressed
+    static QModelIndex lastHandledIndex;
+    if ( lastHandledIndex.isValid() && lastHandledIndex == index )
+    {
+        return;
+    }
+    else
+    {
+        lastHandledIndex = index;
+    }
+
 
     // QModelIndex index = nodetreeview->selectionModel()->currentIndex();
 
@@ -1399,6 +1445,10 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
         i.value()->setEnabled(true);
     }
 
+
+    bool isEnableItemWork=true;
+
+
     // Проверяется, происходит ли клик по зашифрованной ветке
     if(item->getField("crypt")=="1")
     {
@@ -1407,7 +1457,7 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
         {
             // Запрашивается пароль
             Password password;
-            if(password.retrievePassword()==false)
+            if(password.retrievePassword()==false) // Если пароль введен неверно
             {
                 // Устанавливаем пустые данные для отображения таблицы конечных записей
                 find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
@@ -1420,39 +1470,49 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
                     i.value()->setEnabled(false);
                 }
 
-                isThisSlotWork=false;
-
-                return; // Программа дальше не идет, доделать...
+                isEnableItemWork = false;
             }
         }
     }
 
 
-    // Получаем указатель на данные таблицы конечных записей
-    RecordTableData *rtdata=item->recordtableGetTableData();
-
-    // Устанавливаем данные таблицы конечных записей
-    find_object<RecordTableController>("recordTableController")->setTableData(rtdata);
-
-    // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
-    if(mytetraConfig.getInterfaceMode()=="mobile")
+    if ( isEnableItemWork )
     {
-        QStringList path=item->getPathAsName();
+        // Получаем указатель на данные таблицы конечных записей
+        RecordTableData *rtdata=item->recordtableGetTableData();
 
-        // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
-        int emptyStringIndex=path.indexOf("");
-        path.removeAt(emptyStringIndex);
+        // Устанавливаем данные таблицы конечных записей
+        find_object<RecordTableController>("recordTableController")->setTableData(rtdata);
 
-        find_object<RecordTableScreen>("recordTableScreen")->setTreePath( path.join(" > ") );
+        // Устанавливается текстовый путь в таблице конечных записей для мобильного варианта интерфейса
+        if(mytetraConfig.getInterfaceMode()=="mobile")
+        {
+            QStringList path=item->getPathAsName();
+
+            // Убирается пустой элемент, если он есть (это может быть корень, у него нет названия)
+            int emptyStringIndex=path.indexOf("");
+            path.removeAt(emptyStringIndex);
+
+            find_object<RecordTableScreen>("recordTableScreen")->setTreePath( path.join(" > ") );
+        }
+
+        // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
+        knowTreeView->resizeColumnToContents(0);
+
+        // Переключаются окна (используется для мобильного интерфейса)
+        globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
     }
 
-    // Ширина колонки дерева устанавливается так чтоб всегда вмещались данные
-    knowTreeView->resizeColumnToContents(0);
+    this->isKnowtreeClickedWork=false;
 
-    // Переключаются окна (используется для мобильного интерфейса)
-    globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
+    // Установка обнуления lastHandledIndex в конце цикла обработки событий
+    QTimer::singleShot(0, this, [this]{
+        lastHandledIndex = QModelIndex();
 
-    isThisSlotWork=false;
+        // Дополнительно обязательно сбрасывается isThisSlotWork
+        this->isKnowtreeClickedWork=false;
+    });
+
 }
 
 

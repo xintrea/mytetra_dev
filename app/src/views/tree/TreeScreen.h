@@ -121,6 +121,8 @@ private:
  void decryptBranchItem(void);
 
  void updateLastKnowTreeData(QFileInfo fileInfo, bool isFileInfoReal);
+
+ bool isKnowtreeClickedWork=false;
 };
 
 
