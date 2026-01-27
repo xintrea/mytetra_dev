@@ -80,23 +80,12 @@ private slots:
 
  // Действия при клике на ветку дерева
  void onKnowtreeClicked(const QModelIndex &index);
- void checkIfOneRootCryptItem(const QModelIndex &index);
+ // void checkIfOneRootCryptItem(const QModelIndex &index);
 
  // Открытие контекстного меню
  void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
-
- QMap<QString, QAction *> actionList;
-
- QToolBar *toolsLine;
-
- KnowTreeView  *knowTreeView;
-
- QVBoxLayout *treeScreenLayout;
-
- QDateTime lastKnowTreeModifyDateTime;
- qint64    lastKnowTreeSize;
 
  void setupUI(void);
  void setupModels(void);
@@ -122,7 +111,21 @@ private:
 
  void updateLastKnowTreeData(QFileInfo fileInfo, bool isFileInfoReal);
 
- bool isKnowtreeClickedWork=false;
+ // Реальные действия при клике на ветку дерева
+ void processKnowtreeClicked(const QModelIndex &index);
+
+ QMap<QString, QAction *> actionList;
+
+ QToolBar *toolsLine;
+
+ KnowTreeView  *knowTreeView;
+
+ QVBoxLayout *treeScreenLayout;
+
+ QDateTime lastKnowTreeModifyDateTime;
+ qint64    lastKnowTreeSize;
+
+ // bool isKnowtreeClickedWork=false;
 };
 
 

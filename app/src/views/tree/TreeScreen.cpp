@@ -1353,6 +1353,7 @@ void TreeScreen::updateBranchOnScreen(const QModelIndex &index)
 
 // Вспомогательный слот, позволяющий ввести пароль на ветку в случае,
 // если в базе только одна корневая ветка и она зашифрована
+/*
 void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
 {
     // Если пароль доступа к зашифрованным данным не вводился в этой сессии
@@ -1385,24 +1386,46 @@ void TreeScreen::checkIfOneRootCryptItem(const QModelIndex &index)
         }
     }
 }
+*/
 
 
 // Действия при клике на ветку дерева через selection-модель
 void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 {
-    if ( !index.isValid() )
+    if ( !index.isValid() ) // Если клик был на пустом месте
+    {
+        return;
+    }
+
+    // Обновление выделения курсором и прокрутка к выбранному элементу
+    this->knowTreeView->setCurrentIndex(index);
+    this->knowTreeView->scrollTo(index, QAbstractItemView::EnsureVisible);
+
+    // Выполнение остального кода произойдет на следующем цикле событий, когда вид обновится
+    QTimer::singleShot(0, this, [this, index]() {
+        processKnowtreeClicked(index); // Основная обработка
+    });
+}
+
+
+// Реальные действия при клике на ветку дерева
+void TreeScreen::processKnowtreeClicked(const QModelIndex &index)
+{
+    if ( !index.isValid() ) // Если клик был на пустом месте
     {
         return;
     }
 
     // Данный слот может повторно вызываться, когда его работа еще не завершена.
     // Например, в момент завершения синхронизации ветки могут добавиться или удалиться,
-    // может сработать восстановление положения курсора после снхронизации.
-    // Повторный вызов возможен, так как
+    // может сработать восстановление положения курсора после синхронизации.
+    // Повторный вызов в пределах одного цикла событий возможен, так как
     // в данном слоте может быть вызван диалог запроса пароля, а диалог
     // может ожидать ввода пользователя неограниченное время.
-    // Переменная isThisSlotWork блокирует работу слота, если он
+    // Переменная isKnowtreeClickedWork блокирует работу слота, если он
     // повторно вызван когда он еще не закончил работу
+
+    /*
     if(this->isKnowtreeClickedWork)
     {
         return;
@@ -1411,7 +1434,7 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
     {
         this->isKnowtreeClickedWork=true; // Следить чтобы перед каждым return данный флаг сбрасывался
     }
-
+    */
 
     // Запрещается обработка одного и того же индекса в пределах одного цикла обработки событий Qt
     // Это нужно чтобы повторно не обрабатывать индекс, если одновременно при одном клике вызвались
@@ -1419,6 +1442,8 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
     static QModelIndex lastHandledIndex;
     if ( lastHandledIndex.isValid() && lastHandledIndex == index )
     {
+        // this->isKnowtreeClickedWork=false;
+
         return;
     }
     else
@@ -1429,10 +1454,11 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
 
     // QModelIndex index = nodetreeview->selectionModel()->currentIndex();
 
+
     // Сохраняется текст в окне редактирования в соответсвующий файл
     find_object<MainWindow>("mainwindow")->saveTextarea();
 
-    // Получаем указатель на текущую выбранную ветку дерева
+    // Указатель на текущую выбранную ветку дерева
     TreeItem *item = knowTreeModel->getItem(index);
 
     // Все инструменты по работе с записями выключаются
@@ -1503,14 +1529,14 @@ void TreeScreen::onKnowtreeClicked(const QModelIndex &index)
         globalParameters.getWindowSwitcher()->switchFromTreeToRecordtable();
     }
 
-    this->isKnowtreeClickedWork=false;
+    // this->isKnowtreeClickedWork=false;
 
     // Установка обнуления lastHandledIndex в конце цикла обработки событий
-    QTimer::singleShot(0, this, [this]{
+    QTimer::singleShot(0, this, []{
         lastHandledIndex = QModelIndex();
 
-        // Дополнительно обязательно сбрасывается isThisSlotWork
-        this->isKnowtreeClickedWork=false;
+        // Дополнительно обязательно сбрасывается isKnowtreeClickedWork
+        // this->isKnowtreeClickedWork=false;
     });
 
 }

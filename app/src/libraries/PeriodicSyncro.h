@@ -3,6 +3,8 @@
 
 #include "TimerMonitoring.h"
 
+// Это переопределенный класс от TimerMonitoring
+
 
 class PeriodicSyncro : public TimerMonitoring
 {
