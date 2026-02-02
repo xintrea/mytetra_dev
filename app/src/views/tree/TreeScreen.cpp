@@ -31,11 +31,13 @@
 #include "libraries/helpers/ActionHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
+#include "libraries/InternalClipboard.h"
 
 
 extern AppConfig mytetraConfig;
 extern GlobalParameters globalParameters;
 extern ShortcutManager shortcutManager;
+extern InternalClipboard *internalClipboard;
 
 
 TreeScreen::TreeScreen(QWidget *parent) : QWidget(parent)
@@ -321,12 +323,15 @@ void TreeScreen::onCustomContextMenuRequested(const QPoint &pos)
      (cryptFlag=="1" && globalParameters.getCryptKey().length()>0))
    {
 
-    // Если в буфере есть ветки, соответсвующие пункты становятся активными
+    // Если во внутреннем буфере обмена есть ветки,
+    // соответсвующие пункты становятся активными
     bool isBranch=false;
-    const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-     if(mimeData!=nullptr)
-      if(mimeData->hasFormat(FixedParameters::appTextId+"/branch"))
+    const QMimeData *mimeData = internalClipboard->mimeData();
+     if(mimeData!=nullptr and
+        mimeData->hasFormat(FixedParameters::appTextId+"/branch"))
+     {
         isBranch=true;
+     }
 
      if( isBranch )
      {
@@ -951,17 +956,14 @@ bool TreeScreen::copyBranch(void)
     }
 
 
-    // -------------------
-    // Копирование в буфер
-    // -------------------
+    // --------------------------------------
+    // Копирование во внутренний буфер обмена
+    // --------------------------------------
 
     qDebug() << "Tree item copy to buffer";
 
-    // Создается ссылка на буфер обмена
-    QClipboard *cbuf=QApplication::clipboard();
-
     // Данные в буфере обмена очищаются
-    cbuf->clear();
+    internalClipboard->clear();
 
     // Создается объект с данными для заполнения буфера обмена
     ClipboardBranch *branch_clipboard_data=new ClipboardBranch();
@@ -977,7 +979,7 @@ bool TreeScreen::copyBranch(void)
 
     // Объект с ветками помещается в буфер обмена, владение указателем передается
     // глобальному объекту буфера обмена, поэтому утечки нет
-    cbuf->setMimeData(branch_clipboard_data);
+    internalClipboard->setMimeData(branch_clipboard_data);
 
     return true;
 }
@@ -1034,8 +1036,8 @@ void TreeScreen::pasteSubbranch(void)
 
 void TreeScreen::pasteBranchSmart(bool is_branch)
 {
- // Проверяется, содержит ли буфер обмена данные нужного формата
- const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+ // Проверяется, содержит ли внутренний буфер обмена данные нужного формата
+ const QMimeData *mimeData = internalClipboard->mimeData();
 
  if(mimeData==nullptr)
   return;
@@ -1062,12 +1064,9 @@ void TreeScreen::pasteBranchSmart(bool is_branch)
  find_object<MainWindow>("mainwindow")->setDisabled(true);
 
 
- // Создается ссылка на буфер обмена
- QClipboard *cbuf=QApplication::clipboard();
-
- // Извлечение объекта из буфера обмена
+ // Извлечение объекта из внутреннего буфера обмена
  const ClipboardBranch *branch;
- branch=qobject_cast<const ClipboardBranch *>(cbuf->mimeData());
+ branch=qobject_cast<const ClipboardBranch *>(internalClipboard->mimeData());
  branch->print();
  branch->printIdTree();
 

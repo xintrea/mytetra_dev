@@ -277,7 +277,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
         // Обновлении конечной ветки чтобы было видно что записей прибавилось
         parentPointer->updateBranchOnScreen(index);
 
-        // В модели данных дерева обнуляется элемент, который подсвечивался при Drag And Drop
+        // В модели данных дерева обнуляется элемент,
+        // который подсвечивался при Drag And Drop
         parentPointer->knowTreeModel->setData(QModelIndex(), QVariant(false), Qt::UserRole);
     }
 }

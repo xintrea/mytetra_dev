@@ -24,6 +24,7 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/ClipboardRecords.h"
+#include "libraries/InternalClipboard.h"
 #include "libraries/helpers/DiskHelper.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
@@ -32,6 +33,7 @@
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 extern WalkHistory walkHistory;
+extern InternalClipboard *internalClipboard;
 
 
 RecordTableController::RecordTableController(QObject *parent) : QObject(parent)
@@ -62,13 +64,21 @@ RecordTableController::~RecordTableController()
 {
     // Уничтожение объекта будет происходить при выходе из программы
 
-    // В окружении рабочего стола LXDE есть проблема: если при выходе из MyTetra в буфере обмена
-    // будет лежать слепок(ки) записей, то произойдет перезапуск DE.
+    // В окружении рабочего стола LXDE есть проблема: если при выходе из MyTetra
+    // в системном буфере обмена будет лежать слепок(ки) записей, то произойдет
+    // перезапуск DE.
     // Непонятно как это работает, но проблема есть.
-    // Чтобы ее избежать, надо очищать буфер обмена от данных со слепком записи, если таковые в буфере лежат
+    // Чтобы ее избежать, надо очищать буфер обмена от данных со слепком записи,
+    // если таковые в буфере лежат
+
+    // Теперь эта проверка устаревшая, так как теперь записи не попадают в
+    // системный буфер обмена, а копируются/перемещаются через внутренний буфер,
+    // но проверка оставлена для иллюстрации того, как обходить проблемы
+    // которые могут возникнуть в некоторых DE
 
     // Проверяется, содержит ли буфер обмена данные записи
     const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+
     if(mimeData!=nullptr && (mimeData->hasFormat(FixedParameters::appTextId+"/records")) ) {
         QApplication::clipboard()->setText(""); // В буфер обмена помещается пустой текст
     }
@@ -494,8 +504,8 @@ void RecordTableController::copy(void)
     // которое было после открытия записи, потеряется
     find_object<MetaEditor>("editorScreen")->saveTextarea();
 
-    // Объект с записями помещается в буфер обмена
-    QApplication::clipboard() -> setMimeData( view->getSelectedRecords() );
+    // Объект с записями помещается во внутренний буфер обмена
+    internalClipboard->setMimeData( view->getSelectedRecords() );
 }
 
 
@@ -509,7 +519,7 @@ void RecordTableController::paste(void)
   if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
     return;
 
-  // Создается ссылка на буфер обмена
+  // Создается указатель на буфер обмена
   QClipboard *clipboardBuf=QApplication::clipboard();
 
   // Извлечение объекта из буфера обмена

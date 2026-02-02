@@ -1255,8 +1255,8 @@ void Editor::onCopy(void)
     // qDebug() << "Editor::onCopy() textArea has focus:" << textArea->hasFocus();
 
     // Если текущий виджет не основной виджет редактирования текста
-    if(textArea->hasFocus()==false) {
-
+    if(textArea->hasFocus()==false)
+    {
         QWidget *focusWidget=qApp->focusWidget(); // Выясняется, какой виджет выбран
 
         // Если это надпись QLabel
@@ -1264,10 +1264,12 @@ void Editor::onCopy(void)
         // сочетание клавиш копирования не перекрывается самим виджетом.
         // Поэтому нужно вручную заполнить буфер обмена.
         // Это поведения стало необходимо после введения подсистемы горячих клавиш
-        if(QString(focusWidget->metaObject()->className())=="QLabel") {
+        if(QString(focusWidget->metaObject()->className())=="QLabel")
+        {
             QLabel *label=static_cast<QLabel *>(focusWidget);
 
-            if(label->selectedText().size()>0) {
+            if(label->selectedText().size()>0)
+            {
                 QClipboard *clipboard=QApplication::clipboard();
                 clipboard->setText(label->selectedText());
             }
@@ -1302,7 +1304,9 @@ void Editor::onCopy(void)
         clipboard->setImage(image);
     }
     else
+    {
         textArea->copy(); // Обычное копирование
+    }
 
     editorToolBarAssistant->updateToActualFormat(); // Обновляется панель с кнопками
 }
