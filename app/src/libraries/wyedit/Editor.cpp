@@ -1262,7 +1262,7 @@ void Editor::onCopy(void)
         // Если это надпись QLabel
         // Для виджетов, существующих рядом с textArea в рамках виджета Editor,
         // сочетание клавиш копирования не перекрывается самим виджетом.
-        // Поэтому нужно вручную заполнить буфер обмена.
+        // Поэтому нужно вручную заполнить системный буфер обмена.
         // Это поведения стало необходимо после введения подсистемы горячих клавиш
         if(QString(focusWidget->metaObject()->className())=="QLabel")
         {
@@ -1270,6 +1270,7 @@ void Editor::onCopy(void)
 
             if(label->selectedText().size()>0)
             {
+                // В системный буфер обмена помещается текст выделенной надписи
                 QClipboard *clipboard=QApplication::clipboard();
                 clipboard->setText(label->selectedText());
             }
@@ -1297,7 +1298,7 @@ void Editor::onCopy(void)
         QVariant imageData=textArea->document()->resource(QTextDocument::ImageResource, QUrl(imageName));
         QImage image=imageData.value<QImage>();
 
-        // Создается ссылка на буфер обмена
+        // Создается ссылка на системный буфер обмена
         QClipboard *clipboard=QApplication::clipboard();
 
         // Копирование картинки в буфер обмена

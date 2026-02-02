@@ -18,7 +18,6 @@
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
-#include "libraries/ClipboardRecords.h"
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/GlobalParameters.h"
@@ -29,16 +28,15 @@
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/WalkHistory.h"
 #include "libraries/WindowSwitcher.h"
-#include "libraries/crypt/RC5Simple.h"
 #include "libraries/crypt/Password.h"
-#include "libraries/TraceLogger.h"
 #include "libraries/ShortcutManager.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/IconSelectDialog.h"
+#include "libraries/InternalClipboard.h"
 #include "libraries/helpers/DebugHelper.h"
-#include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/CssHelper.h"
+
 
 
 using namespace std;
@@ -78,6 +76,9 @@ ShortcutManager shortcutManager;
 // Различные периодические проверки
 PeriodicCheckBase periodicCheckBase;
 PeriodicSyncro periodicSyncro;
+
+// Указатель на внутренний буфер обмена
+InternalClipboard *internalClipboard;
 
 // Указатель на основное окно программы
 QObject *pMainWindow;
@@ -287,6 +288,9 @@ int main(int argc, char ** argv)
     // Инициализация менеджера горячих клавиш должна происходить после инициализации переводов,
     // чтобы были переведены все действия по горячим клавишам
     shortcutManager.init();
+
+    // Инициализация указателя на внутренний буфер обмена
+    internalClipboard = new InternalClipboard();
 
     // Создание объекта главного окна
     MainWindow win;

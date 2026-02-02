@@ -82,6 +82,7 @@ void ActionLogController::onCopyClicked()
     }
   }
 
+  // Выделенный текст лога вставляется в системный буфер обмена
   QApplication::clipboard()->setText(selectedText);
 }
 

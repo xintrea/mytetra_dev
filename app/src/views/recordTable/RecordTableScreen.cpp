@@ -10,19 +10,20 @@
 #include "views/mainWindow/MainWindow.h"
 #include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
-#include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/WindowSwitcher.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
-#include "controllers/recordTable/RecordTableController.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/InternalClipboard.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/ActionHelper.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 extern ShortcutManager shortcutManager;
+extern InternalClipboard *internalClipboard;
 
 
 // Виджет, который отображает список записей в ветке
@@ -446,10 +447,12 @@ void RecordTableScreen::toolsWidgetsUpdate()
      recordTableController->getView()->selectionModel()->hasSelection()==false ||
      recordTableController->getView()->model()->rowCount()==0)
   {
-   const QMimeData *mimeData=QApplication::clipboard()->mimeData();
-   if(mimeData!=nullptr)
-    if(mimeData->hasFormat(FixedParameters::appTextId+"/records"))
+   const QMimeData *mimeData = internalClipboard->mimeData();
+   if(mimeData!=nullptr and
+      mimeData->hasFormat(FixedParameters::appTextId+"/records"))
+   {
      actionPaste->setEnabled(true);
+   }
   }
 
  // Перемещение записи вверх
@@ -554,7 +557,7 @@ void RecordTableScreen::onBackClick(void)
 }
 
 
-// Копирование в буфер обмена ссылки на запись
+// Копирование в системный буфер обмена ссылки на запись
 void RecordTableScreen::onCopyRecordReference()
 {
   QString reference=FixedParameters::appTextId+"://note/"+getFirstSelectionId();

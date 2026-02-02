@@ -179,15 +179,15 @@ QMimeData *InternalClipboard::mimeData(QClipboard::Mode mode) const
 }
 
 
-InternalClipboard::Storage &InternalClipboard::storageForMode(Mode mode)
+InternalClipboard::Storage &InternalClipboard::storageForMode(QClipboard::Mode mode)
 {
     switch (mode)
     {
-        case Clipboard:
+        case QClipboard::Clipboard:
             return m_clipboardStorage;
-        case Selection:
+        case QClipboard::Selection:
             return m_selectionStorage;
-        case FindBuffer:
+        case QClipboard::FindBuffer:
             return m_findBufferStorage;
         default:
             return m_clipboardStorage;
@@ -195,15 +195,15 @@ InternalClipboard::Storage &InternalClipboard::storageForMode(Mode mode)
 }
 
 
-const InternalClipboard::Storage &InternalClipboard::storageForModeConst(Mode mode) const
+const InternalClipboard::Storage &InternalClipboard::storageForModeConst(QClipboard::Mode mode) const
 {
     switch (mode)
     {
-        case Clipboard:
+        case QClipboard::Clipboard:
             return m_clipboardStorage;
-        case Selection:
+        case QClipboard::Selection:
             return m_selectionStorage;
-        case FindBuffer:
+        case QClipboard::FindBuffer:
             return m_findBufferStorage;
         default:
             return m_clipboardStorage;

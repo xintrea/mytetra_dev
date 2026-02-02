@@ -607,6 +607,7 @@ void DatabasesManagementController::onCopyClicked()
         }
     }
 
+    // Выделенный текст вставляется в системный буфоер обмена
     QApplication::clipboard()->setText(selectedText);
 }
 

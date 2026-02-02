@@ -12,22 +12,23 @@
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/tree/KnowTreeView.h"
 #include "models/recordTable/RecordTableModel.h"
-#include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/GlobalParameters.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/WindowSwitcher.h"
-#include "controllers/recordTable/RecordTableController.h"
 #include "libraries/ShortcutManager.h"
+#include "libraries/InternalClipboard.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/GestureHelper.h"
 #include "libraries/helpers/CssHelper.h"
+#include "controllers/recordTable/RecordTableController.h"
 
 
 extern GlobalParameters globalParameters;
 extern AppConfig mytetraConfig;
 extern ShortcutManager shortcutManager;
+extern InternalClipboard *internalClipboard;
 
 
 // Виджет, отображащий список записей в ветке
@@ -163,8 +164,8 @@ void RecordTableView::setupSignals(void)
             parentPointer, &RecordTableScreen::toolsUpdate);
     connect(this,          &RecordTableView::pressed,
             parentPointer, &RecordTableScreen::toolsUpdate);
-    connect(QApplication::clipboard(), &QClipboard::dataChanged,
-            parentPointer,             &RecordTableScreen::toolsUpdate);
+    connect(internalClipboard, &InternalClipboard::dataChanged,
+            parentPointer,     &RecordTableScreen::toolsUpdate);
 
     connect(this->horizontalHeader(), &QHeaderView::sectionMoved,
             this,                     &RecordTableView::onSectionMoved);

@@ -79,8 +79,10 @@ RecordTableController::~RecordTableController()
     // Проверяется, содержит ли буфер обмена данные записи
     const QMimeData *mimeData=QApplication::clipboard()->mimeData();
 
-    if(mimeData!=nullptr && (mimeData->hasFormat(FixedParameters::appTextId+"/records")) ) {
-        QApplication::clipboard()->setText(""); // В буфер обмена помещается пустой текст
+    if(mimeData!=nullptr && (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
+    {
+        // В системный буфер обмена помещается пустой текст
+        QApplication::clipboard()->setText("");
     }
 }
 
@@ -513,19 +515,16 @@ void RecordTableController::copy(void)
 void RecordTableController::paste(void)
 {
   // Проверяется, содержит ли буфер обмена данные нужного формата
-  const QMimeData *mimeData=QApplication::clipboard()->mimeData();
+  const QMimeData *mimeData=internalClipboard->mimeData();
   if(mimeData==nullptr)
     return;
   if( ! (mimeData->hasFormat(FixedParameters::appTextId+"/records")) )
     return;
 
-  // Создается указатель на буфер обмена
-  QClipboard *clipboardBuf=QApplication::clipboard();
-
   // Извлечение объекта из буфера обмена
   // const clipboardrecords *rcd=new clipboardrecords();
   const ClipboardRecords *clipboardRecords;
-  clipboardRecords=qobject_cast<const ClipboardRecords *>(clipboardBuf->mimeData());
+  clipboardRecords=qobject_cast<const ClipboardRecords *>( internalClipboard->mimeData() );
   // clipboardRecords->print();
 
   // Выясняется количество записей в буфере
