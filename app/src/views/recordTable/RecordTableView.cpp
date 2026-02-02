@@ -629,7 +629,7 @@ void RecordTableView::mousePressEvent(QMouseEvent *event)
 // Реакция на движение мышкой
 void RecordTableView::mouseMoveEvent(QMouseEvent *event)
 {
-    // qDebug() << "mouseMoveEvent()";
+    // qDebug() << "mouseMoveEvent(), SelectionBehavior:" << static_cast<int>( selectionBehavior() );
 
     // При режиме множественного выбора реакции на движение
     // мышкой быть не должно (так как работает криво), только на клики
@@ -638,6 +638,40 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
     {
         return;
     }
+
+
+    /*
+    QModelIndex index = indexAt(event->pos());
+    if (index.isValid())
+    {
+        // Сохраняем текущее выделение
+        QItemSelection currentSelection = selectionModel()->selection();
+        QModelIndex currentIndex = selectionModel()->currentIndex();
+
+        // Временно блокируем сигналы
+        bool blocked = selectionModel()->signalsBlocked();
+        selectionModel()->blockSignals(true);
+
+        // Визуально выделяем строку
+        selectRow(index.row());
+
+        // Восстанавливаем реальное выделение (но визуально будет видна подсветка)
+        selectionModel()->select(currentSelection, QItemSelectionModel::Select);
+        selectionModel()->setCurrentIndex(currentIndex, QItemSelectionModel::NoUpdate);
+
+        // Восстанавливаем блокировку сигналов
+        selectionModel()->blockSignals(blocked);
+
+        // Обновляем вид
+        viewport()->update();
+    }
+    else
+    {
+        // Просто обновляется вид
+        viewport()->update();
+    }
+    */
+
 
     // Если идет процесс перетаскивания
     if(isDragHappeningNow)
@@ -655,7 +689,7 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
     // Если при движении нажата левая кнопка мышки
     // и выделена ровно одна строка
     // (при включенном множественном выборе возможны случайные выдения и соседних строк)
-    if(event->buttons() & Qt::LeftButton and
+    if((event->buttons() & Qt::LeftButton) and
        this->selectionModel()->selectedRows().size()==1)
     {
         // Выясняется расстояние от места начала нажатия
@@ -668,13 +702,15 @@ void RecordTableView::mouseMoveEvent(QMouseEvent *event)
     }
 
     // При зажатых кнопках нельзя пробрасывать вызов родительского метода
-    // так как внутри него метасистема Qt может сгенерировать событие setSelection() и вызван слот
-    // selectionChanged() с выбором соседней строки, не той на которой был клик,
-    // при быстром движении мышкой
-    if( !( (event->buttons() & Qt::LeftButton) or (event->buttons() & Qt::RightButton) ) )
+    // так как внутри него метасистема Qt может сгенерировать событие setSelection()
+    // и вызвать слот selectionChanged() с выбором соседней строки,
+    // не той на которой был клик, при быстром движении мышкой
+    if( (event->buttons() & Qt::LeftButton) or (event->buttons() & Qt::RightButton) )
     {
-        QTableView::mouseMoveEvent(event);
+        return;
     }
+
+    QTableView::mouseMoveEvent(event);
 }
 
 
