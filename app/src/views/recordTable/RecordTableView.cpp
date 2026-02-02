@@ -70,6 +70,8 @@ void RecordTableView::init(void)
 
     setupSignals();
 
+    // Настройки поведения выбора ячеек
+    // Внимание! Это не настройки подсвечивания ячеек при движении мышкой
     setSelectionMode(QAbstractItemView::SingleSelection); // Ранее было ExtendedSelection, но такой режим не подходит для Drag and Drop
     setSelectionBehavior(QAbstractItemView::SelectRows);
 
