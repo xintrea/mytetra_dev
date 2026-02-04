@@ -14,6 +14,7 @@
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "views/enterPassword/EnterPassword.h"
+#include "views/findInBaseScreen/FindTableWidget.h"
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
@@ -371,10 +372,14 @@ bool Password::enterExistsPassword(void)
     // Запрашивается пароль
     EnterPassword enterPwd(ENTER_PASSWORD_MODE_SINGLE);
     if(mytetraConfig.get_autoClosePasswordEnable())
+    {
         enterPwd.setCancelDelay( mytetraConfig.get_autoClosePasswordDelay() );
-    int i=enterPwd.exec();
+    }
+    int i=enterPwd.exec(); // Показывается окно с паролем
     if(i==QDialog::Rejected)
+    {
         return false; // Была нажата отмена, ничего не нужно делать
+    }
 
     // В этом месте пароль введен
     QString password=enterPwd.getPassword();
@@ -392,6 +397,10 @@ bool Password::enterExistsPassword(void)
         if(mytetraConfig.getPasswordSaveFlag() &&
                 mytetraConfig.getPasswordMiddleHash().length()==0)
             smartSaveMiddleHash(password);
+
+
+        // Дополнительно, очищаются сообщения о невозможности поиска в зашифрованных ветках базы
+        find_object<FindTableWidget>("findTableWidget")->setOverdrawMessage("");
 
         return true;
     }

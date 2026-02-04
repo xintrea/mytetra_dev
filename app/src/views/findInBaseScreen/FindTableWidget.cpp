@@ -30,12 +30,15 @@ extern AppConfig mytetraConfig;
 
 FindTableWidget::FindTableWidget(QWidget *parent) : QWidget(parent)
 {
-  setupUI();
-  setupModels();
-  setupSignals();
-  assembly();
+    // По факту объект этого класса имеется в единичном экземпляре. Такой объект сам задает себе имя
+    this->setObjectName("findTableWidget");
 
-  clearAll();
+    setupUI();
+    setupModels();
+    setupSignals();
+    assembly();
+
+    clearAll();
 }
 
 

@@ -493,7 +493,7 @@ void FindScreen::findStart(void)
     // Если ничего не было найдено
     if(findTable->getRowCount()==0)
     {
-        // Если были непросмотренные ветки по причине того, что они зашифрованны, а пароль не введен
+        // Если были непросмотренные ветки по причине того, что они зашифрованы, а пароль не введен
         if(isUnsearchCryptBranchPresent)
             findTable->setOverdrawMessage(tr("No search results.\nHint: encrypted items has been detected. For searching in encrypted items you have to enter the password.")); // Ничего не найдено. При поиске обнаружены зашифрованные ветки. Однако пароль не был введен, поэтому поиск в них не проводился
 
