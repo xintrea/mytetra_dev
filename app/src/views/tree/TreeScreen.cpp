@@ -1460,54 +1460,54 @@ void TreeScreen::processKnowtreeClicked(const QModelIndex &index)
     // Указатель на текущую выбранную ветку дерева
     TreeItem *item = knowTreeModel->getItem(index);
 
-    // Все инструменты по работе с записями выключаются
+    // Все инструменты по работе с _записями_ выключаются
     find_object<RecordTableScreen>("recordTableScreen")->disableAllActions();
 
-    // Вначале все инструменты работы с веткой включаются
+
+    // Проверяется, происходит ли клик по ветке, которая зашифрованна
+    // и открывающий ее правильный пароль еще не вводился в этой сессии,
+    // то есть ветку невозможно просмотреть
+    bool isAccessItem=true;
+    if(item->getField("crypt")=="1" and
+       globalParameters.getCryptKey().length()==0)
+    {
+        isAccessItem=false;
+    }
+
+    // Инструменты работы с веткой включаются или выключаются
     QMapIterator<QString, QAction *> i(actionList);
     while (i.hasNext()) {
         i.next();
-        i.value()->setEnabled(true);
+        i.value()->setEnabled( isAccessItem );
     }
 
 
-    bool isEnableItemWork=true;
-
-
-    // Проверяется, происходит ли клик по зашифрованной ветке
-    if(item->getField("crypt")=="1")
+    // Если ветка недоступна из-за того что она зашифрована и пароль еще не вводился
+    if ( !isAccessItem )
     {
-        // Если пароль доступа к зашифрованным данным не вводился в этой сессии
-        if(globalParameters.getCryptKey().length()==0)
+        // Устанавливаются пустые данные для отображения таблицы конечных записей,
+        // чтобы в области списка записей было пусто,
+        // и пользователю в момент работы окна ввода пароля
+        // не показывались записи ветки, на которой до этого момента стоял курсор
+        find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
+
+        // Запрашивается пароль
+        Password password;
+        if ( password.retrievePassword() ) // Если пароль введен верно
         {
-            // Обнуляются данные таблицы конечной записи,
-            // чтобы в области записей было пусто,
-            // и пользователю в момент работы окна ввода пароля
-            // не показывались записи ветки, на которой до этого момента стоял курсор
-            find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
-
-            // Запрашивается пароль
-            Password password;
-            if(password.retrievePassword()==false) // Если пароль введен неверно
-            {
-                // Устанавливаем пустые данные для отображения таблицы конечных записей
-                find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
-
-                // Все инструменты работы с веткой отключаются
-                QMapIterator<QString, QAction *> i(actionList);
-                while (i.hasNext())
-                {
-                    i.next();
-                    i.value()->setEnabled(false);
-                }
-
-                isEnableItemWork = false;
+            // Инструменты работы с веткой включаются
+            QMapIterator<QString, QAction *> i(actionList);
+            while (i.hasNext()) {
+                i.next();
+                i.value()->setEnabled( true );
             }
+
+            isAccessItem = true;
         }
     }
 
 
-    if ( isEnableItemWork )
+    if ( isAccessItem )
     {
         // Получаем указатель на данные таблицы конечных записей
         RecordTableData *rtdata=item->recordtableGetTableData();
