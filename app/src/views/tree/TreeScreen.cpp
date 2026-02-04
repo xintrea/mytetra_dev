@@ -1480,6 +1480,12 @@ void TreeScreen::processKnowtreeClicked(const QModelIndex &index)
         // Если пароль доступа к зашифрованным данным не вводился в этой сессии
         if(globalParameters.getCryptKey().length()==0)
         {
+            // Обнуляются данные таблицы конечной записи,
+            // чтобы в области записей было пусто,
+            // и пользователю в момент работы окна ввода пароля
+            // не показывались записи ветки, на которой до этого момента стоял курсор
+            find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
+
             // Запрашивается пароль
             Password password;
             if(password.retrievePassword()==false) // Если пароль введен неверно

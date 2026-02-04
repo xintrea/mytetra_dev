@@ -65,7 +65,7 @@ private:
 protected:
 
     // Указатель на таблицу конечных записей
-    RecordTableData *table;
+    RecordTableData *table = nullptr;
 
 };
 
