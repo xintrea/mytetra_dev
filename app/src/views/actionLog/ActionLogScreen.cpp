@@ -15,14 +15,14 @@ extern ShortcutManager shortcutManager;
 
 ActionLogScreen::ActionLogScreen(QWidget *parent) : QDialog(parent)
 {
-  // По факту этот класс - синглтон. Синглтон сам задает себе имя
-  this->setObjectName("ActionLogScreen");
+  // По факту объект этого класса имеется в единичном экземпляре. Такой объект сам задает себе имя
+  this->setObjectName("actionLogScreen");
 
   this->setWindowTitle(tr("Action log"));
 
   // Инициализируется контроллер отображения записей лога
   actionLogController=new ActionLogController(this);
-  actionLogController->setObjectName("ActionLogController");
+  actionLogController->setObjectName("actionLogController");
 
   setupActions();
   setupUI();

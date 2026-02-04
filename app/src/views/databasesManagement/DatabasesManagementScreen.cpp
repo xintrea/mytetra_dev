@@ -15,8 +15,8 @@ extern ShortcutManager shortcutManager;
 
 DatabasesManagementScreen::DatabasesManagementScreen(QWidget *parent) : QDialog(parent)
 {
-  // По факту этот класс - синглтон. Синглтон сам задает себе имя
-  this->setObjectName("DatabasesManagementScreen");
+  // По факту объект этого класса имеется в единичном экземпляре. Такой объект сам задает себе имя
+  this->setObjectName("databasesManagementScreen");
 
   this->setWindowTitle(tr("Databases management"));
 

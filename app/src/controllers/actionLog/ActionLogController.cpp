@@ -25,12 +25,12 @@ ActionLogController::ActionLogController(QObject *parent) : QObject(parent)
 {
   // Создается область со списком записей лога
   view=new ActionLogView( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
-  view->setObjectName("ActionLogView");
+  view->setObjectName("actionLogView");
   view->setController(this);
 
   // Создание модели данных
   model=new ActionLogModel(this);
-  model->setObjectName("ActionLogModel");
+  model->setObjectName("actionLogModel");
 
   // Модель данных задается для вида
   view->setModel(model);

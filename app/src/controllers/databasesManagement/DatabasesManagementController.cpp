@@ -35,12 +35,12 @@ DatabasesManagementController::DatabasesManagementController(QObject *parent) : 
 {
     // Создается область со списком записей лога
     view=new DatabasesManagementTable( qobject_cast<QWidget *>(parent) ); // Вид размещается внутри виджета Screen
-    view->setObjectName("DatabasesManagementTable");
+    view->setObjectName("databasesManagementTable");
     view->setController(this);
 
     // Создание модели данных
     model=new DatabasesManagementModel(this);
-    model->setObjectName("DatabasesManagementModel");
+    model->setObjectName("databasesManagementModel");
 
     // Модель данных задается для вида
     view->setModel(model);
