@@ -1,7 +1,6 @@
 #include <QObject>
 #include <QHeaderView>
 
-#include "main.h"
 #include "RecordTableController.h"
 #include "controllers/attachTable/AttachTableController.h"
 #include "views/record/MetaEditor.h"
@@ -374,7 +373,8 @@ void RecordTableController::setSelectionToId(QString id)
   RecordTableData *table=recordSourceModel->getTableData();
 
   // Если таблица конечных данных задана
-  // (Не задана таблица может быть по причине если ветка зашифрована и введен неверный пароль, или при вводе пароля была нажата отмена)
+  // (Не задана таблица может быть по причине если ветка зашифрована
+  // и введен неверный пароль, или при вводе пароля была нажата отмена)
   if(table!=nullptr)
   {
     // Номер записи в Source данных

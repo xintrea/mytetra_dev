@@ -14,7 +14,6 @@
 #include <QStyledItemDelegate>
 
 #include "FindTableWidget.h"
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "views/record/MetaEditor.h"
 #include "models/appConfig/AppConfig.h"
@@ -218,7 +217,19 @@ void FindTableWidget::selectCell(const QModelIndex & index)
   MetaEditor *edView=find_object<MetaEditor>("editorScreen");
   edView->switchToEditorLayout();
 
+  // В дереве выставляется ветка с найденным путем
+  // При этом автоматически вызовется слот TreeScreen::onKnowtreeClicked(),
+  // так как происходит выбор в selection-модели
   find_object<MainWindow>("mainwindow")->setTreePosition(path);
+
+  // Но так как выбор ветки в дереве приводит к обновлению таблицы списка записей
+  // только на следующей итерации обработки основного цикла событий,
+  // то здась цикл событий обновляется, чтобы нормально сработал
+  // дальнейший вызов setRecordtablePositionById(), чтобы он выставлял запись
+  // уже на обновленной таблице конечных записей
+  QCoreApplication::processEvents();
+
+  // В таблице конечных записей выставляется найденная запись
   find_object<MainWindow>("mainwindow")->setRecordtablePositionById(recordId);
 }
 

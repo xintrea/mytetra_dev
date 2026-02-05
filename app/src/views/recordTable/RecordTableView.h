@@ -68,7 +68,7 @@ public slots:
     // Вызов действий из контекстного меню или из контроллера для редактирования инфополей записи
     void editFieldContext(void);
 
-protected slots:
+private slots:
 
     // Реакия на сдвиг засветки клавишами или мышкой
     void onSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected );
@@ -83,10 +83,7 @@ protected slots:
 
     void onDropEventHandleCatch();
 
-protected:
-
-    QMenu *contextMenu;
-    RecordTableController *controller;
+private:
 
     void setupSignals(void);
 
@@ -107,18 +104,23 @@ protected:
     bool gestureEvent(QGestureEvent *event);
     void tapAndHoldGestureTriggered(QTapAndHoldGesture *gesture);
 
-    QPoint mouseStartPos;
+
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
+    void customStartDrag();
+
     void saveColumnWidth(void);
 
+
+    QMenu *contextMenu;
+
+    RecordTableController *controller;
+
+    QPoint mouseStartPos;
     bool enableMoveSection;
 
-private:
-
-    void customStartDrag();
     QModelIndex startDragIndex;
     bool isDragHappeningNow=false;
 
