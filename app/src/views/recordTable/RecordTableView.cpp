@@ -779,7 +779,7 @@ void RecordTableView::customStartDrag()
     if(result==0)
     {
         // Сюда код дойдет после того, как перетаскивание будет закончено
-        qDebug() << "May be, success drag and drop move record";
+        qDebug() << "Maybe, success drag and drop move record";
 
         // todo: Совершенно непонятно, где удалять объект drag.
         // Если удалять в этом месте, имеем сегфолт

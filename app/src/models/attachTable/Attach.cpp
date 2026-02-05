@@ -360,7 +360,7 @@ bool Attach::copyFileToBase(QString iFileName)
   qDebug() << "After real copy file.";
 
   if(result==false)
-    showMessageBox(QObject::tr("Can't copy file %1. May be directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
+    showMessageBox(QObject::tr("Can't copy file %1. Maybe directory %2 not writable, or target file %3 already exists.").arg(iFileName).arg(getFullInnerDirName()).arg(getFullInnerFileName()));
 
   return result;
 }

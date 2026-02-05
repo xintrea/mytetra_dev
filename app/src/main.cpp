@@ -112,7 +112,7 @@ void parseConsoleOption(QtSingleApplication &app)
     // Если MyTetra запущена с какой-то опцией, но нет опции --control
     if ( app.arguments().count()>1 && !app.arguments().contains("--control"))
     {
-        QString message="Bad options. May be you lost \"--control\"?\n";
+        QString message="Bad options. Maybe you lost \"--help\" or \"--control\"?\n";
         printf("%s", message.toLocal8Bit().data());
         exit(1);
     }
