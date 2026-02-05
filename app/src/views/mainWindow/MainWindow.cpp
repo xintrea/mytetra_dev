@@ -25,7 +25,6 @@
 #include "libraries/ShortcutManager.h"
 #include "libraries/RandomInitter.h"
 #include "libraries/helpers/ObjectHelper.h"
-#include "libraries/wyedit/EditorTextArea.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
 
 
@@ -693,7 +692,7 @@ void MainWindow::initHiddenActions(void)
 
 void MainWindow::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << this->objectName();
 
     shortcutManager.initAction("misc-print", actionFileMenuPrint );
     shortcutManager.initAction("misc-exportPdf", actionFileMenuExportPdf );
@@ -910,17 +909,15 @@ void MainWindow::onClickHelpAboutMyTetra(void)
             infoEmail+
             infoLicense;
 
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->about(this,
-                  "MyTetra v."+version,
-                  info);
+    QMessageBox::about(this,
+                       "MyTetra v."+version,
+                       info);
 }
 
 
 void MainWindow::onClickHelpAboutQt(void)
 {
-    QMessageBox *msgBox = new QMessageBox(this);
-    msgBox->aboutQt(this);
+    QMessageBox::aboutQt(this);
 }
 
 
