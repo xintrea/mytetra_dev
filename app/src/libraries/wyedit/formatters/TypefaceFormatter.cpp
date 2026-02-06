@@ -4,10 +4,10 @@
 #include <QColor>
 #include <QDomNode>
 #include <QTextTable>
+#include <QApplication>
 
 #include "TypefaceFormatter.h"
 
-#include "main.h"
 #include "../Editor.h"
 #include "../EditorConfig.h"
 #include "../EditorTextArea.h"
@@ -1953,8 +1953,26 @@ void TypefaceFormatter::doChangeFontFamily(QString fontFamily)
     // Ранее для установки шрифта хватало одной команды setFontFamily(fontFamily);
     // Теперь так не работает, новый код сделан на основе Qt примера Text Edit
 
+    QFont font(fontFamily);
+
     QTextCharFormat format;
+
+    // Эта команда напрямую установит шрифт
+    format.setFont(font);
+
+    // Если делать только эту команду, то шрифт будет добавлен как рекомендуемый
+    // к существующему, а не заменен. Команда оставлена, но возможно ее надо удалить
     format.setFontFamily( fontFamily );
+
+    // Сброс свойства размера шрифта
+    // Текущий HTML-преобразователь в Qt все равно дописывает в span размер шрифта,
+    // если есть команда format.setFont().
+    // Но если размер у формата будет очищен, то преобразователь добавит в span
+    // тот размер, который для данного выделенного текста уже установлен
+    // в тегах форматирования выше по структуре документа
+    format.clearProperty(QTextFormat::FontPointSize);
+    format.clearProperty(QTextFormat::FontPixelSize);
+    format.clearProperty(QTextFormat::FontSizeAdjustment);
 
     qDebug() << "Font from font name: " << format.font().toString();
 
