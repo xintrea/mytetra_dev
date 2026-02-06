@@ -6,7 +6,6 @@
 #include <QMimeData>
 #include <QtDebug>
 
-#include "main.h"
 #include "models/recordTable/Record.h"
 #include "models/attachTable/AttachTableData.h"
 #include "ClipboardRecords.h"

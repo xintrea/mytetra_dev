@@ -1,11 +1,13 @@
-#include "main.h"
 #include "CryptService.h"
 #include "RC5Simple.h"
-#include "Password.h"
 
 #include <QFile>
+#include <QApplication>
 
 #include "libraries/helpers/DebugHelper.h"
+
+
+using std::vector;
 
 
 CryptService::CryptService()
@@ -20,7 +22,7 @@ CryptService::~CryptService()
 }
 
 
-void CryptService::convertByteArrayToVector(const QByteArray &qba, vector<unsigned char> &vec)
+void CryptService::convertByteArrayToVector(const QByteArray &qba, std::vector<unsigned char> &vec)
 {
   unsigned int size=qba.size();
   vec.resize(size, 0);
@@ -28,7 +30,7 @@ void CryptService::convertByteArrayToVector(const QByteArray &qba, vector<unsign
 }
 
 
-void CryptService::convertVectorToByteArray(const vector<unsigned char> &vec, QByteArray &qba)
+void CryptService::convertVectorToByteArray(const std::vector<unsigned char> &vec, QByteArray &qba)
 {
   unsigned int size=vec.size();
   qba.clear();

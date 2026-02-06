@@ -8,7 +8,7 @@
 #include <QMultiMap>
 #include <QList>
 
-#include "libraries/ClipboardRecords.h"
+#include "models/recordTable/Record.h"
 
 // Определяется структура данных
 // которая будет передаваться через буфер обмена

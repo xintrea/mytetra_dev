@@ -10,7 +10,6 @@
 #include <QStringList>
 #include <QInputDialog>
 
-#include "main.h"
 #include "GlobalParameters.h"
 
 #include "views/tree/TreeScreen.h"
@@ -22,7 +21,6 @@
 #include "libraries/WindowSwitcher.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
-#include "libraries/helpers/DiskHelper.h"
 
 #include "models/appConfig/AppFiles.h"
 

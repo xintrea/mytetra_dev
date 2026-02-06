@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <QTextCodec>
 
-#include "main.h"
 #include "ShortcutManager.h"
 
 #include "libraries/GlobalParameters.h"

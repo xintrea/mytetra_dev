@@ -1,11 +1,9 @@
 #include <QDateTime>
 
-#include "main.h"
 #include "TimerMonitoring.h"
 #include "PeriodicCheckBase.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/KnowTreeModel.h"
-#include "views/tree/KnowTreeView.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/MessageHelper.h"

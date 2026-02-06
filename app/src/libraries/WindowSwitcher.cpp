@@ -1,6 +1,5 @@
 #include "WindowSwitcher.h"
 
-#include "main.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
 #include "views/tree/TreeScreen.h"

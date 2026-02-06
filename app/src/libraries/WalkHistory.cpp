@@ -1,6 +1,5 @@
 #include <QString>
 
-#include "main.h"
 #include "WalkHistory.h"
 #include "models/tree/KnowTreeModel.h"
 #include "views/tree/KnowTreeView.h"

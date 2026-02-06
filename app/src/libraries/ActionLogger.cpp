@@ -1,6 +1,5 @@
 #include <QDateTime>
 
-#include "main.h"
 #include "ActionLogger.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"

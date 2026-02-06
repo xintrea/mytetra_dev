@@ -6,7 +6,6 @@
 #include <QMap>
 #include <QList>
 
-// class Record;
 #include "models/recordTable/Record.h"
 #include "models/attachTable/AttachTableData.h"
  

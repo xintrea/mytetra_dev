@@ -1,7 +1,5 @@
 #include <QDateTime>
 
-#include "main.h"
-#include "TimerMonitoring.h"
 #include "PeriodicSyncro.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
