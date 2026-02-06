@@ -12,7 +12,6 @@
 #include <QTimer>
 #include <QtGlobal>
 
-#include "main.h"
 #include "IconSelectDialog.h"
 #include "models/appConfig/AppConfig.h"
 #include "views/mainWindow/MainWindow.h"
@@ -24,7 +23,7 @@ extern AppConfig mytetraConfig;
 
 IconSelectDialog::IconSelectDialog()
 {
-  enableIconUpdate=false;
+  m_enableIconUpdate=false;
 
   setupUI();
   setupSignals();
@@ -123,45 +122,49 @@ void IconSelectDialog::setupUI()
   setWindowTitle(tr("Select icon"));
 
   // Надпись "Раздел"
-  sectionLabel.setText(tr("Section"));
+  m_sectionLabel.setText(tr("Section"));
 
   // В списке иконок устанавливается размер отображаемых иконок
   int iconSize=mytetraConfig.getPreviewIconSize();
-  iconList.setIconSize(QSize(iconSize, iconSize));
+  m_iconList.setIconSize(QSize(iconSize, iconSize));
 
   // Линейка наполяемости скрывается. Она должна быть видна только в процессе загрузки иконок
-  progressBar.hide();
+  m_progressBar.hide();
 
   // Кнопки
-  buttonRemoveIcon.setText(tr("Unset icon"));
+  m_buttonRemoveIcon.setText(tr("Unset icon"));
 
-  buttonOk.setText(tr("Ok"));
-  buttonOk.setAutoDefault(true);
-  buttonOk.setDefault(true);
+  m_buttonOk.setText(tr("Ok"));
+  m_buttonOk.setAutoDefault(true);
+  m_buttonOk.setDefault(true);
 
-  buttonCancel.setText(tr("Cancel"));
+  m_buttonCancel.setText(tr("Cancel"));
 }
 
 
 void IconSelectDialog::setupSignals()
 {
   // Выбор раздела
-  connect(&sectionComboBox, qOverload<const QString &>(&QComboBox::currentIndexChanged),
+  // Так как есть две версии сигнала currentIndexChanged, с разными типами
+  // параметров - int и const QString &, то надо прописать какой сигнал
+  // выбирается через qOverload. Вариант с const QString & считается устаревшим
+  // и объявлен что будет отменен в дальнейших версиях Qt
+  connect(&m_sectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged),
           this,             &IconSelectDialog::onSectionCurrentIndexChanged);
 
   // Выбор иконки
-  connect(&iconList, &QListWidget::itemSelectionChanged,
+  connect(&m_iconList, &QListWidget::itemSelectionChanged,
           this,      &IconSelectDialog::onIconItemSelectionChanged);
 
   // Двойной клик
-  connect(&iconList, &QListWidget::itemDoubleClicked,
+  connect(&m_iconList, &QListWidget::itemDoubleClicked,
           this,      &IconSelectDialog::accept);
 
-  connect(&buttonRemoveIcon, &QPushButton::clicked,
+  connect(&m_buttonRemoveIcon, &QPushButton::clicked,
           this,              &IconSelectDialog::onRemoveIconClick);
-  connect(&buttonOk, &QPushButton::clicked,
+  connect(&m_buttonOk, &QPushButton::clicked,
           this,      &IconSelectDialog::onOkClick);
-  connect(&buttonCancel, &QPushButton::clicked,
+  connect(&m_buttonCancel, &QPushButton::clicked,
           this,          &IconSelectDialog::onCancelClick);
 }
 
@@ -169,20 +172,20 @@ void IconSelectDialog::setupSignals()
 void IconSelectDialog::assembly()
 {
   QHBoxLayout *sectionLayout=new QHBoxLayout(); // Указывать this не нужно, так как он назначится в момент вставки в основной слой
-  sectionLayout->addWidget( &sectionLabel );
-  sectionLayout->addWidget( &sectionComboBox );
+  sectionLayout->addWidget( &m_sectionLabel );
+  sectionLayout->addWidget( &m_sectionComboBox );
 
   QHBoxLayout *buttonLayout=new QHBoxLayout(); // Указывать this не нужно, так как он назначится в момент вставки в основной слой
-  buttonLayout->addWidget( &buttonRemoveIcon );
+  buttonLayout->addWidget( &m_buttonRemoveIcon );
   buttonLayout->addStretch();
   buttonLayout->addSpacing( int( 0.05 * (float)(find_object<MainWindow>("mainwindow")->width()) ) );
-  buttonLayout->addWidget( &buttonOk );
-  buttonLayout->addWidget( &buttonCancel );
+  buttonLayout->addWidget( &m_buttonOk );
+  buttonLayout->addWidget( &m_buttonCancel );
 
   QVBoxLayout *mainLayout=new QVBoxLayout(); // Указывать this не нужно, так как он назначится когда этот слой станет основным слоем
   mainLayout->addLayout( sectionLayout );
-  mainLayout->addWidget( &iconList );
-  mainLayout->addWidget( &progressBar );
+  mainLayout->addWidget( &m_iconList );
+  mainLayout->addWidget( &m_progressBar );
   mainLayout->addLayout( buttonLayout );
 
   setLayout(mainLayout);
@@ -193,7 +196,7 @@ int IconSelectDialog::exec()
 {
   // Обновление списка иконок разрешается непосредственно перед основным циклом, чтобы процесс загрузки иконок
   // был виден на линейке заполняемости
-  enableIconUpdate=true;
+  m_enableIconUpdate=true;
 
   // Загрузка иконок запустится через 1 сек после старта основного цикла диалога
   QTimer::singleShot(0, this, SLOT(updateIcons()));
@@ -220,10 +223,10 @@ void IconSelectDialog::setPath(QString iPath)
   }
 
   // Запоминается заданный путь
-  path=iPath;
+  m_path=iPath;
 
   // В момент установки пути к директории, устанавливается перечень разделов согласно поддиректориям
-  QDir dir(path);
+  QDir dir(m_path);
   dir.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
   QFileInfoList subdirList=dir.entryInfoList();
 
@@ -243,72 +246,72 @@ void IconSelectDialog::setPath(QString iPath)
 
     qDebug() << "Find icons section: " << subdirInfo.fileName();
 
-    sectionComboBox.addItem(subdirInfo.fileName());
+    m_sectionComboBox.addItem(subdirInfo.fileName());
   }
 
 
-  // Если была задана секция по-умолчанию
-  if(defaultSectionName.length()>0)
+  // Если была установлена секция по-умолчанию
+  if ( m_defaultSectionIndex != -1 )
   {
-    bool find=false;
-    for(int i=0; i<sectionComboBox.count(); ++i)
-      if(sectionComboBox.itemText(i)==defaultSectionName)
-      {
-        sectionComboBox.setCurrentIndex(i);
-        find=true;
-        break;
-      }
+      if ( m_defaultSectionIndex < m_sectionComboBox.count() )
+        m_sectionComboBox.setCurrentIndex( m_defaultSectionIndex );
+      else
+        showMessageBox(tr("Unable to set a default section %1.").
+                       arg(m_sectionComboBox.itemText( m_defaultSectionIndex )));
+  }
+}
 
-    if(!find)
-    {
-      showMessageBox(tr("Unable to set a default section %1.").arg(defaultSectionName));
-      return;
+
+void IconSelectDialog::setDefaultSection(QString sectionName)
+{
+  if(m_path.length()>0)
+  {
+    criticalError("Can't set icon default section. Set default section before set path.");
+    return;
+  }
+
+  for (int i = 0; m_sectionComboBox.count(); ++i)
+  {
+    if(m_sectionComboBox.itemText(i) == sectionName) {
+
+      m_defaultSectionIndex = i;
+
+      break;
+
     }
   }
 }
 
 
-void IconSelectDialog::setDefaultSection(QString iSectionName)
-{
-  if(path.length()>0)
-  {
-    criticalError("Cant set icon default section. Set default section before set path.");
-    return;
-  }
-
-  defaultSectionName=iSectionName;
-}
-
-
 QString IconSelectDialog::getCurrentSection()
 {
-  return currentSectionName;
+  return m_sectionComboBox.itemText( m_currentSectionIndex );
 }
 
 
 // Обновление экранного списка иконок
 void IconSelectDialog::updateIcons()
 {
-  if(defaultSectionName.length()>0)
-    onSectionCurrentIndexChanged(defaultSectionName);
+  if(m_defaultSectionIndex != -1)
+    onSectionCurrentIndexChanged( m_defaultSectionIndex );
   else
-    onSectionCurrentIndexChanged( sectionComboBox.itemText(0) );
+    onSectionCurrentIndexChanged( 0 );
 }
 
 
 // Слот при изменении строки раздела в sectionComboBox
-void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
+void IconSelectDialog::onSectionCurrentIndexChanged(int idx)
 {
   // Если еще не разрешено обновлять список иконок
-  if(!enableIconUpdate)
+  if(!m_enableIconUpdate)
     return;
 
-  currentSectionName=iText;
+  m_currentSectionIndex=idx;
 
   // Очищается экранный список иконок
-  iconList.clear(); // todo: Здесь сегфолт... Разобраться.
+  m_iconList.clear(); // todo: Здесь сегфолт... Разобраться.
 
-  QString iconDirName=path+"/"+iText;
+  QString iconDirName=m_path+"/"+m_sectionComboBox.itemText(idx);
 
   QDir dir(iconDirName);
   dir.setFilter(QDir::Files | QDir::Readable);
@@ -319,31 +322,31 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
   // Если в выбранной секции нет никаких иконок
   if(iconFileList.count()==0)
   {
-    showMessageBox(tr("The section \"%1\" has not any icons").arg(iText));
+    showMessageBox(tr("The section \"%1\" has not any icons").arg(m_sectionComboBox.itemText(idx)));
     this->close();
     return;
   }
 
   // Отрисовывается линейка наполняемости, так как считывание иконок может быть долгим
-  progressBar.setMinimum(0);
-  progressBar.setMaximum(iconFileList.size());
-  progressBar.show();
+  m_progressBar.setMinimum(0);
+  m_progressBar.setMaximum(iconFileList.size());
+  m_progressBar.show();
 
   // Заполняется экранный список иконок
   for(int i=0; i<iconFileList.size(); ++i)
   {
-    progressBar.setValue(i);
+    m_progressBar.setValue(i);
 
     QFileInfo iconInfo=iconFileList.at(i);
 
     // qDebug() << "Find icon: " << iconInfo.fileName();
 
     // Создается элемент списка, который вставляется в iconList (поэтому он уничтожится при уничтожении саписка)
-    QListWidgetItem *item=new QListWidgetItem( iconInfo.fileName(), &iconList);
+    QListWidgetItem *item=new QListWidgetItem( iconInfo.fileName(), &m_iconList);
     item->setIcon(QIcon(iconInfo.filePath()));
   }
 
-  progressBar.hide();
+  m_progressBar.hide();
 }
 
 
@@ -351,9 +354,9 @@ void IconSelectDialog::onSectionCurrentIndexChanged(const QString &iText)
 void IconSelectDialog::onIconItemSelectionChanged()
 {
   // QString shortSelectFileName=iconList.selectedItems().at(0)->text(); // Неясно, но похоже что после этой конструкции идет сегфолт в методе clean()
-  QString shortSelectFileName=iconList.currentItem()->text();
+  QString shortSelectFileName=m_iconList.currentItem()->text();
 
-  currentFileName=path+"/"+currentSectionName+"/"+shortSelectFileName;
+  m_currentFileName=m_path+"/"+this->getCurrentSection()+"/"+shortSelectFileName;
 }
 
 
@@ -377,6 +380,6 @@ void IconSelectDialog::onCancelClick()
 
 QString IconSelectDialog::getSelectFileName()
 {
-  return currentFileName;
+  return m_currentFileName;
 }
 

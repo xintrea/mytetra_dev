@@ -20,7 +20,7 @@ public:
   enum resultCode{RemoveIconCode=2};
 
   void setPath(QString iPath);
-  void setDefaultSection(QString iSectionName);
+  void setDefaultSection(QString sectionName);
   QString getCurrentSection();
 
   QString getSelectFileName(void);
@@ -35,7 +35,7 @@ protected slots:
   void onRemoveIconClick();
   void onOkClick();
   void onCancelClick();
-  void onSectionCurrentIndexChanged(const QString &iText);
+  void onSectionCurrentIndexChanged(int idx);
   void updateIcons();
 
   void onIconItemSelectionChanged();
@@ -46,21 +46,21 @@ protected:
   void setupSignals();
   void assembly();
 
-  QLabel sectionLabel;
-  QComboBox sectionComboBox;
-  QListWidget iconList;
-  QPushButton buttonRemoveIcon;
-  QPushButton buttonOk;
-  QPushButton buttonCancel;
-  QProgressBar progressBar;
+  QLabel m_sectionLabel;
+  QComboBox m_sectionComboBox;
+  QListWidget m_iconList;
+  QPushButton m_buttonRemoveIcon;
+  QPushButton m_buttonOk;
+  QPushButton m_buttonCancel;
+  QProgressBar m_progressBar;
 
-  QString path;
-  QString defaultSectionName;
-  QString currentSectionName;
+  QString m_path;
+  int m_defaultSectionIndex = -1;
+  int m_currentSectionIndex;
 
-  bool enableIconUpdate;
+  bool m_enableIconUpdate;
 
-  QString currentFileName;
+  QString m_currentFileName;
 };
 
 #endif // ICONSELECTDIALOG_H
