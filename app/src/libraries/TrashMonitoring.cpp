@@ -1,6 +1,7 @@
 #include <QWidget>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include "main.h"
 #include "TrashMonitoring.h"
@@ -8,6 +9,7 @@
 #include "libraries/helpers/DebugHelper.h"
 
 extern AppConfig mytetraConfig;
+extern QObject *pMainWindow;
 
 
 TrashMonitoring::TrashMonitoring(void)
@@ -22,20 +24,20 @@ TrashMonitoring::~TrashMonitoring(void)
 }
 
 
-void TrashMonitoring::init(QString trashPath)
+void TrashMonitoring::init(const QString trashPath)
 {
     // Инит объекта директории с указанным путем
-    dir.setPath(trashPath);
-    if(!dir.exists())
+    m_dir.setPath(trashPath);
+    if(!m_dir.exists())
         criticalError("Can not open trash directory "+trashPath);
 
-    path=trashPath; // Имя директории запоминается
+    m_path=trashPath; // Имя директории запоминается
 
     // Размер директории
-    dirSize=0;
+    m_dirSize=0;
 
     // Получение списка информации о файлах
-    QFileInfoList fileInfoList=dir.entryInfoList(QDir::Files, QDir::Time);
+    QFileInfoList fileInfoList=m_dir.entryInfoList(QDir::Files, QDir::Time);
 
     // Перебор всех файлов в полученном списке
     for(int i=0;i<fileInfoList.size();i++)
@@ -54,15 +56,8 @@ void TrashMonitoring::init(QString trashPath)
         if(fileName=="." || fileName=="..")
             continue;
 
-        // Увеличивается подсчитываемый размер директории
-        dirSize=dirSize+fileSize;
-
         // Информация о файле добавляется в таблицу
-        FileData currentFileData;
-        currentFileData.fileName=fileName;
-        currentFileData.fileTime=fileTime;
-        currentFileData.fileSize=fileSize;
-        filesTable << currentFileData;
+        this->appendFileToList(fileName, fileTime, fileSize, AppendFileMode::Tail);
     }
 
     // qDebug() << "In init trash " << filesTable.size() << "files";
@@ -71,24 +66,17 @@ void TrashMonitoring::init(QString trashPath)
 
 // Функция должна вызываться после фактического добавления файла в корзину
 // принимает имя файла без пути к директории
-void TrashMonitoring::addFile(QString filename)
+void TrashMonitoring::addFile(const QString fileName)
 {
  // Выясняется время создания файла берется текущее, особой точности не нужно
  unsigned int fileTime=(QDateTime::currentDateTime()).toTime_t();
 
  // Выясняется размер файла
- QFile currentFile(path+"/"+filename);
+ QFile currentFile(m_path+"/"+fileName);
  unsigned int fileSize=currentFile.size();
 
- // Увеличивается подсчитываемый размер директории
- dirSize=dirSize+fileSize;
-
  // Информация о файле добавляется в таблицу
- FileData currentfiledata;
- currentfiledata.fileName=filename;
- currentfiledata.fileTime=fileTime;
- currentfiledata.fileSize=fileSize;
- filesTable.insert(0,currentfiledata);
+ this->appendFileToList(fileName, fileTime, fileSize, AppendFileMode::Head);
  
  update();
 }
@@ -96,36 +84,94 @@ void TrashMonitoring::addFile(QString filename)
 
 void TrashMonitoring::update(void)
 {
- // Исключается наиболее старый файл пока выполняется 
- // условие что количество файлов слишком велико или
- // суммарный размер файлов превышает предельно допустимый размер корзины
- while(filesTable.size() > mytetraConfig.get_trashmaxfilecount() ||
-       dirSize > mytetraConfig.get_trashsize()*1000000)
-   if(filesTable.size()==1) // Оставляется последний файл, какого бы размера он не был
-     break;
-   else
-    removeOldesFile();
+    // Исключается наиболее старый файл пока выполняется
+    // условие что количество файлов слишком велико или
+    // суммарный размер файлов превышает предельно допустимый размер корзины
+    while(m_filesList.size() > mytetraConfig.get_trashmaxfilecount() ||
+          m_dirSize > mytetraConfig.get_trashsize()*1000000)
+    {
+        if(m_filesList.size()==1)
+        {
+            break; // Оставляется последний файл, какого бы размера он не был
+        }
+        else
+        {
+            removeOldesFile();
+        }
+    }
+}
+
+
+void TrashMonitoring::appendFileToList(const QString fileName,
+                                       const unsigned int fileTime,
+                                       const unsigned int fileSize,
+                                       const AppendFileMode appendFileMode)
+{
+    // Если по каким-то причинам добавляется файл, который уже есть в списке,
+    // то список не изменяется, чтобы не было попытки повторного удаления
+    // файла, который уже был удален
+    if ( m_availableFilesName.contains(fileName))
+    {
+        qDebug() << "Double append file to trash monitoring: " << fileName;
+        return;
+    }
+
+    FileData currentFileData;
+    currentFileData.fileName=fileName;
+    currentFileData.fileTime=fileTime;
+    currentFileData.fileSize=fileSize;
+
+    // Увеличивается подсчитываемый размер директории
+    m_dirSize=m_dirSize+fileSize;
+
+    // Список имен обслуживаемых файлов пополняется
+    m_availableFilesName << fileName;
+
+    // Пополняется списк файлов
+    switch (appendFileMode)
+    {
+        case AppendFileMode::Head:
+            m_filesList.insert(0, currentFileData);
+            break;
+
+        case AppendFileMode::Tail:
+            m_filesList << currentFileData;
+            break;
+
+        default:
+            qDebug() << "Incorrect append file mode to tresh monitoring: " << appendFileMode;
+            break;
+    }
 }
 
 
 void TrashMonitoring::removeOldesFile(void)
 {
-  QString fileName=path+"/"+filesTable.last().fileName;
+  QString fileName=m_path+"/"+m_filesList.last().fileName;
   
   qDebug() << "Remove file " << fileName << " from trash";
   
   if(QFile::remove(fileName)) // Файл физически удаляется
-   {
+  {
     // Расчетный размер директории уменьшается на размер файла
-    dirSize=dirSize-filesTable.last().fileSize;
+    m_dirSize=m_dirSize-m_filesList.last().fileSize;
     
     // Файл удаляется из списка
-    filesTable.removeLast();
-   } 
+    m_filesList.removeLast();
+
+    // Имя файла удаляется из контролирующего списка
+    m_availableFilesName.remove(fileName);
+  }
   else
-   {
-    criticalError("In trash monitoring can not delete file "+fileName);
-    exit(0);
-   }
+  {
+    // Не удаление файла в корзине - это не повод останавливать работу программы,
+    // Просто выводится сообщение что нужно о проблеме оповестить разработчиков
+    QMessageBox::information(qobject_cast<QWidget *>(pMainWindow),
+        QObject::tr("Important information"),
+        QObject::tr("In trash monitoring can not delete file:\n\n"
+                    "%1\n\n"
+                    "Please report about this problem to the developers.").arg(fileName),
+        QMessageBox::Ok);
+  }
 }
 
