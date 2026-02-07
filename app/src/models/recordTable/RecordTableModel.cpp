@@ -60,7 +60,7 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
             // Некоторые данные при отрисовке в таблице преобразуются в "экранные" представления
             // Преобразование возможно только для отображаемой в таблице информации
 
-            if( role==Qt::DisplayRole && fieldName=="ctime")
+            if( role==Qt::DisplayRole && (fieldName=="ctime" || fieldName=="mtime"))
             {
                 // Преобразование временного штампа в дату и время
                 QDateTime fieldDateTime=QDateTime::fromString(field, "yyyyMMddhhmmss");
@@ -141,13 +141,13 @@ QVariant RecordTableModel::data(const QModelIndex &index, int role) const
 
     // Если происходит запрос ссылки на таблицу данных
     /*
-  if(role==TABLE_DATA_ROLE)
-  {
-    QVariant var;
-    var.setValue<RecordTableDataPointer>( this->getTableData() );
-    return var;
-  }
-  */
+    if(role==TABLE_DATA_ROLE)
+    {
+        QVariant var;
+        var.setValue<RecordTableDataPointer>( this->getTableData() );
+        return var;
+    }
+    */
 
     // Во всех остальных случаях
     return QVariant();
@@ -194,20 +194,20 @@ bool RecordTableModel::setData(const QModelIndex &index, const QVariant &value, 
     }
 
     /*
-  // Если происходит запись во всю таблицу данных
-  if(role==TABLE_DATA_ROLE)
-  {
-   this->setTableData( qVariantFromValue(value) );
-   return true;
-  }
+    // Если происходит запись во всю таблицу данных
+    if(role==TABLE_DATA_ROLE)
+    {
+        this->setTableData( qVariantFromValue(value) );
+        return true;
+    }
 
-  // Если происходит запись одной строки
-  if(role==ONE_RECORD_ROLE)
-  {
-    this->setTableData( qVariantFromValue(value) );
-    return true;
-  }
-  */
+    // Если происходит запись одной строки
+    if(role==ONE_RECORD_ROLE)
+    {
+        this->setTableData( qVariantFromValue(value) );
+        return true;
+    }
+    */
 
     // Во всех остальных случаях
     return false;
@@ -330,8 +330,8 @@ RecordTableData *RecordTableModel::getTableData(void)
 // Добавление данных
 // Функция возвращает позицию нового добавленного элемента
 int RecordTableModel::addTableData(int mode,
-                                   QModelIndex posIndex,
-                                   Record record)
+                                     QModelIndex posIndex,
+                                     Record record)
 {
     if(table==nullptr)
     {
@@ -342,8 +342,8 @@ int RecordTableModel::addTableData(int mode,
 
     // Вставка новых данных в таблицу конечных записей
     int selPos=table->insertNewRecord(mode,
-                                      posIndex.row(),
-                                      record);
+                                        posIndex.row(),
+                                        record);
 
     endResetModel(); // Подумать, возможно нужно заменить на endInsertRows
 
