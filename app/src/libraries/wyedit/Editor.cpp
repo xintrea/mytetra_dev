@@ -34,7 +34,6 @@
 #include "EditorFontFamilyComboBox.h"
 #include "EditorDropDownButton.h"
 
-#include "../../main.h"
 #include "../../views/mainWindow/MainWindow.h"
 #include "../TraceLogger.h"
 #include "libraries/helpers/DiskHelper.h"

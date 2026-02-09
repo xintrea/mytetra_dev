@@ -1,7 +1,6 @@
 #include <QStackedWidget>
 #include <QDialog>
 
-#include "main.h"
 #include "views/appConfigWindow/ConfigDialog.h"
 
 #include "EditorConfigDialog.h"

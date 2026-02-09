@@ -3,6 +3,9 @@
 #include <QGroupBox>
 #include <QDebug>
 #include <QPushButton>
+#include <QWidget>
+#include <QDialogButtonBox>
+#include <QTextEdit>
 
 #include "EditorMultiLineInputDialog.h"
 #include "libraries/ShortcutManager.h"
@@ -69,7 +72,7 @@ void EditorMultiLineInputDialog::setupUi()
 
 void EditorMultiLineInputDialog::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     QPushButton *okButton=buttonBox->button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK
     okButton->setShortcut( shortcutManager.getKeySequence("misc-editConfirm") ); // Устанавливается шорткат

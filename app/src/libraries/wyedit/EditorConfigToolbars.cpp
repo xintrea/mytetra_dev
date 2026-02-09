@@ -3,8 +3,6 @@
 #include <QGroupBox>
 #include <QtDebug>
 
-#include "../../main.h"
-
 #include "EditorConfigToolbars.h"
 #include "mvc/views/editorToolbarSettings/EditorToolbarSettingsScreen.h"
 

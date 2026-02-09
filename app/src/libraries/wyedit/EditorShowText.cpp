@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QIcon>
 #include <QScrollBar>
+#include <QEvent>
+#include <QCloseEvent>
 
 #include "EditorShowText.h"
 #include "EditorShowTextContextMenu.h"

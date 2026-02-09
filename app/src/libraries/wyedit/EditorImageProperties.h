@@ -1,13 +1,14 @@
 #ifndef _EDITORIMAGEPROPERTIES_H_
 #define	_EDITORIMAGEPROPERTIES_H_
 
-#include <QtGlobal>
-#include <QWidget>
 #include <QDialog>
-#include <QDialogButtonBox>
-#include <QLabel>
-#include <QSpinBox>
-#include <QPushButton>
+
+
+class QLabel;
+class QSpinBox;
+class QPushButton;
+class QDialogButtonBox;
+class QWidget;
 
 
 class EditorImageProperties : public QDialog

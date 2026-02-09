@@ -2,7 +2,7 @@
 #define _EDITORTABLEPROPERTIESFORM_H_
 
 #include <QDialog>
-#include <QToolButton> // Почему-то не работает предварительное определение класса (этап линковки), приходится включать инклюдом
+#include <QToolButton>
 #include <QLabel>
 #include <QSpinBox>
 #include <QDialogButtonBox>

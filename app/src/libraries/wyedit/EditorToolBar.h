@@ -2,9 +2,6 @@
 #define EDITORTOOLBAR_H
 
 #include <QWidget>
-#include <QToolButton>
-#include <QFontComboBox>
-#include <QSpinBox>
 #include <QToolBar>
 #include <QVBoxLayout>
 

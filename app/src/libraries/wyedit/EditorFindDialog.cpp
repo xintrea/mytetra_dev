@@ -19,7 +19,7 @@ EditorFindDialog::EditorFindDialog(QWidget *parent) : QDialog(parent)
   assembly();
 
   QShowEvent event;
-  showEvent(&event);
+  EditorFindDialog::showEvent(&event);
 }
 
 

@@ -13,9 +13,7 @@
 #include <QSlider>
 #include <QStringList>
 
-#include "EditorToolBar.h"
 #include "EditorFindDialog.h"
-#include "EditorShowText.h"
 #include "formatters/Formatter.h"
 #include "formatters/PlacementFormatter.h"
 #include "formatters/TypefaceFormatter.h"
@@ -24,9 +22,6 @@
 #include "formatters/ImageFormatter.h"
 #include "formatters/MathExpressionFormatter.h"
 #include "formatters/ReferenceFormatter.h"
-
-// Fix ugly Qt QSS bug
-#include "libraries/MtComboBox.h"
 
 
 // ----------------------------------------------------------

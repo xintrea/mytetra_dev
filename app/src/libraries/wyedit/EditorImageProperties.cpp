@@ -1,7 +1,12 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
-#include <QtGlobal>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QDialogButtonBox>
+#include <QWidget>
+
 
 #include "EditorImageProperties.h"
 

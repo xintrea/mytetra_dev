@@ -1,13 +1,12 @@
 #ifndef _EDITORSPLITCELLFORM_H_
 #define _EDITORSPLITCELLFORM_H_
 
-#include <QWidget>
 #include <QDialog>
-#include <QLabel>
-#include <QSpinBox>
-#include <QDialogButtonBox>
-#include <QCheckBox>
 
+class QLabel;
+class QSpinBox;
+class QDialogButtonBox;
+class QCheckBox;
 
 class EditorSplitCellForm : public QDialog
 {

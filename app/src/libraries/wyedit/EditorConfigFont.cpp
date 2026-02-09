@@ -11,7 +11,6 @@
 #include "EditorConfigFont.h"
 #include "EditorConfig.h"
 
-#include "../../main.h"
 #include "libraries/helpers/ObjectHelper.h"
 
 

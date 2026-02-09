@@ -1,7 +1,6 @@
 #include "EditorIndentSliderAssistant.h"
 #include "indentslider/IndentSlider.h"
 #include "EditorTextArea.h"
-#include "main.h"
 #include "libraries/helpers/DebugHelper.h"
 
 

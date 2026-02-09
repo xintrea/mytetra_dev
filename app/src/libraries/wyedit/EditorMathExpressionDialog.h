@@ -1,43 +1,38 @@
 #ifndef EDITORMATHEXPRESSIONDIALOG_H
 #define EDITORMATHEXPRESSIONDIALOG_H
 
-#include <QWidget>
 #include <QDialog>
-#include <QDialogButtonBox>
-#include <QTimer>
-#include <QSplitter>
 #include <QTextEdit>
-#include <QScrollArea>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QToolButton>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QKeyEvent>
 
-#include "formatters/MathExpressionFormatter.h"
+class QWidget;
+class QDialogButtonBox;
+class QTimer;
+class QSplitter;
+class QScrollArea;
+class QLabel;
+class QHBoxLayout;
+class QVBoxLayout;
+class QToolButton;
+class QCheckBox;
+class QRadioButton;
+class QKeyEvent;
+
+class MathExpressionFormatter;
+
 
 // Диалог написания Tex формулы
+
 
 // Вспомогательный класс-наследник QTextEdit для отлова undo / redo
 class TexTextEdit : public QTextEdit
 {
     Q_OBJECT
 public:
-    explicit TexTextEdit(QTextEdit *parent = nullptr) : QTextEdit(parent) {}
-    virtual ~TexTextEdit() {}
+    explicit TexTextEdit(QTextEdit *parent = nullptr);
+    virtual ~TexTextEdit();
 
 protected:
-    void keyPressEvent(QKeyEvent *e) {
-        if (e->modifiers()==Qt::ControlModifier) {
-            if (e->key()==Qt::Key_Z)
-                emit isUndo();
-            if (e->key()==Qt::Key_Y)
-                emit isRedo();
-        }
-        QTextEdit::keyPressEvent(e);
-    }
+    void keyPressEvent(QKeyEvent *e);
 
 signals:
     void isUndo(); // Сообщение о том, что произошло событие undo

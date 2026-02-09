@@ -4,7 +4,6 @@
 #include <QTextCodec>
 
 #include "EditorConfig.h"
-#include "../../main.h"
 #include "libraries/helpers/DebugHelper.h"
 
 

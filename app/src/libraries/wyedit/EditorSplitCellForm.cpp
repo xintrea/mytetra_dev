@@ -2,6 +2,11 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include <QLabel>
+#include <QSpinBox>
+#include <QDialogButtonBox>
+#include <QCheckBox>
+
 #include "EditorSplitCellForm.h"
 
 

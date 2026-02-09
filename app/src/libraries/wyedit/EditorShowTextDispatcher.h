@@ -2,7 +2,6 @@
 #define EDITORSHOWTEXTDISPATCHER_H
 
 #include <QObject>
-#include <QThread>
 
 #include "EditorShowText.h"
 
@@ -11,6 +10,7 @@
 //! Используется для создания окон, обновления содержимого,
 //! запоминание списка окон и их размещения
 
+class QThread;
 
 class EditorShowTextDispatcher : public QObject
 {

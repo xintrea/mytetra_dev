@@ -2,12 +2,14 @@
 #define _EDITORTEXTAREA_H_
 
 #include <QTextEdit>
-#include <QPaintEvent>
-#include <QMimeData>
-#include <QTapAndHoldGesture>
-#include <QEvent>
-#include <QGestureEvent>
-#include <QTextDocumentFragment>
+
+
+class QPaintEvent;
+class QMimeData;
+class QTapAndHoldGesture;
+class QEvent;
+class QGestureEvent;
+
 
 class EditorTextArea : public QTextEdit
 {

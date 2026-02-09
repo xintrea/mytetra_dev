@@ -1,8 +1,8 @@
+#include <QThread>
+
 #include "EditorShowTextDispatcher.h"
 #include "EditorShowText.h"
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
-#include "views/record/MetaEditor.h"
 #include "views/tree/KnowTreeView.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/Record.h"

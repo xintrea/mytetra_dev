@@ -4,15 +4,19 @@
 #include <QtGlobal>
 #include <QScrollBar>
 #include <QUrl>
+#include <QEvent>
+#include <QGestureEvent>
+#include <QTextDocumentFragment>
+#include <QMimeData>
+#include <QPaintEvent>
+#include <QTapAndHoldGesture>
+#include <QDebug>
+#include <QApplication>
 
-#include "../../main.h"
+#include "EditorTextArea.h"
 #include "../TraceLogger.h"
-#include "views/mainWindow/MainWindow.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/UniqueIdHelper.h"
-
-#include "Editor.h"
-#include "EditorTextArea.h"
 
 
 extern GlobalParameters globalParameters;

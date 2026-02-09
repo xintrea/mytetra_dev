@@ -8,8 +8,6 @@
 #include <QLabel>
 #include <QGroupBox>
 
-#include "../../main.h"
-
 #include "EditorConfigMathExpression.h"
 #include "EditorConfig.h"
 #include "libraries/GlobalParameters.h"

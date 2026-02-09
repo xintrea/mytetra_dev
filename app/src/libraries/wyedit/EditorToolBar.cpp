@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QStringList>
+#include <QToolButton>
 
 #include "main.h"
 #include "EditorToolBar.h"

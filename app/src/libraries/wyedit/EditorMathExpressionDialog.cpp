@@ -1,12 +1,45 @@
-#include "EditorMathExpressionDialog.h"
 #include <QFile>
 #include <QScrollBar>
+#include <QWidget>
+#include <QDialogButtonBox>
+#include <QTimer>
+#include <QSplitter>
+#include <QScrollArea>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QToolButton>
+#include <QCheckBox>
+#include <QRadioButton>
+#include <QKeyEvent>
+#include <QPushButton>
 
+#include "EditorMathExpressionDialog.h"
 #include "EditorConfig.h"
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
+#include "formatters/MathExpressionFormatter.h"
+
+
+TexTextEdit::TexTextEdit(QTextEdit *parent) :
+    QTextEdit(parent)
+{}
+
+TexTextEdit::~TexTextEdit()
+{}
+
+void TexTextEdit::keyPressEvent(QKeyEvent *e)
+{
+    if (e->modifiers()==Qt::ControlModifier) {
+        if (e->key()==Qt::Key_Z)
+            emit isUndo();
+        if (e->key()==Qt::Key_Y)
+            emit isRedo();
+    }
+
+    QTextEdit::keyPressEvent(e);
+}
 
 
 EditorMathExpressionDialog::EditorMathExpressionDialog(MathExpressionFormatter *mathExpressionFormatter,

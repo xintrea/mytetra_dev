@@ -1,12 +1,12 @@
 #ifndef EDITORMULTILINEINPUTDIALOG_H
 #define	EDITORMULTILINEINPUTDIALOG_H
 
-#include <QtGlobal>
-#include <QWidget>
 #include <QDialog>
-#include <QDialogButtonBox>
-#include <QTextEdit>
+#include <QTextOption>
 
+class QWidget;
+class QDialogButtonBox;
+class QTextEdit;
 
 class EditorMultiLineInputDialog : public QDialog
 {

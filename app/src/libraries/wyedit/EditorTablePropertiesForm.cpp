@@ -1,10 +1,5 @@
-#include <QWidget>
-#include <QLabel>
-#include <QSpinBox>
-#include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QVBoxLayout>
-#include <QCheckBox>
 #include <QColorDialog>
 #include <QDebug>
 
