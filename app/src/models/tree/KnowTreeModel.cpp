@@ -1,11 +1,11 @@
-#include <QAbstractItemModel>
 #include <QMap>
 #include <QDomNamedNodeMap>
+#include <QXmlStreamWriter>
+#include <QElapsedTimer>
 
 #include "main.h"
 #include "KnowTreeModel.h"
 #include "TreeItem.h"
-#include "TreeModel.h"
 #include "XmlTree.h"
 
 #include "libraries/ClipboardBranch.h"
@@ -229,11 +229,12 @@ QDomElement KnowTreeModel::exportFullModelDataToDom(TreeItem *root)
   QDomDocument doc;
   QDomElement elm=doc.createElement("content");
 
-  QTime start = QTime::currentTime();
+  QElapsedTimer eTimer;
+  eTimer.start();
 
   parseTreeToDom(&doc, &elm, root);
 
-  qDebug() << "Parse tree to DOM elapsed time: " << start.elapsed() << " ms";
+  qDebug() << "Parse tree to DOM elapsed time: " << eTimer.elapsed() << " ms";
 
   // qDebug() << "In export_fullmodeldata_to_dom stop element " << xmlNodeToString(elm);
 

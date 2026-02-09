@@ -6,7 +6,6 @@
 #include <QPersistentModelIndex>
 #include <QVariant>
 #include <QObject>
-#include <QtXml>
 
 
 // TreeModel - Это вспомогательный класс! От него наследуется KnowTreeModel

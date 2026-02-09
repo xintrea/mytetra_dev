@@ -1,5 +1,4 @@
 #include <QDebug>
-#include <QDateTime>
 #include <QCommonStyle>
 #include <QTextCodec>
 

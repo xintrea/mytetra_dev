@@ -1,6 +1,6 @@
 #include <QObject>
 #include <QMessageBox>
-#include <QDomElement>
+#include <QXmlStreamWriter>
 
 #include "Record.h"
 

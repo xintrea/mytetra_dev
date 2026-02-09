@@ -2,13 +2,14 @@
 #define KNOWNBASESCONFIG_H
 
 #include <QObject>
-#include <QSettings>
 #include <QString>
 
 // Объект для работы со списком известных баз данных
 // Список хранится в файле knownbases.ini
 
 #define KNOWN_BASES_MAX_COUNT 256
+
+class QSettings;
 
 class KnownBasesConfig : public QObject
 {

@@ -1,7 +1,7 @@
-#include <QDir>
 #include <QFile>
 #include <QDebug>
 #include <QTextCodec>
+#include <QSettings>
 
 #include "KnownBasesConfig.h"
 #include "DatabasesManagementModel.h"

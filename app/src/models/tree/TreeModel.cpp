@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QXmlStreamWriter>
 
 #include "TreeItem.h"
 #include "TreeModel.h"

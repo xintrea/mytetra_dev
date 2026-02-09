@@ -1,5 +1,6 @@
 #include <QIcon>
 #include <QBrush>
+#include <QDateTime>
 
 #include "Record.h"
 #include "RecordTableModel.h"

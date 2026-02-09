@@ -1,13 +1,11 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
-#include <QAbstractItemModel>
 #include <QModelIndex>
-#include <QVariant>
 #include <QObject>
-#include <QtXml>
-#include <QXmlStreamWriter>
 #include <QSet>
+#include <QDomElement>
+#include <QDateTime>
 
 #include "TreeModel.h"
 
@@ -17,6 +15,7 @@
 
 class ClipboardBranch;
 class Record;
+class QXmlStreamWriter;
 
 class KnowTreeModel : public TreeModel
 {

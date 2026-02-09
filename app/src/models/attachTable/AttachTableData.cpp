@@ -1,6 +1,5 @@
-#include <QDomElement>
 #include <QDebug>
-#include <QFileInfo>
+#include <QXmlStreamWriter>
 
 #include "Attach.h"
 #include "AttachTableData.h"

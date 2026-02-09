@@ -1,8 +1,10 @@
 #include <QDomElement>
+#include <QObject>
 #include <QMap>
 #include <QString>
 #include <QDir>
 #include <QMessageBox>
+#include <QXmlStreamWriter>
 
 #include "Record.h"
 #include "RecordTableData.h"

@@ -2,15 +2,14 @@
 #define TREEITEM_H
 
 #include <QList>
-#include <QVariant>
-#include <QVector>
 #include <QStringList>
 #include <QDomElement>
-#include <QDomDocument>
 #include <QIcon>
-#include <QXmlStreamWriter>
 
 #include "models/recordTable/RecordTableData.h"
+
+class QDomDocument;
+class QXmlStreamWriter;
 
 class TreeItem
 {

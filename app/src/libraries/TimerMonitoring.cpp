@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "TimerMonitoring.h"
 
 #include "models/tree/KnowTreeModel.h"

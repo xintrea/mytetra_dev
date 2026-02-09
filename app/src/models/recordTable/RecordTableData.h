@@ -1,18 +1,15 @@
 #ifndef __RECORDTABLEDATA_H__
 #define	__RECORDTABLEDATA_H__
 
-#include <QAbstractListModel>
-#include <QModelIndex>
-#include <QVariant>
 #include <QObject>
-#include <QtXml>
 #include <QMap>
 #include <QString>
 #include <QByteArray>
 
 class TreeItem;
 class Record;
-
+class QObject;
+class QXmlStreamWriter;
 
 class RecordTableData
 {

@@ -2,13 +2,12 @@
 #define __DATABASECONFIG_H__
 
 #include <QObject>
-#include <QSettings>
 #include <QString>
-
 
 #define CRYPT_CHECK_ROUNDS 1000
 #define CRYPT_CHECK_HASH_LEN 160
 
+class QSettings;
 
 class DataBaseConfig : public QObject
 {

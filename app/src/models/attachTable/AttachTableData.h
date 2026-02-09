@@ -2,14 +2,13 @@
 #define ATTACHTABLEDATA_H
 
 #include <QList>
-#include <QMetaType>
 #include <QDomElement>
-#include <QXmlStreamWriter>
 
 #include "models/attachTable/Attach.h"
 
 class Record;
 class AttachTableModel;
+class QXmlStreamWriter;
 
 class AttachTableData
 {

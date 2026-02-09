@@ -7,7 +7,6 @@
 #include <QMap>
 #include <QByteArray>
 #include <QDomElement>
-#include <QXmlStreamWriter>
 #include <QTextDocument>
 #include <QSharedPointer>
 
@@ -20,6 +19,7 @@
 // В полях записей с crypt=1 хранятся зашифрованные данные
 // Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
+class QXmlStreamWriter;
 
 class Record
 {

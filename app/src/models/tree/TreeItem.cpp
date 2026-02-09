@@ -1,6 +1,8 @@
 #include <QStringList>
 #include <QString>
 #include <QMap>
+#include <QDomDocument>
+#include <QXmlStreamWriter>
 
 #include "TreeItem.h"
 #include "libraries/GlobalParameters.h"

@@ -2,6 +2,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDebug>
+#include <QXmlStreamWriter>
 
 #include "Attach.h"
 #include "AttachTableData.h"
