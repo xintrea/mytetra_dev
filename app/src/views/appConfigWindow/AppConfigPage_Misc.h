@@ -1,13 +1,12 @@
 #ifndef _CONFIGPAGE_MISC_H_
 #define	_CONFIGPAGE_MISC_H_
 
-#include <QWidget>
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QPushButton>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QCheckBox;
+class QGroupBox;
+class QPushButton;
 
 class AppConfigPage_Misc : public ConfigPage
 {

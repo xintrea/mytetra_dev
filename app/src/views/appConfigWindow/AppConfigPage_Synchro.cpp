@@ -1,13 +1,19 @@
 #include <QWidget>
-#include <QBoxLayout>
 #include <QLabel>
+#include <QCheckBox>
+#include <QLineEdit>
+#include <QGroupBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QSpinBox>
 
-#include "main.h"
 #include "AppConfigPage_Synchro.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/PeriodicCheckBase.h"
 #include "libraries/PeriodicSyncro.h"
 #include "libraries/helpers/MessageHelper.h"
+
 
 extern AppConfig mytetraConfig;
 extern PeriodicCheckBase periodicCheckBase;

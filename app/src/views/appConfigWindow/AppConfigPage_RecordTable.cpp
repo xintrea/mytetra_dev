@@ -1,16 +1,16 @@
 #include <QWidget>
-#include <QBoxLayout>
-#include <QLabel>
+#include <QVBoxLayout>
 #include <QStringList>
 #include <QMessageBox>
+#include <QCheckBox>
+#include <QGroupBox>
 
-#include "main.h"
 #include "AppConfigPage_RecordTable.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/FixedParameters.h"
-#include "models/recordTable/RecordTableModel.h"
 #include "controllers/recordTable/RecordTableController.h"
 #include "libraries/helpers/ObjectHelper.h"
+
 
 extern AppConfig mytetraConfig;
 

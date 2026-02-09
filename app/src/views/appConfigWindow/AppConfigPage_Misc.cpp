@@ -1,9 +1,9 @@
 #include <QWidget>
-#include <QBoxLayout>
-#include <QDir>
-#include <QLineEdit>
+#include <QVBoxLayout>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QPushButton>
 
-#include "main.h"
 #include "AppConfigPage_Misc.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"

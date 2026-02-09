@@ -2,8 +2,8 @@
 #include <QObject>
 #include <QDialog>
 #include <QDebug>
+#include <QWidget>
 
-#include "main.h"
 #include "ConfigDialog.h"
 #include "AppConfigDialog.h"
 #include "AppConfigPage_Main.h"

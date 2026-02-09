@@ -1,16 +1,15 @@
 #ifndef _APPCONFIGPAGE_CRYPT_H_
 #define	_APPCONFIGPAGE_CRYPT_H_
 
-#include <QWidget>
-#include <QLabel>
-#include <QGroupBox>
-#include <QRadioButton>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QSpinBox>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QLabel;
+class QGroupBox;
+class QRadioButton;
+class QPushButton;
+class QCheckBox;
+class QSpinBox;
 
 class AppConfigPage_Crypt : public ConfigPage
 {

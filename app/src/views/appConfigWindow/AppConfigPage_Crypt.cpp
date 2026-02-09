@@ -1,15 +1,17 @@
 #include <QWidget>
-#include <QBoxLayout>
-#include <QDir>
-#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QString>
+#include <QLabel>
+#include <QGroupBox>
+#include <QRadioButton>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QSpinBox>
 
 #include "AppConfigPage_Crypt.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
-#include "views/enterPassword/EnterPassword.h"
 #include "models/dataBaseConfig/DataBaseConfig.h"
 #include "libraries/crypt/Password.h"
 

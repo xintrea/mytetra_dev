@@ -1,12 +1,11 @@
 #ifndef APPCONFIGPAGE_HISTORY_H
 #define APPCONFIGPAGE_HISTORY_H
 
-#include <QWidget>
-#include <QGroupBox>
-#include <QCheckBox>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QGroupBox;
+class QCheckBox;
 
 class AppConfigPage_History : public ConfigPage
 {

@@ -1,17 +1,17 @@
 #ifndef _APPCONFIGPAGE_MAIN_H_
 #define	_APPCONFIGPAGE_MAIN_H_
 
-#include <QWidget>
-#include <QLineEdit>
-#include <QSpinBox>
-#include <QGroupBox>
-#include <QRadioButton>
-#include <QLabel>
-#include <QToolButton>
-
 #include "ConfigPage.h"
-#include "libraries/MtComboBox.h"
 
+class QWidget;
+class QLineEdit;
+class QSpinBox;
+class QGroupBox;
+class QRadioButton;
+class QLabel;
+class QToolButton;
+
+class MtComboBox;
 
 class AppConfigPage_Main : public ConfigPage
 {

@@ -2,13 +2,12 @@
 #define APPCONFIGDIALOG_H
 
 #include <QString>
-#include <QWidget>
 
 // Объект, подготавливающий и отображающий диалог настройки MyTetra
 
-
 class ConfigDialog;
 class QListWidgetItem;
+class QWidget;
 
 class AppConfigDialog
 {

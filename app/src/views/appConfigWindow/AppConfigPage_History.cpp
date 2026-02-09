@@ -1,5 +1,8 @@
 #include <QDebug>
 #include <QVBoxLayout>
+#include <QWidget>
+#include <QGroupBox>
+#include <QCheckBox>
 
 #include "AppConfigPage_History.h"
 #include "models/appConfig/AppConfig.h"

@@ -1,16 +1,16 @@
 #ifndef CONFIGPAGE_SYNCHRO_H
 #define	CONFIGPAGE_SYNCHRO_H
 
-#include <QWidget>
-#include <QCheckBox>
-#include <QLineEdit>
-#include <QGroupBox>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QSpinBox>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QCheckBox;
+class QLineEdit;
+class QGroupBox;
+class QVBoxLayout;
+class QHBoxLayout;
+class QLabel;
+class QSpinBox;
 
 class AppConfigPage_Synchro : public ConfigPage
 {

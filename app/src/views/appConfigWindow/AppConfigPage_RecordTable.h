@@ -1,12 +1,13 @@
 #ifndef APPCONFIGPAGE_RECORDTABLE_H
 #define APPCONFIGPAGE_RECORDTABLE_H
 
-#include <QWidget>
-#include <QCheckBox>
 #include <QMap>
-#include <QGroupBox>
 
 #include "ConfigPage.h"
+
+class QWidget;
+class QCheckBox;
+class QGroupBox;
 
 class AppConfigPage_RecordTable : public ConfigPage
 {

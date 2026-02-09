@@ -1,14 +1,13 @@
 #ifndef _CONFIGPAGE_ATTACH_H_
 #define	_CONFIGPAGE_ATTACH_H_
 
-#include <QWidget>
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QLabel>
-#include <QToolButton>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QCheckBox;
+class QGroupBox;
+class QLabel;
+class QToolButton;
 
 class AppConfigPage_Attach : public ConfigPage
 {

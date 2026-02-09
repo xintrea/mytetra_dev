@@ -1,8 +1,10 @@
 #include <QWidget>
-#include <QBoxLayout>
-#include <QDir>
-#include <QLineEdit>
 #include <QColorDialog>
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QToolButton>
+#include <QHBoxLayout>
 
 #include "AppConfigPage_Attach.h"
 #include "models/appConfig/AppConfig.h"

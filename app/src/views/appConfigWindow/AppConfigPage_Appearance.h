@@ -1,14 +1,13 @@
 #ifndef APPCONFIGPAGE_APPEARANCE_H
 #define APPCONFIGPAGE_APPEARANCE_H
 
-#include <QWidget>
-#include <QGroupBox>
-#include <QCheckBox>
-#include <QLabel>
-
 #include "ConfigPage.h"
-#include "libraries/MtComboBox.h"
 
+class QWidget;
+class QGroupBox;
+class QCheckBox;
+class QLabel;
+class MtComboBox;
 
 class AppConfigPage_Appearance : public ConfigPage
 {

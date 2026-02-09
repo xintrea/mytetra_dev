@@ -1,17 +1,21 @@
 #include <QString>
 #include <QWidget>
 #include <QLabel>
-#include <QBoxLayout>
+#include <QHBoxLayout>
 #include <QDir>
 #include <QLineEdit>
-#include <QAbstractSpinBox>
 #include <QToolButton>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QCommonStyle>
+#include <QSpinBox>
+#include <QGroupBox>
+#include <QRadioButton>
 
 #include "AppConfigPage_Main.h"
 #include "models/appConfig/AppConfig.h"
+#include "libraries/MtComboBox.h"
+
 
 extern AppConfig mytetraConfig;
 

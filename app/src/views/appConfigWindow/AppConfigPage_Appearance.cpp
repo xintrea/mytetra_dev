@@ -1,6 +1,9 @@
 #include <QWidget>
 #include <QDebug>
 #include <QVBoxLayout>
+#include <QGroupBox>
+#include <QCheckBox>
+#include <QLabel>
 
 #include "AppConfigPage_Appearance.h"
 
@@ -9,6 +12,7 @@
 #include "libraries/FixedParameters.h"
 #include "libraries/wyedit/EditorShowTextDispatcher.h"
 #include "libraries/helpers/CssHelper.h"
+#include "libraries/MtComboBox.h"
 
 
 extern AppConfig mytetraConfig;

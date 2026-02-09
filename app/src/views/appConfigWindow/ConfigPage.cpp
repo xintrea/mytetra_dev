@@ -1,7 +1,4 @@
 #include <QWidget>
-#include <QBoxLayout>
-#include <QDir>
-#include <QLineEdit>
 #include <QDebug>
 
 #include "ConfigPage.h"
@@ -21,6 +18,6 @@ ConfigPage::~ConfigPage()
 
 int ConfigPage::applyChanges(void)
 {
- return 0;
+    return 0;
 }
 

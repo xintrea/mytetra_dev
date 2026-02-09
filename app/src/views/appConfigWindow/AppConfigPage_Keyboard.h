@@ -1,14 +1,12 @@
 #ifndef _CONFIGPAGE_KEYBOARD_H_
 #define	_CONFIGPAGE_KEYBOARD_H_
 
-#include <QWidget>
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-
 #include "ConfigPage.h"
 
+class QWidget;
+class QGroupBox;
+class QPushButton;
+class QVBoxLayout;
 
 class AppConfigPage_Keyboard : public ConfigPage
 {
