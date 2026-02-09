@@ -83,6 +83,10 @@ public:
 
     void setRecordtablePositionById(QString id);
 
+    //! Вспомогательный метод, который комплексно устанавливает
+    //! путь в дереве и запись в таблице записей
+    void setTreeAndRecordtablePositions(QStringList treePath, QString recordId);
+
     void synchronization(bool visible=true);
 
     void goWalkHistoryPrevious(void);

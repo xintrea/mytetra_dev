@@ -216,8 +216,7 @@ void EditorShowText::onGotoNote()
     // Нахождение ветки, в которой лежит запись с указанным идентификатором
     QStringList path=knowTreeModel->getRecordPath(mNoteId);
 
-    find_object<MainWindow>("mainwindow")->setTreePosition(path);
-    find_object<MainWindow>("mainwindow")->setRecordtablePositionById(mNoteId);
+    find_object<MainWindow>("mainwindow")->setTreeAndRecordtablePositions(path, mNoteId);
 }
 
 

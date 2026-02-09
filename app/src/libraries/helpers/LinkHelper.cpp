@@ -42,8 +42,7 @@ void LinkHelper::gotoReference(QString href)
         // Нахождение ветки, в которой лежит данная запись
         QStringList pathToRecord=static_cast<KnowTreeModel*>(find_object<KnowTreeView>("knowTreeView")->model())->getRecordPath(recordId);
 
-        find_object<MainWindow>("mainwindow")->setTreePosition( pathToRecord );
-        find_object<MainWindow>("mainwindow")->setRecordtablePositionById( recordId );
+        find_object<MainWindow>("mainwindow")->setTreeAndRecordtablePositions(pathToRecord, recordId);
     }
 }
 

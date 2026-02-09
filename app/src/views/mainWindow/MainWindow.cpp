@@ -305,9 +305,7 @@ void MainWindow::messageHandler(QString message)
         // Нахождение ветки, в которой лежит запись с указанным идентификатором
         QStringList pathToRecord=treeScreen->knowTreeModel->getRecordPath(recordId);
 
-        // Установка курсора в дереве и в таблице конечных записей
-        setTreePosition( pathToRecord );
-        setRecordtablePositionById( recordId );
+        this->setTreeAndRecordtablePositions(pathToRecord, recordId);
     }
 
     else if(message=="addNoteDialog")
@@ -391,7 +389,7 @@ void MainWindow::restoreTreePosition(void)
 
     qDebug() << "MainWindow::restoreTreePosition() : " << path;
 
-    setTreePosition(path);
+    this->setTreePosition(path);
 }
 
 
@@ -448,7 +446,7 @@ void MainWindow::restoreRecordTablePosition(void)
     QString id=mytetraConfig.get_recordtable_selected_record_id();
 
     if(id.length()>0)
-        setRecordtablePositionById(id);
+        this->setRecordtablePositionById(id);
 }
 
 
@@ -463,6 +461,25 @@ void MainWindow::saveRecordTablePosition(void)
 void MainWindow::setRecordtablePositionById(QString id)
 {
     recordTableScreen->setSelectionToId(id);
+}
+
+
+void MainWindow::setTreeAndRecordtablePositions(QStringList treePath, QString recordId)
+{
+    // В дереве выставляется ветка с заданным путем
+    // При этом автоматически вызовется слот TreeScreen::onKnowtreeClicked(),
+    // так как происходит выбор в selection-модели
+    this->setTreePosition(treePath);
+
+    // Так как выбор ветки в дереве приводит к обновлению таблицы списка записей
+    // только на следующей итерации обработки основного цикла событий,
+    // то здась цикл событий обновляется, чтобы нормально сработал
+    // дальнейший вызов setRecordtablePositionById(), чтобы он выставлял запись
+    // уже на обновленной таблице конечных записей
+    QCoreApplication::processEvents();
+
+    // В таблице конечных записей выставляется заданная запись
+    this->setRecordtablePositionById(recordId);
 }
 
 
@@ -518,8 +535,20 @@ void MainWindow::restoreAllWindowState(void)
 
     restoreFindOnBaseVisible();
     restoreWindowGeometry();
+
+
     restoreTreePosition();
+
+    // Так как выбор ветки в дереве приводит к обновлению таблицы списка записей
+    // только на следующей итерации обработки основного цикла событий,
+    // то здась цикл событий обновляется, чтобы нормально сработал
+    // дальнейший вызов setRecordtablePositionById(), чтобы он выставлял запись
+    // уже на обновленной таблице конечных записей
+    QCoreApplication::processEvents();
+
     restoreRecordTablePosition();
+
+
     restoreEditorCursorPosition();
     restoreEditorScrollBarPosition();
 
@@ -1360,8 +1389,8 @@ void MainWindow::goWalkHistory(void)
     if(item->recordtableGetTableData()->isRecordExists(id)==false)
         return;
 
-    setTreePosition(path);
-    setRecordtablePositionById(id);
+    // Установка позиции в дереве и в таблице конечных записей
+    this->setTreeAndRecordtablePositions(path, id);
 
     if(mytetraConfig.getRememberCursorAtHistoryNavigation())
     {
