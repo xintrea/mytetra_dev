@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <QFileInfo>
 
-#include "main.h"
 #include "Attach.h"
 #include "AttachTableData.h"
 #include "AttachTableModel.h"

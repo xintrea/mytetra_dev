@@ -4,12 +4,10 @@
 #include <QDir>
 #include <QMessageBox>
 
-#include "main.h"
 #include "Record.h"
 #include "RecordTableData.h"
 
 #include "models/appConfig/AppConfig.h"
-#include "views/mainWindow/MainWindow.h"
 #include "libraries/GlobalParameters.h"
 #include "models/tree/TreeItem.h"
 #include "libraries/WalkHistory.h"

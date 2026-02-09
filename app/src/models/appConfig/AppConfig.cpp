@@ -2,7 +2,6 @@
 #include <QRect>
 #include <QTextCodec>
 
-#include "main.h"
 #include "AppConfig.h"
 #include "AppConfigUpdater.h"
 

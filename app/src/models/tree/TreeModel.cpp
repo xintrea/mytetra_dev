@@ -1,7 +1,7 @@
+#include <QApplication>
+
 #include "TreeItem.h"
 #include "TreeModel.h"
-#include "main.h"
-#include "models/recordTable/RecordTableData.h"
 #include "libraries/GlobalParameters.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/DebugHelper.h"
@@ -50,12 +50,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
      if(item->recordtableGetRowCount()>0)
      {
         // Стандартный яркий цвет текста
-        return qApp->palette().color(QPalette::Text); // QColor(Qt::black)
+        return QApplication::palette().color(QPalette::Text); // QColor(Qt::black)
      }
      else // Ветка без таблицы конечных записей
      {
         // Неактивный цвет
-        return qApp->palette().color(QPalette::PlaceholderText); // QColor(Qt::darkGray)
+        return QApplication::palette().color(QPalette::PlaceholderText); // QColor(Qt::darkGray)
      }
     }
 

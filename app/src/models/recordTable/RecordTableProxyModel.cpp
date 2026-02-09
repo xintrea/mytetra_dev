@@ -1,7 +1,6 @@
 #include <QSortFilterProxyModel>
 #include <QDebug>
 
-#include "main.h"
 #include "RecordTableProxyModel.h"
 
 

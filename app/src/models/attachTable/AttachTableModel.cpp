@@ -1,6 +1,6 @@
+#include <QIcon>
 #include <QDebug>
 
-#include "main.h"
 #include "AttachTableModel.h"
 #include "Attach.h"
 #include "AttachTableData.h"

@@ -8,7 +8,6 @@
 #include "TreeModel.h"
 #include "XmlTree.h"
 
-#include "libraries/ClipboardRecords.h"
 #include "libraries/ClipboardBranch.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/attachTable/Attach.h"

@@ -1,12 +1,11 @@
-#include "main.h"
+#include <QIcon>
+#include <QBrush>
+
 #include "Record.h"
 #include "RecordTableModel.h"
 #include "RecordTableData.h"
 
-#include "models/tree/TreeItem.h"
-#include "models/tree/TreeModel.h"
 #include "models/appConfig/AppConfig.h"
-#include "views/mainWindow/MainWindow.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/helpers/DebugHelper.h"
 

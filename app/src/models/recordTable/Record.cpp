@@ -2,7 +2,6 @@
 #include <QMessageBox>
 #include <QDomElement>
 
-#include "main.h"
 #include "Record.h"
 
 #include "models/appConfig/AppConfig.h"

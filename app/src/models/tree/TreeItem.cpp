@@ -3,7 +3,6 @@
 #include <QMap>
 
 #include "TreeItem.h"
-#include "main.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/crypt/CryptService.h"

@@ -3,8 +3,6 @@
 #include <QMessageBox>
 #include <QDebug>
 
-#include "main.h"
-
 #include "Attach.h"
 #include "AttachTableData.h"
 #include "models/recordTable/Record.h"

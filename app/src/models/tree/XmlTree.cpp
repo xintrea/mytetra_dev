@@ -3,8 +3,7 @@
 #include <QTextCodec>
 
 #include "XmlTree.h"
-#include "main.h"
-#include "models/recordTable/RecordTableData.h"
+
 
 XmlTree::XmlTree(void)
 {
