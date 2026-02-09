@@ -3,6 +3,10 @@
 #include "ShortcutSettingsController.h"
 #include "libraries/ShortcutManager.h"
 
+#include "views/shortcutSettings/ShortcutSettingsView.h"
+#include "models/shortcutSettings/ShortcutSettingsModel.h"
+
+
 extern ShortcutManager shortcutManager;
 
 

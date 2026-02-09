@@ -5,7 +5,6 @@
 #include <QDesktopServices>
 #include <QDialogButtonBox>
 
-#include "main.h"
 #include "AttachTableController.h"
 #include "views/attachTable/AttachTableView.h"
 #include "models/attachTable/AttachTableModel.h"
@@ -20,6 +19,7 @@
 #include "libraries/helpers/ObjectHelper.h"
 #include "libraries/helpers/MessageHelper.h"
 #include "libraries/helpers/UniqueIdHelper.h"
+#include "views/record/MetaEditor.h"
 
 
 extern GlobalParameters globalParameters;

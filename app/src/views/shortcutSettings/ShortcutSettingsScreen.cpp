@@ -1,9 +1,10 @@
 #include <QItemSelectionModel>
 #include <QCommonStyle>
+#include <QToolButton>
+#include <QMessageBox>
 
 #include "ShortcutSettingsScreen.h"
-#include "main.h"
-#include "views/mainWindow/MainWindow.h"
+#include "views/shortcutSettings/ShortcutSettingsView.h"
 
 
 ShortcutSettingsScreen::ShortcutSettingsScreen(QWidget *parent) : QDialog(parent)

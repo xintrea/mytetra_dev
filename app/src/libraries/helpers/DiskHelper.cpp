@@ -1,7 +1,6 @@
 #include <QDir>
 
 #include "DiskHelper.h"
-#include "main.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/TrashMonitoring.h"
 #include "libraries/FixedParameters.h"

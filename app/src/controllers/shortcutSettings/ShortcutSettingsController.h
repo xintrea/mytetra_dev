@@ -2,8 +2,9 @@
 #define SHORTCUTSETTINGSCONTROLLER_H
 
 #include <QObject>
-#include "views/shortcutSettings/ShortcutSettingsView.h"
-#include "models/shortcutSettings/ShortcutSettingsModel.h"
+
+class ShortcutSettingsView;
+class ShortcutSettingsModel;
 
 class ShortcutSettingsController : public QObject
 {

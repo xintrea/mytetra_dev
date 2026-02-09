@@ -4,12 +4,10 @@
 #include <QObject>
 #include <QModelIndexList>
 
-#include "views/actionLog/ActionLogView.h"
-#include "models/actionLog/ActionLogModel.h"
+class ActionLogView;
+class ActionLogModel;
 
 // class Attach;
-// class ActionLogView;
-// class ActionLogModel;
 // class ActionLogData;
 
 class ActionLogController : public QObject

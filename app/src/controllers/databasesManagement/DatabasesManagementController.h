@@ -3,9 +3,8 @@
 
 #include <QObject>
 
-#include "views/databasesManagement/DatabasesManagementTable.h"
-#include "models/databasesManagement/DatabasesManagementModel.h"
-
+class DatabasesManagementTable;
+class DatabasesManagementModel;
 
 class DatabasesManagementController : public QObject
 {

@@ -7,15 +7,16 @@
 #include <algorithm>
 #include <QModelIndexList>
 #include <QInputDialog>
+#include <QApplication>
+#include <QClipboard>
 
-#include "main.h"
 #include "DatabasesManagementController.h"
 #include "views/databasesManagement/DatabasesManagementTable.h"
+#include "models/databasesManagement/DatabasesManagementModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/appConfig/AppFiles.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/DiskHelper.h"
-#include "views/dialog/ReduceMessageBox.h"
 #include "views/tree/KnowTreeView.h"
 #include "models/tree/KnowTreeModel.h"
 #include "libraries/helpers/ObjectHelper.h"

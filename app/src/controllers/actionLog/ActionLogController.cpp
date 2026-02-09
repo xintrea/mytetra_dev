@@ -4,17 +4,15 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
+#include <QApplication>
+#include <QClipboard>
 #include <algorithm>
 
-#include "main.h"
 #include "ActionLogController.h"
 #include "views/actionLog/ActionLogView.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
-#include "libraries/crypt/CryptService.h"
-#include "views/record/MetaEditor.h"
-#include "views/tree/TreeScreen.h"
-#include "views/dialog/ReduceMessageBox.h"
+#include "models/actionLog/ActionLogModel.h"
 
 
 extern GlobalParameters globalParameters;
