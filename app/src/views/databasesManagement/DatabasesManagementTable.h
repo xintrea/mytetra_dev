@@ -1,17 +1,15 @@
 #ifndef DATABASESMANAGEMENTTABLE_H
 #define DATABASESMANAGEMENTTABLE_H
 
-#include <QObject>
-#include <QWidget>
 #include <QTableView>
 #include <QMenu>
-#include <QGestureEvent>
-#include <QTapAndHoldGesture>
+
 
 // Отображение таблицы известных баз данных (только таблица)
 
 
 class DatabasesManagementController;
+class QWidget;
 
 class DatabasesManagementTable : public QTableView
 {
@@ -39,8 +37,8 @@ protected:
 
     QMenu contextMenu;
 
-    virtual void resizeEvent(QResizeEvent *event);
-    virtual void paintEvent(QPaintEvent *event);
+    virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void paintEvent(QPaintEvent *event) override;
 
     void assemblyContextMenu(void);
     void setupSignals(void);

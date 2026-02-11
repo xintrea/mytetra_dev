@@ -1,16 +1,15 @@
 #ifndef _RECORD_TABLE_PRINT_H_
 #define	_RECORD_TABLE_PRINT_H_
 
-#include <QtGlobal>
-#include <QWidget>
 #include <QDialog>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QTextEdit>
 
+
+class QWidget;
+class QDialogButtonBox;
+class QPushButton;
+class QTextEdit;
 
 class RecordTableProxyModel;
-
 
 class RecordTablePrint : public QDialog
 {

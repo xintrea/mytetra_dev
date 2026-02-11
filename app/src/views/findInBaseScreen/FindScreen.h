@@ -1,8 +1,8 @@
 #ifndef _FINDSCREEN_H_
 #define	_FINDSCREEN_H_
 
-#include <QMap>
 #include <QWidget>
+#include <QMap>
 
 class QLineEdit;
 class QPushButton;

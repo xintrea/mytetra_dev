@@ -2,15 +2,6 @@
 #define _CONSOLEEMULATOR_H_
 
 #include <QDialog>
-#include <QWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QToolButton>
-#include <QTextEdit>
-#include <QCloseEvent>
-#include <QShortcut>
-
-#include "views/waitClock/WaitClock.h"
 
 
 // Виджет, показывающий окно с консольным выводом
@@ -25,6 +16,18 @@
 // +------------------------------------------------+
 // |                   [Close]                      |
 // +------------------------------------------------+
+
+
+class QWidget;
+class QLabel;
+class QPushButton;
+class QToolButton;
+class QTextEdit;
+class QCloseEvent;
+class QShortcut;
+class QHBoxLayout;
+
+class WaitClock;
 
 class ConsoleEmulator : public QDialog
 {

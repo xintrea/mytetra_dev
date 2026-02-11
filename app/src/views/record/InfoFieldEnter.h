@@ -1,17 +1,15 @@
 #ifndef INFOFIELDENTER_H_
 #define INFOFIELDENTER_H_
 
-#include <QDialog>
 #include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QGridLayout>
-#include <QToolButton>
 
 // Виджет ввода инфополей Title, Author, Url, Tags...
 
+class QLabel;
+class QLineEdit;
+class QPushButton;
+class QGridLayout;
+class QToolButton;
 
 class InfoFieldEnter : public QWidget
 {

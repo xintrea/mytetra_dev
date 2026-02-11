@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
+#include <QInputDialog>
 
 #include "AttachTableController.h"
 #include "views/attachTable/AttachTableView.h"

@@ -11,7 +11,6 @@ class RecordTableModel;
 class RecordTableProxyModel;
 class ClipboardRecords;
 
-
 class RecordTableController : public QObject
 {
   Q_OBJECT

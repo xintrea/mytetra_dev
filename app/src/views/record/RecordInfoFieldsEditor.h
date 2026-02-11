@@ -2,14 +2,14 @@
 #define __RECORDINFOFIELDSEDITOR_H__
 
 #include <QDialog>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDialogButtonBox>
-#include <QPushButton>
 
+
+// Окно редактирования инфополей записи (не текста записи!)
+// Оно появляется при двойном клике на записи или при клике на кнопку редактирования полей записи
+
+
+class QDialogButtonBox;
 class InfoFieldEnter;
-
-// Окно редактирования инфополей записи
 
 class RecordInfoFieldsEditor : public QDialog
 {

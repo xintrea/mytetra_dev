@@ -1,13 +1,14 @@
 #ifndef _WAITCLOCK_H_
 #define _WAITCLOCK_H_
 
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QIcon>
+#include <QObject>
 #include <QTimer>
 #include <QLabel>
 #include <QPixmap>
 
+
+class QWidget;
+class QHBoxLayout;
 
 class WaitClock : public QWidget
 {

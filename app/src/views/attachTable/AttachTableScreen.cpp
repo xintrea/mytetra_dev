@@ -1,6 +1,7 @@
 #include <QDebug>
-
-#include "main.h"
+#include <QToolBar>
+#include <QVBoxLayout>
+#include <QAction>
 
 #include "AttachTableScreen.h"
 #include "AttachTableView.h"
@@ -80,7 +81,7 @@ void AttachTableScreen::setupActions(void)
 
 void AttachTableScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("attach-addAttach",        actionAddAttach );
     shortcutManager.initAction("attach-addAttachFromUrl", actionAddAttachFromUrl );

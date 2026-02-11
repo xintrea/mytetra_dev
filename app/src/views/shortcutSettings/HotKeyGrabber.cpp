@@ -1,5 +1,7 @@
-#include <QKeyEvent>
 #include <QDebug>
+#include <QKeySequenceEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
 
 #include "HotKeyGrabber.h"
 

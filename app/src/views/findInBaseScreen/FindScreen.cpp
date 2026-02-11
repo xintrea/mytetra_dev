@@ -9,20 +9,15 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QMessageBox>
-#include <QBoxLayout>
 #include <QTextDocument>
-#include <QLineEdit>
-#include <QByteArray>
-#include <QtGlobal>
+#include <QApplication>
 
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "FindScreen.h"
 #include "FindTableWidget.h"
 #include "models/tree/KnowTreeModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/TreeItem.h"
-#include "views/record/MetaEditor.h"
 #include "libraries/GlobalParameters.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/MtComboBox.h"

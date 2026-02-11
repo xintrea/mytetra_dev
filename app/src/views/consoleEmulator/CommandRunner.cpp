@@ -1,15 +1,9 @@
-#include <QtGlobal>
-#include <QtDebug>
+#include <QDebug>
 #include <QString>
-#include <QString>
-#include <QMessageBox>
-#include <QTextCodec>
-#include <QtGlobal>
 
 #include "CommandRunner.h"
 #include "ConsoleEmulator.h"
 #include "views/mainWindow/MainWindow.h"
-#include "main.h"
 #include "libraries/ActionLogger.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/ObjectHelper.h"

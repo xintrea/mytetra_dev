@@ -17,6 +17,7 @@
 #include <QScrollBar>
 #include <QColor>
 #include <QtGlobal>
+#include <QApplication>
 
 #include "Editor.h"
 #include "EditorConfig.h"

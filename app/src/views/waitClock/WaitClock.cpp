@@ -2,7 +2,6 @@
 #include <QIcon>
 
 #include "WaitClock.h"
-#include "main.h"
 
 
 WaitClock::WaitClock(QWidget *parent) : QWidget(parent)

@@ -1,14 +1,16 @@
 #ifndef __KNOWTREEVIEW_H__
 #define __KNOWTREEVIEW_H__
 
-#include <QWidget>
+#include <QObject>
 #include <QTreeView>
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QTapAndHoldGesture>
-#include <QEvent>
-#include <QGestureEvent>
 
+
+class QWidget;
+class QDragEnterEvent;
+class QDropEvent;
+class QTapAndHoldGesture;
+class QEvent;
+class QGestureEvent;
 
 class KnowTreeView : public QTreeView
 {

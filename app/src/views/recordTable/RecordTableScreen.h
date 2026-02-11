@@ -1,18 +1,16 @@
 #ifndef RECORDTABLESCREEN_H_
 #define RECORDTABLESCREEN_H_
 
+#include <QObject>
 #include <QWidget>
-#include <QListView>
-#include <QToolButton>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QToolBar>
-#include <QStringList>
-#include <QMap>
 #include <QString>
-#include <QByteArray>
-#include <QItemSelection>
-#include <QLabel>
+
+
+class QHBoxLayout;
+class QVBoxLayout;
+class QToolBar;
+class QLabel;
+class QAction;
 
 class RecordTableController;
 

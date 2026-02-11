@@ -1,7 +1,16 @@
+#include <QDialog>
 #include <QString>
 #include <QDir>
 #include <QString>
 #include <QDesktopWidget>
+#include <QMenu>
+#include <QMenuBar>
+#include <QPrintDialog>
+#include <QPrinter>
+#include <QCloseEvent>
+#include <QMessageBox>
+#include <QSplitter>
+#include <QStatusBar>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"

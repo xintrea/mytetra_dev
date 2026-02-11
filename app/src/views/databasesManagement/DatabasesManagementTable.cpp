@@ -1,11 +1,12 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QDebug>
+#include <QWidget>
+#include <QApplication>
+#include <QPalette>
 
-#include "main.h"
 #include "DatabasesManagementTable.h"
 #include "DatabasesManagementScreen.h"
-#include "controllers/actionLog/ActionLogController.h"
 #include "controllers/databasesManagement/DatabasesManagementController.h"
 #include "views/mainWindow/MainWindow.h"
 #include "models/appConfig/AppConfig.h"

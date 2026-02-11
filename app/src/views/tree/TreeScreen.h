@@ -1,21 +1,20 @@
 #ifndef _TREESCREEN_H_
 #define	_TREESCREEN_H_
 
-#include <QtGlobal>
 #include <QWidget>
-#include <QListView>
-#include <QToolButton>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QToolBar>
-#include <QInputDialog>
 #include <QFileInfo>
 #include <QDateTime>
+#include <QMap>
+#include <QModelIndex>
+
+
+class QItemSelectionModel;
+class QVBoxLayout;
+class QToolBar;
 
 class KnowTreeModel;
 class KnowTreeView;
 class ClipboardBranch;
-
 
 class TreeScreen : public QWidget
 {

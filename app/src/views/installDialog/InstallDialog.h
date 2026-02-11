@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QTranslator>
 
+
 // Окно для настройки развертывания базовых файлов приложения
 
 

@@ -1,8 +1,8 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QDebug>
+#include <QApplication>
 
-#include "main.h"
 #include "ActionLogView.h"
 #include "ActionLogScreen.h"
 #include "controllers/actionLog/ActionLogController.h"

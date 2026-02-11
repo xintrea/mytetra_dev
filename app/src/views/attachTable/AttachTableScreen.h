@@ -2,13 +2,12 @@
 #define ATTACHTABLESCREEN_H
 
 #include <QWidget>
-#include <QToolBar>
-#include <QVBoxLayout>
-#include <QAction>
 
 class AttachTableView;
 class AttachTableController;
-
+class QToolBar;
+class QVBoxLayout;
+class QAction;
 
 // Виджет таблицы приаттаченных файлов (с кнопками)
 

@@ -1,14 +1,18 @@
-#include <QHeaderView>
 #include <QMenu>
 #include <QDebug>
+#include <QHeaderView>
 #include <QPainter>
+#include <QWidget>
+#include <QGestureEvent>
+#include <QTapAndHoldGesture>
+#include <QApplication>
 
-#include "main.h"
 #include "AttachTableView.h"
 #include "AttachTableScreen.h"
 #include "controllers/attachTable/AttachTableController.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/helpers/GestureHelper.h"
+
 
 extern GlobalParameters globalParameters;
 

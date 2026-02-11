@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QByteArray>
+#include <QDomElement>
 
 class TreeItem;
 class Record;

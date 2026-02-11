@@ -1,10 +1,12 @@
 #ifndef HOTKEYGRABBER_H
 #define HOTKEYGRABBER_H
 
-#include <QKeySequenceEdit>
-#include <QPushButton>
-#include <QHBoxLayout>
+#include <QWidget>
 
+
+class QKeySequenceEdit;
+class QPushButton;
+class QHBoxLayout;
 
 class HotKeyGrabber: public QWidget
 {

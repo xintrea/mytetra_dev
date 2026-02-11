@@ -1,5 +1,9 @@
 #include <QObject>
 #include <QHeaderView>
+#include <QApplication>
+#include <QMessageBox>
+#include <QAbstractButton>
+#include <QPushButton>
 
 #include "RecordTableController.h"
 #include "controllers/attachTable/AttachTableController.h"
@@ -769,8 +773,8 @@ void RecordTableController::deleteContext(void)
   QMessageBox messageBox(view);
   messageBox.setWindowTitle("Delete");
   messageBox.setText(tr("Are you sure to delete this record(s)?"));
-  QAbstractButton *cancelButton =messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-  QAbstractButton *deleteButton =messageBox.addButton(tr("Delete"), QMessageBox::AcceptRole);
+  auto *cancelButton =messageBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+  auto *deleteButton =messageBox.addButton(tr("Delete"), QMessageBox::AcceptRole);
 
   Q_UNUSED(cancelButton);
 

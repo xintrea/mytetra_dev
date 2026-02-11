@@ -11,10 +11,8 @@
 #include <QString>
 #include <QStyle>
 
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "EnterPassword.h"
-#include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/helpers/ObjectHelper.h"
 
 

@@ -2,20 +2,20 @@
 #define SHORTCUTSETTINGSSCREEN_H
 
 #include <QDialog>
-#include <QWidget>
-#include <QAction>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
-#include <QKeySequenceEdit>
 
 #include "controllers/shortcutSettings/ShortcutSettingsController.h"
 #include "HotKeyGrabber.h"
 
+
+class QWidget;
+class QDialogButtonBox;
+class QPushButton;
+class QVBoxLayout;
+class QGridLayout;
+class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QToolButton;
 
 class ShortcutSettingsScreen : public QDialog
 {

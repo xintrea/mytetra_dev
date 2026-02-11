@@ -1,21 +1,19 @@
 #ifndef RECORDLISTSCREEN_H_
 #define RECORDLISTSCREEN_H_
 
-#include <QWidget>
+#include <QObject>
 #include <QTableView>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QToolBar>
-#include <QStringList>
-#include <QItemSelection>
-#include <QMenu>
-#include <QTapAndHoldGesture>
-#include <QEvent>
-#include <QGestureEvent>
+
+
+class QWidget;
+class QItemSelection;
+class QMenu;
+class QTapAndHoldGesture;
+class QEvent;
+class QGestureEvent;
 
 class ClipboardRecords;
 class RecordTableController;
-
 
 class RecordTableView : public QTableView
 {

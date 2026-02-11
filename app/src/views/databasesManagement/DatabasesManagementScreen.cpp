@@ -1,7 +1,8 @@
 #include <QDialogButtonBox>
 #include <QDebug>
-
-#include "main.h"
+#include <QToolBar>
+#include <QAction>
+#include <QVBoxLayout>
 
 #include "DatabasesManagementScreen.h"
 #include "DatabasesManagementTable.h"
@@ -96,7 +97,7 @@ void DatabasesManagementScreen::setupUI(void)
 
 void DatabasesManagementScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("actionLog-copy", actionCopy );
 }

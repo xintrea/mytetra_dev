@@ -2,15 +2,15 @@
 #define ACTIONLOGSCREEN_H
 
 #include <QDialog>
-#include <QVBoxLayout>
-#include <QAction>
-#include <QToolBar>
 
 // Виджет отображения лога действий пользователя
 
 class ActionLogView;
 class ActionLogController;
 class QDialogButtonBox;
+class QVBoxLayout;
+class QAction;
+class QToolBar;
 
 class ActionLogScreen : public QDialog
 {

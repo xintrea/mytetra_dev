@@ -2,11 +2,12 @@
 #define __OVERTEXTTOOLBUTTON_H__
 
 #include <QToolButton>
-#include <QPaintEvent>
 
 
 // Виджет, похожий на QToolButton, но позволяющий писать поверх иконки
 
+
+class QPaintEvent;
 
 class OverTextToolButton : public QToolButton
 {

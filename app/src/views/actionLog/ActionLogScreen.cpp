@@ -1,5 +1,8 @@
 #include <QDialogButtonBox>
 #include <QDebug>
+#include <QVBoxLayout>
+#include <QAction>
+#include <QToolBar>
 
 #include "main.h"
 
@@ -64,7 +67,7 @@ void ActionLogScreen::setupActions(void)
 
 void ActionLogScreen::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     shortcutManager.initAction("actionLog-copy", actionCopy );
 }

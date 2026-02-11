@@ -9,6 +9,7 @@
 #include <QToolButton>
 #include <QSplashScreen>
 #include <QTextOption>
+#include <QMessageBox>
 
 #include <QScroller>
 #include <QScrollerProperties>

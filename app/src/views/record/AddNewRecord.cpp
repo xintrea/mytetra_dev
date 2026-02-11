@@ -7,9 +7,9 @@
 #include <QTextDocumentFragment>
 #include <QDir>
 #include <QKeyEvent>
+#include <QPushButton>
 
 #include "AddNewRecord.h"
-#include "main.h"
 #include "InfoFieldEnter.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/GlobalParameters.h"
@@ -78,7 +78,7 @@ void AddNewRecord::setupUI(void)
 
 void AddNewRecord::setupShortcuts(void)
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     // На кнопку OK назначается комбинация клавиш Ctrl+Enter
     QPushButton *okButton=buttonBox.button(QDialogButtonBox::Ok); // Выясняется указатель на кнопку OK

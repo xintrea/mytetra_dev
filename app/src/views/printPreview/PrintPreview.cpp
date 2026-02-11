@@ -11,6 +11,8 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPageSetupDialog>
+#include <QToolButton>
+#include <QVBoxLayout>
 
 #include "PreviewView.h"
 #include "PrintPreview.h"
@@ -106,7 +108,7 @@ void PrintPreview::setupUI()
 
 void PrintPreview::setupShortcuts()
 {
-    qDebug() << "Setup shortcut for" << this->metaObject()->className();
+    qDebug() << "Setup shortcut for" << staticMetaObject.className();
 
     buttonPrint->setShortcut( shortcutManager.getKeySequence("misc-print") ); // Устанавливается шорткат
     buttonPrint->setToolTip( shortcutManager.getKeySequenceAsText("misc-print") ); // ToolTip зависит от шортката

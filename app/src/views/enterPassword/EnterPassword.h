@@ -1,18 +1,18 @@
 #ifndef ENTERPASSWORD_H
 #define	ENTERPASSWORD_H
 
-#include <QWidget>
 #include <QDialog>
 #include <QTimer>
 
-class QLabel;
-class QLineEdit;
-class QPushButton;
 
 #define ENTER_PASSWORD_MODE_SINGLE 0
 #define ENTER_PASSWORD_MODE_DOUBLE 1
 #define ENTER_PASSWORD_MODE_WITH_PREVIOUS 2
 
+class QWidget;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 
 class EnterPassword : public QDialog
 {

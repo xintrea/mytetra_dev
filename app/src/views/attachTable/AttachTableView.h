@@ -1,16 +1,17 @@
 #ifndef __ATTACHTABLEVIEW_H__
 #define __ATTACHTABLEVIEW_H__
 
-#include <QObject>
-#include <QWidget>
 #include <QTableView>
-#include <QMenu>
-#include <QGestureEvent>
-#include <QTapAndHoldGesture>
-
-class AttachTableController;
+#include <QObject>
 
 // Отображение таблицы с файлами (только таблица)
+
+
+class AttachTableController;
+class QWidget;
+class QMenu;
+class QGestureEvent;
+class QTapAndHoldGesture;
 
 class AttachTableView : public QTableView
 {

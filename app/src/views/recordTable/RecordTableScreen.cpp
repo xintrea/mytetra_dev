@@ -1,11 +1,12 @@
 #include <QObject>
 #include <QMimeData>
-#include <QMap>
-#include <QList>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QToolBar>
+#include <QApplication>
 
-#include "main.h"
-#include "RecordTableView.h"
 #include "RecordTableScreen.h"
+#include "RecordTableView.h"
 
 #include "views/mainWindow/MainWindow.h"
 #include "views/record/MetaEditor.h"

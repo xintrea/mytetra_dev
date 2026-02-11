@@ -1,14 +1,18 @@
-#include <QObject>
-#include <QMimeData>
 #include <QDrag>
-#include <QVector>
 #include <QHeaderView>
+#include <QStringList>
+#include <QMessageBox>
+#include <QItemSelection>
+#include <QMenu>
+#include <QTapAndHoldGesture>
+#include <QEvent>
+#include <QGestureEvent>
+#include <QApplication>
 
-#include "main.h"
+#include "RecordTableView.h"
 #include "views/mainWindow/MainWindow.h"
 #include "views/tree/TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
-#include "RecordTableView.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/tree/KnowTreeView.h"
 #include "models/recordTable/RecordTableModel.h"

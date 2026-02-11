@@ -1,5 +1,4 @@
 #include <QScrollBar>
-#include <QAbstractScrollArea>
 #include <QTextDocument>
 #include <QPalette>
 #include <QPainter>

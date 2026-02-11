@@ -1,16 +1,16 @@
 #ifndef _METAEDITOR_H_
 #define _METAEDITOR_H_
 
-#include <QWidget>
-#include <QLabel>
-#include <QTextCodec>
-
 #include "libraries/wyedit/Editor.h"
 
+
+class QWidget;
 class QHBoxLayout;
 class QGridLayout;
 class QScrollArea;
 class QSplitter;
+class QLabel;
+
 class AttachTableScreen;
 
 class MetaEditor: public Editor

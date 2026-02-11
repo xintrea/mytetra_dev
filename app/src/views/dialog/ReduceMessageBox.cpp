@@ -1,6 +1,5 @@
 #include <QVBoxLayout>
 
-#include "main.h"
 #include "ReduceMessageBox.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"

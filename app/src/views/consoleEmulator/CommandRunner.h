@@ -1,13 +1,12 @@
 #ifndef COMMANDRUNNER_H
 #define	COMMANDRUNNER_H
 
-#include <QWidget>
-#include <QDialog>
+#include <QObject>
 #include <QProcess>
 
 
 class ConsoleEmulator;
-
+class QTextCodec;
 
 class CommandRunner : public QObject
 {

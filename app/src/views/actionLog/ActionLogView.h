@@ -2,15 +2,13 @@
 #define __ACTIONLOGVIEW_H__
 
 #include <QObject>
-#include <QWidget>
 #include <QTableView>
 #include <QMenu>
-#include <QGestureEvent>
-#include <QTapAndHoldGesture>
 
 // Отображение лога в виде таблицы (только таблица)
 
 class ActionLogController;
+class QWidget;
 
 class ActionLogView : public QTableView
 {

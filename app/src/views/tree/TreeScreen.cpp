@@ -6,8 +6,10 @@
 #include <QMap>
 #include <QAction>
 #include <QItemSelectionModel>
+#include <QVBoxLayout>
+#include <QToolBar>
+#include <QInputDialog>
 
-#include "main.h"
 #include "TreeScreen.h"
 #include "KnowTreeView.h"
 

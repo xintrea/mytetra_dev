@@ -1,14 +1,15 @@
 #ifndef _PRINTPREVIEW_H_
 #define _PRINTPREVIEW_H_
 
-#include <QMainWindow>
 #include <QPrinter>
-#include <QVBoxLayout>
 #include <QDialog>
-#include <QToolButton>
+
+
+class QTextDocument;
+class QVBoxLayout;
+class QToolButton;
 
 class PreviewView;
-class QTextDocument;
 
 class PrintPreview : public QDialog
 {

@@ -2,9 +2,7 @@
 #define DATABASESMANAGEMENTSCREEN_H
 
 #include <QDialog>
-#include <QVBoxLayout>
-#include <QAction>
-#include <QToolBar>
+
 
 // Виджет отображения настроек каталогов известных баз данных
 
@@ -12,6 +10,9 @@
 class DatabasesManagementTable;
 class DatabasesManagementController;
 class QDialogButtonBox;
+class QToolBar;
+class QAction;
+class QVBoxLayout;
 
 class DatabasesManagementScreen : public QDialog
 {

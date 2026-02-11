@@ -1,7 +1,16 @@
+#include <QWidget>
 #include <QItemSelectionModel>
 #include <QCommonStyle>
 #include <QToolButton>
 #include <QMessageBox>
+
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
 
 #include "ShortcutSettingsScreen.h"
 #include "views/shortcutSettings/ShortcutSettingsView.h"

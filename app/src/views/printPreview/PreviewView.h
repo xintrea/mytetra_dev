@@ -2,8 +2,9 @@
 #define _PREVIEWVIEW_H_
 
 #include <QAbstractScrollArea>
-#include <QTextDocument>
 
+
+class QTextDocument;
 
 class PreviewView : public QAbstractScrollArea
 {

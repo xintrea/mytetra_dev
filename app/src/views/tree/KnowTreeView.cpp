@@ -1,9 +1,12 @@
+#include <QWidget>
 #include <QDebug>
 #include <QMimeData>
-#include <QAbstractItemModel>
 #include <QMessageBox>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QTapAndHoldGesture>
+#include <QGestureEvent>
 
-#include "main.h"
 #include "KnowTreeView.h"
 #include "TreeScreen.h"
 #include "libraries/ClipboardRecords.h"
@@ -14,8 +17,6 @@
 #include "models/tree/KnowTreeModel.h"
 #include "models/recordTable/RecordTableData.h"
 #include "models/tree/TreeItem.h"
-#include "models/recordTable/RecordTableModel.h"
-#include "views/mainWindow/MainWindow.h"
 #include "views/recordTable/RecordTableScreen.h"
 #include "views/recordTable/RecordTableView.h"
 #include "views/record/MetaEditor.h"

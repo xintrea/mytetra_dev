@@ -1,8 +1,12 @@
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QToolButton>
 #include <QSizePolicy>
 #include <QTimer>
 
 #include "InfoFieldEnter.h"
-#include "main.h"
 #include "models/appConfig/AppConfig.h"
 #include "libraries/helpers/DebugHelper.h"
 

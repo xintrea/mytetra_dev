@@ -1,10 +1,11 @@
+#include <QWidget>
+#include <QLabel>
 #include <QBoxLayout>
 #include <QGridLayout>
 #include <QScrollArea>
 #include <QSplitter>
 #include <QtDebug>
 
-#include "main.h"
 #include "MetaEditor.h"
 
 #include "libraries/wyedit/Editor.h"

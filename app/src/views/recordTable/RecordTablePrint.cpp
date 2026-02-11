@@ -1,9 +1,13 @@
+#include <QWidget>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QTextEdit>
 
 #include "views/printPreview/PrintPreview.h"
 #include "models/recordTable/RecordTableProxyModel.h"

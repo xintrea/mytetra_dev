@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+
 class QModelIndex;
 class QTableView;
 class QStandardItemModel;

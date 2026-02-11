@@ -1,5 +1,5 @@
 #include <QPainter>
-#include <QPen>
+#include <QPaintEvent>
 
 #include "OverTextToolButton.h"
 

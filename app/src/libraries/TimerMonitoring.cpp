@@ -9,7 +9,7 @@
 
 TimerMonitoring::TimerMonitoring(void)
 {
-  // По сути, это синглтон. Синглтон назначает себе имя сам
+  // По сути, это единственный объект. Он назначает себе имя сам
   setObjectName("timerMonitoring");
 
   isFirstStart=true;

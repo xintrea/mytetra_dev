@@ -2,16 +2,14 @@
 #define __ADDNEWRECORD_H__
 
 #include <QDialog>
-#include <QLabel>
-#include <QLineEdit>
 #include <QDialogButtonBox>
-#include <QPushButton>
 
 #include "libraries/wyedit/Editor.h"
 #include "views/record/InfoFieldEnter.h"
 
 
 // Окно добавления новой записи
+
 
 class AddNewRecord : public QDialog
 {

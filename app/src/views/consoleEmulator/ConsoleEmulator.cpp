@@ -1,14 +1,22 @@
 #include <QScrollBar>
 #include <QWidget>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QToolButton>
+#include <QTextEdit>
+#include <QCloseEvent>
+#include <QShortcut>
 
 #include "ConsoleEmulator.h"
-#include "main.h"
 #include "models/appConfig/AppConfig.h"
-#include "views/findInBaseScreen/FindScreen.h"
 #include "libraries/ActionLogger.h"
+#include "views/waitClock/WaitClock.h"
+
 
 extern AppConfig mytetraConfig;
 extern ActionLogger actionLogger;
+
 
 ConsoleEmulator::ConsoleEmulator(QWidget *parent) : QDialog(parent)
 {

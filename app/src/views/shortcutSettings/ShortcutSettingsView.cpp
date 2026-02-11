@@ -1,6 +1,5 @@
 #include "ShortcutSettingsView.h"
 
-#include "main.h"
 #include "views/mainWindow/MainWindow.h"
 #include "libraries/helpers/ObjectHelper.h"
 
