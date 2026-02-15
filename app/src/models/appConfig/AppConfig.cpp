@@ -84,20 +84,26 @@ void AppConfig::createFirstAtStartConfigCopy()
         QStringList fileNames = QStringList()
                                 << globalParameters.getWorkDirectory()+"/conf.ini"
                                 << globalParameters.getWorkDirectory()+"/editorconf.ini"
-                                << globalParameters.getWorkDirectory()+"/knownbases.ini"
                                 << globalParameters.getWorkDirectory()+"/shortcut.ini"
-                                << get_tetradir()+"/database.ini"   ;
+                                << globalParameters.getWorkDirectory()+"/knownbases.ini"
+                                << get_tetradir()+"/database.ini";
 
         for (const auto& fileName : fileNames)
         {
-            QString copyResult = DiskHelper::copyFileToTrash(fileName, false);
-
-            if ( copyResult.isEmpty() )
+            // Обязательно надо проверять существование файла, так как разные конфигурирующие файлы
+            // появлялись и должны появляться в разных версиях MyTetra, и могут отсутсвовать,
+            // например если было обновление бинарника программы со старой версии на новую
+            if ( QFile::exists(fileName) )
             {
-                criticalError(tr("Can not create config backup copy to trash directory\n")+
-                              tr("\nSource file: %1").arg( fileName )+
-                              tr("\nTrash directory: %1\n").arg( get_trashdir() )+
-                              tr("\nThis can happen if there is no free space left on the hard disk or it is impossible to write to the trash directory."));
+                QString copyResult = DiskHelper::copyFileToTrash(fileName, false);
+
+                if ( copyResult.isEmpty() )
+                {
+                    criticalError(tr("Can not create config backup copy to trash directory\n")+
+                                  tr("\nSource file: %1").arg( fileName )+
+                                  tr("\nTrash directory: %1\n").arg( get_trashdir() )+
+                                  tr("\nThis can happen if there is no free space left on the hard disk or it is impossible to write to the trash directory."));
+                }
             }
         }
     }
