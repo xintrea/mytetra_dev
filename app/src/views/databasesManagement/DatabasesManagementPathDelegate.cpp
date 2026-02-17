@@ -35,7 +35,8 @@ void DatabasesManagementPathDelegate::paint(QPainter *painter,
 
     // Циклически удаляется первый (левый) символ до тех пор, пока
     // ширина строки не станет меньше ширины ячейки
-    while (fontMetrics.horizontalAdvance(displayedText) > opt.rect.width()) {
+    while (fontMetrics.horizontalAdvance(displayedText) > opt.rect.width())
+    {
         if ( displayedText.startsWith("…") )
         {
             displayedText.remove(1, 1); // Удаление второго символа (после "…")

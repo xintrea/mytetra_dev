@@ -2,21 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="16px"
    height="16px"
    id="svg2385"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.2.1 (9c6d41e, 2022-07-14)"
    sodipodi:docname="edit_text_only.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   version="1.1">
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2387">
     <inkscape:perspective
@@ -34,9 +34,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="35.272318"
-     inkscape:cx="6.7176161"
-     inkscape:cy="10.554937"
+     inkscape:zoom="42.002325"
+     inkscape:cx="5.2497094"
+     inkscape:cy="8.7733239"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -44,23 +44,36 @@
      gridtolerance="3"
      guidetolerance="3"
      inkscape:window-width="1920"
-     inkscape:window-height="1024"
-     inkscape:window-x="-3"
-     inkscape:window-y="-5"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:snap-bbox="true"
      inkscape:object-paths="false"
      inkscape:object-nodes="true"
      inkscape:snap-nodes="true"
      inkscape:window-maximized="1"
-     showguides="false"
+     showguides="true"
      inkscape:snap-text-baseline="false"
      inkscape:bbox-nodes="true"
-     inkscape:snap-others="true">
+     inkscape:snap-others="true"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid3169"
        visible="true"
        enabled="true" />
+    <sodipodi:guide
+       position="-4.0475141,11.5"
+       orientation="0,-1"
+       id="guide754"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="1,9.5"
+       orientation="0,-1"
+       id="guide2737"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata2390">
@@ -70,7 +83,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,6 +91,26 @@
      id="layer1"
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
+    <g
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.1765px;line-height:125%;font-family:Webdings;-inkscape-font-specification:Webdings;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="text4257-3"
+       transform="matrix(1,0,0,0.97164548,0,0.52835469)">
+      <path
+         d="M 0.49999999,0.99999982 H 5.2426471 V 2.002987 H 3.5365349 V 6.1459098 H 2.2095588 V 2.002987 H 0.49999999 Z"
+         style="font-size:7.05882px;fill:#000000;fill-opacity:1"
+         id="path4360-6"
+         inkscape:connector-curvature="0" />
+      <path
+         d="M 8.7927392,3.5195311 10.578125,6.1459098 H 9.1960021 L 7.9931069,4.3880973 6.8005517,6.1459098 H 5.4115352 L 7.1969212,3.5195311 5.480469,0.99999982 H 6.8660389 L 7.9931069,2.6578583 9.1167282,0.99999982 h 1.3924628 z"
+         style="font-size:7.05882px;fill:#000000;fill-opacity:1"
+         id="path4362-7"
+         inkscape:connector-curvature="0" />
+      <path
+         d="M 10.757353,0.99999982 H 15.5 V 2.002987 H 13.793888 V 6.1459098 H 12.466912 V 2.002987 h -1.709559 z"
+         style="font-size:7.05882px;fill:#000000;fill-opacity:1"
+         id="path4364-5"
+         inkscape:connector-curvature="0" />
+    </g>
     <rect
        style="opacity:0;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect3254"
@@ -87,22 +120,22 @@
        y="0"
        ry="0" />
     <g
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.17647076px;line-height:125%;font-family:Webdings;-inkscape-font-specification:Webdings;letter-spacing:0px;word-spacing:0px;fill:#9d2a2a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.17647076px;line-height:125%;font-family:Webdings;-inkscape-font-specification:Webdings;letter-spacing:0px;word-spacing:0px;fill:#ae3030;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="text4257"
        transform="matrix(1,0,0,0.97164548,0,0.02835469)">
       <path
          d="m 0.49999999,0.99999982 4.74264711,0 0,1.00298718 -1.7061122,0 0,4.1429228 -1.3269761,0 0,-4.1429228 -1.70955881,0 0,-1.00298718 z"
-         style="font-size:7.05882359px;fill:#9d2a2a;fill-opacity:1"
+         style="font-size:7.05882359px;fill:#ae3030;fill-opacity:1"
          id="path4360"
          inkscape:connector-curvature="0" />
       <path
          d="m 8.7927392,3.5195311 1.7853858,2.6263787 -1.3821229,0 -1.2028952,-1.7578125 -1.1925552,1.7578125 -1.3890165,0 1.785386,-2.6263787 -1.7164522,-2.51953128 1.3855699,0 1.127068,1.65785848 1.1236213,-1.65785848 1.3924628,0 -1.7164518,2.51953128 z"
-         style="font-size:7.05882359px;fill:#9d2a2a;fill-opacity:1"
+         style="font-size:7.05882359px;fill:#ae3030;fill-opacity:1"
          id="path4362"
          inkscape:connector-curvature="0" />
       <path
          d="m 10.757353,0.99999982 4.742647,0 0,1.00298718 -1.706112,0 0,4.1429228 -1.326976,0 0,-4.1429228 -1.709559,0 0,-1.00298718 z"
-         style="font-size:7.05882359px;fill:#9d2a2a;fill-opacity:1"
+         style="font-size:7.05882359px;fill:#ae3030;fill-opacity:1"
          id="path4364"
          inkscape:connector-curvature="0" />
     </g>
