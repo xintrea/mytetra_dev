@@ -17,74 +17,76 @@ ListFormatter::ListFormatter()
 // Форматирование в нумерованный список
 void ListFormatter::onNumericlistClicked(void)
 {
-  formatToList(QTextListFormat::ListDecimal);
+    formatToList(QTextListFormat::ListDecimal);
 }
 
 
 // Форматирование в список с точечками
 void ListFormatter::onDotlistClicked(void)
 {
-  formatToList(QTextListFormat::ListDisc);
+    formatToList(QTextListFormat::ListDisc);
 }
 
 
 void ListFormatter::formatToList(QTextListFormat::Style setFormat)
 {
-  // Если выделения нет
-  if(!textArea->textCursor().hasSelection())
-    return;
-
-  // Форматирование в список возможно только если выделен блок
-  if(!editor->cursorPositionDetector->isBlockSelect())
-    return;
-
-  // Если строки выбраны
-  if(textArea->textCursor().hasSelection())
-  {
-    if(textArea->textCursor().currentList()==0 ||
-       textArea->textCursor().currentList()->format().style()!=setFormat)
+    // Если выделения нет
+    if(!textArea->textCursor().hasSelection())
     {
-      // Cтроки еще не отформатированы в данный вид списка,
-      // надо отформатировать в список
+        // Добавляется пустой список на месте курсора
 
-      qDebug() << "Formatting to list";
-
-      // Применение форматирования
-      textArea->textCursor().createList(setFormat);
+        // Вставляется первый пустой пункт
+        textArea->textCursor().insertList(setFormat);
     }
-    else
+    else // Иначе выделение есть
     {
-      // Строки уже были отформатированы в список, надо форматирование
-      // сбросить в стандартное
+        // Форматирование в список возможно только если выделен блок
+        if(!editor->cursorPositionDetector->isBlockSelect())
+            return;
 
-      qDebug() << "Remove list formatting";
+        // Если строки выбраны
+        if(textArea->textCursor().hasSelection())
+        {
+            if(textArea->textCursor().currentList()==0 ||
+                    textArea->textCursor().currentList()->format().style()!=setFormat)
+            {
+                // Cтроки еще не отформатированы в данный вид списка,
+                // надо отформатировать в список
 
-      // Выяснение текущего отступа
-      int currentIndent;
-      currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
+                qDebug() << "Formatting to list";
 
-      // Создание форматирования
-      QTextBlockFormat indentFormatting;
-      indentFormatting.setLeftMargin(currentIndent);
+                // Применение форматирования
+                textArea->textCursor().createList(setFormat);
+            }
+            else
+            {
+                // Строки уже были отформатированы в список, надо форматирование
+                // сбросить в стандартное
 
-      // Форматирование
-      textArea->textCursor().setBlockFormat(indentFormatting);
+                qDebug() << "Remove list formatting";
 
-      // Создание форматирования по умолчанию чтобы убрать форматирование в список
-      // QTextBlockFormat formatting;
-      // formatting.setAlignment(Qt::AlignLeft);
+                // Выяснение текущего отступа
+                int currentIndent;
+                currentIndent=(int) textArea->textCursor().blockFormat().leftMargin();
 
-      // Форматирование
-      // textarea->textCursor().setBlockFormat(formatting);
+                // Создание форматирования
+                QTextBlockFormat indentFormatting;
+                indentFormatting.setLeftMargin(currentIndent);
+
+                // Форматирование
+                textArea->textCursor().setBlockFormat(indentFormatting);
+
+                // Создание форматирования по умолчанию чтобы убрать форматирование в список
+                // QTextBlockFormat formatting;
+                // formatting.setAlignment(Qt::AlignLeft);
+
+                // Форматирование
+                // textarea->textCursor().setBlockFormat(formatting);
+            }
+        }
     }
-  }
-  else
-  {
-    // Вставляется первый пустой пункт
-    textArea->textCursor().insertList(setFormat);
-  }
 
-  // Выравнивание прокрутки чтоб курсор был виден если он уехал вниз
-  textArea->ensureCursorVisible();
+    // Выравнивание прокрутки чтоб курсор был виден если он уехал вниз
+    textArea->ensureCursorVisible();
 }
 

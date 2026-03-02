@@ -1937,7 +1937,7 @@ void TypefaceFormatter::doChangeBackgroundColor(const QColor &selectedColor)
 
     // Устранение внутреннего бага QTextArea, когда после изменения цвета фона
     // перед таблицами может появиться пустая строка,
-    // хотя нет никакого символа или блоки форматирования, создающего данную пустую строку
+    // хотя нет никакого символа или блока форматирования, создающего данную пустую строку
     textArea->softRedraw();
 
     emit changeBackgroundcolor( selectedColor );
