@@ -1196,11 +1196,12 @@ void MainWindow::setIcon(void)
 {
     connect(trayIcon, &QSystemTrayIcon::activated,
             this,     &MainWindow::iconActivated);
-
-    QIcon icon = QIcon(":/resource/pic/logo.svg");
+    
+    QIcon icon = QIcon::fromTheme("mytetra");
     trayIcon->setIcon(icon);
+    trayIcon->setToolTip("MyTetra");
     setWindowIcon(icon);
-
+    
     // tray_icon->setToolTip(iconComboBox->itemText(index));
 }
 
