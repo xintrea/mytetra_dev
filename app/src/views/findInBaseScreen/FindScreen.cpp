@@ -64,6 +64,9 @@ void FindScreen::setupFindTextAndButton(void)
     // Поле текста для поиска
     findText=new QComboBox();
     findText->setEditable(true);
+    QSizePolicy findTextSizePolicy=findText->sizePolicy();
+    findTextSizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+    findText->setSizePolicy(findTextSizePolicy);
 
     {
         const QSignalBlocker blocker(findText);
@@ -89,8 +92,8 @@ void FindScreen::setupFindTextAndButton(void)
 void FindScreen::assemblyFindTextAndButton(void)
 {
     toolsAreaFindTextAndButton=new QHBoxLayout();
-    toolsAreaFindTextAndButton->addWidget(findText);
-    toolsAreaFindTextAndButton->addWidget(findStartButton);
+    toolsAreaFindTextAndButton->addWidget(findText, 1);
+    toolsAreaFindTextAndButton->addWidget(findStartButton, 0);
     toolsAreaFindTextAndButton->addWidget(toolsExpand);
 
     // Слева устанавливается отступ, чтобы поле ввода текста для поиска
