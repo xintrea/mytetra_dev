@@ -16,6 +16,13 @@
 class ClipboardBranch;
 class Record;
 class QXmlStreamWriter;
+enum class RecordInsertMode;
+
+struct BookmarkedRecord
+{
+    QString recordId;
+    QString parentNodeId;
+};
 
 class KnowTreeModel : public TreeModel
 {
@@ -67,6 +74,8 @@ public:
 
     //! Получение ветки с указанным ID (поиск ветки)
     TreeItem *getItemById(const QString &id);
+
+    QList<BookmarkedRecord> getBookmarkedRecords() const;
 
     //! Возвращает общее количество записей, хранимых в дереве
     int getAllRecordCount(void);
@@ -157,6 +166,9 @@ private:
                                   ClipboardBranch *subbranch);
 
     TreeItem *getItemByIdRecurse(TreeItem *item, const QString &id, int mode);
+    void getBookmarkedRecordsRecurse(TreeItem *item, QList<BookmarkedRecord> &bookmarks) const;
+    int normalizeBookmarksOnLoad(QDomDocument *domModel);
+    void prepareBookmarksForInsert(QDomDocument *domModel, RecordInsertMode insertMode);
 
     bool isContainsCryptBranchesRecurse(TreeItem *item, int mode);
 

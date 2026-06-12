@@ -70,6 +70,12 @@ QString RecordTableData::getField(QString name, int pos) const
 // Установка значения указанного поля для указанного элемента
 void RecordTableData::setField(QString name, QString value, int pos)
 {
+    if(name=="bookmark")
+    {
+        criticalError("RecordTableData::setField() can not change bookmark directly");
+        return;
+    }
+
     // Если индекс недопустимый
     if(pos<0 || pos>=tableData.size())
     {
@@ -390,9 +396,13 @@ void RecordTableData::exportDataToStreamWriter(QXmlStreamWriter *xmlWriter) cons
 // Объект для вставки приходит как незашифрованным, так и зашифрованным
 int RecordTableData::insertNewRecord(int mode,
                                      int pos,
-                                     Record record)
+                                     Record record,
+                                     RecordInsertMode insertMode)
 {
     qDebug() << "RecordTableData::insert_new_record() : Insert new record to tree item " << treeItem->getAllFields();
+
+    if(insertMode!=RecordInsertMode::Move)
+        record.setBookmark(false);
 
     // Мотод должен принять полновесный объект записи
     if(record.isLite()==true)

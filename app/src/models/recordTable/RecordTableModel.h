@@ -14,6 +14,7 @@
 
 class Record;
 class RecordTableData;
+enum class RecordInsertMode;
 
 class RecordTableModel : public QAbstractTableModel
 {
@@ -57,7 +58,8 @@ private:
     // Добавление записей
     int addTableData(int mode,
                      QModelIndex posIndex,
-                     Record record);
+                     Record record,
+                     RecordInsertMode insertMode);
 
     void onRecordTableConfigChange(void);
 

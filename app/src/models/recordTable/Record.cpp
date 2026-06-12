@@ -61,7 +61,11 @@ void Record::setupDataFromDom(QDomElement iDomElement)
     QString name=attcurr.name();
     QString value=attcurr.value();
 
-    this->setNaturalFieldSource(name, value);
+    // A bookmark read from arbitrary DOM is provisional until model-level validation.
+    if(name=="bookmark")
+      setBookmark(value=="1");
+    else
+      setNaturalFieldSource(name, value);
 
     // Распечатка считанных данных в консоль
     // qDebug() << "Read record attr " << name << value;
@@ -277,6 +281,12 @@ QString Record::getCalculableField(QString name) const
 
 void Record::setField(const QString &name, const QString &value)
 {
+  if(name=="bookmark")
+  {
+    criticalError("Record::setField() can not change bookmark directly");
+    return;
+  }
+
   // Если имя поля недопустимо (установить значение можно только для натурального поля)
   if(FixedParameters::isRecordFieldNatural(name)==false)
     criticalError("In RecordTableData::setField() unavailable field name "+name+" try set to "+value);
@@ -311,6 +321,15 @@ void Record::setField(const QString &name, const QString &value)
 }
 
 
+void Record::setBookmark(bool enabled)
+{
+  if(enabled)
+    fieldList.insert("bookmark", "1");
+  else
+    fieldList.remove("bookmark");
+}
+
+
 bool Record::isNaturalFieldExists(const QString &name) const
 {
   return fieldList.contains(name);
@@ -333,6 +352,12 @@ QString Record::getNaturalFieldSource(QString name) const
 
 void Record::setNaturalFieldSource(QString name, QString value)
 {
+  if(name=="bookmark")
+  {
+    criticalError("Record::setNaturalFieldSource() can not change bookmark directly");
+    return;
+  }
+
   // Если имя поля недопустимо
   if(FixedParameters::isRecordFieldNatural(name)==false)
     criticalError("In RecordTableData::setNaturalFieldSource() unavailable field name "+name+" try set to "+value);

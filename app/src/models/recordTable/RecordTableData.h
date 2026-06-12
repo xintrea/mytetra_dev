@@ -12,6 +12,14 @@ class Record;
 class QObject;
 class QXmlStreamWriter;
 
+enum class RecordInsertMode
+{
+    New,
+    Move,
+    Copy,
+    Import
+};
+
 class RecordTableData
 {
 
@@ -67,7 +75,8 @@ public:
 
     int insertNewRecord(int mode,
                         int pos,
-                        Record record);
+                        Record record,
+                        RecordInsertMode insertMode);
 
     void editRecordFields(int pos,
                           QMap<QString, QString> editFields);

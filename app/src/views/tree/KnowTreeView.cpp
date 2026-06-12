@@ -266,7 +266,8 @@ void KnowTreeView::dropEvent(QDropEvent *event)
             // Добавление записи в базу
             recordTableData->insertNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_TO_END,
                                              0,
-                                             record);
+                                             record,
+                                             RecordInsertMode::Move);
 
             // Сохранение дерева веток
             find_object<TreeScreen>("treeScreen")->saveKnowTree();

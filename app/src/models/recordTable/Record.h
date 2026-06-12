@@ -20,6 +20,8 @@
 // Это необходимо, чтобы дерево знаний генерировалось в/из XML быстро и без шифрации
 
 class QXmlStreamWriter;
+class RecordTableController;
+class RecordTableData;
 
 class Record
 {
@@ -27,6 +29,8 @@ class Record
   // К закрытым функциям может иметь доступ объекты приаттаченного файла
   friend class Attach;
   friend class AttachTableData;
+  friend class RecordTableController;
+  friend class RecordTableData;
 
 public:
   Record();
@@ -120,6 +124,8 @@ protected:
 
   QString getNaturalField(QString name) const;
   QString getCalculableField(QString name) const;
+
+  void setBookmark(bool enabled);
 
 };
 

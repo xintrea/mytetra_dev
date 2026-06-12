@@ -22,6 +22,7 @@
 #include "models/recordTable/RecordTableProxyModel.h"
 #include "models/appConfig/AppConfig.h"
 #include "models/tree/TreeItem.h"
+#include "models/tree/KnowTreeModel.h"
 #include "libraries/GlobalParameters.h"
 #include "libraries/FixedParameters.h"
 #include "libraries/WindowSwitcher.h"
@@ -99,6 +100,47 @@ void RecordTableController::init(void)
 RecordTableView *RecordTableController::getView(void)
 {
   return view;
+}
+
+
+BookmarkChangeResult RecordTableController::setBookmark(const QString &recordId, bool enabled)
+{
+  TreeScreen *treeScreen=find_object<TreeScreen>("treeScreen");
+  if(treeScreen==nullptr)
+    return BookmarkChangeResult::DataUnavailable;
+
+  KnowTreeModel *treeModel=treeScreen->knowTreeModel;
+
+  if(treeModel==nullptr)
+    return BookmarkChangeResult::DataUnavailable;
+
+  if(!treeModel->isRecordIdExists(recordId))
+    return BookmarkChangeResult::RecordNotFound;
+
+  Record *record=treeModel->getRecord(recordId);
+  if(record==nullptr)
+    return BookmarkChangeResult::RecordNotFound;
+
+  const bool isBookmarked=record->getField("bookmark")=="1";
+  if(isBookmarked==enabled)
+    return BookmarkChangeResult::Success;
+
+  if(record->getField("block")=="1" ||
+     (record->getField("crypt")=="1" && globalParameters.getCryptKey().isEmpty()))
+    return BookmarkChangeResult::ChangeForbidden;
+
+  if(enabled && treeModel->getBookmarkedRecords().size()>=30)
+    return BookmarkChangeResult::LimitExceeded;
+
+  if(enabled)
+    record->setBookmark(true);
+  else
+    record->setBookmark(false);
+
+  treeScreen->saveKnowTree();
+  emit bookmarksChanged();
+
+  return BookmarkChangeResult::Success;
 }
 
 
@@ -536,7 +578,9 @@ void RecordTableController::paste(void)
 
   // Пробегаются все записи в буфере
   for(int i=0;i<nList;i++)
-    addNew(GlobalParameters::AddNewRecordBehavior::ADD_TO_END, clipboardRecords->getRecord(i));
+    addNew(GlobalParameters::AddNewRecordBehavior::ADD_TO_END,
+           clipboardRecords->getRecord(i),
+           RecordInsertMode::Copy);
 
   // Обновление на экране ветки, на которой стоит засветка,
   // так как количество хранимых в ветке записей поменялось
@@ -607,7 +651,7 @@ void RecordTableController::addNewRecord(int mode)
   DiskHelper::removeDirectory(directory);
 
   // Введенные данные добавляются (все только что введенные данные передаются в функцию addNew() незашифрованными)
-  addNew(mode, record);
+  addNew(mode, record, RecordInsertMode::New);
 
   // После добавления новой записи редактор всегда должен переключаться на слой текста
   // (а не оставаться на слое аттачей, если он ранее был активным)
@@ -618,7 +662,7 @@ void RecordTableController::addNewRecord(int mode)
 
 // Функция добавления новой записи в таблицу конечных записей
 // Принимает полный формат записи
-void RecordTableController::addNew(int mode, Record record)
+void RecordTableController::addNew(int mode, Record record, RecordInsertMode insertMode)
 {
     qDebug() << "In add_new()";
 
@@ -628,7 +672,8 @@ void RecordTableController::addNew(int mode, Record record)
     // Вставка новых данных, возвращаемая позиция - это позиция в Source данных
     int selPos=recordSourceModel->addTableData(mode,
                                                posIndex,
-                                               record);
+                                               record,
+                                               insertMode);
 
     if(selPos>=0)
     {

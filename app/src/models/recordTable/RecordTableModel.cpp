@@ -331,7 +331,8 @@ RecordTableData *RecordTableModel::getTableData(void)
 // Функция возвращает позицию нового добавленного элемента
 int RecordTableModel::addTableData(int mode,
                                    QModelIndex posIndex,
-                                   Record record)
+                                   Record record,
+                                   RecordInsertMode insertMode)
 {
     if(table==nullptr)
     {
@@ -343,7 +344,8 @@ int RecordTableModel::addTableData(int mode,
     // Вставка новых данных в таблицу конечных записей
     int selPos=table->insertNewRecord(mode,
                                       posIndex.row(),
-                                      record);
+                                      record,
+                                      insertMode);
 
     endResetModel(); // Подумать, возможно нужно заменить на endInsertRows
 

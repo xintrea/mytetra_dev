@@ -59,7 +59,17 @@ void KnowTreeModel::initFromXML(QString fileName)
   if(!xmlt.load( m_xmlFileName ))
     return;
 
+  const int removedBookmarkCount=normalizeBookmarksOnLoad(xmlt.getDomModel());
   init(xmlt.getDomModel());
+
+  if(removedBookmarkCount>0)
+  {
+    qWarning() << "Bookmark limit exceeded while loading database. Removed bookmarks:"
+               << removedBookmarkCount;
+    showMessageBox(tr("The database contained more than 30 bookmarks. "
+                      "Only the first 30 bookmarks were kept."));
+    save();
+  }
 
   m_lastLoadDateTime=QDateTime::currentDateTime();
 }
@@ -456,6 +466,7 @@ QString KnowTreeModel::importBranchFromDirectory(TreeItem *startItem, QString im
   translateImportDomData( *(xmlt.getDomModel()), "node", "id", idNodeTranslate);
   translateImportDomData( *(xmlt.getDomModel()), "record", "id", idRecordTranslate);
   translateImportDomData( *(xmlt.getDomModel()), "record", "dir", dirRecordTranslate);
+  prepareBookmarksForInsert(xmlt.getDomModel(), RecordInsertMode::Import);
 
   // Динамическое создание ветки основной базы дерева на основе DOM-данных
   beginResetModel();
@@ -1333,7 +1344,8 @@ QString KnowTreeModel::pasteSubbranchRecurse(TreeItem *item,
     qDebug() << "Add table record "+record.getField("name");
     newitem->recordtableGetTableData()->insertNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_TO_END,
                                                         0,
-                                                        record);
+                                                        record,
+                                                        RecordInsertMode::Copy);
   }
 
   // --------------------
@@ -1399,6 +1411,71 @@ TreeItem *KnowTreeModel::getItemById(const QString &id)
 
     // Запуск поиска и возврат результата
     return getItemByIdRecurse(rootItem, id, 1);
+}
+
+
+QList<BookmarkedRecord> KnowTreeModel::getBookmarkedRecords() const
+{
+    QList<BookmarkedRecord> bookmarks;
+    getBookmarkedRecordsRecurse(rootItem, bookmarks);
+    return bookmarks;
+}
+
+
+int KnowTreeModel::normalizeBookmarksOnLoad(QDomDocument *domModel)
+{
+    QDomNodeList recordNodes=domModel->elementsByTagName("record");
+    int bookmarkCount=0;
+    int removedBookmarkCount=0;
+
+    for(int i=0; i<recordNodes.count(); ++i)
+    {
+        QDomElement recordElement=recordNodes.at(i).toElement();
+        if(recordElement.attribute("bookmark")!="1")
+        {
+            recordElement.removeAttribute("bookmark");
+            continue;
+        }
+
+        if(bookmarkCount<30)
+            ++bookmarkCount;
+        else
+        {
+            recordElement.removeAttribute("bookmark");
+            ++removedBookmarkCount;
+        }
+    }
+
+    return removedBookmarkCount;
+}
+
+
+void KnowTreeModel::prepareBookmarksForInsert(QDomDocument *domModel, RecordInsertMode insertMode)
+{
+    if(insertMode==RecordInsertMode::Move)
+        return;
+
+    QDomNodeList recordNodes=domModel->elementsByTagName("record");
+    for(int i=0; i<recordNodes.count(); ++i)
+        recordNodes.at(i).toElement().removeAttribute("bookmark");
+}
+
+
+void KnowTreeModel::getBookmarkedRecordsRecurse(TreeItem *item, QList<BookmarkedRecord> &bookmarks) const
+{
+    if(item==nullptr)
+        return;
+
+    RecordTableData *table=item->recordtableGetTableData();
+    for(unsigned int i=0; i<table->size(); ++i)
+    {
+        Record *record=table->getRecord(static_cast<int>(i));
+        if(record->getField("bookmark")=="1")
+            bookmarks.append({record->getField("id"), item->getId()});
+    }
+
+    for(int i=0; i<item->childCount(); ++i)
+        getBookmarkedRecordsRecurse(item->child(i), bookmarks);
 }
 
 

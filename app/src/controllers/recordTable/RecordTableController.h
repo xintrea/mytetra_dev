@@ -10,6 +10,16 @@ class RecordTableData;
 class RecordTableModel;
 class RecordTableProxyModel;
 class ClipboardRecords;
+enum class RecordInsertMode;
+
+enum class BookmarkChangeResult
+{
+  Success,
+  RecordNotFound,
+  DataUnavailable,
+  ChangeForbidden,
+  LimitExceeded
+};
 
 class RecordTableController : public QObject
 {
@@ -58,9 +68,12 @@ public:
 
   void setFocusToBaseWidget();
 
+  BookmarkChangeResult setBookmark(const QString &recordId, bool enabled);
+
 signals:
 
   void doCloseDetachedWindowsByIdVector(const QVector<QString> &ids);
+  void bookmarksChanged();
 
 public slots:
 
@@ -114,7 +127,7 @@ protected:
 
   void addNewRecord(int mode);
 
-  void addNew(int mode, Record record);
+  void addNew(int mode, Record record, RecordInsertMode insertMode);
 
   void editField(int pos,
                  QString name,
