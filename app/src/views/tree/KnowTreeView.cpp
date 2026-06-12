@@ -264,10 +264,14 @@ void KnowTreeView::dropEvent(QDropEvent *event)
             find_object<RecordTableScreen>("recordTableScreen")->toolsUpdate();
 
             // Добавление записи в базу
-            recordTableData->insertNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_TO_END,
-                                             0,
-                                             record,
-                                             RecordInsertMode::Move);
+            const int insertPos=
+                recordTableData->insertNewRecord(GlobalParameters::AddNewRecordBehavior::ADD_TO_END,
+                                                 0,
+                                                 record,
+                                                 RecordInsertMode::Move);
+
+            if(insertPos>=0)
+                recordTableController->notifyBookmarksChanged();
 
             // Сохранение дерева веток
             find_object<TreeScreen>("treeScreen")->saveKnowTree();

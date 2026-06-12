@@ -22,6 +22,7 @@
 class QXmlStreamWriter;
 class RecordTableController;
 class RecordTableData;
+class KnowTreeModel;
 
 class Record
 {
@@ -31,6 +32,7 @@ class Record
   friend class AttachTableData;
   friend class RecordTableController;
   friend class RecordTableData;
+  friend class KnowTreeModel;
 
 public:
   Record();
@@ -126,6 +128,7 @@ protected:
   QString getCalculableField(QString name) const;
 
   void setBookmark(bool enabled);
+  void setBookmarkOrder(int order);
 
 };
 

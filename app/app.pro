@@ -176,6 +176,7 @@ HEADERS = src/main.h \
     src/views/databasesManagement/DatabasesManagementScreen.h \
     src/views/databasesManagement/DatabasesManagementTable.h \
     src/views/installDialog/InstallDialog.h \
+    src/views/bookmarks/BookmarksDockWidget.h \
     src/views/recordTable/RecordTableScreen.h \
     src/views/recordTable/RecordTableView.h \
     src/views/record/RecordInfoFieldsEditor.h \
@@ -345,6 +346,7 @@ SOURCES = src/main.cpp \
     src/views/databasesManagement/DatabasesManagementScreen.cpp \
     src/views/databasesManagement/DatabasesManagementTable.cpp \
     src/views/installDialog/InstallDialog.cpp \
+    src/views/bookmarks/BookmarksDockWidget.cpp \
     src/views/recordTable/RecordTableScreen.cpp \
     src/views/recordTable/RecordTableView.cpp \
     src/views/record/RecordInfoFieldsEditor.cpp \

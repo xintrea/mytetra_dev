@@ -310,6 +310,18 @@ void AppConfig::set_mainwingeometry(QByteArray dataGeometry)
 }
 
 
+QByteArray AppConfig::get_mainwindowstate(void)
+{
+    return QByteArray::fromBase64(m_conf->value("mainwindowstate", "").toByteArray());
+}
+
+
+void AppConfig::set_mainwindowstate(QByteArray state)
+{
+    m_conf->setValue("mainwindowstate", state.toBase64());
+}
+
+
 QList<int> AppConfig::get_vspl_size_list(void)
 {
     return get_splitter_size_list("vspl");
@@ -2118,6 +2130,7 @@ QStringList AppConfig::get_parameter_table_42(bool withEndSignature)
     // Размер обозначается специальными строками, начинающимися на "META_ICON_"
     // Если размер пустой, используется системный размер иконок
     table << "interfaceIconSize" << "QString" << "";
+    table << "mainwindowstate" << "QString" << "";
 
     if(withEndSignature)
         table << "0" << "0" << "0";

@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QSplitter>
 #include <QStatusBar>
+#include <QKeySequence>
 
 #include "main.h"
 #include "models/appConfig/AppConfig.h"
@@ -21,9 +22,11 @@
 #include "views/tree/TreeScreen.h"
 #include "views/record/MetaEditor.h"
 #include "views/recordTable/RecordTableScreen.h"
+#include "views/bookmarks/BookmarksDockWidget.h"
 #include "models/tree/TreeItem.h"
 #include "views/findInBaseScreen/FindScreen.h"
 #include "models/tree/KnowTreeModel.h"
+#include "controllers/recordTable/RecordTableController.h"
 #include "libraries/GlobalParameters.h"
 #include "views/consoleEmulator/CommandRunner.h"
 #include "libraries/WalkHistory.h"
@@ -111,6 +114,9 @@ void MainWindow::setupUI(void)
     editorScreen=new MetaEditor( this );
     editorScreen->setObjectName("editorScreen");
     globalParameters.setMetaEditor(editorScreen);
+
+    bookmarksDockWidget=new BookmarksDockWidget(this);
+    bookmarksDockWidget->toggleViewAction()->setShortcut(QKeySequence(Qt::Key_F8));
 
     statusBar=new QStatusBar( this );
     statusBar->setObjectName("statusBar");
@@ -208,6 +214,14 @@ void MainWindow::setupSignals(void)
     connect(actionFocusNoteTable, &QAction::triggered, this, &MainWindow::onClickFocusNoteTable);
     connect(actionFocusEditor, &QAction::triggered, this, &MainWindow::onClickFocusEditor);
 
+    RecordTableController *recordTableController=find_object<RecordTableController>("recordTableController");
+    connect(recordTableController, &RecordTableController::bookmarksChanged,
+            bookmarksDockWidget, &BookmarksDockWidget::refresh);
+    connect(treeScreen->knowTreeModel, &KnowTreeModel::modelReset,
+            bookmarksDockWidget, &BookmarksDockWidget::refresh);
+    connect(treeScreen->knowTreeModel, &KnowTreeModel::rowsRemoved,
+            bookmarksDockWidget, &BookmarksDockWidget::refresh);
+
     // Связывание сигнала окончания выполнения команды синхронизации со слотом, срабатывающем при завершении выполнения команды
     connect(syncroCommandRun, &CommandRunner::finishWork,
             recordTableScreen, &RecordTableScreen::onSyncroCommandFinishWork);
@@ -247,6 +261,9 @@ void MainWindow::assembly(void)
     findSplitter->setObjectName("findsplitter");
 
     setCentralWidget(findSplitter);
+
+    addDockWidget(Qt::RightDockWidgetArea, bookmarksDockWidget);
+    bookmarksDockWidget->refresh();
 }
 
 
@@ -374,6 +391,7 @@ void MainWindow::saveWindowGeometry(void)
     qDebug() << "Save window geometry and splitter sizes";
 
     mytetraConfig.set_mainwingeometry( saveGeometry() );
+    mytetraConfig.set_mainwindowstate(saveState());
 
     mytetraConfig.set_vspl_size_list(vSplitter->sizes());
     mytetraConfig.set_hspl_size_list(hSplitter->sizes());
@@ -544,6 +562,7 @@ void MainWindow::restoreAllWindowState(void)
 
     restoreFindOnBaseVisible();
     restoreWindowGeometry();
+    restoreState(mytetraConfig.get_mainwindowstate());
 
 
     restoreTreePosition();
@@ -633,6 +652,9 @@ void MainWindow::initToolsMenu(void)
         initPreferencesMenu(subMenu);
         menu->addMenu(subMenu);
     }
+
+    menu->addSeparator();
+    menu->addAction(bookmarksDockWidget->toggleViewAction());
 }
 
 
@@ -1069,6 +1091,7 @@ void MainWindow::reloadLoadStage(bool isLongTimeReload)
         restoreRecordTablePosition();
         restoreEditorCursorPosition();
         restoreEditorScrollBarPosition();
+        bookmarksDockWidget->refresh();
     }
 
     // Разблокируется история посещений элементов

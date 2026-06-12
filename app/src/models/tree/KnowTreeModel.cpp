@@ -2,6 +2,7 @@
 #include <QDomNamedNodeMap>
 #include <QXmlStreamWriter>
 #include <QElapsedTimer>
+#include <algorithm>
 
 #include "main.h"
 #include "KnowTreeModel.h"
@@ -59,17 +60,19 @@ void KnowTreeModel::initFromXML(QString fileName)
   if(!xmlt.load( m_xmlFileName ))
     return;
 
-  const int removedBookmarkCount=normalizeBookmarksOnLoad(xmlt.getDomModel());
   init(xmlt.getDomModel());
 
-  if(removedBookmarkCount>0)
+  const BookmarkNormalizationResult normalization=normalizeBookmarks();
+  if(normalization.removedBookmarkCount>0)
   {
     qWarning() << "Bookmark limit exceeded while loading database. Removed bookmarks:"
-               << removedBookmarkCount;
-    showMessageBox(tr("The database contained more than 30 bookmarks. "
-                      "Only the first 30 bookmarks were kept."));
-    save();
+               << normalization.removedBookmarkCount;
+    showMessageBox(tr("The database contained more than 100 bookmarks. "
+                      "Only the first 100 bookmarks were kept."));
   }
+
+  if(normalization.changed)
+    save();
 
   m_lastLoadDateTime=QDateTime::currentDateTime();
 }
@@ -1181,6 +1184,8 @@ void KnowTreeModel::deleteItemsByModelIndexList(QModelIndexList &selectItems)
         this->deleteOneBranch(selectItems.at(i));
     }
 
+    normalizeBookmarkOrder();
+
     // Закрываются открепляемые окна для удаленных записей
     emit doCloseDetachedWindowByIdSet( deleteResordsId );
 }
@@ -1418,35 +1423,131 @@ QList<BookmarkedRecord> KnowTreeModel::getBookmarkedRecords() const
 {
     QList<BookmarkedRecord> bookmarks;
     getBookmarkedRecordsRecurse(rootItem, bookmarks);
+    std::stable_sort(bookmarks.begin(), bookmarks.end(),
+                     [](const BookmarkedRecord &left, const BookmarkedRecord &right)
+    {
+        return left.bookmarkOrder<right.bookmarkOrder;
+    });
     return bookmarks;
 }
 
 
-int KnowTreeModel::normalizeBookmarksOnLoad(QDomDocument *domModel)
+bool KnowTreeModel::setBookmark(const QString &recordId, bool enabled)
 {
-    QDomNodeList recordNodes=domModel->elementsByTagName("record");
-    int bookmarkCount=0;
-    int removedBookmarkCount=0;
+    Record *record=getRecord(recordId);
+    if(record==nullptr)
+        return false;
 
-    for(int i=0; i<recordNodes.count(); ++i)
+    const bool currentValue=record->getField("bookmark")=="1";
+    if(currentValue==enabled)
+        return false;
+
+    if(enabled)
     {
-        QDomElement recordElement=recordNodes.at(i).toElement();
-        if(recordElement.attribute("bookmark")!="1")
+        const int order=getBookmarkedRecords().size();
+        record->setBookmark(true);
+        record->setBookmarkOrder(order);
+    }
+    else
+    {
+        record->setBookmark(false);
+        normalizeBookmarkOrder();
+    }
+
+    return true;
+}
+
+
+bool KnowTreeModel::moveBookmark(const QString &recordId, int direction)
+{
+    if(direction!=1 && direction!=-1)
+        return false;
+
+    const QList<BookmarkedRecord> bookmarks=getBookmarkedRecords();
+    int sourceIndex=-1;
+    for(int i=0; i<bookmarks.size(); ++i)
+        if(bookmarks.at(i).recordId==recordId)
         {
-            recordElement.removeAttribute("bookmark");
-            continue;
+            sourceIndex=i;
+            break;
         }
 
-        if(bookmarkCount<30)
-            ++bookmarkCount;
+    const int targetIndex=sourceIndex+direction;
+    if(sourceIndex<0 || targetIndex<0 || targetIndex>=bookmarks.size())
+        return false;
+
+    Record *sourceRecord=getRecord(bookmarks.at(sourceIndex).recordId);
+    Record *targetRecord=getRecord(bookmarks.at(targetIndex).recordId);
+    if(sourceRecord==nullptr || targetRecord==nullptr)
+        return false;
+
+    sourceRecord->setBookmarkOrder(targetIndex);
+    targetRecord->setBookmarkOrder(sourceIndex);
+    normalizeBookmarkOrder();
+    return true;
+}
+
+
+bool KnowTreeModel::normalizeBookmarkOrder()
+{
+    return normalizeBookmarks().changed;
+}
+
+
+KnowTreeModel::BookmarkNormalizationResult KnowTreeModel::normalizeBookmarks()
+{
+    QList<BookmarkedRecord> bookmarks;
+    bool changed=false;
+    collectBookmarksForNormalization(rootItem, bookmarks, changed);
+
+    QList<BookmarkedRecord> orderedBookmarks;
+    QList<BookmarkedRecord> unorderedBookmarks;
+    QSet<int> usedOrders;
+
+    for(const BookmarkedRecord &bookmark : bookmarks)
+    {
+        if(bookmark.bookmarkOrder>=0 && !usedOrders.contains(bookmark.bookmarkOrder))
+        {
+            usedOrders.insert(bookmark.bookmarkOrder);
+            orderedBookmarks.append(bookmark);
+        }
         else
         {
-            recordElement.removeAttribute("bookmark");
+            unorderedBookmarks.append(bookmark);
+        }
+    }
+
+    std::stable_sort(orderedBookmarks.begin(), orderedBookmarks.end(),
+                     [](const BookmarkedRecord &left, const BookmarkedRecord &right)
+    {
+        return left.bookmarkOrder<right.bookmarkOrder;
+    });
+    orderedBookmarks.append(unorderedBookmarks);
+
+    int removedBookmarkCount=0;
+    while(orderedBookmarks.size()>BookmarkLimit)
+    {
+        const BookmarkedRecord bookmark=orderedBookmarks.takeLast();
+        Record *record=getRecord(bookmark.recordId);
+        if(record!=nullptr)
+        {
+            record->setBookmark(false);
+            changed=true;
             ++removedBookmarkCount;
         }
     }
 
-    return removedBookmarkCount;
+    for(int i=0; i<orderedBookmarks.size(); ++i)
+    {
+        Record *record=getRecord(orderedBookmarks.at(i).recordId);
+        if(record!=nullptr && record->getField("bookmark_order")!=QString::number(i))
+        {
+            record->setBookmarkOrder(i);
+            changed=true;
+        }
+    }
+
+    return {changed, removedBookmarkCount};
 }
 
 
@@ -1457,7 +1558,10 @@ void KnowTreeModel::prepareBookmarksForInsert(QDomDocument *domModel, RecordInse
 
     QDomNodeList recordNodes=domModel->elementsByTagName("record");
     for(int i=0; i<recordNodes.count(); ++i)
+    {
         recordNodes.at(i).toElement().removeAttribute("bookmark");
+        recordNodes.at(i).toElement().removeAttribute("bookmark_order");
+    }
 }
 
 
@@ -1471,11 +1575,49 @@ void KnowTreeModel::getBookmarkedRecordsRecurse(TreeItem *item, QList<Bookmarked
     {
         Record *record=table->getRecord(static_cast<int>(i));
         if(record->getField("bookmark")=="1")
-            bookmarks.append({record->getField("id"), item->getId()});
+        {
+            bool orderOk=false;
+            const int order=record->getField("bookmark_order").toInt(&orderOk);
+            bookmarks.append({record->getField("id"), item->getId(),
+                              orderOk && order>=0 ? order : -1});
+        }
     }
 
     for(int i=0; i<item->childCount(); ++i)
         getBookmarkedRecordsRecurse(item->child(i), bookmarks);
+}
+
+
+void KnowTreeModel::collectBookmarksForNormalization(TreeItem *item,
+                                                     QList<BookmarkedRecord> &bookmarks,
+                                                     bool &changed)
+{
+    if(item==nullptr)
+        return;
+
+    RecordTableData *table=item->recordtableGetTableData();
+    for(unsigned int i=0; i<table->size(); ++i)
+    {
+        Record *record=table->getRecord(static_cast<int>(i));
+        if(record->getField("bookmark")!="1")
+        {
+            if(record->isNaturalFieldExists("bookmark") ||
+               record->isNaturalFieldExists("bookmark_order"))
+            {
+                record->setBookmark(false);
+                changed=true;
+            }
+            continue;
+        }
+
+        bool orderOk=false;
+        const int order=record->getField("bookmark_order").toInt(&orderOk);
+        bookmarks.append({record->getField("id"), item->getId(),
+                          orderOk && order>=0 ? order : -1});
+    }
+
+    for(int i=0; i<item->childCount(); ++i)
+        collectBookmarksForNormalization(item->child(i), bookmarks, changed);
 }
 
 

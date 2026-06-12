@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QToolBar>
 #include <QApplication>
+#include <QMessageBox>
 
 #include "RecordTableScreen.h"
 #include "RecordTableView.h"
@@ -138,6 +139,11 @@ void RecordTableScreen::setupActions(void)
  actionCopyRecordReference->setStatusTip(tr("Copy note reference to clipboard"));
  actionCopyRecordReference->setIcon(QIcon(":/resource/pic/note_reference.svg"));
 
+ actionBookmark = new QAction(this);
+ actionBookmark->setStatusTip(tr("Add or remove bookmark for current note"));
+ actionBookmark->setText(tr("Add to bookmarks"));
+ actionBookmark->setIcon(QIcon(":/resource/icons/bookmark_add.svg"));
+
  // Кнопка переключения режима одинарного выбора и мультивыбора (горячая кнопка не требуется)
  actionSwitchSelectionMode = new QAction(tr("Switch select/multiselect"), this);
  actionSwitchSelectionMode->setStatusTip(tr("Switch note selection mode (Notice: if multiselect is on, drag-and-drop is disabled)"));
@@ -173,6 +179,7 @@ void RecordTableScreen::setupUI(void)
    insertActionAsButton(toolsLine, actionBlock, false);
    insertActionAsButton(toolsLine, actionDelete);
  }
+ insertActionAsButton(toolsLine, actionBookmark);
 
  toolsLine->addSeparator();
  insertActionAsButton(toolsLine, actionCut);
@@ -311,6 +318,10 @@ void RecordTableScreen::setupSignals(void)
     // Кнопка копирования ссылки на запись
     connect(actionCopyRecordReference, &QAction::triggered, this, &RecordTableScreen::onCopyRecordReference);
 
+    connect(actionBookmark, &QAction::triggered, this, &RecordTableScreen::onBookmarkTriggered);
+    connect(recordTableController, &RecordTableController::bookmarksChanged,
+            this, &RecordTableScreen::toolsUpdate);
+
     // Кнопка переключения режима одинарного выбора и мультивыбора
     connect(actionSwitchSelectionMode, &QAction::triggered, recordTableController, &RecordTableController::onSwitchSelectionMode);
 
@@ -363,6 +374,9 @@ void RecordTableScreen::disableAllActions(void)
  actionMoveDn->setEnabled(false);
 
  actionCopyRecordReference->setEnabled(false);
+ actionBookmark->setEnabled(false);
+ actionBookmark->setText(tr("Add to bookmarks"));
+ actionBookmark->setIcon(QIcon(":/resource/icons/bookmark_add.svg"));
 
  actionSwitchSelectionMode->setEnabled(false);
 }
@@ -423,6 +437,12 @@ void RecordTableScreen::toolsWidgetsUpdate()
    actionEditField->setEnabled(true);
    actionBlock->setEnabled(true);
    actionCopyRecordReference->setEnabled(true);
+   actionBookmark->setEnabled(true);
+   const bool bookmarked=recordTableController->isBookmarked(getFirstSelectionId());
+   actionBookmark->setText(bookmarked ? tr("Remove from bookmarks") : tr("Add to bookmarks"));
+   actionBookmark->setIcon(QIcon(bookmarked
+                                ? ":/resource/icons/bookmark_active.svg"
+                                : ":/resource/icons/bookmark_add.svg"));
  }
 
  // Удаление записи
@@ -480,6 +500,23 @@ void RecordTableScreen::toolsWidgetsUpdate()
 
  // Переключение между режимами выбора в списке записей возможно всегда
  actionSwitchSelectionMode->setEnabled(true);
+}
+
+
+void RecordTableScreen::onBookmarkTriggered()
+{
+  const QString recordId=getFirstSelectionId();
+  const bool enabled=!recordTableController->isBookmarked(recordId);
+  const BookmarkChangeResult result=recordTableController->setBookmark(recordId, enabled);
+
+  if(result==BookmarkChangeResult::LimitExceeded)
+    QMessageBox::warning(this, tr("Bookmarks"), tr("The bookmark limit of 100 notes has been reached."));
+  else if(result==BookmarkChangeResult::ChangeForbidden)
+    QMessageBox::warning(this, tr("Bookmarks"), tr("This note cannot be changed."));
+  else if(result!=BookmarkChangeResult::Success)
+    QMessageBox::warning(this, tr("Bookmarks"), tr("The bookmark could not be changed."));
+
+  toolsUpdate();
 }
 
 

@@ -24,6 +24,7 @@ class RecordTableScreen;
 class FindScreen;
 class WindowSwitcher;
 class CommandRunner;
+class BookmarksDockWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -195,6 +196,7 @@ private:
     QSplitter *findSplitter;
 
     CommandRunner *syncroCommandRun=nullptr;
+    BookmarksDockWidget *bookmarksDockWidget=nullptr;
 
 
 protected:

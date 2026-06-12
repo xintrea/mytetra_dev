@@ -4235,6 +4235,41 @@ Please report about this problem to the developers.</source>
         <source>Cancel</source>
         <translation type="vanished">Отмена</translation>
     </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="143"/>
+        <source>Add or remove bookmark for current note</source>
+        <translation>Добавить или удалить текущую заметку из закладок</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="144"/>
+        <source>Add to bookmarks</source>
+        <translation>Добавить в закладки</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="442"/>
+        <source>Remove from bookmarks</source>
+        <translation>Удалить из закладок</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="513"/>
+        <source>Bookmarks</source>
+        <translation>Закладки</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="513"/>
+        <source>The bookmark limit of 100 notes has been reached.</source>
+        <translation>Достигнут лимит в 100 заметок в закладках.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="515"/>
+        <source>This note cannot be changed.</source>
+        <translation>Эту заметку нельзя изменить.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/recordTable/RecordTableScreen.cpp" line="517"/>
+        <source>The bookmark could not be changed.</source>
+        <translation>Не удалось изменить состояние закладки.</translation>
+    </message>
 </context>
 <context>
     <name>RecordTableView</name>
@@ -5449,6 +5484,49 @@ Please select single item for enabling edit operation.</source>
 %3</source>
         <translation>Ошибка парсера на строке %1, в позиции %2:
 %3.</translation>
+    </message>
+</context>
+<context>
+    <name>BookmarksDockWidget</name>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="23"/>
+        <source>Bookmarks</source>
+        <translation>Закладки</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="41"/>
+        <source>Move up</source>
+        <translation>Передвинуть вверх</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="44"/>
+        <source>Move down</source>
+        <translation>Передвинуть вниз</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="48"/>
+        <source>Remove from bookmarks</source>
+        <translation>Удалить из закладок</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="93"/>
+        <source>Encrypted note</source>
+        <translation>Зашифрованная заметка</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="98"/>
+        <source>Untitled note</source>
+        <translation>Заметка без названия</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="151"/>
+        <source>The bookmark could not be removed.</source>
+        <translation>Не удалось удалить заметку из закладок.</translation>
+    </message>
+    <message>
+        <location filename="../../../src/views/bookmarks/BookmarksDockWidget.cpp" line="180"/>
+        <source>The bookmark could not be moved.</source>
+        <translation>Не удалось переместить закладку.</translation>
     </message>
 </context>
 </TS>

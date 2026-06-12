@@ -129,18 +129,48 @@ BookmarkChangeResult RecordTableController::setBookmark(const QString &recordId,
      (record->getField("crypt")=="1" && globalParameters.getCryptKey().isEmpty()))
     return BookmarkChangeResult::ChangeForbidden;
 
-  if(enabled && treeModel->getBookmarkedRecords().size()>=30)
+  if(enabled && treeModel->getBookmarkedRecords().size()>=KnowTreeModel::BookmarkLimit)
     return BookmarkChangeResult::LimitExceeded;
 
-  if(enabled)
-    record->setBookmark(true);
-  else
-    record->setBookmark(false);
+  if(!treeModel->setBookmark(recordId, enabled))
+    return BookmarkChangeResult::DataUnavailable;
 
   treeScreen->saveKnowTree();
   emit bookmarksChanged();
 
   return BookmarkChangeResult::Success;
+}
+
+
+BookmarkChangeResult RecordTableController::moveBookmark(const QString &recordId, int direction)
+{
+  TreeScreen *treeScreen=find_object<TreeScreen>("treeScreen");
+  if(treeScreen==nullptr || treeScreen->knowTreeModel==nullptr)
+    return BookmarkChangeResult::DataUnavailable;
+
+  if(!treeScreen->knowTreeModel->moveBookmark(recordId, direction))
+    return BookmarkChangeResult::DataUnavailable;
+
+  treeScreen->saveKnowTree();
+  emit bookmarksChanged();
+  return BookmarkChangeResult::Success;
+}
+
+
+void RecordTableController::notifyBookmarksChanged()
+{
+  emit bookmarksChanged();
+}
+
+
+bool RecordTableController::isBookmarked(const QString &recordId) const
+{
+  TreeScreen *treeScreen=find_object<TreeScreen>("treeScreen");
+  if(treeScreen==nullptr || treeScreen->knowTreeModel==nullptr)
+    return false;
+
+  Record *record=treeScreen->knowTreeModel->getRecord(recordId);
+  return record!=nullptr && record->getField("bookmark")=="1";
 }
 
 
@@ -808,6 +838,7 @@ void RecordTableController::editField(int pos,
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
+  emit bookmarksChanged();
 }
 
 
@@ -894,6 +925,7 @@ void RecordTableController::deleteRecords(void)
 
   // Вызывается удаление отмеченных записей
   removeRowsByIdList(delIds);
+  find_object<TreeScreen>("treeScreen")->knowTreeModel->normalizeBookmarkOrder();
 
   // Сохранение дерева веток
   find_object<TreeScreen>("treeScreen")->saveKnowTree();
@@ -947,6 +979,8 @@ void RecordTableController::removeRowsByIdList(QVector<QString> delIds)
     // Proxy модель сама должна уведомить вид о своем изменении, так как именно она подключена к виду
     recordProxyModel->removeRow(idx.row());
   }
+
+  emit bookmarksChanged();
 }
 
 

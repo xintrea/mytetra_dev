@@ -61,9 +61,11 @@ void Record::setupDataFromDom(QDomElement iDomElement)
     QString name=attcurr.name();
     QString value=attcurr.value();
 
-    // A bookmark read from arbitrary DOM is provisional until model-level validation.
+    // Bookmark data read from arbitrary DOM is provisional until model-level validation.
     if(name=="bookmark")
       setBookmark(value=="1");
+    else if(name=="bookmark_order")
+      fieldList.insert(name, value);
     else
       setNaturalFieldSource(name, value);
 
@@ -281,9 +283,9 @@ QString Record::getCalculableField(QString name) const
 
 void Record::setField(const QString &name, const QString &value)
 {
-  if(name=="bookmark")
+  if(name=="bookmark" || name=="bookmark_order")
   {
-    criticalError("Record::setField() can not change bookmark directly");
+    criticalError("Record::setField() can not change bookmark data directly");
     return;
   }
 
@@ -326,7 +328,22 @@ void Record::setBookmark(bool enabled)
   if(enabled)
     fieldList.insert("bookmark", "1");
   else
+  {
     fieldList.remove("bookmark");
+    fieldList.remove("bookmark_order");
+  }
+}
+
+
+void Record::setBookmarkOrder(int order)
+{
+  if(fieldList.value("bookmark")!="1" || order<0)
+  {
+    criticalError("Record::setBookmarkOrder() requires an active bookmark and non-negative order");
+    return;
+  }
+
+  fieldList.insert("bookmark_order", QString::number(order));
 }
 
 
@@ -352,9 +369,9 @@ QString Record::getNaturalFieldSource(QString name) const
 
 void Record::setNaturalFieldSource(QString name, QString value)
 {
-  if(name=="bookmark")
+  if(name=="bookmark" || name=="bookmark_order")
   {
-    criticalError("Record::setNaturalFieldSource() can not change bookmark directly");
+    criticalError("Record::setNaturalFieldSource() can not change bookmark data directly");
     return;
   }
 

@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
+        <file>resource/icons/bookmark_add.svg</file>
+        <file>resource/icons/bookmark_active.svg</file>
+        <file>resource/icons/bookmark_remove.svg</file>
         <file>resource/icons/BlueSphere/color_bluesphere_button_cancel.svg</file>
         <file>resource/icons/BlueSphere/color_bluesphere_button_ok.svg</file>
         <file>resource/icons/BlueSphere/color_bluesphere_clear_left-2.0.svg</file>

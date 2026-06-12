@@ -68,7 +68,10 @@ public:
 
   void setFocusToBaseWidget();
 
+  bool isBookmarked(const QString &recordId) const;
   BookmarkChangeResult setBookmark(const QString &recordId, bool enabled);
+  BookmarkChangeResult moveBookmark(const QString &recordId, int direction);
+  void notifyBookmarksChanged();
 
 signals:
 

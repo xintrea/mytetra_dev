@@ -73,6 +73,8 @@ public:
     // Геометрия основного окна
     QByteArray get_mainwingeometry(void);
     void set_mainwingeometry(QByteArray dataGeometry);
+    QByteArray get_mainwindowstate(void);
+    void set_mainwindowstate(QByteArray state);
     
 
     QList<int> get_vspl_size_list(void);

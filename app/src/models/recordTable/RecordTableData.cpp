@@ -70,9 +70,9 @@ QString RecordTableData::getField(QString name, int pos) const
 // Установка значения указанного поля для указанного элемента
 void RecordTableData::setField(QString name, QString value, int pos)
 {
-    if(name=="bookmark")
+    if(name=="bookmark" || name=="bookmark_order")
     {
-        criticalError("RecordTableData::setField() can not change bookmark directly");
+        criticalError("RecordTableData::setField() can not change bookmark data directly");
         return;
     }
 

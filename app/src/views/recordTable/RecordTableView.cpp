@@ -311,6 +311,7 @@ void RecordTableView::assemblyContextMenu(void)
     contextMenu->addSeparator();
     contextMenu->addAction(parentPointer->actionEditField);
     contextMenu->addAction(parentPointer->actionBlock);
+    contextMenu->addAction(parentPointer->actionBookmark);
     contextMenu->addAction(parentPointer->actionDelete);
     contextMenu->addSeparator();
     contextMenu->addAction(parentPointer->actionCut);

@@ -22,6 +22,7 @@ struct BookmarkedRecord
 {
     QString recordId;
     QString parentNodeId;
+    int bookmarkOrder;
 };
 
 class KnowTreeModel : public TreeModel
@@ -29,6 +30,8 @@ class KnowTreeModel : public TreeModel
     Q_OBJECT
 
 public:
+    enum { BookmarkLimit = 100 };
+
     KnowTreeModel(QObject *parent = nullptr); // KnowTreeModel(const QStringList &headers, QDomDocument domModel, QObject *parent = 0);
     ~KnowTreeModel();
 
@@ -76,6 +79,9 @@ public:
     TreeItem *getItemById(const QString &id);
 
     QList<BookmarkedRecord> getBookmarkedRecords() const;
+    bool setBookmark(const QString &recordId, bool enabled);
+    bool moveBookmark(const QString &recordId, int direction);
+    bool normalizeBookmarkOrder();
 
     //! Возвращает общее количество записей, хранимых в дереве
     int getAllRecordCount(void);
@@ -128,6 +134,12 @@ signals:
     void doCloseDetachedWindowByIdSet( QSet<QString> ids );
 
 private:
+    struct BookmarkNormalizationResult
+    {
+        bool changed;
+        int removedBookmarkCount;
+    };
+
 
     QString m_xmlFileName;
 
@@ -167,7 +179,10 @@ private:
 
     TreeItem *getItemByIdRecurse(TreeItem *item, const QString &id, int mode);
     void getBookmarkedRecordsRecurse(TreeItem *item, QList<BookmarkedRecord> &bookmarks) const;
-    int normalizeBookmarksOnLoad(QDomDocument *domModel);
+    void collectBookmarksForNormalization(TreeItem *item,
+                                          QList<BookmarkedRecord> &bookmarks,
+                                          bool &changed);
+    BookmarkNormalizationResult normalizeBookmarks();
     void prepareBookmarksForInsert(QDomDocument *domModel, RecordInsertMode insertMode);
 
     bool isContainsCryptBranchesRecurse(TreeItem *item, int mode);
