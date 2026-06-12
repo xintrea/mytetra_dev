@@ -64,3 +64,4 @@ qrc_*.cpp
 /app/user*appdatalocal*
 
 flamegraph.svg
+/build/
