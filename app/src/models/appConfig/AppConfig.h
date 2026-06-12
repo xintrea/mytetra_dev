@@ -110,6 +110,9 @@ public:
     bool get_findscreen_find_in_field(QString fieldName);
     void set_findscreen_find_in_field(QString fieldName, bool isChecked);
 
+    QStringList getFindScreenSearchHistory(void);
+    void setFindScreenSearchHistory(const QStringList &history);
+
     bool get_findscreen_show(void);
     void set_findscreen_show(bool isShow);
 

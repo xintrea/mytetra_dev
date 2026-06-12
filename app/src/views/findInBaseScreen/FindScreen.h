@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QMap>
 
-class QLineEdit;
+class QComboBox;
 class QPushButton;
 class QToolButton;
 class QHBoxLayout;
@@ -43,6 +43,7 @@ public slots:
 private slots:
 
     void enableFindButton(const QString &text);
+    void userFindClicked(void);
     void toolsExpandClicked(void);
 
     void changedWordRegard(int pos);
@@ -67,7 +68,7 @@ signals:
 private:
 
     QHBoxLayout *toolsAreaFindTextAndButton;
-    QLineEdit *findText;
+    QComboBox *findText;
     QPushButton *findStartButton;
     QToolButton *toolsExpand;
 
@@ -116,6 +117,7 @@ private:
 
     void changedFindInField(QString fieldname, int state);
 
+    void saveSearchQuery(const QString &query);
     void findStart(void);
     void findRecurse(const TreeItem* curritem);
     bool findInTextProcess(const QString& text);
