@@ -1,5 +1,7 @@
+#include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSignalBlocker>
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -60,7 +62,18 @@ FindScreen::~FindScreen(void)
 void FindScreen::setupFindTextAndButton(void)
 {
     // Поле текста для поиска
-    findText=new QLineEdit();
+    findText=new QComboBox();
+    findText->setEditable(true);
+    QSizePolicy findTextSizePolicy=findText->sizePolicy();
+    findTextSizePolicy.setHorizontalPolicy(QSizePolicy::Expanding);
+    findText->setSizePolicy(findTextSizePolicy);
+
+    {
+        const QSignalBlocker blocker(findText);
+        findText->addItems(mytetraConfig.getFindScreenSearchHistory());
+        findText->setCurrentIndex(-1);
+        findText->setEditText("");
+    }
 
     // Кнопка "Поиск"
     findStartButton=new QPushButton(this);
@@ -79,8 +92,8 @@ void FindScreen::setupFindTextAndButton(void)
 void FindScreen::assemblyFindTextAndButton(void)
 {
     toolsAreaFindTextAndButton=new QHBoxLayout();
-    toolsAreaFindTextAndButton->addWidget(findText);
-    toolsAreaFindTextAndButton->addWidget(findStartButton);
+    toolsAreaFindTextAndButton->addWidget(findText, 1);
+    toolsAreaFindTextAndButton->addWidget(findStartButton, 0);
     toolsAreaFindTextAndButton->addWidget(toolsExpand);
 
     // Слева устанавливается отступ, чтобы поле ввода текста для поиска
@@ -235,7 +248,7 @@ void FindScreen::assemblyWhereFindLine(void)
 void FindScreen::setupSignals(void)
 {
     // При каждом изменении текста в строке запроса
-    connect(findText, &QLineEdit::textChanged,
+    connect(findText, &QComboBox::editTextChanged,
             this,     &FindScreen::enableFindButton);
 
     // При каждом изменении текста извне может вырабатыватся этот сигнал
@@ -245,12 +258,12 @@ void FindScreen::setupSignals(void)
 
 
     // При нажатии Enter в строке запроса
-    connect(findText, &QLineEdit::returnPressed,
-            this,     &FindScreen::findClicked);
+    connect(findText->lineEdit(), &QLineEdit::returnPressed,
+            this,                 &FindScreen::userFindClicked);
 
     // При нажатии кнопки Find
     connect(findStartButton, &QPushButton::clicked,
-            this,            &FindScreen::findClicked);
+            this,            &FindScreen::userFindClicked);
 
     // При нажатии кнопки разворачивания/сворачивания инструментов поиска
     connect(toolsExpand, &QToolButton::clicked,
@@ -342,7 +355,7 @@ void FindScreen::assembly(void)
 
 void FindScreen::enableFindButton(const QString &text)
 {
-    findStartButton->setEnabled(!text.isEmpty());
+    findStartButton->setEnabled(!text.trimmed().isEmpty());
 }
 
 
@@ -350,10 +363,54 @@ void FindScreen::enableFindButton(const QString &text)
 // текст для поиска
 void FindScreen::setFindText(QString text)
 {
-    findText->setText(text);
+    findText->setEditText(text);
 
     emit textChangedFromAnother(text);
     emit findClickedAfterAnotherTextChanged();
+}
+
+
+void FindScreen::userFindClicked(void)
+{
+    const QString query=findText->currentText().trimmed();
+
+    if(!query.isEmpty())
+    {
+        saveSearchQuery(query);
+    }
+
+    findClicked();
+}
+
+
+void FindScreen::saveSearchQuery(const QString &query)
+{
+    QStringList history=mytetraConfig.getFindScreenSearchHistory();
+
+    for(int i=history.size()-1; i>=0; --i)
+    {
+        if(history.at(i).compare(query, Qt::CaseInsensitive)==0)
+        {
+            history.removeAt(i);
+        }
+    }
+
+    history.prepend(query);
+
+    while(history.size()>20)
+    {
+        history.removeLast();
+    }
+
+    {
+        const QSignalBlocker blocker(findText);
+        findText->clear();
+        findText->addItems(history);
+        findText->setCurrentIndex(-1);
+        findText->setEditText(query);
+    }
+
+    mytetraConfig.setFindScreenSearchHistory(history);
 }
 
 
@@ -385,7 +442,7 @@ void FindScreen::findClicked(void)
     }
 
     // Выясняется список слов, которые нужно искать
-    searchWordList=textDelimiterDecompose(findText->text());
+    searchWordList=textDelimiterDecompose(findText->currentText());
 
     if(searchWordList.size()==0)
     {
@@ -748,7 +805,8 @@ void FindScreen::widgetShow(void)
     this->show();
 
     // При появлении виджета курсор должен сразу стоять на поле ввода
-    findText->setFocus();
+    findText->lineEdit()->setFocus();
+    findText->lineEdit()->selectAll();
 }
 
 

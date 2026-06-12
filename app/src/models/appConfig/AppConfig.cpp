@@ -451,6 +451,18 @@ void AppConfig::set_findscreen_find_in_field(QString fieldName, bool isChecked)
 }
 
 
+QStringList AppConfig::getFindScreenSearchHistory(void)
+{
+    return m_conf->value("findscreen_search_history", QStringList()).toStringList();
+}
+
+
+void AppConfig::setFindScreenSearchHistory(const QStringList &history)
+{
+    m_conf->setValue("findscreen_search_history", history);
+}
+
+
 bool AppConfig::get_findscreen_show(void)
 {
     return m_conf->value("findscreen_show", 0).toBool();
