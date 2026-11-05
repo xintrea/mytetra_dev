@@ -1690,9 +1690,15 @@ bool TreeScreen::reloadKnowTree(void)
   // Если по каким-то причинам нет данных о файле сохраненного дерева
   if(lastKnowTreeModifyDateTime.isValid()==false || lastKnowTreeSize==0)
   {
+    // Запоминается указатель на корневой элемент до перечитывания дерева,
+    // чтобы понять, было ли дерево действительно пересоздано
+    const TreeItem *oldRootItem=knowTreeModel->getRootItem();
+
     knowTreeModel->reload();
     updateLastKnowTreeData( QFileInfo(), false );
     qDebug() << "Reload XML data if last data not found";
+
+    detachRecordTableDataIfTreeReloaded(oldRootItem);
     return true;
   }
 
@@ -1700,14 +1706,35 @@ bool TreeScreen::reloadKnowTree(void)
   QFileInfo fileInfo( knowTreeModel->getXmlFileName() );
   if(fileInfo.lastModified()!=lastKnowTreeModifyDateTime || fileInfo.size()!=lastKnowTreeSize)
   {
+    // Запоминается указатель на корневой элемент до перечитывания дерева,
+    // чтобы понять, было ли дерево действительно пересоздано
+    const TreeItem *oldRootItem=knowTreeModel->getRootItem();
+
     knowTreeModel->reload();
     updateLastKnowTreeData( fileInfo, true );
     qDebug() << "Reload XML data";
+
+    detachRecordTableDataIfTreeReloaded(oldRootItem);
     return true;
   }
 
   qDebug() << "Skip reload XML data";
   return false;
+}
+
+
+// Отвязывание таблицы конечных записей от данных старого дерева,
+// если дерево было пересоздано при перечитывании
+void TreeScreen::detachRecordTableDataIfTreeReloaded(const TreeItem *oldRootItem)
+{
+  // Если корневой элемент не изменился, значит дерево не было пересоздано
+  if(knowTreeModel->getRootItem()==oldRootItem)
+    return;
+
+  // После пересоздания дерева все старые TreeItem вместе с их таблицами конечных
+  // записей удалены. Если оставить в модели конечных записей указатель на старые
+  // данные, он станет висячим и приведет к сегфолту при обращении к нему
+  find_object<RecordTableController>("recordTableController")->setTableData(nullptr);
 }
 
 
