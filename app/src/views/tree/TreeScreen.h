@@ -15,6 +15,7 @@ class QToolBar;
 class KnowTreeModel;
 class KnowTreeView;
 class ClipboardBranch;
+class TreeItem;
 
 class TreeScreen : public QWidget
 {
@@ -28,6 +29,7 @@ public:
 
  void saveKnowTree(void);
  bool reloadKnowTree(void);
+ void detachRecordTableDataIfTreeReloaded(const TreeItem *oldRootItem);
 
  void updateSelectedBranch(void);
 
